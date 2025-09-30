@@ -36,6 +36,7 @@
     - Banco de Dados: PostgreSQL
     - Fila de Mensagens: RabbitMQ
     - Scalar para documentação da API
+    - Typeorm
 
 
     ### Estrutura de Pastas do Projeto:
