@@ -1,0 +1,1204 @@
+{
+  "type": "champion",
+  "format": "standAloneComplex",
+  "version": "15.19.1",
+  "data": {
+    "Aatrox": {
+      "version": "15.19.1",
+      "id": "Aatrox",
+      "key": "266",
+      "name": "Aatrox",
+      "title": "a Espada Darkin"
+    },
+    "Ahri": {
+      "version": "15.19.1",
+      "id": "Ahri",
+      "key": "103",
+      "name": "Ahri",
+      "title": "a Raposa de Nove Caudas"
+    },
+    "Akali": {
+      "version": "15.19.1",
+      "id": "Akali",
+      "key": "84",
+      "name": "Akali",
+      "title": "a Assassina Renegada"
+    },
+    "Akshan": {
+      "version": "15.19.1",
+      "id": "Akshan",
+      "key": "166",
+      "name": "Akshan",
+      "title": "o Sentinela Rebelde"
+    },
+    "Alistar": {
+      "version": "15.19.1",
+      "id": "Alistar",
+      "key": "12",
+      "name": "Alistar",
+      "title": "o Minotauro"
+    },
+    "Ambessa": {
+      "version": "15.19.1",
+      "id": "Ambessa",
+      "key": "799",
+      "name": "Ambessa",
+      "title": "Matriarca da Guerra"
+    },
+    "Amumu": {
+      "version": "15.19.1",
+      "id": "Amumu",
+      "key": "32",
+      "name": "Amumu",
+      "title": "a Múmia Triste"
+    },
+    "Anivia": {
+      "version": "15.19.1",
+      "id": "Anivia",
+      "key": "34",
+      "name": "Anivia",
+      "title": "a Criofênix"
+    },
+    "Annie": {
+      "version": "15.19.1",
+      "id": "Annie",
+      "key": "1",
+      "name": "Annie",
+      "title": "a Criança Sombria"
+    },
+    "Aphelios": {
+      "version": "15.19.1",
+      "id": "Aphelios",
+      "key": "523",
+      "name": "Aphelios",
+      "title": "a Arma dos Devotos"
+    },
+    "Ashe": {
+      "version": "15.19.1",
+      "id": "Ashe",
+      "key": "22",
+      "name": "Ashe",
+      "title": "a Arqueira do Gelo"
+    },
+    "AurelionSol": {
+      "version": "15.19.1",
+      "id": "AurelionSol",
+      "key": "136",
+      "name": "Aurelion Sol",
+      "title": "o Forjador de Estrelas"
+    },
+    "Aurora": {
+      "version": "15.19.1",
+      "id": "Aurora",
+      "key": "893",
+      "name": "Aurora",
+      "title": "a Bruxa Entre Mundos"
+    },
+    "Azir": {
+      "version": "15.19.1",
+      "id": "Azir",
+      "key": "268",
+      "name": "Azir",
+      "title": "o Imperador das Areias"
+    },
+    "Bard": {
+      "version": "15.19.1",
+      "id": "Bard",
+      "key": "432",
+      "name": "Bardo",
+      "title": "o Protetor Andarilho"
+    },
+    "Belveth": {
+      "version": "15.19.1",
+      "id": "Belveth",
+      "key": "200",
+      "name": "Bel'Veth",
+      "title": "a Imperatriz do Vazio"
+    },
+    "Blitzcrank": {
+      "version": "15.19.1",
+      "id": "Blitzcrank",
+      "key": "53",
+      "name": "Blitzcrank",
+      "title": "o Grande Golem a Vapor"
+    },
+    "Brand": {
+      "version": "15.19.1",
+      "id": "Brand",
+      "key": "63",
+      "name": "Brand",
+      "title": "a Vingança Flamejante"
+    },
+    "Braum": {
+      "version": "15.19.1",
+      "id": "Braum",
+      "key": "201",
+      "name": "Braum",
+      "title": "o Coração de Freljord"
+    },
+    "Briar": {
+      "version": "15.19.1",
+      "id": "Briar",
+      "key": "233",
+      "name": "Briar",
+      "title": "a Fome Contida"
+    },
+    "Caitlyn": {
+      "version": "15.19.1",
+      "id": "Caitlyn",
+      "key": "51",
+      "name": "Caitlyn",
+      "title": "a Xerife de Piltover"
+    },
+    "Camille": {
+      "version": "15.19.1",
+      "id": "Camille",
+      "key": "164",
+      "name": "Camille",
+      "title": "a Sombra de Aço"
+    },
+    "Cassiopeia": {
+      "version": "15.19.1",
+      "id": "Cassiopeia",
+      "key": "69",
+      "name": "Cassiopeia",
+      "title": "o Abraço da Serpente"
+    },
+    "Chogath": {
+      "version": "15.19.1",
+      "id": "Chogath",
+      "key": "31",
+      "name": "Cho'Gath",
+      "title": "o Terror do Vazio"
+    },
+    "Corki": {
+      "version": "15.19.1",
+      "id": "Corki",
+      "key": "42",
+      "name": "Corki",
+      "title": "o Bombardeiro Ousado"
+    },
+    "Darius": {
+      "version": "15.19.1",
+      "id": "Darius",
+      "key": "122",
+      "name": "Darius",
+      "title": "a Mão de Noxus"
+    },
+    "Diana": {
+      "version": "15.19.1",
+      "id": "Diana",
+      "key": "131",
+      "name": "Diana",
+      "title": "o Escárnio da Lua"
+    },
+    "Draven": {
+      "version": "15.19.1",
+      "id": "Draven",
+      "key": "119",
+      "name": "Draven",
+      "title": "o Carrasco de Noxus"
+    },
+    "DrMundo": {
+      "version": "15.19.1",
+      "id": "DrMundo",
+      "key": "36",
+      "name": "Dr. Mundo",
+      "title": "o Louco de Zaun"
+    },
+    "Ekko": {
+      "version": "15.19.1",
+      "id": "Ekko",
+      "key": "245",
+      "name": "Ekko",
+      "title": "o Rapaz que Estilhaçou o Tempo"
+    },
+    "Elise": {
+      "version": "15.19.1",
+      "id": "Elise",
+      "key": "60",
+      "name": "Elise",
+      "title": "a Aranha Rainha"
+    },
+    "Evelynn": {
+      "version": "15.19.1",
+      "id": "Evelynn",
+      "key": "28",
+      "name": "Evelynn",
+      "title": "o Abraço da Agonia"
+    },
+    "Ezreal": {
+      "version": "15.19.1",
+      "id": "Ezreal",
+      "key": "81",
+      "name": "Ezreal",
+      "title": "o Explorador Pródigo"
+    },
+    "Fiddlesticks": {
+      "version": "15.19.1",
+      "id": "Fiddlesticks",
+      "key": "9",
+      "name": "Fiddlesticks",
+      "title": "o Terror Ancestral"
+    },
+    "Fiora": {
+      "version": "15.19.1",
+      "id": "Fiora",
+      "key": "114",
+      "name": "Fiora",
+      "title": "a Grande Duelista"
+    },
+    "Fizz": {
+      "version": "15.19.1",
+      "id": "Fizz",
+      "key": "105",
+      "name": "Fizz",
+      "title": "o Trapaceiro das Marés"
+    },
+    "Galio": {
+      "version": "15.19.1",
+      "id": "Galio",
+      "key": "3",
+      "name": "Galio",
+      "title": "o Colosso"
+    },
+    "Gangplank": {
+      "version": "15.19.1",
+      "id": "Gangplank",
+      "key": "41",
+      "name": "Gangplank",
+      "title": "o Terror dos Doze Mares"
+    },
+    "Garen": {
+      "version": "15.19.1",
+      "id": "Garen",
+      "key": "86",
+      "name": "Garen",
+      "title": "o Poder de Demacia"
+    },
+    "Gnar": {
+      "version": "15.19.1",
+      "id": "Gnar",
+      "key": "150",
+      "name": "Gnar",
+      "title": "o Yordle Pré-Histórico"
+    },
+    "Gragas": {
+      "version": "15.19.1",
+      "id": "Gragas",
+      "key": "79",
+      "name": "Gragas",
+      "title": "o Badernista"
+    },
+    "Graves": {
+      "version": "15.19.1",
+      "id": "Graves",
+      "key": "104",
+      "name": "Graves",
+      "title": "o Foragido"
+    },
+    "Gwen": {
+      "version": "15.19.1",
+      "id": "Gwen",
+      "key": "887",
+      "name": "Gwen",
+      "title": "A Costureira Encantada"
+    },
+    "Hecarim": {
+      "version": "15.19.1",
+      "id": "Hecarim",
+      "key": "120",
+      "name": "Hecarim",
+      "title": "a Sombra da Guerra"
+    },
+    "Heimerdinger": {
+      "version": "15.19.1",
+      "id": "Heimerdinger",
+      "key": "74",
+      "name": "Heimerdinger",
+      "title": "o Inventor Idolatrado"
+    },
+    "Hwei": {
+      "version": "15.19.1",
+      "id": "Hwei",
+      "key": "910",
+      "name": "Hwei",
+      "title": "o Visionário"
+    },
+    "Illaoi": {
+      "version": "15.19.1",
+      "id": "Illaoi",
+      "key": "420",
+      "name": "Illaoi",
+      "title": "a Sacerdotisa Cráquem"
+    },
+    "Irelia": {
+      "version": "15.19.1",
+      "id": "Irelia",
+      "key": "39",
+      "name": "Irelia",
+      "title": "a Dançarina das Lâminas"
+    },
+    "Ivern": {
+      "version": "15.19.1",
+      "id": "Ivern",
+      "key": "427",
+      "name": "Ivern",
+      "title": "o Pai do Verde"
+    },
+    "Janna": {
+      "version": "15.19.1",
+      "id": "Janna",
+      "key": "40",
+      "name": "Janna",
+      "title": "a Fúria da Tormenta"
+    },
+    "JarvanIV": {
+      "version": "15.19.1",
+      "id": "JarvanIV",
+      "key": "59",
+      "name": "Jarvan IV",
+      "title": "o Exemplo de Demacia"
+    },
+    "Jax": {
+      "version": "15.19.1",
+      "id": "Jax",
+      "key": "24",
+      "name": "Jax",
+      "title": "o Grão-Mestre das Armas"
+    },
+    "Jayce": {
+      "version": "15.19.1",
+      "id": "Jayce",
+      "key": "126",
+      "name": "Jayce",
+      "title": "o Defensor do Amanhã"
+    },
+    "Jhin": {
+      "version": "15.19.1",
+      "id": "Jhin",
+      "key": "202",
+      "name": "Jhin",
+      "title": "o Virtuoso"
+    },
+    "Jinx": {
+      "version": "15.19.1",
+      "id": "Jinx",
+      "key": "222",
+      "name": "Jinx",
+      "title": "o Gatilho Desenfreado"
+    },
+    "Kaisa": {
+      "version": "15.19.1",
+      "id": "Kaisa",
+      "key": "145",
+      "name": "Kai'Sa",
+      "title": "a Filha do Vazio"
+    },
+    "Kalista": {
+      "version": "15.19.1",
+      "id": "Kalista",
+      "key": "429",
+      "name": "Kalista",
+      "title": "a Lança da Vingança"
+    },
+    "Karma": {
+      "version": "15.19.1",
+      "id": "Karma",
+      "key": "43",
+      "name": "Karma",
+      "title": "a Iluminada"
+    },
+    "Karthus": {
+      "version": "15.19.1",
+      "id": "Karthus",
+      "key": "30",
+      "name": "Karthus",
+      "title": "a Voz Mortal"
+    },
+    "Kassadin": {
+      "version": "15.19.1",
+      "id": "Kassadin",
+      "key": "38",
+      "name": "Kassadin",
+      "title": "o Andarilho do Vazio"
+    },
+    "Katarina": {
+      "version": "15.19.1",
+      "id": "Katarina",
+      "key": "55",
+      "name": "Katarina",
+      "title": "a Lâmina Sinistra"
+    },
+    "Kayle": {
+      "version": "15.19.1",
+      "id": "Kayle",
+      "key": "10",
+      "name": "Kayle",
+      "title": "a Justa"
+    },
+    "Kayn": {
+      "version": "15.19.1",
+      "id": "Kayn",
+      "key": "141",
+      "name": "Kayn",
+      "title": "o Ceifador das Sombras"
+    },
+    "Kennen": {
+      "version": "15.19.1",
+      "id": "Kennen",
+      "key": "85",
+      "name": "Kennen",
+      "title": "o Coração da Tempestade"
+    },
+    "Khazix": {
+      "version": "15.19.1",
+      "id": "Khazix",
+      "key": "121",
+      "name": "Kha'Zix",
+      "title": "o Ceifador do Vazio"
+    },
+    "Kindred": {
+      "version": "15.19.1",
+      "id": "Kindred",
+      "key": "203",
+      "name": "Kindred",
+      "title": "os Caçadores Eternos"
+    },
+    "Kled": {
+      "version": "15.19.1",
+      "id": "Kled",
+      "key": "240",
+      "name": "Kled",
+      "title": "o Cavaleiro Intratável"
+    },
+    "KogMaw": {
+      "version": "15.19.1",
+      "id": "KogMaw",
+      "key": "96",
+      "name": "Kog'Maw",
+      "title": "a Boca do Abismo"
+    },
+    "KSante": {
+      "version": "15.19.1",
+      "id": "KSante",
+      "key": "897",
+      "name": "K'Sante",
+      "title": "o Orgulho de Nazumah."
+    },
+    "Leblanc": {
+      "version": "15.19.1",
+      "id": "Leblanc",
+      "key": "7",
+      "name": "LeBlanc",
+      "title": "a Farsante"
+    },
+    "LeeSin": {
+      "version": "15.19.1",
+      "id": "LeeSin",
+      "key": "64",
+      "name": "Lee Sin",
+      "title": "o Monge Cego"
+    },
+    "Leona": {
+      "version": "15.19.1",
+      "id": "Leona",
+      "key": "89",
+      "name": "Leona",
+      "title": "a Alvorada Radiante"
+    },
+    "Lillia": {
+      "version": "15.19.1",
+      "id": "Lillia",
+      "key": "876",
+      "name": "Lillia",
+      "title": "o Florir Receoso"
+    },
+    "Lissandra": {
+      "version": "15.19.1",
+      "id": "Lissandra",
+      "key": "127",
+      "name": "Lissandra",
+      "title": "a Bruxa Gélida"
+    },
+    "Lucian": {
+      "version": "15.19.1",
+      "id": "Lucian",
+      "key": "236",
+      "name": "Lucian",
+      "title": "o Purificador"
+    },
+    "Lulu": {
+      "version": "15.19.1",
+      "id": "Lulu",
+      "key": "117",
+      "name": "Lulu",
+      "title": "a Fada Feiticeira"
+    },
+    "Lux": {
+      "version": "15.19.1",
+      "id": "Lux",
+      "key": "99",
+      "name": "Lux",
+      "title": "a Dama da Luz"
+    },
+    "Malphite": {
+      "version": "15.19.1",
+      "id": "Malphite",
+      "key": "54",
+      "name": "Malphite",
+      "title": "o Fragmento do Monolito"
+    },
+    "Malzahar": {
+      "version": "15.19.1",
+      "id": "Malzahar",
+      "key": "90",
+      "name": "Malzahar",
+      "title": "o Profeta do Vazio"
+    },
+    "Maokai": {
+      "version": "15.19.1",
+      "id": "Maokai",
+      "key": "57",
+      "name": "Maokai",
+      "title": "o Ente Sinistro"
+    },
+    "MasterYi": {
+      "version": "15.19.1",
+      "id": "MasterYi",
+      "key": "11",
+      "name": "Master Yi",
+      "title": "o Espadachim Wuju"
+    },
+    "Mel": {
+      "version": "15.19.1",
+      "id": "Mel",
+      "key": "800",
+      "name": "Mel",
+      "title": "o Reflexo da Alma"
+    },
+    "Milio": {
+      "version": "15.19.1",
+      "id": "Milio",
+      "key": "902",
+      "name": "Milio",
+      "title": "A Chama Gentil"
+    },
+    "MissFortune": {
+      "version": "15.19.1",
+      "id": "MissFortune",
+      "key": "21",
+      "name": "Miss Fortune",
+      "title": "a Caçadora de Recompensas"
+    },
+    "MonkeyKing": {
+      "version": "15.19.1",
+      "id": "MonkeyKing",
+      "key": "62",
+      "name": "Wukong",
+      "title": "o Macaco Rei"
+    },
+    "Mordekaiser": {
+      "version": "15.19.1",
+      "id": "Mordekaiser",
+      "key": "82",
+      "name": "Mordekaiser",
+      "title": "o Revenã de Ferro"
+    },
+    "Morgana": {
+      "version": "15.19.1",
+      "id": "Morgana",
+      "key": "25",
+      "name": "Morgana",
+      "title": "a Caída"
+    },
+    "Naafiri": {
+      "version": "15.19.1",
+      "id": "Naafiri",
+      "key": "950",
+      "name": "Naafiri",
+      "title": "Fera das Cem Mordidas"
+    },
+    "Nami": {
+      "version": "15.19.1",
+      "id": "Nami",
+      "key": "267",
+      "name": "Nami",
+      "title": "a Conjuradora das Marés"
+    },
+    "Nasus": {
+      "version": "15.19.1",
+      "id": "Nasus",
+      "key": "75",
+      "name": "Nasus",
+      "title": "o Curador das Areias"
+    },
+    "Nautilus": {
+      "version": "15.19.1",
+      "id": "Nautilus",
+      "key": "111",
+      "name": "Nautilus",
+      "title": "o Titã das Profundezas"
+    },
+    "Neeko": {
+      "version": "15.19.1",
+      "id": "Neeko",
+      "key": "518",
+      "name": "Neeko",
+      "title": "a Camaleoa Curiosa"
+    },
+    "Nidalee": {
+      "version": "15.19.1",
+      "id": "Nidalee",
+      "key": "76",
+      "name": "Nidalee",
+      "title": "a Caçadora Bestial"
+    },
+    "Nilah": {
+      "version": "15.19.1",
+      "id": "Nilah",
+      "key": "895",
+      "name": "Nilah",
+      "title": "a Alegria Irrestrita"
+    },
+    "Nocturne": {
+      "version": "15.19.1",
+      "id": "Nocturne",
+      "key": "56",
+      "name": "Nocturne",
+      "title": "o Eterno Pesadelo"
+    },
+    "Nunu": {
+      "version": "15.19.1",
+      "id": "Nunu",
+      "key": "20",
+      "name": "Nunu e Willump",
+      "title": "o Garoto e seu Yeti"
+    },
+    "Olaf": {
+      "version": "15.19.1",
+      "id": "Olaf",
+      "key": "2",
+      "name": "Olaf",
+      "title": "o Berserker"
+    },
+    "Orianna": {
+      "version": "15.19.1",
+      "id": "Orianna",
+      "key": "61",
+      "name": "Orianna",
+      "title": "a Donzela Mecânica"
+    },
+    "Ornn": {
+      "version": "15.19.1",
+      "id": "Ornn",
+      "key": "516",
+      "name": "Ornn",
+      "title": "O Fogo sob a Montanha"
+    },
+    "Pantheon": {
+      "version": "15.19.1",
+      "id": "Pantheon",
+      "key": "80",
+      "name": "Pantheon",
+      "title": "a Lança Indestrutível"
+    },
+    "Poppy": {
+      "version": "15.19.1",
+      "id": "Poppy",
+      "key": "78",
+      "name": "Poppy",
+      "title": "a Guardiã do Martelo"
+    },
+    "Pyke": {
+      "version": "15.19.1",
+      "id": "Pyke",
+      "key": "555",
+      "name": "Pyke",
+      "title": "o Estripador das Águas Sangrentas"
+    },
+    "Qiyana": {
+      "version": "15.19.1",
+      "id": "Qiyana",
+      "key": "246",
+      "name": "Qiyana",
+      "title": "a Imperatriz dos Elementos"
+    },
+    "Quinn": {
+      "version": "15.19.1",
+      "id": "Quinn",
+      "key": "133",
+      "name": "Quinn",
+      "title": "as Asas de Demacia"
+    },
+    "Rakan": {
+      "version": "15.19.1",
+      "id": "Rakan",
+      "key": "497",
+      "name": "Rakan",
+      "title": "O Charmoso"
+    },
+    "Rammus": {
+      "version": "15.19.1",
+      "id": "Rammus",
+      "key": "33",
+      "name": "Rammus",
+      "title": "o Tatu Blindado"
+    },
+    "RekSai": {
+      "version": "15.19.1",
+      "id": "RekSai",
+      "key": "421",
+      "name": "Rek'Sai",
+      "title": "a Escavadora do Vazio"
+    },
+    "Rell": {
+      "version": "15.19.1",
+      "id": "Rell",
+      "key": "526",
+      "name": "Rell",
+      "title": "a Dama de Ferro"
+    },
+    "Renata": {
+      "version": "15.19.1",
+      "id": "Renata",
+      "key": "888",
+      "name": "Renata Glasc",
+      "title": "a Baronesa da Química"
+    },
+    "Renekton": {
+      "version": "15.19.1",
+      "id": "Renekton",
+      "key": "58",
+      "name": "Renekton",
+      "title": "o Carniceiro das Areias"
+    },
+    "Rengar": {
+      "version": "15.19.1",
+      "id": "Rengar",
+      "key": "107",
+      "name": "Rengar",
+      "title": "o Acossador da Alcateia"
+    },
+    "Riven": {
+      "version": "15.19.1",
+      "id": "Riven",
+      "key": "92",
+      "name": "Riven",
+      "title": "a Exilada"
+    },
+    "Rumble": {
+      "version": "15.19.1",
+      "id": "Rumble",
+      "key": "68",
+      "name": "Rumble",
+      "title": "a Ameaça Mecânica"
+    },
+    "Ryze": {
+      "version": "15.19.1",
+      "id": "Ryze",
+      "key": "13",
+      "name": "Ryze",
+      "title": "o Mago Rúnico"
+    },
+    "Samira": {
+      "version": "15.19.1",
+      "id": "Samira",
+      "key": "360",
+      "name": "Samira",
+      "title": "a Rosa do Deserto"
+    },
+    "Sejuani": {
+      "version": "15.19.1",
+      "id": "Sejuani",
+      "key": "113",
+      "name": "Sejuani",
+      "title": "a Fúria do Norte"
+    },
+    "Senna": {
+      "version": "15.19.1",
+      "id": "Senna",
+      "key": "235",
+      "name": "Senna",
+      "title": "A Redentora"
+    },
+    "Seraphine": {
+      "version": "15.19.1",
+      "id": "Seraphine",
+      "key": "147",
+      "name": "Seraphine",
+      "title": "a Cantora Sonhadora"
+    },
+    "Sett": {
+      "version": "15.19.1",
+      "id": "Sett",
+      "key": "875",
+      "name": "Sett",
+      "title": "o Chefe"
+    },
+    "Shaco": {
+      "version": "15.19.1",
+      "id": "Shaco",
+      "key": "35",
+      "name": "Shaco",
+      "title": "o Bufão Demoníaco"
+    },
+    "Shen": {
+      "version": "15.19.1",
+      "id": "Shen",
+      "key": "98",
+      "name": "Shen",
+      "title": "o Olho do Crepúsculo"
+    },
+    "Shyvana": {
+      "version": "15.19.1",
+      "id": "Shyvana",
+      "key": "102",
+      "name": "Shyvana",
+      "title": "a Meio-Dragão"
+    },
+    "Singed": {
+      "version": "15.19.1",
+      "id": "Singed",
+      "key": "27",
+      "name": "Singed",
+      "title": "o Químico Louco"
+    },
+    "Sion": {
+      "version": "15.19.1",
+      "id": "Sion",
+      "key": "14",
+      "name": "Sion",
+      "title": "o Colosso Morto-Vivo"
+    },
+    "Sivir": {
+      "version": "15.19.1",
+      "id": "Sivir",
+      "key": "15",
+      "name": "Sivir",
+      "title": "a Mestra da Batalha"
+    },
+    "Skarner": {
+      "version": "15.19.1",
+      "id": "Skarner",
+      "key": "72",
+      "name": "Skarner",
+      "title": "o Soberano Primordial"
+    },
+    "Smolder": {
+      "version": "15.19.1",
+      "id": "Smolder",
+      "key": "901",
+      "name": "Smolder",
+      "title": "o Filhote Flamejante"
+    },
+    "Sona": {
+      "version": "15.19.1",
+      "id": "Sona",
+      "key": "37",
+      "name": "Sona",
+      "title": "a Mestra das Cordas"
+    },
+    "Soraka": {
+      "version": "15.19.1",
+      "id": "Soraka",
+      "key": "16",
+      "name": "Soraka",
+      "title": "a Filha das Estrelas"
+    },
+    "Swain": {
+      "version": "15.19.1",
+      "id": "Swain",
+      "key": "50",
+      "name": "Swain",
+      "title": "o Grande General Noxiano"
+    },
+    "Sylas": {
+      "version": "15.19.1",
+      "id": "Sylas",
+      "key": "517",
+      "name": "Sylas",
+      "title": "o Abjugado"
+    },
+    "Syndra": {
+      "version": "15.19.1",
+      "id": "Syndra",
+      "key": "134",
+      "name": "Syndra",
+      "title": "a Soberana Sombria"
+    },
+    "TahmKench": {
+      "version": "15.19.1",
+      "id": "TahmKench",
+      "key": "223",
+      "name": "Tahm Kench",
+      "title": "o Rei do Rio"
+    },
+    "Taliyah": {
+      "version": "15.19.1",
+      "id": "Taliyah",
+      "key": "163",
+      "name": "Taliyah",
+      "title": "a Tecelã de Pedras"
+    },
+    "Talon": {
+      "version": "15.19.1",
+      "id": "Talon",
+      "key": "91",
+      "name": "Talon",
+      "title": "a Sombra da Lâmina"
+    },
+    "Taric": {
+      "version": "15.19.1",
+      "id": "Taric",
+      "key": "44",
+      "name": "Taric",
+      "title": "o Escudo de Valoran"
+    },
+    "Teemo": {
+      "version": "15.19.1",
+      "id": "Teemo",
+      "key": "17",
+      "name": "Teemo",
+      "title": "o Explorador Veloz"
+    },
+    "Thresh": {
+      "version": "15.19.1",
+      "id": "Thresh",
+      "key": "412",
+      "name": "Thresh",
+      "title": "o Guardião das Correntes"
+    },
+    "Tristana": {
+      "version": "15.19.1",
+      "id": "Tristana",
+      "key": "18",
+      "name": "Tristana",
+      "title": "a Artilheira Yordle"
+    },
+    "Trundle": {
+      "version": "15.19.1",
+      "id": "Trundle",
+      "key": "48",
+      "name": "Trundle",
+      "title": "o Rei dos Trolls"
+    },
+    "Tryndamere": {
+      "version": "15.19.1",
+      "id": "Tryndamere",
+      "key": "23",
+      "name": "Tryndamere",
+      "title": "o Rei Bárbaro"
+    },
+    "TwistedFate": {
+      "version": "15.19.1",
+      "id": "TwistedFate",
+      "key": "4",
+      "name": "Twisted Fate",
+      "title": "o Mestre das Cartas"
+    },
+    "Twitch": {
+      "version": "15.19.1",
+      "id": "Twitch",
+      "key": "29",
+      "name": "Twitch",
+      "title": "o Semeador da Peste"
+    },
+    "Udyr": {
+      "version": "15.19.1",
+      "id": "Udyr",
+      "key": "77",
+      "name": "Udyr",
+      "title": "o Andarilho Espiritual"
+    },
+    "Urgot": {
+      "version": "15.19.1",
+      "id": "Urgot",
+      "key": "6",
+      "name": "Urgot",
+      "title": "o Encouraçado"
+    },
+    "Varus": {
+      "version": "15.19.1",
+      "id": "Varus",
+      "key": "110",
+      "name": "Varus",
+      "title": "a Flecha da Vingança"
+    },
+    "Vayne": {
+      "version": "15.19.1",
+      "id": "Vayne",
+      "key": "67",
+      "name": "Vayne",
+      "title": "a Caçadora Noturna"
+    },
+    "Veigar": {
+      "version": "15.19.1",
+      "id": "Veigar",
+      "key": "45",
+      "name": "Veigar",
+      "title": "o Pequeno Mestre do Mal"
+    },
+    "Velkoz": {
+      "version": "15.19.1",
+      "id": "Velkoz",
+      "key": "161",
+      "name": "Vel'Koz",
+      "title": "o Olho do Vazio"
+    },
+    "Vex": {
+      "version": "15.19.1",
+      "id": "Vex",
+      "key": "711",
+      "name": "Vex",
+      "title": "a Melancolista"
+    },
+    "Vi": {
+      "version": "15.19.1",
+      "id": "Vi",
+      "key": "254",
+      "name": "Vi",
+      "title": "a Defensora de Piltover"
+    },
+    "Viego": {
+      "version": "15.19.1",
+      "id": "Viego",
+      "key": "234",
+      "name": "Viego",
+      "title": "O Rei Destruído"
+    },
+    "Viktor": {
+      "version": "15.19.1",
+      "id": "Viktor",
+      "key": "112",
+      "name": "Viktor",
+      "title": "o Arauto do Arcano"
+    },
+    "Vladimir": {
+      "version": "15.19.1",
+      "id": "Vladimir",
+      "key": "8",
+      "name": "Vladimir",
+      "title": "o Sanguinário Escarlate"
+    },
+    "Volibear": {
+      "version": "15.19.1",
+      "id": "Volibear",
+      "key": "106",
+      "name": "Volibear",
+      "title": "a Tempestade Implacável"
+    },
+    "Warwick": {
+      "version": "15.19.1",
+      "id": "Warwick",
+      "key": "19",
+      "name": "Warwick",
+      "title": "a Ira Desimpedida de Zaun"
+    },
+    "Xayah": {
+      "version": "15.19.1",
+      "id": "Xayah",
+      "key": "498",
+      "name": "Xayah",
+      "title": "a Rebelde"
+    },
+    "Xerath": {
+      "version": "15.19.1",
+      "id": "Xerath",
+      "key": "101",
+      "name": "Xerath",
+      "title": "o Mago Ascendente"
+    },
+    "XinZhao": {
+      "version": "15.19.1",
+      "id": "XinZhao",
+      "key": "5",
+      "name": "Xin Zhao",
+      "title": "o Senescal de Demacia"
+    },
+    "Yasuo": {
+      "version": "15.19.1",
+      "id": "Yasuo",
+      "key": "157",
+      "name": "Yasuo",
+      "title": "o Imperdoável"
+    },
+    "Yone": {
+      "version": "15.19.1",
+      "id": "Yone",
+      "key": "777",
+      "name": "Yone",
+      "title": "o Inesquecido"
+    },
+    "Yorick": {
+      "version": "15.19.1",
+      "id": "Yorick",
+      "key": "83",
+      "name": "Yorick",
+      "title": "o Pastor de Almas"
+    },
+    "Yunara": {
+      "version": "15.19.1",
+      "id": "Yunara",
+      "key": "804",
+      "name": "Yunara",
+      "title": "a Fé Inabalável"
+    },
+    "Yuumi": {
+      "version": "15.19.1",
+      "id": "Yuumi",
+      "key": "350",
+      "name": "Yuumi",
+      "title": "a Gata Mágica"
+    },
+    "Zac": {
+      "version": "15.19.1",
+      "id": "Zac",
+      "key": "154",
+      "name": "Zac",
+      "title": "a Arma Secreta"
+    },
+    "Zed": {
+      "version": "15.19.1",
+      "id": "Zed",
+      "key": "238",
+      "name": "Zed",
+      "title": "o Mestre das Sombras"
+    },
+    "Zeri": {
+      "version": "15.19.1",
+      "id": "Zeri",
+      "key": "221",
+      "name": "Zeri",
+      "title": "A Faísca de Zaun"
+    },
+    "Ziggs": {
+      "version": "15.19.1",
+      "id": "Ziggs",
+      "key": "115",
+      "name": "Ziggs",
+      "title": "o Especialista em Hexplosivos"
+    },
+    "Zilean": {
+      "version": "15.19.1",
+      "id": "Zilean",
+      "key": "26",
+      "name": "Zilean",
+      "title": "o Guardião do Tempo"
+    },
+    "Zoe": {
+      "version": "15.19.1",
+      "id": "Zoe",
+      "key": "142",
+      "name": "Zoe",
+      "title": "o Aspecto do Crepúsculo"
+    },
+    "Zyra": {
+      "version": "15.19.1",
+      "id": "Zyra",
+      "key": "143",
+      "name": "Zyra",
+      "title": "a Ascensão dos Espinhos"
+    }
+  }
+}

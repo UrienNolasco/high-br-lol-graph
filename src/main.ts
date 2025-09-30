@@ -25,8 +25,23 @@ async function bootstrap() {
     process.exit(1);
   }
 
-  const port = process.env.PORT ?? 3000;
-  await app.listen(port);
-  logger.log(`🚀 [APP] - Aplicação iniciada e ouvindo na porta ${port}`);
+  const appMode = process.env.APP_MODE;
+
+  if (appMode === 'API') {
+    const port = process.env.PORT ?? 3000;
+    await app.listen(port);
+    logger.log(`🚀 [API] - Aplicação iniciada e ouvindo na porta ${port}`);
+  } else if (appMode === 'WORKER') {
+    logger.log('🚀 [WORKER] - Worker iniciado');
+  } else if (appMode === 'COLLECTOR') {
+    logger.log('🚀 [COLLECTOR] - Collector iniciado');
+  } else {
+    const port = process.env.PORT ?? 3000;
+    await app.listen(port);
+    logger.log(
+      `[APP] - Nenhuma variável de ambiente APP_MODE definida, iniciando API por padrão na porta ${port}`,
+    );
+  }
 }
+
 bootstrap();

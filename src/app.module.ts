@@ -8,6 +8,7 @@ import { ApiModule } from './modules/api/api.module';
 import { WorkerController } from './modules/worker/worker.controller';
 import { WorkerModule } from './modules/worker/worker.module';
 import { CollectorModule } from './modules/collector/collector.module';
+import { RiotModule } from './core/riot/riot.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CollectorModule } from './modules/collector/collector.module';
     AppConfigModule,
     DatabaseModule,
     QueueModule,
+    RiotModule,
 
     // --- Módulos de Feature/Negócio ---
     ApiModule,
