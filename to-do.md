@@ -14,12 +14,12 @@ Objetivo: Ter um projeto NestJS funcional, rodando via Docker Compose, com todos
 
 - [x] Teste de Orquestração: Rode docker-compose up -d --build. Objetivo: Ver os contêineres postgres, rabbitmq, api e worker subindo e permanecendo em execução sem crashar.
 
-- [ ] Criar Módulos Core:
-  - [ ] Crie o ConfigModule (src/core/config) para carregar as variáveis do .env.
+- [x] Criar Módulos Core:
+  - [x] Crie o ConfigModule (src/core/config) para carregar as variáveis do .env.
 
-  - [ ] Crie o DatabaseModule (src/core/database) para configurar a conexão com o Postgres (usando TypeORM ou Prisma).
+  - [x] Crie o DatabaseModule (src/core/database) para configurar a conexão com o Postgres (usando TypeORM ou Prisma).
 
-  - [ ] Crie o QueueModule (src/core/queue) para configurar a conexão com o RabbitMQ.
+  - [x] Crie o QueueModule (src/core/queue) para configurar a conexão com o RabbitMQ.
 
 - [ ] Criar Módulos de Serviço: Crie as pastas e os arquivos .module.ts para api, collector e worker dentro de src/modules.
 

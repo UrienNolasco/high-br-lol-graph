@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AppConfigModule } from './core/config/config.module';
 import { QueueModule } from './core/queue/queue.module';
 import { DatabaseModule } from './core/database/database.module';
+import { ApiModule } from './modules/api/api.module';
 
 @Module({
   imports: [
