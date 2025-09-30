@@ -4,15 +4,15 @@
 
 Objetivo: Ter um projeto NestJS funcional, rodando via Docker Compose, com todos os serviços (Postgres, RabbitMQ, App) se conectando com sucesso.
 
-- [ ] Inicializar o Repositório.
+- [x] Inicializar o Repositório.
 
-- [ ] Instalar NestJS CLI: Se não tiver, npm install -g @nestjs/cli.
+- [x] Instalar NestJS CLI: Se não tiver, npm install -g @nestjs/cli.
 
-- [ ] Criar o Projeto: nest new high-br-lol-graph.
+- [x] Criar o Projeto: nest new high-br-lol-graph.
 
-- [ ] Dockerizar: Crie o Dockerfile na raiz do projeto.
+- [x] Dockerizar: Crie o Dockerfile na raiz do projeto.
 
-- [ ] Teste de Orquestração: Rode docker-compose up -d --build. Objetivo: Ver os contêineres postgres, rabbitmq, api e worker subindo e permanecendo em execução sem crashar.
+- [x] Teste de Orquestração: Rode docker-compose up -d --build. Objetivo: Ver os contêineres postgres, rabbitmq, api e worker subindo e permanecendo em execução sem crashar.
 
 - [ ] Criar Módulos Core:
   - [ ] Crie o ConfigModule (src/core/config) para carregar as variáveis do .env.

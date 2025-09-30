@@ -45,7 +45,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: high-br-lol-api
-    command: npm run start:prod
+    command: npm run start:dev
     environment:
       - APP_MODE=API
       - POSTGRES_HOST=postgres
@@ -70,7 +70,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: high-br-lol-worker
-    command: npm run start:prod
+    command: npm run start:dev
     environment:
       - APP_MODE=WORKER
       - POSTGRES_HOST=postgres
@@ -88,7 +88,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: high-br-lol-collector
-    command: npm run start:prod
+    command: npm run start:dev
     environment:
       - APP_MODE=COLLECTOR
       - RABBITMQ_HOST=rabbitmq
