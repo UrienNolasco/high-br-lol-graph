@@ -94,18 +94,6 @@ O sistema implementa uma estratégia robusta de tratamento de erros para garanti
        [NestJS Exception] → [Logging] → [Error Response]
 ```
 
-**Exemplo de Uso:**
-
-```typescript
-// Os services não precisam se preocupar com try-catch
-async getMatchById(matchId: string): Promise<MatchDto> {
-  const response = await firstValueFrom(
-    this.httpService.get<MatchDto>(url, { headers: this.createHeaders() })
-  );
-  return response.data; // Se houver erro, o interceptor trata automaticamente
-}
-```
-
 ### Estrutura de Pastas do Projeto:
 
 ```bash
