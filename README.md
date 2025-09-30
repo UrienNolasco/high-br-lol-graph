@@ -35,6 +35,7 @@ O fluxo de dados segue um padrão claro de responsabilidades separadas para gara
 - Linguagem & Framework: Node.js com NestJS & TypeScript
 - Banco de Dados: PostgreSQL
 - Fila de Mensagens: RabbitMQ
+- Scalar para documentação da API
 
 
 ### Estrutura de Pastas do Projeto:
