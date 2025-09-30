@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { catchError, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { LeagueListDto } from './dto/league-list.dto';
 import { MatchDto } from './dto/match.dto';
 
@@ -36,58 +36,19 @@ export class RiotService {
       const [challengerResponse, grandmasterResponse, masterResponse] =
         await Promise.all([
           firstValueFrom(
-            this.httpService
-              .get<LeagueListDto>(challengerUrl, {
-                headers: this.createHeaders(),
-              })
-              .pipe(
-                catchError((error) => {
-                  this.logger.error(
-                    'Failed to fetch challenger league',
-                    error.stack,
-                  );
-                  throw new HttpException(
-                    error.response.data,
-                    error.response.status,
-                  );
-                }),
-              ),
+            this.httpService.get<LeagueListDto>(challengerUrl, {
+              headers: this.createHeaders(),
+            }),
           ),
           firstValueFrom(
-            this.httpService
-              .get<LeagueListDto>(grandmasterUrl, {
-                headers: this.createHeaders(),
-              })
-              .pipe(
-                catchError((error) => {
-                  this.logger.error(
-                    'Failed to fetch grandmaster league',
-                    error.stack,
-                  );
-                  throw new HttpException(
-                    error.response.data,
-                    error.response.status,
-                  );
-                }),
-              ),
+            this.httpService.get<LeagueListDto>(grandmasterUrl, {
+              headers: this.createHeaders(),
+            }),
           ),
           firstValueFrom(
-            this.httpService
-              .get<LeagueListDto>(masterUrl, {
-                headers: this.createHeaders(),
-              })
-              .pipe(
-                catchError((error) => {
-                  this.logger.error(
-                    'Failed to fetch master league',
-                    error.stack,
-                  );
-                  throw new HttpException(
-                    error.response.data,
-                    error.response.status,
-                  );
-                }),
-              ),
+            this.httpService.get<LeagueListDto>(masterUrl, {
+              headers: this.createHeaders(),
+            }),
           ),
         ]);
 
@@ -102,8 +63,8 @@ export class RiotService {
       this.logger.log(`Found ${uniquePuids.length} unique PUUIDs.`);
       return uniquePuids;
     } catch (error) {
-      this.logger.error('Failed to fetch high-elo PUUIDs', error.stack);
-      throw error;
+      this.logger.error('Failed to fetch high-elo PUUIDs', error);
+      return [];
     }
   }
 
@@ -113,58 +74,26 @@ export class RiotService {
 
     try {
       const response = await firstValueFrom(
-        this.httpService
-          .get<string[]>(url, { headers: this.createHeaders() })
-          .pipe(
-            catchError((error) => {
-              this.logger.error(
-                `Failed to fetch match IDs for PUUID ${puuid}`,
-                error.stack,
-              );
-              throw new HttpException(
-                error.response.data,
-                error.response.status,
-              );
-            }),
-          ),
+        this.httpService.get<string[]>(url, { headers: this.createHeaders() }),
       );
       return response.data;
     } catch (error) {
-      this.logger.error(
-        `Failed to fetch match IDs for PUUID ${puuid}`,
-        error.stack,
-      );
+      this.logger.error(`Failed to fetch match IDs for PUUID ${puuid}`, error);
       return [];
     }
   }
 
-  async getMatchById(matchId: string): Promise<MatchDto> {
+  async getMatchById(matchId: string): Promise<MatchDto | null> {
     this.logger.log(`Fetching match details for match ID: ${matchId}`);
     const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}`;
 
     try {
       const response = await firstValueFrom(
-        this.httpService
-          .get<MatchDto>(url, { headers: this.createHeaders() })
-          .pipe(
-            catchError((error) => {
-              this.logger.error(
-                `Failed to fetch details for match ${matchId}`,
-                error.stack,
-              );
-              throw new HttpException(
-                error.response.data,
-                error.response.status,
-              );
-            }),
-          ),
+        this.httpService.get<MatchDto>(url, { headers: this.createHeaders() }),
       );
       return response.data;
     } catch (error) {
-      this.logger.error(
-        `Failed to fetch details for match ${matchId}`,
-        error.stack,
-      );
+      this.logger.error(`Failed to fetch details for match ${matchId}`, error);
       return null;
     }
   }
