@@ -21,11 +21,11 @@ Objetivo: Ter um projeto NestJS funcional, rodando via Docker Compose, com todos
 
   - [x] Crie o QueueModule (src/core/queue) para configurar a conexão com o RabbitMQ.
 
-- [ ] Criar Módulos de Serviço: Crie as pastas e os arquivos .module.ts para api, collector e worker dentro de src/modules.
+- [x] Criar Módulos de Serviço: Crie as pastas e os arquivos .module.ts para api, collector e worker dentro de src/modules.
 
-- [ ] Integrar Módulo Raiz: Importe todos os módulos criados (core e de serviço) no AppModule (src/app.module.ts).
+- [x] Integrar Módulo Raiz: Importe todos os módulos criados (core e de serviço) no AppModule (src/app.module.ts).
 
-- [ ] Validar Conexões: Adicione logs na inicialização para confirmar que a aplicação se conectou com sucesso ao Postgres e ao RabbitMQ.
+- [x] Validar Conexões: Adicione logs na inicialização para confirmar que a aplicação se conectou com sucesso ao Postgres e ao RabbitMQ.
 
 Resultado: projeto "vazio" porém 100% funcional em termos de infraestrutura.
 
