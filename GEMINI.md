@@ -43,6 +43,82 @@ The data flow follows a clear pattern of separated responsibilities to ensure re
 - Scalar for API documentation
 - typeorm
 
+### Error Handling and Resilience
+
+The system implements a robust error handling strategy to ensure stability and reliability when working with external APIs and processing large volumes of data.
+
+#### Error Handling Architecture
+
+**1. Centralized HTTP Error Interceptor**
+
+- Located in `RiotModule`, the interceptor automatically captures all HTTP errors from Riot Games API
+- Maps HTTP status codes to specific NestJS exceptions
+- Detailed logging for debugging and monitoring
+
+**2. Status Code Mapping**
+
+```typescript
+400 → BadRequestException      // Invalid data sent
+401 → UnauthorizedException    // Invalid or expired API key
+403 → ForbiddenException       // Access denied to API
+404 → NotFoundException        // Resource not found
+429 → HttpException            // Rate limit exceeded
+500 → InternalServerErrorException // Riot internal error
+502/503 → ServiceUnavailableException // API unavailable
+504 → GatewayTimeoutException  // API timeout
+```
+
+**3. Configuration Validation**
+
+- Mandatory validation of `RIOT_API_KEY` variable at startup
+- Fast failure if essential configurations are missing
+- Type safety guaranteed to avoid runtime errors
+
+**4. Recovery Strategies**
+
+- **Rate Limiting**: Warning logs for monitoring, prepared for retry logic implementation
+- **Timeouts**: Configured for 5 seconds, preventing hangs
+- **Network Errors**: Specific handling for connectivity issues
+- **API Failures**: Appropriate exception propagation to upper layers
+
+**5. Structured Logging**
+
+- Error logs with complete context (URL, status, response data)
+- Stack traces for debugging network issues
+- Warning logs for situations requiring attention (rate limiting)
+
+**6. Approach Benefits**
+
+- **Decoupling**: Services focus on business logic, not HTTP error handling
+- **Consistency**: All API errors are handled uniformly
+- **Observability**: Detailed logs facilitate debugging and monitoring
+- **Maintainability**: Centralization facilitates future changes and improvements
+- **Type Safety**: Validations ensure code robustness at runtime
+
+**Error Handling Flow:**
+
+```
+[Service] → [HttpService] → [Axios] → [Riot API]
+                  ↓
+              [Interceptor]
+                  ↓
+          [Error Classification]
+                  ↓
+       [NestJS Exception] → [Logging] → [Error Response]
+```
+
+**Usage Example:**
+
+```typescript
+// Services don't need to worry about try-catch
+async getMatchById(matchId: string): Promise<MatchDto> {
+  const response = await firstValueFrom(
+    this.httpService.get<MatchDto>(url, { headers: this.createHeaders() })
+  );
+  return response.data; // If there's an error, the interceptor handles it automatically
+}
+```
+
 ### Project Folder Structure:
 
 ```bash

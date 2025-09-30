@@ -27,11 +27,10 @@ import {
       }),
     }),
   ],
-  providers: [RiotService, Logger], // Adicione Logger aos providers
+  providers: [RiotService, Logger],
   exports: [RiotService],
 })
 export class RiotModule {
-  // O construtor agora injeta o HttpService e o Logger
   constructor(
     private readonly httpService: HttpService,
     private readonly logger: Logger,
@@ -45,66 +44,68 @@ export class RiotModule {
       (response) => response,
 
       // Se a resposta falhar, nosso tratador de erro entra em ação
-      // Usamos AxiosError<unknown> para evitar o 'any'
-      (error: AxiosError<unknown>) => {
-        const { config, response } = error;
-        const url = config?.url || 'URL desconhecida';
-
-        // Se não houver uma resposta do servidor (erro de rede, timeout)
-        if (!response) {
-          this.logger.error(
-            `Erro de rede ou timeout ao acessar ${url}`,
-            error.stack,
-          );
-          // Retornar a rejeição da Promise é crucial
-          return Promise.reject(
-            new ServiceUnavailableException(
-              `A API externa em ${url} está indisponível.`,
-            ),
-          );
-        }
-
-        const status = response.status;
-        const data = response.data; // 'data' agora é do tipo 'unknown'
-
-        this.logger.error(
-          `Erro da Riot API: ${status} em ${url}`,
-          JSON.stringify(data),
-        );
-
-        // Mapeia o status code para uma exceção específica do NestJS
-        switch (status) {
-          case 400:
-            throw new BadRequestException(data);
-          case 401:
-            throw new UnauthorizedException(data);
-          case 403:
-            throw new ForbiddenException(data);
-          case 404:
-            throw new NotFoundException(data);
-          case 429:
-            throw new HttpException('Rate limit exceeded', 429);
-          case 500:
-            throw new InternalServerErrorException(data);
-          case 502:
-          case 503:
-            throw new ServiceUnavailableException(data);
-          case 504:
-            throw new GatewayTimeoutException(data);
-          default: {
-            const responseBody =
-              typeof data === 'object' && data !== null
-                ? data
-                : {
-                    statusCode: status,
-                    message: `An unexpected error occurred with the external API.`,
-                    originalResponse: data,
-                  };
-
-            throw new HttpException(responseBody, status);
-          }
-        }
-      },
+      (error: AxiosError<unknown>) => this.handleRiotApiError(error),
     );
+  }
+
+  private handleRiotApiError(error: AxiosError<unknown>): never {
+    const { config, response } = error;
+    const url = config?.url || 'URL desconhecida';
+
+    // Se não houver uma resposta do servidor (erro de rede, timeout)
+    if (!response) {
+      this.logger.error(
+        `Erro de rede ou timeout ao acessar ${url}`,
+        error.stack,
+      );
+      throw new ServiceUnavailableException(
+        `A API externa em ${url} está indisponível.`,
+      );
+    }
+
+    const status = response.status;
+    const data = response.data;
+
+    this.logger.error(
+      `Erro da Riot API: ${status} em ${url}`,
+      JSON.stringify(data),
+    );
+
+    // Mapeia o status code para uma exceção específica do NestJS
+    switch (status) {
+      case 400:
+        throw new BadRequestException(data);
+      case 401:
+        throw new UnauthorizedException(data);
+      case 403:
+        throw new ForbiddenException(data);
+      case 404:
+        throw new NotFoundException(data);
+      case 429:
+        // Rate limit - você pode implementar retry logic aqui se necessário
+        this.logger.warn(
+          `Rate limit exceeded for ${url}. Consider implementing retry logic.`,
+        );
+        throw new HttpException('Rate limit exceeded', 429);
+      case 500:
+        throw new InternalServerErrorException(data);
+      case 502:
+      case 503:
+        throw new ServiceUnavailableException(data);
+      case 504:
+        throw new GatewayTimeoutException(data);
+      default: {
+        const responseBody =
+          typeof data === 'object' && data !== null
+            ? data
+            : {
+                statusCode: status,
+                message: `An unexpected error occurred with the external API.`,
+                originalResponse: data,
+              };
+
+        throw new HttpException(responseBody, status);
+      }
+    }
   }
 }

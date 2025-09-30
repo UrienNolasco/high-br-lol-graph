@@ -16,7 +16,11 @@ export class RiotService {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    this.apiKey = this.configService.get<string>('RIOT_API_KEY');
+    const apiKey = this.configService.get<string>('RIOT_API_KEY');
+    if (!apiKey) {
+      throw new Error('RIOT_API_KEY environment variable is required');
+    }
+    this.apiKey = apiKey;
   }
 
   private createHeaders() {
@@ -32,69 +36,54 @@ export class RiotService {
     const grandmasterUrl = `${this.brBaseUrl}/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5`;
     const masterUrl = `${this.brBaseUrl}/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5`;
 
-    try {
-      const [challengerResponse, grandmasterResponse, masterResponse] =
-        await Promise.all([
-          firstValueFrom(
-            this.httpService.get<LeagueListDto>(challengerUrl, {
-              headers: this.createHeaders(),
-            }),
-          ),
-          firstValueFrom(
-            this.httpService.get<LeagueListDto>(grandmasterUrl, {
-              headers: this.createHeaders(),
-            }),
-          ),
-          firstValueFrom(
-            this.httpService.get<LeagueListDto>(masterUrl, {
-              headers: this.createHeaders(),
-            }),
-          ),
-        ]);
+    const [challengerResponse, grandmasterResponse, masterResponse] =
+      await Promise.all([
+        firstValueFrom(
+          this.httpService.get<LeagueListDto>(challengerUrl, {
+            headers: this.createHeaders(),
+          }),
+        ),
+        firstValueFrom(
+          this.httpService.get<LeagueListDto>(grandmasterUrl, {
+            headers: this.createHeaders(),
+          }),
+        ),
+        firstValueFrom(
+          this.httpService.get<LeagueListDto>(masterUrl, {
+            headers: this.createHeaders(),
+          }),
+        ),
+      ]);
 
-      const allEntries = [
-        ...challengerResponse.data.entries,
-        ...grandmasterResponse.data.entries,
-        ...masterResponse.data.entries,
-      ];
+    const allEntries = [
+      ...challengerResponse.data.entries,
+      ...grandmasterResponse.data.entries,
+      ...masterResponse.data.entries,
+    ];
 
-      const uniquePuids = [...new Set(allEntries.map((entry) => entry.puuid))];
+    const uniquePuids = [...new Set(allEntries.map((entry) => entry.puuid))];
 
-      this.logger.log(`Found ${uniquePuids.length} unique PUUIDs.`);
-      return uniquePuids;
-    } catch (error) {
-      this.logger.error('Failed to fetch high-elo PUUIDs', error);
-      return [];
-    }
+    this.logger.log(`Found ${uniquePuids.length} unique PUUIDs.`);
+    return uniquePuids;
   }
 
   async getMatchIdsByPuuid(puuid: string, count = 20): Promise<string[]> {
     this.logger.log(`Fetching match IDs for PUUID: ${puuid}`);
     const url = `${this.americasBaseUrl}/lol/match/v5/matches/by-puuid/${puuid}/ids?count=${count}`;
 
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get<string[]>(url, { headers: this.createHeaders() }),
-      );
-      return response.data;
-    } catch (error) {
-      this.logger.error(`Failed to fetch match IDs for PUUID ${puuid}`, error);
-      return [];
-    }
+    const response = await firstValueFrom(
+      this.httpService.get<string[]>(url, { headers: this.createHeaders() }),
+    );
+    return response.data;
   }
 
-  async getMatchById(matchId: string): Promise<MatchDto | null> {
+  async getMatchById(matchId: string): Promise<MatchDto> {
     this.logger.log(`Fetching match details for match ID: ${matchId}`);
     const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}`;
 
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get<MatchDto>(url, { headers: this.createHeaders() }),
-      );
-      return response.data;
-    } catch (error) {
-      this.logger.error(`Failed to fetch details for match ${matchId}`, error);
-      return null;
-    }
+    const response = await firstValueFrom(
+      this.httpService.get<MatchDto>(url, { headers: this.createHeaders() }),
+    );
+    return response.data;
   }
 }
