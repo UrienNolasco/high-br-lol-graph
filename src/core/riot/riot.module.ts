@@ -8,6 +8,7 @@ import { MatchParserService } from './match-parser.service';
 import { RateLimitService } from './rate-limit.service';
 import { RetryService } from './retry.service';
 import { AxiosError } from 'axios';
+import * as https from 'https';
 import {
   BadRequestException,
   ForbiddenException,
@@ -27,6 +28,10 @@ import {
       useFactory: () => ({
         // Você pode colocar configurações padrão do Axios aqui (timeout, etc.)
         timeout: 5000,
+        // Configuração para resolver problemas de certificado SSL em Docker
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false,
+        }),
       }),
     }),
   ],
