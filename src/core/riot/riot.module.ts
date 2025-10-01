@@ -4,6 +4,7 @@ import { Module, Logger } from '@nestjs/common';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { RiotService } from './riot.service';
+import { MatchParserService } from './match-parser.service';
 import { AxiosError } from 'axios';
 import {
   BadRequestException,
@@ -27,8 +28,8 @@ import {
       }),
     }),
   ],
-  providers: [RiotService, Logger],
-  exports: [RiotService],
+  providers: [RiotService, MatchParserService, Logger],
+  exports: [RiotService, MatchParserService],
 })
 export class RiotModule {
   constructor(
