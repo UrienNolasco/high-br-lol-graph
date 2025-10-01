@@ -56,8 +56,7 @@ export class CollectorService {
             }
           }
 
-          // Pequeno delay para respeitar rate limits da API
-          await this.delay(100);
+          // Rate limiting agora é controlado automaticamente pelo RiotService
         } catch (error) {
           this.logger.warn(
             `⚠️ [COLLECTOR] - Erro ao processar PUUID ${puuid}:`,
