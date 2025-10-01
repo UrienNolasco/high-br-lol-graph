@@ -33,11 +33,11 @@ Resultado: projeto "vazio" porém 100% funcional em termos de infraestrutura.
 
 Objetivo: Ter um worker capaz de consumir uma mensagem da fila, buscar os dados da partida na Riot API, calcular as estatísticas e salvá-las no banco de dados.
 
-- [ ] Definir Entidades do Banco: Crie os arquivos de entidade/modelo para ProcessedMatch, ChampionStats e MatchupStats em src/core/database/entities.
+- [x] Definir Entidades do Banco: Crie os arquivos de entidade/modelo para ProcessedMatch, ChampionStats e MatchupStats em src/core/database/entities.
 
-- [ ] Criar Cliente da Riot API: No RiotModule (src/core/riot), crie o RiotService e implemente o primeiro método: getMatchById(matchId: string).
+- [x] Criar Cliente da Riot API: No RiotModule (src/core/riot), crie o RiotService e implemente o primeiro método: getMatchById(matchId: string).
 
-- [ ] Implementar Lógica do Worker:
+- [x] Implementar Lógica do Worker:
 
 No WorkerService, crie o método principal, ex: processMatch(payload: { matchId: string, patch: string }).
 
@@ -45,7 +45,7 @@ Dentro dele, chame o RiotService para buscar os dados da partida.
 
 Implemente a lógica para identificar os times, o vencedor e os campeões em cada rota.
 
-- [ ] Implementar Cálculos e Persistência:
+- [x] Implementar Cálculos e Persistência:
 
 Adicione a lógica que atualiza as tabelas champion_stats e matchup_stats. (Dica: Use INSERT ... ON CONFLICT ... DO UPDATE do SQL para facilitar a atualização).
 
@@ -69,7 +69,7 @@ Resultado ao final da Sprint: O cérebro do seu sistema está pronto.
 
 Objetivo: Ter um collector que busca novas partidas de jogadores high-elo e as publica na fila para o Worker processar.
 
-- [ ] Expandir Cliente da Riot API: Adicione os métodos necessários ao RiotService: getHighEloPlayers() (para buscar as ligas Challenger, GM, etc.) e getMatchHistoryByPuuid().
+- [x] Expandir Cliente da Riot API: Adicione os métodos necessários ao RiotService: getHighEloPlayers() (para buscar as ligas Challenger, GM, etc.) e getMatchHistoryByPuuid().
 
 - [ ] Implementar Lógica do Coletor:
 

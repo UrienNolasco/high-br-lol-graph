@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { CollectorService } from './modules/collector/collector.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -35,6 +36,21 @@ async function bootstrap() {
     logger.log('🚀 [WORKER] - Worker iniciado');
   } else if (appMode === 'COLLECTOR') {
     logger.log('🚀 [COLLECTOR] - Collector iniciado');
+
+    try {
+      const collectorService = app.get(CollectorService);
+      await collectorService.runCollection();
+      logger.log('✅ [COLLECTOR] - Coleta executada com sucesso!');
+      await app.close();
+      process.exit(0);
+    } catch (error) {
+      logger.error(
+        '❌ [COLLECTOR] - Erro durante a execução da coleta:',
+        error,
+      );
+      await app.close();
+      process.exit(1);
+    }
   } else {
     const port = process.env.PORT ?? 3000;
     await app.listen(port);
