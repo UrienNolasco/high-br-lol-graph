@@ -3,8 +3,8 @@ import { Injectable, Logger } from '@nestjs/common';
 @Injectable()
 export class RetryService {
   private readonly logger = new Logger(RetryService.name);
-  private readonly maxRetries = 3;
-  private readonly baseDelay = 1000; // 1 segundo
+  private readonly maxRetries = 5;
+  private readonly baseDelay = 2000; // 2 segundos
 
   async executeWithRetry<T>(
     operation: () => Promise<T>,
