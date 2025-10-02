@@ -15,7 +15,7 @@ import { QueueService } from './queue.service';
             urls: [
               `amqp://${configService.get('RABBITMQ_DEFAULT_USER')}:${configService.get('RABBITMQ_DEFAULT_PASS')}@${configService.get('RABBITMQ_HOST')}`,
             ],
-            queue: 'default_queue',
+            queue: `${configService.get('RABBITMQ_QUEUE')}`,
             queueOptions: {
               durable: true,
             },
