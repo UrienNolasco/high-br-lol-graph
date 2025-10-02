@@ -19,4 +19,7 @@ COPY . .
 
 EXPOSE 3000
 
+# Configurar variável de ambiente para forçar IPv4
+ENV NODE_OPTIONS="--dns-result-order=ipv4first"
+
 CMD ["npm", "run", "start:dev"]

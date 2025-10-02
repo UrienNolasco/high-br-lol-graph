@@ -19,6 +19,9 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
+  // Forçar IPv4
+  app.getHttpAdapter().getInstance().set('trust proxy', true);
+
   const appMode = process.env.APP_MODE;
 
   if (appMode === 'API') {
@@ -44,7 +47,7 @@ async function bootstrap() {
     );
 
     const port = process.env.PORT ?? 3000;
-    await app.listen(port);
+    await app.listen(port, '0.0.0.0');
     logger.log(`🚀 [API] - Aplicação iniciada e ouvindo na porta ${port}`);
     logger.log(
       `📚 [API] - Documentação Scalar disponível em http://localhost:${port}/reference`,
@@ -94,7 +97,7 @@ async function bootstrap() {
     }
   } else {
     const port = process.env.PORT ?? 3000;
-    await app.listen(port);
+    await app.listen(port, '0.0.0.0');
     logger.log(
       `[APP] - Nenhuma variável de ambiente APP_MODE definida, iniciando API por padrão na porta ${port}`,
     );
