@@ -58,7 +58,9 @@ export class WorkerService {
     });
     await this.processedMatchRepository.save(processedMatch);
 
-    this.logger.log(`Successfully processed match ${matchId}`);
+    this.logger.log(
+      `✅ [WORKER] - Partida ${matchId} processada e salva no banco de dados.`,
+    );
   }
 
   private async upsertChampionStats(
