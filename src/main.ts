@@ -56,7 +56,9 @@ async function bootstrap() {
     });
 
     await app.startAllMicroservices();
-    logger.log('🚀 [WORKER] - Worker iniciado e ouvindo a fila de mensagens');
+    logger.log(
+      `🚀 [WORKER] - Worker iniciado e ouvindo a fila: ${rabbitQueue}`,
+    );
   } else if (appMode === 'COLLECTOR') {
     logger.log('🚀 [COLLECTOR] - Collector iniciado');
 
