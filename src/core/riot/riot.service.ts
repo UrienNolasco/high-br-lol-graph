@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { LeagueListDto } from './dto/league-list.dto';
 import { MatchDto } from './dto/match.dto';
-import { RateLimitService } from './rate-limit.service';
+import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class RiotService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
-    private readonly rateLimitService: RateLimitService,
+    private readonly rateLimiterService: RateLimiterService,
     private readonly retryService: RetryService,
   ) {
     const apiKey = this.configService.get<string>('RIOT_API_KEY');
@@ -36,55 +36,44 @@ export class RiotService {
   async getHighEloPuids(): Promise<string[]> {
     this.logger.log('Fetching high-elo leagues...');
 
-    return this.retryService.executeWithRetry(async () => {
-      // Aplica rate limiting antes das requisições
-      await this.rateLimitService.waitForToken();
+    const challengerUrl = `${this.brBaseUrl}/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5`;
+    const grandmasterUrl = `${this.brBaseUrl}/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5`;
+    const masterUrl = `${this.brBaseUrl}/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5`;
 
-      const challengerUrl = `${this.brBaseUrl}/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5`;
-      const grandmasterUrl = `${this.brBaseUrl}/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5`;
-      const masterUrl = `${this.brBaseUrl}/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5`;
+    const fetchLeague = async (url: string, leagueName: string) => {
+      return this.retryService.executeWithRetry(async () => {
+        await this.rateLimiterService.throttle();
+        this.logger.log(`Fetching ${leagueName} league...`);
+        const response = await firstValueFrom(
+          this.httpService.get<LeagueListDto>(url, {
+            headers: this.createHeaders(),
+          }),
+        );
+        return response.data;
+      }, `get${leagueName}League`);
+    };
 
-      // Faz as requisições sequencialmente para respeitar rate limits
-      const challengerResponse = await firstValueFrom(
-        this.httpService.get<LeagueListDto>(challengerUrl, {
-          headers: this.createHeaders(),
-        }),
-      );
+    const challengerLeague = await fetchLeague(challengerUrl, 'Challenger');
+    const grandmasterLeague = await fetchLeague(grandmasterUrl, 'Grandmaster');
+    const masterLeague = await fetchLeague(masterUrl, 'Master');
 
-      await this.rateLimitService.waitForToken();
+    const allEntries = [
+      ...challengerLeague.entries,
+      ...grandmasterLeague.entries,
+      ...masterLeague.entries,
+    ];
 
-      const grandmasterResponse = await firstValueFrom(
-        this.httpService.get<LeagueListDto>(grandmasterUrl, {
-          headers: this.createHeaders(),
-        }),
-      );
+    const uniquePuids = [...new Set(allEntries.map((entry) => entry.puuid))];
 
-      await this.rateLimitService.waitForToken();
-
-      const masterResponse = await firstValueFrom(
-        this.httpService.get<LeagueListDto>(masterUrl, {
-          headers: this.createHeaders(),
-        }),
-      );
-
-      const allEntries = [
-        ...challengerResponse.data.entries,
-        ...grandmasterResponse.data.entries,
-        ...masterResponse.data.entries,
-      ];
-
-      const uniquePuids = [...new Set(allEntries.map((entry) => entry.puuid))];
-
-      this.logger.log(`Found ${uniquePuids.length} unique PUUIDs.`);
-      return uniquePuids;
-    }, 'getHighEloPuids');
+    this.logger.log(`Found ${uniquePuids.length} unique PUUIDs.`);
+    return uniquePuids;
   }
 
   async getMatchIdsByPuuid(puuid: string, count = 20): Promise<string[]> {
     this.logger.log(`Fetching match IDs for PUUID: ${puuid}`);
 
     return this.retryService.executeWithRetry(async () => {
-      await this.rateLimitService.waitForToken();
+      await this.rateLimiterService.throttle();
 
       const url = `${this.americasBaseUrl}/lol/match/v5/matches/by-puuid/${puuid}/ids?count=${count}`;
 
@@ -99,7 +88,7 @@ export class RiotService {
     this.logger.log(`Fetching match details for match ID: ${matchId}`);
 
     return this.retryService.executeWithRetry(async () => {
-      await this.rateLimitService.waitForToken();
+      await this.rateLimiterService.throttle();
 
       const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}`;
 

@@ -5,7 +5,7 @@ import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { RiotService } from './riot.service';
 import { MatchParserService } from './match-parser.service';
-import { RateLimitService } from './rate-limit.service';
+import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
 import { AxiosError } from 'axios';
 import * as https from 'https';
@@ -38,11 +38,16 @@ import {
   providers: [
     RiotService,
     MatchParserService,
-    RateLimitService,
+    RateLimiterService,
     RetryService,
     Logger,
   ],
-  exports: [RiotService, MatchParserService, RateLimitService, RetryService],
+  exports: [
+    RiotService,
+    MatchParserService,
+    RateLimiterService,
+    RetryService,
+  ],
 })
 export class RiotModule {
   constructor(
@@ -96,7 +101,6 @@ export class RiotModule {
       case 404:
         throw new NotFoundException(data);
       case 429:
-        // Rate limit - você pode implementar retry logic aqui se necessário
         this.logger.warn(
           `Rate limit exceeded for ${url}. Consider implementing retry logic.`,
         );

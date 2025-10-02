@@ -94,6 +94,14 @@ O sistema implementa uma estratégia robusta de tratamento de erros para garanti
        [NestJS Exception] → [Logging] → [Error Response]
 ```
 
+### Sincronização entre Collector e Worker
+
+Adicionei o Redis para resolver o problema de concorrência entre o CollectorService e o WorkerService pois ambos compartilham um único e restrito limite de taxa (100 requisições a cada 2 minutos).
+
+O Redis entra como um contador centralizado e de alta velocidade. Antes de qualquer serviço fazer uma chamada à API, ele registra um "ticket" com timestamp no Redis. O sistema então verifica nesse registro compartilhado quantas requisições foram feitas nos últimos 2 minutos. Se o limite for atingido, a requisição aguarda.
+
+Essencialmente, o Redis está sincronizando o "direito de fazer uma requisição à API" entre o Collector e o Worker, garantindo que eles operem em conjunto e de forma eficiente, sem serem bloqueados.
+
 ### Estrutura de Pastas do Projeto:
 
 ```bash
