@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
-import { DataSource } from 'typeorm';
 import { CollectorService } from './modules/collector/collector.service';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
@@ -10,22 +9,6 @@ async function bootstrap() {
     logger: ['error', 'warn', 'debug', 'verbose', 'log'],
   });
   const logger = new Logger('Bootstrap');
-
-  try {
-    const dataSource = app.get(DataSource);
-    if (dataSource.isInitialized) {
-      logger.log(
-        '✅ [DATABASE] - Conexão com o banco de dados estabelecida com sucesso!',
-      );
-    }
-  } catch (error) {
-    logger.error(
-      '❌ [DATABASE] - Falha ao conectar com o banco de dados',
-      error,
-    );
-    await app.close();
-    process.exit(1);
-  }
 
   const appMode = process.env.APP_MODE;
 

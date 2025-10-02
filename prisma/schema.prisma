@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ProcessedMatch {
+  matchId     String   @id
+  patch       String
+  processedAt DateTime @default(now())
+
+  @@map("processed_matches")
+}
+
+model ChampionStats {
+  patch       String
+  championId  Int
+  gamesPlayed Int    @default(0)
+  wins        Int    @default(0)
+
+  @@id([patch, championId])
+  @@map("champion_stats")
+}
+
+model MatchupStats {
+  patch         String
+  championId1   Int
+  championId2   Int
+  role          String
+  gamesPlayed   Int    @default(0)
+  champion1Wins Int    @default(0)
+
+  @@id([patch, championId1, championId2, role])
+  @@map("matchup_stats")
+}
