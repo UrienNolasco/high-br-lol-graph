@@ -33,6 +33,7 @@ O fluxo de dados segue um padrão claro de responsabilidades separadas para gara
 
 - Orquestração Local: Docker & Docker Compose
 - Linguagem & Framework: Node.js com NestJS & TypeScript
+  - nestjs/cache-manager para salvar o valor de uma requisão.
 - Banco de Dados: PostgreSQL
 - Fila de Mensagens: RabbitMQ
 - Scalar para documentação da API

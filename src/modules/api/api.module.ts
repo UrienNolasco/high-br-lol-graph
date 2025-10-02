@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ApiController } from './api.controller';
+import { RateLimitController, StatsController } from './api.controller';
 import { ApiService } from './api.service';
 import { RiotModule } from '../../core/riot/riot.module';
 
 @Module({
   imports: [RiotModule],
-  controllers: [ApiController],
+  controllers: [RateLimitController, StatsController],
   providers: [ApiService],
 })
 export class ApiModule {}
