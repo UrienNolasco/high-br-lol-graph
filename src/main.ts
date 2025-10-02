@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { apiReference } from '@scalar/nestjs-api-reference';
 import { CollectorService } from './modules/collector/collector.service';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
@@ -9,13 +11,33 @@ async function bootstrap() {
     logger: ['error', 'warn', 'debug', 'verbose', 'log'],
   });
   const logger = new Logger('Bootstrap');
-
   const appMode = process.env.APP_MODE;
 
   if (appMode === 'API') {
+    // Configuração do OpenAPI (Swagger) para gerar a especificação
+    const config = new DocumentBuilder()
+      .setTitle('High-BR LoL Graph API')
+      .setDescription(
+        'API para análise de estatísticas de partidas de League of Legends.',
+      )
+      .setVersion('1.0')
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+
+    // Configuração do Scalar para servir a documentação na rota /docs
+    app.use(
+      '/docs',
+      apiReference({
+        spec: {
+          content: document,
+        },
+      }),
+    );
+
     const port = process.env.PORT ?? 3000;
     await app.listen(port);
     logger.log(`🚀 [API] - Aplicação iniciada e ouvindo na porta ${port}`);
+    logger.log('API documentation available at http://localhost:3000/docs');
   } else if (appMode === 'WORKER') {
     const rabbitUrl = process.env.RABBITMQ_URL;
     const rabbitQueue = process.env.RABBITMQ_QUEUE;

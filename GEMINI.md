@@ -41,7 +41,7 @@ The data flow follows a clear pattern of separated responsibilities to ensure re
 - Database: PostgreSQL
 - Message Queue: RabbitMQ
 - Scalar for API documentation
-- typeorm
+- prisma
 
 ### Error Handling and Resilience
 
