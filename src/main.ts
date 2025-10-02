@@ -70,6 +70,8 @@ async function bootstrap() {
         queue: rabbitQueue,
         queueOptions: {
           durable: true,
+          prefetchCount: 1,
+          noAck: false,
         },
       },
     });
