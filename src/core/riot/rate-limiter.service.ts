@@ -54,32 +54,31 @@ export class RateLimiterService {
           throw new Error('Redis não inicializado');
         }
 
-        // 1. Adicionar timestamp da requisição atual
-        await this.redis.zadd(
-          'riot_requests',
-          currentTimestamp,
-          currentTimestamp,
-        );
-
-        // 2. Remover timestamps antigos (mais velhos que a janela)
+        // 1. Remover timestamps antigos (mais velhos que a janela)
         await this.redis.zremrangebyscore('riot_requests', '-inf', windowStart);
 
-        // 3. Contar requisições dentro da janela
+        // 2. Contar requisições dentro da janela
         const requestCount = await this.redis.zcard('riot_requests');
 
-        // 4. Verificar se podemos prosseguir
-        if (requestCount <= this.MAX_REQUESTS) {
+        // 3. Verificar se podemos prosseguir
+        if (requestCount < this.MAX_REQUESTS) {
+          // 4. Sim, podemos. Adicionar nosso timestamp e sair.
+          await this.redis.zadd(
+            'riot_requests',
+            currentTimestamp,
+            currentTimestamp,
+          );
           const waitTime = Date.now() - startTime;
           if (waitTime > 0) {
             this.logger.debug(
               `Permissão concedida após ${attempts} tentativa(s) em ${waitTime}ms. ` +
-                `Requisições na janela: ${requestCount}/${this.MAX_REQUESTS}`,
+                `Requisições na janela: ${requestCount + 1}/${this.MAX_REQUESTS}`,
             );
           }
-          return;
+          return; // <-- EXIT
         }
 
-        // 5. Se excedeu o limite, aguardar e tentar novamente
+        // 5. Não, não podemos. Logar, aguardar e tentar novamente.
         this.logger.warn(
           `Rate limit excedido. Tentativa ${attempts}. ` +
             `Requisições na janela: ${requestCount}/${this.MAX_REQUESTS}. ` +
