@@ -11,33 +11,44 @@ async function bootstrap() {
     logger: ['error', 'warn', 'debug', 'verbose', 'log'],
   });
   const logger = new Logger('Bootstrap');
+
+  // Configuração de CORS
+  app.enableCors({
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
   const appMode = process.env.APP_MODE;
 
   if (appMode === 'API') {
-    // Configuração do OpenAPI (Swagger) para gerar a especificação
+    // Configuração do Swagger/OpenAPI
     const config = new DocumentBuilder()
       .setTitle('High-BR LoL Graph API')
       .setDescription(
         'API para análise de estatísticas de partidas de League of Legends.',
       )
       .setVersion('1.0')
+      .addTag('lol')
       .build();
+
     const document = SwaggerModule.createDocument(app, config);
 
-    // Configuração do Scalar para servir a documentação na rota /docs
+    // Configuração do Scalar para documentação interativa
     app.use(
-      '/docs',
+      '/reference',
       apiReference({
-        spec: {
-          content: document,
-        },
+        content: document,
+        theme: 'purple',
       }),
     );
 
     const port = process.env.PORT ?? 3000;
     await app.listen(port);
     logger.log(`🚀 [API] - Aplicação iniciada e ouvindo na porta ${port}`);
-    logger.log('API documentation available at http://localhost:3000/docs');
+    logger.log(
+      `📚 [API] - Documentação Scalar disponível em http://localhost:${port}/reference`,
+    );
   } else if (appMode === 'WORKER') {
     const rabbitUrl = process.env.RABBITMQ_URL;
     const rabbitQueue = process.env.RABBITMQ_QUEUE;

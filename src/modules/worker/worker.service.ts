@@ -21,36 +21,53 @@ export class WorkerService {
   async processMatch(payload: ProcessMatchDto): Promise<void> {
     const { matchId } = payload;
 
-    const isProcessed = await this.prisma.processedMatch.findUnique({
-      where: { matchId },
-    });
+    try {
+      // Usar upsert para evitar condição de corrida
+      const processedMatch = await this.prisma.processedMatch.upsert({
+        where: { matchId },
+        create: { matchId, patch: 'processing' }, // placeholder temporário
+        update: {}, // não atualizar se já existe
+      });
 
-    if (isProcessed) {
-      this.logger.warn(
-        `Match ${matchId} has already been processed. Skipping.`,
+      // Se já foi processada (não é o placeholder), pular
+      if (processedMatch.patch !== 'processing') {
+        this.logger.warn(
+          `Match ${matchId} has already been processed. Skipping.`,
+        );
+        return;
+      }
+
+      const matchDto = await this.riotService.getMatchById(matchId);
+      const { patch, participants, matchups } =
+        this.matchParserService.parseMatchData(matchDto);
+
+      for (const participant of participants) {
+        await this.upsertChampionStats(patch, participant);
+      }
+
+      for (const matchup of matchups) {
+        await this.upsertMatchupStats(patch, matchup);
+      }
+
+      // Atualizar com o patch real
+      await this.prisma.processedMatch.update({
+        where: { matchId },
+        data: { patch },
+      });
+
+      this.logger.log(
+        `✅ [WORKER] - Partida ${matchId} processada e salva no banco de dados.`,
       );
-      return;
+    } catch (error) {
+      // Se for erro de duplicação, apenas logar e continuar
+      if (error.code === 'P2002') {
+        this.logger.warn(
+          `Match ${matchId} was processed by another worker. Skipping.`,
+        );
+        return;
+      }
+      throw error;
     }
-
-    const matchDto = await this.riotService.getMatchById(matchId);
-    const { patch, participants, matchups } =
-      this.matchParserService.parseMatchData(matchDto);
-
-    for (const participant of participants) {
-      await this.upsertChampionStats(patch, participant);
-    }
-
-    for (const matchup of matchups) {
-      await this.upsertMatchupStats(patch, matchup);
-    }
-
-    await this.prisma.processedMatch.create({
-      data: { matchId, patch },
-    });
-
-    this.logger.log(
-      `✅ [WORKER] - Partida ${matchId} processada e salva no banco de dados.`,
-    );
   }
 
   private async upsertChampionStats(
