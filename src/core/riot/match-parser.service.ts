@@ -10,11 +10,16 @@ export interface MatchParticipant {
   win: boolean;
 }
 
+export interface ChampionInfo {
+  id: number;
+  name: string;
+}
+
 export interface MatchupData {
   position: string;
-  championBlueSide: string;
-  championRedSide: string;
-  winningChampion: string;
+  champion1: ChampionInfo; // Representa o campeão do time 100 (Blue)
+  champion2: ChampionInfo; // Representa o campeão do time 200 (Red)
+  winner: ChampionInfo;
 }
 
 export interface ParsedMatchData {
@@ -118,13 +123,20 @@ export class MatchParserService {
 
       // Verifica se ambos os jogadores existem na posição
       if (bluePlayer && redPlayer) {
+        const bluePlayerInfo = {
+          id: bluePlayer.championId,
+          name: bluePlayer.championName,
+        };
+        const redPlayerInfo = {
+          id: redPlayer.championId,
+          name: redPlayer.championName,
+        };
+
         matchups.push({
           position,
-          championBlueSide: bluePlayer.championName,
-          championRedSide: redPlayer.championName,
-          winningChampion: bluePlayer.win
-            ? bluePlayer.championName
-            : redPlayer.championName,
+          champion1: bluePlayerInfo,
+          champion2: redPlayerInfo,
+          winner: bluePlayer.win ? bluePlayerInfo : redPlayerInfo,
         });
       }
     }
