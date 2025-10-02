@@ -10,10 +10,8 @@ export class WorkerController {
   constructor(private readonly workerService: WorkerService) {}
 
   @MessagePattern('match.collect')
-  async handleMatchCollect(
-    @Payload() payload: { data: { data: ProcessMatchDto } },
-  ) {
-    const { matchId, patch } = payload.data.data;
+  async handleMatchCollect(@Payload() payload: ProcessMatchDto) {
+    const { matchId, patch } = payload;
     this.logger.log(
       `Recebida mensagem para processar partida: ${matchId} (Patch: ${patch})`,
     );

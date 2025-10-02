@@ -3,10 +3,11 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { CollectorService } from './modules/collector/collector.service';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn', 'debug', 'verbose'],
+    logger: ['error', 'warn', 'debug', 'verbose', 'log'],
   });
   const logger = new Logger('Bootstrap');
 
@@ -33,7 +34,29 @@ async function bootstrap() {
     await app.listen(port);
     logger.log(`🚀 [API] - Aplicação iniciada e ouvindo na porta ${port}`);
   } else if (appMode === 'WORKER') {
-    logger.log('🚀 [WORKER] - Worker iniciado');
+    const rabbitUrl = process.env.RABBITMQ_URL;
+    const rabbitQueue = process.env.RABBITMQ_QUEUE;
+
+    if (!rabbitUrl || !rabbitQueue) {
+      logger.error(
+        '❌ [WORKER] - As variáveis de ambiente RABBITMQ_URL e RABBITMQ_QUEUE são obrigatórias.',
+      );
+      process.exit(1);
+    }
+
+    app.connectMicroservice<MicroserviceOptions>({
+      transport: Transport.RMQ,
+      options: {
+        urls: [rabbitUrl],
+        queue: rabbitQueue,
+        queueOptions: {
+          durable: true,
+        },
+      },
+    });
+
+    await app.startAllMicroservices();
+    logger.log('🚀 [WORKER] - Worker iniciado e ouvindo a fila de mensagens');
   } else if (appMode === 'COLLECTOR') {
     logger.log('🚀 [COLLECTOR] - Collector iniciado');
 

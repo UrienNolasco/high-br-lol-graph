@@ -121,7 +121,7 @@ export class CollectorService {
       patch: this.extractPatchFromMatchId(),
     };
 
-    this.queueService.publish('matches_to_process', 'match.collect', payload);
+    this.queueService.publish('match.collect', payload);
 
     this.logger.debug(
       `📤 [COLLECTOR] - Partida ${matchId} enfileirada para processamento`,

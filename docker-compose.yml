@@ -79,6 +79,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - RABBITMQ_HOST=${RABBITMQ_HOST} # <-- MODIFICADO
       - RIOT_API_KEY=${RIOT_API_KEY}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
     depends_on:
       postgres:
         condition: service_started
