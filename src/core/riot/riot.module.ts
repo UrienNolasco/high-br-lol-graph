@@ -21,8 +21,12 @@ import {
 } from '@nestjs/common';
 
 @Module({
+import { LockModule } from '../lock/lock.module';
+
+@Module({
   imports: [
     ConfigModule,
+    LockModule,
     // Use registerAsync para configurar a instância do Axios
     HttpModule.registerAsync({
       useFactory: () => ({
