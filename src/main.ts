@@ -19,9 +19,6 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  // Forçar IPv4
-  app.getHttpAdapter().getInstance().set('trust proxy', true);
-
   const appMode = process.env.APP_MODE;
 
   if (appMode === 'API') {

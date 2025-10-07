@@ -6,7 +6,7 @@ import { Redis } from 'ioredis';
 export class LockService implements OnModuleDestroy {
   private readonly logger = new Logger(LockService.name);
   private readonly redis: Redis;
-  private readonly lockTimeoutMs: number = 5000; // Lock expira em 5s
+  private readonly lockTimeoutMs: number = 130000; // Lock expira em 130s
 
   constructor(private configService: ConfigService) {
     const redisHost = this.configService.get<string>('REDIS_HOST', 'redis');

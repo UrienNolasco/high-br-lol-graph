@@ -20,7 +20,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-@Module({
 import { LockModule } from '../lock/lock.module';
 
 @Module({
@@ -46,12 +45,7 @@ import { LockModule } from '../lock/lock.module';
     RetryService,
     Logger,
   ],
-  exports: [
-    RiotService,
-    MatchParserService,
-    RateLimiterService,
-    RetryService,
-  ],
+  exports: [RiotService, MatchParserService, RateLimiterService, RetryService],
 })
 export class RiotModule {
   constructor(
