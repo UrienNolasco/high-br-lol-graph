@@ -9,6 +9,7 @@ import { ApiModule } from './modules/api/api.module';
 import { WorkerModule } from './modules/worker/worker.module';
 import { CollectorModule } from './modules/collector/collector.module';
 import { RiotModule } from './core/riot/riot.module';
+import { DataDragonModule } from './core/data-dragon/data-dragon.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RiotModule } from './core/riot/riot.module';
     ApiModule,
     CollectorModule,
     WorkerModule,
+    DataDragonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
