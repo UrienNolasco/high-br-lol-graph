@@ -1,4 +1,10 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
 import { RateLimiterService } from '../../core/riot/rate-limiter.service';
 import {
   ApiTags,
@@ -10,6 +16,7 @@ import {
 import { RateLimitStatusDto } from './dto/rate-limit-status.dto';
 import { ResetResponseDto } from './dto/reset-response.dto';
 import { ApiService } from './api.service';
+import { PaginatedChampionStatsDto } from './dto/champion-stats.dto';
 
 @ApiTags('Rate Limit')
 @Controller('api')
@@ -53,6 +60,7 @@ export class StatsController {
   @ApiResponse({
     status: 200,
     description: 'Return a paginated list of champion stats.',
+    type: PaginatedChampionStatsDto,
   })
   @ApiQuery({ name: 'patch', required: true, description: 'e.g., 15.20' })
   @ApiQuery({
@@ -71,15 +79,21 @@ export class StatsController {
     name: 'sortBy',
     required: false,
     description: 'e.g., winRate or gamesPlayed',
+    enum: ['winRate', 'gamesPlayed', 'championName'],
   })
-  @ApiQuery({ name: 'order', required: false, description: 'e.g., desc' })
+  @ApiQuery({
+    name: 'order',
+    required: false,
+    description: 'e.g., desc',
+    enum: ['asc', 'desc'],
+  })
   getChampionStats(
     @Query('patch') patch: string,
-    @Query('page') page = 1,
-    @Query('limit') limit = 20,
-    @Query('sortBy') sortBy: string,
-    @Query('order') order: string,
-  ) {
+    @Query('page', new ParseIntPipe({ optional: true })) page = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit = 20,
+    @Query('sortBy') sortBy: any = 'winRate',
+    @Query('order') order: 'asc' | 'desc' = 'desc',
+  ): Promise<PaginatedChampionStatsDto> {
     return this.apiService.getChampionStats(patch, page, limit, sortBy, order);
   }
 
