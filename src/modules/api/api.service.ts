@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataDragonService } from 'src/core/data-dragon/data-dragon.service';
 import { PrismaService } from 'src/core/prisma/prisma.service';
 import {
@@ -70,18 +70,110 @@ export class ApiService {
     };
   }
 
-  getChampion(championName: string, patch: string) {
-    console.log({ championName, patch });
-    return 'getChampion not implemented';
+  async getChampion(
+    championName: string,
+    patch: string,
+  ): Promise<ChampionStatsDto> {
+    const championInfo = this.dataDragon.getChampionByName(championName);
+    if (!championInfo) {
+      throw new NotFoundException(`Champion ${championName} not found`);
+    }
+
+    const championStats = await this.prisma.championStats.findFirst({
+      where: {
+        championId: parseInt(championInfo.key, 10),
+        patch: patch,
+      },
+    });
+
+    if (!championStats) {
+      throw new NotFoundException(
+        `Stats for champion ${championName} not found on patch ${patch}`,
+      );
+    }
+
+    const winRate =
+      championStats.gamesPlayed > 0
+        ? (championStats.wins / championStats.gamesPlayed) * 100
+        : 0;
+
+    return {
+      championId: championStats.championId,
+      championName: championInfo.name,
+      winRate: parseFloat(winRate.toFixed(2)),
+      gamesPlayed: championStats.gamesPlayed,
+      wins: championStats.wins,
+      losses: championStats.gamesPlayed - championStats.wins,
+    };
   }
 
-  getMatchupStats(
+  async getMatchupStats(
     championA: string,
     championB: string,
     patch: string,
     role: string,
   ) {
-    console.log({ championA, championB, patch, role });
-    return 'getMatchupStats not implemented';
+    const championAInfo = this.dataDragon.getChampionByName(championA);
+    const championBInfo = this.dataDragon.getChampionByName(championB);
+
+    if (!championAInfo) {
+      throw new NotFoundException(`Champion ${championA} not found`);
+    }
+
+    if (!championBInfo) {
+      throw new NotFoundException(`Champion ${championB} not found`);
+    }
+
+    const championAId = parseInt(championAInfo.key, 10);
+    const championBId = parseInt(championBInfo.key, 10);
+
+    const matchup = await this.prisma.matchupStats.findFirst({
+      where: {
+        patch,
+        role,
+        OR: [
+          {
+            championId1: championAId,
+            championId2: championBId,
+          },
+          {
+            championId1: championBId,
+            championId2: championAId,
+          },
+        ],
+      },
+    });
+
+    if (!matchup) {
+      throw new NotFoundException(
+        `Matchup stats for ${championA} vs ${championB} in role ${role} on patch ${patch} not found`,
+      );
+    }
+
+    let championAWins = 0;
+    if (matchup.championId1 === championAId) {
+      championAWins = matchup.champion1Wins;
+    } else {
+      championAWins = matchup.gamesPlayed - matchup.champion1Wins;
+    }
+
+    const championAWinRate = (championAWins / matchup.gamesPlayed) * 100;
+    const championBWinRate = 100 - championAWinRate;
+
+    return {
+      championA: {
+        name: championAInfo.name,
+        wins: championAWins,
+        winRate: parseFloat(championAWinRate.toFixed(2)),
+      },
+      championB: {
+        name: championBInfo.name,
+        wins: matchup.gamesPlayed - championAWins,
+        winRate: parseFloat(championBWinRate.toFixed(2)),
+      },
+      gamesPlayed: matchup.gamesPlayed,
+      patch: matchup.patch,
+      role: matchup.role,
+    };
   }
 }
