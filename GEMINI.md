@@ -47,6 +47,22 @@ The data flow follows a clear pattern of separated responsibilities to ensure re
 
 The system implements a robust error handling strategy to ensure stability and reliability when working with external APIs and processing large volumes of data.
 
+### Validação de Entrada (Pipes de Validação)
+
+Para garantir a robustez e a segurança da API, foi implementado um sistema de validação de entrada utilizando os `ValidationPipes` globais do NestJS, em conjunto com os pacotes `class-validator` and `class-transformer`.
+
+**O Problema Resolvido:** Requisições com dados inválidos, como `?page=-1` ou `?patch=abc`, eram anteriormente capazes de quebrar a aplicação ou resultar em erros inesperados (HTTP 500).
+
+**A Solução:**
+1.  **DTOs (Data Transfer Objects):** Foram criados DTOs específicos para os `Query Parameters` dos endpoints.
+2.  **Decorators de Validação:** Nesses DTOs, utilizamos decorators do `class-validator` para definir regras claras e explícitas para cada campo. Por exemplo:
+    - `@IsPositive()` para garantir que `page` seja um número positivo.
+    - `@Max(200)` para limitar o valor de `limit`.
+    - `@Matches(/^[0-9]+\.[0-9]+$/)` para assegurar que `patch` siga o formato esperado (ex: `12.23`).
+3.  **Pipe Global:** Um `ValidationPipe` foi configurado globalmente na aplicação (`main.ts`).
+
+**Resultado:** O NestJS agora intercepta automaticamente todas as requisições de entrada. Se uma requisição não cumpre as regras de validação definidas no DTO correspondente, ela é imediatamente rejeitada com uma resposta `HTTP 400 (Bad Request)` clara e padronizada, impedindo que dados inválidos cheguem à lógica de negócio dos serviços.
+
 #### Error Handling Architecture
 
 **1. Centralized HTTP Error Interceptor**
