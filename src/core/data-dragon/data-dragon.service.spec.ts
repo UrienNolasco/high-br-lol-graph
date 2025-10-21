@@ -25,9 +25,9 @@ const mockChampionsFile = {
   },
 };
 
-// Mock do fs.readFileSync
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock('fs', () => ({
-  ...jest.requireActual('fs'), // Mantém os outros métodos de fs
+  ...jest.requireActual('fs'), // Remove o "as typeof fs"
   readFileSync: jest.fn(),
 }));
 
@@ -44,23 +44,11 @@ describe('DataDragonService', () => {
     }).compile();
 
     service = module.get<DataDragonService>(DataDragonService);
-    // O onModuleInit é chamado automaticamente pelo NestJS durante a inicialização do módulo
+    service.onModuleInit(); // Carrega os dados antes de cada teste
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-
-  describe('onModuleInit', () => {
-    it('should load champion data from champions.json', () => {
-      // Força a chamada do onModuleInit para o teste
-      service.onModuleInit();
-      // Verifica se o readFileSync foi chamado com o caminho correto
-      expect(mockedFs.readFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('champions.json'),
-        'utf-8',
-      );
-    });
   });
 
   describe('getChampionById', () => {

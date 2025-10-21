@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApiService } from './api.service';
-import { PrismaService } from 'src/core/prisma/prisma.service';
-import { DataDragonService } from 'src/core/data-dragon/data-dragon.service';
+import { PrismaService } from '../../core/prisma/prisma.service';
+import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
 import { NotFoundException } from '@nestjs/common';
 
 // Mock data

@@ -1,18 +1,41 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RateLimitController } from './api.controller';
+import { RateLimitController, StatsController } from './api.controller';
+import { RateLimiterService } from '../../core/riot/rate-limiter.service';
+import { ApiService } from './api.service';
 
-describe('RateLimitController', () => {
-  let controller: RateLimitController;
+describe('ApiControllers', () => {
+  let rateLimitController: RateLimitController;
+  let statsController: StatsController;
+
+  const mockRateLimiterService = {
+    getStatus: jest.fn(),
+    clear: jest.fn(),
+  };
+
+  const mockApiService = {
+    getChampionStats: jest.fn(),
+    getChampion: jest.fn(),
+    getMatchupStats: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [RateLimitController],
+      controllers: [RateLimitController, StatsController],
+      providers: [
+        { provide: RateLimiterService, useValue: mockRateLimiterService },
+        { provide: ApiService, useValue: mockApiService },
+      ],
     }).compile();
 
-    controller = module.get<RateLimitController>(RateLimitController);
+    rateLimitController = module.get<RateLimitController>(RateLimitController);
+    statsController = module.get<StatsController>(StatsController);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('should define RateLimitController', () => {
+    expect(rateLimitController).toBeDefined();
+  });
+
+  it('should define StatsController', () => {
+    expect(statsController).toBeDefined();
   });
 });

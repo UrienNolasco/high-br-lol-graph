@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DataDragonService } from 'src/core/data-dragon/data-dragon.service';
-import { PrismaService } from 'src/core/prisma/prisma.service';
+import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
+import { PrismaService } from '../../core/prisma/prisma.service';
 import {
   ChampionStatsDto,
   PaginatedChampionStatsDto,
