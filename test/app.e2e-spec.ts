@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { ApiService } from '../src/modules/api/api.service';
 import { PaginatedChampionStatsDto } from '../src/modules/api/dto/champion-stats.dto';
