@@ -15,11 +15,16 @@ export class ApiService {
 
   async getChampionStats(
     patch: string,
-    page: number,
-    limit: number,
-    sortBy: keyof ChampionStatsDto = 'winRate',
-    order: 'asc' | 'desc' = 'desc',
+    page?: number,
+    limit?: number,
+    sortBy?: keyof ChampionStatsDto,
+    order?: 'asc' | 'desc',
   ): Promise<PaginatedChampionStatsDto> {
+    const currentPage = page ?? 1;
+    const currentLimit = limit ?? 20;
+    const currentSortBy = sortBy ?? 'winRate';
+    const currentOrder = order ?? 'desc';
+
     // 1. Buscar todos os campeões do patch no banco de dados.
     const championStats = await this.prisma.championStats.findMany({
       where: { patch },
@@ -45,12 +50,12 @@ export class ApiService {
 
     // 3. Ordenar o array resultante em memória.
     enrichedStats.sort((a, b) => {
-      const aValue = a[sortBy];
-      const bValue = b[sortBy];
+      const aValue = a[currentSortBy];
+      const bValue = b[currentSortBy];
 
       if (aValue === bValue) return 0;
 
-      if (order === 'desc') {
+      if (currentOrder === 'desc') {
         return aValue > bValue ? -1 : 1;
       } else {
         return aValue < bValue ? -1 : 1;
@@ -58,15 +63,15 @@ export class ApiService {
     });
 
     // 4. Aplicar a paginação.
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
+    const startIndex = (currentPage - 1) * currentLimit;
+    const endIndex = currentPage * currentLimit;
     const paginatedData = enrichedStats.slice(startIndex, endIndex);
 
     return {
       data: paginatedData,
       total: enrichedStats.length,
-      page: Number(page),
-      limit: Number(limit),
+      page: Number(currentPage),
+      limit: Number(currentLimit),
     };
   }
 

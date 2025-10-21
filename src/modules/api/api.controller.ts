@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { RateLimiterService } from '../../core/riot/rate-limiter.service';
 import {
   ApiTags,
@@ -11,6 +11,7 @@ import { RateLimitStatusDto } from './dto/rate-limit-status.dto';
 import { ResetResponseDto } from './dto/reset-response.dto';
 import { ApiService } from './api.service';
 import { PaginatedChampionStatsDto } from './dto/champion-stats.dto';
+import { GetChampionStatsDto } from './dto/get-champion-stats.dto';
 
 @ApiTags('Rate Limit')
 @Controller('api')
@@ -82,12 +83,9 @@ export class StatsController {
     enum: ['asc', 'desc'],
   })
   getChampionStats(
-    @Query('patch') patch: string,
-    @Query('page', new ParseIntPipe({ optional: true })) page = 1,
-    @Query('limit', new ParseIntPipe({ optional: true })) limit = 20,
-    @Query('sortBy') sortBy: any = 'winRate',
-    @Query('order') order: 'asc' | 'desc' = 'desc',
+    @Query() query: GetChampionStatsDto,
   ): Promise<PaginatedChampionStatsDto> {
+    const { patch, page, limit, sortBy, order } = query;
     return this.apiService.getChampionStats(patch, page, limit, sortBy, order);
   }
 

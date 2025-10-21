@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
 import { CollectorService } from './modules/collector/collector.service';
@@ -10,6 +10,18 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'debug', 'verbose', 'log'],
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
+
   const logger = new Logger('Bootstrap');
 
   // Configuração de CORS
