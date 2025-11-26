@@ -5,6 +5,7 @@ import {
   ChampionStatsDto,
   PaginatedChampionStatsDto,
 } from './dto/champion-stats.dto';
+import { ChampionListDto, ChampionListItemDto } from './dto/champion-list.dto';
 
 @Injectable()
 export class ApiService {
@@ -179,6 +180,23 @@ export class ApiService {
       gamesPlayed: matchup.gamesPlayed,
       patch: matchup.patch,
       role: matchup.role,
+    };
+  }
+
+  getAllChampions(): ChampionListDto {
+    const champions = this.dataDragon.getAllChampions();
+
+    const championList: ChampionListItemDto[] = champions.map((champion) => ({
+      name: champion.name,
+      id: champion.id,
+      key: parseInt(champion.key, 10),
+      title: champion.title,
+      version: champion.version,
+    }));
+
+    return {
+      champions: championList,
+      total: championList.length,
     };
   }
 }

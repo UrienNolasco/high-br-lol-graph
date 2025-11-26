@@ -12,6 +12,7 @@ import { ResetResponseDto } from './dto/reset-response.dto';
 import { ApiService } from './api.service';
 import { PaginatedChampionStatsDto } from './dto/champion-stats.dto';
 import { GetChampionStatsDto } from './dto/get-champion-stats.dto';
+import { ChampionListDto } from './dto/champion-list.dto';
 
 @ApiTags('Rate Limit')
 @Controller('api')
@@ -42,6 +43,23 @@ export class RateLimitController {
   async resetRateLimit(): Promise<ResetResponseDto> {
     await this.rateLimiterService.clear();
     return { message: 'Rate limit tokens resetados com sucesso' };
+  }
+}
+
+@ApiTags('Champions')
+@Controller('api/v1/champions')
+export class ChampionsController {
+  constructor(private readonly apiService: ApiService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'List all available champions' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return a list of all champions.',
+    type: ChampionListDto,
+  })
+  getAllChampions(): ChampionListDto {
+    return this.apiService.getAllChampions();
   }
 }
 

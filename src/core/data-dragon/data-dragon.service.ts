@@ -75,4 +75,11 @@ export class DataDragonService implements OnModuleInit {
     const normalizedName = name.toLowerCase().replace(/\s/g, '');
     return this.championsByName.get(normalizedName);
   }
+
+  public getAllChampions(): ChampionData[] {
+    // Retorna todos os campeões como um array ordenado por nome
+    return Array.from(this.championsById.values()).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+  }
 }
