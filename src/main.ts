@@ -77,10 +77,14 @@ async function bootstrap() {
       options: {
         urls: [rabbitUrl],
         queue: rabbitQueue,
+        noAck: false,
         queueOptions: {
           durable: true,
-          prefetchCount: 1,
-          noAck: false,
+        },
+        prefetchCount: 1,
+        socketOptions: {
+          heartbeatIntervalInSeconds: 60,
+          reconnectTimeInSeconds: 10,
         },
       },
     });
@@ -115,4 +119,7 @@ async function bootstrap() {
   }
 }
 
-bootstrap();
+bootstrap().catch((err) => {
+  console.error('Erro fatal durante o bootstrap:', err);
+  process.exit(1);
+});
