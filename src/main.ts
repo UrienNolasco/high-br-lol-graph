@@ -77,15 +77,11 @@ async function bootstrap() {
       options: {
         urls: [rabbitUrl],
         queue: rabbitQueue,
-        noAck: false,
         queueOptions: {
           durable: true,
         },
         prefetchCount: 1,
-        socketOptions: {
-          heartbeatIntervalInSeconds: 60,
-          reconnectTimeInSeconds: 10,
-        },
+        noAck: false,
       },
     });
 

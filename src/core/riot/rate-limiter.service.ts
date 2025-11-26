@@ -12,8 +12,6 @@ export class RateLimiterService {
   private readonly MAX_REQUESTS = 100;
   private readonly RETRY_DELAY_MS = 1000; // 1 segundo
   private readonly LOCK_NAME = 'riot_rate_limiter_lock';
-  private readonly MAX_THROTTLE_ATTEMPTS = 300; // Máximo de tentativas no throttle (5 minutos)
-  private readonly MAX_LOCK_WAIT_MS = 300000; // Timeout máximo de 5 minutos para adquirir lock
 
   constructor(
     private configService: ConfigService,
@@ -49,107 +47,76 @@ export class RateLimiterService {
    * @returns Promise<void> - Resolve quando a permissão é concedida
    */
   async throttle(): Promise<void> {
-    const overallStartTime = Date.now();
-    let lockAttempts = 0;
-    const maxLockAttempts = 60;
-
-    while (lockAttempts < maxLockAttempts) {
-      lockAttempts++;
-
-      if (Date.now() - overallStartTime > this.MAX_LOCK_WAIT_MS) {
-        throw new Error(
-          `Timeout ao tentar adquirir permissão do rate limiter após ${this.MAX_LOCK_WAIT_MS}ms`,
-        );
-      }
-
-      const lockAcquired = await this.lockService.acquireLock(
-        this.LOCK_NAME,
-        50,
-        20,
+    const lockAcquired = await this.lockService.acquireLock(this.LOCK_NAME);
+    if (!lockAcquired) {
+      this.logger.warn(
+        'Não foi possível adquirir o lock para o rate limiter. A requisição será bloqueada e tentará novamente.',
       );
-
-      if (!lockAcquired) {
-        const backoffDelay = Math.min(
-          this.RETRY_DELAY_MS * Math.pow(1.5, lockAttempts - 1),
-          10000,
-        );
-
-        if (lockAttempts % 10 === 0) {
-          this.logger.warn(
-            `Tentativa ${lockAttempts}/${maxLockAttempts} de adquirir lock. ` +
-              `Aguardando ${Math.round(backoffDelay)}ms...`,
-          );
-        }
-
-        await this.delay(backoffDelay);
-        continue;
-      }
-
-      try {
-        const startTime = Date.now();
-        let attempts = 0;
-
-        while (attempts < this.MAX_THROTTLE_ATTEMPTS) {
-          attempts++;
-          const currentTimestamp = Date.now();
-          const windowStart =
-            currentTimestamp - this.WINDOW_SIZE_SECONDS * 1000;
-
-          try {
-            if (!this.redis) {
-              throw new Error('Redis não inicializado');
-            }
-
-            await this.redis.zremrangebyscore(
-              'riot_requests',
-              '-inf',
-              windowStart,
-            );
-
-            const requestCount = await this.redis.zcard('riot_requests');
-
-            if (requestCount < this.MAX_REQUESTS) {
-              await this.redis.zadd(
-                'riot_requests',
-                currentTimestamp,
-                currentTimestamp,
-              );
-              const waitTime = Date.now() - startTime;
-              if (waitTime > 1000) {
-                this.logger.log(
-                  `Permissão concedida após ${attempts} tentativa(s) em ${waitTime}ms. ` +
-                    `Requisições na janela: ${requestCount + 1}/${this.MAX_REQUESTS}`,
-                );
-              }
-              return;
-            }
-
-            if (attempts % 30 === 0) {
-              this.logger.warn(
-                `Rate limit excedido. Tentativa ${attempts}/${this.MAX_THROTTLE_ATTEMPTS}. ` +
-                  `Requisições na janela: ${requestCount}/${this.MAX_REQUESTS}. ` +
-                  `Aguardando ${this.RETRY_DELAY_MS}ms...`,
-              );
-            }
-
-            await this.delay(this.RETRY_DELAY_MS);
-          } catch (error) {
-            this.logger.error('Erro no rate limiter:', error);
-            await this.delay(this.RETRY_DELAY_MS);
-          }
-        }
-
-        throw new Error(
-          `Excedido número máximo de tentativas (${this.MAX_THROTTLE_ATTEMPTS}) para obter permissão do rate limiter`,
-        );
-      } finally {
-        await this.lockService.releaseLock(this.LOCK_NAME);
-      }
+      // Se não conseguir o lock, espera um pouco e tenta o throttle todo de novo
+      await this.delay(this.RETRY_DELAY_MS * 2);
+      return this.throttle();
     }
 
-    throw new Error(
-      `Não foi possível adquirir lock para o rate limiter após ${maxLockAttempts} tentativas`,
-    );
+    try {
+      const startTime = Date.now();
+      let attempts = 0;
+
+      while (true) {
+        attempts++;
+        const currentTimestamp = Date.now();
+        const windowStart = currentTimestamp - this.WINDOW_SIZE_SECONDS * 1000;
+
+        try {
+          if (!this.redis) {
+            throw new Error('Redis não inicializado');
+          }
+
+          // 1. Remover timestamps antigos (mais velhos que a janela)
+          await this.redis.zremrangebyscore(
+            'riot_requests',
+            '-inf',
+            windowStart,
+          );
+
+          // 2. Contar requisições dentro da janela
+          const requestCount = await this.redis.zcard('riot_requests');
+
+          // 3. Verificar se podemos prosseguir
+          if (requestCount < this.MAX_REQUESTS) {
+            // 4. Sim, podemos. Adicionar nosso timestamp e sair.
+            await this.redis.zadd(
+              'riot_requests',
+              currentTimestamp,
+              currentTimestamp,
+            );
+            const waitTime = Date.now() - startTime;
+            if (waitTime > 0) {
+              this.logger.debug(
+                `Permissão concedida após ${attempts} tentativa(s) em ${waitTime}ms. ` +
+                  `Requisições na janela: ${requestCount + 1}/${this.MAX_REQUESTS}`,
+              );
+            }
+            return; // <-- EXIT
+          }
+
+          // 5. Não, não podemos. Logar, aguardar e tentar novamente.
+          this.logger.warn(
+            `Rate limit excedido. Tentativa ${attempts}. ` +
+              `Requisições na janela: ${requestCount}/${this.MAX_REQUESTS}. ` +
+              `Aguardando ${this.RETRY_DELAY_MS}ms...`,
+          );
+
+          await this.delay(this.RETRY_DELAY_MS);
+        } catch (error) {
+          this.logger.error('Erro no rate limiter:', error);
+
+          // Em caso de erro no Redis, aguardar um pouco e tentar novamente
+          await this.delay(this.RETRY_DELAY_MS);
+        }
+      }
+    } finally {
+      await this.lockService.releaseLock(this.LOCK_NAME);
+    }
   }
 
   /**

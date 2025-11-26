@@ -1,6 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { RateLimiterService } from '../../core/riot/rate-limiter.service';
-import { SemaphoreService } from '../../core/semaphore/semaphore.service';
 import {
   ApiTags,
   ApiOperation,
@@ -20,7 +19,6 @@ import { ChampionListDto } from './dto/champion-list.dto';
 export class RateLimitController {
   constructor(
     private readonly rateLimiterService: RateLimiterService,
-    private readonly semaphoreService: SemaphoreService,
     private readonly apiService: ApiService,
   ) {}
 
@@ -45,25 +43,6 @@ export class RateLimitController {
   async resetRateLimit(): Promise<ResetResponseDto> {
     await this.rateLimiterService.clear();
     return { message: 'Rate limit tokens resetados com sucesso' };
-  }
-
-  @Get('worker/status')
-  @ApiOperation({ summary: 'Obtém o status atual do worker (semáforo)' })
-  @ApiResponse({
-    status: 200,
-    description: 'Status do worker retornado com sucesso.',
-  })
-  getWorkerStatus() {
-    const status = this.semaphoreService.getStatus('worker_processing');
-    return {
-      running: status.running,
-      queued: status.queued,
-      maxConcurrency: 1,
-      message:
-        status.running > 0
-          ? 'Worker está processando mensagens'
-          : 'Worker está ocioso',
-    };
   }
 }
 

@@ -8,10 +8,9 @@ import { ApiService } from './api.service';
 import { RiotModule } from '../../core/riot/riot.module';
 import { DataDragonModule } from 'src/core/data-dragon/data-dragon.module';
 import { PrismaModule } from 'src/core/prisma/prisma.module';
-import { SemaphoreModule } from 'src/core/semaphore/semaphore.module';
 
 @Module({
-  imports: [RiotModule, DataDragonModule, PrismaModule, SemaphoreModule],
+  imports: [RiotModule, DataDragonModule, PrismaModule],
   controllers: [RateLimitController, StatsController, ChampionsController],
   providers: [ApiService],
 })
