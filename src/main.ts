@@ -59,7 +59,7 @@ async function bootstrap() {
     await app.listen(port, '0.0.0.0');
     logger.log(`🚀 [API] - Aplicação iniciada e ouvindo na porta ${port}`);
     logger.log(
-      `📚 [API] - Documentação Scalar disponível em http://localhost:${port}/reference`,
+      `📚 [API] - Documentação Scala  r disponível em http://localhost:${port}/reference`,
     );
   } else if (appMode === 'WORKER') {
     const rabbitUrl = process.env.RABBITMQ_URL;

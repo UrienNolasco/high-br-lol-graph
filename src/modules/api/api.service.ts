@@ -199,4 +199,42 @@ export class ApiService {
       total: championList.length,
     };
   }
+
+  async getCurrentPatch() {
+    const versions = await this.dataDragon.getVersions();
+    const latestVersion = versions[0];
+    const patch = await this.dataDragon.getCurrentPatch();
+
+    return {
+      patch,
+      fullVersion: latestVersion,
+    };
+  }
+
+  async getProcessedMatches(
+    patch?: string,
+  ): Promise<{ count: number; patch?: string; message?: string }> {
+    if (patch) {
+      const count = await this.prisma.processedMatch.count({
+        where: {
+          patch: patch,
+        },
+      });
+      if (count === 0) {
+        return {
+          count: 0,
+          patch: patch,
+          message: `Não há dados para o patch ${patch}`,
+        };
+      }
+      return {
+        count,
+        patch: patch,
+      };
+    }
+    const totalCount = await this.prisma.processedMatch.count();
+    return {
+      count: totalCount,
+    };
+  }
 }

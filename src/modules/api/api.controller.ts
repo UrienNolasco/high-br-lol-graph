@@ -13,6 +13,7 @@ import { ApiService } from './api.service';
 import { PaginatedChampionStatsDto } from './dto/champion-stats.dto';
 import { GetChampionStatsDto } from './dto/get-champion-stats.dto';
 import { ChampionListDto } from './dto/champion-list.dto';
+import { CurrentPatchDto } from './dto/current-patch.dto';
 
 @ApiTags('Rate Limit')
 @Controller('api')
@@ -60,6 +61,17 @@ export class ChampionsController {
   })
   getAllChampions(): ChampionListDto {
     return this.apiService.getAllChampions();
+  }
+
+  @Get('current-patch')
+  @ApiOperation({ summary: 'Get current League of Legends patch version' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return the current patch version.',
+    type: CurrentPatchDto,
+  })
+  getCurrentPatch(): Promise<CurrentPatchDto> {
+    return this.apiService.getCurrentPatch();
   }
 }
 
@@ -139,5 +151,22 @@ export class StatsController {
     @Query('role') role: string,
   ) {
     return this.apiService.getMatchupStats(championA, championB, patch, role);
+  }
+
+  @Get('processed-matches')
+  @ApiOperation({ summary: 'Get Processed Matches' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return the processed matches number',
+  })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Filter by patch (e.g., 15.23)',
+  })
+  getProcessedMatches(
+    @Query('patch') patch?: string,
+  ): Promise<{ count: number; patch?: string; message?: string }> {
+    return this.apiService.getProcessedMatches(patch);
   }
 }
