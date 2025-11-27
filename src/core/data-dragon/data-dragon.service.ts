@@ -3,17 +3,14 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import * as fs from 'fs';
 import * as path from 'path';
-
-// Interface para definir a estrutura de um campeão no nosso JSON
 interface ChampionData {
   version: string;
   id: string;
-  key: string; // Este é o nosso championId numérico
+  key: string;
   name: string;
   title: string;
 }
 
-// Interface para a estrutura completa do arquivo champions.json
 interface ChampionsFile {
   type: string;
   format: string;
@@ -29,9 +26,14 @@ export class DataDragonService implements OnModuleInit {
   private readonly VERSIONS_URL =
     'https://ddragon.leagueoflegends.com/api/versions.json';
 
-  // Usaremos Maps para buscas O(1), que são extremamente rápidas.
   private championsById: Map<number, ChampionData> = new Map();
   private championsByName: Map<string, ChampionData> = new Map();
+
+  private cachedPatch: string | null = null;
+  private patchCachePromise: Promise<string> | null = null;
+
+  private cachedFullVersion: string | null = null;
+  private fullVersionCachePromise: Promise<string> | null = null;
 
   constructor(private readonly httpService: HttpService) {}
 
@@ -41,21 +43,17 @@ export class DataDragonService implements OnModuleInit {
 
   private loadChampionData() {
     try {
-      // Constrói o caminho para o arquivo champions.json na raiz do projeto
       const filePath = path.join(process.cwd(), 'champions.json');
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const jsonData: ChampionsFile = JSON.parse(fileContent) as ChampionsFile;
 
-      // O JSON tem uma estrutura aninhada, então pegamos os dados de 'data'
       const champions = jsonData.data;
 
       for (const championKey in champions) {
         const champion = champions[championKey];
         const championId = parseInt(champion.key, 10);
 
-        // Populamos nossos mapas para buscas rápidas
         this.championsById.set(championId, champion);
-        // Usamos o nome em minúsculas e sem espaços para uma busca mais robusta
         this.championsByName.set(
           champion.name.toLowerCase().replace(/\s/g, ''),
           champion,
@@ -70,20 +68,16 @@ export class DataDragonService implements OnModuleInit {
     }
   }
 
-  // --- MÉTODOS PÚBLICOS ---
-
   public getChampionById(id: number): ChampionData | undefined {
     return this.championsById.get(id);
   }
 
   public getChampionByName(name: string): ChampionData | undefined {
-    // Normaliza o nome recebido da mesma forma que fizemos ao carregar
     const normalizedName = name.toLowerCase().replace(/\s/g, '');
     return this.championsByName.get(normalizedName);
   }
 
   public getAllChampions(): ChampionData[] {
-    // Retorna todos os campeões como um array ordenado por nome
     return Array.from(this.championsById.values()).sort((a, b) =>
       a.name.localeCompare(b.name),
     );
@@ -108,25 +102,105 @@ export class DataDragonService implements OnModuleInit {
   /**
    * Retorna o patch atual do League of Legends no formato simplificado (ex: 15.23).
    * Remove o terceiro número da versão (ex: 15.23.1 -> 15.23)
+   * Usa cache para evitar múltiplas chamadas à API
    * @returns String com o patch atual no formato X.Y
    */
   public async getCurrentPatch(): Promise<string> {
-    const versions = await this.getVersions();
-
-    if (!versions || versions.length === 0) {
-      throw new Error('Nenhuma versão encontrada');
+    if (this.cachedPatch) {
+      return this.cachedPatch;
     }
 
-    // Pega a versão mais recente (primeira do array)
-    const latestVersion = versions[0];
-
-    // Remove o terceiro número da versão (ex: 15.23.1 -> 15.23)
-    const patchParts = latestVersion.split('.');
-    if (patchParts.length >= 2) {
-      return `${patchParts[0]}.${patchParts[1]}`;
+    if (this.patchCachePromise) {
+      return this.patchCachePromise;
     }
 
-    // Fallback: retorna a versão completa se não conseguir parsear
-    return latestVersion;
+    this.patchCachePromise = (async () => {
+      try {
+        const versions = await this.getVersions();
+
+        if (!versions || versions.length === 0) {
+          throw new Error('Nenhuma versão encontrada');
+        }
+
+        const latestVersion = versions[0];
+
+        const patchParts = latestVersion.split('.');
+        let patch: string;
+        if (patchParts.length >= 2) {
+          patch = `${patchParts[0]}.${patchParts[1]}`;
+        } else {
+          patch = latestVersion;
+        }
+
+        // Armazena no cache
+        this.cachedPatch = patch;
+        this.patchCachePromise = null;
+        return patch;
+      } catch (error) {
+        this.patchCachePromise = null;
+        throw error;
+      }
+    })();
+
+    return this.patchCachePromise;
+  }
+
+  /**
+   * Retorna a versão completa atual do League of Legends (ex: 15.23.1).
+   * Usa cache para evitar múltiplas chamadas à API
+   * @returns String com a versão completa (ex: "15.23.1")
+   */
+  public async getCurrentFullVersion(): Promise<string> {
+    if (this.cachedFullVersion) {
+      return this.cachedFullVersion;
+    }
+
+    if (this.fullVersionCachePromise) {
+      return this.fullVersionCachePromise;
+    }
+
+    this.fullVersionCachePromise = (async () => {
+      try {
+        const versions = await this.getVersions();
+
+        if (!versions || versions.length === 0) {
+          throw new Error('Nenhuma versão encontrada');
+        }
+
+        const fullVersion = versions[0];
+
+        this.cachedFullVersion = fullVersion;
+        this.fullVersionCachePromise = null;
+        return fullVersion;
+      } catch (error) {
+        this.fullVersionCachePromise = null;
+        throw error;
+      }
+    })();
+
+    return this.fullVersionCachePromise;
+  }
+
+  /**
+   * Gera as URLs das imagens do campeão (square, loading, splash) do CDN do Data Dragon.
+   * @param championIdString ID do campeão no formato string do Data Dragon (ex: "MonkeyKing", "LeBlanc")
+   * @param version Versão completa do patch (ex: "15.23.1"). Se não fornecido, usa a versão completa atual via cache.
+   * @returns Objeto com as URLs das imagens
+   */
+  public async getChampionImageUrls(
+    championIdString: string,
+    version?: string,
+  ): Promise<{ square: string; loading: string; splash: string }> {
+    const fullVersion = version || (await this.getCurrentFullVersion());
+
+    const square = `https://ddragon.leagueoflegends.com/cdn/${fullVersion}/img/champion/${championIdString}.png`;
+    const loading = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championIdString}_0.jpg`;
+    const splash = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championIdString}_0.jpg`;
+
+    return {
+      square,
+      loading,
+      splash,
+    };
   }
 }

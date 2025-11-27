@@ -10,10 +10,14 @@ import {
 import { RateLimitStatusDto } from './dto/rate-limit-status.dto';
 import { ResetResponseDto } from './dto/reset-response.dto';
 import { ApiService } from './api.service';
-import { PaginatedChampionStatsDto } from './dto/champion-stats.dto';
+import {
+  ChampionStatsDto,
+  PaginatedChampionStatsDto,
+} from './dto/champion-stats.dto';
 import { GetChampionStatsDto } from './dto/get-champion-stats.dto';
 import { ChampionListDto } from './dto/champion-list.dto';
 import { CurrentPatchDto } from './dto/current-patch.dto';
+import { MatchupStatsDto } from './dto/matchup-stats.dto';
 
 @ApiTags('Rate Limit')
 @Controller('api')
@@ -59,7 +63,7 @@ export class ChampionsController {
     description: 'Return a list of all champions.',
     type: ChampionListDto,
   })
-  getAllChampions(): ChampionListDto {
+  getAllChampions(): Promise<ChampionListDto> {
     return this.apiService.getAllChampions();
   }
 
@@ -124,13 +128,14 @@ export class StatsController {
   @ApiResponse({
     status: 200,
     description: 'Return detailed stats for a single champion.',
+    type: ChampionStatsDto,
   })
   @ApiParam({ name: 'championName', description: 'e.g., Aatrox' })
   @ApiQuery({ name: 'patch', required: true, description: 'e.g., 15.20' })
   getChampion(
     @Param('championName') championName: string,
     @Query('patch') patch: string,
-  ) {
+  ): Promise<ChampionStatsDto> {
     return this.apiService.getChampion(championName, patch);
   }
 
@@ -139,6 +144,7 @@ export class StatsController {
   @ApiResponse({
     status: 200,
     description: 'Return direct matchup analysis between two champions.',
+    type: MatchupStatsDto,
   })
   @ApiParam({ name: 'championA', description: 'e.g., Aatrox' })
   @ApiParam({ name: 'championB', description: 'e.g., Zed' })
@@ -149,7 +155,7 @@ export class StatsController {
     @Param('championB') championB: string,
     @Query('patch') patch: string,
     @Query('role') role: string,
-  ) {
+  ): Promise<MatchupStatsDto> {
     return this.apiService.getMatchupStats(championA, championB, patch, role);
   }
 

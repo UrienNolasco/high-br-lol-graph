@@ -6,6 +6,7 @@ import {
   PaginatedChampionStatsDto,
 } from './dto/champion-stats.dto';
 import { ChampionListDto, ChampionListItemDto } from './dto/champion-list.dto';
+import { MatchupStatsDto } from './dto/matchup-stats.dto';
 
 @Injectable()
 export class ApiService {
@@ -32,24 +33,37 @@ export class ApiService {
     });
 
     // 2. Calcular a winRate para cada um e enriquecer com dados do DataDragon.
-    const enrichedStats: ChampionStatsDto[] = championStats
-      .map((stat) => {
-        const championInfo = this.dataDragon.getChampionById(stat.championId);
-        const winRate =
-          stat.gamesPlayed > 0 ? (stat.wins / stat.gamesPlayed) * 100 : 0;
+    const enrichedStatsPromises = championStats.map(async (stat) => {
+      const championInfo = this.dataDragon.getChampionById(stat.championId);
+      if (!championInfo) {
+        return null;
+      }
 
-        return {
-          championId: stat.championId,
-          championName: championInfo ? championInfo.name : 'Unknown',
-          winRate: parseFloat(winRate.toFixed(2)),
-          gamesPlayed: stat.gamesPlayed,
-          wins: stat.wins,
-          losses: stat.gamesPlayed - stat.wins,
-        };
-      })
-      .filter((stat) => stat.championName !== 'Unknown');
+      const winRate =
+        stat.gamesPlayed > 0 ? (stat.wins / stat.gamesPlayed) * 100 : 0;
 
-    // 3. Ordenar o array resultante em memória.
+      // getChampionImageUrls usa a versão completa (fullVersion) por padrão
+      const images = await this.dataDragon.getChampionImageUrls(
+        championInfo.id,
+      );
+
+      return {
+        championId: stat.championId,
+        championName: championInfo.name,
+        winRate: parseFloat(winRate.toFixed(2)),
+        gamesPlayed: stat.gamesPlayed,
+        wins: stat.wins,
+        losses: stat.gamesPlayed - stat.wins,
+        images,
+      };
+    });
+
+    const enrichedStatsResults = await Promise.all(enrichedStatsPromises);
+    const enrichedStats: ChampionStatsDto[] = enrichedStatsResults.filter(
+      (stat): stat is ChampionStatsDto => stat !== null,
+    );
+
+    // 4. Ordenar o array resultante em memória.
     enrichedStats.sort((a, b) => {
       const aValue = a[currentSortBy];
       const bValue = b[currentSortBy];
@@ -63,7 +77,7 @@ export class ApiService {
       }
     });
 
-    // 4. Aplicar a paginação.
+    // 5. Aplicar a paginação.
     const startIndex = (currentPage - 1) * currentLimit;
     const endIndex = currentPage * currentLimit;
     const paginatedData = enrichedStats.slice(startIndex, endIndex);
@@ -103,6 +117,9 @@ export class ApiService {
         ? (championStats.wins / championStats.gamesPlayed) * 100
         : 0;
 
+    // getChampionImageUrls usa a versão completa (fullVersion) por padrão
+    const images = await this.dataDragon.getChampionImageUrls(championInfo.id);
+
     return {
       championId: championStats.championId,
       championName: championInfo.name,
@@ -110,6 +127,7 @@ export class ApiService {
       gamesPlayed: championStats.gamesPlayed,
       wins: championStats.wins,
       losses: championStats.gamesPlayed - championStats.wins,
+      images,
     };
   }
 
@@ -166,14 +184,24 @@ export class ApiService {
     const championAWinRate = (championAWins / matchup.gamesPlayed) * 100;
     const championBWinRate = 100 - championAWinRate;
 
-    return {
+    // getChampionImageUrls usa a versão completa (fullVersion) por padrão
+    const championAImages = await this.dataDragon.getChampionImageUrls(
+      championAInfo.id,
+    );
+    const championBImages = await this.dataDragon.getChampionImageUrls(
+      championBInfo.id,
+    );
+
+    const result: MatchupStatsDto = {
       championA: {
         name: championAInfo.name,
+        images: championAImages,
         wins: championAWins,
         winRate: parseFloat(championAWinRate.toFixed(2)),
       },
       championB: {
         name: championBInfo.name,
+        images: championBImages,
         wins: matchup.gamesPlayed - championAWins,
         winRate: parseFloat(championBWinRate.toFixed(2)),
       },
@@ -181,18 +209,28 @@ export class ApiService {
       patch: matchup.patch,
       role: matchup.role,
     };
+
+    return result;
   }
 
-  getAllChampions(): ChampionListDto {
+  async getAllChampions(): Promise<ChampionListDto> {
     const champions = this.dataDragon.getAllChampions();
 
-    const championList: ChampionListItemDto[] = champions.map((champion) => ({
-      name: champion.name,
-      id: champion.id,
-      key: parseInt(champion.key, 10),
-      title: champion.title,
-      version: champion.version,
-    }));
+    const championList: ChampionListItemDto[] = await Promise.all(
+      champions.map(async (champion) => {
+        // getChampionImageUrls usa a versão completa (fullVersion) por padrão
+        const images = await this.dataDragon.getChampionImageUrls(champion.id);
+
+        return {
+          name: champion.name,
+          id: champion.id,
+          key: parseInt(champion.key, 10),
+          title: champion.title,
+          version: champion.version,
+          images,
+        };
+      }),
+    );
 
     return {
       champions: championList,

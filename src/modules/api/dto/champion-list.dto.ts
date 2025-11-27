@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ChampionImagesDto } from './champion-images.dto';
 
 export class ChampionListItemDto {
   @ApiProperty({ example: 'Aatrox' })
@@ -15,6 +16,9 @@ export class ChampionListItemDto {
 
   @ApiProperty({ example: '15.19.1' })
   version: string;
+
+  @ApiProperty({ type: ChampionImagesDto })
+  images: ChampionImagesDto;
 }
 
 export class ChampionListDto {

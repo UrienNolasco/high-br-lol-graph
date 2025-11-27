@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ChampionImagesDto } from './champion-images.dto';
 
 export class ChampionStatsDto {
   @ApiProperty({ example: 'Aatrox' })
@@ -18,6 +19,9 @@ export class ChampionStatsDto {
 
   @ApiProperty({ example: 547 })
   losses: number;
+
+  @ApiProperty({ type: ChampionImagesDto })
+  images: ChampionImagesDto;
 }
 
 export class PaginatedChampionStatsDto {
