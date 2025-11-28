@@ -240,12 +240,25 @@ export class ApiService {
 
   async getCurrentPatch() {
     const versions = await this.dataDragon.getVersions();
-    const latestVersion = versions[0];
-    const patch = await this.dataDragon.getCurrentPatch();
+
+    const patches = versions.map((fullVersion) => {
+      const patchParts = fullVersion.split('.');
+      let patch: string;
+      if (patchParts.length >= 2) {
+        patch = `${patchParts[0]}.${patchParts[1]}`;
+      } else {
+        patch = fullVersion;
+      }
+
+      return {
+        patch,
+        fullVersion,
+      };
+    });
 
     return {
-      patch,
-      fullVersion: latestVersion,
+      patches,
+      current: patches[0],
     };
   }
 

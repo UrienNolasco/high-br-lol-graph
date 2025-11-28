@@ -68,10 +68,15 @@ export class ChampionsController {
   }
 
   @Get('current-patch')
-  @ApiOperation({ summary: 'Get current League of Legends patch version' })
+  @ApiOperation({
+    summary: 'Get all available League of Legends patch versions',
+    description:
+      'Returns all available patches ordered from most recent to oldest. The frontend can choose how many to display (e.g., the latest one, the last 3, etc.)',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Return the current patch version.',
+    description:
+      'Returns all available patches with the current (most recent) patch highlighted.',
     type: CurrentPatchDto,
   })
   getCurrentPatch(): Promise<CurrentPatchDto> {
