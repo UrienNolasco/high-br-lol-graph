@@ -21,8 +21,19 @@ model ProcessedMatch {
 model ChampionStats {
   patch       String
   championId  Int
+  
   gamesPlayed Int    @default(0)
   wins        Int    @default(0)
+  bans        Int    @default(0)
+  
+  totalKills   Int    @default(0)
+  totalDeaths  Int    @default(0)
+  totalAssists Int    @default(0)
+
+  totalDamageDealt BigInt @default(0) 
+  totalGoldEarned  BigInt @default(0)
+  totalCreepScore  Int    @default(0) 
+  totalDuration    Int    @default(0) 
 
   @@id([patch, championId])
   @@map("champion_stats")
