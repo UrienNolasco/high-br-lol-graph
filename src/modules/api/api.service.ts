@@ -15,6 +15,63 @@ export class ApiService {
     private readonly dataDragon: DataDragonService,
   ) {}
 
+  /**
+   * Calcula KDA (Kills + Assists) / Deaths
+   * Se totalDeaths for 0, retorna totalKills + totalAssists
+   */
+  private calculateKDA(
+    totalKills: number,
+    totalDeaths: number,
+    totalAssists: number,
+  ): number {
+    if (totalDeaths === 0) {
+      return totalKills + totalAssists;
+    }
+    return (totalKills + totalAssists) / totalDeaths;
+  }
+
+  /**
+   * Calcula DPM (Dano por Minuto)
+   * totalDamageDealt / (totalDuration / 60)
+   */
+  private calculateDPM(
+    totalDamageDealt: bigint,
+    totalDuration: number,
+  ): number {
+    if (totalDuration === 0) {
+      return 0;
+    }
+    const minutes = totalDuration / 60;
+    return Number(totalDamageDealt) / minutes;
+  }
+
+  /**
+   * Calcula CSPM (Farm por Minuto)
+   * totalCreepScore / (totalDuration / 60)
+   */
+  private calculateCSPM(
+    totalCreepScore: number,
+    totalDuration: number,
+  ): number {
+    if (totalDuration === 0) {
+      return 0;
+    }
+    const minutes = totalDuration / 60;
+    return totalCreepScore / minutes;
+  }
+
+  /**
+   * Calcula GPM (Ouro por Minuto)
+   * totalGoldEarned / (totalDuration / 60)
+   */
+  private calculateGPM(totalGoldEarned: bigint, totalDuration: number): number {
+    if (totalDuration === 0) {
+      return 0;
+    }
+    const minutes = totalDuration / 60;
+    return Number(totalGoldEarned) / minutes;
+  }
+
   async getChampionStats(
     patch: string,
     page?: number,
@@ -47,6 +104,25 @@ export class ApiService {
         championInfo.id,
       );
 
+      // Calcular novas métricas
+      const kda = this.calculateKDA(
+        stat.totalKills ?? 0,
+        stat.totalDeaths ?? 0,
+        stat.totalAssists ?? 0,
+      );
+      const dpm = this.calculateDPM(
+        stat.totalDamageDealt ?? BigInt(0),
+        stat.totalDuration ?? 0,
+      );
+      const cspm = this.calculateCSPM(
+        stat.totalCreepScore ?? 0,
+        stat.totalDuration ?? 0,
+      );
+      const gpm = this.calculateGPM(
+        stat.totalGoldEarned ?? BigInt(0),
+        stat.totalDuration ?? 0,
+      );
+
       return {
         championId: stat.championId,
         championName: championInfo.name,
@@ -55,6 +131,10 @@ export class ApiService {
         wins: stat.wins,
         losses: stat.gamesPlayed - stat.wins,
         images,
+        kda: parseFloat(kda.toFixed(2)),
+        dpm: parseFloat(dpm.toFixed(2)),
+        cspm: parseFloat(cspm.toFixed(2)),
+        gpm: parseFloat(gpm.toFixed(2)),
       };
     });
 
@@ -68,6 +148,7 @@ export class ApiService {
       const aValue = a[currentSortBy];
       const bValue = b[currentSortBy];
 
+      if (aValue === undefined || bValue === undefined) return 0;
       if (aValue === bValue) return 0;
 
       if (currentOrder === 'desc') {
@@ -120,6 +201,25 @@ export class ApiService {
     // getChampionImageUrls usa a versão completa (fullVersion) por padrão
     const images = await this.dataDragon.getChampionImageUrls(championInfo.id);
 
+    // Calcular novas métricas
+    const kda = this.calculateKDA(
+      championStats.totalKills ?? 0,
+      championStats.totalDeaths ?? 0,
+      championStats.totalAssists ?? 0,
+    );
+    const dpm = this.calculateDPM(
+      championStats.totalDamageDealt ?? BigInt(0),
+      championStats.totalDuration ?? 0,
+    );
+    const cspm = this.calculateCSPM(
+      championStats.totalCreepScore ?? 0,
+      championStats.totalDuration ?? 0,
+    );
+    const gpm = this.calculateGPM(
+      championStats.totalGoldEarned ?? BigInt(0),
+      championStats.totalDuration ?? 0,
+    );
+
     return {
       championId: championStats.championId,
       championName: championInfo.name,
@@ -128,6 +228,10 @@ export class ApiService {
       wins: championStats.wins,
       losses: championStats.gamesPlayed - championStats.wins,
       images,
+      kda: parseFloat(kda.toFixed(2)),
+      dpm: parseFloat(dpm.toFixed(2)),
+      cspm: parseFloat(cspm.toFixed(2)),
+      gpm: parseFloat(gpm.toFixed(2)),
     };
   }
 

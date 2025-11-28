@@ -5,10 +5,18 @@ export interface ParticipantDto {
   teamId: number;
   individualPosition: string;
   win: boolean;
+  kills: number;
+  deaths: number;
+  assists: number;
+  totalDamageDealtToChampions: number;
+  totalMinionsKilled: number;
+  neutralMinionsKilled: number;
+  goldEarned: number;
 }
 
 export interface InfoDto {
   gameVersion: string;
+  gameDuration: number;
   participants: ParticipantDto[];
 }
 

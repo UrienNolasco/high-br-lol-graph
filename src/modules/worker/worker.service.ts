@@ -38,11 +38,11 @@ export class WorkerService {
       }
 
       const matchDto = await this.riotService.getMatchById(matchId);
-      const { patch, participants, matchups } =
+      const { patch, participants, matchups, gameDuration } =
         this.matchParserService.parseMatchData(matchDto);
 
       for (const participant of participants) {
-        await this.upsertChampionStats(patch, participant);
+        await this.upsertChampionStats(patch, participant, gameDuration);
       }
 
       for (const matchup of matchups) {
@@ -73,8 +73,21 @@ export class WorkerService {
   private async upsertChampionStats(
     patch: string,
     participant: MatchParticipant,
+    gameDuration: number,
   ): Promise<void> {
-    const { championId, win } = participant;
+    const {
+      championId,
+      win,
+      kills,
+      deaths,
+      assists,
+      totalDamageDealtToChampions,
+      totalMinionsKilled,
+      neutralMinionsKilled,
+      goldEarned,
+    } = participant;
+
+    const totalCreepScore = totalMinionsKilled + neutralMinionsKilled;
 
     await this.prisma.championStats.upsert({
       where: { patch_championId: { patch, championId } },
@@ -83,10 +96,24 @@ export class WorkerService {
         championId,
         gamesPlayed: 1,
         wins: win ? 1 : 0,
+        totalKills: kills,
+        totalDeaths: deaths,
+        totalAssists: assists,
+        totalDamageDealt: BigInt(totalDamageDealtToChampions),
+        totalGoldEarned: BigInt(goldEarned),
+        totalCreepScore: totalCreepScore,
+        totalDuration: gameDuration,
       },
       update: {
         gamesPlayed: { increment: 1 },
         wins: { increment: win ? 1 : 0 },
+        totalKills: { increment: kills },
+        totalDeaths: { increment: deaths },
+        totalAssists: { increment: assists },
+        totalDamageDealt: { increment: BigInt(totalDamageDealtToChampions) },
+        totalGoldEarned: { increment: BigInt(goldEarned) },
+        totalCreepScore: { increment: totalCreepScore },
+        totalDuration: { increment: gameDuration },
       },
     });
   }

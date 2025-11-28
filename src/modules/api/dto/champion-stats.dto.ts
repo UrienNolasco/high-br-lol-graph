@@ -22,6 +22,18 @@ export class ChampionStatsDto {
 
   @ApiProperty({ type: ChampionImagesDto })
   images: ChampionImagesDto;
+
+  @ApiProperty({ example: 2.5 })
+  kda: number;
+
+  @ApiProperty({ example: 650.3 })
+  dpm: number;
+
+  @ApiProperty({ example: 7.2 })
+  cspm: number;
+
+  @ApiProperty({ example: 450.8 })
+  gpm: number;
 }
 
 export class PaginatedChampionStatsDto {

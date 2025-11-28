@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { MatchDto, ParticipantDto } from './dto/match.dto';
 
-// Interfaces para type safety
 export interface MatchParticipant {
   puuid: string;
   championId: number;
@@ -8,6 +8,13 @@ export interface MatchParticipant {
   teamId: number;
   position: string;
   win: boolean;
+  kills: number;
+  deaths: number;
+  assists: number;
+  totalDamageDealtToChampions: number;
+  totalMinionsKilled: number;
+  neutralMinionsKilled: number;
+  goldEarned: number;
 }
 
 export interface ChampionInfo {
@@ -17,8 +24,8 @@ export interface ChampionInfo {
 
 export interface MatchupData {
   position: string;
-  champion1: ChampionInfo; // Representa o campeão do time 100 (Blue)
-  champion2: ChampionInfo; // Representa o campeão do time 200 (Red)
+  champion1: ChampionInfo;
+  champion2: ChampionInfo;
   winner: ChampionInfo;
 }
 
@@ -27,22 +34,7 @@ export interface ParsedMatchData {
   winningTeamId: number;
   participants: MatchParticipant[];
   matchups: MatchupData[];
-}
-
-interface RiotParticipant {
-  puuid: string;
-  championId: number;
-  championName: string;
-  teamId: number;
-  individualPosition: string;
-  win: boolean;
-}
-
-interface RiotMatchDto {
-  info: {
-    gameVersion: string;
-    participants: RiotParticipant[];
-  };
+  gameDuration: number;
 }
 
 @Injectable()
@@ -51,25 +43,18 @@ export class MatchParserService {
    * Parseia o payload completo da Riot API para extrair apenas dados essenciais
    * Otimizado para performance com apenas uma iteração sobre os participantes
    */
-  parseMatchData(matchDto: RiotMatchDto): ParsedMatchData {
-    const { gameVersion, participants } = matchDto.info;
+  parseMatchData(matchDto: MatchDto): ParsedMatchData {
+    const { gameVersion, gameDuration, participants } = matchDto.info;
 
-    // Extrai patch (apenas versão principal, ex: "15.19")
     const patch = this.extractPatch(gameVersion);
-
-    // Determina team vencedor (pode ser extraído do primeiro participante que venceu)
     const winningTeamId = participants.find((p) => p.win)?.teamId || 0;
 
-    // Maps para agrupar por posição (evita múltiplas iterações)
-    const blueTeamByPosition = new Map<string, RiotParticipant>();
-    const redTeamByPosition = new Map<string, RiotParticipant>();
+    const blueTeamByPosition = new Map<string, ParticipantDto>();
+    const redTeamByPosition = new Map<string, ParticipantDto>();
 
-    // Array simplificado de participantes
     const simplifiedParticipants: MatchParticipant[] = [];
 
-    // Uma única iteração: popula tudo simultaneamente
     for (const participant of participants) {
-      // Adiciona ao array simplificado
       simplifiedParticipants.push({
         puuid: participant.puuid,
         championId: participant.championId,
@@ -77,9 +62,15 @@ export class MatchParserService {
         teamId: participant.teamId,
         position: participant.individualPosition,
         win: participant.win,
+        kills: participant.kills,
+        deaths: participant.deaths,
+        assists: participant.assists,
+        totalDamageDealtToChampions: participant.totalDamageDealtToChampions,
+        totalMinionsKilled: participant.totalMinionsKilled,
+        neutralMinionsKilled: participant.neutralMinionsKilled,
+        goldEarned: participant.goldEarned,
       });
 
-      // Agrupa por time e posição para matchups
       const position = participant.individualPosition;
       if (participant.teamId === 100) {
         blueTeamByPosition.set(position, participant);
@@ -88,7 +79,6 @@ export class MatchParserService {
       }
     }
 
-    // Cria matchups (máximo 5 posições)
     const matchups = this.buildMatchups(blueTeamByPosition, redTeamByPosition);
 
     return {
@@ -96,6 +86,7 @@ export class MatchParserService {
       winningTeamId,
       participants: simplifiedParticipants,
       matchups,
+      gameDuration,
     };
   }
 
@@ -111,8 +102,8 @@ export class MatchParserService {
    * Constrói array de matchups a partir dos Maps de participantes
    */
   private buildMatchups(
-    blueTeam: Map<string, RiotParticipant>,
-    redTeam: Map<string, RiotParticipant>,
+    blueTeam: Map<string, ParticipantDto>,
+    redTeam: Map<string, ParticipantDto>,
   ): MatchupData[] {
     const matchups: MatchupData[] = [];
     const positions = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'];
@@ -121,7 +112,6 @@ export class MatchParserService {
       const bluePlayer = blueTeam.get(position);
       const redPlayer = redTeam.get(position);
 
-      // Verifica se ambos os jogadores existem na posição
       if (bluePlayer && redPlayer) {
         const bluePlayerInfo = {
           id: bluePlayer.championId,
