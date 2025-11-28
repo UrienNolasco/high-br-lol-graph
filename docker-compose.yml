@@ -57,11 +57,13 @@ services:
       - RIOT_API_KEY=${RIOT_API_KEY}
     ports:
       - '3000:3000'
+    volumes:
+      # Monta o código local para hot-reload em desenvolvimento
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       postgres:
         condition: service_started
-      rabbitmq:
-        condition: service_healthy
     networks:
       - lol-stats-network
     restart: unless-stopped
@@ -85,6 +87,10 @@ services:
       - RIOT_API_KEY=${RIOT_API_KEY}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+    volumes:
+      # Monta o código local para hot-reload em desenvolvimento
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       postgres:
         condition: service_started
@@ -111,6 +117,10 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - RIOT_API_KEY=${RIOT_API_KEY}
+    volumes:
+      # Monta o código local para hot-reload em desenvolvimento
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       postgres:
         condition: service_started
