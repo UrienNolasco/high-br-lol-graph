@@ -34,6 +34,9 @@ export class ChampionStatsDto {
 
   @ApiProperty({ example: 450.8 })
   gpm: number;
+
+  @ApiProperty({ example: 15.5 })
+  banRate: number;
 }
 
 export class PaginatedChampionStatsDto {

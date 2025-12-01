@@ -38,11 +38,16 @@ export class WorkerService {
       }
 
       const matchDto = await this.riotService.getMatchById(matchId);
-      const { patch, participants, matchups, gameDuration } =
+      const { patch, participants, matchups, gameDuration, bannedChampionIds } =
         this.matchParserService.parseMatchData(matchDto);
 
       for (const participant of participants) {
         await this.upsertChampionStats(patch, participant, gameDuration);
+      }
+
+      // Processar bans: incrementar contador para cada campeão banido
+      for (const bannedChampionId of bannedChampionIds) {
+        await this.incrementBanCount(patch, bannedChampionId);
       }
 
       for (const matchup of matchups) {
@@ -114,6 +119,29 @@ export class WorkerService {
         totalGoldEarned: { increment: BigInt(goldEarned) },
         totalCreepScore: { increment: totalCreepScore },
         totalDuration: { increment: gameDuration },
+      },
+    });
+  }
+
+  /**
+   * Incrementa o contador de bans para um campeão
+   * Se o campeão não existe nas stats, cria um registro apenas com o ban
+   */
+  private async incrementBanCount(
+    patch: string,
+    championId: number,
+  ): Promise<void> {
+    await this.prisma.championStats.upsert({
+      where: { patch_championId: { patch, championId } },
+      create: {
+        patch,
+        championId,
+        gamesPlayed: 0,
+        wins: 0,
+        bans: 1,
+      },
+      update: {
+        bans: { increment: 1 },
       },
     });
   }

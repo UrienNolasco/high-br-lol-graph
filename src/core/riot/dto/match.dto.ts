@@ -14,10 +14,21 @@ export interface ParticipantDto {
   goldEarned: number;
 }
 
+export interface BanDto {
+  championId: number;
+  pickTurn: number;
+}
+
+export interface TeamDto {
+  teamId: number;
+  bans: BanDto[];
+}
+
 export interface InfoDto {
   gameVersion: string;
   gameDuration: number;
   participants: ParticipantDto[];
+  teams: TeamDto[];
 }
 
 export interface MatchDto {

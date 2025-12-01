@@ -30,8 +30,25 @@ export class GetChampionStatsDto {
   limit? = 20;
 
   @IsOptional()
-  @IsIn(['winRate', 'gamesPlayed', 'championName'])
-  sortBy?: 'winRate' | 'gamesPlayed' | 'championName' = 'winRate';
+  @IsIn([
+    'winRate',
+    'gamesPlayed',
+    'championName',
+    'banRate',
+    'kda',
+    'dpm',
+    'cspm',
+    'gpm',
+  ])
+  sortBy?:
+    | 'winRate'
+    | 'gamesPlayed'
+    | 'championName'
+    | 'banRate'
+    | 'kda'
+    | 'dpm'
+    | 'cspm'
+    | 'gpm' = 'winRate';
 
   @IsOptional()
   @IsIn(['asc', 'desc'])

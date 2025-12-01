@@ -89,6 +89,11 @@ export class ApiService {
       where: { patch },
     });
 
+    // 1.1. Buscar total de partidas processadas para calcular ban rate
+    const totalMatches = await this.prisma.processedMatch.count({
+      where: { patch },
+    });
+
     // 2. Calcular a winRate para cada um e enriquecer com dados do DataDragon.
     const enrichedStatsPromises = championStats.map(async (stat) => {
       const championInfo = this.dataDragon.getChampionById(stat.championId);
@@ -123,6 +128,10 @@ export class ApiService {
         stat.totalDuration ?? 0,
       );
 
+      // Calcular ban rate: (bans / totalMatches) * 100
+      const banRate =
+        totalMatches > 0 ? ((stat.bans ?? 0) / totalMatches) * 100 : 0;
+
       return {
         championId: stat.championId,
         championName: championInfo.name,
@@ -135,6 +144,7 @@ export class ApiService {
         dpm: parseFloat(dpm.toFixed(2)),
         cspm: parseFloat(cspm.toFixed(2)),
         gpm: parseFloat(gpm.toFixed(2)),
+        banRate: parseFloat(banRate.toFixed(2)),
       };
     });
 
@@ -220,6 +230,13 @@ export class ApiService {
       championStats.totalDuration ?? 0,
     );
 
+    // Calcular ban rate: buscar total de partidas processadas
+    const totalMatches = await this.prisma.processedMatch.count({
+      where: { patch },
+    });
+    const banRate =
+      totalMatches > 0 ? ((championStats.bans ?? 0) / totalMatches) * 100 : 0;
+
     return {
       championId: championStats.championId,
       championName: championInfo.name,
@@ -232,6 +249,7 @@ export class ApiService {
       dpm: parseFloat(dpm.toFixed(2)),
       cspm: parseFloat(cspm.toFixed(2)),
       gpm: parseFloat(gpm.toFixed(2)),
+      banRate: parseFloat(banRate.toFixed(2)),
     };
   }
 

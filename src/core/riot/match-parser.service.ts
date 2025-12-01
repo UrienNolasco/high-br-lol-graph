@@ -35,6 +35,7 @@ export interface ParsedMatchData {
   participants: MatchParticipant[];
   matchups: MatchupData[];
   gameDuration: number;
+  bannedChampionIds: number[];
 }
 
 @Injectable()
@@ -44,7 +45,7 @@ export class MatchParserService {
    * Otimizado para performance com apenas uma iteração sobre os participantes
    */
   parseMatchData(matchDto: MatchDto): ParsedMatchData {
-    const { gameVersion, gameDuration, participants } = matchDto.info;
+    const { gameVersion, gameDuration, participants, teams } = matchDto.info;
 
     const patch = this.extractPatch(gameVersion);
     const winningTeamId = participants.find((p) => p.win)?.teamId || 0;
@@ -81,12 +82,26 @@ export class MatchParserService {
 
     const matchups = this.buildMatchups(blueTeamByPosition, redTeamByPosition);
 
+    const bannedChampionIds: number[] = [];
+    if (teams) {
+      for (const team of teams) {
+        if (team.bans) {
+          for (const ban of team.bans) {
+            if (ban.championId > 0) {
+              bannedChampionIds.push(ban.championId);
+            }
+          }
+        }
+      }
+    }
+
     return {
       patch,
       winningTeamId,
       participants: simplifiedParticipants,
       matchups,
       gameDuration,
+      bannedChampionIds,
     };
   }
 
