@@ -21,10 +21,13 @@ export class RiotService {
     private readonly retryService: RetryService,
   ) {
     const apiKey = this.configService.get<string>('RIOT_API_KEY');
-    if (!apiKey) {
+    this.apiKey = apiKey || '';
+  }
+
+  private ensureApiKey(): void {
+    if (!this.apiKey || this.apiKey.trim() === '') {
       throw new Error('RIOT_API_KEY environment variable is required');
     }
-    this.apiKey = apiKey;
   }
 
   private createHeaders() {
@@ -34,6 +37,7 @@ export class RiotService {
   }
 
   async getHighEloPuids(): Promise<string[]> {
+    this.ensureApiKey();
     this.logger.log('Fetching high-elo leagues...');
 
     const challengerUrl = `${this.brBaseUrl}/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5`;
@@ -42,7 +46,7 @@ export class RiotService {
 
     const fetchLeague = async (url: string, leagueName: string) => {
       return this.retryService.executeWithRetry(async () => {
-        await this.rateLimiterService.throttle();
+        await this.rateLimiterService.throttle(this.apiKey);
         this.logger.log(`Fetching ${leagueName} league...`);
         const response = await firstValueFrom(
           this.httpService.get<LeagueListDto>(url, {
@@ -70,10 +74,11 @@ export class RiotService {
   }
 
   async getMatchIdsByPuuid(puuid: string, count = 20): Promise<string[]> {
+    this.ensureApiKey();
     this.logger.log(`Fetching match IDs for PUUID: ${puuid}`);
 
     return this.retryService.executeWithRetry(async () => {
-      await this.rateLimiterService.throttle();
+      await this.rateLimiterService.throttle(this.apiKey);
 
       const url = `${this.americasBaseUrl}/lol/match/v5/matches/by-puuid/${puuid}/ids?count=${count}`;
 
@@ -85,10 +90,11 @@ export class RiotService {
   }
 
   async getMatchById(matchId: string): Promise<MatchDto> {
+    this.ensureApiKey();
     this.logger.log(`Fetching match details for match ID: ${matchId}`);
 
     return this.retryService.executeWithRetry(async () => {
-      await this.rateLimiterService.throttle();
+      await this.rateLimiterService.throttle(this.apiKey);
 
       const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}`;
 

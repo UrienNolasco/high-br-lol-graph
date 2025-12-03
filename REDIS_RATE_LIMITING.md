@@ -31,7 +31,9 @@ REDIS_HOST=localhost
 REDIS_PORT=6379
 
 # Riot Games API
-RIOT_API_KEY=your_riot_api_key_here
+RIOT_API_KEY=your_api_key_for_api_or_collector
+RIOT_API_KEY_WORKER_1=your_api_key_for_worker_1
+RIOT_API_KEY_WORKER_2=your_api_key_for_worker_2
 ```
 
 ### Docker Compose

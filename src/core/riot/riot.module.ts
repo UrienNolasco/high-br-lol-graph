@@ -26,12 +26,9 @@ import { LockModule } from '../lock/lock.module';
   imports: [
     ConfigModule,
     LockModule,
-    // Use registerAsync para configurar a instância do Axios
     HttpModule.registerAsync({
       useFactory: () => ({
-        // Você pode colocar configurações padrão do Axios aqui (timeout, etc.)
         timeout: 5000,
-        // Configuração para resolver problemas de certificado SSL em Docker
         httpsAgent: new https.Agent({
           rejectUnauthorized: false,
         }),
@@ -52,15 +49,11 @@ export class RiotModule {
     private readonly httpService: HttpService,
     private readonly logger: Logger,
   ) {
-    // Pega a instância do Axios gerenciada pelo NestJS
     const axiosInstance = this.httpService.axiosRef;
 
-    // Adiciona o interceptor de resposta diretamente na instância
     axiosInstance.interceptors.response.use(
-      // Se a resposta for bem-sucedida, apenas a retorna
       (response) => response,
 
-      // Se a resposta falhar, nosso tratador de erro entra em ação
       (error: AxiosError<unknown>) => this.handleRiotApiError(error),
     );
   }
@@ -69,7 +62,6 @@ export class RiotModule {
     const { config, response } = error;
     const url = config?.url || 'URL desconhecida';
 
-    // Se não houver uma resposta do servidor (erro de rede, timeout)
     if (!response) {
       this.logger.error(
         `Erro de rede ou timeout ao acessar ${url}`,

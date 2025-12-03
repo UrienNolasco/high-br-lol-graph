@@ -46,15 +46,14 @@ services:
     command: npm run start:dev
     environment:
       - APP_MODE=API
-      - POSTGRES_HOST=${POSTGRES_HOST} # <-- MODIFICADO
-      - POSTGRES_PORT=${POSTGRES_PORT} # <-- MODIFICADO
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - RABBITMQ_HOST=${RABBITMQ_HOST} # <-- MODIFICADO
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
-      - RIOT_API_KEY=${RIOT_API_KEY}
     ports:
       - '3000:3000'
     volumes:
@@ -63,6 +62,8 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       postgres:
+        condition: service_started
+      redis:
         condition: service_started
     networks:
       - lol-stats-network
@@ -76,15 +77,16 @@ services:
     command: npm run start:dev
     environment:
       - APP_MODE=WORKER
-      - POSTGRES_HOST=${POSTGRES_HOST} # <-- MODIFICADO
-      - POSTGRES_PORT=${POSTGRES_PORT} # <-- MODIFICADO
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - RABBITMQ_HOST=${RABBITMQ_HOST} # <-- MODIFICADO
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
-      - RIOT_API_KEY=${RIOT_API_KEY}
+      - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
     volumes:
@@ -95,7 +97,44 @@ services:
       postgres:
         condition: service_started
       rabbitmq:
-        condition: service_healthy
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - lol-stats-network
+    restart: unless-stopped
+
+  worker-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: high-br-lol-worker-2
+    command: npm run start:dev
+    environment:
+      - APP_MODE=WORKER
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - RIOT_API_KEY=${RIOT_API_KEY_WORKER_2}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+    volumes:
+      # Monta o código local para hot-reload em desenvolvimento
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      redis:
+        condition: service_started
     networks:
       - lol-stats-network
     restart: unless-stopped
@@ -108,15 +147,16 @@ services:
     command: npm run start:dev
     environment:
       - APP_MODE=COLLECTOR
-      - POSTGRES_HOST=${POSTGRES_HOST} # <-- MODIFICADO
-      - POSTGRES_PORT=${POSTGRES_PORT} # <-- MODIFICADO
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - RABBITMQ_HOST=${RABBITMQ_HOST} # <-- MODIFICADO
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
-      - RIOT_API_KEY=${RIOT_API_KEY}
+      - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
     volumes:
       # Monta o código local para hot-reload em desenvolvimento
       - .:/usr/src/app
@@ -125,9 +165,12 @@ services:
       postgres:
         condition: service_started
       rabbitmq:
-        condition: service_healthy
+        condition: service_started
+      redis:
+        condition: service_started
     networks:
       - lol-stats-network
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
