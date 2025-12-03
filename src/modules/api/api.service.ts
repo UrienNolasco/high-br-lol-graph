@@ -89,12 +89,10 @@ export class ApiService {
       where: { patch },
     });
 
-    // 1.1. Buscar total de partidas processadas para calcular ban rate
     const totalMatches = await this.prisma.processedMatch.count({
       where: { patch },
     });
 
-    // 2. Calcular a winRate para cada um e enriquecer com dados do DataDragon.
     const enrichedStatsPromises = championStats.map(async (stat) => {
       const championInfo = this.dataDragon.getChampionById(stat.championId);
       if (!championInfo) {
@@ -104,7 +102,6 @@ export class ApiService {
       const winRate =
         stat.gamesPlayed > 0 ? (stat.wins / stat.gamesPlayed) * 100 : 0;
 
-      // getChampionImageUrls usa a versão completa (fullVersion) por padrão
       const images = await this.dataDragon.getChampionImageUrls(
         championInfo.id,
       );
@@ -128,9 +125,9 @@ export class ApiService {
         stat.totalDuration ?? 0,
       );
 
-      // Calcular ban rate: (bans / totalMatches) * 100
+      const totalBanSlots = totalMatches * 10;
       const banRate =
-        totalMatches > 0 ? ((stat.bans ?? 0) / totalMatches) * 100 : 0;
+        totalBanSlots > 0 ? ((stat.bans ?? 0) / totalBanSlots) * 100 : 0;
 
       return {
         championId: stat.championId,
@@ -153,7 +150,6 @@ export class ApiService {
       (stat): stat is ChampionStatsDto => stat !== null,
     );
 
-    // 4. Ordenar o array resultante em memória.
     enrichedStats.sort((a, b) => {
       const aValue = a[currentSortBy];
       const bValue = b[currentSortBy];
@@ -168,7 +164,6 @@ export class ApiService {
       }
     });
 
-    // 5. Aplicar a paginação.
     const startIndex = (currentPage - 1) * currentLimit;
     const endIndex = currentPage * currentLimit;
     const paginatedData = enrichedStats.slice(startIndex, endIndex);
@@ -208,10 +203,8 @@ export class ApiService {
         ? (championStats.wins / championStats.gamesPlayed) * 100
         : 0;
 
-    // getChampionImageUrls usa a versão completa (fullVersion) por padrão
     const images = await this.dataDragon.getChampionImageUrls(championInfo.id);
 
-    // Calcular novas métricas
     const kda = this.calculateKDA(
       championStats.totalKills ?? 0,
       championStats.totalDeaths ?? 0,
@@ -230,12 +223,12 @@ export class ApiService {
       championStats.totalDuration ?? 0,
     );
 
-    // Calcular ban rate: buscar total de partidas processadas
     const totalMatches = await this.prisma.processedMatch.count({
       where: { patch },
     });
+    const totalBanSlots = totalMatches * 10;
     const banRate =
-      totalMatches > 0 ? ((championStats.bans ?? 0) / totalMatches) * 100 : 0;
+      totalBanSlots > 0 ? ((championStats.bans ?? 0) / totalBanSlots) * 100 : 0;
 
     return {
       championId: championStats.championId,
