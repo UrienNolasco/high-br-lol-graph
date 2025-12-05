@@ -17,6 +17,9 @@ RUN npx prisma generate
 # Copia o restante do código da aplicação
 COPY . .
 
+# Cria a pasta migrations na raiz copiando de prisma/migrations (necessária para migrate deploy)
+RUN cp -r prisma/migrations ./migrations 2>/dev/null || true
+
 # Copia e configura o script de entrypoint
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
