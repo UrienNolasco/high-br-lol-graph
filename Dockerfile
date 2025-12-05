@@ -17,9 +17,14 @@ RUN npx prisma generate
 # Copia o restante do código da aplicação
 COPY . .
 
+# Copia e configura o script de entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 EXPOSE 3000
 
 # Configurar variável de ambiente para forçar IPv4
 ENV NODE_OPTIONS="--dns-result-order=ipv4first"
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["npm", "run", "start:dev"]
