@@ -1,10 +1,5 @@
 import { Controller, Logger } from '@nestjs/common';
-import {
-  Ctx,
-  MessagePattern,
-  Payload,
-  RmqContext,
-} from '@nestjs/microservices';
+import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import type { Channel, Message } from 'amqplib';
 import { WorkerService } from './worker.service';
 import { ProcessMatchDto } from './dto/process-match.dto';
@@ -15,7 +10,7 @@ export class WorkerController {
 
   constructor(private readonly workerService: WorkerService) {}
 
-  @MessagePattern('match.collect')
+  @EventPattern('match.collect')
   async handleMatchCollect(
     @Payload() payload: ProcessMatchDto,
     @Ctx() context: RmqContext,
