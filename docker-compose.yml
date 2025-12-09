@@ -1,186 +1,186 @@
-version: '3.8'
+# version: '3.8'
 
-networks:
-  lol-stats-network:
-    driver: bridge
+# networks:
+#   lol-stats-network:
+#     driver: bridge
 
-services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: high-br-lol-postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - '5432:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - lol-stats-network
-    restart: unless-stopped
+# services:
+#   postgres:
+#     image: postgres:15-alpine
+#     container_name: high-br-lol-postgres
+#     environment:
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#       POSTGRES_DB: ${POSTGRES_DB}
+#     ports:
+#       - '5432:5432'
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     networks:
+#       - lol-stats-network
+#     restart: unless-stopped
 
-  rabbitmq:
-    image: rabbitmq:3.13-management
-    container_name: high-br-lol-rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-    ports:
-      - '5672:5672'
-      - '15672:15672'
-    networks:
-      - lol-stats-network
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'check_running']
-      interval: 10s
-      timeout: 5s
-      retries: 5
+#   rabbitmq:
+#     image: rabbitmq:3.13-management
+#     container_name: high-br-lol-rabbitmq
+#     environment:
+#       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+#       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+#     ports:
+#       - '5672:5672'
+#       - '15672:15672'
+#     networks:
+#       - lol-stats-network
+#     restart: unless-stopped
+#     healthcheck:
+#       test: ['CMD', 'rabbitmq-diagnostics', '-q', 'check_running']
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
 
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: high-br-lol-api
-    command: npm run start:dev
-    environment:
-      - APP_MODE=API
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-    ports:
-      - '3000:3000'
-    volumes:
-      # Monta o código local para hot-reload em desenvolvimento
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      postgres:
-        condition: service_started
-      redis:
-        condition: service_started
-    networks:
-      - lol-stats-network
-    restart: unless-stopped
+#   api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: high-br-lol-api
+#     command: npm run start:dev
+#     environment:
+#       - APP_MODE=API
+#       - POSTGRES_HOST=${POSTGRES_HOST}
+#       - POSTGRES_PORT=${POSTGRES_PORT}
+#       - POSTGRES_USER=${POSTGRES_USER}
+#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#       - POSTGRES_DB=${POSTGRES_DB}
+#       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+#       - REDIS_HOST=${REDIS_HOST}
+#       - REDIS_PORT=${REDIS_PORT}
+#     ports:
+#       - '3000:3000'
+#     volumes:
+#       # Monta o código local para hot-reload em desenvolvimento
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#     depends_on:
+#       postgres:
+#         condition: service_started
+#       redis:
+#         condition: service_started
+#     networks:
+#       - lol-stats-network
+#     restart: unless-stopped
 
-  worker:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: high-br-lol-worker
-    command: npm run start:dev
-    environment:
-      - APP_MODE=WORKER
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
-      - RABBITMQ_URL=${RABBITMQ_URL}
-      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
-    volumes:
-      # Monta o código local para hot-reload em desenvolvimento
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      postgres:
-        condition: service_started
-      rabbitmq:
-        condition: service_started
-      redis:
-        condition: service_started
-    networks:
-      - lol-stats-network
-    restart: unless-stopped
+#   worker:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: high-br-lol-worker
+#     command: npm run start:dev
+#     environment:
+#       - APP_MODE=WORKER
+#       - POSTGRES_HOST=${POSTGRES_HOST}
+#       - POSTGRES_PORT=${POSTGRES_PORT}
+#       - POSTGRES_USER=${POSTGRES_USER}
+#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#       - POSTGRES_DB=${POSTGRES_DB}
+#       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+#       - RABBITMQ_HOST=${RABBITMQ_HOST}
+#       - REDIS_HOST=${REDIS_HOST}
+#       - REDIS_PORT=${REDIS_PORT}
+#       - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
+#       - RABBITMQ_URL=${RABBITMQ_URL}
+#       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+#     volumes:
+#       # Monta o código local para hot-reload em desenvolvimento
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#     depends_on:
+#       postgres:
+#         condition: service_started
+#       rabbitmq:
+#         condition: service_started
+#       redis:
+#         condition: service_started
+#     networks:
+#       - lol-stats-network
+#     restart: unless-stopped
 
-  worker-2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: high-br-lol-worker-2
-    command: npm run start:dev
-    environment:
-      - APP_MODE=WORKER
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      - RIOT_API_KEY=${RIOT_API_KEY_WORKER_2}
-      - RABBITMQ_URL=${RABBITMQ_URL}
-      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
-    volumes:
-      # Monta o código local para hot-reload em desenvolvimento
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      postgres:
-        condition: service_started
-      rabbitmq:
-        condition: service_started
-      redis:
-        condition: service_started
-    networks:
-      - lol-stats-network
-    restart: unless-stopped
+#   worker-2:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: high-br-lol-worker-2
+#     command: npm run start:dev
+#     environment:
+#       - APP_MODE=WORKER
+#       - POSTGRES_HOST=${POSTGRES_HOST}
+#       - POSTGRES_PORT=${POSTGRES_PORT}
+#       - POSTGRES_USER=${POSTGRES_USER}
+#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#       - POSTGRES_DB=${POSTGRES_DB}
+#       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+#       - RABBITMQ_HOST=${RABBITMQ_HOST}
+#       - REDIS_HOST=${REDIS_HOST}
+#       - REDIS_PORT=${REDIS_PORT}
+#       - RIOT_API_KEY=${RIOT_API_KEY_WORKER_2}
+#       - RABBITMQ_URL=${RABBITMQ_URL}
+#       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+#     volumes:
+#       # Monta o código local para hot-reload em desenvolvimento
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#     depends_on:
+#       postgres:
+#         condition: service_started
+#       rabbitmq:
+#         condition: service_started
+#       redis:
+#         condition: service_started
+#     networks:
+#       - lol-stats-network
+#     restart: unless-stopped
 
-  collector:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: high-br-lol-collector
-    command: npm run start:dev
-    environment:
-      - APP_MODE=COLLECTOR
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-      - RABBITMQ_HOST=${RABBITMQ_HOST}
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
-    volumes:
-      # Monta o código local para hot-reload em desenvolvimento
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      postgres:
-        condition: service_started
-      rabbitmq:
-        condition: service_started
-      redis:
-        condition: service_started
-    networks:
-      - lol-stats-network
-    restart: unless-stopped
+#   collector:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: high-br-lol-collector
+#     command: npm run start:dev
+#     environment:
+#       - APP_MODE=COLLECTOR
+#       - POSTGRES_HOST=${POSTGRES_HOST}
+#       - POSTGRES_PORT=${POSTGRES_PORT}
+#       - POSTGRES_USER=${POSTGRES_USER}
+#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#       - POSTGRES_DB=${POSTGRES_DB}
+#       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+#       - RABBITMQ_HOST=${RABBITMQ_HOST}
+#       - REDIS_HOST=${REDIS_HOST}
+#       - REDIS_PORT=${REDIS_PORT}
+#       - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
+#     volumes:
+#       # Monta o código local para hot-reload em desenvolvimento
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#     depends_on:
+#       postgres:
+#         condition: service_started
+#       rabbitmq:
+#         condition: service_started
+#       redis:
+#         condition: service_started
+#     networks:
+#       - lol-stats-network
+#     restart: unless-stopped
 
-  redis:
-    image: redis:7-alpine
-    container_name: high-br-lol-redis
-    ports:
-      - '6379:6379'
-    networks:
-      - lol-stats-network
-    restart: unless-stopped
+#   redis:
+#     image: redis:7-alpine
+#     container_name: high-br-lol-redis
+#     ports:
+#       - '6379:6379'
+#     networks:
+#       - lol-stats-network
+#     restart: unless-stopped
 
-volumes:
-  postgres_data:
-    driver: local
+# volumes:
+#   postgres_data:
+#     driver: local

@@ -181,3 +181,10 @@ A aplicação única será iniciada em diferentes "modos" com base na variável 
 `APP_MODE=COLLECTOR`: Executa o processo de coleta como um script único e finaliza.
 O docker-compose.yml será configurado para iniciar os contêineres api e worker de forma contínua, enquanto o collector poderá ser executado sob demanda com o comando docker-compose run --rm collector.
 Isso signfica que na minha imagem teremos 3 containers diferentes orquestrados pelo docker-compose.yml
+
+
+Rodar deploy version:
+docker compose -f docker-compose.prod.yml up -d --build
+
+derrubar:
+docker compose -f .\docker-compose.prod.yml down

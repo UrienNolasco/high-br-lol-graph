@@ -72,6 +72,7 @@ services:
     environment:
       - NODE_ENV=production
       - APP_MODE=API
+      - RUN_MIGRATIONS=true
       - PORT=${PORT:-3000}
       - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
       - POSTGRES_PORT=${POSTGRES_PORT:-5432}

@@ -44,14 +44,17 @@ COPY --from=builder /usr/src/app/champions.json ./champions.json
 # Copia a pasta migrations (cria na raiz a partir de prisma/migrations do builder)
 COPY --from=builder /usr/src/app/prisma/migrations ./migrations
 
-# Copia o script de entrypoint
-COPY --from=builder /usr/src/app/docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Copia o script de entrypoint diretamente do contexto de build
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh && \
+    # Garante fim de linha Unix para evitar "no such file or directory" em Alpine
+    sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh
 
 # Cria usuário não-root para segurança
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nestjs -u 1001 && \
-    chown -R nestjs:nodejs /usr/src/app
+    chown -R nestjs:nodejs /usr/src/app && \
+    chown nestjs:nodejs /usr/local/bin/docker-entrypoint.sh
 
 USER nestjs
 
@@ -61,6 +64,6 @@ EXPOSE 3000
 ENV NODE_OPTIONS="--dns-result-order=ipv4first"
 ENV NODE_ENV=production
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["npm", "run", "start:prod"]
 
