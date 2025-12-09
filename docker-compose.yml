@@ -54,6 +54,11 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
     ports:
       - '3000:3000'
     volumes:
@@ -89,6 +94,8 @@ services:
       - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     volumes:
       # Monta o código local para hot-reload em desenvolvimento
       - .:/usr/src/app
@@ -124,6 +131,8 @@ services:
       - RIOT_API_KEY=${RIOT_API_KEY_WORKER_2}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     volumes:
       # Monta o código local para hot-reload em desenvolvimento
       - .:/usr/src/app
@@ -157,6 +166,10 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - RIOT_API_KEY=${RIOT_API_KEY_WORKER_1}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     volumes:
       # Monta o código local para hot-reload em desenvolvimento
       - .:/usr/src/app

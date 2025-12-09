@@ -9,13 +9,21 @@ import { QueueService } from './queue.service';
     {
       provide: 'RABBITMQ_CLIENT',
       useFactory: (configService: ConfigService) => {
+        const rabbitUrl = configService.get<string>('RABBITMQ_URL');
+        const user = configService.get<string>('RABBITMQ_DEFAULT_USER');
+        const pass = configService.get<string>('RABBITMQ_DEFAULT_PASS');
+        const host = configService.get<string>('RABBITMQ_HOST');
+
+        const urls = rabbitUrl
+          ? [rabbitUrl]
+          : [`amqp://${user}:${pass}@${host}`];
+
         return ClientProxyFactory.create({
           transport: Transport.RMQ,
           options: {
-            urls: [
-              `amqp://${configService.get('RABBITMQ_DEFAULT_USER')}:${configService.get('RABBITMQ_DEFAULT_PASS')}@${configService.get('RABBITMQ_HOST')}`,
-            ],
-            queue: 'default_queue',
+            urls,
+            queue:
+              configService.get<string>('RABBITMQ_QUEUE') || 'default_queue',
             queueOptions: {
               durable: true,
             },
