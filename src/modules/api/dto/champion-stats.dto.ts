@@ -37,6 +37,21 @@ export class ChampionStatsDto {
 
   @ApiProperty({ example: 15.5 })
   banRate: number;
+
+  @ApiProperty({
+    example: 'A',
+    description: 'Tier do campeão (S+, S, A, B, C, D ou "Dados Insuficientes")',
+    enum: ['S+', 'S', 'A', 'B', 'C', 'D', 'Dados Insuficientes'],
+  })
+  tier: string;
+
+  @ApiProperty({
+    example: 5,
+    description:
+      'Rank do campeão dentro da role (1 = melhor, null = dados insuficientes)',
+    nullable: true,
+  })
+  rank: number | null;
 }
 
 export class PaginatedChampionStatsDto {
