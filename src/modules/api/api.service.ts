@@ -86,31 +86,60 @@ export class ApiService {
     const currentSortBy = sortBy ?? 'winRate';
     const currentOrder = order ?? 'desc';
 
-    // 1. Buscar todos os campeões do patch no banco de dados.
-    const championStats = await this.prisma.championStats.findMany({
-      where: { patch },
-    });
+    // Buscar todos os dados necessários em paralelo
+    const [championStats, totalMatches, allMatchups, previousPatch] =
+      await Promise.all([
+        this.prisma.championStats.findMany({ where: { patch } }),
+        this.prisma.processedMatch.count({ where: { patch } }),
+        this.prisma.matchupStats.findMany({ where: { patch } }),
+        Promise.resolve(this.tierRankService.getPreviousPatch(patch)),
+      ]);
 
-    const totalMatches = await this.prisma.processedMatch.count({
-      where: { patch },
-    });
+    // Buscar dados do patch anterior em paralelo
+    const [previousChampionStats, previousTotalMatches, previousMatchups] =
+      await Promise.all([
+        previousPatch
+          ? this.prisma.championStats.findMany({
+              where: { patch: previousPatch },
+            })
+          : Promise.resolve([]),
+        previousPatch
+          ? this.prisma.processedMatch.count({
+              where: { patch: previousPatch },
+            })
+          : Promise.resolve(0),
+        previousPatch
+          ? this.prisma.matchupStats.findMany({
+              where: { patch: previousPatch },
+            })
+          : Promise.resolve([]),
+      ]);
 
-    // Buscar patch anterior
-    const previousPatch = this.tierRankService.getPreviousPatch(patch);
+    // Processar matchups em memória para obter roles primárias e pick rates
+    const matchupData =
+      this.tierRankService.processMatchupsForPatch(allMatchups);
+    const primaryRolesByChampion = matchupData.primaryRolesByChampion;
+    const gamesByChampionAndRole = matchupData.gamesByChampionAndRole;
+    const totalGamesByRole = matchupData.totalGamesByRole;
+
+    // Processar matchups do patch anterior
+    const previousMatchupData = previousPatch
+      ? this.tierRankService.processMatchupsForPatch(previousMatchups)
+      : null;
+
+    // Criar mapas para acesso rápido
     const previousChampionStatsMap = new Map<
       number,
       (typeof championStats)[0]
     >();
-    if (previousPatch) {
-      const previousStats = await this.prisma.championStats.findMany({
-        where: { patch: previousPatch },
-      });
-      for (const stat of previousStats) {
-        previousChampionStatsMap.set(stat.championId, stat);
-      }
+    for (const stat of previousChampionStats) {
+      previousChampionStatsMap.set(stat.championId, stat);
     }
 
-    // Calcular tier e rank para cada campeão
+    const totalBanSlots = totalMatches * 10;
+    const previousTotalBanSlots = previousTotalMatches * 10;
+
+    // Calcular tier e rank para cada campeão (agora sem queries adicionais)
     const enrichedStatsPromises = championStats.map(async (stat) => {
       const championInfo = this.dataDragon.getChampionById(stat.championId);
       if (!championInfo) {
@@ -143,27 +172,19 @@ export class ApiService {
         stat.totalDuration ?? 0,
       );
 
-      const totalBanSlots = totalMatches * 10;
       const banRate =
         totalBanSlots > 0 ? ((stat.bans ?? 0) / totalBanSlots) * 100 : 0;
 
-      // Inferir role primária
-      const primaryRole = await this.tierRankService.inferPrimaryRole(
-        stat.championId,
-        patch,
-      );
+      // Obter role primária do mapa (sem query)
+      const primaryRole: string | null =
+        primaryRolesByChampion.get(stat.championId) ?? null;
 
-      // Calcular pick rate baseado na role
+      // Calcular pick rate baseado na role (sem query)
       let pickRate = 0;
       if (primaryRole) {
-        const championGamesInRole =
-          await this.tierRankService.getChampionGamesInRole(
-            stat.championId,
-            primaryRole,
-            patch,
-          );
-        const totalGamesInRole =
-          await this.tierRankService.getTotalGamesForRole(primaryRole, patch);
+        const championRoleMap = gamesByChampionAndRole.get(stat.championId);
+        const championGamesInRole = championRoleMap?.get(primaryRole) ?? 0;
+        const totalGamesInRole = totalGamesByRole.get(primaryRole) ?? 0;
         if (totalGamesInRole > 0) {
           pickRate = (championGamesInRole / totalGamesInRole) * 100;
         }
@@ -172,15 +193,11 @@ export class ApiService {
       // Buscar stats do patch anterior
       const previousStat = previousChampionStatsMap.get(stat.championId);
       let previousStats: ChampionMetrics | null = null;
-      if (previousStat) {
+      if (previousStat && previousMatchupData) {
         const previousWinRate =
           previousStat.gamesPlayed > 0
             ? (previousStat.wins / previousStat.gamesPlayed) * 100
             : 0;
-        const previousTotalMatches = await this.prisma.processedMatch.count({
-          where: { patch: previousPatch! },
-        });
-        const previousTotalBanSlots = previousTotalMatches * 10;
         const previousBanRate =
           previousTotalBanSlots > 0
             ? ((previousStat.bans ?? 0) / previousTotalBanSlots) * 100
@@ -204,20 +221,15 @@ export class ApiService {
           previousStat.totalDuration ?? 0,
         );
 
-        // Calcular pick rate anterior
+        // Calcular pick rate anterior (sem query)
         let previousPickRate = 0;
-        if (primaryRole && previousPatch) {
+        if (primaryRole && previousMatchupData) {
+          const previousChampionRoleMap =
+            previousMatchupData.gamesByChampionAndRole.get(stat.championId);
           const previousChampionGamesInRole =
-            await this.tierRankService.getChampionGamesInRole(
-              stat.championId,
-              primaryRole,
-              previousPatch,
-            );
+            previousChampionRoleMap?.get(primaryRole) ?? 0;
           const previousTotalGamesInRole =
-            await this.tierRankService.getTotalGamesForRole(
-              primaryRole,
-              previousPatch,
-            );
+            previousMatchupData.totalGamesByRole.get(primaryRole) ?? 0;
           if (previousTotalGamesInRole > 0) {
             previousPickRate =
               (previousChampionGamesInRole / previousTotalGamesInRole) * 100;
@@ -269,7 +281,7 @@ export class ApiService {
         tier: scoreResult.tier,
         rank: null as number | null, // Será calculado depois por role
         score: scoreResult.score,
-        primaryRole: primaryRole || undefined,
+        primaryRole: primaryRole ?? undefined,
         hasInsufficientData: scoreResult.hasInsufficientData,
       };
     });
@@ -283,11 +295,14 @@ export class ApiService {
     // Agrupar por role e calcular rank
     const championsByRole = new Map<string, typeof enrichedStatsWithScore>();
     for (const champion of enrichedStatsWithScore) {
-      const role = champion.primaryRole || 'UNKNOWN';
+      const role = champion.primaryRole ?? 'UNKNOWN';
       if (!championsByRole.has(role)) {
         championsByRole.set(role, []);
       }
-      championsByRole.get(role)!.push(champion);
+      const roleChampions = championsByRole.get(role);
+      if (roleChampions) {
+        roleChampions.push(champion);
+      }
     }
 
     // Calcular rank por role
@@ -329,6 +344,7 @@ export class ApiService {
         banRate: champion.banRate,
         tier: champion.tier,
         rank: champion.rank,
+        primaryRole: champion.primaryRole,
       }),
     );
 
@@ -733,6 +749,7 @@ export class ApiService {
       banRate: parseFloat(banRate.toFixed(2)),
       tier: scoreResult.tier,
       rank,
+      primaryRole: primaryRole ?? undefined,
     };
   }
 

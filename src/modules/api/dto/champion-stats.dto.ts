@@ -52,6 +52,14 @@ export class ChampionStatsDto {
     nullable: true,
   })
   rank: number | null;
+
+  @ApiProperty({
+    example: 'TOP',
+    description:
+      'Role primária do campeão no patch (inferida baseada nos matchups)',
+    nullable: true,
+  })
+  primaryRole?: string;
 }
 
 export class PaginatedChampionStatsDto {

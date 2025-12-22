@@ -119,6 +119,73 @@ export class TierRankService {
   }
 
   /**
+   * Processa todos os matchups de um patch e retorna estruturas de dados otimizadas
+   * para cálculo de roles primárias, games por role, etc.
+   */
+  processMatchupsForPatch(
+    matchups: Array<{
+      championId1: number;
+      championId2: number;
+      role: string;
+      gamesPlayed: number;
+    }>,
+  ): {
+    primaryRolesByChampion: Map<number, string>;
+    gamesByChampionAndRole: Map<number, Map<string, number>>;
+    totalGamesByRole: Map<string, number>;
+  } {
+    // Mapa: championId -> role -> games
+    const gamesByChampionAndRole = new Map<number, Map<string, number>>();
+    // Mapa: role -> totalGames
+    const totalGamesByRole = new Map<string, number>();
+
+    // Processar todos os matchups
+    for (const matchup of matchups) {
+      // Atualizar games por role
+      const currentTotal = totalGamesByRole.get(matchup.role) || 0;
+      totalGamesByRole.set(matchup.role, currentTotal + matchup.gamesPlayed);
+
+      // Atualizar games do championId1
+      if (!gamesByChampionAndRole.has(matchup.championId1)) {
+        gamesByChampionAndRole.set(matchup.championId1, new Map());
+      }
+      const champ1RoleMap = gamesByChampionAndRole.get(matchup.championId1)!;
+      const champ1Current = champ1RoleMap.get(matchup.role) || 0;
+      champ1RoleMap.set(matchup.role, champ1Current + matchup.gamesPlayed);
+
+      // Atualizar games do championId2
+      if (!gamesByChampionAndRole.has(matchup.championId2)) {
+        gamesByChampionAndRole.set(matchup.championId2, new Map());
+      }
+      const champ2RoleMap = gamesByChampionAndRole.get(matchup.championId2)!;
+      const champ2Current = champ2RoleMap.get(matchup.role) || 0;
+      champ2RoleMap.set(matchup.role, champ2Current + matchup.gamesPlayed);
+    }
+
+    // Calcular role primária para cada campeão
+    const primaryRolesByChampion = new Map<number, string>();
+    for (const [championId, roleMap] of gamesByChampionAndRole.entries()) {
+      let maxGames = 0;
+      let primaryRole: string | null = null;
+      for (const [role, games] of roleMap.entries()) {
+        if (games > maxGames) {
+          maxGames = games;
+          primaryRole = role;
+        }
+      }
+      if (primaryRole) {
+        primaryRolesByChampion.set(championId, primaryRole);
+      }
+    }
+
+    return {
+      primaryRolesByChampion,
+      gamesByChampionAndRole,
+      totalGamesByRole,
+    };
+  }
+
+  /**
    * Normaliza métricas para escala 0-100 conforme especificação
    */
   private normalizeMetrics(
