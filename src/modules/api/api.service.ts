@@ -278,6 +278,7 @@ export class ApiService {
         cspm: parseFloat(cspm.toFixed(2)),
         gpm: parseFloat(gpm.toFixed(2)),
         banRate: parseFloat(banRate.toFixed(2)),
+        pickRate: parseFloat(pickRate.toFixed(2)),
         tier: scoreResult.tier,
         rank: null as number | null, // Será calculado depois por role
         score: scoreResult.score,
@@ -342,6 +343,7 @@ export class ApiService {
         cspm: champion.cspm,
         gpm: champion.gpm,
         banRate: champion.banRate,
+        pickRate: champion.pickRate,
         tier: champion.tier,
         rank: champion.rank,
         primaryRole: champion.primaryRole,
@@ -435,27 +437,52 @@ export class ApiService {
       patch,
     );
 
+    // Buscar matchups da role uma única vez (será reutilizado para cálculo de rank)
+    let allMatchupsInRole: Array<{
+      championId1: number;
+      championId2: number;
+      gamesPlayed: number;
+    }> = [];
+    let totalGamesInRole = 0;
+    let championGamesInRole = 0;
+
+    if (primaryRole) {
+      allMatchupsInRole = await this.prisma.matchupStats.findMany({
+        where: {
+          patch,
+          role: primaryRole,
+        },
+      });
+
+      // Calcular totalGamesInRole e championGamesInRole em memória
+      totalGamesInRole = allMatchupsInRole.reduce(
+        (sum, matchup) => sum + matchup.gamesPlayed,
+        0,
+      );
+
+      for (const matchup of allMatchupsInRole) {
+        if (
+          matchup.championId1 === championId ||
+          matchup.championId2 === championId
+        ) {
+          championGamesInRole += matchup.gamesPlayed;
+        }
+      }
+    }
+
     // Calcular pick rate baseado na role
     let pickRate = 0;
-    if (primaryRole) {
-      const championGamesInRole =
-        await this.tierRankService.getChampionGamesInRole(
-          championId,
-          primaryRole,
-          patch,
-        );
-      const totalGamesInRole = await this.tierRankService.getTotalGamesForRole(
-        primaryRole,
-        patch,
-      );
-      if (totalGamesInRole > 0) {
-        pickRate = (championGamesInRole / totalGamesInRole) * 100;
-      }
+    if (totalGamesInRole > 0) {
+      pickRate = (championGamesInRole / totalGamesInRole) * 100;
     }
 
     // Buscar stats do patch anterior
     const previousPatch = this.tierRankService.getPreviousPatch(patch);
     let previousStats: ChampionMetrics | null = null;
+    let previousMatchupsInRole: typeof allMatchupsInRole = [];
+    let previousTotalGamesInRole = 0;
+    let previousChampionGamesInRole = 0;
+
     if (previousPatch) {
       const previousStat = await this.prisma.championStats.findFirst({
         where: {
@@ -463,6 +490,30 @@ export class ApiService {
           patch: previousPatch,
         },
       });
+
+      // Buscar matchups do patch anterior se necessário
+      if (primaryRole) {
+        previousMatchupsInRole = await this.prisma.matchupStats.findMany({
+          where: {
+            patch: previousPatch,
+            role: primaryRole,
+          },
+        });
+
+        previousTotalGamesInRole = previousMatchupsInRole.reduce(
+          (sum, matchup) => sum + matchup.gamesPlayed,
+          0,
+        );
+
+        for (const matchup of previousMatchupsInRole) {
+          if (
+            matchup.championId1 === championId ||
+            matchup.championId2 === championId
+          ) {
+            previousChampionGamesInRole += matchup.gamesPlayed;
+          }
+        }
+      }
 
       if (previousStat) {
         const previousWinRate =
@@ -496,24 +547,11 @@ export class ApiService {
           previousStat.totalDuration ?? 0,
         );
 
-        // Calcular pick rate anterior
+        // Calcular pick rate anterior usando dados já carregados
         let previousPickRate = 0;
-        if (primaryRole) {
-          const previousChampionGamesInRole =
-            await this.tierRankService.getChampionGamesInRole(
-              championId,
-              primaryRole,
-              previousPatch,
-            );
-          const previousTotalGamesInRole =
-            await this.tierRankService.getTotalGamesForRole(
-              primaryRole,
-              previousPatch,
-            );
-          if (previousTotalGamesInRole > 0) {
-            previousPickRate =
-              (previousChampionGamesInRole / previousTotalGamesInRole) * 100;
-          }
+        if (previousTotalGamesInRole > 0) {
+          previousPickRate =
+            (previousChampionGamesInRole / previousTotalGamesInRole) * 100;
         }
 
         previousStats = {
@@ -548,14 +586,12 @@ export class ApiService {
 
     // Para calcular rank, precisamos buscar todos os campeões da mesma role
     let rank: number | null = null;
-    if (!scoreResult.hasInsufficientData && primaryRole) {
-      // Buscar todos os matchups da role para coletar championIds únicos
-      const allMatchupsInRole = await this.prisma.matchupStats.findMany({
-        where: {
-          patch,
-          role: primaryRole,
-        },
-      });
+    if (
+      !scoreResult.hasInsufficientData &&
+      primaryRole &&
+      allMatchupsInRole.length > 0
+    ) {
+      // Reutilizar matchups já carregados anteriormente
 
       // Coletar todos os championIds únicos da role
       const championIdsInRole = new Set<number>();
@@ -598,129 +634,150 @@ export class ApiService {
         : 0;
       const previousTotalBanSlots = previousTotalMatches * 10;
 
-      // Calcular score para todos os campeões da role
-      const roleChampionsScores = await Promise.all(
-        roleChampionStats.map(async (stat) => {
-          const wr =
-            stat.gamesPlayed > 0 ? (stat.wins / stat.gamesPlayed) * 100 : 0;
-          const br =
-            totalBanSlots > 0 ? ((stat.bans ?? 0) / totalBanSlots) * 100 : 0;
+      // Reutilizar totalGamesInRole já calculado anteriormente
+      // totalGamesInRole já foi calculado acima
 
-          const kdaValue = this.calculateKDA(
-            stat.totalKills ?? 0,
-            stat.totalDeaths ?? 0,
-            stat.totalAssists ?? 0,
-          );
-          const dpmValue = this.calculateDPM(
-            stat.totalDamageDealt ?? BigInt(0),
-            stat.totalDuration ?? 0,
-          );
-          const cspmValue = this.calculateCSPM(
-            stat.totalCreepScore ?? 0,
-            stat.totalDuration ?? 0,
-          );
-          const gpmValue = this.calculateGPM(
-            stat.totalGoldEarned ?? BigInt(0),
-            stat.totalDuration ?? 0,
-          );
+      // Criar mapa de championId -> gamesInRole processando matchups em memória
+      const championGamesInRoleMap = new Map<number, number>();
+      for (const matchup of allMatchupsInRole) {
+        const current1 = championGamesInRoleMap.get(matchup.championId1) || 0;
+        championGamesInRoleMap.set(
+          matchup.championId1,
+          current1 + matchup.gamesPlayed,
+        );
+        const current2 = championGamesInRoleMap.get(matchup.championId2) || 0;
+        championGamesInRoleMap.set(
+          matchup.championId2,
+          current2 + matchup.gamesPlayed,
+        );
+      }
 
-          const champGamesInRole =
-            await this.tierRankService.getChampionGamesInRole(
-              stat.championId,
-              primaryRole,
-              patch,
-            );
-          const totalGamesInRole =
-            await this.tierRankService.getTotalGamesForRole(primaryRole, patch);
-          const pr =
-            totalGamesInRole > 0
-              ? (champGamesInRole / totalGamesInRole) * 100
+      // Reutilizar matchups do patch anterior já carregados anteriormente
+      // previousMatchupsInRole e previousTotalGamesInRole já foram calculados acima
+      const previousChampionGamesInRoleMap = new Map<number, number>();
+      if (previousPatch && previousMatchupsInRole.length > 0) {
+        for (const matchup of previousMatchupsInRole) {
+          const current1 =
+            previousChampionGamesInRoleMap.get(matchup.championId1) || 0;
+          previousChampionGamesInRoleMap.set(
+            matchup.championId1,
+            current1 + matchup.gamesPlayed,
+          );
+          const current2 =
+            previousChampionGamesInRoleMap.get(matchup.championId2) || 0;
+          previousChampionGamesInRoleMap.set(
+            matchup.championId2,
+            current2 + matchup.gamesPlayed,
+          );
+        }
+      }
+
+      // Calcular score para todos os campeões da role (sem queries adicionais)
+      const roleChampionsScores = roleChampionStats.map((stat) => {
+        const wr =
+          stat.gamesPlayed > 0 ? (stat.wins / stat.gamesPlayed) * 100 : 0;
+        const br =
+          totalBanSlots > 0 ? ((stat.bans ?? 0) / totalBanSlots) * 100 : 0;
+
+        const kdaValue = this.calculateKDA(
+          stat.totalKills ?? 0,
+          stat.totalDeaths ?? 0,
+          stat.totalAssists ?? 0,
+        );
+        const dpmValue = this.calculateDPM(
+          stat.totalDamageDealt ?? BigInt(0),
+          stat.totalDuration ?? 0,
+        );
+        const cspmValue = this.calculateCSPM(
+          stat.totalCreepScore ?? 0,
+          stat.totalDuration ?? 0,
+        );
+        const gpmValue = this.calculateGPM(
+          stat.totalGoldEarned ?? BigInt(0),
+          stat.totalDuration ?? 0,
+        );
+
+        // Usar mapa em memória ao invés de query
+        const champGamesInRole =
+          championGamesInRoleMap.get(stat.championId) || 0;
+        const pr =
+          totalGamesInRole > 0
+            ? (champGamesInRole / totalGamesInRole) * 100
+            : 0;
+
+        // Buscar stats anteriores
+        let prevStats: ChampionMetrics | null = null;
+        const prevStat = previousRoleStatsMap.get(stat.championId);
+        if (prevStat) {
+          const prevWR =
+            prevStat.gamesPlayed > 0
+              ? (prevStat.wins / prevStat.gamesPlayed) * 100
+              : 0;
+          const prevBR =
+            previousTotalBanSlots > 0
+              ? ((prevStat.bans ?? 0) / previousTotalBanSlots) * 100
               : 0;
 
-          // Buscar stats anteriores
-          let prevStats: ChampionMetrics | null = null;
-          const prevStat = previousRoleStatsMap.get(stat.championId);
-          if (prevStat) {
-            const prevWR =
-              prevStat.gamesPlayed > 0
-                ? (prevStat.wins / prevStat.gamesPlayed) * 100
-                : 0;
-            const prevBR =
-              previousTotalBanSlots > 0
-                ? ((prevStat.bans ?? 0) / previousTotalBanSlots) * 100
-                : 0;
-
-            const prevKda = this.calculateKDA(
-              prevStat.totalKills ?? 0,
-              prevStat.totalDeaths ?? 0,
-              prevStat.totalAssists ?? 0,
-            );
-            const prevDpm = this.calculateDPM(
-              prevStat.totalDamageDealt ?? BigInt(0),
-              prevStat.totalDuration ?? 0,
-            );
-            const prevCspm = this.calculateCSPM(
-              prevStat.totalCreepScore ?? 0,
-              prevStat.totalDuration ?? 0,
-            );
-            const prevGpm = this.calculateGPM(
-              prevStat.totalGoldEarned ?? BigInt(0),
-              prevStat.totalDuration ?? 0,
-            );
-
-            const prevChampGamesInRole = previousPatch
-              ? await this.tierRankService.getChampionGamesInRole(
-                  stat.championId,
-                  primaryRole,
-                  previousPatch,
-                )
-              : 0;
-            const prevTotalGamesInRole = previousPatch
-              ? await this.tierRankService.getTotalGamesForRole(
-                  primaryRole,
-                  previousPatch,
-                )
-              : 0;
-            const prevPR =
-              prevTotalGamesInRole > 0
-                ? (prevChampGamesInRole / prevTotalGamesInRole) * 100
-                : 0;
-
-            prevStats = {
-              winRate: prevWR,
-              banRate: prevBR,
-              pickRate: prevPR,
-              kda: prevKda,
-              dpm: prevDpm,
-              gpm: prevGpm,
-              cspm: prevCspm,
-              gamesPlayed: prevStat.gamesPlayed,
-            };
-          }
-
-          const result = this.tierRankService.calculateChampionScore(
-            stat.championId,
-            patch,
-            {
-              winRate: wr,
-              banRate: br,
-              pickRate: pr,
-              kda: kdaValue,
-              dpm: dpmValue,
-              gpm: gpmValue,
-              cspm: cspmValue,
-              gamesPlayed: stat.gamesPlayed,
-            },
-            prevStats,
+          const prevKda = this.calculateKDA(
+            prevStat.totalKills ?? 0,
+            prevStat.totalDeaths ?? 0,
+            prevStat.totalAssists ?? 0,
+          );
+          const prevDpm = this.calculateDPM(
+            prevStat.totalDamageDealt ?? BigInt(0),
+            prevStat.totalDuration ?? 0,
+          );
+          const prevCspm = this.calculateCSPM(
+            prevStat.totalCreepScore ?? 0,
+            prevStat.totalDuration ?? 0,
+          );
+          const prevGpm = this.calculateGPM(
+            prevStat.totalGoldEarned ?? BigInt(0),
+            prevStat.totalDuration ?? 0,
           );
 
-          return {
-            championId: stat.championId,
-            score: result.score,
-            hasInsufficientData: result.hasInsufficientData,
+          // Usar mapa em memória ao invés de query
+          const prevChampGamesInRole =
+            previousChampionGamesInRoleMap.get(stat.championId) || 0;
+          const prevPR =
+            previousTotalGamesInRole > 0
+              ? (prevChampGamesInRole / previousTotalGamesInRole) * 100
+              : 0;
+
+          prevStats = {
+            winRate: prevWR,
+            banRate: prevBR,
+            pickRate: prevPR,
+            kda: prevKda,
+            dpm: prevDpm,
+            gpm: prevGpm,
+            cspm: prevCspm,
+            gamesPlayed: prevStat.gamesPlayed,
           };
-        }),
-      );
+        }
+
+        const result = this.tierRankService.calculateChampionScore(
+          stat.championId,
+          patch,
+          {
+            winRate: wr,
+            banRate: br,
+            pickRate: pr,
+            kda: kdaValue,
+            dpm: dpmValue,
+            gpm: gpmValue,
+            cspm: cspmValue,
+            gamesPlayed: stat.gamesPlayed,
+          },
+          prevStats,
+        );
+
+        return {
+          championId: stat.championId,
+          score: result.score,
+          hasInsufficientData: result.hasInsufficientData,
+        };
+      });
 
       const validScores = roleChampionsScores
         .filter((s) => !s.hasInsufficientData)
@@ -747,6 +804,7 @@ export class ApiService {
       cspm: parseFloat(cspm.toFixed(2)),
       gpm: parseFloat(gpm.toFixed(2)),
       banRate: parseFloat(banRate.toFixed(2)),
+      pickRate: parseFloat(pickRate.toFixed(2)),
       tier: scoreResult.tier,
       rank,
       primaryRole: primaryRole ?? undefined,

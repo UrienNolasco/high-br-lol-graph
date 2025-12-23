@@ -35,6 +35,7 @@ export class GetChampionStatsDto {
     'gamesPlayed',
     'championName',
     'banRate',
+    'pickRate',
     'kda',
     'dpm',
     'cspm',
@@ -45,6 +46,7 @@ export class GetChampionStatsDto {
     | 'gamesPlayed'
     | 'championName'
     | 'banRate'
+    | 'pickRate'
     | 'kda'
     | 'dpm'
     | 'cspm'

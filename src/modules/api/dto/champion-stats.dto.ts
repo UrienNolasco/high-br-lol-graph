@@ -38,6 +38,9 @@ export class ChampionStatsDto {
   @ApiProperty({ example: 15.5 })
   banRate: number;
 
+  @ApiProperty({ example: 12.3 })
+  pickRate: number;
+
   @ApiProperty({
     example: 'A',
     description: 'Tier do campeão (S+, S, A, B, C, D ou "Dados Insuficientes")',

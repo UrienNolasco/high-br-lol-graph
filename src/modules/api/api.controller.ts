@@ -112,12 +112,14 @@ export class StatsController {
   @ApiQuery({
     name: 'sortBy',
     required: false,
-    description: 'e.g., winRate, gamesPlayed, kda, dpm, cspm, gpm, banRate',
+    description:
+      'e.g., winRate, gamesPlayed, kda, dpm, cspm, gpm, banRate, pickRate',
     enum: [
       'winRate',
       'gamesPlayed',
       'championName',
       'banRate',
+      'pickRate',
       'kda',
       'dpm',
       'cspm',
