@@ -26,14 +26,7 @@ export class QueueService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  /**
-   * Publica uma mensagem na fila.
-   * @param pattern O padrão do evento (usado para roteamento no NestJS).
-   * @param payload O dado a ser enviado.
-   */
   public publish(pattern: string, payload: any) {
-    // O método 'emit' envia uma mensagem do tipo "evento" (fire-and-forget).
-    // O primeiro argumento é o padrão de roteamento e o segundo é o payload.
     this.client.emit(pattern, payload);
   }
 

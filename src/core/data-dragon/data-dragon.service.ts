@@ -132,7 +132,6 @@ export class DataDragonService implements OnModuleInit {
           patch = latestVersion;
         }
 
-        // Armazena no cache
         this.cachedPatch = patch;
         this.patchCachePromise = null;
         return patch;

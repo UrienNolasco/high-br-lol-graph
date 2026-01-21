@@ -97,8 +97,4 @@ export class CollectorService {
       `📤 [COLLECTOR] - Partida ${matchId} enfileirada para processamento`,
     );
   }
-
-  private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
 }

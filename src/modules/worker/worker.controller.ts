@@ -26,7 +26,6 @@ export class WorkerController {
     try {
       await this.workerService.processMatch({ matchId, patch });
 
-      // ACK manual da mensagem
       channel.ack(originalMsg);
 
       this.logger.log(
@@ -38,8 +37,6 @@ export class WorkerController {
         error,
       );
 
-      // NACK manual - rejeita a mensagem e NÃO recoloca na fila (false)
-      // Se quiser recolocar na fila para retry, use: channel.nack(originalMsg, false, true);
       channel.nack(originalMsg, false, false);
 
       throw error;

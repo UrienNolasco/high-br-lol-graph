@@ -22,14 +22,12 @@ export class WorkerService {
     const { matchId } = payload;
 
     try {
-      // Usar upsert para evitar condição de corrida
       const processedMatch = await this.prisma.processedMatch.upsert({
         where: { matchId },
-        create: { matchId, patch: 'processing' }, // placeholder temporário
-        update: {}, // não atualizar se já existe
+        create: { matchId, patch: 'processing' },
+        update: {},
       });
 
-      // Se já foi processada (não é o placeholder), pular
       if (processedMatch.patch !== 'processing') {
         this.logger.warn(
           `Match ${matchId} has already been processed. Skipping.`,
@@ -45,7 +43,6 @@ export class WorkerService {
         await this.upsertChampionStats(patch, participant, gameDuration);
       }
 
-      // Processar bans: incrementar contador para cada campeão banido
       for (const bannedChampionId of bannedChampionIds) {
         await this.incrementBanCount(patch, bannedChampionId);
       }
@@ -54,7 +51,6 @@ export class WorkerService {
         await this.upsertMatchupStats(patch, matchup);
       }
 
-      // Atualizar com o patch real
       await this.prisma.processedMatch.update({
         where: { matchId },
         data: { patch },
@@ -64,7 +60,6 @@ export class WorkerService {
         `✅ [WORKER] - Partida ${matchId} processada e salva no banco de dados.`,
       );
     } catch (error) {
-      // Se for erro de duplicação, apenas logar e continuar
       if (error.code === 'P2002') {
         this.logger.warn(
           `Match ${matchId} was processed by another worker. Skipping.`,

@@ -24,7 +24,6 @@ async function bootstrap() {
 
   const logger = new Logger('Bootstrap');
 
-  // Configuração de CORS
   app.enableCors({
     origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -34,7 +33,6 @@ async function bootstrap() {
   const appMode = process.env.APP_MODE;
 
   if (appMode === 'API') {
-    // Configuração do Swagger/OpenAPI
     const config = new DocumentBuilder()
       .setTitle('High-BR LoL Graph API')
       .setDescription(
@@ -46,7 +44,6 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, config);
 
-    // Configuração do Scalar para documentação interativa
     app.use(
       '/reference',
       apiReference({

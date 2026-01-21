@@ -1,5 +1,3 @@
-// src/riot/riot.module.ts
-
 import { Module, Logger } from '@nestjs/common';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
@@ -80,7 +78,6 @@ export class RiotModule {
       JSON.stringify(data),
     );
 
-    // Mapeia o status code para uma exceção específica do NestJS
     switch (status) {
       case 400:
         throw new BadRequestException(data);

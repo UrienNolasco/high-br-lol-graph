@@ -35,7 +35,6 @@ export class TierRankService {
     let major = parseInt(parts[0], 10);
     let minor = parseInt(parts[1], 10);
 
-    // Verificar se é o primeiro patch possível (1.00 ou 1.01)
     if (major <= 1 && minor <= 1) {
       return null;
     }
@@ -44,10 +43,9 @@ export class TierRankService {
       minor -= 1;
     } else {
       major -= 1;
-      minor = 23; // Assumindo que patches vão até 24, então anterior ao .01 é .23
+      minor = 23;
     }
 
-    // Formatar com zero à esquerda para minor version
     return `${major}.${minor.toString().padStart(2, '0')}`;
   }
 
@@ -70,7 +68,6 @@ export class TierRankService {
       return null;
     }
 
-    // Agrupar por role e somar gamesPlayed
     const roleGames = new Map<string, number>();
     for (const matchup of matchups) {
       const games = matchup.gamesPlayed;
@@ -78,7 +75,6 @@ export class TierRankService {
       roleGames.set(matchup.role, current + games);
     }
 
-    // Encontrar role com mais jogos
     let maxGames = 0;
     let primaryRole: string | null = null;
     for (const [role, games] of roleGames.entries()) {
@@ -140,18 +136,13 @@ export class TierRankService {
     gamesByChampionAndRole: Map<number, Map<string, number>>;
     totalGamesByRole: Map<string, number>;
   } {
-    // Mapa: championId -> role -> games
     const gamesByChampionAndRole = new Map<number, Map<string, number>>();
-    // Mapa: role -> totalGames
     const totalGamesByRole = new Map<string, number>();
 
-    // Processar todos os matchups
     for (const matchup of matchups) {
-      // Atualizar games por role
       const currentTotal = totalGamesByRole.get(matchup.role) || 0;
       totalGamesByRole.set(matchup.role, currentTotal + matchup.gamesPlayed);
 
-      // Atualizar games do championId1
       if (!gamesByChampionAndRole.has(matchup.championId1)) {
         gamesByChampionAndRole.set(matchup.championId1, new Map());
       }
@@ -159,7 +150,6 @@ export class TierRankService {
       const champ1Current = champ1RoleMap.get(matchup.role) || 0;
       champ1RoleMap.set(matchup.role, champ1Current + matchup.gamesPlayed);
 
-      // Atualizar games do championId2
       if (!gamesByChampionAndRole.has(matchup.championId2)) {
         gamesByChampionAndRole.set(matchup.championId2, new Map());
       }
@@ -168,7 +158,6 @@ export class TierRankService {
       champ2RoleMap.set(matchup.role, champ2Current + matchup.gamesPlayed);
     }
 
-    // Calcular role primária para cada campeão
     const primaryRolesByChampion = new Map<number, string>();
     for (const [championId, roleMap] of gamesByChampionAndRole.entries()) {
       let maxGames = 0;
@@ -211,25 +200,12 @@ export class TierRankService {
     gpmScore: number;
     cspmScore: number;
   } {
-    // WR: (winRate - 45) × 10
     const wrScore = Math.max(0, Math.min(100, (winRate - 45) * 10));
-
-    // BR: banRate × 10
     const brScore = Math.max(0, Math.min(100, banRate * 10));
-
-    // PR: já vem normalizado (0-100)
     const prScore = Math.max(0, Math.min(100, pickRate));
-
-    // KDA: min((kda / 3.0) × 100, 100)
     const kdaScore = Math.min(100, (kda / 3.0) * 100);
-
-    // DPM: (dpm / 1200) × 100
     const dpmScore = Math.max(0, Math.min(100, (dpm / 1200) * 100));
-
-    // GPM: (gpm / 600) × 100
     const gpmScore = Math.max(0, Math.min(100, (gpm / 600) * 100));
-
-    // CSPM: (cspm / 8.5) × 100
     const cspmScore = Math.max(0, Math.min(100, (cspm / 8.5) * 100));
 
     return {
@@ -281,7 +257,6 @@ export class TierRankService {
    * Converte score final em tier
    */
   private scoreToTier(score: number, winRate: number, banRate: number): string {
-    // S+ Tier requer score >= 80 E winRate > 51% E banRate > 5%
     if (score >= 80 && winRate > 51 && banRate > 5) {
       return 'S+';
     }
@@ -301,7 +276,6 @@ export class TierRankService {
     currentStats: ChampionMetrics,
     previousStats: ChampionMetrics | null,
   ): ScoreResult {
-    // Verificar dados insuficientes
     if (currentStats.gamesPlayed < 50) {
       return {
         score: 0,
@@ -310,7 +284,6 @@ export class TierRankService {
       };
     }
 
-    // Normalizar métricas do patch atual
     const currentNormalized = this.normalizeMetrics(
       currentStats.winRate,
       currentStats.banRate,
@@ -321,7 +294,6 @@ export class TierRankService {
       currentStats.cspm,
     );
 
-    // Calcular score base do patch atual
     const currentBaseScore = this.calculateBaseScore(
       currentNormalized.wrScore,
       currentNormalized.brScore,
@@ -332,13 +304,11 @@ export class TierRankService {
       currentNormalized.cspmScore,
     );
 
-    // Aplicar multiplicador de confiança
     const confidenceMultiplier = this.getConfidenceMultiplier(
       currentStats.gamesPlayed,
     );
     const currentAdjustedScore = currentBaseScore * confidenceMultiplier;
 
-    // Se não há dados do patch anterior, usar apenas o atual
     if (!previousStats || previousStats.gamesPlayed < 50) {
       const tier = this.scoreToTier(
         currentAdjustedScore,
@@ -352,7 +322,6 @@ export class TierRankService {
       };
     }
 
-    // Normalizar métricas do patch anterior
     const previousNormalized = this.normalizeMetrics(
       previousStats.winRate,
       previousStats.banRate,
@@ -363,7 +332,6 @@ export class TierRankService {
       previousStats.cspm,
     );
 
-    // Calcular score base do patch anterior
     const previousBaseScore = this.calculateBaseScore(
       previousNormalized.wrScore,
       previousNormalized.brScore,
@@ -374,24 +342,21 @@ export class TierRankService {
       previousNormalized.cspmScore,
     );
 
-    // Aplicar multiplicador de confiança ao patch anterior
     const previousConfidenceMultiplier = this.getConfidenceMultiplier(
       previousStats.gamesPlayed,
     );
     const previousAdjustedScore =
       previousBaseScore * previousConfidenceMultiplier;
 
-    // Média ponderada: 70% atual + 30% anterior
     let finalScore = currentAdjustedScore * 0.7 + previousAdjustedScore * 0.3;
 
-    // Bônus/Penalidade de tendência
     const deltaWR = currentStats.winRate - previousStats.winRate;
     const deltaBR = currentStats.banRate - previousStats.banRate;
 
     if (deltaWR > 2 && deltaBR > 1) {
-      finalScore += 5; // Campeão em ascensão
+      finalScore += 5;
     } else if (deltaWR < -2 && deltaBR < -1) {
-      finalScore -= 5; // Campeão em queda
+      finalScore -= 5;
     }
 
     const tier = this.scoreToTier(

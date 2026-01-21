@@ -61,7 +61,6 @@ export class RateLimiterService {
    * @returns Promise<void> - Resolve quando a permissão é concedida
    */
   async throttle(apiKey?: string): Promise<void> {
-    // Gera chave Redis baseada na API key (ou usa padrão para retrocompatibilidade)
     const apiKeyId = apiKey ? this.getApiKeyIdentifier(apiKey) : 'default';
     const redisKey = `riot_requests:${apiKeyId}`;
     const lockName = `${this.LOCK_NAME}:${apiKeyId}`;
@@ -71,7 +70,6 @@ export class RateLimiterService {
       this.logger.warn(
         `Não foi possível adquirir o lock para o rate limiter (${apiKeyId}). A requisição será bloqueada e tentará novamente.`,
       );
-      // Se não conseguir o lock, espera um pouco e tenta o throttle todo de novo
       await this.delay(this.RETRY_DELAY_MS * 2);
       return this.throttle(apiKey);
     }
@@ -90,15 +88,11 @@ export class RateLimiterService {
             throw new Error('Redis não inicializado');
           }
 
-          // 1. Remover timestamps antigos (mais velhos que a janela)
           await this.redis.zremrangebyscore(redisKey, '-inf', windowStart);
 
-          // 2. Contar requisições dentro da janela para esta API key
           const requestCount = await this.redis.zcard(redisKey);
 
-          // 3. Verificar se podemos prosseguir
           if (requestCount < this.MAX_REQUESTS) {
-            // 4. Sim, podemos. Adicionar nosso timestamp e sair.
             await this.redis.zadd(redisKey, currentTimestamp, currentTimestamp);
             const waitTime = Date.now() - startTime;
             if (waitTime > 0) {
@@ -107,10 +101,9 @@ export class RateLimiterService {
                   `Requisições na janela (${apiKeyId}): ${requestCount + 1}/${this.MAX_REQUESTS}`,
               );
             }
-            return; // <-- EXIT
+            return;
           }
 
-          // 5. Não, não podemos. Logar, aguardar e tentar novamente.
           this.logger.warn(
             `Rate limit excedido para API key (${apiKeyId}). Tentativa ${attempts}. ` +
               `Requisições na janela: ${requestCount}/${this.MAX_REQUESTS}. ` +
@@ -120,8 +113,6 @@ export class RateLimiterService {
           await this.delay(this.RETRY_DELAY_MS);
         } catch (error) {
           this.logger.error('Erro no rate limiter:', error);
-
-          // Em caso de erro no Redis, aguardar um pouco e tentar novamente
           await this.delay(this.RETRY_DELAY_MS);
         }
       }
@@ -184,7 +175,6 @@ export class RateLimiterService {
       }
 
       if (apiKey) {
-        // Limpa apenas uma API key específica
         const apiKeyId = this.getApiKeyIdentifier(apiKey);
         const redisKey = `riot_requests:${apiKeyId}`;
         await this.redis.del(redisKey);
@@ -192,10 +182,7 @@ export class RateLimiterService {
           `Rate limit limpo para API key ${apiKeyId} com sucesso`,
         );
       } else {
-        // Limpa todas as chaves de rate limit
-        // Busca todas as chaves que começam com 'riot_requests:'
         const keys = await this.redis.keys('riot_requests:*');
-        // Também limpa a chave antiga para retrocompatibilidade
         keys.push('riot_requests');
 
         if (keys.length > 0) {

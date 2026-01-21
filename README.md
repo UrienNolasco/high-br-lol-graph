@@ -31,13 +31,14 @@ O fluxo de dados segue um padrão claro de responsabilidades separadas para gara
 
 ### Stack de Tecnologias
 
-- Orquestração Local: Docker & Docker Compose
-- Linguagem & Framework: Node.js com NestJS & TypeScript
-  - nestjs/cache-manager para salvar o valor de uma requisão.
-- Banco de Dados: PostgreSQL
-- Fila de Mensagens: RabbitMQ
-- Scalar para documentação da API
-- Typeorm
+- **Orquestração Local**: Docker & Docker Compose
+- **Linguagem & Framework**: Node.js com NestJS & TypeScript
+- **Banco de Dados**: PostgreSQL com Prisma ORM
+- **Fila de Mensagens**: RabbitMQ
+- **Cache e Rate Limiting**: Redis (ioredis)
+- **Documentação da API**: Scalar API Reference
+- **Validação**: class-validator e class-transformer
+- **HTTP Client**: Axios via @nestjs/axios
 
 ### Error Handling e Resiliência
 
@@ -85,7 +86,8 @@ Para garantir a robustez e a segurança da API, foi implementado um sistema de v
 - Falha rápida se configurações essenciais estiverem ausentes
 - Type safety garantido para evitar erros em runtime
   **4. Estratégias de Recuperação**
-- **Rate Limiting**: Logs de warning para monitoramento, preparado para implementação de retry logic
+- **Rate Limiting**: Gerenciado pelo RateLimiterService com Redis, com espera automática quando o limite é atingido
+- **Retry Logic**: Implementado via RetryService com exponential backoff e jitter (até 5 tentativas)
 - **Timeouts**: Configurado para 5 segundos, evitando travamentos
 - **Erros de Rede**: Tratamento específico para problemas de conectividade
 - **Falhas de API**: Propagação de exceções apropriadas para camadas superiores
@@ -113,11 +115,15 @@ Para garantir a robustez e a segurança da API, foi implementado um sistema de v
 
 ### Sincronização entre Collector e Worker
 
-Adicionei o Redis para resolver o problema de concorrência entre o CollectorService e o WorkerService pois ambos compartilham um único e restrito limite de taxa (100 requisições a cada 2 minutos).
+O Redis é utilizado para resolver o problema de concorrência entre o CollectorService e o WorkerService, pois ambos compartilham um limite de taxa restrito (100 requisições a cada 2 minutos).
 
-O Redis entra como um contador centralizado e de alta velocidade. Antes de qualquer serviço fazer uma chamada à API, ele registra um "ticket" com timestamp no Redis. O sistema então verifica nesse registro compartilhado quantas requisições foram feitas nos últimos 2 minutos. Se o limite for atingido, a requisição aguarda.
+**Implementação:**
+- **Rate Limiter Service**: Gerencia o rate limiting usando Redis com algoritmo de janela deslizante
+- **Lock Service**: Implementa locks distribuídos usando Redis para evitar condições de corrida
+- **Múltiplas API Keys**: Suporta múltiplas API keys da Riot, cada uma com seu próprio contador de rate limit
+- **Sincronização**: Antes de qualquer chamada à API, o serviço verifica quantas requisições foram feitas nos últimos 2 minutos. Se o limite for atingido, a requisição aguarda automaticamente
 
-Essencialmente, o Redis está sincronizando o "direito de fazer uma requisição à API" entre o Collector e o Worker, garantindo que eles operem em conjunto e de forma eficiente, sem serem bloqueados.
+O Redis atua como um contador centralizado de alta velocidade, sincronizando o "direito de fazer uma requisição à API" entre o Collector e os Workers, garantindo que operem de forma eficiente sem serem bloqueados.
 
 ### Estrutura de Pastas do Projeto:
 
@@ -139,53 +145,118 @@ high-br-lol-graph/
     │
     ├── core/             # Lógica e módulos compartilhados entre todos os serviços.
     │   ├── config/       # Módulo para gerenciar variáveis de ambiente (@nestjs/config)
-    │   │   ├── config.module.ts
-    │   │   └── config.service.ts
+    │   │   └── config.module.ts
     │   │
-    │   ├── database/     # Configuração do banco de dados (TypeORM/Prisma) e entidades.
-    │   │   ├── database.module.ts
-    │   │   └── entities/
-    │   │       ├── champion-stats.entity.ts
-    │   │       ├── matchup-stats.entity.ts
-    │   │       └── processed-match.entity.ts
+    │   ├── prisma/       # Configuração do Prisma ORM
+    │   │   ├── prisma.module.ts
+    │   │   └── prisma.service.ts
+    │   │
+    │   ├── data-dragon/  # Serviço para interagir com a API do Data Dragon
+    │   │   ├── data-dragon.module.ts
+    │   │   └── data-dragon.service.ts
+    │   │
+    │   ├── lock/         # Serviço de locks distribuídos usando Redis
+    │   │   ├── lock.module.ts
+    │   │   └── lock.service.ts
     │   │
     │   ├── riot/         # Cliente para a API da Riot Games. Centraliza chamadas e rate limiting.
     │   │   ├── riot.module.ts
     │   │   ├── riot.service.ts
+    │   │   ├── rate-limiter.service.ts
+    │   │   ├── retry.service.ts
+    │   │   ├── match-parser.service.ts
     │   │   └── dto/      # Data Transfer Objects para os dados da API da Riot
     │   │
     │   └── queue/        # Lógica para interagir com o RabbitMQ.
     │       ├── queue.module.ts
-    │       └── queue.service.ts # Serviço para publicar mensagens.
+    │       └── queue.service.ts
     │
     └── modules/          # Módulos específicos para cada um dos nossos serviços.
         ├── api/          # Responsável por expor os dados via HTTP.
         │   ├── api.module.ts
-        │   ├── api.controller.ts # Define os endpoints (ex: GET /stats/champions/:id)
-        │   └── api.service.ts    # Lógica de negócio para buscar dados no banco.
+        │   ├── api.controller.ts
+        │   ├── api.service.ts
+        │   ├── tier-rank.service.ts
+        │   └── dto/      # Data Transfer Objects para os endpoints da API
         │
         ├── collector/    # Responsável por buscar e enfileirar as partidas.
         │   ├── collector.module.ts
-        │   └── collector.service.ts # Lógica para buscar high-elo, partidas e publicar na fila.
+        │   └── collector.service.ts
         │
         └── worker/       # Responsável por processar as partidas da fila.
             ├── worker.module.ts
-            └── worker.service.ts # Lógica para consumir mensagens, buscar detalhes e salvar no banco.
+            ├── worker.controller.ts
+            ├── worker.service.ts
+            └── dto/      # Data Transfer Objects para processamento de partidas
 ```
 
 ### Estratégia de Execução
 
-A aplicação única será iniciada em diferentes "modos" com base na variável de ambiente APP_MODE.
-`APP_MODE=API`: Inicia o servidor HTTP.
-`APP_MODE=WORKER`: Inicia o consumidor da fila RabbitMQ.
-`APP_MODE=COLLECTOR`: Executa o processo de coleta como um script único e finaliza.
-O docker-compose.yml será configurado para iniciar os contêineres api e worker de forma contínua, enquanto o collector poderá ser executado sob demanda com o comando docker-compose run --rm collector.
-Isso signfica que na minha imagem teremos 3 containers diferentes orquestrados pelo docker-compose.yml
+A aplicação única será iniciada em diferentes "modos" com base na variável de ambiente `APP_MODE`:
+
+- **`APP_MODE=API`**: Inicia o servidor HTTP na porta 3000 com documentação Scalar disponível em `/reference`
+- **`APP_MODE=WORKER`**: Inicia o consumidor da fila RabbitMQ para processar partidas
+- **`APP_MODE=COLLECTOR`**: Executa o processo de coleta como um script único e finaliza
+
+O `docker-compose.yml` está configurado para iniciar os contêineres `api`, `worker` e `worker-2` de forma contínua, enquanto o `collector` pode ser executado sob demanda.
+
+**Contêineres:**
+- `postgres`: Banco de dados PostgreSQL
+- `rabbitmq`: Message broker com interface de gerenciamento na porta 15672
+- `redis`: Cache e rate limiting
+- `api`: Servidor HTTP da API
+- `worker` e `worker-2`: Processadores de partidas (suporta múltiplas API keys)
+- `collector`: Coletor de partidas (executado sob demanda)
 
 
-Rodar deploy version:
+### Métricas Calculadas
+
+O sistema calcula as seguintes estatísticas para cada campeão:
+
+- **Win Rate**: Taxa de vitória (vitórias / total de jogos)
+- **Ban Rate**: Taxa de banimento (bans / total de slots de ban disponíveis)
+- **Pick Rate**: Taxa de escolha baseada na role primária do campeão
+- **KDA**: (Kills + Assists) / Deaths
+- **DPM**: Dano por minuto (totalDamageDealt / duração em minutos)
+- **GPM**: Ouro por minuto (totalGoldEarned / duração em minutos)
+- **CSPM**: Farm por minuto (totalCreepScore / duração em minutos)
+
+### Sistema de Tier e Rank
+
+O sistema implementa um algoritmo de classificação de campeões baseado em múltiplas métricas:
+
+- **Score Calculation**: Combina win rate, ban rate, pick rate, KDA, DPM, GPM e CSPM com pesos específicos
+- **Tier System**: Classifica campeões em tiers (S+, S, A, B, C, D) baseado no score final
+- **Rank por Role**: Calcula ranking dentro de cada role (TOP, JUNGLE, MIDDLE, BOTTOM, UTILITY)
+- **Análise Comparativa**: Considera dados do patch anterior para identificar tendências (ascensão/queda)
+- **Confiança Estatística**: Aplica multiplicadores de confiança baseados no tamanho da amostra
+
+### Data Dragon Integration
+
+O sistema integra com a API do Data Dragon da Riot Games para:
+
+- Obter informações dos campeões (nomes, IDs, títulos)
+- Buscar versões e patches atuais do jogo
+- Gerar URLs de imagens dos campeões (square, loading, splash)
+
+### Comandos Úteis
+
+**Desenvolvimento:**
+```bash
+docker compose up -d
+docker compose run --rm collector
+```
+
+**Produção:**
+```bash
 docker compose -f docker-compose.prod.yml build --no-cache
 docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml down
+```
 
-derrubar:
-docker compose -f .\docker-compose.prod.yml down
+**Banco de Dados:**
+```bash
+npx prisma migrate dev
+npx prisma generate
+npx prisma studio
+```

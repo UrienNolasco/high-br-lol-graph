@@ -41,10 +41,9 @@ export class RetryService {
   }
 
   private calculateDelay(attempt: number): number {
-    // Exponential backoff com jitter
     const exponentialDelay = this.baseDelay * Math.pow(2, attempt - 1);
-    const jitter = Math.random() * 1000; // até 1 segundo de jitter
-    return Math.min(exponentialDelay + jitter, 10000); // máximo 10 segundos
+    const jitter = Math.random() * 1000;
+    return Math.min(exponentialDelay + jitter, 10000);
   }
 
   private delay(ms: number): Promise<void> {
