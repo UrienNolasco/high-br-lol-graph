@@ -4,7 +4,6 @@ import { PrismaService } from '../../core/prisma/prisma.service';
 
 describe('TierRankService', () => {
   let service: TierRankService;
-  let prismaService: PrismaService;
 
   const mockPrismaService = {
     matchupStats: {
@@ -24,7 +23,6 @@ describe('TierRankService', () => {
     }).compile();
 
     service = module.get<TierRankService>(TierRankService);
-    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   afterEach(() => {
