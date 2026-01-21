@@ -135,7 +135,13 @@ export class StatsController {
   getChampionStats(
     @Query() query: GetChampionStatsDto,
   ): Promise<PaginatedChampionStatsDto> {
-    const { patch, page, limit, sortBy, order } = query;
+    const {
+      patch,
+      page = 1,
+      limit = 20,
+      sortBy = 'winRate',
+      order = 'desc',
+    } = query;
     return this.apiService.getChampionStats(patch, page, limit, sortBy, order);
   }
 

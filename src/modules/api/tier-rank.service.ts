@@ -35,14 +35,20 @@ export class TierRankService {
     let major = parseInt(parts[0], 10);
     let minor = parseInt(parts[1], 10);
 
+    // Verificar se é o primeiro patch possível (1.00 ou 1.01)
+    if (major <= 1 && minor <= 1) {
+      return null;
+    }
+
     if (minor > 1) {
       minor -= 1;
     } else {
       major -= 1;
-      minor = 24; // Assumindo que patches vão até 24
+      minor = 23; // Assumindo que patches vão até 24, então anterior ao .01 é .23
     }
 
-    return `${major}.${minor}`;
+    // Formatar com zero à esquerda para minor version
+    return `${major}.${minor.toString().padStart(2, '0')}`;
   }
 
   /**

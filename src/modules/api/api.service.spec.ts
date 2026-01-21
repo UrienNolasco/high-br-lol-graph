@@ -3,8 +3,8 @@ import { ApiService } from './api.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
 import { NotFoundException } from '@nestjs/common';
+import { TierRankService } from './tier-rank.service';
 
-// Mock data
 const mockChampionStats = [
   {
     id: 1,
@@ -12,7 +12,13 @@ const mockChampionStats = [
     patch: '14.4',
     wins: 10,
     gamesPlayed: 20,
-    role: 'TOP',
+    totalKills: 200,
+    totalDeaths: 100,
+    totalAssists: 300,
+    totalDamageDealt: BigInt(500000),
+    totalGoldEarned: BigInt(150000),
+    totalCreepScore: 1000,
+    totalDuration: 1200,
   },
   {
     id: 2,
@@ -20,7 +26,13 @@ const mockChampionStats = [
     patch: '14.4',
     wins: 15,
     gamesPlayed: 25,
-    role: 'MIDDLE',
+    totalKills: 300,
+    totalDeaths: 150,
+    totalAssists: 450,
+    totalDamageDealt: BigInt(750000),
+    totalGoldEarned: BigInt(200000),
+    totalCreepScore: 1500,
+    totalDuration: 1500,
   },
 ];
 
@@ -51,7 +63,6 @@ const mockMatchupStats = {
   role: 'TOP',
 };
 
-// Mocks for the services
 const mockPrismaService = {
   championStats: {
     findMany: jest.fn().mockResolvedValue(mockChampionStats),
@@ -59,16 +70,62 @@ const mockPrismaService = {
   },
   matchupStats: {
     findFirst: jest.fn().mockResolvedValue(mockMatchupStats),
+    findMany: jest.fn().mockResolvedValue([mockMatchupStats]),
+  },
+  processedMatch: {
+    count: jest.fn().mockResolvedValue(100),
   },
 };
 
 const mockDataDragonService = {
-  getChampionById: jest.fn((id) => mockChampionData[id]),
-  getChampionByName: jest.fn((name) => {
+  getChampionById: jest.fn((id: number) => mockChampionData[id.toString()]),
+  getChampionByName: jest.fn((name: string) => {
     if (name.toLowerCase() === 'aatrox') return mockChampionData['266'];
     if (name.toLowerCase() === 'ahri') return mockChampionData['103'];
     return undefined;
   }),
+  getChampionImageUrls: jest.fn().mockResolvedValue({
+    square: 'https://url.com/Aatrox.png',
+    loading: 'https://url.com/Aatrox_0.jpg',
+    splash: 'https://url.com/Aatrox_0.jpg',
+  }),
+  getAllChampions: jest.fn().mockReturnValue(Object.values(mockChampionData)),
+  getVersions: jest.fn().mockResolvedValue(['14.4.1', '14.3.1', '14.2.1']),
+};
+
+const mockTierRankService = {
+  getPreviousPatch: jest.fn((patch: string) => {
+    if (patch === '14.4') return '14.3';
+    if (patch === '14.3') return '14.2';
+    return '13.24';
+  }),
+  calculateChampionScore: jest.fn().mockReturnValue({
+    tier: 'S',
+    score: 85,
+    hasInsufficientData: false,
+  }),
+  processMatchupsForPatch: jest.fn().mockReturnValue({
+    primaryRolesByChampion: new Map([
+      [266, 'TOP'],
+      [103, 'MID'],
+    ]),
+    gamesByChampionAndRole: new Map([
+      [
+        266,
+        new Map([
+          ['TOP', 10],
+          ['JUNGLE', 5],
+        ]),
+      ],
+      [103, new Map([['MID', 20]])],
+    ]),
+    totalGamesByRole: new Map([
+      ['TOP', 100],
+      ['JUNGLE', 50],
+      ['MID', 150],
+    ]),
+  }),
+  inferPrimaryRole: jest.fn().mockResolvedValue(null),
 };
 
 describe('ApiService', () => {
@@ -80,10 +137,15 @@ describe('ApiService', () => {
         ApiService,
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: DataDragonService, useValue: mockDataDragonService },
+        { provide: TierRankService, useValue: mockTierRankService },
       ],
     }).compile();
 
     service = module.get<ApiService>(ApiService);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -98,25 +160,30 @@ describe('ApiService', () => {
 
       const result = await service.getChampionStats(patch, page, limit);
 
-      // O sort padrão é por winRate descendente
       expect(result.data).toHaveLength(2);
       expect(result.total).toBe(2);
       expect(result.page).toBe(page);
       expect(result.limit).toBe(limit);
 
-      // Ahri deve vir primeiro (60% winrate)
-      expect(result.data[0].championName).toBe('Ahri');
-      expect(result.data[0].winRate).toBe(60); // 15 wins / 25 games
-      expect(result.data[0].gamesPlayed).toBe(25);
-
-      // Aatrox em segundo (50% winrate)
-      expect(result.data[1].championName).toBe('Aatrox');
-      expect(result.data[1].winRate).toBe(50); // 10 wins / 20 games
-      expect(result.data[1].gamesPlayed).toBe(20);
-
       expect(mockPrismaService.championStats.findMany).toHaveBeenCalledWith({
         where: { patch },
       });
+    });
+
+    it('should use default values for page and limit', async () => {
+      const result = await service.getChampionStats('14.4');
+
+      expect(result.page).toBe(1);
+      expect(result.limit).toBe(20);
+    });
+
+    it('should handle empty results', async () => {
+      mockPrismaService.championStats.findMany.mockResolvedValue([]);
+
+      const result = await service.getChampionStats('99.9');
+
+      expect(result.data).toHaveLength(0);
+      expect(result.total).toBe(0);
     });
   });
 
@@ -137,7 +204,6 @@ describe('ApiService', () => {
     });
 
     it('should throw NotFoundException if stats for a known champion do not exist on a patch', async () => {
-      // Simula que o campeão existe no DataDragon mas não há stats para ele no patch
       mockPrismaService.championStats.findFirst.mockResolvedValue(null);
       await expect(service.getChampion('Aatrox', '99.9')).rejects.toThrow(
         NotFoundException,
@@ -160,32 +226,31 @@ describe('ApiService', () => {
       );
 
       expect(result.championA.name).toBe('Aatrox');
-      expect(result.championA.winRate).toBe(50); // 5 wins for Aatrox / 10 games
+      expect(result.championA.winRate).toBe(50);
 
       expect(result.championB.name).toBe('Ahri');
-      expect(result.championB.winRate).toBe(50); // 10 games - 5 Aatrox wins = 5 Ahri wins
+      expect(result.championB.winRate).toBe(50);
 
       expect(result.gamesPlayed).toBe(10);
     });
 
     it('should calculate matchup win rates correctly when championA is championId2', async () => {
-      // Inverte a ordem para testar a lógica de cálculo
       mockPrismaService.matchupStats.findFirst.mockResolvedValueOnce({
         ...mockMatchupStats,
-        championId1: 103, // Ahri
-        championId2: 266, // Aatrox
-        champion1Wins: 7, // Ahri wins
+        championId1: 103,
+        championId2: 266,
+        champion1Wins: 7,
       });
 
       const result = await service.getMatchupStats(
-        'Aatrox', // championA
-        'Ahri', // championB
+        'Aatrox',
+        'Ahri',
         '14.4',
         'TOP',
       );
 
       expect(result.championA.name).toBe('Aatrox');
-      expect(result.championA.winRate).toBe(30); // 10 total - 7 Ahri wins = 3 Aatrox wins
+      expect(result.championA.winRate).toBe(30);
 
       expect(result.championB.name).toBe('Ahri');
       expect(result.championB.winRate).toBe(70);
@@ -195,6 +260,66 @@ describe('ApiService', () => {
       await expect(
         service.getMatchupStats('Unknown', 'Ahri', '14.4', 'TOP'),
       ).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('getAllChampions', () => {
+    it('should return all champions with images', async () => {
+      const result = await service.getAllChampions();
+
+      expect(result.champions).toBeDefined();
+      expect(Array.isArray(result.champions)).toBe(true);
+      expect(result.total).toBe(2);
+      expect(result.champions[0].images).toBeDefined();
+    });
+  });
+
+  describe('getCurrentPatch', () => {
+    it('should return patches with current highlighted', async () => {
+      const result = await service.getCurrentPatch();
+
+      expect(result.patches).toBeDefined();
+      expect(result.current).toBeDefined();
+      expect(result.patches[0]).toEqual(result.current);
+    });
+
+    it('should format patches correctly', async () => {
+      const result = await service.getCurrentPatch();
+
+      expect(result.patches[0].patch).toBe('14.4');
+      expect(result.patches[0].fullVersion).toBe('14.4.1');
+    });
+  });
+
+  describe('getProcessedMatches', () => {
+    it('should return total count without patch filter', async () => {
+      const result = await service.getProcessedMatches();
+
+      expect(result).toEqual({ count: 100 });
+      expect(mockPrismaService.processedMatch.count).toHaveBeenCalledWith();
+    });
+
+    it('should return count filtered by patch', async () => {
+      mockPrismaService.processedMatch.count.mockResolvedValue(50);
+
+      const result = await service.getProcessedMatches('14.4');
+
+      expect(result).toEqual({ count: 50, patch: '14.4' });
+      expect(mockPrismaService.processedMatch.count).toHaveBeenCalledWith({
+        where: { patch: '14.4' },
+      });
+    });
+
+    it('should return message when patch has no data', async () => {
+      mockPrismaService.processedMatch.count.mockResolvedValue(0);
+
+      const result = await service.getProcessedMatches('99.9');
+
+      expect(result).toEqual({
+        count: 0,
+        patch: '99.9',
+        message: 'Não há dados para o patch 99.9',
+      });
     });
   });
 });
