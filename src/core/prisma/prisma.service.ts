@@ -9,11 +9,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     try {
       await this.$connect();
       this.logger.log(
-        '✅ [DATABASE] - Conexão com o banco de dados estabelecida com sucesso!',
+        '[DATABASE] - Conexão com o banco de dados estabelecida com sucesso!',
       );
     } catch (error) {
       this.logger.error(
-        '❌ [DATABASE] - Falha ao conectar com o banco de dados',
+        '[DATABASE] - Falha ao conectar com o banco de dados',
         error,
       );
       process.exit(1);
