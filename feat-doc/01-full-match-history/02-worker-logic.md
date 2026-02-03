@@ -1,61 +1,121 @@
-# Lógica do Worker (Pipeline ETLA)
+# Lógica ETL Avançada: Match + Timeline (The "Omniscient" Worker)
 
-## Contexto
+## 1. Objetivo do Script
 
-O Worker deve ser reescrito para abandonar a lógica antiga. Ele agora opera em dois estágios distintos: **Persistência** e **Agregação**.
+Este worker é responsável por ingerir dados de dois endpoints distintos da Riot (Match V5 e Timeline V5), sincronizá-los e transformar os dados brutos em um formato otimizado para leitura (Arrays de Série Temporal e JSONs Espaciais).
 
-## Estágio 1: Persistência (Raw Data)
+## 2. Fluxo de Execução (Pipeline)
 
-### 1.1 Mapper (Transformação)
+### Passo 1: Ingestão Paralela (Extract)
 
-Criar uma função `mapRiotMatchToPrisma(matchDto)` que sanitiza os dados antes do banco.
+Não espere um terminar para pedir o outro. Use concorrência.
 
-- **Tratamento de Pings:**
-  ```typescript
-  // Pseudocódigo da lógica obrigatória
-  const pings = {};
-  for (const [key, value] of Object.entries(participantDto)) {
-    if (key.endsWith('Pings')) {
-      pings[key] = value;
+```typescript
+// Exemplo de extração
+const matchId = job.data.matchId;
+const [matchDto, timelineDto] = await Promise.all([
+  riotApi.getMatch(matchId),
+  riotApi.getTimeline(matchId) // Atenção: Tratar 404 se a timeline não existir (ex: partidas muito antigas)
+]);
+
+Passo 2: Processamento da Timeline (Transform - Heavy Lifting)
+A Timeline é composta por uma lista de frames (minutos). Precisamos iterar sobre ela apenas uma vez para extrair tudo (O(n)).
+
+Inicialize estruturas de dados temporárias para cada participante (Map ou Array indexado pelo ID 1-10).
+
+A. Geração de Gráficos (Time Series Arrays)
+Para cada frame em timelineDto.info.frames:
+
+Iterar sobre participantFrames (1 a 10).
+
+Extrair valores: totalGold, xp, minionsKilled, jungleMinionsKilled, totalDamageDoneToChampions.
+
+Dar push nos arrays correspondentes do participante (goldGraph, xpGraph, csGraph, damageGraph).
+
+Resultado: goldGraph será um array tipo [500, 750, 1200, ...] onde o índice é o minuto.
+
+B. Extração Espacial (Heatmaps & Events)
+Para cada frame, iterar sobre a lista de events.
+
+Eventos de Morte (CHAMPION_KILL):
+
+Ler position.x, position.y e timestamp.
+
+Identificar killerId (Quem matou) -> Adicionar coordenada ao array killPositions desse participante.
+
+Identificar victimId (Quem morreu) -> Adicionar coordenada ao array deathPositions desse participante.
+
+Nota: Se killerId for 0 (Minion/Torre), ignorar o killPosition.
+
+Eventos de Visão (WARD_PLACED):
+
+Ler creatorId.
+
+Adicionar {x, y, timestamp, wardType} ao array wardPositions.
+
+Eventos de Build (ITEM_PURCHASED, ITEM_SOLD):
+
+Ler participantId.
+
+Adicionar {itemId, timestamp, type: "BUY"} ao array itemTimeline.
+
+Eventos de Habilidade (SKILL_LEVEL_UP):
+
+Ler participantId e skillSlot (1=Q, 2=W, 3=E, 4=R).
+
+Converter ID numérico para String ("Q", "W"...).
+
+Dar push no array skillOrder.
+
+Passo 3: Mapeamento do Match V5 (Transform - Base Stats)
+Agora, mapeie o matchDto para o objeto MatchParticipant do Prisma.
+
+Dados Nativos: Copiar KDA, Win, VisionScore, Totals.
+
+Arrays: Converter item0..item6 para items: number[].
+
+JSONs Complexos (O "Maluco dos Dados"):
+
+runes: Copiar o objeto perks inteiro.
+
+challenges: Copiar o objeto challenges inteiro (contém as 130 métricas).
+
+pings: Varredura de chaves. Iterar sobre todas as propriedades do participante. Se a chave terminar em "Pings" (ex: enemyMissingPings), mover para um objeto pingsData.
+
+Passo 4: Fusão (Merge)
+Unir os dados processados no Passo 2 (Arrays/Mapas da Timeline) com o objeto do Passo 3.
+
+O objeto final participantCreateInput deve ter tanto o kda (do Match) quanto o goldGraph (da Timeline).
+
+Passo 5: Carga Transacional (Load)
+Salvar tudo atomicamente para evitar dados parciais.
+
+await prisma.$transaction(async (tx) => {
+  // 1. Criar a Match (Metadata)
+  const match = await tx.match.create({
+    data: {
+      matchId: matchDto.metadata.matchId,
+      // ... metadados ...
+      hasTimeline: true // Flag importante
     }
+  });
+
+  // 2. Criar Times (Com Timeline de Objetivos se extraída)
+  await tx.matchTeam.createMany({ data: teamsData });
+
+  // 3. Criar Participantes (O Payload Gigante)
+  // Recomenda-se createMany se o driver suportar JSON, ou loop de create
+  for (const p of participantsData) {
+    await tx.matchParticipant.create({ data: p });
   }
-  // Salvar 'pings' na coluna JSONB
-  ```
-- **Tratamento de Arrays:** Consolidar itens e summoners em arrays de inteiros.
-- **Tratamento de BigInt:** Garantir que valores de dano sejam compatíveis com BigInt do Prisma.
+});
 
-### 1.2 Carga (Load)
+3. Tratamento de Exceções
+Timeline Ausente (404): Partidas muito antigas ou modos rotativos podem não ter timeline.
 
-Executar dentro de uma `prisma.$transaction`:
+Ação: Logar aviso, definir hasTimeline: false e salvar apenas os dados do Match V5 (deixar os arrays de gráfico vazios).
 
-1.  Verificar se `Match` já existe (`matchId`). Se sim, retornar (Idempotência).
-2.  Criar `Match`.
-3.  Criar `MatchTeam` (x2) com dados aninhados.
-4.  Criar `MatchParticipant` (x10) com dados aninhados.
+Match Já Existe:
 
-## Estágio 2: Agregação (Incremental Aggregation)
-
-### 2.1 Trigger
-
-**Imediatamente após** o sucesso da transação acima (e fora dela, para não travar o banco), chamar `StatisticsService.processMatchStats(matchId)`.
-
-### 2.2 Lógica de Agregação
-
-O Service deve buscar a partida recém-criada no banco (via `prisma.match.findUnique... include participants`).
-**Para cada participante**, executar um `UPSERT` na tabela `ChampionStats`:
-
-- **Where:** `{ patch: match.gameVersion, championId: participant.championId }`
-- **Create:**
-  - `gamesPlayed`: 1
-  - `wins`: 1 se `participant.win` for true, senão 0.
-  - `totalKills`: `participant.kills`
-  - ... (somar kda, farm, gold)
-- **Update (Increment):**
-  - `gamesPlayed`: `{ increment: 1 }`
-  - `wins`: `{ increment: 1 }` (apenas se ganhou)
-  - `totalKills`: `{ increment: participant.kills }`
-  - ... (incrementar o resto)
-
-## Benefício Técnico
-
-Ao ler do banco para agregar (em vez de ler do JSON), garantimos que **nunca** haverá discrepância entre o histórico da partida e a estatística do campeão. Se o dado está no banco, ele foi contado.
+Ação: Implementar verificação de idempotência no início (findUnique). Se já existe, pular processamento.
+```

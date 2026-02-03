@@ -67,11 +67,13 @@ export class CollectorService {
 
   private async checkIfMatchIsNew(matchId: string): Promise<boolean> {
     try {
-      const existingMatch = await this.prisma.processedMatch.findUnique({
+      // Otimização: Select apenas do ID para gastar menos memória
+      const match = await this.prisma.match.findUnique({
         where: { matchId },
+        select: { matchId: true },
       });
 
-      return !existingMatch;
+      return !match;
     } catch (error) {
       this.logger.warn(
         `⚠️ [COLLECTOR] - Erro ao verificar duplicata para ${matchId}:`,

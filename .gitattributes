@@ -1,0 +1,10 @@
+* text=auto
+
+# Scripts e arquivos de configuração devem sempre usar LF
+*.sh text eol=lf
+Dockerfile* text eol=lf
+.dockerignore text eol=lf
+
+# Arquivos Windows podem manter CRLF
+*.bat text eol=crlf
+*.ps1 text eol=crlf

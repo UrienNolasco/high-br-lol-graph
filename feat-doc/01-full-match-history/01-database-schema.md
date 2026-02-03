@@ -1,66 +1,106 @@
-# Modelagem de Dados (Schema Prisma)
+# Schema Prisma V2 (High Granularity)
 
-## Diretriz Geral
+## Visão Geral
+Este schema prioriza a performance de **leitura** de gráficos e mapas. Usamos arrays nativos do Postgres (`Int[]`, `String[]`) para séries temporais.
 
-O Schema deve ser híbrido: Relacional para dados de busca frequente (SQL rápido) e JSONB para dados de exibição detalhada (NoSQL flexível).
+```prisma
+model Match {
+  matchId       String   @id
+  gameCreation  BigInt
+  gameDuration  Int
+  gameMode      String
+  queueId       Int      @index // Filtro essencial
+  gameVersion   String
+  mapId         Int
+  
+  // Status do processamento (ETL)
+  hasTimeline   Boolean  @default(false) 
 
-## 1. Tabela `Match` (Metadata)
+  teams         MatchTeam[]
+  participants  MatchParticipant[]
+  timeline      MatchTimeline? // Dados globais da timeline (se necessário)
 
-Armazena o contexto da partida.
+  @@map("matches")
+}
 
-- **PK:** `matchId` (String) - Ex: "BR1_123456"
-- **Campos Essenciais:**
-  - `gameCreation` (BigInt) - _Timestamp de criação._
-  - `gameDuration` (Int) - _Em segundos._
-  - `gameMode` (String) - _Ex: CLASSIC, ARAM._
-  - `queueId` (Int) - _Crucial para filtrar Ranked Solo (420) vs Flex (440)._
-  - `gameVersion` (String) - _Para controle de Patch._
-  - `mapId` (Int)
-- **Relações:** `teams` (1:N), `participants` (1:N).
+model MatchParticipant {
+  // --- CHAVES E RELACIONAMENTOS ---
+  matchId       String
+  puuid         String
+  match         Match    @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
 
-## 2. Tabela `MatchTeam`
+  // --- IDENTIDADE (Indexados para busca rápida) ---
+  summonerName  String
+  championId    Int      @index
+  championName  String
+  teamId        Int
+  role          String
+  lane          String
+  win           Boolean
 
-- **Campos:** `teamId` (Int - 100/200), `win` (Boolean).
-- **Bans:** `Int[]` - _Array simples de Champion IDs._
-- **Objectives:** `Json` - _Armazena o objeto completo de objetivos (Baron, Dragon, Horde, RiftHerald, Tower, Inhibitor)._
+  // --- ESTATÍSTICAS FINAIS (Match V5) ---
+  kills         Int
+  deaths        Int
+  assists       Int
+  kda           Float
+  goldEarned    Int
+  totalDamage   Int      // Total damage to champions
+  visionScore   Int
+  
+  // --- SÉRIES TEMPORAIS (TIMELINE OPTIMIZATION) ---
+  // Arrays onde o índice = minuto da partida. 
+  // Ex: goldGraph[10] = Ouro aos 10 minutos. Leitura instantânea p/ gráficos.
+  goldGraph     Int[]    
+  xpGraph       Int[]
+  csGraph       Int[]    // Minions + Monsters
+  damageGraph   Int[]    // Dano total acumulado até aquele minuto
 
-## 3. Tabela `MatchParticipant` (O Coração do Sistema)
+  // --- MAPAS DE CALOR E POSICIONAMENTO ---
+  // Armazenamos coordenadas X,Y compactadas.
+  // Ex: [{x: 100, y: 500, time: 60000}, ...]
+  deathPositions  Json   // Onde esse jogador morreu
+  killPositions   Json   // Onde esse jogador matou
+  wardPositions   Json   // Onde colocou wards
+  pathingSample   Json   // Amostragem de posição (ex: a cada 1 min) para ver rota
 
-Esta tabela deve conter tudo necessário para renderizar a tela de "Match Details" no Mobile.
+  // --- COMPORTAMENTO DETALHADO ---
+  // Ordem exata de skills: ["Q", "E", "W", "Q", ...]
+  skillOrder      String[] 
+  
+  // Evolução de Itens: [{itemId: 1055, timestamp: 65000, type: "BUY"}]
+  itemTimeline    Json     
 
-### Seção A: Identidade e Placar (Colunas Nativas)
+  // Dados Brutos (Fallback)
+  runes           Json     // Árvore completa de runas
+  challenges      Json     // Objeto challenges completo da Riot
+  pings           Json     // Todos os tipos de pings agrupados
+  spells          Int[]    // Summoner Spells IDs
 
-- `puuid` (String) - **@index**
-- `summonerName` (String)
-- `championId` (Int) - **@index**
-- `championName` (String)
-- `teamId` (Int)
-- `role` (String), `lane` (String), `individualPosition` (String)
-- `win` (Boolean)
-- `kills` (Int), `deaths` (Int), `assists` (Int), `kda` (Float)
+  @@id([matchId, puuid]) // Chave composta
+  @@index([puuid])
+  @@map("match_participants")
+}
 
-### Seção B: Economia e Performance (Colunas Nativas)
+model MatchTeam {
+  id          Int     @id @default(autoincrement())
+  matchId     String
+  teamId      Int
+  win         Boolean
+  
+  bans        Int[]
+  
+  // Objetivos com timestamp para timeline de objetivos
+  // Ex: [{type: "DRAGON", subtype: "HEXTECH", timestamp: 1250000}, ...]
+  objectivesTimeline Json 
 
-- `goldEarned` (Int), `goldSpent` (Int)
-- `totalMinionsKilled` (Int), `neutralMinionsKilled` (Int)
-- `totalDamageDealtToChampions` (BigInt), `totalDamageTaken` (BigInt)
-- `visionScore` (Int), `wardsPlaced` (Int), `wardsKilled` (Int), `detectorWardsPlaced` (Int)
+  match Match @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  @@map("match_teams")
+}
 
-### Seção C: Dados Complexos (Mapeamento Específico)
-
-Estas colunas exigem lógica de transformação no Worker.
-
-- `items`: `Int[]`
-  - _Origem:_ `item0`, `item1`, `item2`, `item3`, `item4`, `item5`, `item6`.
-- `summoners`: `Int[]`
-  - _Origem:_ `summoner1Id`, `summoner2Id`.
-- `runes`: `Json`
-  - _Origem:_ Objeto `perks` do JSON original. Contém árvore primária, secundária e status mods.
-- `challenges`: `Json`
-  - _Origem:_ Objeto `challenges` do JSON. Contém centenas de métricas (turretPlates, soloKills, etc).
-- `pings`: `Json`
-  - _Origem:_ **Não existe objeto pings no JSON.** O Agente deve varrer todas as chaves do participante. Se a chave terminar em `...Pings` (ex: `enemyMissingPings`, `onMyWayPings`, `pushPings`), ela deve ser movida para dentro deste objeto JSON.
-
-## 4. Manutenção de Legado
-
-- Manter a tabela `ChampionStats` exatamente como existe hoje. Ela será o destino da agregação, mas não deve ser alterada estruturalmente nesta etapa.
+// Opcional: Se quisermos guardar eventos globais neutros
+model MatchTimeline {
+  matchId     String  @id
+  match       Match   @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  events      Json    // Eventos globais que não cabem no participante (ex: Pause, Game End)
+  @@map("match_timelines")
+}

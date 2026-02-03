@@ -62,7 +62,7 @@ describe('RateLimiterService', () => {
     // Resetar os mocks do Redis para valores padrão
     mockRedis.zremrangebyscore.mockResolvedValue(0);
     mockRedis.zcard.mockResolvedValue(0);
-    mockRedis.zadd.mockResolvedValue(1);
+    mockRedis.zadd.mockResolvedValue('1');
     mockRedis.keys.mockResolvedValue([]);
     mockRedis.del.mockResolvedValue(1);
   });

@@ -10,43 +10,113 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ProcessedMatch {
-  matchId     String   @id
-  patch       String
-  processedAt DateTime @default(now())
+model Match {
+  matchId       String   @id
+  gameCreation  BigInt
+  gameDuration  Int
+  gameMode      String
+  queueId       Int
+  gameVersion   String
+  mapId         Int
+  hasTimeline   Boolean  @default(true)
 
-  @@map("processed_matches")
+  teams         MatchTeam[]
+  participants  MatchParticipant[]
+
+  @@index([queueId])
+  @@map("matches")
+}
+
+model MatchParticipant {
+  matchId       String
+  puuid         String
+  match         Match    @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+
+  summonerName  String
+  championId    Int
+  championName  String
+  teamId        Int
+  role          String
+  lane          String
+  win           Boolean
+
+  // Estatísticas finais (Match V5)
+  kills         Int
+  deaths        Int
+  assists       Int
+  kda           Float
+  goldEarned    Int
+  totalDamage   Int
+  visionScore   Int
+
+  // Séries temporais (Timeline V5) - índice = minuto
+  goldGraph     Int[]
+  xpGraph       Int[]
+  csGraph       Int[]
+  damageGraph   Int[]
+
+  // Heatmaps e posicionamento
+  deathPositions  Json
+  killPositions   Json
+  wardPositions   Json
+  pathingSample   Json
+
+  // Comportamento detalhado
+  skillOrder      String[]
+  itemTimeline    Json
+
+  // Dados brutos (JSONB)
+  runes           Json
+  challenges      Json
+  pings           Json
+  spells          Int[]
+
+  @@id([matchId, puuid])
+  @@index([puuid])
+  @@index([championId])
+  @@map("match_participants")
+}
+
+model MatchTeam {
+  id          Int     @id @default(autoincrement())
+  matchId     String
+  teamId      Int
+  win         Boolean
+  bans        Int[]
+  objectivesTimeline Json
+
+  match Match @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  @@map("match_teams")
 }
 
 model ChampionStats {
-  patch       String
-  championId  Int
-  
-  gamesPlayed Int    @default(0)
-  wins        Int    @default(0)
-  bans        Int    @default(0)
-  
-  totalKills   Int    @default(0)
-  totalDeaths  Int    @default(0)
-  totalAssists Int    @default(0)
+  id           Int      @id @default(autoincrement())
+  championId   Int
+  championName String
+  patch        String
+  queueId      Int
 
-  totalDamageDealt BigInt @default(0) 
-  totalGoldEarned  BigInt @default(0)
-  totalCreepScore  Int    @default(0) 
-  totalDuration    Int    @default(0) 
+  // Estatísticas agregadas
+  gamesPlayed  Int      @default(0)
+  wins         Int      @default(0)
+  losses       Int      @default(0)
+  winRate      Float    @default(0)
 
-  @@id([patch, championId])
+  // Métricas médias
+  kda          Float    @default(0)
+  dpm          Float    @default(0)
+  cspm         Float    @default(0)
+  gpm          Float    @default(0)
+
+  // Taxas
+  banRate      Float    @default(0)
+  pickRate     Float    @default(0)
+
+  // Tier calculado
+  tier         String   @default("C")
+  rank         Int      @default(0)
+
+  @@unique([championId, patch, queueId])
+  @@index([patch, queueId])
   @@map("champion_stats")
-}
-
-model MatchupStats {
-  patch         String
-  championId1   Int
-  championId2   Int
-  role          String
-  gamesPlayed   Int    @default(0)
-  champion1Wins Int    @default(0)
-
-  @@id([patch, championId1, championId2, role])
-  @@map("matchup_stats")
 }

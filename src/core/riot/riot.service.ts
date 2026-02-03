@@ -2,8 +2,10 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
+import { AxiosError } from 'axios';
 import { LeagueListDto } from './dto/league-list.dto';
 import { MatchDto } from './dto/match.dto';
+import { TimelineDto } from './dto/timeline.dto';
 import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
 
@@ -103,5 +105,38 @@ export class RiotService {
       );
       return response.data;
     }, `getMatchById(${matchId})`);
+  }
+
+  /**
+   * Busca a timeline de uma partida.
+   * Retorna null se a timeline não existir (404) ou se for uma partida muito antiga.
+   *
+   * @param matchId - ID da partida (ex: BR1_1234567890)
+   * @returns TimelineDto ou null se não existir
+   */
+  async getTimeline(matchId: string): Promise<TimelineDto | null> {
+    this.ensureApiKey();
+
+    try {
+      return await this.retryService.executeWithRetry(async () => {
+        await this.rateLimiterService.throttle(this.apiKey);
+
+        const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}/timeline`;
+
+        const response = await firstValueFrom(
+          this.httpService.get<TimelineDto>(url, {
+            headers: this.createHeaders(),
+          }),
+        );
+        return response.data;
+      }, `getTimeline(${matchId})`);
+    } catch (error) {
+      // Se for 404, a timeline não existe (partida antiga ou modo especial)
+      if (error instanceof AxiosError && error.response?.status === 404) {
+        this.logger.warn(`Timeline not found for match ${matchId} (404)`);
+        return null;
+      }
+      throw error;
+    }
   }
 }

@@ -18,6 +18,12 @@ export interface ScoreResult {
   hasInsufficientData: boolean;
 }
 
+/**
+ * Service simplificado para cálculo de Tier List
+ *
+ * Agora o Worker popula a tabela ChampionStats incrementalmente.
+ * Este service apenas lê os dados e calcula tiers/scores.
+ */
 @Injectable()
 export class TierRankService {
   constructor(private readonly prisma: PrismaService) {}
@@ -47,137 +53,6 @@ export class TierRankService {
     }
 
     return `${major}.${minor.toString().padStart(2, '0')}`;
-  }
-
-  /**
-   * Infere a role primária de um campeão baseado em matchup_stats
-   * Retorna a role com maior número de jogos no patch
-   */
-  async inferPrimaryRole(
-    championId: number,
-    patch: string,
-  ): Promise<string | null> {
-    const matchups = await this.prisma.matchupStats.findMany({
-      where: {
-        patch,
-        OR: [{ championId1: championId }, { championId2: championId }],
-      },
-    });
-
-    if (matchups.length === 0) {
-      return null;
-    }
-
-    const roleGames = new Map<string, number>();
-    for (const matchup of matchups) {
-      const games = matchup.gamesPlayed;
-      const current = roleGames.get(matchup.role) || 0;
-      roleGames.set(matchup.role, current + games);
-    }
-
-    let maxGames = 0;
-    let primaryRole: string | null = null;
-    for (const [role, games] of roleGames.entries()) {
-      if (games > maxGames) {
-        maxGames = games;
-        primaryRole = role;
-      }
-    }
-
-    return primaryRole;
-  }
-
-  /**
-   * Calcula o total de jogos de uma role no patch usando matchup_stats
-   */
-  async getTotalGamesForRole(role: string, patch: string): Promise<number> {
-    const matchups = await this.prisma.matchupStats.findMany({
-      where: {
-        patch,
-        role,
-      },
-    });
-
-    return matchups.reduce((sum, matchup) => sum + matchup.gamesPlayed, 0);
-  }
-
-  /**
-   * Calcula o número de jogos de um campeão em uma role específica
-   */
-  async getChampionGamesInRole(
-    championId: number,
-    role: string,
-    patch: string,
-  ): Promise<number> {
-    const matchups = await this.prisma.matchupStats.findMany({
-      where: {
-        patch,
-        role,
-        OR: [{ championId1: championId }, { championId2: championId }],
-      },
-    });
-
-    return matchups.reduce((sum, matchup) => sum + matchup.gamesPlayed, 0);
-  }
-
-  /**
-   * Processa todos os matchups de um patch e retorna estruturas de dados otimizadas
-   * para cálculo de roles primárias, games por role, etc.
-   */
-  processMatchupsForPatch(
-    matchups: Array<{
-      championId1: number;
-      championId2: number;
-      role: string;
-      gamesPlayed: number;
-    }>,
-  ): {
-    primaryRolesByChampion: Map<number, string>;
-    gamesByChampionAndRole: Map<number, Map<string, number>>;
-    totalGamesByRole: Map<string, number>;
-  } {
-    const gamesByChampionAndRole = new Map<number, Map<string, number>>();
-    const totalGamesByRole = new Map<string, number>();
-
-    for (const matchup of matchups) {
-      const currentTotal = totalGamesByRole.get(matchup.role) || 0;
-      totalGamesByRole.set(matchup.role, currentTotal + matchup.gamesPlayed);
-
-      if (!gamesByChampionAndRole.has(matchup.championId1)) {
-        gamesByChampionAndRole.set(matchup.championId1, new Map());
-      }
-      const champ1RoleMap = gamesByChampionAndRole.get(matchup.championId1)!;
-      const champ1Current = champ1RoleMap.get(matchup.role) || 0;
-      champ1RoleMap.set(matchup.role, champ1Current + matchup.gamesPlayed);
-
-      if (!gamesByChampionAndRole.has(matchup.championId2)) {
-        gamesByChampionAndRole.set(matchup.championId2, new Map());
-      }
-      const champ2RoleMap = gamesByChampionAndRole.get(matchup.championId2)!;
-      const champ2Current = champ2RoleMap.get(matchup.role) || 0;
-      champ2RoleMap.set(matchup.role, champ2Current + matchup.gamesPlayed);
-    }
-
-    const primaryRolesByChampion = new Map<number, string>();
-    for (const [championId, roleMap] of gamesByChampionAndRole.entries()) {
-      let maxGames = 0;
-      let primaryRole: string | null = null;
-      for (const [role, games] of roleMap.entries()) {
-        if (games > maxGames) {
-          maxGames = games;
-          primaryRole = role;
-        }
-      }
-      if (primaryRole) {
-        primaryRolesByChampion.set(championId, primaryRole);
-      }
-    }
-
-    return {
-      primaryRolesByChampion,
-      gamesByChampionAndRole,
-      totalGamesByRole,
-    };
   }
 
   /**
@@ -370,5 +245,52 @@ export class TierRankService {
       tier,
       hasInsufficientData: false,
     };
+  }
+
+  /**
+   * Busca estatísticas do campeão para um patch específico
+   * Agora lê da tabela ChampionStats populada pelo Worker
+   */
+  async getChampionStats(
+    championId: number,
+    patch: string,
+    queueId: number,
+  ): Promise<ChampionMetrics | null> {
+    const stats = await this.prisma.championStats.findUnique({
+      where: {
+        championId_patch_queueId: {
+          championId,
+          patch,
+          queueId,
+        },
+      },
+    });
+
+    if (!stats) {
+      return null;
+    }
+
+    return {
+      winRate: stats.winRate,
+      banRate: stats.banRate,
+      pickRate: stats.pickRate,
+      kda: stats.kda,
+      dpm: stats.dpm,
+      gpm: stats.gpm,
+      cspm: stats.cspm,
+      gamesPlayed: stats.gamesPlayed,
+    };
+  }
+
+  /**
+   * Busca todas as estatísticas de campeões para um patch
+   */
+  async getAllChampionStats(patch: string, queueId?: number) {
+    return this.prisma.championStats.findMany({
+      where: {
+        patch,
+        ...(queueId && { queueId }),
+      },
+    });
   }
 }

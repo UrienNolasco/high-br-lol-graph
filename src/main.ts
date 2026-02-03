@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
 import { CollectorService } from './modules/collector/collector.service';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { BigIntInterceptor } from './core/interceptors/bigint.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -21,6 +22,10 @@ async function bootstrap() {
       },
     }),
   );
+
+  // Interceptor global para converter BigInt em String
+  // Necessário porque JSON.stringify não suporta BigInt
+  app.useGlobalInterceptors(new BigIntInterceptor());
 
   const logger = new Logger('Bootstrap');
 

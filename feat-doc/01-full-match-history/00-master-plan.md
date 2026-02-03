@@ -1,42 +1,32 @@
-# Master Plan: Histórico Completo de Partidas (Data Warehouse)
+# Manifesto Arquitetural: The Omniscient Database
 
-## 1. Visão Geral e Objetivo
+## 1. O Problema da Escala
+Estamos construindo uma ferramenta de análise profunda ("Coaching AI"). Isso exige granularidade extrema.
+* **Match V5** nos dá o "O Quê" (Resultado, Build Final, KDA).
+* **Timeline V5** nos dá o "Como", "Quando" e "Onde".
 
-Atualmente, nosso sistema descarta os dados brutos da partida após calcular estatísticas simples. Isso impede a criação de telas detalhadas no App Mobile (ex: ver build, ordem de skills, pings).
-O objetivo desta feature é migrar para uma arquitetura de **Data Warehouse**, onde armazenamos a fidelidade total do JSON da Riot (Match-V5) em um banco relacional estruturado, permitindo consultas complexas futuras e servindo de **Fonte Única da Verdade**.
+O desafio não é apenas armazenar, é **consultar**. Se guardarmos a timeline como um blob JSON bruto de 1MB, gerar um gráfico de "Gold Difference aos 15min" exigirá ler e parsear 1MB de texto para cada partida. Multiplique isso por 20 partidas no histórico e o app trava.
 
-## 2. Decisões Arquiteturais (Backend Only)
+## 2. Estratégia de Otimização: "Flatten & Array"
+Para otimizar a leitura no Mobile, o Worker deve processar a Timeline e "Achatar" (Flatten) os dados em arrays tipados na tabela do participante.
 
-- **Single Source of Truth:** A tabela `ChampionStats` (agregada) deixará de ser populada diretamente pelo JSON. Ela passará a ser uma **projeção derivada** dos dados salvos nas tabelas brutas.
-- **Pipeline ETLA:** Implementaremos um fluxo estrito de _Extract -> Transform -> Load -> Aggregate_.
-- **Mobile-First Data:** O schema do banco deve priorizar campos que alimentam a UI do mobile (Runas, Challenges para Badges, Pings para comportamento).
+**Exemplo Prático:**
+Em vez de navegar no JSON da timeline procurando `frame[10].participant[3].totalGold`, teremos uma coluna `goldGraph` do tipo `Int[]` na tabela do participante.
+* Query: `SELECT goldGraph[15] FROM match_participants WHERE ...`
+* Resultado: `4500` (Instantâneo).
 
-## 3. Etapas de Implementação (Roadmap)
+## 3. Escopo de Dados (O que vamos armazenar)
+O sistema deve ser capaz de reconstruir a partida virtualmente.
+1.  **Dados Agregados:** KDA, Dano, Visão, Objetivos (Do Match V5).
+2.  **Séries Temporais (Minuto a Minuto):** Ouro, XP, CS, Dano (Do Timeline V5).
+3.  **Dados Espaciais (Heatmaps):** Coordenadas (X,Y) de mortes, kills, wards e posicionamento do jogador (Do Timeline V5).
+4.  **Eventos Críticos:** Ordem exata de compra de itens e Level Up de skills.
 
-### Fase 1: Fundação (Database)
-
-- Criar tabelas `Match` (Metadata), `MatchTeam` (Objetivos/Bans) e `MatchParticipant` (Dados do Jogador).
-- Configurar colunas `JSONB` para dados de alta variabilidade (Challenges, Pings, Runas).
-- Criar índices estratégicos (`puuid`, `championId`, `queueId`) para garantir resposta <100ms na API.
-
-### Fase 2: O Processador (Worker V2)
-
-- **Mapper:** Criar utilitário que converte o DTO da Riot (aninhado e complexo) para o formato plano/relacional do Prisma.
-  - _Desafio:_ Extrair pings que vêm soltos na raiz do objeto.
-  - _Desafio:_ Converter listas de itens (`item0`...`item6`) para arrays de inteiros.
-- **Transaction:** Implementar salvamento atômico (`prisma.$transaction`). Ou salva a partida inteira, ou não salva nada.
-
-### Fase 3: A Refatoração do Legado (Aggregation)
-
-- Remover a lógica antiga que calculava estatísticas no momento da leitura do JSON.
-- Implementar o `StatisticsService`: Após o sucesso da transação da Fase 2, ler os dados do **Banco de Dados Local** e atualizar a tabela `ChampionStats` via **Incremental Upsert**.
-
-### Fase 4: Limpeza
-
-- Rodar `prisma migrate reset` (Recomendado devido à mudança drástica de cardinalidade).
-
-## 4. Definição de Pronto (DoD)
-
-1.  O banco armazena builds, runas, pings e desafios de cada jogador.
-2.  A tabela `ChampionStats` continua sendo alimentada automaticamente.
-3.  Nenhuma lógica de negócio depende mais da estrutura direta do JSON da Riot, apenas do nosso Banco.
+## 4. Pipeline ETL (Extract-Transform-Load)
+O Worker deixa de ser um simples "salvador de JSON" e vira um **Processador ETL Robusto**.
+1.  **Extract:** Baixa Match e Timeline em paralelo.
+2.  **Transform:**
+    * Cruza dados (Quem matou quem? Onde?).
+    * Comprime coordenadas de movimentação (Sampling).
+    * Gera Arrays de progressão (0min, 1min, 2min...).
+3.  **Load:** Insere em tabelas relacionais otimizadas com suporte a JSONB para metadados.
