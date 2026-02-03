@@ -5,7 +5,6 @@ import { PrismaService } from '../../core/prisma/prisma.service';
 
 interface MatchCollectionPayload {
   matchId: string;
-  patch: string;
 }
 
 @Injectable()
@@ -83,14 +82,9 @@ export class CollectorService {
     }
   }
 
-  private extractPatchFromMatchId(): string {
-    return '15.20';
-  }
-
   private enqueueMatch(matchId: string): void {
     const payload: MatchCollectionPayload = {
       matchId,
-      patch: this.extractPatchFromMatchId(),
     };
 
     this.queueService.publish('match.collect', payload);

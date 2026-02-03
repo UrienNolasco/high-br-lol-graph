@@ -15,27 +15,20 @@ export class WorkerController {
     @Payload() payload: ProcessMatchDto,
     @Ctx() context: RmqContext,
   ) {
-    const { matchId, patch } = payload;
+    const { matchId } = payload;
     const channel = context.getChannelRef() as Channel;
     const originalMsg = context.getMessage() as Message;
 
-    this.logger.log(
-      `Recebida mensagem para processar partida: ${matchId} (Patch: ${patch})`,
-    );
+    this.logger.log(`Recebida mensagem para processar partida: ${matchId}`);
 
     try {
-      await this.workerService.processMatch({ matchId, patch });
+      await this.workerService.processMatch({ matchId });
 
       channel.ack(originalMsg);
 
-      this.logger.log(
-        `Partida ${matchId} (Patch: ${patch}) processada com sucesso.`,
-      );
+      this.logger.log(`Partida ${matchId} processada com sucesso.`);
     } catch (error) {
-      this.logger.error(
-        `Erro ao processar partida ${matchId} (Patch: ${patch}):`,
-        error,
-      );
+      this.logger.error(`Erro ao processar partida ${matchId}:`, error);
 
       channel.nack(originalMsg, false, false);
 
