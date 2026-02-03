@@ -35,4 +35,26 @@ export class WorkerController {
       throw error;
     }
   }
+
+  @EventPattern('user.update')
+  async handleUserUpdate(
+    @Payload() payload: ProcessMatchDto,
+    @Ctx() context: RmqContext,
+  ) {
+    const { matchId } = payload;
+    const channel = context.getChannelRef() as Channel;
+    const originalMsg = context.getMessage() as Message;
+
+    this.logger.log(`[USER UPDATE] Processando partida: ${matchId}`);
+
+    try {
+      await this.workerService.processMatch({ matchId });
+      channel.ack(originalMsg);
+      this.logger.log(`[USER UPDATE] Partida ${matchId} processada.`);
+    } catch (error) {
+      this.logger.error(`[USER UPDATE] Erro ao processar ${matchId}:`, error);
+      channel.nack(originalMsg, false, false);
+      throw error;
+    }
+  }
 }

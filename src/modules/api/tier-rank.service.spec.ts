@@ -6,7 +6,8 @@ describe('TierRankService', () => {
   let service: TierRankService;
 
   const mockPrismaService = {
-    matchupStats: {
+    championStats: {
+      findUnique: jest.fn(),
       findMany: jest.fn(),
     },
   };
@@ -297,167 +298,71 @@ describe('TierRankService', () => {
     });
   });
 
-  describe('inferPrimaryRole', () => {
-    it('should infer primary role based on most games', async () => {
+  describe('getChampionStats', () => {
+    it('should return champion metrics when found', async () => {
       const championId = 266;
       const patch = '15.23';
+      const queueId = 420;
 
-      mockPrismaService.matchupStats.findMany.mockResolvedValue([
-        { role: 'TOP', gamesPlayed: 50 },
-        { role: 'TOP', gamesPlayed: 30 },
-        { role: 'MIDDLE', gamesPlayed: 10 },
-      ]);
+      const mockStats = {
+        winRate: 55,
+        banRate: 15,
+        pickRate: 20,
+        kda: 3.0,
+        dpm: 700,
+        gpm: 450,
+        cspm: 8.0,
+        gamesPlayed: 100,
+      };
 
-      const result = await service.inferPrimaryRole(championId, patch);
-      expect(result).toBeDefined();
-      expect(result).toBe('TOP');
-      expect(mockPrismaService.matchupStats.findMany).toHaveBeenCalledWith({
+      mockPrismaService.championStats.findUnique.mockResolvedValue(mockStats);
+
+      const result = await service.getChampionStats(championId, patch, queueId);
+
+      expect(result).toEqual(mockStats);
+      expect(mockPrismaService.championStats.findUnique).toHaveBeenCalledWith({
         where: {
-          patch,
-          OR: [{ championId1: championId }, { championId2: championId }],
+          championId_patch_queueId: { championId, patch, queueId },
         },
       });
     });
 
-    it('should return null when no matchup data exists', async () => {
-      const championId = 999;
-      const patch = '15.23';
+    it('should return null when stats not found', async () => {
+      mockPrismaService.championStats.findUnique.mockResolvedValue(null);
 
-      mockPrismaService.matchupStats.findMany.mockResolvedValue([]);
+      const result = await service.getChampionStats(266, '15.23', 420);
 
-      const result = await service.inferPrimaryRole(championId, patch);
       expect(result).toBeNull();
     });
   });
 
-  describe('processMatchupsForPatch', () => {
-    it('should process matchups and extract primary roles', () => {
-      const mockMatchups = [
-        {
-          championId1: 266,
-          championId2: 103,
-          gamesPlayed: 50,
-          role: 'TOP',
-        },
-        {
-          championId1: 266,
-          championId2: 157,
-          gamesPlayed: 30,
-          role: 'TOP',
-        },
-        {
-          championId1: 266,
-          championId2: 54,
-          gamesPlayed: 10,
-          role: 'MIDDLE',
-        },
+  describe('getAllChampionStats', () => {
+    it('should return all champion stats for a patch', async () => {
+      const patch = '15.23';
+      const mockStats = [
+        { championId: 266, patch: '15.23', winRate: 55 },
+        { championId: 103, patch: '15.23', winRate: 52 },
       ];
 
-      const result = service.processMatchupsForPatch(mockMatchups);
+      mockPrismaService.championStats.findMany.mockResolvedValue(mockStats);
 
-      expect(result.primaryRolesByChampion).toBeDefined();
-      expect(result.gamesByChampionAndRole).toBeDefined();
-      expect(result.totalGamesByRole).toBeDefined();
+      const result = await service.getAllChampionStats(patch);
+
+      expect(result).toEqual(mockStats);
+      expect(mockPrismaService.championStats.findMany).toHaveBeenCalledWith({
+        where: { patch },
+      });
     });
 
-    it('should correctly identify primary role for champion', () => {
-      const mockMatchups = [
-        {
-          championId1: 266,
-          championId2: 103,
-          gamesPlayed: 50,
-          role: 'TOP',
-        },
-        {
-          championId1: 266,
-          championId2: 157,
-          gamesPlayed: 30,
-          role: 'TOP',
-        },
-      ];
+    it('should filter by queueId when provided', async () => {
+      const patch = '15.23';
+      const queueId = 420;
 
-      const result = service.processMatchupsForPatch(mockMatchups);
+      await service.getAllChampionStats(patch, queueId);
 
-      expect(result.primaryRolesByChampion.get(266)).toBe('TOP');
-    });
-
-    it('should handle empty matchups array', () => {
-      const result = service.processMatchupsForPatch([]);
-
-      expect(result.primaryRolesByChampion.size).toBe(0);
-      expect(result.gamesByChampionAndRole.size).toBe(0);
-      expect(result.totalGamesByRole.size).toBe(0);
-    });
-
-    it('should calculate total games by role correctly', () => {
-      const mockMatchups = [
-        {
-          championId1: 266,
-          championId2: 103,
-          gamesPlayed: 50,
-          role: 'TOP',
-        },
-        {
-          championId1: 266,
-          championId2: 157,
-          gamesPlayed: 30,
-          role: 'TOP',
-        },
-        {
-          championId1: 103,
-          championId2: 157,
-          gamesPlayed: 40,
-          role: 'TOP',
-        },
-      ];
-
-      const result = service.processMatchupsForPatch(mockMatchups);
-
-      expect(result.totalGamesByRole.get('TOP')).toBe(120);
-    });
-
-    it('should calculate games by champion and role correctly', () => {
-      const mockMatchups = [
-        {
-          championId1: 266,
-          championId2: 103,
-          gamesPlayed: 50,
-          role: 'TOP',
-        },
-        {
-          championId1: 266,
-          championId2: 157,
-          gamesPlayed: 30,
-          role: 'TOP',
-        },
-      ];
-
-      const result = service.processMatchupsForPatch(mockMatchups);
-
-      expect(result.gamesByChampionAndRole.get(266)?.get('TOP')).toBe(80);
-    });
-
-    it('should handle multiple roles for same champion', () => {
-      const mockMatchups = [
-        {
-          championId1: 266,
-          championId2: 103,
-          gamesPlayed: 50,
-          role: 'TOP',
-        },
-        {
-          championId1: 266,
-          championId2: 157,
-          gamesPlayed: 10,
-          role: 'MIDDLE',
-        },
-      ];
-
-      const result = service.processMatchupsForPatch(mockMatchups);
-
-      expect(result.primaryRolesByChampion.get(266)).toBe('TOP');
-      expect(result.gamesByChampionAndRole.get(266)?.get('TOP')).toBe(50);
-      expect(result.gamesByChampionAndRole.get(266)?.get('MIDDLE')).toBe(10);
+      expect(mockPrismaService.championStats.findMany).toHaveBeenCalledWith({
+        where: { patch, queueId },
+      });
     });
   });
 });

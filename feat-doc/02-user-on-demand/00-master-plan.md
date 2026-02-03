@@ -1,22 +1,30 @@
-# Master Plan: Atualização de Perfil Sob Demanda (v1.1)
+# Master Plan: User On-Demand Update & Priority Queue
 
-## Objetivo
-Permitir que o usuário solicite a atualização dos seus dados recentes. O sistema deve buscar as últimas 20 partidas, filtrar as que já existem no banco e processar apenas as novas com prioridade máxima.
+## 1. O Problema
+Atualmente, o sistema é passivo. O usuário entra no app e vê "Dados não encontrados".
+Precisamos de um fluxo **Ativo e Prioritário** onde o usuário solicita a sincronização do seu perfil através do Riot ID (`GameName#TagLine`).
 
-## Arquitetura de Solução
-1.  **Entrada:** Endpoint `POST /users/update/:puuid`.
-2.  **Verificação:**
-    * Consultar API Riot (Match V5) p/ pegar últimos 20 IDs.
-    * Consultar PostgreSQL p/ ver quais desses 20 já existem.
-    * Calcular o Delta (Novos - Existentes).
-3.  **Fila Prioritária:**
-    * Se houver Delta, publicar na fila `user-update-queue` (RabbitMQ).
-    * Essa fila é distinta da `match-queue` (usada pelo Collector) para garantir Zero-Wait-Time.
-4.  **Processamento:**
-    * Workers atuais devem assinar também a `user-update-queue`.
-    * Lógica de processamento é reutilizada (baixa JSON, salva no banco).
+## 2. Fluxo da Aplicação
+1.  **Mobile:** Envia `POST /players/search` com body `{ gameName: "UrienMano", tagLine: "br1" }`.
+2.  **API (Riot Service):**
+    * Consulta endpoint `Account V1`.
+    * *Cenário A (Sucesso):* Retorna PUUID `BhDoHm...`.
+    * *Cenário B (Erro 404):* Retorna `HTTP 404 Player not found`. Aborta fluxo.
+3.  **API (Match Logic):**
+    * Com o PUUID, busca lista de IDs (Match V5) -> `["BR1_123", "BR1_124"]`.
+    * **Diff Check:** Compara com o banco local. Filtra apenas as que **não** existem.
+4.  **API (Priority Queue):**
+    * Publica os IDs faltantes no RabbitMQ com **Priority = 10 (High)**.
+    * *Nota:* Jobs de background normais (crawler) devem ter **Priority = 1 (Low)**.
+5.  **API (Response):**
+    * Salva/Atualiza o usuário na tabela `Summoner` (ou `Player`).
+    * Retorna `200 OK` com status "UPDATING" e quantidade de partidas na fila.
 
-## Regras de Ouro (Constraints)
-* **Rate Limit:** Respeitar o limite de 100 req/2min da Personal Key.
-* **Idempotência:** Não processar a mesma partida duas vezes.
-* **Performance:** O usuário deve ver o resultado em < 30s.
+## 3. Requisitos Técnicos
+* **RabbitMQ Priority:** Configurar a fila `process-match` para aceitar argumento `x-max-priority`.
+* **Rate Limiting:** O endpoint de busca deve ter proteção (ex: 1 request a cada 10s por IP) para não estourar nossa API Key de desenvolvimento com buscas de Account V1.
+
+## 4. Definição de Sucesso
+* Busca por "UrienMano#br1" retorna PUUID correto.
+* Erro na Riot (404) é repassado corretamente para o Frontend.
+* O Worker processa as partidas desse usuário **antes** das partidas que já estavam na fila há 1 hora.

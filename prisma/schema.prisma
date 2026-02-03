@@ -89,6 +89,21 @@ model MatchTeam {
   @@map("match_teams")
 }
 
+model User {
+  puuid          String   @id
+  gameName       String
+  tagLine        String
+  region         String   @default("br1")
+  profileIconId  Int?
+  summonerLevel  Int?
+  lastUpdated    DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  @@unique([gameName, tagLine, region])
+  @@index([gameName])
+  @@map("users")
+}
+
 model ChampionStats {
   id           Int      @id @default(autoincrement())
   championId   Int

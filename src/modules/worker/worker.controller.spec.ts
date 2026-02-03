@@ -35,9 +35,7 @@ describe('WorkerController', () => {
     mockMessage = {
       fields: {},
       properties: {},
-      content: Buffer.from(
-        JSON.stringify({ matchId: 'match1', patch: '15.23' }),
-      ),
+      content: Buffer.from(JSON.stringify({ matchId: 'match1' })),
     };
   });
 
@@ -51,7 +49,7 @@ describe('WorkerController', () => {
 
   describe('handleMatchCollect', () => {
     it('should process a match successfully and ACK', async () => {
-      const payload = { matchId: 'BR1_1234567890', patch: '15.23' };
+      const payload = { matchId: 'BR1_1234567890' };
       const context = {
         getChannelRef: () => mockChannel,
         getMessage: () => mockMessage,
@@ -67,7 +65,7 @@ describe('WorkerController', () => {
     });
 
     it('should skip already processed match and ACK', async () => {
-      const payload = { matchId: 'BR1_1234567890', patch: '15.23' };
+      const payload = { matchId: 'BR1_1234567890' };
       const context = {
         getChannelRef: () => mockChannel,
         getMessage: () => mockMessage,
@@ -82,7 +80,7 @@ describe('WorkerController', () => {
     });
 
     it('should NACK without requeue on processing error', async () => {
-      const payload = { matchId: 'BR1_1234567890', patch: '15.23' };
+      const payload = { matchId: 'BR1_1234567890' };
       const context = {
         getChannelRef: () => mockChannel,
         getMessage: () => mockMessage,
@@ -100,7 +98,7 @@ describe('WorkerController', () => {
     });
 
     it('should log match ID and patch when processing', async () => {
-      const payload = { matchId: 'BR1_1234567890', patch: '15.23' };
+      const payload = { matchId: 'BR1_1234567890' };
       const context = {
         getChannelRef: () => mockChannel,
         getMessage: () => mockMessage,
@@ -112,12 +110,11 @@ describe('WorkerController', () => {
 
       expect(workerService.processMatch).toHaveBeenCalledWith({
         matchId: 'BR1_1234567890',
-        patch: '15.23',
       });
     });
 
     it('should handle match with different patch', async () => {
-      const payload = { matchId: 'BR1_9876543210', patch: '15.22' };
+      const payload = { matchId: 'BR1_9876543210' };
       const context = {
         getChannelRef: () => mockChannel,
         getMessage: () => mockMessage,
@@ -129,7 +126,6 @@ describe('WorkerController', () => {
 
       expect(workerService.processMatch).toHaveBeenCalledWith({
         matchId: 'BR1_9876543210',
-        patch: '15.22',
       });
       expect(mockChannel.ack).toHaveBeenCalledWith(mockMessage);
     });

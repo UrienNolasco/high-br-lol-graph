@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import { LeagueListDto } from './dto/league-list.dto';
 import { MatchDto } from './dto/match.dto';
 import { TimelineDto } from './dto/timeline.dto';
+import { AccountDto } from './dto/account.dto';
 import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
 
@@ -30,6 +31,35 @@ export class RiotService {
     if (!this.apiKey || this.apiKey.trim() === '') {
       throw new Error('RIOT_API_KEY environment variable is required');
     }
+  }
+
+  async getAccountByRiotId(
+    gameName: string,
+    tagLine: string,
+    region = 'americas',
+  ): Promise<AccountDto> {
+    this.ensureApiKey();
+    this.logger.log(`Fetching account for ${gameName}#${tagLine} (${region})`);
+
+    return this.retryService.executeWithRetry(async () => {
+      await this.rateLimiterService.throttle(this.apiKey);
+
+      const baseUrl =
+        region === 'br1'
+          ? 'https://br1.api.riotgames.com'
+          : region === 'americas'
+            ? 'https://americas.api.riotgames.com'
+            : `https://${region}.api.riotgames.com`;
+
+      const url = `${baseUrl}/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
+
+      const response = await firstValueFrom(
+        this.httpService.get<AccountDto>(url, {
+          headers: this.createHeaders(),
+        }),
+      );
+      return response.data;
+    }, `getAccountByRiotId(${gameName}#${tagLine})`);
   }
 
   private createHeaders() {

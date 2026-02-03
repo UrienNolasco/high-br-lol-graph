@@ -2,30 +2,36 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { WorkerService } from './worker.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { RiotService } from '../../core/riot/riot.service';
-import { MatchParserService } from '../../core/riot/match-parser.service';
+import { TimelineParserService } from '../../core/riot/timeline-parser.service';
 
 describe('WorkerService', () => {
   let service: WorkerService;
 
   const mockPrismaService = {
-    processedMatch: {
-      upsert: jest.fn(),
-      update: jest.fn(),
+    $transaction: jest.fn(),
+    match: {
+      findUnique: jest.fn(),
+      create: jest.fn(),
+    },
+    matchTeam: {
+      createMany: jest.fn(),
+    },
+    matchParticipant: {
+      createMany: jest.fn(),
     },
     championStats: {
-      upsert: jest.fn(),
-    },
-    matchupStats: {
+      findUnique: jest.fn(),
       upsert: jest.fn(),
     },
   };
 
   const mockRiotService = {
     getMatchById: jest.fn(),
+    getTimeline: jest.fn(),
   };
 
-  const mockMatchParserService = {
-    parseMatchData: jest.fn(),
+  const mockTimelineParserService = {
+    parseTimeline: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -34,7 +40,7 @@ describe('WorkerService', () => {
         WorkerService,
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: RiotService, useValue: mockRiotService },
-        { provide: MatchParserService, useValue: mockMatchParserService },
+        { provide: TimelineParserService, useValue: mockTimelineParserService },
       ],
     }).compile();
 
