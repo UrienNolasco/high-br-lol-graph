@@ -68,17 +68,17 @@ export class UsersService {
         `${newMatchIds.length} new matches found, ${existingIds.size} already exist`,
       );
 
-      // 5. Se houver partidas novas, enfileirar
+      // 5. Se houver partidas novas, enfileirar com prioridade ALTA (solicitação do usuário)
       if (newMatchIds.length > 0) {
         for (const matchId of newMatchIds) {
-          this.queueService.publish('user.update', { matchId });
+          this.queueService.publishUserRequestedMatch(matchId);
         }
 
         return {
           puuid: account.puuid,
           status: 'processing',
           newMatches: newMatchIds.length,
-          message: `${newMatchIds.length} novas partidas enfileiradas.`,
+          message: `${newMatchIds.length} novas partidas enfileiradas com prioridade alta.`,
         };
       }
 

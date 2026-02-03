@@ -81,6 +81,9 @@ async function bootstrap() {
         queue: rabbitQueue,
         queueOptions: {
           durable: true,
+          arguments: {
+            'x-max-priority': 10,
+          },
         },
         prefetchCount: 1,
         noAck: false,

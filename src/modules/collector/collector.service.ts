@@ -3,10 +3,6 @@ import { RiotService } from '../../core/riot/riot.service';
 import { QueueService } from '../../core/queue/queue.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 
-interface MatchCollectionPayload {
-  matchId: string;
-}
-
 @Injectable()
 export class CollectorService {
   private readonly logger = new Logger(CollectorService.name);
@@ -83,14 +79,11 @@ export class CollectorService {
   }
 
   private enqueueMatch(matchId: string): void {
-    const payload: MatchCollectionPayload = {
-      matchId,
-    };
-
-    this.queueService.publish('match.collect', payload);
+    // Usa prioridade baixa (1) para partidas de background/coleta automática
+    this.queueService.publishBackgroundMatch(matchId);
 
     this.logger.debug(
-      `📤 [COLLECTOR] - Partida ${matchId} enfileirada para processamento`,
+      `📤 [COLLECTOR] - Partida ${matchId} enfileirada para processamento (prioridade baixa)`,
     );
   }
 }
