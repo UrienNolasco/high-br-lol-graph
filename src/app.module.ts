@@ -6,7 +6,7 @@ import { PrismaModule } from './core/prisma/prisma.module';
 import { ApiModule } from './modules/api/api.module';
 import { WorkerModule } from './modules/worker/worker.module';
 import { CollectorModule } from './modules/collector/collector.module';
-import { UsersModule } from './modules/users/users.module';
+import { PlayersModule } from './modules/players/players.module';
 import { DataDragonModule } from './core/data-dragon/data-dragon.module';
 
 @Module({
@@ -16,7 +16,7 @@ import { DataDragonModule } from './core/data-dragon/data-dragon.module';
     ApiModule,
     CollectorModule,
     WorkerModule,
-    UsersModule,
+    PlayersModule,
     DataDragonModule,
   ],
   controllers: [AppController],

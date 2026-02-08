@@ -5,6 +5,7 @@ import {
   ChampionsController,
 } from './api.controller';
 import { MatchesController } from './matches.controller';
+import { PlayersApiController } from './players-api.controller';
 import { ApiService } from './api.service';
 import { TierRankService } from './tier-rank.service';
 import { RiotModule } from '../../core/riot/riot.module';
@@ -18,6 +19,7 @@ import { PrismaModule } from 'src/core/prisma/prisma.module';
     StatsController,
     ChampionsController,
     MatchesController,
+    PlayersApiController,
   ],
   providers: [ApiService, TierRankService],
 })

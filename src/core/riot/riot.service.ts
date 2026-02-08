@@ -7,6 +7,8 @@ import { LeagueListDto } from './dto/league-list.dto';
 import { MatchDto } from './dto/match.dto';
 import { TimelineDto } from './dto/timeline.dto';
 import { AccountDto } from './dto/account.dto';
+import { SummonerDto } from './dto/summoner.dto';
+import { LeagueEntryDto } from './dto/league-entry.dto';
 import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
 
@@ -60,6 +62,32 @@ export class RiotService {
       );
       return response.data;
     }, `getAccountByRiotId(${gameName}#${tagLine})`);
+  }
+
+  async getSummonerByPuuid(
+    puuid: string,
+    region = 'br1',
+  ): Promise<SummonerDto> {
+    this.ensureApiKey();
+    this.logger.log(`Fetching summoner data for PUUID: ${puuid} (${region})`);
+
+    return this.retryService.executeWithRetry(async () => {
+      await this.rateLimiterService.throttle(this.apiKey);
+
+      const baseUrl =
+        region === 'br1'
+          ? this.brBaseUrl
+          : `https://${region}.api.riotgames.com`;
+
+      const url = `${baseUrl}/lol/summoner/v4/summoners/by-puuid/${puuid}`;
+
+      const response = await firstValueFrom(
+        this.httpService.get<SummonerDto>(url, {
+          headers: this.createHeaders(),
+        }),
+      );
+      return response.data;
+    }, `getSummonerByPuuid(${puuid})`);
   }
 
   private createHeaders() {
@@ -168,5 +196,33 @@ export class RiotService {
       }
       throw error;
     }
+  }
+
+  async getRankedStatsBySummonerId(
+    summonerId: string,
+    region = 'br1',
+  ): Promise<LeagueEntryDto[]> {
+    this.ensureApiKey();
+    this.logger.log(
+      `Fetching ranked stats for summoner ID: ${summonerId} (${region})`,
+    );
+
+    return this.retryService.executeWithRetry(async () => {
+      await this.rateLimiterService.throttle(this.apiKey);
+
+      const baseUrl =
+        region === 'br1'
+          ? this.brBaseUrl
+          : `https://${region}.api.riotgames.com`;
+
+      const url = `${baseUrl}/lol/league/v4/entries/by-summoner/${summonerId}`;
+
+      const response = await firstValueFrom(
+        this.httpService.get<LeagueEntryDto[]>(url, {
+          headers: this.createHeaders(),
+        }),
+      );
+      return response.data;
+    }, `getRankedStatsBySummonerId(${summonerId})`);
   }
 }

@@ -96,11 +96,21 @@ model User {
   region         String   @default("br1")
   profileIconId  Int?
   summonerLevel  Int?
+
+  // Ranked stats (League-V4)
+  summonerId     String?
+  tier           String?  // IRON, BRONZE, SILVER, GOLD, PLATINUM, EMERALD, DIAMOND, MASTER, GRANDMASTER, CHALLENGER
+  rank           String?  // I, II, III, IV (null for Master+)
+  leaguePoints   Int?
+  rankedWins     Int?
+  rankedLosses   Int?
+
   lastUpdated    DateTime @default(now())
   createdAt      DateTime @default(now())
 
   @@unique([gameName, tagLine, region])
   @@index([gameName])
+  @@index([tier])
   @@map("users")
 }
 

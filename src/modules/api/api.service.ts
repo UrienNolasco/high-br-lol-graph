@@ -5,6 +5,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
+import { RiotService } from '../../core/riot/riot.service';
 import {
   ChampionStatsDto,
   PaginatedChampionStatsDto,
@@ -12,6 +13,11 @@ import {
 import { ChampionListDto, ChampionListItemDto } from './dto/champion-list.dto';
 import { MatchupStatsDto } from './dto/matchup-stats.dto';
 import { TierRankService, ChampionMetrics } from './tier-rank.service';
+import { PlayerProfileDto } from './dto/player-profile.dto';
+import {
+  PlayerUpdateStatusDto,
+  UpdateStatus,
+} from './dto/player-update-status.dto';
 
 @Injectable()
 export class ApiService {
@@ -19,6 +25,7 @@ export class ApiService {
     private readonly prisma: PrismaService,
     private readonly dataDragon: DataDragonService,
     private readonly tierRankService: TierRankService,
+    private readonly riotService: RiotService,
   ) {}
 
   /**
@@ -1017,5 +1024,88 @@ export class ApiService {
         participants: true,
       },
     });
+  }
+
+  /**
+   * Retorna o perfil cacheado de um jogador (dados do banco, sem chamadas API)
+   */
+  async getPlayerProfile(puuid: string): Promise<PlayerProfileDto> {
+    const user = await this.prisma.user.findUnique({
+      where: { puuid },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Player with PUUID ${puuid} not found`);
+    }
+
+    return {
+      puuid: user.puuid,
+      gameName: user.gameName,
+      tagLine: user.tagLine,
+      region: user.region,
+      profileIconId: user.profileIconId,
+      summonerLevel: user.summonerLevel,
+      tier: user.tier,
+      rank: user.rank,
+      leaguePoints: user.leaguePoints,
+      rankedWins: user.rankedWins,
+      rankedLosses: user.rankedLosses,
+      lastUpdated: user.lastUpdated,
+      createdAt: user.createdAt,
+    };
+  }
+
+  /**
+   * Retorna o status de processamento de partidas do jogador
+   */
+  async getPlayerUpdateStatus(
+    puuid: string,
+  ): Promise<PlayerUpdateStatusDto> {
+    // Verificar se o jogador existe
+    const user = await this.prisma.user.findUnique({
+      where: { puuid },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Player with PUUID ${puuid} not found`);
+    }
+
+    try {
+      // Buscar últimas 20 partidas da API Riot
+      const matchIds = await this.riotService.getMatchIdsByPuuid(puuid, 20);
+
+      // Contar quantas existem no banco
+      const matchesProcessed = await this.prisma.match.count({
+        where: { matchId: { in: matchIds } },
+      });
+
+      const matchesTotal = matchIds.length;
+
+      // Determinar status
+      let status: UpdateStatus;
+      let message: string;
+
+      if (matchesProcessed === matchesTotal) {
+        status = UpdateStatus.IDLE;
+        message = 'All matches processed';
+      } else {
+        status = UpdateStatus.UPDATING;
+        message = `Processing matches: ${matchesProcessed}/${matchesTotal}`;
+      }
+
+      return {
+        status,
+        matchesProcessed,
+        matchesTotal,
+        message,
+      };
+    } catch (error) {
+      return {
+        status: UpdateStatus.ERROR,
+        matchesProcessed: 0,
+        matchesTotal: 0,
+        message: 'Failed to fetch match status from Riot API',
+      };
+    }
   }
 }
