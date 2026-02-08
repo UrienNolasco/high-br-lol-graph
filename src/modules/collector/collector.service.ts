@@ -1,17 +1,157 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Cron } from '@nestjs/schedule';
+import { Redis } from 'ioredis';
 import { RiotService } from '../../core/riot/riot.service';
 import { QueueService } from '../../core/queue/queue.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 
 @Injectable()
-export class CollectorService {
+export class CollectorService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(CollectorService.name);
+  private readonly redis: Redis;
+  private isRunning = false;
 
   constructor(
     private readonly riotService: RiotService,
     private readonly queueService: QueueService,
     private readonly prisma: PrismaService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    const redisHost = this.configService.get<string>('REDIS_HOST', 'redis');
+    const redisPort = this.configService.get<number>('REDIS_PORT', 6379);
+
+    this.redis = new Redis({
+      host: redisHost,
+      port: redisPort,
+      enableReadyCheck: false,
+      maxRetriesPerRequest: 3,
+    });
+
+    this.redis.on('connect', () => {
+      this.logger.log(
+        `CollectorService conectado ao Redis em ${redisHost}:${redisPort}`,
+      );
+    });
+
+    this.redis.on('error', (error) => {
+      this.logger.error(
+        'Erro na conexão do CollectorService com Redis:',
+        error,
+      );
+    });
+  }
+
+  async onModuleInit(): Promise<void> {
+    const enabled = await this.redis.get('collector:enabled');
+    if (enabled === null) {
+      const defaultEnabled =
+        this.configService.get<string>('COLLECTOR_ENABLED', 'false');
+      await this.redis.set('collector:enabled', defaultEnabled);
+    }
+
+    const startHour = await this.redis.get('collector:start_hour');
+    if (startHour === null) {
+      const defaultStart =
+        this.configService.get<string>('COLLECTOR_START_HOUR', '1');
+      await this.redis.set('collector:start_hour', defaultStart);
+    }
+
+    const endHour = await this.redis.get('collector:end_hour');
+    if (endHour === null) {
+      const defaultEnd =
+        this.configService.get<string>('COLLECTOR_END_HOUR', '8');
+      await this.redis.set('collector:end_hour', defaultEnd);
+    }
+
+    this.logger.log('CollectorService inicializado com valores do Redis');
+  }
+
+  async onModuleDestroy(): Promise<void> {
+    if (this.redis) {
+      await this.redis.quit();
+      this.logger.log('Conexão do CollectorService com Redis fechada');
+    }
+  }
+
+  @Cron('0 */30 * * *')
+  async scheduledCollection(): Promise<void> {
+    const enabled = await this.isEnabled();
+    if (!enabled || this.isRunning) return;
+
+    const { startHour, endHour } = await this.getWindow();
+    const hour = new Date().getHours();
+    if (hour < startHour || hour >= endHour) return;
+
+    this.logger.log('⏰ [COLLECTOR] - Cron job disparado, iniciando coleta...');
+    this.isRunning = true;
+    try {
+      await this.runCollection();
+      await this.redis.set('collector:last_run', new Date().toISOString());
+    } finally {
+      this.isRunning = false;
+    }
+  }
+
+  async triggerNow(): Promise<void> {
+    if (this.isRunning) {
+      this.logger.warn(
+        '⚠️ [COLLECTOR] - Coleta já em andamento, ignorando trigger manual',
+      );
+      return;
+    }
+
+    this.logger.log('🔧 [COLLECTOR] - Trigger manual recebido');
+    this.isRunning = true;
+    try {
+      await this.runCollection();
+      await this.redis.set('collector:last_run', new Date().toISOString());
+    } finally {
+      this.isRunning = false;
+    }
+  }
+
+  async isEnabled(): Promise<boolean> {
+    const value = await this.redis.get('collector:enabled');
+    return value === 'true';
+  }
+
+  async setEnabled(enabled: boolean): Promise<void> {
+    await this.redis.set('collector:enabled', String(enabled));
+  }
+
+  async getWindow(): Promise<{ startHour: number; endHour: number }> {
+    const startHour = await this.redis.get('collector:start_hour');
+    const endHour = await this.redis.get('collector:end_hour');
+    return {
+      startHour: parseInt(startHour ?? '1', 10),
+      endHour: parseInt(endHour ?? '8', 10),
+    };
+  }
+
+  async getStatus(): Promise<{
+    enabled: boolean;
+    isRunning: boolean;
+    lastRun: string | null;
+    startHour: number;
+    endHour: number;
+  }> {
+    const enabled = await this.isEnabled();
+    const { startHour, endHour } = await this.getWindow();
+    const lastRun = await this.redis.get('collector:last_run');
+    return {
+      enabled,
+      isRunning: this.isRunning,
+      lastRun,
+      startHour,
+      endHour,
+    };
+  }
 
   async runCollection(): Promise<void> {
     this.logger.log('🚀 [COLLECTOR] - Iniciando processo de coleta...');
@@ -62,7 +202,6 @@ export class CollectorService {
 
   private async checkIfMatchIsNew(matchId: string): Promise<boolean> {
     try {
-      // Otimização: Select apenas do ID para gastar menos memória
       const match = await this.prisma.match.findUnique({
         where: { matchId },
         select: { matchId: true },
@@ -79,7 +218,6 @@ export class CollectorService {
   }
 
   private enqueueMatch(matchId: string): void {
-    // Usa prioridade baixa (1) para partidas de background/coleta automática
     this.queueService.publishBackgroundMatch(matchId);
 
     this.logger.debug(

@@ -59,6 +59,10 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
       - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - COLLECTOR_ENABLED=false
+      - COLLECTOR_START_HOUR=1
+      - COLLECTOR_END_HOUR=8
+      - COLLECTOR_PORT=3001
     ports:
       - '3000:3000'
     volumes:
@@ -170,6 +174,9 @@ services:
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - COLLECTOR_ENABLED=${COLLECTOR_ENABLED}
+      - COLLECTOR_START_HOUR=${COLLECTOR_START_HOUR}
+      - COLLECTOR_END_HOUR=${COLLECTOR_END_HOUR}
     volumes:
       # Monta o código local para hot-reload em desenvolvimento
       - .:/usr/src/app

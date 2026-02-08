@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppConfigModule } from './core/config/config.module';
 import { PrismaModule } from './core/prisma/prisma.module';
@@ -13,6 +14,7 @@ import { DataDragonModule } from './core/data-dragon/data-dragon.module';
   imports: [
     AppConfigModule,
     PrismaModule,
+    ScheduleModule.forRoot(),
     ApiModule,
     CollectorModule,
     WorkerModule,

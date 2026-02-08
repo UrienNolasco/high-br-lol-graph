@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
-import { CollectorService } from './modules/collector/collector.service';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { BigIntInterceptor } from './core/interceptors/bigint.interceptor';
 
@@ -95,22 +94,14 @@ async function bootstrap() {
       `🚀 [WORKER] - Worker iniciado e ouvindo a fila: ${rabbitQueue}`,
     );
   } else if (appMode === 'COLLECTOR') {
-    logger.log('🚀 [COLLECTOR] - Collector iniciado');
-
-    try {
-      const collectorService = app.get(CollectorService);
-      await collectorService.runCollection();
-      logger.log('✅ [COLLECTOR] - Coleta executada com sucesso!');
-      await app.close();
-      process.exit(0);
-    } catch (error) {
-      logger.error(
-        '❌ [COLLECTOR] - Erro durante a execução da coleta:',
-        error,
-      );
-      await app.close();
-      process.exit(1);
-    }
+    const port = process.env.COLLECTOR_PORT ?? 3001;
+    await app.listen(port, '0.0.0.0');
+    logger.log(
+      `🚀 [COLLECTOR] - Collector persistente iniciado na porta ${port}`,
+    );
+    logger.log(
+      `⏰ [COLLECTOR] - Cron job ativo, verificando a cada 30 minutos`,
+    );
   } else {
     const port = process.env.PORT ?? 3000;
     await app.listen(port, '0.0.0.0');
