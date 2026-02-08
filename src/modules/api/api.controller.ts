@@ -17,7 +17,6 @@ import {
 import { GetChampionStatsDto } from './dto/get-champion-stats.dto';
 import { ChampionListDto } from './dto/champion-list.dto';
 import { CurrentPatchDto } from './dto/current-patch.dto';
-import { MatchupStatsDto } from './dto/matchup-stats.dto';
 
 @ApiTags('Rate Limit')
 @Controller('api')
@@ -159,26 +158,6 @@ export class StatsController {
     @Query('patch') patch: string,
   ): Promise<ChampionStatsDto> {
     return this.apiService.getChampion(championName, patch);
-  }
-
-  @Get('matchups/:championA/:championB')
-  @ApiOperation({ summary: 'Get Matchup Stats' })
-  @ApiResponse({
-    status: 200,
-    description: 'Return direct matchup analysis between two champions.',
-    type: MatchupStatsDto,
-  })
-  @ApiParam({ name: 'championA', description: 'e.g., Aatrox' })
-  @ApiParam({ name: 'championB', description: 'e.g., Zed' })
-  @ApiQuery({ name: 'patch', required: true, description: 'e.g., 15.20' })
-  @ApiQuery({ name: 'role', required: true, description: 'e.g., TOP' })
-  getMatchupStats(
-    @Param('championA') championA: string,
-    @Param('championB') championB: string,
-    @Query('patch') patch: string,
-    @Query('role') role: string,
-  ): Promise<MatchupStatsDto> {
-    return this.apiService.getMatchupStats(championA, championB, patch, role);
   }
 
   @Get('processed-matches')

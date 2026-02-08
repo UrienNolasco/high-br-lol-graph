@@ -1,6 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { RiotService } from '../../core/riot/riot.service';
 import { TimelineParserService } from '../../core/riot/timeline-parser.service';
+import {
+  PlayerStatsAggregationService,
+  ParticipantData,
+} from '../../core/stats/player-stats-aggregation.service';
 import { ProcessMatchDto } from './dto/process-match.dto';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { MatchDto, ParticipantDto } from '../../core/riot/dto/match.dto';
@@ -63,6 +67,7 @@ export class WorkerService {
     private readonly prisma: PrismaService,
     private readonly riotService: RiotService,
     private readonly timelineParser: TimelineParserService,
+    private readonly playerStatsAggregation: PlayerStatsAggregationService,
   ) {}
 
   /**
@@ -121,6 +126,9 @@ export class WorkerService {
 
       // 5. Load - Salvar transacionalmente
       await this.saveMatchData(matchData, timelineData);
+
+      // 6. Atualizar agregações de jogadores (PlayerStats + PlayerChampionStats)
+      await this.updatePlayerAggregates(matchData, timelineData);
 
       this.logger.log(
         `✅ Match ${matchId} processada com timeline (${matchDto.info.gameDuration}s).`,
@@ -392,6 +400,60 @@ export class WorkerService {
       } catch (error) {
         this.logger.warn(
           `⚠️ [WORKER] - Erro ao atualizar ChampionStats para ${participant.championName}:`,
+          (error as Error).message,
+        );
+      }
+    }
+  }
+
+  private async updatePlayerAggregates(
+    matchData: ProcessedMatchData,
+    timelineData: ReturnType<TimelineParserService['parseTimeline']>,
+  ): Promise<void> {
+    const patch = this.extractPatch(matchData.match.gameVersion);
+    const gameDurationMinutes = matchData.match.gameDuration / 60;
+
+    for (const participant of matchData.participants) {
+      try {
+        const timelineParticipant = timelineData.participants.get(
+          participant.puuid,
+        );
+
+        const participantData: ParticipantData = {
+          ...participant,
+          goldGraph: timelineParticipant?.goldGraph || [],
+          xpGraph: timelineParticipant?.xpGraph || [],
+          csGraph: timelineParticipant?.csGraph || [],
+          damageGraph: timelineParticipant?.damageGraph || [],
+        };
+
+        const allParticipants: ParticipantData[] =
+          matchData.participants.map((p) => {
+            const tp = timelineData.participants.get(p.puuid);
+            return {
+              ...p,
+              goldGraph: tp?.goldGraph || [],
+              xpGraph: tp?.xpGraph || [],
+              csGraph: tp?.csGraph || [],
+              damageGraph: tp?.damageGraph || [],
+            };
+          });
+
+        const opponent =
+          this.playerStatsAggregation.findLaneOpponent(
+            allParticipants,
+            participantData,
+          );
+
+        await this.playerStatsAggregation.updatePlayerAggregates(
+          participantData,
+          opponent,
+          patch,
+          gameDurationMinutes,
+        );
+      } catch (error) {
+        this.logger.warn(
+          `⚠️ [WORKER] - Erro ao atualizar PlayerStats para ${participant.puuid}:`,
           (error as Error).message,
         );
       }

@@ -1,7 +1,3 @@
-// @ts-nocheck - TODO: TEMPORARIAMENTE DESABILITADO - Este arquivo usa modelos antigos do Prisma (championStats, processedMatch, matchupStats)
-// que foram substituídos pelo novo schema (Match, MatchParticipant, MatchTeam).
-// Aguardando atualização para usar o novo schema.
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
@@ -11,13 +7,17 @@ import {
   PaginatedChampionStatsDto,
 } from './dto/champion-stats.dto';
 import { ChampionListDto, ChampionListItemDto } from './dto/champion-list.dto';
-import { MatchupStatsDto } from './dto/matchup-stats.dto';
 import { TierRankService, ChampionMetrics } from './tier-rank.service';
 import { PlayerProfileDto } from './dto/player-profile.dto';
 import {
   PlayerUpdateStatusDto,
   UpdateStatus,
 } from './dto/player-update-status.dto';
+import { PlayerSummaryDto } from './dto/player-summary.dto';
+import { PlayerChampionsDto } from './dto/player-champions.dto';
+import { PlayerRoleDistributionDto } from './dto/player-role-distribution.dto';
+import { PlayerActivityDto, HeatmapEntryDto } from './dto/player-activity.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ApiService {
@@ -28,61 +28,26 @@ export class ApiService {
     private readonly riotService: RiotService,
   ) {}
 
-  /**
-   * Calcula KDA (Kills + Assists) / Deaths
-   * Se totalDeaths for 0, retorna totalKills + totalAssists
-   */
-  private calculateKDA(
-    totalKills: number,
-    totalDeaths: number,
-    totalAssists: number,
-  ): number {
-    if (totalDeaths === 0) {
-      return totalKills + totalAssists;
-    }
-    return (totalKills + totalAssists) / totalDeaths;
-  }
-
-  /**
-   * Calcula DPM (Dano por Minuto)
-   * totalDamageDealt / (totalDuration / 60)
-   */
-  private calculateDPM(
-    totalDamageDealt: bigint,
-    totalDuration: number,
-  ): number {
-    if (totalDuration === 0) {
-      return 0;
-    }
-    const minutes = totalDuration / 60;
-    return Number(totalDamageDealt) / minutes;
-  }
-
-  /**
-   * Calcula CSPM (Farm por Minuto)
-   * totalCreepScore / (totalDuration / 60)
-   */
-  private calculateCSPM(
-    totalCreepScore: number,
-    totalDuration: number,
-  ): number {
-    if (totalDuration === 0) {
-      return 0;
-    }
-    const minutes = totalDuration / 60;
-    return totalCreepScore / minutes;
-  }
-
-  /**
-   * Calcula GPM (Ouro por Minuto)
-   * totalGoldEarned / (totalDuration / 60)
-   */
-  private calculateGPM(totalGoldEarned: bigint, totalDuration: number): number {
-    if (totalDuration === 0) {
-      return 0;
-    }
-    const minutes = totalDuration / 60;
-    return Number(totalGoldEarned) / minutes;
+  private toChampionMetrics(stat: {
+    winRate: number;
+    banRate: number;
+    pickRate: number;
+    kda: number;
+    dpm: number;
+    gpm: number;
+    cspm: number;
+    gamesPlayed: number;
+  }): ChampionMetrics {
+    return {
+      winRate: stat.winRate,
+      banRate: stat.banRate,
+      pickRate: stat.pickRate,
+      kda: stat.kda,
+      dpm: stat.dpm,
+      gpm: stat.gpm,
+      cspm: stat.cspm,
+      gamesPlayed: stat.gamesPlayed,
+    };
   }
 
   async getChampionStats(
@@ -97,250 +62,92 @@ export class ApiService {
     const currentSortBy = sortBy ?? 'winRate';
     const currentOrder = order ?? 'desc';
 
-    const [championStats, totalMatches, allMatchups, previousPatch] =
-      await Promise.all([
-        this.prisma.championStats.findMany({ where: { patch } }),
-        this.prisma.processedMatch.count({ where: { patch } }),
-        this.prisma.matchupStats.findMany({ where: { patch } }),
-        Promise.resolve(this.tierRankService.getPreviousPatch(patch)),
-      ]);
+    const championStats = await this.prisma.championStats.findMany({
+      where: { patch },
+    });
 
-    const [previousChampionStats, previousTotalMatches, previousMatchups] =
-      await Promise.all([
-        previousPatch
-          ? this.prisma.championStats.findMany({
-              where: { patch: previousPatch },
-            })
-          : Promise.resolve([]),
-        previousPatch
-          ? this.prisma.processedMatch.count({
-              where: { patch: previousPatch },
-            })
-          : Promise.resolve(0),
-        previousPatch
-          ? this.prisma.matchupStats.findMany({
-              where: { patch: previousPatch },
-            })
-          : Promise.resolve([]),
-      ]);
+    // Previous patch for comparison
+    const previousPatch = this.tierRankService.getPreviousPatch(patch);
+    const previousStatsMap = new Map<number, ChampionMetrics>();
 
-    const matchupData =
-      this.tierRankService.processMatchupsForPatch(allMatchups);
-    const primaryRolesByChampion = matchupData.primaryRolesByChampion;
-    const gamesByChampionAndRole = matchupData.gamesByChampionAndRole;
-    const totalGamesByRole = matchupData.totalGamesByRole;
-
-    const previousMatchupData = previousPatch
-      ? this.tierRankService.processMatchupsForPatch(previousMatchups)
-      : null;
-
-    const previousChampionStatsMap = new Map<
-      number,
-      (typeof championStats)[0]
-    >();
-    for (const stat of previousChampionStats) {
-      previousChampionStatsMap.set(stat.championId, stat);
+    if (previousPatch) {
+      const previousStats = await this.prisma.championStats.findMany({
+        where: { patch: previousPatch },
+      });
+      for (const stat of previousStats) {
+        previousStatsMap.set(stat.championId, this.toChampionMetrics(stat));
+      }
     }
-
-    const totalBanSlots = totalMatches * 10;
-    const previousTotalBanSlots = previousTotalMatches * 10;
 
     const enrichedStatsPromises = championStats.map(async (stat) => {
       const championInfo = this.dataDragon.getChampionById(stat.championId);
-      if (!championInfo) {
-        return null;
-      }
-
-      const winRate =
-        stat.gamesPlayed > 0 ? (stat.wins / stat.gamesPlayed) * 100 : 0;
+      if (!championInfo) return null;
 
       const images = await this.dataDragon.getChampionImageUrls(
         championInfo.id,
       );
 
-      const kda = this.calculateKDA(
-        stat.totalKills ?? 0,
-        stat.totalDeaths ?? 0,
-        stat.totalAssists ?? 0,
-      );
-      const dpm = this.calculateDPM(
-        stat.totalDamageDealt ?? BigInt(0),
-        stat.totalDuration ?? 0,
-      );
-      const cspm = this.calculateCSPM(
-        stat.totalCreepScore ?? 0,
-        stat.totalDuration ?? 0,
-      );
-      const gpm = this.calculateGPM(
-        stat.totalGoldEarned ?? BigInt(0),
-        stat.totalDuration ?? 0,
-      );
-
-      const banRate =
-        totalBanSlots > 0 ? ((stat.bans ?? 0) / totalBanSlots) * 100 : 0;
-
-      const primaryRole: string | null =
-        primaryRolesByChampion.get(stat.championId) ?? null;
-
-      let pickRate = 0;
-      if (primaryRole) {
-        const championRoleMap = gamesByChampionAndRole.get(stat.championId);
-        const championGamesInRole = championRoleMap?.get(primaryRole) ?? 0;
-        const totalGamesInRole = totalGamesByRole.get(primaryRole) ?? 0;
-        if (totalGamesInRole > 0) {
-          pickRate = (championGamesInRole / totalGamesInRole) * 100;
-        }
-      }
-
-      const previousStat = previousChampionStatsMap.get(stat.championId);
-      let previousStats: ChampionMetrics | null = null;
-      if (previousStat && previousMatchupData) {
-        const previousWinRate =
-          previousStat.gamesPlayed > 0
-            ? (previousStat.wins / previousStat.gamesPlayed) * 100
-            : 0;
-        const previousBanRate =
-          previousTotalBanSlots > 0
-            ? ((previousStat.bans ?? 0) / previousTotalBanSlots) * 100
-            : 0;
-
-        const previousKda = this.calculateKDA(
-          previousStat.totalKills ?? 0,
-          previousStat.totalDeaths ?? 0,
-          previousStat.totalAssists ?? 0,
-        );
-        const previousDpm = this.calculateDPM(
-          previousStat.totalDamageDealt ?? BigInt(0),
-          previousStat.totalDuration ?? 0,
-        );
-        const previousCspm = this.calculateCSPM(
-          previousStat.totalCreepScore ?? 0,
-          previousStat.totalDuration ?? 0,
-        );
-        const previousGpm = this.calculateGPM(
-          previousStat.totalGoldEarned ?? BigInt(0),
-          previousStat.totalDuration ?? 0,
-        );
-
-        let previousPickRate = 0;
-        if (primaryRole && previousMatchupData) {
-          const previousChampionRoleMap =
-            previousMatchupData.gamesByChampionAndRole.get(stat.championId);
-          const previousChampionGamesInRole =
-            previousChampionRoleMap?.get(primaryRole) ?? 0;
-          const previousTotalGamesInRole =
-            previousMatchupData.totalGamesByRole.get(primaryRole) ?? 0;
-          if (previousTotalGamesInRole > 0) {
-            previousPickRate =
-              (previousChampionGamesInRole / previousTotalGamesInRole) * 100;
-          }
-        }
-
-        previousStats = {
-          winRate: previousWinRate,
-          banRate: previousBanRate,
-          pickRate: previousPickRate,
-          kda: previousKda,
-          dpm: previousDpm,
-          gpm: previousGpm,
-          cspm: previousCspm,
-          gamesPlayed: previousStat.gamesPlayed,
-        };
-      }
+      const currentMetrics = this.toChampionMetrics(stat);
+      const previousMetrics =
+        previousStatsMap.get(stat.championId) || null;
 
       const scoreResult = this.tierRankService.calculateChampionScore(
         stat.championId,
         patch,
-        {
-          winRate,
-          banRate,
-          pickRate,
-          kda,
-          dpm,
-          gpm,
-          cspm,
-          gamesPlayed: stat.gamesPlayed,
-        },
-        previousStats,
+        currentMetrics,
+        previousMetrics,
       );
 
       return {
         championId: stat.championId,
         championName: championInfo.name,
-        winRate: parseFloat(winRate.toFixed(2)),
+        winRate: parseFloat(stat.winRate.toFixed(2)),
         gamesPlayed: stat.gamesPlayed,
         wins: stat.wins,
-        losses: stat.gamesPlayed - stat.wins,
+        losses: stat.losses,
         images,
-        kda: parseFloat(kda.toFixed(2)),
-        dpm: parseFloat(dpm.toFixed(2)),
-        cspm: parseFloat(cspm.toFixed(2)),
-        gpm: parseFloat(gpm.toFixed(2)),
-        banRate: parseFloat(banRate.toFixed(2)),
-        pickRate: parseFloat(pickRate.toFixed(2)),
+        kda: parseFloat(stat.kda.toFixed(2)),
+        dpm: parseFloat(stat.dpm.toFixed(2)),
+        cspm: parseFloat(stat.cspm.toFixed(2)),
+        gpm: parseFloat(stat.gpm.toFixed(2)),
+        banRate: parseFloat(stat.banRate.toFixed(2)),
+        pickRate: parseFloat(stat.pickRate.toFixed(2)),
         tier: scoreResult.tier,
         rank: null as number | null,
         score: scoreResult.score,
-        primaryRole: primaryRole ?? undefined,
         hasInsufficientData: scoreResult.hasInsufficientData,
       };
     });
 
-    const enrichedStatsResults = await Promise.all(enrichedStatsPromises);
-    const enrichedStatsWithScore = enrichedStatsResults.filter(
-      (stat): stat is (typeof enrichedStatsResults)[0] & { score: number } =>
-        stat !== null,
+    const results = await Promise.all(enrichedStatsPromises);
+    const validResults = results.filter(
+      (r): r is NonNullable<typeof r> => r !== null,
     );
 
-    const championsByRole = new Map<string, typeof enrichedStatsWithScore>();
-    for (const champion of enrichedStatsWithScore) {
-      const role = champion.primaryRole ?? 'UNKNOWN';
-      if (!championsByRole.has(role)) {
-        championsByRole.set(role, []);
-      }
-      const roleChampions = championsByRole.get(role);
-      if (roleChampions) {
-        roleChampions.push(champion);
-      }
-    }
+    // Rank champions by score (only those with sufficient data)
+    const withData = validResults.filter((c) => !c.hasInsufficientData);
+    withData.sort((a, b) => b.score - a.score);
+    withData.forEach((c, i) => {
+      c.rank = i + 1;
+    });
 
-    for (const [, champions] of championsByRole.entries()) {
-      const validChampions = champions.filter((c) => !c.hasInsufficientData);
-      const insufficientChampions = champions.filter(
-        (c) => c.hasInsufficientData,
-      );
-
-      validChampions.sort((a, b) => b.score - a.score);
-
-      validChampions.forEach((champion, index) => {
-        champion.rank = index + 1;
-      });
-
-      insufficientChampions.forEach((champion) => {
-        champion.rank = null;
-      });
-    }
-
-    const enrichedStats: ChampionStatsDto[] = enrichedStatsWithScore.map(
-      (champion) => ({
-        championId: champion.championId,
-        championName: champion.championName,
-        winRate: champion.winRate,
-        gamesPlayed: champion.gamesPlayed,
-        wins: champion.wins,
-        losses: champion.losses,
-        images: champion.images,
-        kda: champion.kda,
-        dpm: champion.dpm,
-        cspm: champion.cspm,
-        gpm: champion.gpm,
-        banRate: champion.banRate,
-        pickRate: champion.pickRate,
-        tier: champion.tier,
-        rank: champion.rank,
-        primaryRole: champion.primaryRole,
-      }),
-    );
+    const enrichedStats: ChampionStatsDto[] = validResults.map((c) => ({
+      championId: c.championId,
+      championName: c.championName,
+      winRate: c.winRate,
+      gamesPlayed: c.gamesPlayed,
+      wins: c.wins,
+      losses: c.losses,
+      images: c.images,
+      kda: c.kda,
+      dpm: c.dpm,
+      cspm: c.cspm,
+      gpm: c.gpm,
+      banRate: c.banRate,
+      pickRate: c.pickRate,
+      tier: c.tier,
+      rank: c.rank,
+    }));
 
     enrichedStats.sort((a, b) => {
       const aValue = a[currentSortBy];
@@ -357,8 +164,10 @@ export class ApiService {
     });
 
     const startIndex = (currentPage - 1) * currentLimit;
-    const endIndex = currentPage * currentLimit;
-    const paginatedData = enrichedStats.slice(startIndex, endIndex);
+    const paginatedData = enrichedStats.slice(
+      startIndex,
+      startIndex + currentLimit,
+    );
 
     return {
       data: paginatedData,
@@ -378,490 +187,95 @@ export class ApiService {
     }
 
     const championId = parseInt(championInfo.key, 10);
-    const championStats = await this.prisma.championStats.findFirst({
-      where: {
-        championId,
-        patch: patch,
-      },
+    const stats = await this.prisma.championStats.findFirst({
+      where: { championId, patch },
     });
 
-    if (!championStats) {
+    if (!stats) {
       throw new NotFoundException(
         `Stats for champion ${championName} not found on patch ${patch}`,
       );
     }
 
-    const winRate =
-      championStats.gamesPlayed > 0
-        ? (championStats.wins / championStats.gamesPlayed) * 100
-        : 0;
-
     const images = await this.dataDragon.getChampionImageUrls(championInfo.id);
 
-    const kda = this.calculateKDA(
-      championStats.totalKills ?? 0,
-      championStats.totalDeaths ?? 0,
-      championStats.totalAssists ?? 0,
-    );
-    const dpm = this.calculateDPM(
-      championStats.totalDamageDealt ?? BigInt(0),
-      championStats.totalDuration ?? 0,
-    );
-    const cspm = this.calculateCSPM(
-      championStats.totalCreepScore ?? 0,
-      championStats.totalDuration ?? 0,
-    );
-    const gpm = this.calculateGPM(
-      championStats.totalGoldEarned ?? BigInt(0),
-      championStats.totalDuration ?? 0,
-    );
+    const currentMetrics = this.toChampionMetrics(stats);
 
-    const totalMatches = await this.prisma.processedMatch.count({
-      where: { patch },
-    });
-    const totalBanSlots = totalMatches * 10;
-    const banRate =
-      totalBanSlots > 0 ? ((championStats.bans ?? 0) / totalBanSlots) * 100 : 0;
-
-    // Inferir role primária
-    const primaryRole = await this.tierRankService.inferPrimaryRole(
-      championId,
-      patch,
-    );
-
-    let allMatchupsInRole: Array<{
-      championId1: number;
-      championId2: number;
-      gamesPlayed: number;
-    }> = [];
-    let totalGamesInRole = 0;
-    let championGamesInRole = 0;
-
-    if (primaryRole) {
-      allMatchupsInRole = await this.prisma.matchupStats.findMany({
-        where: {
-          patch,
-          role: primaryRole,
-        },
-      });
-
-      totalGamesInRole = allMatchupsInRole.reduce(
-        (sum, matchup) => sum + matchup.gamesPlayed,
-        0,
-      );
-
-      for (const matchup of allMatchupsInRole) {
-        if (
-          matchup.championId1 === championId ||
-          matchup.championId2 === championId
-        ) {
-          championGamesInRole += matchup.gamesPlayed;
-        }
-      }
-    }
-
-    let pickRate = 0;
-    if (totalGamesInRole > 0) {
-      pickRate = (championGamesInRole / totalGamesInRole) * 100;
-    }
-
+    // Previous patch comparison
     const previousPatch = this.tierRankService.getPreviousPatch(patch);
-    let previousStats: ChampionMetrics | null = null;
-    let previousMatchupsInRole: typeof allMatchupsInRole = [];
-    let previousTotalGamesInRole = 0;
-    let previousChampionGamesInRole = 0;
-
+    let previousMetrics: ChampionMetrics | null = null;
     if (previousPatch) {
-      const previousStat = await this.prisma.championStats.findFirst({
-        where: {
-          championId,
-          patch: previousPatch,
-        },
-      });
-
-      if (primaryRole) {
-        previousMatchupsInRole = await this.prisma.matchupStats.findMany({
-          where: {
-            patch: previousPatch,
-            role: primaryRole,
-          },
-        });
-
-        previousTotalGamesInRole = previousMatchupsInRole.reduce(
-          (sum, matchup) => sum + matchup.gamesPlayed,
-          0,
-        );
-
-        for (const matchup of previousMatchupsInRole) {
-          if (
-            matchup.championId1 === championId ||
-            matchup.championId2 === championId
-          ) {
-            previousChampionGamesInRole += matchup.gamesPlayed;
-          }
-        }
-      }
-
-      if (previousStat) {
-        const previousWinRate =
-          previousStat.gamesPlayed > 0
-            ? (previousStat.wins / previousStat.gamesPlayed) * 100
-            : 0;
-        const previousTotalMatches = await this.prisma.processedMatch.count({
-          where: { patch: previousPatch },
-        });
-        const previousTotalBanSlots = previousTotalMatches * 10;
-        const previousBanRate =
-          previousTotalBanSlots > 0
-            ? ((previousStat.bans ?? 0) / previousTotalBanSlots) * 100
-            : 0;
-
-        const previousKda = this.calculateKDA(
-          previousStat.totalKills ?? 0,
-          previousStat.totalDeaths ?? 0,
-          previousStat.totalAssists ?? 0,
-        );
-        const previousDpm = this.calculateDPM(
-          previousStat.totalDamageDealt ?? BigInt(0),
-          previousStat.totalDuration ?? 0,
-        );
-        const previousCspm = this.calculateCSPM(
-          previousStat.totalCreepScore ?? 0,
-          previousStat.totalDuration ?? 0,
-        );
-        const previousGpm = this.calculateGPM(
-          previousStat.totalGoldEarned ?? BigInt(0),
-          previousStat.totalDuration ?? 0,
-        );
-
-        let previousPickRate = 0;
-        if (previousTotalGamesInRole > 0) {
-          previousPickRate =
-            (previousChampionGamesInRole / previousTotalGamesInRole) * 100;
-        }
-
-        previousStats = {
-          winRate: previousWinRate,
-          banRate: previousBanRate,
-          pickRate: previousPickRate,
-          kda: previousKda,
-          dpm: previousDpm,
-          gpm: previousGpm,
-          cspm: previousCspm,
-          gamesPlayed: previousStat.gamesPlayed,
-        };
-      }
+      previousMetrics = await this.tierRankService.getChampionStats(
+        championId,
+        previousPatch,
+        stats.queueId,
+      );
     }
 
     const scoreResult = this.tierRankService.calculateChampionScore(
       championId,
       patch,
-      {
-        winRate,
-        banRate,
-        pickRate,
-        kda,
-        dpm,
-        gpm,
-        cspm,
-        gamesPlayed: championStats.gamesPlayed,
-      },
-      previousStats,
+      currentMetrics,
+      previousMetrics,
     );
 
+    // Calculate rank among all champions with sufficient data
     let rank: number | null = null;
-    if (
-      !scoreResult.hasInsufficientData &&
-      primaryRole &&
-      allMatchupsInRole.length > 0
-    ) {
-      const championIdsInRole = new Set<number>();
-      for (const matchup of allMatchupsInRole) {
-        championIdsInRole.add(matchup.championId1);
-        championIdsInRole.add(matchup.championId2);
-      }
-
-      const roleChampionStats = await this.prisma.championStats.findMany({
-        where: {
-          patch,
-          championId: { in: Array.from(championIdsInRole) },
-          gamesPlayed: { gte: 50 },
-        },
+    if (!scoreResult.hasInsufficientData) {
+      const allStats = await this.prisma.championStats.findMany({
+        where: { patch, gamesPlayed: { gte: 50 } },
       });
 
-      const previousRoleStatsMap = new Map<
-        number,
-        (typeof roleChampionStats)[0]
-      >();
+      const allPreviousMap = new Map<number, ChampionMetrics>();
       if (previousPatch) {
-        const previousRoleStats = await this.prisma.championStats.findMany({
-          where: {
-            patch: previousPatch,
-            championId: { in: Array.from(championIdsInRole) },
-            gamesPlayed: { gte: 50 },
-          },
+        const prevAll = await this.prisma.championStats.findMany({
+          where: { patch: previousPatch, gamesPlayed: { gte: 50 } },
         });
-        for (const stat of previousRoleStats) {
-          previousRoleStatsMap.set(stat.championId, stat);
+        for (const p of prevAll) {
+          allPreviousMap.set(p.championId, this.toChampionMetrics(p));
         }
       }
 
-      const previousTotalMatches = previousPatch
-        ? await this.prisma.processedMatch.count({
-            where: { patch: previousPatch },
-          })
-        : 0;
-      const previousTotalBanSlots = previousTotalMatches * 10;
-
-      const championGamesInRoleMap = new Map<number, number>();
-      for (const matchup of allMatchupsInRole) {
-        const current1 = championGamesInRoleMap.get(matchup.championId1) || 0;
-        championGamesInRoleMap.set(
-          matchup.championId1,
-          current1 + matchup.gamesPlayed,
-        );
-        const current2 = championGamesInRoleMap.get(matchup.championId2) || 0;
-        championGamesInRoleMap.set(
-          matchup.championId2,
-          current2 + matchup.gamesPlayed,
-        );
-      }
-
-      // Reutilizar matchups do patch anterior já carregados anteriormente
-      // previousMatchupsInRole e previousTotalGamesInRole já foram calculados acima
-      const previousChampionGamesInRoleMap = new Map<number, number>();
-      if (previousPatch && previousMatchupsInRole.length > 0) {
-        for (const matchup of previousMatchupsInRole) {
-          const current1 =
-            previousChampionGamesInRoleMap.get(matchup.championId1) || 0;
-          previousChampionGamesInRoleMap.set(
-            matchup.championId1,
-            current1 + matchup.gamesPlayed,
-          );
-          const current2 =
-            previousChampionGamesInRoleMap.get(matchup.championId2) || 0;
-          previousChampionGamesInRoleMap.set(
-            matchup.championId2,
-            current2 + matchup.gamesPlayed,
-          );
-        }
-      }
-
-      const roleChampionsScores = roleChampionStats.map((stat) => {
-        const wr =
-          stat.gamesPlayed > 0 ? (stat.wins / stat.gamesPlayed) * 100 : 0;
-        const br =
-          totalBanSlots > 0 ? ((stat.bans ?? 0) / totalBanSlots) * 100 : 0;
-
-        const kdaValue = this.calculateKDA(
-          stat.totalKills ?? 0,
-          stat.totalDeaths ?? 0,
-          stat.totalAssists ?? 0,
-        );
-        const dpmValue = this.calculateDPM(
-          stat.totalDamageDealt ?? BigInt(0),
-          stat.totalDuration ?? 0,
-        );
-        const cspmValue = this.calculateCSPM(
-          stat.totalCreepScore ?? 0,
-          stat.totalDuration ?? 0,
-        );
-        const gpmValue = this.calculateGPM(
-          stat.totalGoldEarned ?? BigInt(0),
-          stat.totalDuration ?? 0,
-        );
-
-        const champGamesInRole =
-          championGamesInRoleMap.get(stat.championId) || 0;
-        const pr =
-          totalGamesInRole > 0
-            ? (champGamesInRole / totalGamesInRole) * 100
-            : 0;
-
-        let prevStats: ChampionMetrics | null = null;
-        const prevStat = previousRoleStatsMap.get(stat.championId);
-        if (prevStat) {
-          const prevWR =
-            prevStat.gamesPlayed > 0
-              ? (prevStat.wins / prevStat.gamesPlayed) * 100
-              : 0;
-          const prevBR =
-            previousTotalBanSlots > 0
-              ? ((prevStat.bans ?? 0) / previousTotalBanSlots) * 100
-              : 0;
-
-          const prevKda = this.calculateKDA(
-            prevStat.totalKills ?? 0,
-            prevStat.totalDeaths ?? 0,
-            prevStat.totalAssists ?? 0,
-          );
-          const prevDpm = this.calculateDPM(
-            prevStat.totalDamageDealt ?? BigInt(0),
-            prevStat.totalDuration ?? 0,
-          );
-          const prevCspm = this.calculateCSPM(
-            prevStat.totalCreepScore ?? 0,
-            prevStat.totalDuration ?? 0,
-          );
-          const prevGpm = this.calculateGPM(
-            prevStat.totalGoldEarned ?? BigInt(0),
-            prevStat.totalDuration ?? 0,
-          );
-
-          const prevChampGamesInRole =
-            previousChampionGamesInRoleMap.get(stat.championId) || 0;
-          const prevPR =
-            previousTotalGamesInRole > 0
-              ? (prevChampGamesInRole / previousTotalGamesInRole) * 100
-              : 0;
-
-          prevStats = {
-            winRate: prevWR,
-            banRate: prevBR,
-            pickRate: prevPR,
-            kda: prevKda,
-            dpm: prevDpm,
-            gpm: prevGpm,
-            cspm: prevCspm,
-            gamesPlayed: prevStat.gamesPlayed,
-          };
-        }
-
+      const scores = allStats.map((s) => {
+        const prev = allPreviousMap.get(s.championId) || null;
         const result = this.tierRankService.calculateChampionScore(
-          stat.championId,
+          s.championId,
           patch,
-          {
-            winRate: wr,
-            banRate: br,
-            pickRate: pr,
-            kda: kdaValue,
-            dpm: dpmValue,
-            gpm: gpmValue,
-            cspm: cspmValue,
-            gamesPlayed: stat.gamesPlayed,
-          },
-          prevStats,
+          this.toChampionMetrics(s),
+          prev,
         );
-
         return {
-          championId: stat.championId,
+          championId: s.championId,
           score: result.score,
           hasInsufficientData: result.hasInsufficientData,
         };
       });
 
-      const validScores = roleChampionsScores
+      const validScores = scores
         .filter((s) => !s.hasInsufficientData)
         .sort((a, b) => b.score - a.score);
 
-      const championIndex = validScores.findIndex(
-        (s) => s.championId === championId,
-      );
-      if (championIndex !== -1) {
-        rank = championIndex + 1;
-      }
+      const idx = validScores.findIndex((s) => s.championId === championId);
+      if (idx !== -1) rank = idx + 1;
     }
 
     return {
-      championId: championStats.championId,
+      championId: stats.championId,
       championName: championInfo.name,
-      winRate: parseFloat(winRate.toFixed(2)),
-      gamesPlayed: championStats.gamesPlayed,
-      wins: championStats.wins,
-      losses: championStats.gamesPlayed - championStats.wins,
+      winRate: parseFloat(stats.winRate.toFixed(2)),
+      gamesPlayed: stats.gamesPlayed,
+      wins: stats.wins,
+      losses: stats.losses,
       images,
-      kda: parseFloat(kda.toFixed(2)),
-      dpm: parseFloat(dpm.toFixed(2)),
-      cspm: parseFloat(cspm.toFixed(2)),
-      gpm: parseFloat(gpm.toFixed(2)),
-      banRate: parseFloat(banRate.toFixed(2)),
-      pickRate: parseFloat(pickRate.toFixed(2)),
+      kda: parseFloat(stats.kda.toFixed(2)),
+      dpm: parseFloat(stats.dpm.toFixed(2)),
+      cspm: parseFloat(stats.cspm.toFixed(2)),
+      gpm: parseFloat(stats.gpm.toFixed(2)),
+      banRate: parseFloat(stats.banRate.toFixed(2)),
+      pickRate: parseFloat(stats.pickRate.toFixed(2)),
       tier: scoreResult.tier,
       rank,
-      primaryRole: primaryRole ?? undefined,
     };
-  }
-
-  async getMatchupStats(
-    championA: string,
-    championB: string,
-    patch: string,
-    role: string,
-  ) {
-    const championAInfo = this.dataDragon.getChampionByName(championA);
-    const championBInfo = this.dataDragon.getChampionByName(championB);
-
-    if (!championAInfo) {
-      throw new NotFoundException(`Champion ${championA} not found`);
-    }
-
-    if (!championBInfo) {
-      throw new NotFoundException(`Champion ${championB} not found`);
-    }
-
-    const championAId = parseInt(championAInfo.key, 10);
-    const championBId = parseInt(championBInfo.key, 10);
-
-    const matchup = await this.prisma.matchupStats.findFirst({
-      where: {
-        patch,
-        role,
-        OR: [
-          {
-            championId1: championAId,
-            championId2: championBId,
-          },
-          {
-            championId1: championBId,
-            championId2: championAId,
-          },
-        ],
-      },
-    });
-
-    if (!matchup) {
-      throw new NotFoundException(
-        `Matchup stats for ${championA} vs ${championB} in role ${role} on patch ${patch} not found`,
-      );
-    }
-
-    let championAWins = 0;
-    if (matchup.championId1 === championAId) {
-      championAWins = matchup.champion1Wins;
-    } else {
-      championAWins = matchup.gamesPlayed - matchup.champion1Wins;
-    }
-
-    const championAWinRate = (championAWins / matchup.gamesPlayed) * 100;
-    const championBWinRate = 100 - championAWinRate;
-
-    // getChampionImageUrls usa a versão completa (fullVersion) por padrão
-    const championAImages = await this.dataDragon.getChampionImageUrls(
-      championAInfo.id,
-    );
-    const championBImages = await this.dataDragon.getChampionImageUrls(
-      championBInfo.id,
-    );
-
-    const result: MatchupStatsDto = {
-      championA: {
-        name: championAInfo.name,
-        images: championAImages,
-        wins: championAWins,
-        winRate: parseFloat(championAWinRate.toFixed(2)),
-      },
-      championB: {
-        name: championBInfo.name,
-        images: championBImages,
-        wins: matchup.gamesPlayed - championAWins,
-        winRate: parseFloat(championBWinRate.toFixed(2)),
-      },
-      gamesPlayed: matchup.gamesPlayed,
-      patch: matchup.patch,
-      role: matchup.role,
-    };
-
-    return result;
   }
 
   async getAllChampions(): Promise<ChampionListDto> {
@@ -916,27 +330,22 @@ export class ApiService {
     patch?: string,
   ): Promise<{ count: number; patch?: string; message?: string }> {
     if (patch) {
-      const count = await this.prisma.processedMatch.count({
+      const count = await this.prisma.match.count({
         where: {
-          patch: patch,
+          gameVersion: { startsWith: patch },
         },
       });
       if (count === 0) {
         return {
           count: 0,
-          patch: patch,
+          patch,
           message: `Não há dados para o patch ${patch}`,
         };
       }
-      return {
-        count,
-        patch: patch,
-      };
+      return { count, patch };
     }
-    const totalCount = await this.prisma.processedMatch.count();
-    return {
-      count: totalCount,
-    };
+    const totalCount = await this.prisma.match.count();
+    return { count: totalCount };
   }
 
   // ========== NOVOS MÉTODOS - Schema V2 ==========
@@ -1043,13 +452,13 @@ export class ApiService {
       gameName: user.gameName,
       tagLine: user.tagLine,
       region: user.region,
-      profileIconId: user.profileIconId,
-      summonerLevel: user.summonerLevel,
-      tier: user.tier,
-      rank: user.rank,
-      leaguePoints: user.leaguePoints,
-      rankedWins: user.rankedWins,
-      rankedLosses: user.rankedLosses,
+      profileIconId: user.profileIconId ?? undefined,
+      summonerLevel: user.summonerLevel ?? undefined,
+      tier: user.tier ?? undefined,
+      rank: user.rank ?? undefined,
+      leaguePoints: user.leaguePoints ?? undefined,
+      rankedWins: user.rankedWins ?? undefined,
+      rankedLosses: user.rankedLosses ?? undefined,
       lastUpdated: user.lastUpdated,
       createdAt: user.createdAt,
     };
@@ -1107,5 +516,317 @@ export class ApiService {
         message: 'Failed to fetch match status from Riot API',
       };
     }
+  }
+
+  // ========== MACRO ANALYSIS ENDPOINTS ==========
+
+  async getPlayerSummary(
+    puuid: string,
+    filters: { patch?: string },
+  ): Promise<PlayerSummaryDto> {
+    const patch =
+      filters.patch === 'lifetime' || !filters.patch ? null : filters.patch;
+
+    const playerStats = await this.prisma.playerStats.findUnique({
+      where: {
+        puuid_patch_queueId: {
+          puuid,
+          patch: patch as string,
+          queueId: 420,
+        },
+      },
+    });
+
+    if (!playerStats) {
+      throw new NotFoundException(`No stats found for player ${puuid}`);
+    }
+
+    const topChampions =
+      (playerStats.topChampions as Array<{
+        championId: number;
+        games: number;
+        winRate: number;
+      }>) || [];
+
+    const enrichedTopChampions = topChampions.map((champ) => {
+      const championInfo = this.dataDragon.getChampionById(champ.championId);
+      return {
+        ...champ,
+        championName: championInfo?.name || `Champion ${champ.championId}`,
+      };
+    });
+
+    return {
+      puuid: playerStats.puuid,
+      patch: patch || 'lifetime',
+      queueId: playerStats.queueId,
+      gamesPlayed: playerStats.gamesPlayed,
+      wins: playerStats.wins,
+      losses: playerStats.losses,
+      winRate: playerStats.winRate,
+      avgKda: playerStats.avgKda,
+      avgCspm: playerStats.avgCspm,
+      avgDpm: playerStats.avgDpm,
+      avgGpm: playerStats.avgGpm,
+      avgVisionScore: playerStats.avgVisionScore,
+      roleDistribution: playerStats.roleDistribution as Record<string, number>,
+      topChampions: enrichedTopChampions,
+      lastUpdated: playerStats.lastUpdated,
+    };
+  }
+
+  async getPlayerChampions(
+    puuid: string,
+    filters: {
+      patch?: string;
+      role?: string;
+      limit?: number;
+      sortBy?: string;
+    },
+  ): Promise<PlayerChampionsDto> {
+    const patch =
+      filters.patch === 'lifetime' || !filters.patch ? null : filters.patch;
+    const limit = Math.min(filters.limit || 10, 50);
+    const sortBy = filters.sortBy || 'games';
+
+    let championStats = await this.prisma.playerChampionStats.findMany({
+      where: {
+        puuid,
+        patch,
+        queueId: 420,
+      },
+    });
+
+    if (filters.role) {
+      championStats = championStats.filter((champ) => {
+        const roleDistribution = champ.roleDistribution as Record<
+          string,
+          number
+        >;
+        return roleDistribution[filters.role!] > 0;
+      });
+    }
+
+    championStats.sort((a, b) => {
+      if (sortBy === 'winRate') return b.winRate - a.winRate;
+      if (sortBy === 'kda') return b.avgKda - a.avgKda;
+      return b.gamesPlayed - a.gamesPlayed;
+    });
+
+    championStats = championStats.slice(0, limit);
+
+    const enrichedChampions = championStats.map((champ) => {
+      const championInfo = this.dataDragon.getChampionById(champ.championId);
+      return {
+        championId: champ.championId,
+        championName: championInfo?.name || `Champion ${champ.championId}`,
+        gamesPlayed: champ.gamesPlayed,
+        wins: champ.wins,
+        losses: champ.losses,
+        winRate: champ.winRate,
+        avgKda: champ.avgKda,
+        avgCspm: champ.avgCspm,
+        avgDpm: champ.avgDpm,
+        avgGpm: champ.avgGpm,
+        avgVisionScore: champ.avgVisionScore,
+        avgCsd15: champ.avgCsd15,
+        avgGd15: champ.avgGd15,
+        avgXpd15: champ.avgXpd15,
+        roleDistribution: champ.roleDistribution as Record<string, number>,
+        lastPlayedAt: champ.lastPlayedAt,
+      };
+    });
+
+    return {
+      puuid,
+      patch: patch || 'lifetime',
+      champions: enrichedChampions,
+    };
+  }
+
+  async getPlayerRoleDistribution(
+    puuid: string,
+    filters: { patch?: string },
+  ): Promise<PlayerRoleDistributionDto> {
+    const patch = filters.patch;
+
+    const roleStats = await this.prisma.$queryRaw<
+      Array<{
+        role: string;
+        gamesplayed: bigint;
+        wins: bigint;
+        losses: bigint;
+        winrate: number;
+        avgkda: number;
+      }>
+    >`
+      SELECT
+        mp.role,
+        COUNT(*) as gamesPlayed,
+        SUM(CASE WHEN mp.win THEN 1 ELSE 0 END) as wins,
+        SUM(CASE WHEN NOT mp.win THEN 1 ELSE 0 END) as losses,
+        (SUM(CASE WHEN mp.win THEN 1 ELSE 0 END)::float / COUNT(*)) * 100 as winRate,
+        AVG(mp.kda) as avgKda
+      FROM match_participants mp
+      JOIN matches m ON mp."matchId" = m."matchId"
+      WHERE mp.puuid = ${puuid}
+        AND m."queueId" = 420
+        ${patch && patch !== 'lifetime' ? Prisma.sql`AND m."gameVersion" LIKE ${patch + '%'}` : Prisma.empty}
+      GROUP BY mp.role
+      ORDER BY gamesPlayed DESC
+    `;
+
+    const totalGames = roleStats.reduce(
+      (sum, role) => sum + Number(role.gamesplayed),
+      0,
+    );
+
+    const roles = roleStats.map((role) => ({
+      role: role.role,
+      gamesPlayed: Number(role.gamesplayed),
+      percentage:
+        totalGames > 0 ? (Number(role.gamesplayed) / totalGames) * 100 : 0,
+      wins: Number(role.wins),
+      losses: Number(role.losses),
+      winRate: role.winrate,
+      avgKda: role.avgkda,
+    }));
+
+    return {
+      puuid,
+      patch: patch || 'lifetime',
+      roles,
+      totalGames,
+    };
+  }
+
+  async getPlayerActivity(
+    puuid: string,
+    filters: { patch?: string },
+  ): Promise<PlayerActivityDto> {
+    const patch = filters.patch;
+
+    const activityData = await this.prisma.$queryRaw<
+      Array<{
+        dayofweek: number;
+        hour: number;
+        games: bigint;
+        wins: bigint;
+        losses: bigint;
+        winrate: number;
+      }>
+    >`
+      SELECT
+        EXTRACT(DOW FROM TO_TIMESTAMP(m."gameCreation" / 1000) AT TIME ZONE 'America/Sao_Paulo') as dayOfWeek,
+        EXTRACT(HOUR FROM TO_TIMESTAMP(m."gameCreation" / 1000) AT TIME ZONE 'America/Sao_Paulo') as hour,
+        COUNT(*) as games,
+        SUM(CASE WHEN mp.win THEN 1 ELSE 0 END) as wins,
+        SUM(CASE WHEN NOT mp.win THEN 1 ELSE 0 END) as losses,
+        (SUM(CASE WHEN mp.win THEN 1 ELSE 0 END)::float / COUNT(*)) * 100 as winRate
+      FROM match_participants mp
+      JOIN matches m ON mp."matchId" = m."matchId"
+      WHERE mp.puuid = ${puuid}
+        AND m."queueId" = 420
+        ${patch && patch !== 'lifetime' ? Prisma.sql`AND m."gameVersion" LIKE ${patch + '%'}` : Prisma.empty}
+      GROUP BY dayOfWeek, hour
+      ORDER BY dayOfWeek, hour
+    `;
+
+    // Build complete 7x24 matrix
+    const heatmap: HeatmapEntryDto[] = [];
+    for (let day = 0; day < 7; day++) {
+      for (let hour = 0; hour < 24; hour++) {
+        heatmap.push({
+          dayOfWeek: day,
+          hour,
+          games: 0,
+          wins: 0,
+          losses: 0,
+          winRate: 0,
+        });
+      }
+    }
+
+    activityData.forEach((entry) => {
+      const index = Number(entry.dayofweek) * 24 + Number(entry.hour);
+      heatmap[index] = {
+        dayOfWeek: Number(entry.dayofweek),
+        hour: Number(entry.hour),
+        games: Number(entry.games),
+        wins: Number(entry.wins),
+        losses: Number(entry.losses),
+        winRate: entry.winrate,
+      };
+    });
+
+    const insights = this.calculateActivityInsights(heatmap);
+
+    return {
+      puuid,
+      patch: patch || 'lifetime',
+      heatmap,
+      insights,
+    };
+  }
+
+  private calculateActivityInsights(heatmap: HeatmapEntryDto[]) {
+    const dayNames = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+
+    // Aggregate by day
+    const dayStats = new Array(7)
+      .fill(0)
+      .map(() => ({ games: 0, wins: 0 }));
+    heatmap.forEach((entry) => {
+      dayStats[entry.dayOfWeek].games += entry.games;
+      dayStats[entry.dayOfWeek].wins += entry.wins;
+    });
+    const mostActiveDayIndex = dayStats.reduce(
+      (maxIdx, day, idx, arr) =>
+        day.games > arr[maxIdx].games ? idx : maxIdx,
+      0,
+    );
+
+    // Most active hour
+    const mostActiveHourEntry = heatmap.reduce((max, entry) =>
+      entry.games > max.games ? entry : max,
+    );
+
+    // Best/worst winrate (minimum 5 games)
+    const qualifiedEntries = heatmap.filter((e) => e.games >= 5);
+    const peakWinRateEntry =
+      qualifiedEntries.length > 0
+        ? qualifiedEntries.reduce((max, entry) =>
+            entry.winRate > max.winRate ? entry : max,
+          )
+        : null;
+    const worstWinRateEntry =
+      qualifiedEntries.length > 0
+        ? qualifiedEntries.reduce((min, entry) =>
+            entry.winRate < min.winRate ? entry : min,
+          )
+        : null;
+
+    return {
+      mostActiveDay: dayNames[mostActiveDayIndex],
+      mostActiveDayGames: dayStats[mostActiveDayIndex].games,
+      mostActiveHour: mostActiveHourEntry.hour,
+      mostActiveHourGames: mostActiveHourEntry.games,
+      peakWinRate: peakWinRateEntry?.winRate || 0,
+      peakWinRateTime: peakWinRateEntry
+        ? `${dayNames[peakWinRateEntry.dayOfWeek]} ${peakWinRateEntry.hour}h`
+        : 'N/A',
+      worstWinRate: worstWinRateEntry?.winRate || 0,
+      worstWinRateTime: worstWinRateEntry
+        ? `${dayNames[worstWinRateEntry.dayOfWeek]} ${worstWinRateEntry.hour}h`
+        : 'N/A',
+    };
   }
 }

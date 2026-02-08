@@ -4,35 +4,44 @@ import { PrismaService } from '../../core/prisma/prisma.service';
 import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
 import { NotFoundException } from '@nestjs/common';
 import { TierRankService } from './tier-rank.service';
+import { RiotService } from '../../core/riot/riot.service';
 
 const mockChampionStats = [
   {
     id: 1,
     championId: 266,
     patch: '14.4',
+    queueId: 420,
     wins: 10,
+    losses: 10,
     gamesPlayed: 20,
-    totalKills: 200,
-    totalDeaths: 100,
-    totalAssists: 300,
-    totalDamageDealt: BigInt(500000),
-    totalGoldEarned: BigInt(150000),
-    totalCreepScore: 1000,
-    totalDuration: 1200,
+    winRate: 50.0,
+    kda: 3.33,
+    dpm: 416.67,
+    cspm: 0.83,
+    gpm: 125.0,
+    banRate: 12.5,
+    pickRate: 8.0,
+    tier: null,
+    rank: null,
   },
   {
     id: 2,
     championId: 103,
     patch: '14.4',
+    queueId: 420,
     wins: 15,
+    losses: 10,
     gamesPlayed: 25,
-    totalKills: 300,
-    totalDeaths: 150,
-    totalAssists: 450,
-    totalDamageDealt: BigInt(750000),
-    totalGoldEarned: BigInt(200000),
-    totalCreepScore: 1500,
-    totalDuration: 1500,
+    winRate: 60.0,
+    kda: 5.0,
+    dpm: 500.0,
+    cspm: 1.0,
+    gpm: 133.33,
+    banRate: 15.0,
+    pickRate: 10.0,
+    tier: null,
+    rank: null,
   },
 ];
 
@@ -53,26 +62,12 @@ const mockChampionData = {
   },
 };
 
-const mockMatchupStats = {
-  id: 1,
-  championId1: 266,
-  championId2: 103,
-  champion1Wins: 5,
-  gamesPlayed: 10,
-  patch: '14.4',
-  role: 'TOP',
-};
-
 const mockPrismaService = {
   championStats: {
     findMany: jest.fn().mockResolvedValue(mockChampionStats),
     findFirst: jest.fn(),
   },
-  matchupStats: {
-    findFirst: jest.fn().mockResolvedValue(mockMatchupStats),
-    findMany: jest.fn().mockResolvedValue([mockMatchupStats]),
-  },
-  processedMatch: {
+  match: {
     count: jest.fn().mockResolvedValue(100),
   },
 };
@@ -104,28 +99,11 @@ const mockTierRankService = {
     score: 85,
     hasInsufficientData: false,
   }),
-  processMatchupsForPatch: jest.fn().mockReturnValue({
-    primaryRolesByChampion: new Map([
-      [266, 'TOP'],
-      [103, 'MID'],
-    ]),
-    gamesByChampionAndRole: new Map([
-      [
-        266,
-        new Map([
-          ['TOP', 10],
-          ['JUNGLE', 5],
-        ]),
-      ],
-      [103, new Map([['MID', 20]])],
-    ]),
-    totalGamesByRole: new Map([
-      ['TOP', 100],
-      ['JUNGLE', 50],
-      ['MID', 150],
-    ]),
-  }),
-  inferPrimaryRole: jest.fn().mockResolvedValue(null),
+  getChampionStats: jest.fn().mockResolvedValue(null),
+};
+
+const mockRiotService = {
+  getMatchIdsByPuuid: jest.fn(),
 };
 
 describe('ApiService', () => {
@@ -138,6 +116,7 @@ describe('ApiService', () => {
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: DataDragonService, useValue: mockDataDragonService },
         { provide: TierRankService, useValue: mockTierRankService },
+        { provide: RiotService, useValue: mockRiotService },
       ],
     }).compile();
 
@@ -153,7 +132,7 @@ describe('ApiService', () => {
   });
 
   describe('getChampionStats', () => {
-    it('should calculate winRate correctly and return paginated stats', async () => {
+    it('should return paginated stats with tier and rank', async () => {
       const patch = '14.4';
       const page = 1;
       const limit = 10;
@@ -211,58 +190,6 @@ describe('ApiService', () => {
     });
   });
 
-  describe('getMatchupStats', () => {
-    it('should calculate matchup win rates correctly when championA is championId1', async () => {
-      const championA = 'Aatrox';
-      const championB = 'Ahri';
-      const patch = '14.4';
-      const role = 'TOP';
-
-      const result = await service.getMatchupStats(
-        championA,
-        championB,
-        patch,
-        role,
-      );
-
-      expect(result.championA.name).toBe('Aatrox');
-      expect(result.championA.winRate).toBe(50);
-
-      expect(result.championB.name).toBe('Ahri');
-      expect(result.championB.winRate).toBe(50);
-
-      expect(result.gamesPlayed).toBe(10);
-    });
-
-    it('should calculate matchup win rates correctly when championA is championId2', async () => {
-      mockPrismaService.matchupStats.findFirst.mockResolvedValueOnce({
-        ...mockMatchupStats,
-        championId1: 103,
-        championId2: 266,
-        champion1Wins: 7,
-      });
-
-      const result = await service.getMatchupStats(
-        'Aatrox',
-        'Ahri',
-        '14.4',
-        'TOP',
-      );
-
-      expect(result.championA.name).toBe('Aatrox');
-      expect(result.championA.winRate).toBe(30);
-
-      expect(result.championB.name).toBe('Ahri');
-      expect(result.championB.winRate).toBe(70);
-    });
-
-    it('should throw NotFoundException if a champion is not found', async () => {
-      await expect(
-        service.getMatchupStats('Unknown', 'Ahri', '14.4', 'TOP'),
-      ).rejects.toThrow(NotFoundException);
-    });
-  });
-
   describe('getAllChampions', () => {
     it('should return all champions with images', async () => {
       const result = await service.getAllChampions();
@@ -296,22 +223,22 @@ describe('ApiService', () => {
       const result = await service.getProcessedMatches();
 
       expect(result).toEqual({ count: 100 });
-      expect(mockPrismaService.processedMatch.count).toHaveBeenCalledWith();
+      expect(mockPrismaService.match.count).toHaveBeenCalledWith();
     });
 
     it('should return count filtered by patch', async () => {
-      mockPrismaService.processedMatch.count.mockResolvedValue(50);
+      mockPrismaService.match.count.mockResolvedValue(50);
 
       const result = await service.getProcessedMatches('14.4');
 
       expect(result).toEqual({ count: 50, patch: '14.4' });
-      expect(mockPrismaService.processedMatch.count).toHaveBeenCalledWith({
-        where: { patch: '14.4' },
+      expect(mockPrismaService.match.count).toHaveBeenCalledWith({
+        where: { gameVersion: { startsWith: '14.4' } },
       });
     });
 
     it('should return message when patch has no data', async () => {
-      mockPrismaService.processedMatch.count.mockResolvedValue(0);
+      mockPrismaService.match.count.mockResolvedValue(0);
 
       const result = await service.getProcessedMatches('99.9');
 

@@ -22,7 +22,6 @@ describe('RateLimitController', () => {
     getCurrentPatch: jest.fn(),
     getChampionStats: jest.fn(),
     getChampion: jest.fn(),
-    getMatchupStats: jest.fn(),
     getProcessedMatches: jest.fn(),
   };
 
@@ -214,7 +213,6 @@ describe('StatsController', () => {
   const mockApiService = {
     getChampionStats: jest.fn(),
     getChampion: jest.fn(),
-    getMatchupStats: jest.fn(),
     getProcessedMatches: jest.fn(),
   };
 
@@ -354,74 +352,6 @@ describe('StatsController', () => {
       await expect(controller.getChampion('Unknown', '15.23')).rejects.toThrow(
         NotFoundException,
       );
-    });
-  });
-
-  describe('getMatchupStats', () => {
-    it('should return matchup stats between two champions', async () => {
-      const mockMatchupStats = {
-        championA: {
-          name: 'Aatrox',
-          images: { full: 'url' },
-          winRate: 55.5,
-          wins: 55,
-        },
-        championB: {
-          name: 'Ahri',
-          images: { full: 'url' },
-          winRate: 44.5,
-          wins: 45,
-        },
-        gamesPlayed: 100,
-        patch: '15.23',
-        role: 'TOP',
-      };
-      mockApiService.getMatchupStats.mockResolvedValue(mockMatchupStats);
-
-      const result = await controller.getMatchupStats(
-        'Aatrox',
-        'Ahri',
-        '15.23',
-        'TOP',
-      );
-
-      expect(result).toEqual(mockMatchupStats);
-      expect(apiService.getMatchupStats).toHaveBeenCalledWith(
-        'Aatrox',
-        'Ahri',
-        '15.23',
-        'TOP',
-      );
-    });
-
-    it('should throw NotFoundException when championA not found', async () => {
-      mockApiService.getMatchupStats.mockRejectedValue(
-        new NotFoundException('Champion not found'),
-      );
-
-      await expect(
-        controller.getMatchupStats('Unknown', 'Ahri', '15.23', 'TOP'),
-      ).rejects.toThrow(NotFoundException);
-    });
-
-    it('should throw NotFoundException when championB not found', async () => {
-      mockApiService.getMatchupStats.mockRejectedValue(
-        new NotFoundException('Champion not found'),
-      );
-
-      await expect(
-        controller.getMatchupStats('Aatrox', 'Unknown', '15.23', 'TOP'),
-      ).rejects.toThrow(NotFoundException);
-    });
-
-    it('should throw NotFoundException when matchup not found', async () => {
-      mockApiService.getMatchupStats.mockRejectedValue(
-        new NotFoundException('Matchup not found'),
-      );
-
-      await expect(
-        controller.getMatchupStats('Aatrox', 'Ahri', '15.23', 'TOP'),
-      ).rejects.toThrow(NotFoundException);
     });
   });
 

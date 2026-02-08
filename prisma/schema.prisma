@@ -145,3 +145,64 @@ model ChampionStats {
   @@index([patch, queueId])
   @@map("champion_stats")
 }
+
+model PlayerStats {
+  id              Int       @id @default(autoincrement())
+  puuid           String
+  patch           String?
+  queueId         Int       @default(420)
+
+  gamesPlayed     Int       @default(0)
+  wins            Int       @default(0)
+  losses          Int       @default(0)
+  winRate         Float     @default(0)
+
+  avgKda          Float     @default(0)
+  avgDpm          Float     @default(0)
+  avgCspm         Float     @default(0)
+  avgGpm          Float     @default(0)
+  avgVisionScore  Float     @default(0)
+
+  roleDistribution Json    @default("{}")
+  topChampions    Json      @default("[]")
+
+  lastUpdated     DateTime  @default(now())
+
+  @@unique([puuid, patch, queueId])
+  @@index([puuid])
+  @@index([puuid, patch])
+  @@map("player_stats")
+}
+
+model PlayerChampionStats {
+  id              Int       @id @default(autoincrement())
+  puuid           String
+  championId      Int
+  patch           String?
+  queueId         Int       @default(420)
+
+  gamesPlayed     Int       @default(0)
+  wins            Int       @default(0)
+  losses          Int       @default(0)
+  winRate         Float     @default(0)
+
+  avgKda          Float     @default(0)
+  avgDpm          Float     @default(0)
+  avgCspm         Float     @default(0)
+  avgGpm          Float     @default(0)
+  avgVisionScore  Float     @default(0)
+
+  avgCsd15        Float     @default(0)
+  avgGd15         Float     @default(0)
+  avgXpd15        Float     @default(0)
+
+  roleDistribution Json    @default("{}")
+
+  lastPlayedAt    DateTime?
+
+  @@unique([puuid, championId, patch, queueId])
+  @@index([puuid])
+  @@index([puuid, lastPlayedAt])
+  @@index([championId])
+  @@map("player_champion_stats")
+}
