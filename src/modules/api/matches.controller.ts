@@ -10,12 +10,12 @@ import {
   ApiOperation,
   ApiResponse,
   ApiParam,
-  ApiQuery,
 } from '@nestjs/swagger';
 import { ApiService } from './api.service';
 import {
-  PlayerMatchDto,
   PlayerMatchesDto,
+  PlayerMatchesQueryDto,
+  PlayerMatchesPageQueryDto,
 } from './dto/player-match.dto';
 import { MatchDetailDto } from './dto/match-detail.dto';
 
@@ -33,7 +33,7 @@ export class MatchesController {
   @ApiOperation({
     summary: 'Get player match history (lightweight)',
     description:
-      'Returns a lightweight list of matches for a player. Does NOT include timeline graphs. Optimized for mobile scroll.',
+      'Returns a lightweight list of matches for a player with advanced filters. Does NOT include timeline graphs. Optimized for mobile scroll.',
   })
   @ApiResponse({
     status: 200,
@@ -46,35 +46,11 @@ export class MatchesController {
     description: 'Player PUUID',
     example: 'abc123-def456-ghi789',
   })
-  @ApiQuery({
-    name: 'take',
-    required: false,
-    description: 'Number of matches to return',
-    type: Number,
-    example: 20,
-  })
-  @ApiQuery({
-    name: 'cursor',
-    required: false,
-    description: 'Cursor for pagination (matchId to start from)',
-    example: 'BR1_123456',
-  })
   async getPlayerMatches(
     @Param('puuid') puuid: string,
-    @Query('take') take: number = 20,
-    @Query('cursor') cursor?: string,
+    @Query() query: PlayerMatchesQueryDto,
   ): Promise<PlayerMatchesDto> {
-    const matches = await this.apiService.getPlayerMatches(
-      puuid,
-      Math.min(take, 100), // Limitar a 100 por requisição
-      cursor,
-    );
-
-    // Se retornou menos que o solicitado, não há próxima página
-    const nextCursor =
-      matches.length === take ? matches[matches.length - 1].matchId : undefined;
-
-    return { data: matches, nextCursor };
+    return this.apiService.getPlayerMatches(puuid, query);
   }
 
   /**
@@ -118,7 +94,7 @@ export class MatchesController {
   @ApiOperation({
     summary: 'Get player matches by page',
     description:
-      'Pagination-based alternative to cursor-based. Returns matches for a specific page.',
+      'Pagination-based alternative to cursor-based. Returns matches for a specific page with advanced filters.',
   })
   @ApiResponse({
     status: 200,
@@ -130,31 +106,10 @@ export class MatchesController {
     description: 'Player PUUID',
     example: 'abc123-def456-ghi789',
   })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    description: 'Page number (1-indexed)',
-    type: Number,
-    example: 1,
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    description: 'Matches per page',
-    type: Number,
-    example: 20,
-  })
   async getPlayerMatchesByPage(
     @Param('puuid') puuid: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 20,
+    @Query() query: PlayerMatchesPageQueryDto,
   ): Promise<PlayerMatchesDto> {
-    const matches = await this.apiService.getPlayerMatchesByPage(
-      puuid,
-      Math.max(1, page),
-      Math.min(limit, 100),
-    );
-
-    return { data: matches };
+    return this.apiService.getPlayerMatchesByPage(puuid, query);
   }
 }

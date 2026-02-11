@@ -9,6 +9,7 @@ import { WorkerModule } from './modules/worker/worker.module';
 import { CollectorModule } from './modules/collector/collector.module';
 import { PlayersModule } from './modules/players/players.module';
 import { DataDragonModule } from './core/data-dragon/data-dragon.module';
+import { MatchDeepDiveModule } from './modules/match-deep-dive/match-deep-dive.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { DataDragonModule } from './core/data-dragon/data-dragon.module';
     WorkerModule,
     PlayersModule,
     DataDragonModule,
+    MatchDeepDiveModule,
   ],
   controllers: [AppController],
 })

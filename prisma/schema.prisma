@@ -24,6 +24,7 @@ model Match {
   participants  MatchParticipant[]
 
   @@index([queueId])
+  @@index([queueId, gameCreation(sort: Desc)])
   @@map("matches")
 }
 
@@ -47,6 +48,7 @@ model MatchParticipant {
   kda           Float
   goldEarned    Int
   totalDamage   Int
+  damageTaken   Int
   visionScore   Int
 
   // Séries temporais (Timeline V5) - índice = minuto
@@ -74,6 +76,8 @@ model MatchParticipant {
   @@id([matchId, puuid])
   @@index([puuid])
   @@index([championId])
+  @@index([puuid, championId])
+  @@index([puuid, role])
   @@map("match_participants")
 }
 

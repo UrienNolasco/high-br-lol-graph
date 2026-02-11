@@ -49,6 +49,7 @@ interface ProcessedMatchData {
     kda: number;
     goldEarned: number;
     totalDamage: number;
+    damageTaken: number;
     visionScore: number;
 
     // Dados brutos JSONB
@@ -235,6 +236,7 @@ export class WorkerService {
           kda,
           goldEarned: p.goldEarned,
           totalDamage: p.totalDamageDealtToChampions,
+          damageTaken: p.totalDamageTaken,
           visionScore: p.visionScore || 0,
 
           // Dados brutos JSONB

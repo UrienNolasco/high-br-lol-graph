@@ -18,7 +18,7 @@ import { GetChampionStatsDto } from './dto/get-champion-stats.dto';
 import { ChampionListDto } from './dto/champion-list.dto';
 import { CurrentPatchDto } from './dto/current-patch.dto';
 
-@ApiTags('Rate Limit')
+@ApiTags('Rate Limit')  
 @Controller('api')
 export class RateLimitController {
   constructor(

@@ -17,6 +17,12 @@ import { PlayerSummaryDto } from './dto/player-summary.dto';
 import { PlayerChampionsDto } from './dto/player-champions.dto';
 import { PlayerRoleDistributionDto } from './dto/player-role-distribution.dto';
 import { PlayerActivityDto, HeatmapEntryDto } from './dto/player-activity.dto';
+import {
+  PlayerMatchDto,
+  PlayerMatchesDto,
+  PlayerMatchesQueryDto,
+  PlayerMatchesPageQueryDto,
+} from './dto/player-match.dto';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -353,72 +359,192 @@ export class ApiService {
   /**
    * Busca histórico de partidas de um jogador (LEVE - sem gráficos)
    * Otimizado para mobile: retorna apenas dados essenciais para lista
+   * Suporta filtros avançados, cursor pagination e ordenação customizada
    */
   async getPlayerMatches(
     puuid: string,
-    take: number,
-    cursor?: string,
-  ): Promise<any[]> {
-    return this.prisma.matchParticipant.findMany({
-      where: {
-        puuid,
-        ...(cursor ? { matchId: { lt: cursor } } : {}),
-      },
-      select: {
-        matchId: true,
-        match: {
-          select: {
-            gameCreation: true,
-            gameDuration: true,
-            queueId: true,
+    filters: PlayerMatchesQueryDto,
+  ): Promise<PlayerMatchesDto> {
+    const limit = filters.limit ?? 20;
+    const where = this.buildMatchWhere(puuid, filters);
+
+    // Cursor pagination via gameCreation
+    if (filters.cursor) {
+      const cursorMatch = await this.prisma.match.findUnique({
+        where: { matchId: filters.cursor },
+        select: { gameCreation: true },
+      });
+      if (cursorMatch) {
+        where.match = {
+          ...where.match,
+          gameCreation: {
+            ...(where.match?.gameCreation as object),
+            lt: cursorMatch.gameCreation,
           },
-        },
-        championName: true,
-        championId: true,
-        win: true,
-        kills: true,
-        deaths: true,
-        assists: true,
-        kda: true,
-      },
-      orderBy: { matchId: 'desc' },
-      take,
+        };
+      }
+    }
+
+    const orderBy = this.buildMatchOrderBy(filters.sortBy);
+
+    const matches = await this.prisma.matchParticipant.findMany({
+      where,
+      select: this.matchListSelect,
+      orderBy,
+      take: limit + 1,
     });
+
+    const hasMore = matches.length > limit;
+    const resultMatches = matches.slice(0, limit);
+    const enriched = resultMatches.map((m) => this.toPlayerMatchDto(m));
+
+    return {
+      puuid,
+      matches: enriched,
+      nextCursor: hasMore ? enriched[enriched.length - 1].matchId : null,
+      hasMore,
+    };
   }
 
   /**
    * Busca partidas de um jogador por página (alternativa ao cursor)
+   * Suporta os mesmos filtros avançados
    */
   async getPlayerMatchesByPage(
     puuid: string,
-    page: number,
-    limit: number,
-  ): Promise<any[]> {
+    filters: PlayerMatchesPageQueryDto,
+  ): Promise<PlayerMatchesDto> {
+    const limit = filters.limit ?? 20;
+    const page = filters.page ?? 1;
     const skip = (page - 1) * limit;
+    const where = this.buildMatchWhere(puuid, filters);
+    const orderBy = this.buildMatchOrderBy(filters.sortBy);
 
-    return this.prisma.matchParticipant.findMany({
-      where: { puuid },
-      select: {
-        matchId: true,
-        match: {
-          select: {
-            gameCreation: true,
-            gameDuration: true,
-            queueId: true,
-          },
-        },
-        championName: true,
-        championId: true,
-        win: true,
-        kills: true,
-        deaths: true,
-        assists: true,
-        kda: true,
-      },
-      orderBy: { matchId: 'desc' },
+    const matches = await this.prisma.matchParticipant.findMany({
+      where,
+      select: this.matchListSelect,
+      orderBy,
       skip,
-      take: limit,
+      take: limit + 1,
     });
+
+    const hasMore = matches.length > limit;
+    const resultMatches = matches.slice(0, limit);
+    const enriched = resultMatches.map((m) => this.toPlayerMatchDto(m));
+
+    return {
+      puuid,
+      matches: enriched,
+      nextCursor: hasMore ? enriched[enriched.length - 1].matchId : null,
+      hasMore,
+    };
+  }
+
+  // ========== Match History Helpers ==========
+
+  private readonly matchListSelect = {
+    matchId: true,
+    championId: true,
+    championName: true,
+    role: true,
+    lane: true,
+    kills: true,
+    deaths: true,
+    assists: true,
+    kda: true,
+    goldEarned: true,
+    totalDamage: true,
+    visionScore: true,
+    win: true,
+    csGraph: true,
+    match: {
+      select: {
+        gameCreation: true,
+        gameDuration: true,
+        queueId: true,
+      },
+    },
+  } as const;
+
+  private buildMatchWhere(
+    puuid: string,
+    filters: PlayerMatchesQueryDto,
+  ): any {
+    const where: any = {
+      puuid,
+      match: {
+        queueId: filters.queueId ?? 420,
+      },
+    };
+
+    if (filters.championId) {
+      where.championId = filters.championId;
+    }
+
+    if (filters.role) {
+      where.role = filters.role;
+    }
+
+    if (filters.result) {
+      where.win = filters.result === 'win';
+    }
+
+    if (filters.startDate) {
+      where.match.gameCreation = {
+        ...where.match.gameCreation,
+        gte: BigInt(filters.startDate),
+      };
+    }
+
+    if (filters.endDate) {
+      where.match.gameCreation = {
+        ...where.match.gameCreation,
+        lte: BigInt(filters.endDate),
+      };
+    }
+
+    return where;
+  }
+
+  private buildMatchOrderBy(sortBy?: string) {
+    switch (sortBy) {
+      case 'kda':
+        return { kda: 'desc' as const };
+      case 'kills':
+        return { kills: 'desc' as const };
+      case 'damage':
+        return { totalDamage: 'desc' as const };
+      default:
+        return { match: { gameCreation: 'desc' as const } };
+    }
+  }
+
+  private toPlayerMatchDto(match: any): PlayerMatchDto {
+    const gameDurationMinutes = match.match.gameDuration / 60;
+    const cspm =
+      match.csGraph.length > 0
+        ? match.csGraph[match.csGraph.length - 1] / gameDurationMinutes
+        : 0;
+
+    return {
+      matchId: match.matchId,
+      championId: match.championId,
+      championName: match.championName,
+      role: match.role,
+      lane: match.lane,
+      kills: match.kills,
+      deaths: match.deaths,
+      assists: match.assists,
+      kda: match.kda,
+      goldEarned: match.goldEarned,
+      totalDamage: match.totalDamage,
+      visionScore: match.visionScore,
+      cspm: parseFloat(cspm.toFixed(2)),
+      win: match.win,
+      gameCreation: Number(match.match.gameCreation),
+      gameDuration: match.match.gameDuration,
+      queueId: match.match.queueId,
+    };
   }
 
   /**
