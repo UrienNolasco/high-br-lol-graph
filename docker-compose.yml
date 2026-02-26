@@ -46,6 +46,7 @@ services:
     command: npm run start:dev
     environment:
       - APP_MODE=API
+      - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -86,6 +87,7 @@ services:
     command: npm run start:dev
     environment:
       - APP_MODE=WORKER
+      - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -123,6 +125,7 @@ services:
     command: npm run start:dev
     environment:
       - APP_MODE=WORKER
+      - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -160,6 +163,7 @@ services:
     command: npm run start:dev
     environment:
       - APP_MODE=COLLECTOR
+      - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}

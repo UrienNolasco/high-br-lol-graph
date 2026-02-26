@@ -10,6 +10,7 @@ import { CollectorModule } from './modules/collector/collector.module';
 import { PlayersModule } from './modules/players/players.module';
 import { DataDragonModule } from './core/data-dragon/data-dragon.module';
 import { MatchDeepDiveModule } from './modules/match-deep-dive/match-deep-dive.module';
+import { CompareEvolveModule } from './modules/compare-evolve/compare-evolve.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MatchDeepDiveModule } from './modules/match-deep-dive/match-deep-dive.m
     PlayersModule,
     DataDragonModule,
     MatchDeepDiveModule,
+    CompareEvolveModule,
   ],
   controllers: [AppController],
 })

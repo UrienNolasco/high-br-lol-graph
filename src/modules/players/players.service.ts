@@ -40,8 +40,8 @@ export class PlayersService {
       );
 
       // Step 3: Buscar ranked stats (League-V4)
-      const leagueEntries = await this.riotService.getRankedStatsBySummonerId(
-        summoner.id,
+      const leagueEntries = await this.riotService.getRankedStatsByPuuid(
+        account.puuid,
         REGION,
       );
       const rankedSolo = leagueEntries.find(
@@ -88,7 +88,7 @@ export class PlayersService {
           tagLine: dto.tagLine,
           profileIconId: summoner.profileIconId,
           summonerLevel: summoner.summonerLevel,
-          summonerId: summoner.id,
+          summonerId: summoner.id ?? null,
           tier: rankedSolo?.tier || null,
           rank: rankedSolo?.rank || null,
           leaguePoints: rankedSolo?.leaguePoints || null,
@@ -103,7 +103,7 @@ export class PlayersService {
           region: REGION,
           profileIconId: summoner.profileIconId,
           summonerLevel: summoner.summonerLevel,
-          summonerId: summoner.id,
+          summonerId: summoner.id ?? null,
           tier: rankedSolo?.tier || null,
           rank: rankedSolo?.rank || null,
           leaguePoints: rankedSolo?.leaguePoints || null,

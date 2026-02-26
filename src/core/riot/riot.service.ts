@@ -225,4 +225,32 @@ export class RiotService {
       return response.data;
     }, `getRankedStatsBySummonerId(${summonerId})`);
   }
+
+  async getRankedStatsByPuuid(
+    puuid: string,
+    region = 'br1',
+  ): Promise<LeagueEntryDto[]> {
+    this.ensureApiKey();
+    this.logger.log(
+      `Fetching ranked stats for PUUID: ${puuid} (${region})`,
+    );
+
+    return this.retryService.executeWithRetry(async () => {
+      await this.rateLimiterService.throttle(this.apiKey);
+
+      const baseUrl =
+        region === 'br1'
+          ? this.brBaseUrl
+          : `https://${region}.api.riotgames.com`;
+
+      const url = `${baseUrl}/lol/league/v4/entries/by-puuid/${puuid}`;
+
+      const response = await firstValueFrom(
+        this.httpService.get<LeagueEntryDto[]>(url, {
+          headers: this.createHeaders(),
+        }),
+      );
+      return response.data;
+    }, `getRankedStatsByPuuid(${puuid})`);
+  }
 }
