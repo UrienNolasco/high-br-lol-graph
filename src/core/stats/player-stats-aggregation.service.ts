@@ -33,12 +33,12 @@ export class PlayerStatsAggregationService {
     patch: string,
     gameDurationMinutes: number,
   ): Promise<void> {
-    // Lifetime stats (patch = null)
-    await this.updatePlayerStats(participant, null, gameDurationMinutes);
+    // Lifetime stats (patch = 'ALL')
+    await this.updatePlayerStats(participant, 'ALL', gameDurationMinutes);
     await this.updatePlayerChampionStats(
       participant,
       opponent,
-      null,
+      'ALL',
       gameDurationMinutes,
     );
 
@@ -54,18 +54,14 @@ export class PlayerStatsAggregationService {
 
   private async updatePlayerStats(
     participant: ParticipantData,
-    patch: string | null,
+    patch: string,
     gameDurationMinutes: number,
   ): Promise<void> {
-    // Prisma's composite unique type doesn't accept null for optional fields,
-    // but the runtime behavior is correct. Cast to satisfy TypeScript.
-    const patchValue = patch as string;
-
     const current = await this.prisma.playerStats.findUnique({
       where: {
         puuid_patch_queueId: {
           puuid: participant.puuid,
-          patch: patchValue,
+          patch,
           queueId: 420,
         },
       },
@@ -131,13 +127,13 @@ export class PlayerStatsAggregationService {
       where: {
         puuid_patch_queueId: {
           puuid: participant.puuid,
-          patch: patchValue,
+          patch,
           queueId: 420,
         },
       },
       create: {
         puuid: participant.puuid,
-        patch: patchValue,
+        patch,
         queueId: 420,
         gamesPlayed: 1,
         wins: participant.win ? 1 : 0,
@@ -179,17 +175,15 @@ export class PlayerStatsAggregationService {
   private async updatePlayerChampionStats(
     participant: ParticipantData,
     opponent: ParticipantData | null,
-    patch: string | null,
+    patch: string,
     gameDurationMinutes: number,
   ): Promise<void> {
-    const patchValue = patch as string;
-
     const current = await this.prisma.playerChampionStats.findUnique({
       where: {
         puuid_championId_patch_queueId: {
           puuid: participant.puuid,
           championId: participant.championId,
-          patch: patchValue,
+          patch,
           queueId: 420,
         },
       },
@@ -247,14 +241,14 @@ export class PlayerStatsAggregationService {
         puuid_championId_patch_queueId: {
           puuid: participant.puuid,
           championId: participant.championId,
-          patch: patchValue,
+          patch,
           queueId: 420,
         },
       },
       create: {
         puuid: participant.puuid,
         championId: participant.championId,
-        patch: patchValue,
+        patch,
         queueId: 420,
         gamesPlayed: 1,
         wins: participant.win ? 1 : 0,
