@@ -1,10 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { MatchDeepDiveService } from './match-deep-dive.service';
 import {
   MatchGoldTimelineDto,
@@ -67,8 +62,7 @@ export class MatchDeepDiveController {
   @Get(':matchId/builds')
   @ApiOperation({
     summary: 'Get match builds',
-    description:
-      'Returns item timeline and final build for all participants.',
+    description: 'Returns item timeline and final build for all participants.',
   })
   @ApiResponse({
     status: 200,
@@ -81,9 +75,7 @@ export class MatchDeepDiveController {
     description: 'Match ID',
     example: 'BR1_3216549870',
   })
-  async getBuilds(
-    @Param('matchId') matchId: string,
-  ): Promise<MatchBuildsDto> {
+  async getBuilds(@Param('matchId') matchId: string): Promise<MatchBuildsDto> {
     return this.deepDiveService.getMatchBuilds(matchId);
   }
 

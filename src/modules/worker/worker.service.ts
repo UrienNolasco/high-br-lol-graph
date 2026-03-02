@@ -429,8 +429,8 @@ export class WorkerService {
           damageGraph: timelineParticipant?.damageGraph || [],
         };
 
-        const allParticipants: ParticipantData[] =
-          matchData.participants.map((p) => {
+        const allParticipants: ParticipantData[] = matchData.participants.map(
+          (p) => {
             const tp = timelineData.participants.get(p.puuid);
             return {
               ...p,
@@ -439,13 +439,13 @@ export class WorkerService {
               csGraph: tp?.csGraph || [],
               damageGraph: tp?.damageGraph || [],
             };
-          });
+          },
+        );
 
-        const opponent =
-          this.playerStatsAggregation.findLaneOpponent(
-            allParticipants,
-            participantData,
-          );
+        const opponent = this.playerStatsAggregation.findLaneOpponent(
+          allParticipants,
+          participantData,
+        );
 
         await this.playerStatsAggregation.updatePlayerAggregates(
           participantData,

@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  Logger,
-  OnModuleDestroy,
-} from '@nestjs/common';
+import { Inject, Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { RABBITMQ_CHANNEL } from './queue.constants';
 
 export interface MatchPublishOptions {
@@ -15,9 +10,7 @@ export class QueueService implements OnModuleDestroy {
   private readonly logger = new Logger(QueueService.name);
   private readonly queueName: string;
 
-  constructor(
-    @Inject(RABBITMQ_CHANNEL) private readonly channel: any,
-  ) {
+  constructor(@Inject(RABBITMQ_CHANNEL) private readonly channel: any) {
     this.queueName = process.env.RABBITMQ_QUEUE || 'default_queue';
   }
 
@@ -43,14 +36,10 @@ export class QueueService implements OnModuleDestroy {
 
     const buffer = Buffer.from(JSON.stringify(message));
 
-    this.channel.sendToQueue(
-      this.queueName,
-      buffer,
-      {
-        persistent: true,
-        priority,
-      },
-    );
+    this.channel.sendToQueue(this.queueName, buffer, {
+      persistent: true,
+      priority,
+    });
 
     this.logger.debug(
       `[QUEUE] - Publicado ${pattern} com prioridade ${priority}: ${payload.matchId}`,

@@ -16,6 +16,9 @@ export class PlayerResponseDto {
   @ApiProperty({ example: 492 })
   summonerLevel: number;
 
-  @ApiProperty({ example: 5, description: 'Number of new matches enqueued for processing' })
+  @ApiProperty({
+    example: 5,
+    description: 'Number of new matches enqueued for processing',
+  })
   matchesEnqueued: number;
 }

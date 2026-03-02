@@ -1,18 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsIn,
-  IsInt,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 // ========== Query DTO ==========
 
 export class PlayerMatchesQueryDto {
-  @ApiProperty({ required: false, default: 420, description: 'Queue ID (420=Ranked Solo, 440=Ranked Flex)' })
+  @ApiProperty({
+    required: false,
+    default: 420,
+    description: 'Queue ID (420=Ranked Solo, 440=Ranked Flex)',
+  })
   @IsOptional()
   @Transform(({ value }) => parseInt(value, 10))
   @IsInt()
@@ -24,17 +21,30 @@ export class PlayerMatchesQueryDto {
   @IsInt()
   championId?: number;
 
-  @ApiProperty({ required: false, enum: ['TOP', 'JUNGLE', 'MID', 'BOTTOM', 'UTILITY'], description: 'Filter by role' })
+  @ApiProperty({
+    required: false,
+    enum: ['TOP', 'JUNGLE', 'MID', 'BOTTOM', 'UTILITY'],
+    description: 'Filter by role',
+  })
   @IsOptional()
   @IsIn(['TOP', 'JUNGLE', 'MID', 'BOTTOM', 'UTILITY'])
   role?: string;
 
-  @ApiProperty({ required: false, description: 'Cursor for pagination (matchId of last match)' })
+  @ApiProperty({
+    required: false,
+    description: 'Cursor for pagination (matchId of last match)',
+  })
   @IsOptional()
   @IsString()
   cursor?: string;
 
-  @ApiProperty({ required: false, default: 20, minimum: 1, maximum: 50, description: 'Number of matches to return' })
+  @ApiProperty({
+    required: false,
+    default: 20,
+    minimum: 1,
+    maximum: 50,
+    description: 'Number of matches to return',
+  })
   @IsOptional()
   @Transform(({ value }) => parseInt(value, 10))
   @IsInt()
@@ -42,22 +52,37 @@ export class PlayerMatchesQueryDto {
   @Max(50)
   limit?: number = 20;
 
-  @ApiProperty({ required: false, description: 'Start date filter (timestamp in ms)' })
+  @ApiProperty({
+    required: false,
+    description: 'Start date filter (timestamp in ms)',
+  })
   @IsOptional()
   @Transform(({ value }) => parseInt(value, 10))
   startDate?: number;
 
-  @ApiProperty({ required: false, description: 'End date filter (timestamp in ms)' })
+  @ApiProperty({
+    required: false,
+    description: 'End date filter (timestamp in ms)',
+  })
   @IsOptional()
   @Transform(({ value }) => parseInt(value, 10))
   endDate?: number;
 
-  @ApiProperty({ required: false, enum: ['win', 'loss'], description: 'Filter by match result' })
+  @ApiProperty({
+    required: false,
+    enum: ['win', 'loss'],
+    description: 'Filter by match result',
+  })
   @IsOptional()
   @IsIn(['win', 'loss'])
   result?: 'win' | 'loss';
 
-  @ApiProperty({ required: false, enum: ['recent', 'kda', 'kills', 'damage'], default: 'recent', description: 'Sort order' })
+  @ApiProperty({
+    required: false,
+    enum: ['recent', 'kda', 'kills', 'damage'],
+    default: 'recent',
+    description: 'Sort order',
+  })
   @IsOptional()
   @IsIn(['recent', 'kda', 'kills', 'damage'])
   sortBy?: 'recent' | 'kda' | 'kills' | 'damage' = 'recent';
@@ -66,7 +91,12 @@ export class PlayerMatchesQueryDto {
 // ========== Page Query DTO ==========
 
 export class PlayerMatchesPageQueryDto extends PlayerMatchesQueryDto {
-  @ApiProperty({ required: false, default: 1, minimum: 1, description: 'Page number (1-indexed)' })
+  @ApiProperty({
+    required: false,
+    default: 1,
+    minimum: 1,
+    description: 'Page number (1-indexed)',
+  })
   @IsOptional()
   @Transform(({ value }) => parseInt(value, 10))
   @IsInt()
@@ -90,7 +120,10 @@ export class PlayerMatchDto {
   @ApiProperty({ example: 'Yasuo', description: 'Nome do campeão' })
   championName: string;
 
-  @ApiProperty({ example: 'MID', description: 'Role primária (TOP, JUNGLE, MID, BOTTOM, UTILITY)' })
+  @ApiProperty({
+    example: 'MID',
+    description: 'Role primária (TOP, JUNGLE, MID, BOTTOM, UTILITY)',
+  })
   role: string;
 
   @ApiProperty({ example: 'MIDDLE', description: 'Lane específica' })
@@ -123,13 +156,19 @@ export class PlayerMatchDto {
   @ApiProperty({ example: true, description: 'Resultado da partida' })
   win: boolean;
 
-  @ApiProperty({ example: 1738752000000, description: 'Timestamp de criação da partida (ms)' })
+  @ApiProperty({
+    example: 1738752000000,
+    description: 'Timestamp de criação da partida (ms)',
+  })
   gameCreation: number;
 
   @ApiProperty({ example: 1845, description: 'Duração da partida em segundos' })
   gameDuration: number;
 
-  @ApiProperty({ example: 420, description: 'ID da fila (420=Ranked Solo, 440=Ranked Flex)' })
+  @ApiProperty({
+    example: 420,
+    description: 'ID da fila (420=Ranked Solo, 440=Ranked Flex)',
+  })
   queueId: number;
 }
 
@@ -143,7 +182,11 @@ export class PlayerMatchesDto {
   @ApiProperty({ description: 'Lista de partidas', type: [PlayerMatchDto] })
   matches: PlayerMatchDto[];
 
-  @ApiProperty({ example: 'BR1_3216549869', nullable: true, description: 'Cursor para próxima página' })
+  @ApiProperty({
+    example: 'BR1_3216549869',
+    nullable: true,
+    description: 'Cursor para próxima página',
+  })
   nextCursor: string | null;
 
   @ApiProperty({ example: true, description: 'Indica se há mais partidas' })

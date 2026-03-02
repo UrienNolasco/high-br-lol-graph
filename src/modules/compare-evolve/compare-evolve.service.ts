@@ -26,9 +26,7 @@ export class CompareEvolveService {
     filters: CompareFilters,
   ): Promise<PlayerComparisonDto> {
     const patch =
-      filters.patch === 'lifetime' || !filters.patch
-        ? null
-        : filters.patch;
+      filters.patch === 'lifetime' || !filters.patch ? null : filters.patch;
 
     const [heroUser, villainUser] = await Promise.all([
       this.prisma.user.findUnique({ where: { puuid: heroPuuid } }),
@@ -39,7 +37,9 @@ export class CompareEvolveService {
       throw new NotFoundException(`Jogador herói ${heroPuuid} não encontrado`);
     }
     if (!villainUser) {
-      throw new NotFoundException(`Jogador vilão ${villainPuuid} não encontrado`);
+      throw new NotFoundException(
+        `Jogador vilão ${villainPuuid} não encontrado`,
+      );
     }
 
     let heroStats: ComparePlayerStatsDto;
@@ -47,8 +47,16 @@ export class CompareEvolveService {
 
     if (filters.championId) {
       [heroStats, villainStats] = await Promise.all([
-        this.getPlayerChampionStatsForComparison(heroPuuid, filters.championId, patch),
-        this.getPlayerChampionStatsForComparison(villainPuuid, filters.championId, patch),
+        this.getPlayerChampionStatsForComparison(
+          heroPuuid,
+          filters.championId,
+          patch,
+        ),
+        this.getPlayerChampionStatsForComparison(
+          villainPuuid,
+          filters.championId,
+          patch,
+        ),
       ]);
     } else {
       [heroStats, villainStats] = await Promise.all([
@@ -59,12 +67,12 @@ export class CompareEvolveService {
 
     const filtersWithPatch = { ...filters, patch };
 
-    const [
-      timelineComparison,
-      heroLaning,
-      villainLaning,
-    ] = await Promise.all([
-      this.calculateTimelineComparison(heroPuuid, villainPuuid, filtersWithPatch),
+    const [timelineComparison, heroLaning, villainLaning] = await Promise.all([
+      this.calculateTimelineComparison(
+        heroPuuid,
+        villainPuuid,
+        filtersWithPatch,
+      ),
       this.calculateLaningMetrics(heroPuuid, filters.championId, patch),
       this.calculateLaningMetrics(villainPuuid, filters.championId, patch),
     ]);
@@ -143,7 +151,12 @@ export class CompareEvolveService {
 
     const stats = await this.prisma.playerChampionStats.findUnique({
       where: {
-        puuid_championId_patch_queueId: { puuid, championId, patch: patchValue, queueId: 420 },
+        puuid_championId_patch_queueId: {
+          puuid,
+          championId,
+          patch: patchValue,
+          queueId: 420,
+        },
       },
       select: {
         gamesPlayed: true,
@@ -231,9 +244,7 @@ export class CompareEvolveService {
       return [];
     }
 
-    const maxMinutes = Math.max(
-      ...matches.map((m) => m[field].length),
-    );
+    const maxMinutes = Math.max(...matches.map((m) => m[field].length));
 
     const result: TimelinePointDto[] = [];
 
@@ -260,7 +271,12 @@ export class CompareEvolveService {
       const patchValue = patch as string;
       const stats = await this.prisma.playerChampionStats.findUnique({
         where: {
-          puuid_championId_patch_queueId: { puuid, championId, patch: patchValue, queueId: 420 },
+          puuid_championId_patch_queueId: {
+            puuid,
+            championId,
+            patch: patchValue,
+            queueId: 420,
+          },
         },
         select: {
           avgCsd15: true,
@@ -301,7 +317,8 @@ export class CompareEvolveService {
     // CS/min comparison (threshold: 10%)
     if (heroStats.avgCspm > 0 && villainStats.avgCspm > 0) {
       const csDiff =
-        ((heroStats.avgCspm - villainStats.avgCspm) / villainStats.avgCspm) * 100;
+        ((heroStats.avgCspm - villainStats.avgCspm) / villainStats.avgCspm) *
+        100;
       if (csDiff > 10) {
         advantages.push(
           `Herói tem ${parseFloat(csDiff.toFixed(1))}% mais CS/min`,
@@ -325,7 +342,9 @@ export class CompareEvolveService {
         advantages.push(
           `Vilão tem +${parseFloat((-csd15Diff).toFixed(1))} CSD@15`,
         );
-        recommendations.push('Herói deve focar em domínio de lane nos primeiros 15 min');
+        recommendations.push(
+          'Herói deve focar em domínio de lane nos primeiros 15 min',
+        );
       }
     }
 
@@ -340,7 +359,9 @@ export class CompareEvolveService {
         advantages.push(
           `Vilão tem +${parseFloat((-visionDiff).toFixed(1))} vision score`,
         );
-        recommendations.push('Herói deve comprar mais wards e melhorar vision control');
+        recommendations.push(
+          'Herói deve comprar mais wards e melhorar vision control',
+        );
       }
     }
 
@@ -356,16 +377,24 @@ export class CompareEvolveService {
         advantages.push(
           `Vilão tem ${parseFloat((-dpmDiff).toFixed(1))}% mais DPM`,
         );
-        recommendations.push('Herói deve participar mais de teamfights e buscar trades');
+        recommendations.push(
+          'Herói deve participar mais de teamfights e buscar trades',
+        );
       }
     }
 
     // KDA vs winrate paradox
-    if (heroStats.avgKda > villainStats.avgKda && heroStats.winRate < villainStats.winRate) {
+    if (
+      heroStats.avgKda > villainStats.avgKda &&
+      heroStats.winRate < villainStats.winRate
+    ) {
       recommendations.push(
         'Herói tem KDA superior mas winrate inferior — deve converter vantagens em objetivos',
       );
-    } else if (villainStats.avgKda > heroStats.avgKda && villainStats.winRate < heroStats.winRate) {
+    } else if (
+      villainStats.avgKda > heroStats.avgKda &&
+      villainStats.winRate < heroStats.winRate
+    ) {
       advantages.push(
         'Herói converte melhor suas vantagens em vitórias apesar de KDA inferior',
       );

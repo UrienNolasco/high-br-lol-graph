@@ -52,7 +52,11 @@ export class PlayersApiController {
   @Get(':puuid/summary')
   @ApiOperation({ summary: 'Get player macro analysis summary' })
   @ApiParam({ name: 'puuid', description: 'Player PUUID' })
-  @ApiQuery({ name: 'patch', required: false, description: 'Patch version or "lifetime"' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version or "lifetime"',
+  })
   @ApiResponse({
     status: 200,
     description: 'Player summary retrieved successfully',
@@ -69,10 +73,26 @@ export class PlayersApiController {
   @Get(':puuid/champions')
   @ApiOperation({ summary: 'Get player champion performance list' })
   @ApiParam({ name: 'puuid', description: 'Player PUUID' })
-  @ApiQuery({ name: 'patch', required: false, description: 'Patch version or "lifetime"' })
-  @ApiQuery({ name: 'role', required: false, description: 'Filter by role (TOP, JUNGLE, MID, BOTTOM, UTILITY)' })
-  @ApiQuery({ name: 'limit', required: false, description: 'Number of champions to return (max 50)' })
-  @ApiQuery({ name: 'sortBy', required: false, description: 'Sort by: games, winRate, kda' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version or "lifetime"',
+  })
+  @ApiQuery({
+    name: 'role',
+    required: false,
+    description: 'Filter by role (TOP, JUNGLE, MID, BOTTOM, UTILITY)',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Number of champions to return (max 50)',
+  })
+  @ApiQuery({
+    name: 'sortBy',
+    required: false,
+    description: 'Sort by: games, winRate, kda',
+  })
   @ApiResponse({
     status: 200,
     description: 'Player champions retrieved successfully',
@@ -96,7 +116,11 @@ export class PlayersApiController {
   @Get(':puuid/roles')
   @ApiOperation({ summary: 'Get player role distribution and winrate' })
   @ApiParam({ name: 'puuid', description: 'Player PUUID' })
-  @ApiQuery({ name: 'patch', required: false, description: 'Patch version or "lifetime"' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version or "lifetime"',
+  })
   @ApiResponse({
     status: 200,
     description: 'Player role distribution retrieved successfully',
@@ -112,7 +136,11 @@ export class PlayersApiController {
   @Get(':puuid/activity')
   @ApiOperation({ summary: 'Get player activity heatmap (7x24 matrix)' })
   @ApiParam({ name: 'puuid', description: 'Player PUUID' })
-  @ApiQuery({ name: 'patch', required: false, description: 'Patch version or "lifetime"' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version or "lifetime"',
+  })
   @ApiResponse({
     status: 200,
     description: 'Player activity heatmap retrieved successfully',

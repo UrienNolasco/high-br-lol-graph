@@ -134,14 +134,26 @@ interface BaseEvent {
 export interface WardPlacedEvent extends BaseEvent {
   type: 'WARD_PLACED';
   creatorId: number;
-  wardType: 'YELLOW_TRINKET' | 'BLUE_TRINKET' | 'CONTROL_WARD' | 'SIGHT_WARD' | 'TEEMO_MUSHROOM' | 'UNDEFINED';
+  wardType:
+    | 'YELLOW_TRINKET'
+    | 'BLUE_TRINKET'
+    | 'CONTROL_WARD'
+    | 'SIGHT_WARD'
+    | 'TEEMO_MUSHROOM'
+    | 'UNDEFINED';
 }
 
 // WARD_KILL
 export interface WardKillEvent extends BaseEvent {
   type: 'WARD_KILL';
   killerId: number;
-  wardType: 'YELLOW_TRINKET' | 'BLUE_TRINKET' | 'CONTROL_WARD' | 'SIGHT_WARD' | 'TEEMO_MUSHROOM' | 'UNDEFINED';
+  wardType:
+    | 'YELLOW_TRINKET'
+    | 'BLUE_TRINKET'
+    | 'CONTROL_WARD'
+    | 'SIGHT_WARD'
+    | 'TEEMO_MUSHROOM'
+    | 'UNDEFINED';
 }
 
 // CHAMPION_KILL
@@ -188,7 +200,12 @@ export interface BuildingKillEvent extends BaseEvent {
   killerId: number;
   assistingParticipantIds: number[];
   buildingType: 'TOWER_BUILDING' | 'INHIBITOR_BUILDING';
-  towerType: 'OUTER_TURRET' | 'INNER_TURRET' | 'BASE_TURRET' | 'NEXUS_TURRET' | 'UNDEFINED';
+  towerType:
+    | 'OUTER_TURRET'
+    | 'INNER_TURRET'
+    | 'BASE_TURRET'
+    | 'NEXUS_TURRET'
+    | 'UNDEFINED';
   laneType: 'TOP_LANE' | 'MID_LANE' | 'BOT_LANE' | 'UNDEFINED';
   teamId: number;
   position: Position;
@@ -257,14 +274,32 @@ export interface EliteMonsterKillEvent extends BaseEvent {
   bounty: number;
   killerTeamId: number;
   monsterType: 'DRAGON' | 'BARON_NASHOR' | 'RIFTHERALD' | 'HORDE';
-  monsterSubType: 'EARTH' | 'WATER' | 'FIRE' | 'AIR' | 'HEXTECH' | 'CHESS' | 'CHESS_MINION' | 'RUINED_KING' | 'ELDER_DRAGON' | '' | 'ORDNANCE';
+  monsterSubType:
+    | 'EARTH'
+    | 'WATER'
+    | 'FIRE'
+    | 'AIR'
+    | 'HEXTECH'
+    | 'CHESS'
+    | 'CHESS_MINION'
+    | 'RUINED_KING'
+    | 'ELDER_DRAGON'
+    | ''
+    | 'ORDNANCE';
   position: Position;
 }
 
 // DRAGON_SOUL_GIVEN
 export interface DragonSoulGivenEvent extends BaseEvent {
   type: 'DRAGON_SOUL_GIVEN';
-  name: 'EARTH' | 'WATER' | 'FIRE' | 'AIR' | 'HEXTECH' | 'CHESS' | 'RUINED_KING';
+  name:
+    | 'EARTH'
+    | 'WATER'
+    | 'FIRE'
+    | 'AIR'
+    | 'HEXTECH'
+    | 'CHESS'
+    | 'RUINED_KING';
   teamId: number;
 }
 
@@ -308,21 +343,36 @@ export function isKillEvent(event: TimelineEvent): event is ChampionKillEvent {
 /**
  * Verifica se um evento é de ward
  */
-export function isWardEvent(event: TimelineEvent): event is WardPlacedEvent | WardKillEvent {
+export function isWardEvent(
+  event: TimelineEvent,
+): event is WardPlacedEvent | WardKillEvent {
   return event.type === 'WARD_PLACED' || event.type === 'WARD_KILL';
 }
 
 /**
  * Verifica se um evento é de item
  */
-export function isItemEvent(event: TimelineEvent): event is ItemPurchasedEvent | ItemSoldEvent | ItemDestroyedEvent | ItemUndoEvent {
-  return ['ITEM_PURCHASED', 'ITEM_SOLD', 'ITEM_DESTROYED', 'ITEM_UNDO'].includes(event.type);
+export function isItemEvent(
+  event: TimelineEvent,
+): event is
+  | ItemPurchasedEvent
+  | ItemSoldEvent
+  | ItemDestroyedEvent
+  | ItemUndoEvent {
+  return [
+    'ITEM_PURCHASED',
+    'ITEM_SOLD',
+    'ITEM_DESTROYED',
+    'ITEM_UNDO',
+  ].includes(event.type);
 }
 
 /**
  * Verifica se um evento é de objetivo épico
  */
-export function isEliteMonsterEvent(event: TimelineEvent): event is EliteMonsterKillEvent {
+export function isEliteMonsterEvent(
+  event: TimelineEvent,
+): event is EliteMonsterKillEvent {
   return event.type === 'ELITE_MONSTER_KILL';
 }
 

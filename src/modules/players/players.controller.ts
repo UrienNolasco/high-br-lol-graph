@@ -28,9 +28,7 @@ export class PlayersController {
     status: 404,
     description: 'Player not found on Riot servers.',
   })
-  async searchPlayer(
-    @Body() dto: PlayerSearchDto,
-  ): Promise<PlayerResponseDto> {
+  async searchPlayer(@Body() dto: PlayerSearchDto): Promise<PlayerResponseDto> {
     return this.playersService.searchPlayer(dto);
   }
 }

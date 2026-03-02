@@ -66,7 +66,13 @@ export interface ParsedTimelineData {
 }
 
 export interface ObjectiveEvent {
-  type: 'DRAGON' | 'BARON_NASHOR' | 'RIFTHERALD' | 'HORDE' | 'TOWER' | 'INHIBITOR';
+  type:
+    | 'DRAGON'
+    | 'BARON_NASHOR'
+    | 'RIFTHERALD'
+    | 'HORDE'
+    | 'TOWER'
+    | 'INHIBITOR';
   subType?: string;
   teamId: number;
   timestamp: number;
@@ -93,7 +99,9 @@ export class TimelineParserService {
     participantMap: Map<number, string>,
   ): ParsedTimelineData {
     const frames = timelineDto.info.frames;
-    const totalMinutes = Math.ceil(frames[frames.length - 1]?.timestamp / 60000 || 40);
+    const totalMinutes = Math.ceil(
+      frames[frames.length - 1]?.timestamp / 60000 || 40,
+    );
 
     // Inicializar estrutura de dados para cada participante (indexado por PUUID)
     const participantData = this.initializeParticipantData(
@@ -111,7 +119,12 @@ export class TimelineParserService {
       this.extractTimeSeries(frame, participantData, participantMap, minute);
 
       // 2. Extrair eventos (kills, wards, items, skills, objectives)
-      this.extractEvents(frame, participantData, participantMap, objectivesTimeline);
+      this.extractEvents(
+        frame,
+        participantData,
+        participantMap,
+        objectivesTimeline,
+      );
     }
 
     return {
@@ -174,7 +187,8 @@ export class TimelineParserService {
       participant.goldGraph[minute] = pf.totalGold;
       participant.xpGraph[minute] = pf.xp;
       participant.csGraph[minute] = pf.minionsKilled + pf.jungleMinionsKilled;
-      participant.damageGraph[minute] = pf.damageStats.totalDamageDoneToChampions;
+      participant.damageGraph[minute] =
+        pf.damageStats.totalDamageDoneToChampions;
 
       // Amostragem de posição (pathing)
       participant.pathingSample.push({
@@ -197,11 +211,19 @@ export class TimelineParserService {
     for (const event of frame.events) {
       switch (event.type) {
         case 'CHAMPION_KILL':
-          this.processChampionKill(event as ChampionKillEvent, data, participantMap);
+          this.processChampionKill(
+            event as ChampionKillEvent,
+            data,
+            participantMap,
+          );
           break;
 
         case 'WARD_PLACED':
-          this.processWardPlaced(event as WardPlacedEvent, data, participantMap);
+          this.processWardPlaced(
+            event as WardPlacedEvent,
+            data,
+            participantMap,
+          );
           break;
 
         case 'WARD_KILL':
@@ -209,7 +231,11 @@ export class TimelineParserService {
           break;
 
         case 'ITEM_PURCHASED':
-          this.processItemPurchased(event as ItemPurchasedEvent, data, participantMap);
+          this.processItemPurchased(
+            event as ItemPurchasedEvent,
+            data,
+            participantMap,
+          );
           break;
 
         case 'ITEM_SOLD':
@@ -221,7 +247,11 @@ export class TimelineParserService {
           break;
 
         case 'SKILL_LEVEL_UP':
-          this.processSkillLevelUp(event as SkillLevelUpEvent, data, participantMap);
+          this.processSkillLevelUp(
+            event as SkillLevelUpEvent,
+            data,
+            participantMap,
+          );
           break;
 
         case 'ELITE_MONSTER_KILL':
@@ -377,7 +407,10 @@ export class TimelineParserService {
 
     // Procurar de trás para frente
     for (let i = itemTimeline.length - 1; i >= 0; i--) {
-      if (itemTimeline[i].itemId === event.beforeId && itemTimeline[i].type === 'BUY') {
+      if (
+        itemTimeline[i].itemId === event.beforeId &&
+        itemTimeline[i].type === 'BUY'
+      ) {
         lastIndex = i;
         break;
       }

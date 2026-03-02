@@ -231,9 +231,7 @@ export class RiotService {
     region = 'br1',
   ): Promise<LeagueEntryDto[]> {
     this.ensureApiKey();
-    this.logger.log(
-      `Fetching ranked stats for PUUID: ${puuid} (${region})`,
-    );
+    this.logger.log(`Fetching ranked stats for PUUID: ${puuid} (${region})`);
 
     return this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);

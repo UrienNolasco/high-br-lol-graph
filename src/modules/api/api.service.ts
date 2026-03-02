@@ -94,8 +94,7 @@ export class ApiService {
       );
 
       const currentMetrics = this.toChampionMetrics(stat);
-      const previousMetrics =
-        previousStatsMap.get(stat.championId) || null;
+      const previousMetrics = previousStatsMap.get(stat.championId) || null;
 
       const scoreResult = this.tierRankService.calculateChampionScore(
         stat.championId,
@@ -466,10 +465,7 @@ export class ApiService {
     },
   } as const;
 
-  private buildMatchWhere(
-    puuid: string,
-    filters: PlayerMatchesQueryDto,
-  ): any {
+  private buildMatchWhere(puuid: string, filters: PlayerMatchesQueryDto): any {
     const where: any = {
       puuid,
       match: {
@@ -593,9 +589,7 @@ export class ApiService {
   /**
    * Retorna o status de processamento de partidas do jogador
    */
-  async getPlayerUpdateStatus(
-    puuid: string,
-  ): Promise<PlayerUpdateStatusDto> {
+  async getPlayerUpdateStatus(puuid: string): Promise<PlayerUpdateStatusDto> {
     // Verificar se o jogador existe
     const user = await this.prisma.user.findUnique({
       where: { puuid },
@@ -907,16 +901,13 @@ export class ApiService {
     ];
 
     // Aggregate by day
-    const dayStats = new Array(7)
-      .fill(0)
-      .map(() => ({ games: 0, wins: 0 }));
+    const dayStats = new Array(7).fill(0).map(() => ({ games: 0, wins: 0 }));
     heatmap.forEach((entry) => {
       dayStats[entry.dayOfWeek].games += entry.games;
       dayStats[entry.dayOfWeek].wins += entry.wins;
     });
     const mostActiveDayIndex = dayStats.reduce(
-      (maxIdx, day, idx, arr) =>
-        day.games > arr[maxIdx].games ? idx : maxIdx,
+      (maxIdx, day, idx, arr) => (day.games > arr[maxIdx].games ? idx : maxIdx),
       0,
     );
 

@@ -64,13 +64,22 @@ export class ComparePlayerStatsDto {
 }
 
 export class LaningPhaseDto {
-  @ApiProperty({ example: 8.5, description: 'Diferença média de CS aos 15 min' })
+  @ApiProperty({
+    example: 8.5,
+    description: 'Diferença média de CS aos 15 min',
+  })
   avgCsd15: number;
 
-  @ApiProperty({ example: 350, description: 'Diferença média de ouro aos 15 min' })
+  @ApiProperty({
+    example: 350,
+    description: 'Diferença média de ouro aos 15 min',
+  })
   avgGd15: number;
 
-  @ApiProperty({ example: 120, description: 'Diferença média de XP aos 15 min' })
+  @ApiProperty({
+    example: 120,
+    description: 'Diferença média de XP aos 15 min',
+  })
   avgXpd15: number;
 
   @ApiProperty({ example: 0, description: 'Solo kills antes dos 15 min' })
@@ -87,10 +96,16 @@ export class ComparePlayerDto {
   @ApiProperty({ example: 'PlayerName', description: 'Nome no jogo' })
   gameName: string;
 
-  @ApiProperty({ type: ComparePlayerStatsDto, description: 'Estatísticas agregadas do jogador' })
+  @ApiProperty({
+    type: ComparePlayerStatsDto,
+    description: 'Estatísticas agregadas do jogador',
+  })
   stats: ComparePlayerStatsDto;
 
-  @ApiProperty({ type: LaningPhaseDto, description: 'Métricas da fase de lane' })
+  @ApiProperty({
+    type: LaningPhaseDto,
+    description: 'Métricas da fase de lane',
+  })
   laningPhase: LaningPhaseDto;
 }
 
@@ -111,10 +126,16 @@ export class TimelineGraphDto {
 }
 
 export class TimelineComparisonDto {
-  @ApiProperty({ type: TimelineGraphDto, description: 'Gráfico de CS médio por minuto' })
+  @ApiProperty({
+    type: TimelineGraphDto,
+    description: 'Gráfico de CS médio por minuto',
+  })
   csGraph: TimelineGraphDto;
 
-  @ApiProperty({ type: TimelineGraphDto, description: 'Gráfico de ouro médio por minuto' })
+  @ApiProperty({
+    type: TimelineGraphDto,
+    description: 'Gráfico de ouro médio por minuto',
+  })
   goldGraph: TimelineGraphDto;
 }
 
@@ -140,15 +161,27 @@ export class CompareInsightsDto {
 }
 
 export class PlayerComparisonDto {
-  @ApiProperty({ type: ComparePlayerDto, description: 'Dados do herói (jogador principal)' })
+  @ApiProperty({
+    type: ComparePlayerDto,
+    description: 'Dados do herói (jogador principal)',
+  })
   hero: ComparePlayerDto;
 
-  @ApiProperty({ type: ComparePlayerDto, description: 'Dados do vilão (oponente)' })
+  @ApiProperty({
+    type: ComparePlayerDto,
+    description: 'Dados do vilão (oponente)',
+  })
   villain: ComparePlayerDto;
 
-  @ApiProperty({ type: TimelineComparisonDto, description: 'Comparação de timelines (CS e ouro)' })
+  @ApiProperty({
+    type: TimelineComparisonDto,
+    description: 'Comparação de timelines (CS e ouro)',
+  })
   timelineComparison: TimelineComparisonDto;
 
-  @ApiProperty({ type: CompareInsightsDto, description: 'Insights automáticos da comparação' })
+  @ApiProperty({
+    type: CompareInsightsDto,
+    description: 'Insights automáticos da comparação',
+  })
   insights: CompareInsightsDto;
 }

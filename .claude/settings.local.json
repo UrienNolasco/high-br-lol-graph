@@ -3,7 +3,8 @@
     "allow": [
       "WebSearch",
       "Bash(tree:*)",
-      "Bash(git -C \"C:\\\\Users\\\\urien\\\\OneDrive\\\\Área de Trabalho\\\\high-br-lol-graph\" log --oneline -20)"
+      "Bash(git -C \"C:\\\\Users\\\\urien\\\\OneDrive\\\\Área de Trabalho\\\\high-br-lol-graph\" log --oneline -20)",
+      "Bash(read f:*)"
     ]
   }
 }

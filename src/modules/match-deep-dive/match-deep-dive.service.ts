@@ -16,9 +16,7 @@ export class MatchDeepDiveService {
    * Calcula gold por time em cada minuto, identifica vencedor,
    * ponto de maior vantagem e "throw point" (swing > 3k).
    */
-  async getMatchGoldTimeline(
-    matchId: string,
-  ): Promise<MatchGoldTimelineDto> {
+  async getMatchGoldTimeline(matchId: string): Promise<MatchGoldTimelineDto> {
     const participants = await this.prisma.matchParticipant.findMany({
       where: { matchId },
       select: { teamId: true, goldGraph: true },
@@ -28,9 +26,7 @@ export class MatchDeepDiveService {
       throw new NotFoundException(`Match ${matchId} not found`);
     }
 
-    const maxMinutes = Math.max(
-      ...participants.map((p) => p.goldGraph.length),
-    );
+    const maxMinutes = Math.max(...participants.map((p) => p.goldGraph.length));
 
     const goldDifference: {
       minute: number;
@@ -257,20 +253,14 @@ export class MatchDeepDiveService {
     const gameDurationMinutes = player.match.gameDuration / 60;
 
     const lastCs =
-      player.csGraph.length > 0
-        ? player.csGraph[player.csGraph.length - 1]
-        : 0;
+      player.csGraph.length > 0 ? player.csGraph[player.csGraph.length - 1] : 0;
 
     const playerMetrics = {
       championId: player.championId,
       championName: player.championName,
       role: player.role,
-      dpm: parseFloat(
-        (player.totalDamage / gameDurationMinutes).toFixed(1),
-      ),
-      gpm: parseFloat(
-        (player.goldEarned / gameDurationMinutes).toFixed(1),
-      ),
+      dpm: parseFloat((player.totalDamage / gameDurationMinutes).toFixed(1)),
+      gpm: parseFloat((player.goldEarned / gameDurationMinutes).toFixed(1)),
       cspm: parseFloat((lastCs / gameDurationMinutes).toFixed(1)),
       visionScorePerMin: parseFloat(
         (player.visionScore / gameDurationMinutes).toFixed(2),
@@ -298,9 +288,7 @@ export class MatchDeepDiveService {
         dpm: parseFloat(
           (opponent.totalDamage / gameDurationMinutes).toFixed(1),
         ),
-        gpm: parseFloat(
-          (opponent.goldEarned / gameDurationMinutes).toFixed(1),
-        ),
+        gpm: parseFloat((opponent.goldEarned / gameDurationMinutes).toFixed(1)),
         cspm: parseFloat((oppLastCs / gameDurationMinutes).toFixed(1)),
         visionScorePerMin: parseFloat(
           (opponent.visionScore / gameDurationMinutes).toFixed(2),
@@ -338,14 +326,12 @@ export class MatchDeepDiveService {
         ),
         visionAdvantage: parseFloat(
           (
-            playerMetrics.visionScorePerMin -
-            opponentMetrics.visionScorePerMin
+            playerMetrics.visionScorePerMin - opponentMetrics.visionScorePerMin
           ).toFixed(2),
         ),
         survivability: parseFloat(
           (
-            opponentMetrics.damageTakenPerMin -
-            playerMetrics.damageTakenPerMin
+            opponentMetrics.damageTakenPerMin - playerMetrics.damageTakenPerMin
           ).toFixed(1),
         ),
       };

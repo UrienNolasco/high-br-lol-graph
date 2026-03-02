@@ -42,7 +42,13 @@ import { LockModule } from '../lock/lock.module';
     RetryService,
     Logger,
   ],
-  exports: [RiotService, MatchParserService, TimelineParserService, RateLimiterService, RetryService],
+  exports: [
+    RiotService,
+    MatchParserService,
+    TimelineParserService,
+    RateLimiterService,
+    RetryService,
+  ],
 })
 export class RiotModule {
   constructor(
