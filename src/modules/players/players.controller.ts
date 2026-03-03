@@ -1,13 +1,18 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { Controller, Post, Get, Param, Body } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { PlayersService } from './players.service';
+import { SyncService } from './sync.service';
 import { PlayerSearchDto } from './dto/player-search.dto';
 import { PlayerResponseDto } from './dto/player-response.dto';
+import { SyncTriggerResponseDto, SyncStatusResponseDto } from './dto/sync-response.dto';
 
 @ApiTags('Players')
 @Controller('api/v1/players')
 export class PlayersController {
-  constructor(private readonly playersService: PlayersService) {}
+  constructor(
+    private readonly playersService: PlayersService,
+    private readonly syncService: SyncService,
+  ) {}
 
   @Post('search')
   @ApiOperation({
@@ -30,5 +35,29 @@ export class PlayersController {
   })
   async searchPlayer(@Body() dto: PlayerSearchDto): Promise<PlayerResponseDto> {
     return this.playersService.searchPlayer(dto);
+  }
+
+  @Post(':puuid/sync')
+  @ApiOperation({
+    summary: 'Trigger deep match history sync',
+    description:
+      'Fetches up to 100 ranked Solo/Duo matches from Riot API and enqueues new ones for processing.',
+  })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiResponse({ status: 200, type: SyncTriggerResponseDto })
+  @ApiResponse({ status: 404, description: 'Player not found in database.' })
+  async triggerSync(@Param('puuid') puuid: string): Promise<SyncTriggerResponseDto> {
+    return this.syncService.triggerDeepSync(puuid);
+  }
+
+  @Get(':puuid/sync-status')
+  @ApiOperation({
+    summary: 'Get deep sync progress',
+    description: 'Returns the current status of a deep match history sync.',
+  })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiResponse({ status: 200, type: SyncStatusResponseDto })
+  async getSyncStatus(@Param('puuid') puuid: string): Promise<SyncStatusResponseDto> {
+    return this.syncService.getSyncStatus(puuid);
   }
 }

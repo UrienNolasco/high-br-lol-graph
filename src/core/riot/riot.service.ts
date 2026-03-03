@@ -133,14 +133,22 @@ export class RiotService {
     return uniquePuids;
   }
 
-  async getMatchIdsByPuuid(puuid: string, count = 20): Promise<string[]> {
+  async getMatchIdsByPuuid(
+    puuid: string,
+    count = 20,
+    options?: { start?: number; queue?: number },
+  ): Promise<string[]> {
     this.ensureApiKey();
     this.logger.log(`Fetching match IDs for PUUID: ${puuid}`);
 
     return this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);
 
-      const url = `${this.americasBaseUrl}/lol/match/v5/matches/by-puuid/${puuid}/ids?count=${count}`;
+      const params = new URLSearchParams({ count: String(count) });
+      if (options?.start !== undefined) params.set('start', String(options.start));
+      if (options?.queue !== undefined) params.set('queue', String(options.queue));
+
+      const url = `${this.americasBaseUrl}/lol/match/v5/matches/by-puuid/${puuid}/ids?${params.toString()}`;
 
       const response = await firstValueFrom(
         this.httpService.get<string[]>(url, { headers: this.createHeaders() }),

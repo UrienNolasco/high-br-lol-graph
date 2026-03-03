@@ -69,6 +69,16 @@ export class QueueService implements OnModuleDestroy {
     this.publish('match.collect', { matchId }, { priority: 1 });
   }
 
+  /**
+   * Publica uma partida de deep sync (prioridade média).
+   * Usado pelo endpoint /players/:puuid/sync para histórico profundo.
+   *
+   * Priority: 5 (Média) - Processado após prioridade 10, antes de prioridade 1.
+   */
+  publishDeepSyncMatch(matchId: string): void {
+    this.publish('match.collect', { matchId }, { priority: 5 });
+  }
+
   async onModuleDestroy() {
     try {
       await this.channel.close();
