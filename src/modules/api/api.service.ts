@@ -645,13 +645,13 @@ export class ApiService {
     filters: { patch?: string },
   ): Promise<PlayerSummaryDto> {
     const patch =
-      filters.patch === 'lifetime' || !filters.patch ? null : filters.patch;
+      filters.patch === 'lifetime' || !filters.patch ? 'ALL' : filters.patch;
 
     const playerStats = await this.prisma.playerStats.findUnique({
       where: {
         puuid_patch_queueId: {
           puuid,
-          patch: patch as string,
+          patch,
           queueId: 420,
         },
       },
@@ -678,7 +678,7 @@ export class ApiService {
 
     return {
       puuid: playerStats.puuid,
-      patch: patch || 'lifetime',
+      patch: patch === 'ALL' ? 'lifetime' : patch,
       queueId: playerStats.queueId,
       gamesPlayed: playerStats.gamesPlayed,
       wins: playerStats.wins,
@@ -705,7 +705,7 @@ export class ApiService {
     },
   ): Promise<PlayerChampionsDto> {
     const patch =
-      filters.patch === 'lifetime' || !filters.patch ? null : filters.patch;
+      filters.patch === 'lifetime' || !filters.patch ? 'ALL' : filters.patch;
     const limit = Math.min(filters.limit || 10, 50);
     const sortBy = filters.sortBy || 'games';
 
@@ -759,7 +759,7 @@ export class ApiService {
 
     return {
       puuid,
-      patch: patch || 'lifetime',
+      patch: patch === 'ALL' ? 'lifetime' : patch,
       champions: enrichedChampions,
     };
   }
@@ -814,7 +814,7 @@ export class ApiService {
 
     return {
       puuid,
-      patch: patch || 'lifetime',
+      patch: patch === 'ALL' ? 'lifetime' : patch,
       roles,
       totalGames,
     };
@@ -883,7 +883,7 @@ export class ApiService {
 
     return {
       puuid,
-      patch: patch || 'lifetime',
+      patch: patch === 'ALL' ? 'lifetime' : patch,
       heatmap,
       insights,
     };

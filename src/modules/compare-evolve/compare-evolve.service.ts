@@ -26,7 +26,7 @@ export class CompareEvolveService {
     filters: CompareFilters,
   ): Promise<PlayerComparisonDto> {
     const patch =
-      filters.patch === 'lifetime' || !filters.patch ? null : filters.patch;
+      filters.patch === 'lifetime' || !filters.patch ? 'ALL' : filters.patch;
 
     const [heroUser, villainUser] = await Promise.all([
       this.prisma.user.findUnique({ where: { puuid: heroPuuid } }),

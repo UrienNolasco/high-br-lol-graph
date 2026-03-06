@@ -52,7 +52,7 @@
               "name": "label1",
               "fill": "$accent",
               "content": "Meta",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "600"
             }
@@ -83,7 +83,7 @@
               "name": "label2",
               "fill": "$text-secondary",
               "content": "Buscar",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500"
             }
@@ -114,7 +114,7 @@
               "name": "label3",
               "fill": "$text-secondary",
               "content": "Compare",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500"
             }
@@ -145,7 +145,7 @@
               "name": "label4",
               "fill": "$text-secondary",
               "content": "Partidas",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500"
             }
@@ -175,7 +175,7 @@
           "name": "tierText",
           "fill": "#FFFFFF",
           "content": "A",
-          "fontFamily": "Inter",
+          "fontFamily": "JetBrains Mono",
           "fontSize": 11,
           "fontWeight": "700"
         }
@@ -203,7 +203,7 @@
           "name": "chipText",
           "fill": "$text-primary",
           "content": "Win Rate",
-          "fontFamily": "Inter",
+          "fontFamily": "JetBrains Mono",
           "fontSize": 12,
           "fontWeight": "500"
         }
@@ -231,7 +231,7 @@
           "name": "chipTextActive",
           "fill": "#FFFFFF",
           "content": "Win Rate",
-          "fontFamily": "Inter",
+          "fontFamily": "JetBrains Mono",
           "fontSize": 12,
           "fontWeight": "600"
         }
@@ -259,7 +259,7 @@
           "name": "patchText",
           "fill": "$text-secondary",
           "content": "15.3",
-          "fontFamily": "Inter",
+          "fontFamily": "JetBrains Mono",
           "fontSize": 12,
           "fontWeight": "500"
         }
@@ -287,7 +287,7 @@
           "name": "patchTextActive",
           "fill": "#FFFFFF",
           "content": "15.3",
-          "fontFamily": "Inter",
+          "fontFamily": "JetBrains Mono",
           "fontSize": 12,
           "fontWeight": "600"
         }
@@ -346,7 +346,7 @@
               "name": "champName",
               "fill": "$text-primary",
               "content": "Aatrox",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 14,
               "fontWeight": "600"
             },
@@ -356,7 +356,7 @@
               "name": "champRole",
               "fill": "$text-secondary",
               "content": "TOP",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "500",
               "letterSpacing": 1
@@ -394,7 +394,8 @@
               "fill": "$text-secondary",
               "content": "1,234",
               "fontFamily": "JetBrains Mono",
-              "fontSize": 10
+              "fontSize": 10,
+              "fontWeight": "normal"
             }
           ]
         }
@@ -433,7 +434,7 @@
               "name": "timeText",
               "fill": "$text-primary",
               "content": "9:41",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 15,
               "fontWeight": "600"
             },
@@ -496,7 +497,7 @@
               "name": "titleText",
               "fill": "$text-primary",
               "content": "Champion Tier List",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 22,
               "fontWeight": "700"
             },
@@ -738,7 +739,7 @@
                   "content": "TOP"
                 },
                 "GsRFj": {
-                  "fill": "$tier-s"
+                  "fill": "#DC2626"
                 },
                 "GsRFj/mdOHe": {
                   "content": "S"
@@ -768,7 +769,7 @@
                   "content": "MID"
                 },
                 "GsRFj": {
-                  "fill": "$tier-s"
+                  "fill": "#DC2626"
                 },
                 "GsRFj/mdOHe": {
                   "content": "S"
@@ -1025,7 +1026,7 @@
           "name": "statLabel",
           "fill": "$text-secondary",
           "content": "Win Rate",
-          "fontFamily": "Inter",
+          "fontFamily": "JetBrains Mono",
           "fontSize": 11,
           "fontWeight": "500"
         },
@@ -1046,7 +1047,8 @@
           "fill": "$text-muted",
           "content": "687W 547L",
           "fontFamily": "JetBrains Mono",
-          "fontSize": 10
+          "fontSize": 10,
+          "fontWeight": "normal"
         }
       ]
     },
@@ -1136,7 +1138,7 @@
                   "name": "backText",
                   "fill": "#FFFFFFCC",
                   "content": "Tier List",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 14,
                   "fontWeight": "500"
                 }
@@ -1172,7 +1174,7 @@
                   "name": "champName2",
                   "fill": "$text-primary",
                   "content": "Aatrox",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 28,
                   "fontWeight": "700"
                 },
@@ -1198,8 +1200,9 @@
               "name": "roleTag",
               "fill": "$text-secondary",
               "content": "TOP  ·  The Darkin Blade",
-              "fontFamily": "Inter",
-              "fontSize": 13
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -1229,7 +1232,7 @@
               "name": "sectionLabel",
               "fill": "$text-secondary",
               "content": "STATISTICS",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "600",
               "letterSpacing": 2
@@ -1463,7 +1466,7 @@
               "name": "playerName",
               "fill": "$text-primary",
               "content": "Player#BR1",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 14,
               "fontWeight": "600"
             },
@@ -1473,8 +1476,9 @@
               "name": "searchTime",
               "fill": "$text-secondary",
               "content": "ha 5 min",
-              "fontFamily": "Inter",
-              "fontSize": 11
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 11,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -1539,7 +1543,7 @@
               "name": "time3",
               "fill": "$text-primary",
               "content": "9:41",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 15,
               "fontWeight": "600"
             },
@@ -1602,7 +1606,7 @@
               "name": "title3",
               "fill": "$text-primary",
               "content": "Buscar Jogador",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 22,
               "fontWeight": "700"
             }
@@ -1644,8 +1648,9 @@
               "name": "placeholder",
               "fill": "$text-muted",
               "content": "Jogador#BR1",
-              "fontFamily": "Inter",
-              "fontSize": 14
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 14,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -1669,7 +1674,7 @@
               "name": "recentLabel",
               "fill": "$text-secondary",
               "content": "BUSCAS RECENTES",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "600",
               "letterSpacing": 2
@@ -1848,7 +1853,7 @@
               "name": "time4",
               "fill": "$text-primary",
               "content": "9:41",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 15,
               "fontWeight": "600"
             },
@@ -1921,7 +1926,7 @@
               "name": "backText4",
               "fill": "$text-primary",
               "content": "Perfil",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 16,
               "fontWeight": "600"
             }
@@ -1969,7 +1974,7 @@
                       "name": "profName",
                       "fill": "$text-primary",
                       "content": "UrienMano#BR1",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 18,
                       "fontWeight": "700"
                     }
@@ -2020,7 +2025,8 @@
                       "fill": "$text-secondary",
                       "content": "150W 120L",
                       "fontFamily": "JetBrains Mono",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -2028,7 +2034,7 @@
                       "name": "wrSep",
                       "fill": "$text-muted",
                       "content": "·",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 12,
                       "fontWeight": "normal"
                     },
@@ -2078,7 +2084,7 @@
               "name": "processText",
               "fill": "#FFFFFF",
               "content": "Processando partidas... 5/20",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 12,
               "fontWeight": "500"
             }
@@ -2120,7 +2126,7 @@
                   "name": "tab1Text",
                   "fill": "$accent",
                   "content": "Overview",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "600"
                 },
@@ -2154,7 +2160,7 @@
                   "name": "tab2Text",
                   "fill": "$text-secondary",
                   "content": "Champions",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "500"
                 },
@@ -2186,7 +2192,7 @@
                   "name": "tab3Text",
                   "fill": "$text-secondary",
                   "content": "Matches",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "500"
                 },
@@ -2218,7 +2224,7 @@
                   "name": "tab4Text",
                   "fill": "$text-secondary",
                   "content": "Atividade",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "500"
                 },
@@ -2253,7 +2259,7 @@
               "name": "statsLabel",
               "fill": "$text-secondary",
               "content": "STATS GERAIS",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "600",
               "letterSpacing": 2
@@ -2296,7 +2302,7 @@
                       "name": "sg1l",
                       "fill": "$text-secondary",
                       "content": "Games",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 9,
                       "fontWeight": "500"
                     }
@@ -2333,7 +2339,7 @@
                       "name": "sg2l",
                       "fill": "$text-secondary",
                       "content": "WR",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 9,
                       "fontWeight": "500"
                     }
@@ -2370,7 +2376,7 @@
                       "name": "sg3l",
                       "fill": "$text-secondary",
                       "content": "KDA",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 9,
                       "fontWeight": "500"
                     }
@@ -2407,7 +2413,7 @@
                       "name": "sg4l",
                       "fill": "$text-secondary",
                       "content": "CS/m",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 9,
                       "fontWeight": "500"
                     }
@@ -2444,7 +2450,7 @@
                       "name": "sg5l",
                       "fill": "$text-secondary",
                       "content": "DPM",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 9,
                       "fontWeight": "500"
                     }
@@ -2458,7 +2464,7 @@
               "name": "roleLabel",
               "fill": "$text-secondary",
               "content": "DISTRIBUICAO DE ROLES",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "600",
               "letterSpacing": 2
@@ -2717,7 +2723,7 @@
               "name": "topLabel",
               "fill": "$text-secondary",
               "content": "TOP CHAMPIONS",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "600",
               "letterSpacing": 2
@@ -2759,7 +2765,7 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Ahri",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 13,
                       "fontWeight": "600"
                     },
@@ -2811,7 +2817,7 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Syndra",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 13,
                       "fontWeight": "600"
                     },
@@ -2863,7 +2869,7 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Aurora",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 13,
                       "fontWeight": "600"
                     },
@@ -2915,7 +2921,7 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Viego",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 13,
                       "fontWeight": "600"
                     },
@@ -2967,7 +2973,7 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "LeBlanc",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 13,
                       "fontWeight": "600"
                     },
@@ -3032,7 +3038,7 @@
               "name": "t5",
               "fill": "$text-primary",
               "content": "9:41",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 15,
               "fontWeight": "600"
             },
@@ -3105,7 +3111,7 @@
               "name": "bkt5",
               "fill": "$text-primary",
               "content": "Partida",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 16,
               "fontWeight": "600"
             }
@@ -3132,7 +3138,7 @@
               "name": "victoryText",
               "fill": "$win",
               "content": "VICTORY",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 20,
               "fontWeight": "800",
               "letterSpacing": 3
@@ -3160,7 +3166,7 @@
                   "name": "sep",
                   "fill": "$text-muted",
                   "content": "·",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "normal"
                 },
@@ -3170,8 +3176,9 @@
                   "name": "mode",
                   "fill": "$text-secondary",
                   "content": "Ranked Solo",
-                  "fontFamily": "Inter",
-                  "fontSize": 13
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -3179,7 +3186,7 @@
                   "name": "sep2",
                   "fill": "$text-muted",
                   "content": "·",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "normal"
                 },
@@ -3189,8 +3196,9 @@
                   "name": "patch",
                   "fill": "$text-secondary",
                   "content": "Patch 15.3",
-                  "fontFamily": "Inter",
-                  "fontSize": 13
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 }
               ]
             }
@@ -3232,7 +3240,7 @@
                   "name": "st1t",
                   "fill": "$accent",
                   "content": "Scoreboard",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 12,
                   "fontWeight": "600"
                 },
@@ -3266,7 +3274,7 @@
                   "name": "st2t",
                   "fill": "$text-secondary",
                   "content": "Gold",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 12,
                   "fontWeight": "500"
                 },
@@ -3298,7 +3306,7 @@
                   "name": "st3t",
                   "fill": "$text-secondary",
                   "content": "Events",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 12,
                   "fontWeight": "500"
                 },
@@ -3330,7 +3338,7 @@
                   "name": "st4t",
                   "fill": "$text-secondary",
                   "content": "Builds",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 12,
                   "fontWeight": "500"
                 },
@@ -3391,7 +3399,7 @@
                       "name": "blueText",
                       "fill": "$accent",
                       "content": "BLUE TEAM",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -3402,7 +3410,7 @@
                       "name": "blueWin",
                       "fill": "$win",
                       "content": "WIN",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "700",
                       "letterSpacing": 1
@@ -3581,7 +3589,7 @@
                       "name": "redText",
                       "fill": "$loss",
                       "content": "RED TEAM",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -3592,7 +3600,7 @@
                       "name": "redLoss",
                       "fill": "$text-secondary",
                       "content": "LOSS",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "700",
                       "letterSpacing": 1
@@ -3777,7 +3785,7 @@
               "name": "srName",
               "fill": "$text-primary",
               "content": "Player",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 11,
               "fontWeight": "600"
             },
@@ -3787,8 +3795,9 @@
               "name": "srRole",
               "fill": "$text-secondary",
               "content": "MID",
-              "fontFamily": "Inter",
-              "fontSize": 9
+              "fontFamily": "JetBrains Mono",
+              "fontSize": 9,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -3815,7 +3824,8 @@
           "content": "245",
           "textAlign": "center",
           "fontFamily": "JetBrains Mono",
-          "fontSize": 10
+          "fontSize": 10,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -3827,7 +3837,8 @@
           "content": "14.2k",
           "textAlign": "center",
           "fontFamily": "JetBrains Mono",
-          "fontSize": 10
+          "fontSize": 10,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -3839,7 +3850,8 @@
           "content": "28.5k",
           "textAlign": "center",
           "fontFamily": "JetBrains Mono",
-          "fontSize": 10
+          "fontSize": 10,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
@@ -3911,7 +3923,7 @@
               "name": "t6",
               "fill": "$text-primary",
               "content": "9:41",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 15,
               "fontWeight": "600"
             },
@@ -3974,7 +3986,7 @@
               "name": "title6",
               "fill": "$text-primary",
               "content": "Comparar Jogadores",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 22,
               "fontWeight": "700"
             }
@@ -4012,7 +4024,7 @@
                   "name": "heroLabel",
                   "fill": "$accent",
                   "content": "HERO",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 10,
                   "fontWeight": "700",
                   "letterSpacing": 2
@@ -4032,7 +4044,7 @@
                   "name": "heroName",
                   "fill": "$text-primary",
                   "content": "UrienMano",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "600"
                 },
@@ -4043,7 +4055,8 @@
                   "fill": "$text-secondary",
                   "content": "#BR1",
                   "fontFamily": "JetBrains Mono",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 },
                 {
                   "id": "04Ha9",
@@ -4065,7 +4078,7 @@
               "name": "vsText",
               "fill": "$text-muted",
               "content": "VS",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 20,
               "fontWeight": "800"
             },
@@ -4092,7 +4105,7 @@
                   "name": "villainLabel",
                   "fill": "$loss",
                   "content": "VILLAIN",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 10,
                   "fontWeight": "700",
                   "letterSpacing": 2
@@ -4112,7 +4125,7 @@
                   "name": "villainName",
                   "fill": "$text-primary",
                   "content": "Faker",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 13,
                   "fontWeight": "600"
                 },
@@ -4123,7 +4136,8 @@
                   "fill": "$text-secondary",
                   "content": "#KR1",
                   "fontFamily": "JetBrains Mono",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 },
                 {
                   "id": "tab0p",
@@ -4159,7 +4173,7 @@
               "name": "roleLabel",
               "fill": "$text-secondary",
               "content": "ROLE",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 10,
               "fontWeight": "600",
               "letterSpacing": 2
@@ -4288,7 +4302,7 @@
                   "name": "btnText",
                   "fill": "#FFFFFF",
                   "content": "Comparar",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
@@ -4353,7 +4367,7 @@
               "name": "t7",
               "fill": "$text-primary",
               "content": "9:41",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 15,
               "fontWeight": "600"
             },
@@ -4426,7 +4440,7 @@
               "name": "bkt7",
               "fill": "$text-primary",
               "content": "Resultados",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 16,
               "fontWeight": "600"
             }
@@ -4474,7 +4488,7 @@
                   "name": "heroMiniName",
                   "fill": "$accent",
                   "content": "UrienMano",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 12,
                   "fontWeight": "600"
                 }
@@ -4486,7 +4500,7 @@
               "name": "vsCenter",
               "fill": "$text-muted",
               "content": "VS",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 18,
               "fontWeight": "800"
             },
@@ -4518,7 +4532,7 @@
                   "name": "villainMiniName",
                   "fill": "$loss",
                   "content": "Faker",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 12,
                   "fontWeight": "600"
                 }
@@ -4564,7 +4578,7 @@
                   "name": "radarTitle",
                   "fill": "$text-secondary",
                   "content": "PERFORMANCE OVERVIEW",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 10,
                   "fontWeight": "600",
                   "letterSpacing": 2
@@ -4592,7 +4606,7 @@
                       "name": "heroLbl",
                       "fill": "$cyan",
                       "content": "UrienMano",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 11,
                       "fontWeight": "500"
                     },
@@ -4610,7 +4624,7 @@
                       "name": "villLbl",
                       "fill": "$loss",
                       "content": "Faker",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 11,
                       "fontWeight": "500"
                     }
@@ -4665,7 +4679,7 @@
                       "height": 67,
                       "stroke": {
                         "thickness": 1,
-                        "fill": "#1E293B"
+                        "fill": "#2A2A34"
                       }
                     },
                     {
@@ -4674,7 +4688,7 @@
                       "x": 177,
                       "y": 113,
                       "name": "centerDot",
-                      "fill": "#3D4654",
+                      "fill": "#3F3F46",
                       "width": 4,
                       "height": 4
                     },
@@ -4686,7 +4700,7 @@
                       "name": "axisV",
                       "width": 1,
                       "height": 200,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -4696,7 +4710,7 @@
                       "name": "axisH",
                       "width": 200,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -4707,7 +4721,7 @@
                       "rotation": 29.999999999999996,
                       "width": 100,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -4718,7 +4732,7 @@
                       "rotation": -29.999999999999996,
                       "width": 100,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -4729,7 +4743,7 @@
                       "rotation": -29.999999999999996,
                       "width": 100,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -4740,7 +4754,7 @@
                       "rotation": 29.999999999999996,
                       "width": 100,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "text",
@@ -4750,7 +4764,7 @@
                       "name": "lWR",
                       "fill": "$text-secondary",
                       "content": "WR",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -4763,7 +4777,7 @@
                       "name": "lKDA",
                       "fill": "$text-secondary",
                       "content": "KDA",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -4776,7 +4790,7 @@
                       "name": "lDPM",
                       "fill": "$text-secondary",
                       "content": "DPM",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -4789,7 +4803,7 @@
                       "name": "lGPM",
                       "fill": "$text-secondary",
                       "content": "GPM",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -4802,7 +4816,7 @@
                       "name": "lCSM",
                       "fill": "$text-secondary",
                       "content": "CS/m",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -4815,7 +4829,7 @@
                       "name": "lVIS",
                       "fill": "$text-secondary",
                       "content": "Vision",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "600",
                       "letterSpacing": 1
@@ -5102,7 +5116,7 @@
                   "name": "csTitle",
                   "fill": "$text-secondary",
                   "content": "CS PER MINUTE",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 10,
                   "fontWeight": "600",
                   "letterSpacing": 2
@@ -5126,7 +5140,7 @@
                       "name": "g1",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5136,7 +5150,7 @@
                       "name": "g2",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5146,7 +5160,7 @@
                       "name": "g3",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5156,7 +5170,7 @@
                       "name": "g4",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5166,7 +5180,7 @@
                       "name": "g5",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5176,7 +5190,7 @@
                       "name": "g6",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "text",
@@ -5492,7 +5506,7 @@
                   "name": "goldTitle",
                   "fill": "$text-secondary",
                   "content": "GOLD PROGRESSION",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 10,
                   "fontWeight": "600",
                   "letterSpacing": 2
@@ -5516,7 +5530,7 @@
                       "name": "gg1",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5526,7 +5540,7 @@
                       "name": "gg2",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5536,7 +5550,7 @@
                       "name": "gg3",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5546,7 +5560,7 @@
                       "name": "gg4",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5556,7 +5570,7 @@
                       "name": "gg5",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "frame",
@@ -5566,7 +5580,7 @@
                       "name": "gg6",
                       "width": 313,
                       "height": 1,
-                      "fill": "#1E293B"
+                      "fill": "#2A2A34"
                     },
                     {
                       "type": "text",
@@ -5838,7 +5852,7 @@
                   "name": "laneTitle",
                   "fill": "$text-secondary",
                   "content": "LANING PHASE (@15 MIN)",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 10,
                   "fontWeight": "600",
                   "letterSpacing": 2
@@ -5871,7 +5885,7 @@
                           "name": "csdLbl",
                           "fill": "$text-secondary",
                           "content": "CSD@15",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 9,
                           "fontWeight": "600",
                           "letterSpacing": 1
@@ -5902,7 +5916,7 @@
                           "name": "heroLbl1",
                           "fill": "$cyan",
                           "content": "Hero",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 8,
                           "fontWeight": "500"
                         },
@@ -5912,7 +5926,7 @@
                           "name": "villLbl1",
                           "fill": "$loss",
                           "content": "Villain",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 8,
                           "fontWeight": "500"
                         }
@@ -5939,7 +5953,7 @@
                           "name": "gdLbl",
                           "fill": "$text-secondary",
                           "content": "GD@15",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 9,
                           "fontWeight": "600",
                           "letterSpacing": 1
@@ -5970,7 +5984,7 @@
                           "name": "heroLbl2",
                           "fill": "$cyan",
                           "content": "Hero",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 8,
                           "fontWeight": "500"
                         },
@@ -5980,7 +5994,7 @@
                           "name": "villLbl2",
                           "fill": "$loss",
                           "content": "Villain",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 8,
                           "fontWeight": "500"
                         }
@@ -6007,7 +6021,7 @@
                           "name": "xpdLbl",
                           "fill": "$text-secondary",
                           "content": "XPD@15",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 9,
                           "fontWeight": "600",
                           "letterSpacing": 1
@@ -6038,7 +6052,7 @@
                           "name": "heroLbl3",
                           "fill": "$cyan",
                           "content": "Hero",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 8,
                           "fontWeight": "500"
                         },
@@ -6048,7 +6062,7 @@
                           "name": "villLbl3",
                           "fill": "$loss",
                           "content": "Villain",
-                          "fontFamily": "Inter",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 8,
                           "fontWeight": "500"
                         }
@@ -6072,7 +6086,7 @@
                   "name": "insTitle",
                   "fill": "$text-secondary",
                   "content": "INSIGHTS",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 10,
                   "fontWeight": "600",
                   "letterSpacing": 2
@@ -6106,8 +6120,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Faker tem 13.6% mais CS/min (9.2 vs 8.1)",
-                      "fontFamily": "Inter",
-                      "fontSize": 12
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -6140,8 +6155,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "UrienMano tem melhor controle de visao (32.4 vs 28.1)",
-                      "fontFamily": "Inter",
-                      "fontSize": 12
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -6174,8 +6190,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Foque em melhorar CS na lane phase (primeiros 15min)",
-                      "fontFamily": "Inter",
-                      "fontSize": 12
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -6208,8 +6225,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Pratique wave management para aumentar GD@15",
-                      "fontFamily": "Inter",
-                      "fontSize": 12
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -6292,7 +6310,7 @@
                       "name": "mcRole",
                       "fill": "$text-secondary",
                       "content": "MID",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "500"
                     },
@@ -6302,7 +6320,7 @@
                       "name": "mcDot",
                       "fill": "$text-muted",
                       "content": "·",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "normal"
                     },
@@ -6313,7 +6331,8 @@
                       "fill": "$text-secondary",
                       "content": "8.1 CS/m",
                       "fontFamily": "JetBrains Mono",
-                      "fontSize": 10
+                      "fontSize": 10,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -6321,7 +6340,7 @@
                       "name": "mcDot2",
                       "fill": "$text-muted",
                       "content": "·",
-                      "fontFamily": "Inter",
+                      "fontFamily": "JetBrains Mono",
                       "fontSize": 10,
                       "fontWeight": "normal"
                     },
@@ -6332,7 +6351,8 @@
                       "fill": "$text-secondary",
                       "content": "32:15",
                       "fontFamily": "JetBrains Mono",
-                      "fontSize": 10
+                      "fontSize": 10,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -6352,7 +6372,7 @@
                   "name": "mcResult",
                   "fill": "$win",
                   "content": "Victory",
-                  "fontFamily": "Inter",
+                  "fontFamily": "JetBrains Mono",
                   "fontSize": 11,
                   "fontWeight": "600"
                 },
@@ -6362,8 +6382,9 @@
                   "name": "mcTime",
                   "fill": "$text-muted",
                   "content": "ha 2h",
-                  "fontFamily": "Inter",
-                  "fontSize": 10
+                  "fontFamily": "JetBrains Mono",
+                  "fontSize": 10,
+                  "fontWeight": "normal"
                 }
               ]
             }
@@ -6404,7 +6425,7 @@
               "name": "t8",
               "fill": "$text-primary",
               "content": "9:41",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 15,
               "fontWeight": "600"
             },
@@ -6469,7 +6490,7 @@
               "name": "title8",
               "fill": "$text-primary",
               "content": "Minhas Partidas",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 22,
               "fontWeight": "700"
             },
@@ -6526,7 +6547,7 @@
               "name": "profName8",
               "fill": "$text-primary",
               "content": "UrienMano#BR1",
-              "fontFamily": "Inter",
+              "fontFamily": "JetBrains Mono",
               "fontSize": 14,
               "fontWeight": "600"
             },
@@ -6776,79 +6797,212 @@
   "variables": {
     "accent": {
       "type": "color",
-      "value": "#3B82F6"
+      "value": [
+        {
+          "value": "#3B82F6"
+        },
+        {
+          "value": "#3B82F6"
+        }
+      ]
     },
     "bg-primary": {
       "type": "color",
-      "value": "#0A0E13"
+      "value": [
+        {
+          "value": "#0A0E13"
+        },
+        {
+          "value": "#0A0A0E"
+        }
+      ]
     },
     "bg-secondary": {
       "type": "color",
-      "value": "#131920"
+      "value": [
+        {
+          "value": "#131920"
+        },
+        {
+          "value": "#14141A"
+        }
+      ]
     },
     "bg-tertiary": {
       "type": "color",
-      "value": "#1C2430"
+      "value": [
+        {
+          "value": "#1C2430"
+        },
+        {
+          "value": "#1E1E26"
+        }
+      ]
     },
     "border": {
       "type": "color",
-      "value": "#1E293B"
+      "value": [
+        {
+          "value": "#1E293B"
+        },
+        {
+          "value": "#2A2A34"
+        }
+      ]
     },
     "cyan": {
       "type": "color",
-      "value": "#22D3EE"
+      "value": [
+        {
+          "value": "#22D3EE"
+        },
+        {
+          "value": "#60A5FA"
+        }
+      ]
     },
     "gold": {
       "type": "color",
-      "value": "#EAB308"
+      "value": [
+        {
+          "value": "#EAB308"
+        },
+        {
+          "value": "#F59E0B"
+        }
+      ]
     },
     "loss": {
       "type": "color",
-      "value": "#EF4444"
+      "value": [
+        {
+          "value": "#EF4444"
+        },
+        {
+          "value": "#DC2626"
+        }
+      ]
     },
     "surface": {
       "type": "color",
-      "value": "#252D3A"
+      "value": [
+        {
+          "value": "#252D3A"
+        },
+        {
+          "value": "#1A1A22"
+        }
+      ]
     },
     "text-muted": {
       "type": "color",
-      "value": "#3D4654"
+      "value": [
+        {
+          "value": "#3D4654"
+        },
+        {
+          "value": "#3F3F46"
+        }
+      ]
     },
     "text-primary": {
       "type": "color",
-      "value": "#E2E8F0"
+      "value": [
+        {
+          "value": "#E2E8F0"
+        },
+        {
+          "value": "#D4D4D8"
+        }
+      ]
     },
     "text-secondary": {
       "type": "color",
-      "value": "#7A8599"
+      "value": [
+        {
+          "value": "#7A8599"
+        },
+        {
+          "value": "#71717A"
+        }
+      ]
     },
     "tier-a": {
       "type": "color",
-      "value": "#FFA502"
+      "value": [
+        {
+          "value": "#FFA502"
+        },
+        {
+          "value": "#F59E0B"
+        }
+      ]
     },
     "tier-b": {
       "type": "color",
-      "value": "#3B82F6"
+      "value": [
+        {
+          "value": "#3B82F6"
+        },
+        {
+          "value": "#3B82F6"
+        }
+      ]
     },
     "tier-c": {
       "type": "color",
-      "value": "#7A8599"
+      "value": [
+        {
+          "value": "#7A8599"
+        },
+        {
+          "value": "#71717A"
+        }
+      ]
     },
     "tier-d": {
       "type": "color",
-      "value": "#3D4654"
+      "value": [
+        {
+          "value": "#3D4654"
+        },
+        {
+          "value": "#3F3F46"
+        }
+      ]
     },
     "tier-s": {
       "type": "color",
-      "value": "#FF6B81"
+      "value": [
+        {
+          "value": "#FF6B81"
+        },
+        {
+          "value": "#EF4444"
+        }
+      ]
     },
     "tier-s-plus": {
       "type": "color",
-      "value": "#FF4757"
+      "value": [
+        {
+          "value": "#FF4757"
+        },
+        {
+          "value": "#DC2626"
+        }
+      ]
     },
     "win": {
       "type": "color",
-      "value": "#22C55E"
+      "value": [
+        {
+          "value": "#22C55E"
+        },
+        {
+          "value": "#3B82F6"
+        }
+      ]
     }
   }
 }
