@@ -642,16 +642,13 @@ export class ApiService {
 
   async getPlayerSummary(
     puuid: string,
-    filters: { patch?: string },
+    filters: { patch: string },
   ): Promise<PlayerSummaryDto> {
-    const patch =
-      filters.patch === 'lifetime' || !filters.patch ? 'ALL' : filters.patch;
-
     const playerStats = await this.prisma.playerStats.findUnique({
       where: {
         puuid_patch_queueId: {
           puuid,
-          patch,
+          patch: filters.patch,
           queueId: 420,
         },
       },
@@ -678,7 +675,7 @@ export class ApiService {
 
     return {
       puuid: playerStats.puuid,
-      patch: patch === 'ALL' ? 'lifetime' : patch,
+      patch: filters.patch,
       queueId: playerStats.queueId,
       gamesPlayed: playerStats.gamesPlayed,
       wins: playerStats.wins,
@@ -698,21 +695,19 @@ export class ApiService {
   async getPlayerChampions(
     puuid: string,
     filters: {
-      patch?: string;
+      patch: string;
       role?: string;
       limit?: number;
       sortBy?: string;
     },
   ): Promise<PlayerChampionsDto> {
-    const patch =
-      filters.patch === 'lifetime' || !filters.patch ? 'ALL' : filters.patch;
     const limit = Math.min(filters.limit || 10, 50);
     const sortBy = filters.sortBy || 'games';
 
     let championStats = await this.prisma.playerChampionStats.findMany({
       where: {
         puuid,
-        patch,
+        patch: filters.patch,
         queueId: 420,
       },
     });
@@ -759,17 +754,15 @@ export class ApiService {
 
     return {
       puuid,
-      patch: patch === 'ALL' ? 'lifetime' : patch,
+      patch: filters.patch,
       champions: enrichedChampions,
     };
   }
 
   async getPlayerRoleDistribution(
     puuid: string,
-    filters: { patch?: string },
+    filters: { patch: string },
   ): Promise<PlayerRoleDistributionDto> {
-    const patch = filters.patch;
-
     const roleStats = await this.prisma.$queryRaw<
       Array<{
         role: string;
@@ -791,7 +784,7 @@ export class ApiService {
       JOIN matches m ON mp."matchId" = m."matchId"
       WHERE mp.puuid = ${puuid}
         AND m."queueId" = 420
-        ${patch && patch !== 'lifetime' ? Prisma.sql`AND m."gameVersion" LIKE ${patch + '%'}` : Prisma.empty}
+        ${filters.patch !== 'ALL' ? Prisma.sql`AND m."gameVersion" LIKE ${filters.patch + '%'}` : Prisma.empty}
       GROUP BY mp.role
       ORDER BY gamesPlayed DESC
     `;
@@ -814,7 +807,7 @@ export class ApiService {
 
     return {
       puuid,
-      patch: patch === 'ALL' ? 'lifetime' : patch,
+      patch: filters.patch,
       roles,
       totalGames,
     };
@@ -822,10 +815,8 @@ export class ApiService {
 
   async getPlayerActivity(
     puuid: string,
-    filters: { patch?: string },
+    filters: { patch: string },
   ): Promise<PlayerActivityDto> {
-    const patch = filters.patch;
-
     const activityData = await this.prisma.$queryRaw<
       Array<{
         dayofweek: number;
@@ -847,7 +838,7 @@ export class ApiService {
       JOIN matches m ON mp."matchId" = m."matchId"
       WHERE mp.puuid = ${puuid}
         AND m."queueId" = 420
-        ${patch && patch !== 'lifetime' ? Prisma.sql`AND m."gameVersion" LIKE ${patch + '%'}` : Prisma.empty}
+        ${filters.patch !== 'ALL' ? Prisma.sql`AND m."gameVersion" LIKE ${filters.patch + '%'}` : Prisma.empty}
       GROUP BY dayOfWeek, hour
       ORDER BY dayOfWeek, hour
     `;
@@ -883,7 +874,7 @@ export class ApiService {
 
     return {
       puuid,
-      patch: patch === 'ALL' ? 'lifetime' : patch,
+      patch: filters.patch,
       heatmap,
       insights,
     };

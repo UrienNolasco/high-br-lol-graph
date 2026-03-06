@@ -55,7 +55,7 @@ export class PlayersApiController {
   @ApiQuery({
     name: 'patch',
     required: false,
-    description: 'Patch version or "lifetime"',
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
   })
   @ApiResponse({
     status: 200,
@@ -67,7 +67,7 @@ export class PlayersApiController {
     @Param('puuid') puuid: string,
     @Query('patch') patch?: string,
   ): Promise<PlayerSummaryDto> {
-    return this.apiService.getPlayerSummary(puuid, { patch });
+    return this.apiService.getPlayerSummary(puuid, { patch: patch || 'ALL' });
   }
 
   @Get(':puuid/champions')
@@ -76,7 +76,7 @@ export class PlayersApiController {
   @ApiQuery({
     name: 'patch',
     required: false,
-    description: 'Patch version or "lifetime"',
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
   })
   @ApiQuery({
     name: 'role',
@@ -106,7 +106,7 @@ export class PlayersApiController {
     @Query('sortBy') sortBy?: string,
   ): Promise<PlayerChampionsDto> {
     return this.apiService.getPlayerChampions(puuid, {
-      patch,
+      patch: patch || 'ALL',
       role,
       limit: limit ? parseInt(limit, 10) : undefined,
       sortBy,
@@ -119,7 +119,7 @@ export class PlayersApiController {
   @ApiQuery({
     name: 'patch',
     required: false,
-    description: 'Patch version or "lifetime"',
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
   })
   @ApiResponse({
     status: 200,
@@ -130,7 +130,9 @@ export class PlayersApiController {
     @Param('puuid') puuid: string,
     @Query('patch') patch?: string,
   ): Promise<PlayerRoleDistributionDto> {
-    return this.apiService.getPlayerRoleDistribution(puuid, { patch });
+    return this.apiService.getPlayerRoleDistribution(puuid, {
+      patch: patch || 'ALL',
+    });
   }
 
   @Get(':puuid/activity')
@@ -139,7 +141,7 @@ export class PlayersApiController {
   @ApiQuery({
     name: 'patch',
     required: false,
-    description: 'Patch version or "lifetime"',
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
   })
   @ApiResponse({
     status: 200,
@@ -150,6 +152,8 @@ export class PlayersApiController {
     @Param('puuid') puuid: string,
     @Query('patch') patch?: string,
   ): Promise<PlayerActivityDto> {
-    return this.apiService.getPlayerActivity(puuid, { patch });
+    return this.apiService.getPlayerActivity(puuid, {
+      patch: patch || 'ALL',
+    });
   }
 }

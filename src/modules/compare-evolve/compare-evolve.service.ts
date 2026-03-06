@@ -13,7 +13,7 @@ import {
 interface CompareFilters {
   role?: string;
   championId?: number;
-  patch?: string | null;
+  patch?: string;
 }
 
 @Injectable()
@@ -25,8 +25,7 @@ export class CompareEvolveService {
     villainPuuid: string,
     filters: CompareFilters,
   ): Promise<PlayerComparisonDto> {
-    const patch =
-      filters.patch === 'lifetime' || !filters.patch ? 'ALL' : filters.patch;
+    const patch = filters.patch || 'ALL';
 
     const [heroUser, villainUser] = await Promise.all([
       this.prisma.user.findUnique({ where: { puuid: heroPuuid } }),
@@ -104,15 +103,11 @@ export class CompareEvolveService {
 
   private async getPlayerStatsForComparison(
     puuid: string,
-    patch: string | null,
+    patch: string,
   ): Promise<ComparePlayerStatsDto> {
-    // Prisma's composite unique type doesn't accept null for optional fields,
-    // but the runtime behavior is correct. Cast to satisfy TypeScript.
-    const patchValue = patch as string;
-
     const stats = await this.prisma.playerStats.findUnique({
       where: {
-        puuid_patch_queueId: { puuid, patch: patchValue, queueId: 420 },
+        puuid_patch_queueId: { puuid, patch, queueId: 420 },
       },
       select: {
         gamesPlayed: true,
@@ -127,7 +122,7 @@ export class CompareEvolveService {
 
     if (!stats) {
       throw new NotFoundException(
-        `Estatísticas não encontradas para jogador ${puuid} (patch: ${patch ?? 'lifetime'})`,
+        `Estatísticas não encontradas para jogador ${puuid} (patch: ${patch})`,
       );
     }
 
@@ -145,16 +140,14 @@ export class CompareEvolveService {
   private async getPlayerChampionStatsForComparison(
     puuid: string,
     championId: number,
-    patch: string | null,
+    patch: string,
   ): Promise<ComparePlayerStatsDto> {
-    const patchValue = patch as string;
-
     const stats = await this.prisma.playerChampionStats.findUnique({
       where: {
         puuid_championId_patch_queueId: {
           puuid,
           championId,
-          patch: patchValue,
+          patch,
           queueId: 420,
         },
       },
@@ -171,7 +164,7 @@ export class CompareEvolveService {
 
     if (!stats) {
       throw new NotFoundException(
-        `Estatísticas de campeão ${championId} não encontradas para jogador ${puuid} (patch: ${patch ?? 'lifetime'})`,
+        `Estatísticas de campeão ${championId} não encontradas para jogador ${puuid} (patch: ${patch})`,
       );
     }
 
@@ -265,16 +258,15 @@ export class CompareEvolveService {
   private async calculateLaningMetrics(
     puuid: string,
     championId: number | undefined,
-    patch: string | null,
+    patch: string,
   ): Promise<LaningPhaseDto> {
     if (championId) {
-      const patchValue = patch as string;
       const stats = await this.prisma.playerChampionStats.findUnique({
         where: {
           puuid_championId_patch_queueId: {
             puuid,
             championId,
-            patch: patchValue,
+            patch,
             queueId: 420,
           },
         },

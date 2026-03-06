@@ -30,12 +30,12 @@ export class CompareQueryDto {
 
   @ApiProperty({
     required: false,
-    default: 'lifetime',
-    description: 'Filtrar por patch (ex: 15.19) ou "lifetime" para todos',
+    default: 'ALL',
+    description: 'Filtrar por patch (ex: 15.19) ou "ALL" para todos',
   })
   @IsOptional()
   @IsString()
-  patch?: string = 'lifetime';
+  patch?: string = 'ALL';
 }
 
 // ========== Response DTOs ==========

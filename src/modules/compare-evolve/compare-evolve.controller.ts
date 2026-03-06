@@ -29,7 +29,7 @@ export class CompareEvolveController {
       {
         role: query.role,
         championId: query.championId,
-        patch: query.patch,
+        patch: query.patch || 'ALL',
       },
     );
   }
