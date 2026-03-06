@@ -688,7 +688,7 @@ export class ApiService {
       avgVisionScore: playerStats.avgVisionScore,
       roleDistribution: playerStats.roleDistribution as Record<string, number>,
       topChampions: enrichedTopChampions,
-      lastUpdated: playerStats.lastUpdated,
+      lastUpdated: playerStats.lastUpdated || null,
     };
   }
 
@@ -794,15 +794,17 @@ export class ApiService {
       0,
     );
 
+    const r2 = (v: number): number => parseFloat(v.toFixed(2));
+
     const roles = roleStats.map((role) => ({
       role: role.role,
       gamesPlayed: Number(role.gamesplayed),
       percentage:
-        totalGames > 0 ? (Number(role.gamesplayed) / totalGames) * 100 : 0,
+        totalGames > 0 ? r2((Number(role.gamesplayed) / totalGames) * 100) : 0,
       wins: Number(role.wins),
       losses: Number(role.losses),
-      winRate: role.winrate,
-      avgKda: role.avgkda,
+      winRate: r2(role.winrate),
+      avgKda: r2(role.avgkda),
     }));
 
     return {

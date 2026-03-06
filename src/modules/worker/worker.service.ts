@@ -225,7 +225,7 @@ export class WorkerService {
           championId: p.championId,
           championName: p.championName,
           teamId: p.teamId,
-          role: p.role || '',
+          role: p.teamPosition || p.individualPosition || '',
           lane: p.lane || p.individualPosition || '',
           win: p.win,
 

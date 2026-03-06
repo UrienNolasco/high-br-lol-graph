@@ -21,6 +21,8 @@ export interface ParticipantData {
   damageGraph: number[];
 }
 
+const r2 = (v: number): number => parseFloat(v.toFixed(2));
+
 @Injectable()
 export class PlayerStatsAggregationService {
   private readonly logger = new Logger(PlayerStatsAggregationService.name);
@@ -70,27 +72,32 @@ export class PlayerStatsAggregationService {
     const gamesPlayed = (current?.gamesPlayed || 0) + 1;
     const wins = (current?.wins || 0) + (participant.win ? 1 : 0);
     const losses = (current?.losses || 0) + (participant.win ? 0 : 1);
-    const winRate = (wins / gamesPlayed) * 100;
+    const winRate = r2((wins / gamesPlayed) * 100);
 
     const weight = (current?.gamesPlayed || 0) / gamesPlayed;
     const newWeight = 1 / gamesPlayed;
 
-    const avgKda =
-      (current?.avgKda || 0) * weight + participant.kda * newWeight;
-    const avgDpm =
+    const avgKda = r2(
+      (current?.avgKda || 0) * weight + participant.kda * newWeight,
+    );
+    const avgDpm = r2(
       (current?.avgDpm || 0) * weight +
-      (participant.totalDamage / gameDurationMinutes) * newWeight;
-    const avgGpm =
+        (participant.totalDamage / gameDurationMinutes) * newWeight,
+    );
+    const avgGpm = r2(
       (current?.avgGpm || 0) * weight +
-      (participant.goldEarned / gameDurationMinutes) * newWeight;
-    const avgCspm =
+        (participant.goldEarned / gameDurationMinutes) * newWeight,
+    );
+    const avgCspm = r2(
       (current?.avgCspm || 0) * weight +
-      ((participant.csGraph[participant.csGraph.length - 1] || 0) /
-        gameDurationMinutes) *
-        newWeight;
-    const avgVisionScore =
+        ((participant.csGraph[participant.csGraph.length - 1] || 0) /
+          gameDurationMinutes) *
+          newWeight,
+    );
+    const avgVisionScore = r2(
       (current?.avgVisionScore || 0) * weight +
-      participant.visionScore * newWeight;
+        participant.visionScore * newWeight,
+    );
 
     const roleDistribution =
       (current?.roleDistribution as Record<string, number>) || {};
@@ -108,11 +115,12 @@ export class PlayerStatsAggregationService {
     );
     if (champIndex >= 0) {
       topChampions[champIndex].games++;
-      topChampions[champIndex].winRate =
+      topChampions[champIndex].winRate = r2(
         (topChampions[champIndex].winRate *
           (topChampions[champIndex].games - 1) +
           (participant.win ? 100 : 0)) /
-        topChampions[champIndex].games;
+          topChampions[champIndex].games,
+      );
     } else {
       topChampions.push({
         championId: participant.championId,
@@ -139,13 +147,14 @@ export class PlayerStatsAggregationService {
         wins: participant.win ? 1 : 0,
         losses: participant.win ? 0 : 1,
         winRate: participant.win ? 100 : 0,
-        avgKda: participant.kda,
-        avgDpm: participant.totalDamage / gameDurationMinutes,
-        avgCspm:
+        avgKda: r2(participant.kda),
+        avgDpm: r2(participant.totalDamage / gameDurationMinutes),
+        avgCspm: r2(
           (participant.csGraph[participant.csGraph.length - 1] || 0) /
-          gameDurationMinutes,
-        avgGpm: participant.goldEarned / gameDurationMinutes,
-        avgVisionScore: participant.visionScore,
+            gameDurationMinutes,
+        ),
+        avgGpm: r2(participant.goldEarned / gameDurationMinutes),
+        avgVisionScore: r2(participant.visionScore),
         roleDistribution: { [participant.role]: 1 },
         topChampions: [
           {
@@ -192,27 +201,32 @@ export class PlayerStatsAggregationService {
     const gamesPlayed = (current?.gamesPlayed || 0) + 1;
     const wins = (current?.wins || 0) + (participant.win ? 1 : 0);
     const losses = (current?.losses || 0) + (participant.win ? 0 : 1);
-    const winRate = (wins / gamesPlayed) * 100;
+    const winRate = r2((wins / gamesPlayed) * 100);
 
     const weight = (current?.gamesPlayed || 0) / gamesPlayed;
     const newWeight = 1 / gamesPlayed;
 
-    const avgKda =
-      (current?.avgKda || 0) * weight + participant.kda * newWeight;
-    const avgDpm =
+    const avgKda = r2(
+      (current?.avgKda || 0) * weight + participant.kda * newWeight,
+    );
+    const avgDpm = r2(
       (current?.avgDpm || 0) * weight +
-      (participant.totalDamage / gameDurationMinutes) * newWeight;
-    const avgGpm =
+        (participant.totalDamage / gameDurationMinutes) * newWeight,
+    );
+    const avgGpm = r2(
       (current?.avgGpm || 0) * weight +
-      (participant.goldEarned / gameDurationMinutes) * newWeight;
-    const avgCspm =
+        (participant.goldEarned / gameDurationMinutes) * newWeight,
+    );
+    const avgCspm = r2(
       (current?.avgCspm || 0) * weight +
-      ((participant.csGraph[participant.csGraph.length - 1] || 0) /
-        gameDurationMinutes) *
-        newWeight;
-    const avgVisionScore =
+        ((participant.csGraph[participant.csGraph.length - 1] || 0) /
+          gameDurationMinutes) *
+          newWeight,
+    );
+    const avgVisionScore = r2(
       (current?.avgVisionScore || 0) * weight +
-      participant.visionScore * newWeight;
+        participant.visionScore * newWeight,
+    );
 
     let avgCsd15 = current?.avgCsd15 || 0;
     let avgGd15 = current?.avgGd15 || 0;
@@ -226,9 +240,9 @@ export class PlayerStatsAggregationService {
       const xpd15 =
         (participant.xpGraph[15] || 0) - (opponent.xpGraph[15] || 0);
 
-      avgCsd15 = (current?.avgCsd15 || 0) * weight + csd15 * newWeight;
-      avgGd15 = (current?.avgGd15 || 0) * weight + gd15 * newWeight;
-      avgXpd15 = (current?.avgXpd15 || 0) * weight + xpd15 * newWeight;
+      avgCsd15 = r2((current?.avgCsd15 || 0) * weight + csd15 * newWeight);
+      avgGd15 = r2((current?.avgGd15 || 0) * weight + gd15 * newWeight);
+      avgXpd15 = r2((current?.avgXpd15 || 0) * weight + xpd15 * newWeight);
     }
 
     const roleDistribution =
@@ -254,13 +268,14 @@ export class PlayerStatsAggregationService {
         wins: participant.win ? 1 : 0,
         losses: participant.win ? 0 : 1,
         winRate: participant.win ? 100 : 0,
-        avgKda: participant.kda,
-        avgDpm: participant.totalDamage / gameDurationMinutes,
-        avgCspm:
+        avgKda: r2(participant.kda),
+        avgDpm: r2(participant.totalDamage / gameDurationMinutes),
+        avgCspm: r2(
           (participant.csGraph[participant.csGraph.length - 1] || 0) /
-          gameDurationMinutes,
-        avgGpm: participant.goldEarned / gameDurationMinutes,
-        avgVisionScore: participant.visionScore,
+            gameDurationMinutes,
+        ),
+        avgGpm: r2(participant.goldEarned / gameDurationMinutes),
+        avgVisionScore: r2(participant.visionScore),
         avgCsd15: opponent
           ? (participant.csGraph[15] || 0) - (opponent.csGraph[15] || 0)
           : 0,
