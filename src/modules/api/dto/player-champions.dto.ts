@@ -7,6 +7,12 @@ export class PlayerChampionDetailDto {
   @ApiProperty()
   championName: string;
 
+  @ApiProperty({
+    example:
+      'https://ddragon.leagueoflegends.com/cdn/15.23.1/img/champion/Aatrox.png',
+  })
+  imageUrl: string;
+
   @ApiProperty()
   gamesPlayed: number;
 

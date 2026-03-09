@@ -730,27 +730,33 @@ export class ApiService {
 
     championStats = championStats.slice(0, limit);
 
-    const enrichedChampions = championStats.map((champ) => {
-      const championInfo = this.dataDragon.getChampionById(champ.championId);
-      return {
-        championId: champ.championId,
-        championName: championInfo?.name || `Champion ${champ.championId}`,
-        gamesPlayed: champ.gamesPlayed,
-        wins: champ.wins,
-        losses: champ.losses,
-        winRate: champ.winRate,
-        avgKda: champ.avgKda,
-        avgCspm: champ.avgCspm,
-        avgDpm: champ.avgDpm,
-        avgGpm: champ.avgGpm,
-        avgVisionScore: champ.avgVisionScore,
-        avgCsd15: champ.avgCsd15,
-        avgGd15: champ.avgGd15,
-        avgXpd15: champ.avgXpd15,
-        roleDistribution: champ.roleDistribution as Record<string, number>,
-        lastPlayedAt: champ.lastPlayedAt,
-      };
-    });
+    const enrichedChampions = await Promise.all(
+      championStats.map(async (champ) => {
+        const championInfo = this.dataDragon.getChampionById(champ.championId);
+        const images = championInfo
+          ? await this.dataDragon.getChampionImageUrls(championInfo.id)
+          : null;
+        return {
+          championId: champ.championId,
+          championName: championInfo?.name || `Champion ${champ.championId}`,
+          imageUrl: images?.square || '',
+          gamesPlayed: champ.gamesPlayed,
+          wins: champ.wins,
+          losses: champ.losses,
+          winRate: champ.winRate,
+          avgKda: champ.avgKda,
+          avgCspm: champ.avgCspm,
+          avgDpm: champ.avgDpm,
+          avgGpm: champ.avgGpm,
+          avgVisionScore: champ.avgVisionScore,
+          avgCsd15: champ.avgCsd15,
+          avgGd15: champ.avgGd15,
+          avgXpd15: champ.avgXpd15,
+          roleDistribution: champ.roleDistribution as Record<string, number>,
+          lastPlayedAt: champ.lastPlayedAt,
+        };
+      }),
+    );
 
     return {
       puuid,
