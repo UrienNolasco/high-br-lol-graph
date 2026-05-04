@@ -1,12 +1,12 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CompareEvolveService } from './compare-evolve.service';
+import { AnalyticsService } from './analytics.service';
 import { CompareQueryDto, PlayerComparisonDto } from './dto/compare-evolve.dto';
 
 @ApiTags('Compare & Evolve')
 @Controller('api/v1/analytics')
-export class CompareEvolveController {
-  constructor(private readonly compareService: CompareEvolveService) {}
+export class AnalyticsController {
+  constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get('compare')
   @ApiOperation({
@@ -23,7 +23,7 @@ export class CompareEvolveController {
   async comparePlayers(
     @Query() query: CompareQueryDto,
   ): Promise<PlayerComparisonDto> {
-    return this.compareService.comparePlayerPerformance(
+    return this.analyticsService.comparePlayerPerformance(
       query.heroPuuid,
       query.villainPuuid,
       {

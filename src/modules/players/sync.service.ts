@@ -1,4 +1,9 @@
-import { Injectable, Logger, OnModuleDestroy, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
 import { PrismaService } from '../../core/prisma/prisma.service';
@@ -33,7 +38,9 @@ export class SyncService implements OnModuleDestroy {
     });
 
     this.redis.on('connect', () => {
-      this.logger.log(`SyncService conectado ao Redis em ${redisHost}:${redisPort}`);
+      this.logger.log(
+        `SyncService conectado ao Redis em ${redisHost}:${redisPort}`,
+      );
     });
 
     this.redis.on('error', (error) => {

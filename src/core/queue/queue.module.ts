@@ -84,10 +84,12 @@ async function connectWithRetry(
         );
 
         // Fechar conexão gracefulmente
-        process.on('SIGINT', async () => {
-          await channel.close();
-          await connection.close();
-          process.exit(0);
+        process.on('SIGINT', () => {
+          void (async () => {
+            await channel.close();
+            await connection.close();
+            process.exit(0);
+          })();
         });
 
         return channel;

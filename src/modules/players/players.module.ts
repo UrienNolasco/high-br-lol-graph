@@ -6,9 +6,16 @@ import { SyncService } from './sync.service';
 import { RiotModule } from '../../core/riot/riot.module';
 import { PrismaModule } from '../../core/prisma/prisma.module';
 import { QueueModule } from '../../core/queue/queue.module';
+import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
 
 @Module({
-  imports: [RiotModule, PrismaModule, QueueModule, ConfigModule],
+  imports: [
+    RiotModule,
+    PrismaModule,
+    QueueModule,
+    ConfigModule,
+    DataDragonModule,
+  ],
   controllers: [PlayersController],
   providers: [PlayersService, SyncService],
 })

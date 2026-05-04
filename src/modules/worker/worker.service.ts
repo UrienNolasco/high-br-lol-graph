@@ -8,7 +8,6 @@ import {
 import { ProcessMatchDto } from './dto/process-match.dto';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { MatchDto, ParticipantDto } from '../../core/riot/dto/match.dto';
-import { TimelineDto } from '../../core/riot/dto/timeline.dto';
 import { Prisma } from '@prisma/client';
 
 /**
@@ -135,13 +134,17 @@ export class WorkerService {
         `✅ Match ${matchId} processada com timeline (${matchDto.info.gameDuration}s).`,
       );
     } catch (error) {
-      if (error.code === 'P2002') {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
         this.logger.warn(
           `Match ${matchId} foi processada por outro worker. Skipping.`,
         );
         return;
       }
-      this.logger.error(`Erro ao processar match ${matchId}:`, error.stack);
+      const stack = error instanceof Error ? error.stack : String(error);
+      this.logger.error(`Erro ao processar match ${matchId}:`, stack);
       throw error;
     }
   }

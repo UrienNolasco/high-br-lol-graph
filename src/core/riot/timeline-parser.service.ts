@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import {
   TimelineDto,
   TimelineFrame,
-  TimelineEvent,
   ChampionKillEvent,
   WardPlacedEvent,
   WardKillEvent,
@@ -12,7 +11,6 @@ import {
   SkillLevelUpEvent,
   EliteMonsterKillEvent,
   BuildingKillEvent,
-  Position,
   skillSlotToLetter,
 } from './dto/timeline.dto';
 
@@ -144,10 +142,10 @@ export class TimelineParserService {
 
     for (const puuid of puuids) {
       map.set(puuid, {
-        goldGraph: new Array(totalMinutes).fill(0),
-        xpGraph: new Array(totalMinutes).fill(0),
-        csGraph: new Array(totalMinutes).fill(0),
-        damageGraph: new Array(totalMinutes).fill(0),
+        goldGraph: new Array<number>(totalMinutes).fill(0),
+        xpGraph: new Array<number>(totalMinutes).fill(0),
+        csGraph: new Array<number>(totalMinutes).fill(0),
+        damageGraph: new Array<number>(totalMinutes).fill(0),
         deathPositions: [],
         killPositions: [],
         wardPositions: [],
@@ -211,52 +209,36 @@ export class TimelineParserService {
     for (const event of frame.events) {
       switch (event.type) {
         case 'CHAMPION_KILL':
-          this.processChampionKill(
-            event as ChampionKillEvent,
-            data,
-            participantMap,
-          );
+          this.processChampionKill(event, data, participantMap);
           break;
 
         case 'WARD_PLACED':
-          this.processWardPlaced(
-            event as WardPlacedEvent,
-            data,
-            participantMap,
-          );
+          this.processWardPlaced(event, data, participantMap);
           break;
 
         case 'WARD_KILL':
-          this.processWardKill(event as WardKillEvent, data, participantMap);
+          this.processWardKill(event, data, participantMap);
           break;
 
         case 'ITEM_PURCHASED':
-          this.processItemPurchased(
-            event as ItemPurchasedEvent,
-            data,
-            participantMap,
-          );
+          this.processItemPurchased(event, data, participantMap);
           break;
 
         case 'ITEM_SOLD':
-          this.processItemSold(event as ItemSoldEvent, data, participantMap);
+          this.processItemSold(event, data, participantMap);
           break;
 
         case 'ITEM_UNDO':
-          this.processItemUndo(event as ItemUndoEvent, data, participantMap);
+          this.processItemUndo(event, data, participantMap);
           break;
 
         case 'SKILL_LEVEL_UP':
-          this.processSkillLevelUp(
-            event as SkillLevelUpEvent,
-            data,
-            participantMap,
-          );
+          this.processSkillLevelUp(event, data, participantMap);
           break;
 
         case 'ELITE_MONSTER_KILL':
           this.processEliteMonsterKill(
-            event as EliteMonsterKillEvent,
+            event,
             data,
             participantMap,
             objectivesTimeline,
@@ -265,7 +247,7 @@ export class TimelineParserService {
 
         case 'BUILDING_KILL':
           this.processBuildingKill(
-            event as BuildingKillEvent,
+            event,
             data,
             participantMap,
             objectivesTimeline,

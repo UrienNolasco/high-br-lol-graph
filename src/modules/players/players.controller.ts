@@ -1,10 +1,30 @@
-import { Controller, Post, Get, Param, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { Controller, Post, Get, Param, Body, Query } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiParam,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { PlayersService } from './players.service';
 import { SyncService } from './sync.service';
 import { PlayerSearchDto } from './dto/player-search.dto';
 import { PlayerResponseDto } from './dto/player-response.dto';
-import { SyncTriggerResponseDto, SyncStatusResponseDto } from './dto/sync-response.dto';
+import {
+  SyncTriggerResponseDto,
+  SyncStatusResponseDto,
+} from './dto/sync-response.dto';
+import { PlayerProfileDto } from './dto/player-profile.dto';
+import { PlayerUpdateStatusDto } from './dto/player-update-status.dto';
+import { PlayerSummaryDto } from './dto/player-summary.dto';
+import { PlayerChampionsDto } from './dto/player-champions.dto';
+import { PlayerRoleDistributionDto } from './dto/player-role-distribution.dto';
+import { PlayerActivityDto } from './dto/player-activity.dto';
+import {
+  PlayerMatchesDto,
+  PlayerMatchesQueryDto,
+} from './dto/player-match.dto';
 
 @ApiTags('Players')
 @Controller('api/v1/players')
@@ -13,6 +33,182 @@ export class PlayersController {
     private readonly playersService: PlayersService,
     private readonly syncService: SyncService,
   ) {}
+
+  // ========== Player Profile ==========
+
+  @Get(':puuid')
+  @ApiOperation({ summary: 'Get cached player profile' })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Player profile retrieved successfully',
+    type: PlayerProfileDto,
+  })
+  @ApiResponse({ status: 404, description: 'Player not found' })
+  async getPlayerProfile(
+    @Param('puuid') puuid: string,
+  ): Promise<PlayerProfileDto> {
+    return this.playersService.getPlayerProfile(puuid);
+  }
+
+  @Get(':puuid/status')
+  @ApiOperation({ summary: 'Get player match processing status' })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Player status retrieved successfully',
+    type: PlayerUpdateStatusDto,
+  })
+  @ApiResponse({ status: 404, description: 'Player not found' })
+  async getPlayerUpdateStatus(
+    @Param('puuid') puuid: string,
+  ): Promise<PlayerUpdateStatusDto> {
+    return this.playersService.getPlayerUpdateStatus(puuid);
+  }
+
+  @Get(':puuid/summary')
+  @ApiOperation({ summary: 'Get player macro analysis summary' })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Player summary retrieved successfully',
+    type: PlayerSummaryDto,
+  })
+  @ApiResponse({ status: 404, description: 'No stats found for player' })
+  async getPlayerSummary(
+    @Param('puuid') puuid: string,
+    @Query('patch') patch?: string,
+  ): Promise<PlayerSummaryDto> {
+    return this.playersService.getPlayerSummary(puuid, {
+      patch: patch || 'ALL',
+    });
+  }
+
+  @Get(':puuid/champions')
+  @ApiOperation({ summary: 'Get player champion performance list' })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
+  })
+  @ApiQuery({
+    name: 'role',
+    required: false,
+    description: 'Filter by role (TOP, JUNGLE, MID, BOTTOM, UTILITY)',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Number of champions to return (max 50)',
+  })
+  @ApiQuery({
+    name: 'sortBy',
+    required: false,
+    description: 'Sort by: games, winRate, kda',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Player champions retrieved successfully',
+    type: PlayerChampionsDto,
+  })
+  async getPlayerChampions(
+    @Param('puuid') puuid: string,
+    @Query('patch') patch?: string,
+    @Query('role') role?: string,
+    @Query('limit') limit?: string,
+    @Query('sortBy') sortBy?: string,
+  ): Promise<PlayerChampionsDto> {
+    return this.playersService.getPlayerChampions(puuid, {
+      patch: patch || 'ALL',
+      role,
+      limit: limit ? parseInt(limit, 10) : undefined,
+      sortBy,
+    });
+  }
+
+  @Get(':puuid/roles')
+  @ApiOperation({ summary: 'Get player role distribution and winrate' })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Player role distribution retrieved successfully',
+    type: PlayerRoleDistributionDto,
+  })
+  async getPlayerRoleDistribution(
+    @Param('puuid') puuid: string,
+    @Query('patch') patch?: string,
+  ): Promise<PlayerRoleDistributionDto> {
+    return this.playersService.getPlayerRoleDistribution(puuid, {
+      patch: patch || 'ALL',
+    });
+  }
+
+  @Get(':puuid/activity')
+  @ApiOperation({ summary: 'Get player activity heatmap (7x24 matrix)' })
+  @ApiParam({ name: 'puuid', description: 'Player PUUID' })
+  @ApiQuery({
+    name: 'patch',
+    required: false,
+    description: 'Patch version (e.g. 15.19) or "ALL" for lifetime stats',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Player activity heatmap retrieved successfully',
+    type: PlayerActivityDto,
+  })
+  async getPlayerActivity(
+    @Param('puuid') puuid: string,
+    @Query('patch') patch?: string,
+  ): Promise<PlayerActivityDto> {
+    return this.playersService.getPlayerActivity(puuid, {
+      patch: patch || 'ALL',
+    });
+  }
+
+  // ========== Player Match History ==========
+
+  @Get(':puuid/matches')
+  @ApiOperation({
+    summary: 'Get player match history (lightweight)',
+    description:
+      'Returns a lightweight list of matches for a player with advanced filters. Does NOT include timeline graphs. Optimized for mobile scroll.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns list of matches with basic stats.',
+    type: PlayerMatchesDto,
+  })
+  @ApiResponse({ status: 404, description: 'Player not found.' })
+  @ApiParam({
+    name: 'puuid',
+    description: 'Player PUUID',
+    example: 'abc123-def456-ghi789',
+  })
+  async getPlayerMatches(
+    @Param('puuid') puuid: string,
+    @Query() query: PlayerMatchesQueryDto,
+  ): Promise<PlayerMatchesDto> {
+    if (query.page && !query.cursor) {
+      return this.playersService.getPlayerMatchesByPage(puuid, {
+        ...query,
+        page: query.page,
+      });
+    }
+    return this.playersService.getPlayerMatches(puuid, query);
+  }
+
+  // ========== Player Search & Sync ==========
 
   @Post('search')
   @ApiOperation({
@@ -46,7 +242,9 @@ export class PlayersController {
   @ApiParam({ name: 'puuid', description: 'Player PUUID' })
   @ApiResponse({ status: 200, type: SyncTriggerResponseDto })
   @ApiResponse({ status: 404, description: 'Player not found in database.' })
-  async triggerSync(@Param('puuid') puuid: string): Promise<SyncTriggerResponseDto> {
+  async triggerSync(
+    @Param('puuid') puuid: string,
+  ): Promise<SyncTriggerResponseDto> {
     return this.syncService.triggerDeepSync(puuid);
   }
 
@@ -57,7 +255,9 @@ export class PlayersController {
   })
   @ApiParam({ name: 'puuid', description: 'Player PUUID' })
   @ApiResponse({ status: 200, type: SyncStatusResponseDto })
-  async getSyncStatus(@Param('puuid') puuid: string): Promise<SyncStatusResponseDto> {
+  async getSyncStatus(
+    @Param('puuid') puuid: string,
+  ): Promise<SyncStatusResponseDto> {
     return this.syncService.getSyncStatus(puuid);
   }
 }

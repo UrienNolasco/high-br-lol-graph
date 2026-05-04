@@ -11,13 +11,13 @@ export class PlayerMatchesQueryDto {
     description: 'Queue ID (420=Ranked Solo, 440=Ranked Flex)',
   })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   @IsInt()
   queueId?: number = 420;
 
   @ApiProperty({ required: false, description: 'Filter by champion ID' })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   @IsInt()
   championId?: number;
 
@@ -46,7 +46,7 @@ export class PlayerMatchesQueryDto {
     description: 'Number of matches to return',
   })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   @IsInt()
   @Min(1)
   @Max(50)
@@ -54,10 +54,22 @@ export class PlayerMatchesQueryDto {
 
   @ApiProperty({
     required: false,
+    default: 1,
+    minimum: 1,
+    description: 'Page number for page-based pagination (1-indexed)',
+  })
+  @IsOptional()
+  @Transform(({ value }) => parseInt(value as string, 10))
+  @IsInt()
+  @Min(1)
+  page?: number = 1;
+
+  @ApiProperty({
+    required: false,
     description: 'Start date filter (timestamp in ms)',
   })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   startDate?: number;
 
   @ApiProperty({
@@ -65,7 +77,7 @@ export class PlayerMatchesQueryDto {
     description: 'End date filter (timestamp in ms)',
   })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   endDate?: number;
 
   @ApiProperty({
@@ -98,7 +110,7 @@ export class PlayerMatchesPageQueryDto extends PlayerMatchesQueryDto {
     description: 'Page number (1-indexed)',
   })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   @IsInt()
   @Min(1)
   page?: number = 1;

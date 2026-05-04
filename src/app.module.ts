@@ -3,27 +3,31 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppConfigModule } from './core/config/config.module';
 import { PrismaModule } from './core/prisma/prisma.module';
+import { DataDragonModule } from './core/data-dragon/data-dragon.module';
 
-import { ApiModule } from './modules/api/api.module';
 import { WorkerModule } from './modules/worker/worker.module';
 import { CollectorModule } from './modules/collector/collector.module';
 import { PlayersModule } from './modules/players/players.module';
-import { DataDragonModule } from './core/data-dragon/data-dragon.module';
-import { MatchDeepDiveModule } from './modules/match-deep-dive/match-deep-dive.module';
-import { CompareEvolveModule } from './modules/compare-evolve/compare-evolve.module';
+import { ChampionsModule } from './modules/champions/champions.module';
+import { StatsModule } from './modules/stats/stats.module';
+import { MatchesModule } from './modules/matches/matches.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
     AppConfigModule,
     PrismaModule,
     ScheduleModule.forRoot(),
-    ApiModule,
+    DataDragonModule,
+    ChampionsModule,
+    StatsModule,
+    PlayersModule,
+    MatchesModule,
+    AnalyticsModule,
     CollectorModule,
     WorkerModule,
-    PlayersModule,
-    DataDragonModule,
-    MatchDeepDiveModule,
-    CompareEvolveModule,
+    AdminModule,
   ],
   controllers: [AppController],
 })

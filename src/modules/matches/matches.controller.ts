@@ -1,6 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
-import { MatchDeepDiveService } from './match-deep-dive.service';
+import { MatchesService } from './matches.service';
+import { MatchDetailDto } from './dto/match-detail.dto';
 import {
   MatchGoldTimelineDto,
   MatchTimelineEventsDto,
@@ -8,10 +9,39 @@ import {
   MatchPerformanceComparisonDto,
 } from './dto/match-deep-dive.dto';
 
-@ApiTags('Match Deep Dive')
+@ApiTags('Matches')
 @Controller('api/v1/matches')
-export class MatchDeepDiveController {
-  constructor(private readonly deepDiveService: MatchDeepDiveService) {}
+export class MatchesController {
+  constructor(private readonly matchesService: MatchesService) {}
+
+  @Get(':matchId')
+  @ApiOperation({
+    summary: 'Get match details (full)',
+    description:
+      'Returns complete match data including timeline graphs, positions, and all participant details.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns full match details.',
+    type: MatchDetailDto,
+  })
+  @ApiResponse({ status: 404, description: 'Match not found.' })
+  @ApiParam({
+    name: 'matchId',
+    description: 'Match ID',
+    example: 'BR1_123456',
+  })
+  async getMatchDetails(
+    @Param('matchId') matchId: string,
+  ): Promise<MatchDetailDto> {
+    const match = await this.matchesService.getMatchDetails(matchId);
+
+    if (!match) {
+      throw new NotFoundException('Match not found');
+    }
+
+    return match;
+  }
 
   @Get(':matchId/timeline/gold')
   @ApiOperation({
@@ -33,7 +63,7 @@ export class MatchDeepDiveController {
   async getGoldTimeline(
     @Param('matchId') matchId: string,
   ): Promise<MatchGoldTimelineDto> {
-    return this.deepDiveService.getMatchGoldTimeline(matchId);
+    return this.matchesService.getMatchGoldTimeline(matchId);
   }
 
   @Get(':matchId/timeline/events')
@@ -56,7 +86,7 @@ export class MatchDeepDiveController {
   async getTimelineEvents(
     @Param('matchId') matchId: string,
   ): Promise<MatchTimelineEventsDto> {
-    return this.deepDiveService.getMatchTimelineEvents(matchId);
+    return this.matchesService.getMatchTimelineEvents(matchId);
   }
 
   @Get(':matchId/builds')
@@ -76,7 +106,7 @@ export class MatchDeepDiveController {
     example: 'BR1_3216549870',
   })
   async getBuilds(@Param('matchId') matchId: string): Promise<MatchBuildsDto> {
-    return this.deepDiveService.getMatchBuilds(matchId);
+    return this.matchesService.getMatchBuilds(matchId);
   }
 
   @Get(':matchId/performance/:puuid')
@@ -105,6 +135,6 @@ export class MatchDeepDiveController {
     @Param('matchId') matchId: string,
     @Param('puuid') puuid: string,
   ): Promise<MatchPerformanceComparisonDto> {
-    return this.deepDiveService.getMatchPerformanceComparison(matchId, puuid);
+    return this.matchesService.getMatchPerformanceComparison(matchId, puuid);
   }
 }

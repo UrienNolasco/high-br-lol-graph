@@ -7,15 +7,47 @@ import {
   MatchPerformanceComparisonDto,
 } from './dto/match-deep-dive.dto';
 
+interface KillPositionJson {
+  x: number;
+  y: number;
+  timestamp: number;
+}
+
+interface WardPositionJson {
+  wardType: string;
+  x: number;
+  y: number;
+  timestamp: number;
+}
+
+interface ObjectiveJson {
+  type: string;
+  subType: string;
+  teamId: number;
+  timestamp: number;
+  killerId: number;
+}
+
+interface ItemTimelineJson {
+  itemId: number;
+  timestamp: number;
+  type: string;
+}
+
 @Injectable()
-export class MatchDeepDiveService {
+export class MatchesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Gráfico de diferença de ouro entre times ao longo da partida.
-   * Calcula gold por time em cada minuto, identifica vencedor,
-   * ponto de maior vantagem e "throw point" (swing > 3k).
-   */
+  async getMatchDetails(matchId: string) {
+    return this.prisma.match.findUnique({
+      where: { matchId },
+      include: {
+        teams: true,
+        participants: true,
+      },
+    });
+  }
+
   async getMatchGoldTimeline(matchId: string): Promise<MatchGoldTimelineDto> {
     const participants = await this.prisma.matchParticipant.findMany({
       where: { matchId },
@@ -51,11 +83,9 @@ export class MatchDeepDiveService {
       });
     }
 
-    // Vencedor em ouro final
     const lastEntry = goldDifference[goldDifference.length - 1];
     const winner = lastEntry.difference > 0 ? 'blueTeam' : 'redTeam';
 
-    // Ponto de maior vantagem (maior |difference|)
     const maxAdvantageEntry = goldDifference.reduce((max, entry) =>
       Math.abs(entry.difference) > Math.abs(max.difference) ? entry : max,
     );
@@ -66,7 +96,6 @@ export class MatchDeepDiveService {
       difference: Math.abs(maxAdvantageEntry.difference),
     };
 
-    // Throw point: maior swing > 3k entre minutos consecutivos
     let throwPoint: MatchGoldTimelineDto['throwPoint'] = null;
     for (let i = 1; i < goldDifference.length; i++) {
       const swing = Math.abs(
@@ -91,11 +120,6 @@ export class MatchDeepDiveService {
     };
   }
 
-  /**
-   * Heatmap de eventos importantes (kills, deaths, wards, objetivos).
-   * Extrai posições de kill/death/ward de cada participante e
-   * objectives timeline de cada time.
-   */
   async getMatchTimelineEvents(
     matchId: string,
   ): Promise<MatchTimelineEventsDto> {
@@ -119,9 +143,8 @@ export class MatchDeepDiveService {
       select: { teamId: true, objectivesTimeline: true },
     });
 
-    // Flatten kill positions
     const kills = participants.flatMap((p) =>
-      (p.killPositions as any[]).map((pos) => ({
+      (p.killPositions as unknown as KillPositionJson[]).map((pos) => ({
         puuid: p.puuid,
         championId: p.championId,
         x: pos.x,
@@ -131,9 +154,8 @@ export class MatchDeepDiveService {
       })),
     );
 
-    // Flatten death positions
     const deaths = participants.flatMap((p) =>
-      (p.deathPositions as any[]).map((pos) => ({
+      (p.deathPositions as unknown as KillPositionJson[]).map((pos) => ({
         puuid: p.puuid,
         championId: p.championId,
         x: pos.x,
@@ -143,9 +165,8 @@ export class MatchDeepDiveService {
       })),
     );
 
-    // Flatten ward positions
     const wards = participants.flatMap((p) =>
-      (p.wardPositions as any[]).map((pos) => ({
+      (p.wardPositions as unknown as WardPositionJson[]).map((pos) => ({
         puuid: p.puuid,
         wardType: pos.wardType,
         x: pos.x,
@@ -155,9 +176,8 @@ export class MatchDeepDiveService {
       })),
     );
 
-    // Flatten objectives de todos os times
     const objectives = teams.flatMap((team) =>
-      (team.objectivesTimeline as any[]).map((obj) => ({
+      (team.objectivesTimeline as unknown as ObjectiveJson[]).map((obj) => ({
         type: obj.type,
         subType: obj.subType,
         teamId: obj.teamId ?? team.teamId,
@@ -173,10 +193,6 @@ export class MatchDeepDiveService {
     };
   }
 
-  /**
-   * Evolução de builds de todos os participantes.
-   * Processa itemTimeline e calcula build final (últimos 6 itens comprados únicos).
-   */
   async getMatchBuilds(matchId: string): Promise<MatchBuildsDto> {
     const participants = await this.prisma.matchParticipant.findMany({
       where: { matchId },
@@ -193,7 +209,7 @@ export class MatchDeepDiveService {
     }
 
     const builds = participants.map((p) => {
-      const rawTimeline = p.itemTimeline as any[];
+      const rawTimeline = p.itemTimeline as unknown as ItemTimelineJson[];
 
       const itemTimeline = rawTimeline.map((item) => ({
         itemId: item.itemId,
@@ -202,7 +218,6 @@ export class MatchDeepDiveService {
         type: item.type,
       }));
 
-      // Build final: últimos BUY events únicos (últimos 6)
       const buyEvents = itemTimeline.filter((e) => e.type === 'BUY');
       const finalBuildIds = [...new Set(buyEvents.map((e) => e.itemId))].slice(
         -6,
@@ -221,10 +236,6 @@ export class MatchDeepDiveService {
     return { matchId, builds };
   }
 
-  /**
-   * Radar chart comparativo: jogador vs oponente de lane.
-   * Calcula métricas per-minute e compara com o oponente de mesma role.
-   */
   async getMatchPerformanceComparison(
     matchId: string,
     puuid: string,
@@ -245,7 +256,6 @@ export class MatchDeepDiveService {
       );
     }
 
-    // Oponente: mesmo role, time oposto
     const opponent = participants.find(
       (p) => p.role === player.role && p.teamId !== player.teamId,
     );

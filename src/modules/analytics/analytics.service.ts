@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../core/prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 import {
   ComparePlayerStatsDto,
   LaningPhaseDto,
-  ComparePlayerDto,
   TimelinePointDto,
   TimelineComparisonDto,
   CompareInsightsDto,
@@ -17,7 +17,7 @@ interface CompareFilters {
 }
 
 @Injectable()
-export class CompareEvolveService {
+export class AnalyticsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async comparePlayerPerformance(
@@ -205,9 +205,15 @@ export class CompareEvolveService {
     puuid: string,
     filters: CompareFilters,
   ): Promise<{ csGraph: number[]; goldGraph: number[] }[]> {
-    const where: any = {
+    const matchConditions: Prisma.MatchWhereInput = { queueId: 420 };
+
+    if (filters.patch) {
+      matchConditions.gameVersion = { startsWith: filters.patch };
+    }
+
+    const where: Prisma.MatchParticipantWhereInput = {
       puuid,
-      match: { queueId: 420 },
+      match: matchConditions,
     };
 
     if (filters.championId) {
@@ -216,10 +222,6 @@ export class CompareEvolveService {
 
     if (filters.role) {
       where.role = filters.role;
-    }
-
-    if (filters.patch) {
-      where.match.gameVersion = { startsWith: filters.patch };
     }
 
     return this.prisma.matchParticipant.findMany({

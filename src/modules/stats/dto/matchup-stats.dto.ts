@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ChampionImagesDto } from './champion-images.dto';
+import { ChampionImagesDto } from '../../champions/dto/champion-images.dto';
 
 export class MatchupChampionDto {
   @ApiProperty({ example: 'Irelia' })

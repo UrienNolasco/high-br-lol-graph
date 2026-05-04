@@ -24,7 +24,7 @@ export class CompareQueryDto {
 
   @ApiProperty({ required: false, description: 'Filtrar por campeão (ID)' })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   @IsInt()
   championId?: number;
 

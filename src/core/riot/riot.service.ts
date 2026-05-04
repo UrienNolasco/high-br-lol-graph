@@ -145,8 +145,10 @@ export class RiotService {
       await this.rateLimiterService.throttle(this.apiKey);
 
       const params = new URLSearchParams({ count: String(count) });
-      if (options?.start !== undefined) params.set('start', String(options.start));
-      if (options?.queue !== undefined) params.set('queue', String(options.queue));
+      if (options?.start !== undefined)
+        params.set('start', String(options.start));
+      if (options?.queue !== undefined)
+        params.set('queue', String(options.queue));
 
       const url = `${this.americasBaseUrl}/lol/match/v5/matches/by-puuid/${puuid}/ids?${params.toString()}`;
 

@@ -17,13 +17,13 @@ export class GetChampionStatsDto {
   patch: string;
 
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   @IsInt()
   @Min(1)
   page? = 1;
 
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value as string, 10))
   @IsInt()
   @Min(1)
   @Max(200)
