@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../core/prisma/prisma.service';
+import { MatchDetailDto } from './dto/match-detail.dto';
 import {
   MatchGoldTimelineDto,
   MatchTimelineEventsDto,
@@ -38,14 +39,21 @@ interface ItemTimelineJson {
 export class MatchesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getMatchDetails(matchId: string) {
-    return this.prisma.match.findUnique({
+  async getMatchDetails(matchId: string): Promise<MatchDetailDto | null> {
+    const match = await this.prisma.match.findUnique({
       where: { matchId },
       include: {
         teams: true,
         participants: true,
       },
     });
+
+    if (!match) return null;
+
+    return {
+      ...match,
+      gameCreation: match.gameCreation.toString(),
+    } as MatchDetailDto;
   }
 
   async getMatchGoldTimeline(matchId: string): Promise<MatchGoldTimelineDto> {

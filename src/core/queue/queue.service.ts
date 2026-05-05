@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
-import { Channel } from 'amqplib';
+import type { Channel } from 'amqplib';
 import { RABBITMQ_CHANNEL } from './queue.constants';
 
 export interface MatchPublishOptions {
