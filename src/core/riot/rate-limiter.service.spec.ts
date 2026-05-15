@@ -179,10 +179,10 @@ describe('RateLimiterService', () => {
     it('should handle lock acquisition failure', async () => {
       // Primeira chamada: falha ao adquirir lock, segunda: sucesso
       let callCount = 0;
-      mockLockService.acquireLock.mockImplementation(() => {
-        callCount++;
-        return callCount === 2; // Primeira falha, segunda sucesso
-      });
+mockLockService.acquireLock.mockImplementation(() => {
+         callCount++;
+         return Promise.resolve(callCount === 2);
+       });
       mockRedis.zcard.mockResolvedValue(50);
 
       // Mock do delay para evitar esperas longas
@@ -202,21 +202,21 @@ describe('RateLimiterService', () => {
       let zremrangeCount = 0;
       let zcardCount = 0;
 
-      mockRedis.zremrangebyscore.mockImplementation(() => {
-        zremrangeCount++;
-        if (zremrangeCount === 1) {
-          throw new Error('Redis error');
-        }
-        return 0;
-      });
+mockRedis.zremrangebyscore.mockImplementation(() => {
+         zremrangeCount++;
+         if (zremrangeCount === 1) {
+           return Promise.reject(new Error('Redis error'));
+         }
+         return Promise.resolve(0);
+       });
 
-      mockRedis.zcard.mockImplementation(() => {
-        zcardCount++;
-        if (zcardCount === 1) {
-          throw new Error('Redis error');
-        }
-        return 50; // Após os erros, retorna valor válido (< MAX_REQUESTS)
-      });
+       mockRedis.zcard.mockImplementation(() => {
+         zcardCount++;
+         if (zcardCount === 1) {
+           return Promise.reject(new Error('Redis error'));
+         }
+         return Promise.resolve(50);
+       });
 
       mockLockService.acquireLock.mockResolvedValue(true);
 

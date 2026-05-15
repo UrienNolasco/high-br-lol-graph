@@ -1,14 +1,19 @@
-import { Controller, Logger } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import type { Channel, Message } from 'amqplib';
+import { PinoLogger } from 'nestjs-pino';
 import { WorkerService } from './worker.service';
 import { ProcessMatchDto } from './dto/process-match.dto';
+import { traceIdStore, getErrorMessage } from '../../core/logger';
 
 @Controller()
 export class WorkerController {
-  private readonly logger = new Logger(WorkerController.name);
-
-  constructor(private readonly workerService: WorkerService) {}
+  constructor(
+    private readonly workerService: WorkerService,
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(WorkerController.name);
+  }
 
   @EventPattern('match.collect')
   async handleMatchCollect(
@@ -19,21 +24,25 @@ export class WorkerController {
     const channel = context.getChannelRef() as Channel;
     const originalMsg = context.getMessage() as Message;
 
-    this.logger.log(`Recebida mensagem para processar partida: ${matchId}`);
+    const traceId = payload.traceId || crypto.randomUUID();
 
-    try {
-      await this.workerService.processMatch({ matchId });
+    await traceIdStore.run({ traceId }, async () => {
+      this.logger.info({ matchId, event: 'match_received' }, `Recebida mensagem para processar partida: ${matchId}`);
 
-      channel.ack(originalMsg);
+      try {
+        await this.workerService.processMatch({ matchId });
 
-      this.logger.log(`Partida ${matchId} processada com sucesso.`);
-    } catch (error) {
-      this.logger.error(`Erro ao processar partida ${matchId}:`, error);
+        channel.ack(originalMsg);
 
-      channel.nack(originalMsg, false, false);
+        this.logger.info({ matchId, event: 'match_processed' }, `Partida ${matchId} processada com sucesso.`);
+      } catch (error) {
+        this.logger.error({ matchId, event: 'match_failed', error: getErrorMessage(error) }, `Erro ao processar partida ${matchId}`);
 
-      throw error;
-    }
+        channel.nack(originalMsg, false, false);
+
+        throw error;
+      }
+    });
   }
 
   @EventPattern('user.update')
@@ -45,16 +54,20 @@ export class WorkerController {
     const channel = context.getChannelRef() as Channel;
     const originalMsg = context.getMessage() as Message;
 
-    this.logger.log(`[USER UPDATE] Processando partida: ${matchId}`);
+    const traceId = payload.traceId || crypto.randomUUID();
 
-    try {
-      await this.workerService.processMatch({ matchId });
-      channel.ack(originalMsg);
-      this.logger.log(`[USER UPDATE] Partida ${matchId} processada.`);
-    } catch (error) {
-      this.logger.error(`[USER UPDATE] Erro ao processar ${matchId}:`, error);
-      channel.nack(originalMsg, false, false);
-      throw error;
-    }
+    await traceIdStore.run({ traceId }, async () => {
+      this.logger.info({ matchId, event: 'match_received', pattern: 'user.update' }, `[USER UPDATE] Processando partida: ${matchId}`);
+
+      try {
+        await this.workerService.processMatch({ matchId });
+        channel.ack(originalMsg);
+        this.logger.info({ matchId, event: 'match_processed', pattern: 'user.update' }, `[USER UPDATE] Partida ${matchId} processada.`);
+      } catch (error) {
+        this.logger.error({ matchId, event: 'match_failed', pattern: 'user.update', error: getErrorMessage(error) }, `[USER UPDATE] Erro ao processar ${matchId}`);
+        channel.nack(originalMsg, false, false);
+        throw error;
+      }
+    });
   }
 }

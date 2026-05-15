@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import * as amqp from 'amqplib';
 import { QueueService } from './queue.service';
 import { RABBITMQ_CHANNEL } from './queue.constants';
+import { getErrorMessage } from '../logger';
 
 /**
  * Função auxiliar para dormir por um tempo determinado
@@ -41,7 +42,7 @@ async function connectWithRetry(
       }
 
       logger.warn(
-        `[RabbitMQ] - Falha na tentativa ${attempt}: ${(error as Error).message}`,
+        `[RabbitMQ] - Falha na tentativa ${attempt}: ${getErrorMessage(error)}`,
       );
       logger.log(
         `[RabbitMQ] - Aguardando ${retryDelayMs / 1000}s antes da próxima tentativa...`,

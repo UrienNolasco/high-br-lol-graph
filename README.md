@@ -1,262 +1,612 @@
-# high-br-lol-graph
+# High BR LoL Graph — Arquitetura do Backend
 
-### Visão Geral e Objetivos do Projeto
+Backend em NestJS que coleta dados da Riot API, processa partidas de League of Legends, e serve estatísticas para o app mobile via API REST.
 
-`high-br-lol-graph` é um projeto pessoal para aprendizado que estou desenvolvendo para entender como trabalhar com apis externas que entregam grandes volumes de dados, onde serão realizados diversos calculos de analise em cima desses dados. Vou fazer isso processando e analisando estatísticas de partidas de League of Legends, através da api oficial DRAGON da Riot Games.
+---
 
-- Objetivo Principal: Calcular a taxa de vitória (win rate) de campeões e analisar confrontos diretos (matchups) favoráveis e desfavoráveis.
-- Escopo dos Dados: A análise será focada exclusivamente em jogadores de alto elo (Mestre, Grão-Mestre, Desafiante) do servidor brasileiro (BR).
-- Granularidade: O sistema se concentrará no resultado final da partida (vitória/derrota) e nos campeões envolvidos. Detalhes como builds de itens, runas ou dados da timeline da partida estão fora do escopo.
-- Requisito Chave: Todas as estatísticas devem ser segmentadas por patch do jogo para permitir análises de meta.
-- Modelo de Atualização: Os dados serão atualizados em lote (batch), com uma frequência diária sendo suficiente.
-- Orçamento e Deploy: O projeto tem um orçamento de R$ 0,00 e será executado inteiramente em um ambiente de desenvolvimento local, sem a necessidade de deploy em produção, porem estarei desenvolvendo orientado a containers para simular um ambiente produtivo.
+## Visão Geral
 
-### Arquitetura do Sistema
+```
+┌─────────────┐     ┌──────────────┐     ┌──────────┐     ┌──────────┐
+│   Riot API  │◄────│  RiotService  │◄────│   Redis  │     │PostgreSQL│
+│  (externa)  │     │  (throttle)   │     │(gatekeep)│     │          │
+└─────────────┘     └──────────────┘     └────┬─────┘     └────┬─────┘
+                           ▲                   │                │
+                           │                   │                │
+            ┌──────────────┼───────────────────┼────────────────┤
+            │              │                   │                │
+     ┌──────┴──────┐ ┌─────┴──────┐  ┌────────┴───────┐ ┌────┴─────┐
+     │  Collector   │ │  Players   │  │  SyncService   │ │Main API  │
+     │  (cron/30min)│ │ (search)   │  │  (deep sync)   │ │(read DB) │
+     └──────┬───────┘ └─────┬──────┘  └───────┬────────┘ └──────────┘
+            │               │                  │
+            │  dedup via DB │ dedup via DB     │ dedup + track in Redis
+            ▼               ▼                  ▼
+     ┌───────────────────────────────────────────────┐
+     │                  RabbitMQ                      │
+     │  Prioridade 10: busca do usuário               │
+     │  Prioridade  5: deep sync                      │
+     │  Prioridade  1: background (collector)          │
+     └───────────────────────┬───────────────────────┘
+                             │
+                     ┌───────┴───────┐
+                     │  Worker Pool   │
+                     │                │
+                     │  1. findUnique (idempotência)
+                     │  2. getMatchById → throttle() → Redis
+                     │  3. getTimeline  → throttle() → Redis
+                     │  4. Parse + Save transacional
+                     │  5. Aggregations (ChampionStats, PlayerStats)
+                     └───────┬───────┘
+                             │
+                     ┌───────┴───────┐
+                     │  PostgreSQL   │
+                     └───────────────┘
+```
 
-A arquitetura escolhida é um pipeline de dados desacoplado e orientado a eventos, implementado em um monorepo. A orquestração de todos os serviços será feita localmente via Docker Compose.
+---
 
-#### Fluxo de Dados
+## Fluxo de Dados
 
-O fluxo de dados segue um padrão claro de responsabilidades separadas para garantir a resiliência e a manutenibilidade do sistema.
+### 3 Caminhos de Ingestão de Dados
+
+| Caminho | Gatilho | Prioridade | Chamadas à Riot API | Chamadas ao Redis (throttle) |
+|---------|---------|------------|-------------------------------|------------------------------|
+| **Collector** | Cron a cada 30min (1h-8h) | 1 (baixa) | 3 ligas + 1 por jogador | 3 ligas + 1 por jogador |
+| **Player Search** | `POST /players/search` | 10 (máxima) | Account + Summoner + League + Match IDs (4+) | 4+ por busca |
+| **Deep Sync** | `POST /players/:puuid/sync` | 5 (média) | 100 match IDs ranqueados | 1 por sync + atualizações Redis |
+
+---
+
+### Caminho 1: Collector (Background)
+
+```
+Cron (a cada 30min, janela 1h-8h)
+  → isEnabled? (Redis: collector:enabled)
+  → getHighEloPuids()
+      → throttle(apiKey) para cada liga                    ← Redis Lock + Rate Limit
+          → GET /lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5
+          → GET /lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5
+          → GET /lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5
+      → throttled(apiKey) para cada jogador               ← Redis Lock + Rate Limit
+          → GET /lol/match/v5/matches/by-puuid/{puuid}/ids?count=20
+  → Para cada matchId:
+      → checkIfMatchIsNew(matchId)                        ← PostgreSQL findUnique
+      → Se novo: publishBackgroundMatch(matchId)          ← RabbitMQ prioridade 1
+  → Salva collector:last_run no Redis
+```
+
+**Detalhe importante — getHighEloPuids():** O Collector faz **3 chamadas separadas** à Riot API para buscar as 3 ligas:
+1. `GET /lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5` ← throttle(apiKey)
+2. `GET /lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5` ← throttle(apiKey)
+3. `GET /lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5` ← throttle(apiKey)
+
+Depois, para **cada jogador único retornado**, faz mais 1 chamada para buscar seus match IDs. Se Challenger+Grandmaster+Master retornarem 700 jogadores, são 3 + 700 = **703 chamadas à Riot API no total**, cada uma passando por `throttle()`.
+
+**Chaves Redis usadas pelo Collector:**
+- `collector:enabled` — flag on/off (string "true"/"false")
+- `collector:start_hour` — hora de início da janela (default: 1)
+- `collector:end_hour` — hora de fim da janela (default: 8)
+- `collector:last_run` — timestamp da última execução
+
+---
+
+### Caminho 2: Player Search (Trigger Manual)
+
+```
+POST /api/v1/players/search { gameName, tagLine }
+  → RiotService.getAccountByRiotId()                     ← throttle(apiKey)
+  → RiotService.getSummonerByPuuid()                    ← throttle(apiKey)
+  → RiotService.getRankedStatsByPuuid()                 ← throttle(apiKey)
+  → RiotService.getMatchIdsByPuuid(puuid, 20)          ← throttle(apiKey)
+  → Prisma match.findMany (checha quais já existem)
+  → Para cada matchId novo:
+      → queueService.publishUserRequestedMatch(matchId)  ← RabbitMQ prioridade 10
+  → Prisma user.upsert (salva/atualiza perfil do jogador)
+  → Retorna { puuid, gameName, tagLine, profileIconId, summonerLevel, matchesEnqueued }
+```
+
+---
+
+### Caminho 3: Deep Sync (Histórico Profundo)
+
+```
+POST /api/v1/players/:puuid/sync
+  → Verifica se jogador existe no DB
+  → Checa idempotência: sync:puuid:status (Redis hash)
+      → Se já está SYNCING, retorna status existente
+  → RiotService.getMatchIdsByPuuid(puuid, 100, { queue: 420 })  ← throttle(apiKey)
+  → Diff contra DB: Prisma match.findMany
+  → Salva estado no Redis:
+      → HSET sync:puuid:status { state: SYNCING, startedAt, matchesTotal }
+      → SADD sync:puuid:matchIds ... (com TTL de 30min)
+  → Para cada matchId novo:
+      → queueService.publishDeepSyncMatch(matchId)               ← RabbitMQ prioridade 5
+  → Se nenhum match novo: marca como DONE imediatamente
+  → Retorna { puuid, status, matchesEnqueued, matchesTotal, matchesAlreadyInDb }
+```
+
+**Status polling:**
+```
+GET /api/v1/players/:puuid/sync-status
+  → Lê sync:puuid:status (Redis hash)
+  → Conta quantos matchIds já estão no DB
+  → Se processed >= total → marca como DONE
+  → Retorna { puuid, status, matchesProcessed, matchesTotal, startedAt }
+```
+
+---
+
+## Redis como Porteiro
+
+O Redis tem **2 papéis críticos** no sistema: **Lock Distribuído** e **Rate Limiter**. Todo acesso à Riot API passa por ambos, nessa ordem:
+
+### Fluxo `throttle(apiKey)`
+
+```
+1. acquireLock("riot_rate_limiter_lock:<apiKeyHash>")
+   → SET lock:riot_rate_limiter_lock:<apiKeyHash> "locked" PX 130000 NX
+   → Retry: 100 tentativas, 50ms entre cada
+   → Se falhar: throttled() faz retry com delay de 2x RETRY_DELAY_MS
+
+2. Dentro do lock (while true):
+   a. zremrangebyscore("riot_requests:<apiKeyHash>", "-inf", windowStart)
+      → Remove timestamps expirados da janela (2 minutos)
+
+   b. zcard("riot_requests:<apiKeyHash>")
+      → Conta requisições na janela atual
+
+   c. Se count < 100:
+      → zadd("riot_requests:<apiKeyHash>", currentTime, currentTime)
+      → Permissão concedida, sai do loop
+
+   d. Se count >= 100:
+      → Aguarda 1 segundo (RETRY_DELAY_MS)
+      → Volta ao passo (a)
+
+3. releaseLock("riot_rate_limiter_lock:<apiKeyHash>")
+   → DEL lock:riot_rate_limiter_lock:<apiKeyHash>
+```
+
+**Parâmetros configurados:**
+- Janela: 120 segundos (2 minutos)
+- Máximo de requisições por janela: 100 (por API key)
+- Lock TTL: 130 segundos (130000ms)
+- Lock retry: 100 tentativas × 50ms = 5 segundos máximo
+- Rate limit retry: 1 segundo entre tentativas (loop while)
+
+**Isolamento por API key:** Cada API key gera um hash SHA-256 truncado (16 chars), criando chaves Redis separadas (`riot_requests:<hash>` e `lock:riot_rate_limiter_lock:<hash>`). Isso permite que múltiplas API keys da Riot sejam usadas simultaneamente sem competirem pelo mesmo contador — cada key tem sua própria janela de 100 requisições/2 minutos.
+
+**Lock acquisition failure:** Se `acquireLock()` falhar após 100 tentativas (5 segundos), o `throttle()` chama a si mesmo recursivamente com `await this.delay(this.RETRY_DELAY_MS * 2)` (2 segundos). Em prática, isso significa que se todos os locks estiverem ocupados (alta contenção), o pedido é agendado para retry. Isso é importante para escalabilidade: se múltiplos workers ou o Collector competirem pelo mesmo lock, o pedido não é perdido — apenas atrasado.
+
+---
+
+## Worker: Processamento de Partida
+
+O Worker consome mensagens do RabbitMQ e processa cada partida:
+
+```
+consume("match.collect") ou consume("user.update")
+  → processMatch({ matchId })
+      │
+      ├─ 1. Idempotência Check
+      │     → Prisma match.findUnique({ where: { matchId } })
+      │     → Se já existe: SKIP (log + ack)
+      │
+      ├─ 2. Buscar Match + Timeline em PARALELO
+      │     → Promise.all([
+      │           riotService.getMatchById(matchId),    ← throttle(apiKey) [1 lock + rate check]
+      │           riotService.getTimeline(matchId)      ← throttle(apiKey) [1 lock + rate check]
+      │        ])
+      │     → **2 chamadas throttle() por partida**
+      │
+├─ 3. Se timeline === null (404):
+   │     → Ignora a partida (partida antiga ou modo especial)
+   │     → Log: "Match {matchId} sem timeline disponível. Ignorando partida."
+   │     → ACK da mensagem (não processa, mas remove da fila)
+      │
+      ├─ 4. Parse e Transformação
+      │     → buildParticipantMap(): ParticipantID (1-10) → PUUID
+      │     → parseMatchData(): dados do Match (kills, gold, kda, etc.)
+      │     → timelineParser.parseTimeline(): séries temporais + eventos
+      │
+      ├─ 5. Save Transacional
+      │     → Prisma $transaction:
+      │        → match.create
+      │        → matchTeam.createMany (2 times)
+      │        → matchParticipant.createMany (10 participantes com timeline data)
+      │
+      ├─ 6. Aggregations (fora da transação)
+      │     → updatePlayerAggregates():
+      │        → Para cada participante:
+      │           → findLaneOpponent() (mesmo role, time oposto)
+      │           → PlayerStats.upsert (lifetime "ALL" + patch específico)
+      │           → PlayerChampionStats.upsert (lifetime "ALL" + patch específico)
+      │     → updateChampionStats():
+      │        → Para cada participante:
+      │           → ChampionStats.upsert (por champion/patch/queueId)
+      │
+      └─ 7. ACK (sucesso) ou NACK (erro, sem requeue)
+```
+
+### Idempotência: 3 Camadas de Proteção
+
+| Camada | Mecanismo | Onde |
+|--------|-----------|------|
+| **1** | `match.findUnique` antes de processar | WorkerService.processMatch() |
+| **2** | Prisma P2002 unique constraint error | catch no WorkerService |
+| **3** | RabbitMQ ack/nack — ack só no sucesso, nack sem requeue no erro | WorkerController |
+
+> **Nota:** Se o Worker falhar (erro inesperado), a mensagem é perdida (nack sem requeue). Isso é uma decisão intencional: o Collector re-coletará essa partida no próximo ciclo.
+
+### Timeline Parser: O que é Extraído
+
+O `TimelineParserService` extrai de cada frame da timeline:
+
+| Dado | Formato | Exemplo |
+|------|---------|---------|
+| `goldGraph` | `number[]` (índice = minuto) | `[1200, 1800, 2400, ...]` |
+| `xpGraph` | `number[]` (índice = minuto) | `[600, 1200, 2000, ...]` |
+| `csGraph` | `number[]` (índice = minuto) | `[6, 18, 32, ...]` |
+| `damageGraph` | `number[]` (índice = minuto) | `[500, 1200, 2800, ...]` |
+| `killPositions` | `{x, y, timestamp}[]` | Posição no mapa |
+| `deathPositions` | `{x, y, timestamp}[]` | Posição no mapa |
+| `wardPositions` | `{wardType, x, y, timestamp}[]` | Posição no mapa |
+| `pathingSample` | `{x?, y?, time}[]` | Amostragem de posição |
+| `skillOrder` | `string[]` | `["Q", "W", "E", "Q", ...]` |
+| `itemTimeline` | `{itemId, timestamp, type}[]` | BUY/SELL/UNDO |
+
+---
+
+## Fila: RabbitMQ
+
+### Configuração
+
+- **Queue**: `default_queue` (configurável via `RABBITMQ_QUEUE`)
+- **Durável**: sim (`durable: true`)
+- **Prioridade máxima**: 10 (`x-max-priority: 10`)
+- **Mensagens persistentes**: sim (`persistent: true`)
+
+### 3 Níveis de Prioridade
+
+| Prioridade | Método | Gatilho | Caso de Uso |
+|------------|--------|---------|-------------|
+| **10** (máxima) | `publishUserRequestedMatch()` | `POST /players/search` | Usuário acabou de buscar um jogador |
+| **5** (média) | `publishDeepSyncMatch()` | `POST /players/:puuid/sync` | Usuário pediu histórico completo |
+| **1** (mínima) | `publishBackgroundMatch()` | Collector cron | Coleta automática de fundo |
+
+### Formato da Mensagem
+
+```json
+{
+  "pattern": "match.collect",
+  "data": {
+    "matchId": "BR1_1234567890"
+  }
+}
+```
+
+### Eventos Consumidos
+
+| Pattern | Descrição |
+|---------|-----------|
+| `match.collect` | Processamento padrão de partida (background + deep sync) |
+| `user.update` | Atualização solicitada pelo usuário (prioridade 10) |
+
+---
+
+## API Reference
+
+### Players (`/api/v1/players`)
+
+| Método | Path | Descrição | Destaques |
+|--------|------|-----------|-----------|
+| `POST` | `/search` | Busca jogador por Riot ID | Faz 4+ chamadas à Riot API, enfileira partidas novas com prioridade 10 |
+| `GET` | `/:puuid` | Perfil do jogador (cacheado no DB) | Dados: gameName, tagLine, tier, rank, LP, wins, losses |
+| `GET` | `/:puuid/status` | Status de processamento de partidas | Verifica quantas das 20 últimas partidas já foram processadas |
+| `GET` | `/:puuid/summary?patch=` | Resumo macro do jogador | winRate, avgKda, avgDpm, avgGpm, avgCspm, avgVisionScore, topChampions |
+| `GET` | `/:puuid/champions?patch=&role=&limit=&sortBy=` | Lista de campeões do jogador | Suporta filtro por role, ordenação por games/winRate/kda |
+| `GET` | `/:puuid/roles?patch=` | Distribuição de papéis e winrate | GROUP BY role com agregações |
+| `GET` | `/:puuid/activity?patch=` | Heatmap de atividade 7×24 | Grid de 168 células (7 dias × 24 horas) |
+| `GET` | `/:puuid/matches?...` | Histórico de partidas (paginado) | Suporta cursor, page, filtros por champion/role/result/sortBy |
+| `POST` | `/:puuid/sync` | Dispara deep sync (100 partidas ranqueadas) | Prioridade 5, tracking via Redis |
+| `GET` | `/:puuid/sync-status` | Progresso do deep sync | Lê de Redis hash + conta matches no DB |
+
+### Matches (`/api/v1/matches`)
+
+| Método | Path | Descrição | Destaques |
+|--------|------|-----------|-----------|
+| `GET` | `/:matchId` | Detalhes completos da partida | Match + Teams + Participants (tudo em uma query) |
+| `GET` | `/:matchId/timeline/gold` | Timeline de ouro por minuto | Detecta throw point (swing > 3000 gold) |
+| `GET` | `/:matchId/timeline/events` | Kills, deaths, wards, objectives | Posições (x,y) para heatmap |
+| `GET` | `/:matchId/builds` | Timeline de itens e build final | BUY/SELL/UNDO com timestamps |
+| `GET` | `/:matchId/performance/:puuid` | Comparação jogador vs oponente de lane | DPM, GPM, CSPM, Vision vs adversário direto |
+
+### Champions (`/api/v1/champions`)
+
+| Método | Path | Descrição |
+|--------|------|-----------|
+| `GET` | `/` | Lista todos os campeões com imagens |
+| `GET` | `/current-patch` | Lista todas as patches disponíveis |
+
+### Stats (`/api/v1/stats`)
+
+| Método | Path | Descrição | Destaques |
+|--------|------|-----------|-----------|
+| `GET` | `/champions?patch=&page=&limit=&sortBy=&order=` | Tier list paginada de campeões | Ordenável por winRate/games/kda/dpm/gpm/banRate/pickRate |
+| `GET` | `/champions/:championName?patch=` | Stats de um campeão específico | Inclui tier/rank calculado |
+| `GET` | `/processed-matches?patch=` | Contagem de partidas processadas | Útil para saber cobertura de dados |
+
+### Analytics (`/api/v1/analytics`)
+
+| Método | Path | Descrição | Destaques |
+|--------|------|-----------|-----------|
+| `GET` | `/compare?heroPuuid=&villainPuuid=&patch=&role=&championId=` | Compara dois jogadores | Stats, laning phase (CSD@15, GD@15, XPD@15), timeline CS/Gold, insights auto-gerados |
+
+### Collector (`/api/v1/collector`)
+
+Endpoints dedicados do Collector (também disponíveis via `/api/v1/admin/collector/*`):
+
+| Método | Path | Descrição |
+|--------|------|-----------|
+| `GET` | `/status` | Status do Collector (enabled, isRunning, lastRun, startHour, endHour) |
+| `POST` | `/enable` | Habilita o Collector |
+| `POST` | `/disable` | Desabilita o Collector |
+| `POST` | `/trigger` | Dispara coleta manual |
+
+### Admin (`/api/v1/admin`)
+
+| Método | Path | Descrição |
+|--------|------|-----------|
+| `GET` | `/rate-limit` | Status atual do rate limiter (requests na janela, canProceed) |
+| `POST` | `/rate-limit/reset` | Reseta contadores do rate limit (limpa todas as chaves `riot_requests:*`) |
+| `GET` | `/collector` | Status do Collector (mesmo que `/api/v1/collector/status`) |
+| `POST` | `/collector/enable` | Habilita o Collector |
+| `POST` | `/collector/disable` | Desabilita o Collector |
+| `POST` | `/collector/trigger` | Dispara coleta manual |
+
+---
+
+## Pipeline de Agregações
+
+Para cada partida processada, o Worker atualiza **4 tabelas de agregação**:
+
+### 1. ChampionStats
+```
+upsert por chave: championId + patch + queueId
+Campos calculados: gamesPlayed, wins, losses, winRate, kda, dpm, gpm, cspm, banRate, pickRate, tier
+Média ponderada: novo_valor = valor_anterior × (games-1/games) + novo_valor × (1/games)
+```
+
+### 2. PlayerStats (lifetime + patch)
+```
+upsert por chave: puuid + patch + queueId
+ rods parcelas: "ALL" (lifetime) e patch específico (ex: "15.23")
+Campos: gamesPlayed, wins, losses, winRate, avgKda, avgDpm, avgGpm, avgCspm, avgVisionScore
+roleDistribution: { "MID": 45, "TOP": 12, ... }
+topChampions: top 5 por gamesPlayed
+```
+
+### 3. PlayerChampionStats (lifetime + patch)
+```
+upsert por chave: puuid + championId + patch + queueId
+ rods parcelas: "ALL" (lifetime) e patch específico
+Campos: mesmos de PlayerStats + avgCsd15, avgGd15, avgXpd15 (vs lane opponent)
+```
+
+### 4. ChampionStats (tier/rank)
+```
+calculateChampionScore() calcula tier (S+, S, A, B, C, D) e rank baseado em:
+- winRate, kda, dpm, gpm, cspm (métricas atuais)
+- Comparação com patch anterior (delta)
+- Mínimo de 50 jogos para tier definitivo
+```
+
+---
+
+## Estrutura de Diretórios
+
+```
+src/
+├── main.ts                                    ← Bootstrap NestJS
+├── app.module.ts                              ← Módulo raiz
+├── app.controller.ts                          ← Health check
+├── core/
+│   ├── config/                                ← ConfigModule
+│   ├── prisma/                                ← PrismaService (DB)
+│   ├── lock/
+│   │   ├── lock.service.ts                    ← Distributed lock via Redis SET NX PX
+│   │   └── lock.module.ts
+│   ├── queue/
+│   │   ├── queue.service.ts                  ← RabbitMQ publisher (prioridades 1/5/10)
+│   │   ├── queue.module.ts                   ← Conexão com retry
+│   │   └── queue.constants.ts
+│   ├── riot/
+│   │   ├── riot.service.ts                   ← Cliente Riot API (todas as chamadas)
+│   │   ├── rate-limiter.service.ts           ← Sliding window + distributed lock
+│   │   ├── retry.service.ts                  ← Exponential backoff (5 tentativas)
+│   │   ├── match-parser.service.ts           ← Parse de dados do Match V5
+│   │   ├── timeline-parser.service.ts        ← Parse de Timeline V5
+│   │   └── dto/                              ← DTOs (Account, Summoner, League, Match, Timeline)
+│   ├── data-dragon/                          ← Champion data + imagens
+│   ├── stats/
+│   │   ├── player-stats-aggregation.service.ts  ← PlayerStats + PlayerChampionStats upsert
+│   │   └── stats.module.ts
+│   └── interceptors/
+│       └── bigint.interceptor.ts             ← Converte BigInt para String no JSON
+├── modules/
+│   ├── collector/
+│   │   ├── collector.service.ts              ← Cron job: busca high-elo + enfileira
+│   │   ├── collector.controller.ts           ← Admin endpoints
+│   │   └── collector.module.ts
+│   ├── worker/
+│   │   ├── worker.service.ts                ← Processamento de partida (ETL)
+│   │   ├── worker.controller.ts             ← RabbitMQ consumer
+│   │   ├── worker.module.ts
+│   │   └── dto/process-match.dto.ts
+│   ├── players/
+│   │   ├── players.service.ts               ← Busca, perfil, summary, champions, activity, matches
+│   │   ├── players.controller.ts            ← 10 endpoints
+│   │   ├── sync.service.ts                  ← Deep sync (Redis tracking)
+│   │   ├── players.module.ts
+│   │   └── dto/                             ← PlayerSearch, PlayerProfile, Summary, etc.
+│   ├── matches/
+│   │   ├── matches.service.ts               ← Detalhes, timeline gold, events, builds, performance
+│   │   ├── matches.controller.ts            ← 5 endpoints
+│   │   └── matches.module.ts
+│   ├── champions/
+│   │   ├── champions.service.ts             ← Lista de campeões + patch atual
+│   │   ├── champions.controller.ts           ← 2 endpoints
+│   │   └── champions.module.ts
+│   ├── stats/
+│   │   ├── stats.service.ts                 ← Tier list paginada
+│   │   ├── tier-rank.service.ts              ← Cálculo de tier/rank
+│   │   ├── stats.controller.ts              ← 3 endpoints
+│   │   └── stats.module.ts
+│   ├── analytics/
+│   │   ├── analytics.service.ts             ← Compare 2 players
+│   │   ├── analytics.controller.ts           ← 1 endpoint
+│   │   └── analytics.module.ts
+│   └── admin/
+│       ├── admin.controller.ts               ← Rate limit + Collector admin
+│       └── admin.module.ts
+```
+
+---
+
+## Exemplos de Request/Response
+
+### Buscar jogador (Player Search)
 
 ```bash
-[1. Coletor] -> [2. Fila de Mensagens] -> [3. Processador] -> [4. Banco de Dados] <- [5. API]
+# Request
+curl -X POST http://localhost:3000/api/v1/players/search \
+  -H "Content-Type: application/json" \
+  -d '{"gameName": "BrTT", "tagLine": "BR1"}'
+
+# Response
+{
+  "puuid": "abc123-def456-ghi789...",
+  "gameName": "BrTT",
+  "tagLine": "BR1",
+  "profileIconId": 3789,
+  "summonerLevel": 492,
+  "matchesEnqueued": 5
+}
 ```
 
-- Coletor (Collector): Um processo em lote que busca novos IDs de partidas na API da Riot e os publica na fila de mensagens.
-- Fila de Mensagens (Message Queue): Atua como um buffer, desacoplando o Coletor do Processador. Garante que nenhuma partida seja perdida se o processador estiver lento ou offline.
-- Processador (Worker): Um serviço que consome as mensagens da fila, busca os detalhes completos da partida, realiza os cálculos e atualiza as tabelas de estatísticas no banco de dados.
-- Banco de Dados (Database): Armazena tanto os dados brutos (quais partidas foram processadas) quanto os dados agregados (as estatísticas calculadas).
-- API: Um servidor HTTP que expõe os dados pré-calculados do banco de dados para consulta. Não realiza cálculos pesados.
+> `matchesEnqueued` indica quantas partidas novas foram enfileiradas com prioridade 10.
 
-### Stack de Tecnologias
-
-- **Orquestração Local**: Docker & Docker Compose
-- **Linguagem & Framework**: Node.js com NestJS & TypeScript
-- **Banco de Dados**: PostgreSQL com Prisma ORM
-- **Fila de Mensagens**: RabbitMQ
-- **Cache e Rate Limiting**: Redis (ioredis)
-- **Documentação da API**: Scalar API Reference
-- **Validação**: class-validator e class-transformer
-- **HTTP Client**: Axios via @nestjs/axios
-
-### Error Handling e Resiliência
-
-O sistema implementa uma estratégia robusta de tratamento de erros para garantir a estabilidade e confiabilidade ao trabalhar com APIs externas e processamento de grandes volumes de dados.
-
-### Validação de Entrada (Pipes de Validação)
-
-Para garantir a robustez e a segurança da API, foi implementado um sistema de validação de entrada utilizando os `ValidationPipes` globais do NestJS, em conjunto com os pacotes `class-validator` and `class-transformer`.
-
-**O Problema Resolvido:** Requisições com dados inválidos, como `?page=-1` ou `?patch=abc`, eram anteriormente capazes de quebrar a aplicação ou resultar em erros inesperados (HTTP 500).
-
-**A Solução:**
-1.  **DTOs (Data Transfer Objects):** Foram criados DTOs específicos para os `Query Parameters` dos endpoints.
-2.  **Decorators de Validação:** Nesses DTOs, utilizamos decorators do `class-validator` para definir regras claras e explícitas para cada campo. Por exemplo:
-    - `@IsPositive()` para garantir que `page` seja um número positivo.
-    - `@Max(200)` para limitar o valor de `limit`.
-    - `@Matches(/^[0-9]+\.[0-9]+$/)` para assegurar que `patch` siga o formato esperado (ex: `12.23`).
-3.  **Pipe Global:** Um `ValidationPipe` foi configurado globalmente na aplicação (`main.ts`).
-
-**Resultado:** O NestJS agora intercepta automaticamente todas as requisições de entrada. Se uma requisição não cumpre as regras de validação definidas no DTO correspondente, ela é imediatamente rejeitada com uma resposta `HTTP 400 (Bad Request)` clara e padronizada, impedindo que dados inválidos cheguem à lógica de negócio dos serviços.
-
-#### Arquitetura de Error Handling
-
-**1. Interceptor Centralizado de Erros HTTP**
-
-- Localizado no `RiotModule`, o interceptor captura automaticamente todos os erros HTTP da API da Riot Games
-- Mapeia códigos de status HTTP para exceções específicas do NestJS
-- Logging detalhado para debugging e monitoramento
-  **2. Mapeamento de Códigos de Status**
-
-```typescript
-400 → BadRequestException      // Dados inválidos enviados
-401 → UnauthorizedException    // API key inválida ou expirada
-403 → ForbiddenException       // Acesso negado à API
-404 → NotFoundException        // Recurso não encontrado
-429 → HttpException            // Rate limit excedido
-500 → InternalServerErrorException // Erro interno da Riot
-502/503 → ServiceUnavailableException // API indisponível
-504 → GatewayTimeoutException  // Timeout na API
-```
-
-**3. Validação de Configuração**
-
-- Verificação obrigatória da variável `RIOT_API_KEY` na inicialização
-- Falha rápida se configurações essenciais estiverem ausentes
-- Type safety garantido para evitar erros em runtime
-  **4. Estratégias de Recuperação**
-- **Rate Limiting**: Gerenciado pelo RateLimiterService com Redis, com espera automática quando o limite é atingido
-- **Retry Logic**: Implementado via RetryService com exponential backoff e jitter (até 5 tentativas)
-- **Timeouts**: Configurado para 5 segundos, evitando travamentos
-- **Erros de Rede**: Tratamento específico para problemas de conectividade
-- **Falhas de API**: Propagação de exceções apropriadas para camadas superiores
-  **5. Logging Estruturado**
-- Logs de erro com contexto completo (URL, status, dados da resposta)
-- Stack traces para debugging de problemas de rede
-- Logs de warning para situações que requerem atenção (rate limiting)
-  **6. Benefícios da Abordagem**
-- **Desacoplamento**: Services focam na lógica de negócio, não no tratamento de erros HTTP
-- **Consistência**: Todos os erros da API são tratados uniformemente
-- **Observabilidade**: Logs detalhados facilitam debugging e monitoramento
-- **Manutenibilidade**: Centralização facilita mudanças e melhorias futuras
-- **Type Safety**: Validações garantem que o código seja robusto em runtime
-  **Fluxo de Error Handling:**
-
-```
-[Service] → [HttpService] → [Axios] → [Riot API]
-                  ↓
-              [Interceptor]
-                  ↓
-          [Error Classification]
-                  ↓
-       [NestJS Exception] → [Logging] → [Error Response]
-```
-
-### Sincronização entre Collector e Worker
-
-O Redis é utilizado para resolver o problema de concorrência entre o CollectorService e o WorkerService, pois ambos compartilham um limite de taxa restrito (100 requisições a cada 2 minutos).
-
-**Implementação:**
-- **Rate Limiter Service**: Gerencia o rate limiting usando Redis com algoritmo de janela deslizante
-- **Lock Service**: Implementa locks distribuídos usando Redis para evitar condições de corrida
-- **Múltiplas API Keys**: Suporta múltiplas API keys da Riot, cada uma com seu próprio contador de rate limit
-- **Sincronização**: Antes de qualquer chamada à API, o serviço verifica quantas requisições foram feitas nos últimos 2 minutos. Se o limite for atingido, a requisição aguarda automaticamente
-
-O Redis atua como um contador centralizado de alta velocidade, sincronizando o "direito de fazer uma requisição à API" entre o Collector e os Workers, garantindo que operem de forma eficiente sem serem bloqueados.
-
-### Estrutura de Pastas do Projeto:
+### Deep Sync (Histórico Profundo)
 
 ```bash
-high-br-lol-graph/
-├── .env                  # Variáveis de ambiente (NÃO ENVIAR PARA O GIT)
-├── .env.example          # Exemplo para as variáveis de ambiente
-├── .gitignore            # Arquivos e pastas a serem ignorados pelo Git
-├── docker-compose.yml    # Orquestrador dos nossos contêineres (Postgres, RabbitMQ, App)
-├── Dockerfile            # Receita para construir a imagem da nossa aplicação
-├── nest-cli.json         # Configuração da CLI do NestJS
-├── package.json          # Dependências e scripts do projeto
-├── README.md             # Documentação do projeto
-├── tsconfig.build.json   # Configuração do TypeScript para o build
-├── tsconfig.json         # Configuração principal do TypeScript
-└── src/                  # O coração da nossa aplicação
-    ├── main.ts           # Ponto de entrada da aplicação. Aqui decidiremos qual serviço iniciar.
-    ├── app.module.ts     # Módulo raiz que une tudo.
-    │
-    ├── core/             # Lógica e módulos compartilhados entre todos os serviços.
-    │   ├── config/       # Módulo para gerenciar variáveis de ambiente (@nestjs/config)
-    │   │   └── config.module.ts
-    │   │
-    │   ├── prisma/       # Configuração do Prisma ORM
-    │   │   ├── prisma.module.ts
-    │   │   └── prisma.service.ts
-    │   │
-    │   ├── data-dragon/  # Serviço para interagir com a API do Data Dragon
-    │   │   ├── data-dragon.module.ts
-    │   │   └── data-dragon.service.ts
-    │   │
-    │   ├── lock/         # Serviço de locks distribuídos usando Redis
-    │   │   ├── lock.module.ts
-    │   │   └── lock.service.ts
-    │   │
-    │   ├── riot/         # Cliente para a API da Riot Games. Centraliza chamadas e rate limiting.
-    │   │   ├── riot.module.ts
-    │   │   ├── riot.service.ts
-    │   │   ├── rate-limiter.service.ts
-    │   │   ├── retry.service.ts
-    │   │   ├── match-parser.service.ts
-    │   │   └── dto/      # Data Transfer Objects para os dados da API da Riot
-    │   │
-    │   └── queue/        # Lógica para interagir com o RabbitMQ.
-    │       ├── queue.module.ts
-    │       └── queue.service.ts
-    │
-    └── modules/          # Módulos específicos para cada um dos nossos serviços.
-        ├── api/          # Responsável por expor os dados via HTTP.
-        │   ├── api.module.ts
-        │   ├── api.controller.ts
-        │   ├── api.service.ts
-        │   ├── tier-rank.service.ts
-        │   └── dto/      # Data Transfer Objects para os endpoints da API
-        │
-        ├── collector/    # Responsável por buscar e enfileirar as partidas.
-        │   ├── collector.module.ts
-        │   └── collector.service.ts
-        │
-        └── worker/       # Responsável por processar as partidas da fila.
-            ├── worker.module.ts
-            ├── worker.controller.ts
-            ├── worker.service.ts
-            └── dto/      # Data Transfer Objects para processamento de partidas
+# Trigger
+curl -X POST http://localhost:3000/api/v1/players/{puuid}/sync
+
+# Response
+{
+  "puuid": "abc123...",
+  "status": "SYNCING",
+  "matchesEnqueued": 45,
+  "matchesTotal": 100,
+  "matchesAlreadyInDb": 55,
+  "message": "Deep sync iniciado: 45 partidas enfileiradas"
+}
+
+# Poll status
+curl http://localhost:3000/api/v1/players/{puuid}/sync-status
+
+# Response
+{
+  "puuid": "abc123...",
+  "status": "SYNCING",
+  "matchesProcessed": 30,
+  "matchesTotal": 45,
+  "startedAt": "2026-05-14T12:00:00Z",
+  "message": "Sync em andamento: 30/45 partidas processadas"
+}
 ```
 
-### Estratégia de Execução
+### Detalhes de Partida
 
-A aplicação única será iniciada em diferentes "modos" com base na variável de ambiente `APP_MODE`:
-
-- **`APP_MODE=API`**: Inicia o servidor HTTP na porta 3000 com documentação Scalar disponível em `/reference`
-- **`APP_MODE=WORKER`**: Inicia o consumidor da fila RabbitMQ para processar partidas
-- **`APP_MODE=COLLECTOR`**: Executa o processo de coleta como um script único e finaliza
-
-O `docker-compose.yml` está configurado para iniciar os contêineres `api`, `worker` e `worker-2` de forma contínua, enquanto o `collector` pode ser executado sob demanda.
-
-**Contêineres:**
-- `postgres`: Banco de dados PostgreSQL
-- `rabbitmq`: Message broker com interface de gerenciamento na porta 15672
-- `redis`: Cache e rate limiting
-- `api`: Servidor HTTP da API
-- `worker` e `worker-2`: Processadores de partidas (suporta múltiplas API keys)
-- `collector`: Coletor de partidas (executado sob demanda)
-
-
-### Métricas Calculadas
-
-O sistema calcula as seguintes estatísticas para cada campeão:
-
-- **Win Rate**: Taxa de vitória (vitórias / total de jogos)
-- **Ban Rate**: Taxa de banimento (bans / total de slots de ban disponíveis)
-- **Pick Rate**: Taxa de escolha baseada na role primária do campeão
-- **KDA**: (Kills + Assists) / Deaths
-- **DPM**: Dano por minuto (totalDamageDealt / duração em minutos)
-- **GPM**: Ouro por minuto (totalGoldEarned / duração em minutos)
-- **CSPM**: Farm por minuto (totalCreepScore / duração em minutos)
-
-### Sistema de Tier e Rank
-
-O sistema implementa um algoritmo de classificação de campeões baseado em múltiplas métricas:
-
-- **Score Calculation**: Combina win rate, ban rate, pick rate, KDA, DPM, GPM e CSPM com pesos específicos
-- **Tier System**: Classifica campeões em tiers (S+, S, A, B, C, D) baseado no score final
-- **Rank por Role**: Calcula ranking dentro de cada role (TOP, JUNGLE, MIDDLE, BOTTOM, UTILITY)
-- **Análise Comparativa**: Considera dados do patch anterior para identificar tendências (ascensão/queda)
-- **Confiança Estatística**: Aplica multiplicadores de confiança baseados no tamanho da amostra
-
-### Data Dragon Integration
-
-O sistema integra com a API do Data Dragon da Riot Games para:
-
-- Obter informações dos campeões (nomes, IDs, títulos)
-- Buscar versões e patches atuais do jogo
-- Gerar URLs de imagens dos campeões (square, loading, splash)
-
-### Comandos Úteis
-
-**Desenvolvimento:**
 ```bash
-docker compose up -d
-docker compose run --rm collector
+curl http://localhost:3000/api/v1/matches/BR1_1234567890
 ```
 
-**Produção:**
+### Status do Collector
+
 ```bash
-docker compose -f docker-compose.prod.yml build --no-cache
-docker compose -f docker-compose.prod.yml up -d
-docker compose -f docker-compose.prod.yml down
+curl http://localhost:3000/api/v1/admin/collector
+# Response: { "enabled": true, "isRunning": false, "lastRun": "...", "startHour": 1, "endHour": 8 }
 ```
 
-**Banco de Dados:**
-```bash
-npx prisma migrate dev
-npx prisma generate
-npx prisma studio
+---
+
+## Glossário de Campos
+
+| Campo | Tipo | Descrição | Origem |
+|-------|------|-----------|--------|
+| `puuid` | String | Identificador único do jogador na Riot API | Riot Account API |
+| `gameCreation` | BigInt → String | Timestamp (ms) de criação da partida. Retornado como string no JSON (BigInt não é serializável) | Riot Match V5 |
+| `queueId` | Int | Tipo de fila. **420 = Ranked Solo/Duo** (principal fila filtrada no backend) | Riot Match V5 |
+| `patch` | String | Versão do patch extraída de `gameVersion`. Formato: `"15.23"` (de `"15.23.1"`) | Calculado |
+| `winRate` | Float (0-100) | Porcentagem de vitórias. **Não é 0-1**, é 0-100 | Calculado |
+| `kda` | Float | KDA ratio = (kills + assists) / deaths (minimum deaths = 1) | Calculado |
+| `gameDuration` | Int | Duração em segundos | Riot Match V5 |
+| `role` | String | Posição do jogador: TOP, JUNGLE, MIDDLE, BOTTOM, UTILITY | Riot Match V5 |
+| `tier` | String | Tier do campeão: S+, S, A, B, C, D | Calculado pelo TierRankService |
+| `matchesEnqueued` | Int | Quantas partidas foram enfileiradas no RabbitMQ | Calculado |
+| `SYNCING` / `DONE` / `IDLE` | Enum | Status do deep sync armazenado no Redis | SyncService |
+
+---
+
+## Retry Service
+
+O `RetryService` envolve TODAS as chamadas à Riot API com retry exponencial:
+
 ```
+executeWithRetry(operation, operationName, maxRetries=5)
+  → Tentativa 1: falhou? delay = 2000ms + random(0-1000)
+  → Tentativa 2: falhou? delay = 4000ms + random(0-1000)
+  → Tentativa 3: falhou? delay = 8000ms + random(0-1000)
+  → Tentativa 4: falhou? delay = 10000ms (cap) + random(0-1000)
+  → Tentativa 5: falhou? throw error
+```
+
+**Combinado com o RateLimiterService**, cada tentativa ainda passa por `throttle()`, garantindo que retries nunca ultrapassam o rate limit.
+
+---
+
+## Comportamento em Falhas
+
+| Cenário | Comportamento |
+|---------|---------------|
+| Riot API retorna 404 para timeline | Worker ignora a partida (log warning) |
+| Riot API retorna 429 (rate limited) | RateLimiterService já gerencia internamente |
+| Dois workers processam o mesmo matchId | Segundo worker: Prisma P2002 → skip com warning |
+| Worker crasha durante processamento | Mensagem é nack'd (sem requeue) — partida será re-coletada pelo Collector |
+| Redis cai | LockService falha após 100 retries (~5s), RateLimiterService falha, chamadas à Riot API são bloqueadas |
+| RabbitMQ cai | Collector/SyncService não conseguem enfileirar partidas, mas continuam processando outros jogadores |
+| PostgreSQL cai | Worker crasha, mensagem é nack'd, sistema para |
+
+---
+
+## Variáveis de Ambiente
+
+| Variável | Default | Descrição |
+|----------|---------|-----------|
+| `RIOT_API_KEY` | — | Chave da Riot API (obrigatória) |
+| `DATABASE_URL` | — | URL de conexão PostgreSQL (Prisma, obrigatória) |
+| `REDIS_HOST` | `redis` | Host do Redis (localhost em dev, redis em Docker) |
+| `REDIS_PORT` | `6379` | Porta do Redis |
+| `RABBITMQ_URL` | — | URL completa do RabbitMQ (ex: `amqp://user:pass@host:5672`) |
+| `RABBITMQ_HOST` | — | Host do RabbitMQ (alternativa, usado se RABBITMQ_URL não definido) |
+| `RABBITMQ_DEFAULT_USER` | — | Usuário do RabbitMQ |
+| `RABBITMQ_DEFAULT_PASS` | — | Senha do RabbitMQ |
+| `RABBITMQ_QUEUE` | `default_queue` | Nome da fila |
+| `COLLECTOR_ENABLED` | `false` | Collector ativo por default |
+| `COLLECTOR_START_HOUR` | `1` | Início da janela de coleta (hora, UTC) |
+| `COLLECTOR_END_HOUR` | `8` | Fim da janela de coleta (hora, UTC) |
+| `PORT` | `3000` | Porta do servidor HTTP principal |
+| `COLLECTOR_PORT` | `3001` | Porta do Collector (quando em modo separado) |
+| `APP_MODE` | — | Modo da aplicação (usado para bootstrap diferenciado) |

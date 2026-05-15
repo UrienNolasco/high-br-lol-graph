@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { Redis } from 'ioredis';
 import { RiotService } from '../../core/riot/riot.service';
+import { getErrorMessage } from '../../core/logger';
 import { QueueService } from '../../core/queue/queue.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 
@@ -187,7 +188,7 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
         } catch (error) {
           this.logger.warn(
             `⚠️ [COLLECTOR] - Erro ao processar PUUID ${puuid}:`,
-            (error as Error).message,
+            getErrorMessage(error),
           );
           continue;
         }
@@ -217,7 +218,7 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       this.logger.warn(
         `⚠️ [COLLECTOR] - Erro ao verificar duplicata para ${matchId}:`,
-        (error as Error).message,
+        getErrorMessage(error),
       );
       return true;
     }

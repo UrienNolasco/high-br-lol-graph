@@ -44,9 +44,13 @@ services:
       dockerfile: Dockerfile
     container_name: high-br-lol-api
     command: npm run start:dev
+    mem_limit: 2g
+    mem_reservation: 1g
     environment:
       - APP_MODE=API
+      - NODE_OPTIONS=--max-old-space-size=1536
       - CHOKIDAR_USEPOLLING=true
+      - RUN_MIGRATIONS=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -85,8 +89,11 @@ services:
       dockerfile: Dockerfile
     container_name: high-br-lol-worker
     command: npm run start:dev
+    mem_limit: 2g
+    mem_reservation: 1g
     environment:
       - APP_MODE=WORKER
+      - NODE_OPTIONS=--max-old-space-size=1536
       - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
@@ -123,8 +130,11 @@ services:
       dockerfile: Dockerfile
     container_name: high-br-lol-worker-2
     command: npm run start:dev
+    mem_limit: 2g
+    mem_reservation: 1g
     environment:
       - APP_MODE=WORKER
+      - NODE_OPTIONS=--max-old-space-size=1536
       - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
@@ -161,8 +171,11 @@ services:
       dockerfile: Dockerfile
     container_name: high-br-lol-collector
     command: npm run start:dev
+    mem_limit: 2g
+    mem_reservation: 1g
     environment:
       - APP_MODE=COLLECTOR
+      - NODE_OPTIONS=--max-old-space-size=1536
       - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=${POSTGRES_PORT}
