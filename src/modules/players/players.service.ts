@@ -1,4 +1,6 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PinoLogger } from 'nestjs-pino';
+import { getErrorMessage } from '../../core/logger/get-error-message';
 import { RiotService } from '../../core/riot/riot.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { QueueService } from '../../core/queue/queue.service';
@@ -46,19 +48,28 @@ type MatchRow = {
 
 @Injectable()
 export class PlayersService {
-  private readonly logger = new Logger(PlayersService.name);
-
   constructor(
     private readonly riotService: RiotService,
     private readonly prisma: PrismaService,
     private readonly queueService: QueueService,
     private readonly dataDragon: DataDragonService,
-  ) {}
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(PlayersService.name);
+  }
 
   // ========== Player Search ==========
 
   async searchPlayer(dto: PlayerSearchDto): Promise<PlayerResponseDto> {
-    this.logger.log(`Searching player: ${dto.gameName}#${dto.tagLine}`);
+    const startTime = Date.now();
+    this.logger.info(
+      {
+        operation: 'player_search',
+        gameName: dto.gameName,
+        tagLine: dto.tagLine,
+      },
+      'Starting player search',
+    );
 
     const REGION = 'br1';
 
@@ -68,15 +79,9 @@ export class PlayersService {
         dto.tagLine,
       );
 
-      this.logger.log(`Found PUUID: ${account.puuid}`);
-
       const summoner = await this.riotService.getSummonerByPuuid(
         account.puuid,
         REGION,
-      );
-
-      this.logger.log(
-        `Found summoner data: Icon=${summoner.profileIconId}, Level=${summoner.summonerLevel}`,
       );
 
       const leagueEntries = await this.riotService.getRankedStatsByPuuid(
@@ -87,18 +92,10 @@ export class PlayersService {
         (e) => e.queueType === 'RANKED_SOLO_5x5',
       );
 
-      this.logger.log(
-        rankedSolo
-          ? `Found ranked stats: ${rankedSolo.tier} ${rankedSolo.rank} ${rankedSolo.leaguePoints}LP`
-          : 'No ranked solo/duo stats found',
-      );
-
       const matchIds = await this.riotService.getMatchIdsByPuuid(
         account.puuid,
         20,
       );
-
-      this.logger.log(`Found ${matchIds.length} match IDs for PUUID`);
 
       const existingMatches = await this.prisma.match.findMany({
         where: { matchId: { in: matchIds } },
@@ -107,10 +104,6 @@ export class PlayersService {
 
       const existingIds = new Set(existingMatches.map((m) => m.matchId));
       const newMatchIds = matchIds.filter((id) => !existingIds.has(id));
-
-      this.logger.log(
-        `${newMatchIds.length} new matches, ${existingIds.size} already exist`,
-      );
 
       for (const matchId of newMatchIds) {
         this.queueService.publishUserRequestedMatch(matchId);
@@ -147,6 +140,21 @@ export class PlayersService {
         },
       });
 
+      const duration = Date.now() - startTime;
+      this.logger.info(
+        {
+          operation: 'player_search',
+          puuid: account.puuid,
+          gameName: dto.gameName,
+          tagLine: dto.tagLine,
+          matchesFound: matchIds.length,
+          matchesEnqueued: newMatchIds.length,
+          alreadyInDb: existingIds.size,
+          duration,
+        },
+        'Player search completed',
+      );
+
       return {
         puuid: account.puuid,
         gameName: dto.gameName,
@@ -156,9 +164,16 @@ export class PlayersService {
         matchesEnqueued: newMatchIds.length,
       };
     } catch (error) {
+      const duration = Date.now() - startTime;
       this.logger.error(
-        `Error searching player ${dto.gameName}#${dto.tagLine}:`,
-        error,
+        {
+          operation: 'player_search',
+          gameName: dto.gameName,
+          tagLine: dto.tagLine,
+          duration,
+          error: getErrorMessage(error),
+        },
+        'Error searching player',
       );
 
       const axiosError = error as { response?: { status?: number } };

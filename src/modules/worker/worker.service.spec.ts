@@ -1,8 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { PinoLogger } from 'nestjs-pino';
 import { WorkerService } from './worker.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { RiotService } from '../../core/riot/riot.service';
 import { TimelineParserService } from '../../core/riot/timeline-parser.service';
+import { PlayerStatsAggregationService } from '../../core/stats/player-stats-aggregation.service';
 
 describe('WorkerService', () => {
   let service: WorkerService;
@@ -34,6 +36,19 @@ describe('WorkerService', () => {
     parseTimeline: jest.fn(),
   };
 
+  const mockPlayerStatsAggregation = {
+    findLaneOpponent: jest.fn(),
+    updatePlayerAggregates: jest.fn(),
+  };
+
+  const mockLogger = {
+    setContext: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -41,6 +56,11 @@ describe('WorkerService', () => {
         { provide: PrismaService, useValue: mockPrismaService },
         { provide: RiotService, useValue: mockRiotService },
         { provide: TimelineParserService, useValue: mockTimelineParserService },
+        {
+          provide: PlayerStatsAggregationService,
+          useValue: mockPlayerStatsAggregation,
+        },
+        { provide: PinoLogger, useValue: mockLogger },
       ],
     }).compile();
 

@@ -10,7 +10,8 @@ import { ProcessMatchDto } from './dto/process-match.dto';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { MatchDto, ParticipantDto } from '../../core/riot/dto/match.dto';
 import { Prisma } from '@prisma/client';
-import { traceIdStore, getErrorMessage } from '../../core/logger';
+import { traceIdStore } from '../../core/logger';
+import { getErrorMessage } from '../../core/logger/get-error-message';
 
 /**
  * Dados processados do Match V5 para inserção no banco
@@ -89,13 +90,23 @@ export class WorkerService {
 
     try {
       // 1. Idempotência - verificar se já existe
+      this.logger.info(
+        { matchId, traceId, event: 'match_processing_started' },
+        `Processing match ${matchId}`,
+      );
+
       const existing = await this.prisma.match.findUnique({
         where: { matchId },
       });
 
       if (existing) {
         this.logger.info(
-          { matchId, traceId, event: 'match_skipped', reason: 'already_exists' },
+          {
+            matchId,
+            traceId,
+            event: 'match_skipped',
+            reason: 'already_exists',
+          },
           `Match ${matchId} já existe. Skipping.`,
         );
         return;
@@ -137,8 +148,15 @@ export class WorkerService {
 
       const duration = Date.now() - startTime;
       this.logger.info(
-        { matchId, traceId, event: 'match_processed', duration, queueId: matchDto.info.queueId },
-        `Match ${matchId} processada com timeline (${matchDto.info.gameDuration}s).`,
+        {
+          matchId,
+          traceId,
+          event: 'match_processing_completed',
+          duration,
+          queueId: matchDto.info.queueId,
+          steps: ['extract', 'transform', 'load', 'aggregation'],
+        },
+        `Match ${matchId} processed with timeline (${matchDto.info.gameDuration}s).`,
       );
     } catch (error) {
       if (
@@ -146,15 +164,27 @@ export class WorkerService {
         error.code === 'P2002'
       ) {
         this.logger.warn(
-          { matchId, traceId, event: 'match_skipped', reason: 'duplicate_p2002' },
+          {
+            matchId,
+            traceId,
+            event: 'match_skipped',
+            reason: 'duplicate_p2002',
+          },
           `Match ${matchId} foi processada por outro worker. Skipping.`,
         );
         return;
       }
       const duration = Date.now() - startTime;
       this.logger.error(
-        { matchId, traceId, event: 'match_failed', duration, error: getErrorMessage(error) },
-        `Erro ao processar match ${matchId}`,
+        {
+          matchId,
+          traceId,
+          event: 'match_failed',
+          duration,
+          error: getErrorMessage(error),
+          step: 'processing',
+        },
+        `Error processing match ${matchId}`,
       );
       throw error;
     }
@@ -181,10 +211,10 @@ export class WorkerService {
     const participantPuuids = new Set(matchParticipants.map((p) => p.puuid));
     for (const [participantId, puuid] of map.entries()) {
       if (!participantPuuids.has(puuid)) {
-this.logger.warn(
-            { participantId, puuid, event: 'puuid_mismatch' },
-            `PUUID ${puuid} (ParticipantID ${participantId}) não encontrado no matchDto`,
-          );
+        this.logger.warn(
+          { participantId, puuid, event: 'puuid_mismatch' },
+          `PUUID ${puuid} (ParticipantID ${participantId}) não encontrado no matchDto`,
+        );
       }
     }
 

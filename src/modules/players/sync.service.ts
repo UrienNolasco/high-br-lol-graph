@@ -1,10 +1,7 @@
-import {
-  Injectable,
-  Logger,
-  OnModuleDestroy,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, OnModuleDestroy, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
+import { getErrorMessage } from '../../core/logger/get-error-message';
 import { Redis } from 'ioredis';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { RiotService } from '../../core/riot/riot.service';
@@ -19,7 +16,6 @@ const SYNC_TTL_SECONDS = 1800; // 30 minutos
 
 @Injectable()
 export class SyncService implements OnModuleDestroy {
-  private readonly logger = new Logger(SyncService.name);
   private readonly redis: Redis;
 
   constructor(
@@ -27,6 +23,7 @@ export class SyncService implements OnModuleDestroy {
     private readonly prisma: PrismaService,
     private readonly riotService: RiotService,
     private readonly queueService: QueueService,
+    private readonly logger: PinoLogger,
   ) {
     const redisHost = this.configService.get<string>('REDIS_HOST', 'redis');
     const redisPort = this.configService.get<number>('REDIS_PORT', 6379);
@@ -37,30 +34,56 @@ export class SyncService implements OnModuleDestroy {
       maxRetriesPerRequest: 3,
     });
 
+    this.logger.setContext(SyncService.name);
+
     this.redis.on('connect', () => {
-      this.logger.log(
-        `SyncService conectado ao Redis em ${redisHost}:${redisPort}`,
+      this.logger.info(
+        { operation: 'redis_connect', host: redisHost, port: redisPort },
+        'Connected to Redis',
       );
     });
 
     this.redis.on('error', (error) => {
-      this.logger.error('Erro na conexão do SyncService com Redis:', error);
+      this.logger.error(
+        { operation: 'redis_error', error: error.message },
+        'Redis connection error',
+      );
     });
   }
 
   async triggerDeepSync(puuid: string): Promise<SyncTriggerResponseDto> {
-    // 1. Verifica se player existe no DB
+    const startTime = Date.now();
+    try {
+      return await this._triggerDeepSync(puuid, startTime);
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      this.logger.error(
+        {
+          operation: 'sync_failed',
+          puuid,
+          duration: Date.now() - startTime,
+          error: getErrorMessage(error),
+        },
+        'Deep sync failed unexpectedly',
+      );
+      throw error;
+    }
+  }
+
+  private async _triggerDeepSync(
+    puuid: string,
+    startTime: number,
+  ): Promise<SyncTriggerResponseDto> {
     const player = await this.prisma.user.findUnique({ where: { puuid } });
     if (!player) {
       throw new NotFoundException(
-        `Player ${puuid} não encontrado. Use /players/search primeiro.`,
+        `Player ${puuid} not found. Use /players/search first.`,
       );
     }
 
     const statusKey = `sync:${puuid}:status`;
     const matchIdsKey = `sync:${puuid}:matchIds`;
 
-    // 2. Checa idempotência — se já está SYNCING, retorna status existente
     const existingState = await this.redis.hget(statusKey, 'state');
     if (existingState === SyncStatus.SYNCING) {
       const existing = await this.redis.hgetall(statusKey);
@@ -70,29 +93,35 @@ export class SyncService implements OnModuleDestroy {
         matchesEnqueued: 0,
         matchesTotal: Number(existing.matchesTotal || 0),
         matchesAlreadyInDb: 0,
-        message: 'Sync já em andamento',
+        message: 'Sync already in progress',
       };
     }
 
-    // 3. Busca 100 matches ranqueados via Riot API
     const riotMatchIds = await this.riotService.getMatchIdsByPuuid(puuid, 100, {
       start: 0,
       queue: 420,
     });
 
-    // Se 0 matches retornados, retorna sem criar estado no Redis
     if (riotMatchIds.length === 0) {
+      this.logger.info(
+        {
+          operation: 'sync_completed',
+          puuid,
+          status: 'no_matches',
+          duration: Date.now() - startTime,
+        },
+        'No ranked matches found',
+      );
       return {
         puuid,
         status: SyncStatus.DONE,
         matchesEnqueued: 0,
         matchesTotal: 0,
         matchesAlreadyInDb: 0,
-        message: 'Nenhuma partida ranqueada encontrada na Riot API',
+        message: 'No ranked matches found in Riot API',
       };
     }
 
-    // 4. Diff contra DB — quais matches já existem
     const existingMatches = await this.prisma.match.findMany({
       where: { matchId: { in: riotMatchIds } },
       select: { matchId: true },
@@ -104,7 +133,6 @@ export class SyncService implements OnModuleDestroy {
     const matchesAlreadyInDb = existingSet.size;
     const matchesEnqueued = newMatchIds.length;
 
-    // 5. Salva estado no Redis
     const pipeline = this.redis.pipeline();
     pipeline.hset(statusKey, {
       state: SyncStatus.SYNCING,
@@ -119,16 +147,24 @@ export class SyncService implements OnModuleDestroy {
     }
     await pipeline.exec();
 
-    // 6. Enfileira novos matches
     for (const matchId of newMatchIds) {
       this.queueService.publishDeepSyncMatch(matchId);
     }
 
-    this.logger.log(
-      `Deep sync para ${puuid}: ${matchesEnqueued} enfileiradas, ${matchesAlreadyInDb} já no DB, ${matchesTotal} total`,
+    const duration = Date.now() - startTime;
+    this.logger.info(
+      {
+        operation: 'sync_started',
+        puuid,
+        matchesTotal,
+        matchesEnqueued,
+        matchesAlreadyInDb,
+        status: matchesEnqueued === 0 ? 'done' : 'syncing',
+        duration,
+      },
+      `Deep sync: ${matchesEnqueued} enqueued, ${matchesAlreadyInDb} already in DB, ${matchesTotal} total`,
     );
 
-    // Se todos já estão no DB, marca como DONE
     if (matchesEnqueued === 0) {
       await this.redis.hset(statusKey, 'state', SyncStatus.DONE);
     }
@@ -141,8 +177,8 @@ export class SyncService implements OnModuleDestroy {
       matchesAlreadyInDb,
       message:
         matchesEnqueued === 0
-          ? 'Todas as partidas já estão no banco de dados'
-          : `Deep sync iniciado: ${matchesEnqueued} partidas enfileiradas`,
+          ? 'All matches already in database'
+          : `Deep sync started: ${matchesEnqueued} matches enqueued`,
     };
   }
 
@@ -205,7 +241,7 @@ export class SyncService implements OnModuleDestroy {
   async onModuleDestroy() {
     if (this.redis) {
       await this.redis.quit();
-      this.logger.log('Conexão do SyncService com Redis fechada');
+      this.logger.info('Redis connection closed');
     }
   }
 }

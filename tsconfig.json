@@ -18,11 +18,13 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
+    "types": ["node", "jest"],
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
+  "include": ["src/**/*", "test/**/*"],
   "watchOptions": {
     "watchFile": "dynamicPriorityPolling",
     "watchDirectory": "dynamicPriorityPolling",

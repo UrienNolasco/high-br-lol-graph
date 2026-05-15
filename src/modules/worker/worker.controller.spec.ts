@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { PinoLogger } from 'nestjs-pino';
 import { WorkerController } from './worker.controller';
 import { WorkerService } from './worker.service';
 import { RmqContext } from '@nestjs/microservices';
-import type { Message } from 'amqplib';
 
 describe('WorkerController', () => {
   let controller: WorkerController;
@@ -18,10 +18,21 @@ describe('WorkerController', () => {
     processMatch: jest.fn(),
   };
 
+  const mockLogger = {
+    setContext: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WorkerController],
-      providers: [{ provide: WorkerService, useValue: mockWorkerService }],
+      providers: [
+        { provide: WorkerService, useValue: mockWorkerService },
+        { provide: PinoLogger, useValue: mockLogger },
+      ],
     }).compile();
 
     controller = module.get<WorkerController>(WorkerController);

@@ -1,43 +1,77 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { PinoLogger } from 'nestjs-pino';
+import { getErrorMessage } from '../logger/get-error-message';
 
 @Injectable()
 export class RetryService {
-  private readonly logger = new Logger(RetryService.name);
   private readonly maxRetries = 5;
-  private readonly baseDelay = 2000; // 2 segundos
+  private readonly baseDelay = 2000;
+
+  constructor(private readonly logger: PinoLogger) {
+    this.logger.setContext(RetryService.name);
+  }
 
   async executeWithRetry<T>(
     operation: () => Promise<T>,
     operationName: string,
     maxRetries = this.maxRetries,
   ): Promise<T> {
-    let lastError: Error;
+    const startTime = Date.now();
+    let lastError: unknown;
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        return await operation();
+        const result = await operation();
+        const totalDuration = Date.now() - startTime;
+        if (attempt > 1) {
+          this.logger.info(
+            {
+              operation: operationName,
+              attempt,
+              maxRetries,
+              duration: totalDuration,
+              event: 'retry_success',
+            },
+            `Operation succeeded after ${attempt} attempt(s)`,
+          );
+        }
+        return result;
       } catch (error) {
-        lastError = error as Error;
+        lastError = error;
 
         if (attempt === maxRetries) {
+          const totalDuration = Date.now() - startTime;
           this.logger.error(
-            `Falha final em ${operationName} após ${maxRetries} tentativas`,
-            error,
+            {
+              operation: operationName,
+              attempt,
+              maxRetries,
+              duration: totalDuration,
+              error: getErrorMessage(lastError),
+              event: 'retry_failed',
+            },
+            `Final failure after ${maxRetries} attempts`,
           );
           throw lastError;
         }
 
         const delay = this.calculateDelay(attempt);
         this.logger.warn(
-          `Tentativa ${attempt}/${maxRetries} falhou para ${operationName}. ` +
-            `Tentando novamente em ${delay}ms...`,
+          {
+            operation: operationName,
+            attempt,
+            maxRetries,
+            delay,
+            error: getErrorMessage(lastError),
+          },
+          `Attempt ${attempt}/${maxRetries} failed, retrying in ${delay}ms`,
         );
 
         await this.delay(delay);
       }
     }
 
-    throw lastError!;
+    throw lastError ?? new Error('executeWithRetry: unreachable');
   }
 
   private calculateDelay(attempt: number): number {

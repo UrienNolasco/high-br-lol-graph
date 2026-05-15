@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
 import { firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 import { LeagueListDto } from './dto/league-list.dto';
@@ -11,10 +12,10 @@ import { SummonerDto } from './dto/summoner.dto';
 import { LeagueEntryDto } from './dto/league-entry.dto';
 import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
+import { getErrorMessage } from '../logger/get-error-message';
 
 @Injectable()
 export class RiotService {
-  private readonly logger = new Logger(RiotService.name);
   private readonly apiKey: string;
   private readonly brBaseUrl = 'https://br1.api.riotgames.com';
   private readonly americasBaseUrl = 'https://americas.api.riotgames.com';
@@ -24,9 +25,11 @@ export class RiotService {
     private readonly configService: ConfigService,
     private readonly rateLimiterService: RateLimiterService,
     private readonly retryService: RetryService,
+    private readonly logger: PinoLogger,
   ) {
     const apiKey = this.configService.get<string>('RIOT_API_KEY');
     this.apiKey = apiKey || '';
+    this.logger.setContext(RiotService.name);
   }
 
   private ensureApiKey(): void {
@@ -41,9 +44,9 @@ export class RiotService {
     region = 'americas',
   ): Promise<AccountDto> {
     this.ensureApiKey();
-    this.logger.log(`Fetching account for ${gameName}#${tagLine} (${region})`);
+    const startTime = Date.now();
 
-    return this.retryService.executeWithRetry(async () => {
+    const result = await this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);
 
       const baseUrl =
@@ -62,6 +65,19 @@ export class RiotService {
       );
       return response.data;
     }, `getAccountByRiotId(${gameName}#${tagLine})`);
+
+    this.logger.info(
+      {
+        operation: 'riot_api',
+        endpoint: 'getAccountByRiotId',
+        gameName,
+        tagLine,
+        region,
+        duration: Date.now() - startTime,
+      },
+      'Riot API call completed',
+    );
+    return result;
   }
 
   async getSummonerByPuuid(
@@ -69,9 +85,9 @@ export class RiotService {
     region = 'br1',
   ): Promise<SummonerDto> {
     this.ensureApiKey();
-    this.logger.log(`Fetching summoner data for PUUID: ${puuid} (${region})`);
+    const startTime = Date.now();
 
-    return this.retryService.executeWithRetry(async () => {
+    const result = await this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);
 
       const baseUrl =
@@ -88,6 +104,18 @@ export class RiotService {
       );
       return response.data;
     }, `getSummonerByPuuid(${puuid})`);
+
+    this.logger.info(
+      {
+        operation: 'riot_api',
+        endpoint: 'getSummonerByPuuid',
+        puuid,
+        region,
+        duration: Date.now() - startTime,
+      },
+      'Riot API call completed',
+    );
+    return result;
   }
 
   private createHeaders() {
@@ -98,7 +126,7 @@ export class RiotService {
 
   async getHighEloPuids(): Promise<string[]> {
     this.ensureApiKey();
-    this.logger.log('Fetching high-elo leagues...');
+    const startTime = Date.now();
 
     const challengerUrl = `${this.brBaseUrl}/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5`;
     const grandmasterUrl = `${this.brBaseUrl}/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5`;
@@ -107,7 +135,6 @@ export class RiotService {
     const fetchLeague = async (url: string, leagueName: string) => {
       return this.retryService.executeWithRetry(async () => {
         await this.rateLimiterService.throttle(this.apiKey);
-        this.logger.log(`Fetching ${leagueName} league...`);
         const response = await firstValueFrom(
           this.httpService.get<LeagueListDto>(url, {
             headers: this.createHeaders(),
@@ -129,7 +156,15 @@ export class RiotService {
 
     const uniquePuids = [...new Set(allEntries.map((entry) => entry.puuid))];
 
-    this.logger.log(`Found ${uniquePuids.length} unique PUUIDs.`);
+    this.logger.info(
+      {
+        operation: 'riot_api',
+        endpoint: 'getHighEloPuids',
+        puuidsFound: uniquePuids.length,
+        duration: Date.now() - startTime,
+      },
+      'High-elo PUUIDs fetched',
+    );
     return uniquePuids;
   }
 
@@ -139,9 +174,9 @@ export class RiotService {
     options?: { start?: number; queue?: number },
   ): Promise<string[]> {
     this.ensureApiKey();
-    this.logger.log(`Fetching match IDs for PUUID: ${puuid}`);
+    const startTime = Date.now();
 
-    return this.retryService.executeWithRetry(async () => {
+    const result = await this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);
 
       const params = new URLSearchParams({ count: String(count) });
@@ -157,13 +192,26 @@ export class RiotService {
       );
       return response.data;
     }, `getMatchIdsByPuuid(${puuid})`);
+
+    this.logger.info(
+      {
+        operation: 'riot_api',
+        endpoint: 'getMatchIdsByPuuid',
+        puuid,
+        count,
+        matchesFound: result.length,
+        duration: Date.now() - startTime,
+      },
+      'Riot API call completed',
+    );
+    return result;
   }
 
   async getMatchById(matchId: string): Promise<MatchDto> {
     this.ensureApiKey();
-    this.logger.log(`Fetching match details for match ID: ${matchId}`);
+    const startTime = Date.now();
 
-    return this.retryService.executeWithRetry(async () => {
+    const result = await this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);
 
       const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}`;
@@ -173,6 +221,17 @@ export class RiotService {
       );
       return response.data;
     }, `getMatchById(${matchId})`);
+
+    this.logger.info(
+      {
+        operation: 'riot_api',
+        endpoint: 'getMatchById',
+        matchId,
+        duration: Date.now() - startTime,
+      },
+      'Riot API call completed',
+    );
+    return result;
   }
 
   /**
@@ -184,9 +243,10 @@ export class RiotService {
    */
   async getTimeline(matchId: string): Promise<TimelineDto | null> {
     this.ensureApiKey();
+    const startTime = Date.now();
 
     try {
-      return await this.retryService.executeWithRetry(async () => {
+      const result = await this.retryService.executeWithRetry(async () => {
         await this.rateLimiterService.throttle(this.apiKey);
 
         const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}/timeline`;
@@ -198,12 +258,41 @@ export class RiotService {
         );
         return response.data;
       }, `getTimeline(${matchId})`);
+
+      this.logger.info(
+        {
+          operation: 'riot_api',
+          endpoint: 'getTimeline',
+          matchId,
+          duration: Date.now() - startTime,
+        },
+        'Riot API call completed',
+      );
+      return result;
     } catch (error) {
-      // Se for 404, a timeline não existe (partida antiga ou modo especial)
       if (error instanceof AxiosError && error.response?.status === 404) {
-        this.logger.warn(`Timeline not found for match ${matchId} (404)`);
+        this.logger.warn(
+          {
+            operation: 'riot_api',
+            endpoint: 'getTimeline',
+            matchId,
+            statusCode: 404,
+            duration: Date.now() - startTime,
+          },
+          'Timeline not found for match (404)',
+        );
         return null;
       }
+      this.logger.error(
+        {
+          operation: 'riot_api',
+          endpoint: 'getTimeline',
+          matchId,
+          duration: Date.now() - startTime,
+          error: getErrorMessage(error),
+        },
+        'Failed to fetch timeline',
+      );
       throw error;
     }
   }
@@ -213,11 +302,9 @@ export class RiotService {
     region = 'br1',
   ): Promise<LeagueEntryDto[]> {
     this.ensureApiKey();
-    this.logger.log(
-      `Fetching ranked stats for summoner ID: ${summonerId} (${region})`,
-    );
+    const startTime = Date.now();
 
-    return this.retryService.executeWithRetry(async () => {
+    const result = await this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);
 
       const baseUrl =
@@ -234,6 +321,18 @@ export class RiotService {
       );
       return response.data;
     }, `getRankedStatsBySummonerId(${summonerId})`);
+
+    this.logger.info(
+      {
+        operation: 'riot_api',
+        endpoint: 'getRankedStatsBySummonerId',
+        summonerId,
+        region,
+        duration: Date.now() - startTime,
+      },
+      'Riot API call completed',
+    );
+    return result;
   }
 
   async getRankedStatsByPuuid(
@@ -241,9 +340,9 @@ export class RiotService {
     region = 'br1',
   ): Promise<LeagueEntryDto[]> {
     this.ensureApiKey();
-    this.logger.log(`Fetching ranked stats for PUUID: ${puuid} (${region})`);
+    const startTime = Date.now();
 
-    return this.retryService.executeWithRetry(async () => {
+    const result = await this.retryService.executeWithRetry(async () => {
       await this.rateLimiterService.throttle(this.apiKey);
 
       const baseUrl =
@@ -260,5 +359,17 @@ export class RiotService {
       );
       return response.data;
     }, `getRankedStatsByPuuid(${puuid})`);
+
+    this.logger.info(
+      {
+        operation: 'riot_api',
+        endpoint: 'getRankedStatsByPuuid',
+        puuid,
+        region,
+        duration: Date.now() - startTime,
+      },
+      'Riot API call completed',
+    );
+    return result;
   }
 }

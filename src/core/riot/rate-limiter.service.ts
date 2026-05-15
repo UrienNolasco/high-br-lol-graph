@@ -1,23 +1,26 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
 import { Redis } from 'ioredis';
 import * as crypto from 'crypto';
+import { getErrorMessage } from '../logger/get-error-message';
 
 import { LockService } from '../lock/lock.service';
 
 @Injectable()
 export class RateLimiterService {
-  private readonly logger = new Logger(RateLimiterService.name);
   private redis: Redis | null = null;
-  private readonly WINDOW_SIZE_SECONDS = 120; // 2 minutos
+  private readonly WINDOW_SIZE_SECONDS = 120;
   private readonly MAX_REQUESTS = 100;
-  private readonly RETRY_DELAY_MS = 1000; // 1 segundo
+  private readonly RETRY_DELAY_MS = 1000;
   private readonly LOCK_NAME = 'riot_rate_limiter_lock';
 
   constructor(
     private configService: ConfigService,
     private readonly lockService: LockService,
+    private readonly logger: PinoLogger,
   ) {
+    this.logger.setContext(RateLimiterService.name);
     this.initializeRedis();
   }
 
@@ -33,11 +36,17 @@ export class RateLimiterService {
     });
 
     this.redis.on('connect', () => {
-      this.logger.log(`Conectado ao Redis em ${redisHost}:${redisPort}`);
+      this.logger.info(
+        { operation: 'redis_connect', host: redisHost, port: redisPort },
+        'Connected to Redis',
+      );
     });
 
     this.redis.on('error', (error) => {
-      this.logger.error('Erro na conexão com Redis:', error);
+      this.logger.error(
+        { operation: 'redis_error', error: error.message },
+        'Redis connection error',
+      );
     });
   }
 
@@ -68,7 +77,12 @@ export class RateLimiterService {
     const lockAcquired = await this.lockService.acquireLock(lockName);
     if (!lockAcquired) {
       this.logger.warn(
-        `Não foi possível adquirir o lock para o rate limiter (${apiKeyId}). A requisição será bloqueada e tentará novamente.`,
+        {
+          operation: 'rate_limit',
+          apiKeyHash: apiKeyId,
+          action: 'lock_failed',
+        },
+        'Failed to acquire rate limiter lock',
       );
       await this.delay(this.RETRY_DELAY_MS * 2);
       return this.throttle(apiKey);
@@ -85,7 +99,7 @@ export class RateLimiterService {
 
         try {
           if (!this.redis) {
-            throw new Error('Redis não inicializado');
+            throw new Error('Redis not initialized');
           }
 
           await this.redis.zremrangebyscore(redisKey, '-inf', windowStart);
@@ -97,22 +111,44 @@ export class RateLimiterService {
             const waitTime = Date.now() - startTime;
             if (waitTime > 0) {
               this.logger.debug(
-                `Permissão concedida após ${attempts} tentativa(s) em ${waitTime}ms. ` +
-                  `Requisições na janela (${apiKeyId}): ${requestCount + 1}/${this.MAX_REQUESTS}`,
+                {
+                  operation: 'rate_limit',
+                  apiKeyHash: apiKeyId,
+                  action: 'granted',
+                  count: requestCount + 1,
+                  max: this.MAX_REQUESTS,
+                  duration: waitTime,
+                  attempts,
+                },
+                'Rate limit granted',
               );
             }
             return;
           }
 
           this.logger.warn(
-            `Rate limit excedido para API key (${apiKeyId}). Tentativa ${attempts}. ` +
-              `Requisições na janela: ${requestCount}/${this.MAX_REQUESTS}. ` +
-              `Aguardando ${this.RETRY_DELAY_MS}ms...`,
+            {
+              operation: 'rate_limit',
+              apiKeyHash: apiKeyId,
+              action: 'waiting',
+              count: requestCount,
+              max: this.MAX_REQUESTS,
+              attempts,
+            },
+            'Rate limit exceeded',
           );
 
           await this.delay(this.RETRY_DELAY_MS);
         } catch (error) {
-          this.logger.error('Erro no rate limiter:', error);
+          this.logger.error(
+            {
+              operation: 'rate_limit',
+              apiKeyHash: apiKeyId,
+              action: 'error',
+              error: getErrorMessage(error),
+            },
+            'Rate limiter error',
+          );
           await this.delay(this.RETRY_DELAY_MS);
         }
       }
@@ -134,7 +170,7 @@ export class RateLimiterService {
   }> {
     try {
       if (!this.redis) {
-        throw new Error('Redis não inicializado');
+        throw new Error('Redis not initialized');
       }
 
       const apiKeyId = apiKey ? this.getApiKeyIdentifier(apiKey) : 'default';
@@ -153,7 +189,10 @@ export class RateLimiterService {
         canProceed: requestCount < this.MAX_REQUESTS,
       };
     } catch (error) {
-      this.logger.error('Erro ao obter status do rate limit:', error);
+      this.logger.error(
+        { operation: 'rate_limit_status', error: getErrorMessage(error) },
+        'Failed to get rate limit status',
+      );
       return {
         requestsInWindow: this.MAX_REQUESTS,
         maxRequests: this.MAX_REQUESTS,
@@ -171,15 +210,16 @@ export class RateLimiterService {
   async clear(apiKey?: string): Promise<void> {
     try {
       if (!this.redis) {
-        throw new Error('Redis não inicializado');
+        throw new Error('Redis not initialized');
       }
 
       if (apiKey) {
         const apiKeyId = this.getApiKeyIdentifier(apiKey);
         const redisKey = `riot_requests:${apiKeyId}`;
         await this.redis.del(redisKey);
-        this.logger.log(
-          `Rate limit limpo para API key ${apiKeyId} com sucesso`,
+        this.logger.info(
+          { operation: 'rate_limit_clear', apiKeyHash: apiKeyId },
+          'Rate limit cleared',
         );
       } else {
         const keys = await this.redis.keys('riot_requests:*');
@@ -187,15 +227,22 @@ export class RateLimiterService {
 
         if (keys.length > 0) {
           await this.redis.del(...keys);
-          this.logger.log(
-            `Rate limit limpo (${keys.length} chave(s)) com sucesso`,
+          this.logger.info(
+            { operation: 'rate_limit_clear', keysCleared: keys.length },
+            'Rate limit cleared',
           );
         } else {
-          this.logger.log('Nenhuma chave de rate limit encontrada para limpar');
+          this.logger.debug(
+            { operation: 'rate_limit_clear', action: 'skipped' },
+            'No rate limit keys to clear',
+          );
         }
       }
     } catch (error) {
-      this.logger.error('Erro ao limpar rate limit:', error);
+      this.logger.error(
+        { operation: 'rate_limit_clear', error: getErrorMessage(error) },
+        'Failed to clear rate limit',
+      );
     }
   }
 
@@ -205,7 +252,7 @@ export class RateLimiterService {
   async onModuleDestroy() {
     if (this.redis) {
       await this.redis.quit();
-      this.logger.log('Conexão com Redis fechada');
+      this.logger.info('Redis connection closed');
     }
   }
 

@@ -1,14 +1,18 @@
-import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
 import { Redis } from 'ioredis';
+import { getErrorMessage } from '../logger/get-error-message';
 
 @Injectable()
 export class LockService implements OnModuleDestroy {
-  private readonly logger = new Logger(LockService.name);
   private readonly redis: Redis;
-  private readonly lockTimeoutMs: number = 130000; // Lock expira em 130s
+  private readonly lockTimeoutMs: number = 130000;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private readonly logger: PinoLogger,
+  ) {
     const redisHost = this.configService.get<string>('REDIS_HOST', 'redis');
     const redisPort = this.configService.get<number>('REDIS_PORT', 6379);
     this.redis = new Redis({
@@ -18,14 +22,20 @@ export class LockService implements OnModuleDestroy {
       maxRetriesPerRequest: 3,
     });
 
+    this.logger.setContext(LockService.name);
+
     this.redis.on('connect', () => {
-      this.logger.log(
-        `LockService conectado ao Redis em ${redisHost}:${redisPort}`,
+      this.logger.info(
+        { operation: 'redis_connect', host: redisHost, port: redisPort },
+        'Connected to Redis',
       );
     });
 
     this.redis.on('error', (error) => {
-      this.logger.error('Erro na conexão do LockService com Redis:', error);
+      this.logger.error(
+        { operation: 'redis_error', error: error.message },
+        'Redis connection error',
+      );
     });
   }
 
@@ -35,6 +45,7 @@ export class LockService implements OnModuleDestroy {
     maxRetries = 100,
   ): Promise<boolean> {
     const lockKey = `lock:${lockName}`;
+    const startTime = Date.now();
     let retries = 0;
 
     while (retries < maxRetries) {
@@ -46,32 +57,69 @@ export class LockService implements OnModuleDestroy {
         'NX',
       );
       if (result === 'OK') {
-        return true; // Lock adquirido
+        const duration = Date.now() - startTime;
+        this.logger.debug(
+          {
+            operation: 'lock_acquire',
+            lockKey,
+            ttl: this.lockTimeoutMs,
+            attempts: retries + 1,
+            duration,
+          },
+          retries > 0 ? 'Lock acquired after retries' : 'Lock acquired',
+        );
+        return true;
       }
 
       retries++;
       await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
     }
 
+    const duration = Date.now() - startTime;
     this.logger.warn(
-      `Não foi possível adquirir o lock para "${lockName}" após ${maxRetries} tentativas.`,
+      {
+        operation: 'lock_acquire',
+        lockKey,
+        ttl: this.lockTimeoutMs,
+        attempts: maxRetries,
+        duration,
+        action: 'failed',
+      },
+      'Failed to acquire lock',
     );
-    return false; // Não foi possível adquirir o lock
+    return false;
   }
 
   async releaseLock(lockName: string): Promise<void> {
     const lockKey = `lock:${lockName}`;
+    const startTime = Date.now();
     try {
       await this.redis.del(lockKey);
+      this.logger.debug(
+        {
+          operation: 'lock_release',
+          lockKey,
+          duration: Date.now() - startTime,
+        },
+        'Lock released',
+      );
     } catch (error) {
-      this.logger.error(`Erro ao liberar o lock "${lockName}":`, error);
+      this.logger.error(
+        {
+          operation: 'lock_release',
+          lockKey,
+          duration: Date.now() - startTime,
+          error: getErrorMessage(error),
+        },
+        'Failed to release lock',
+      );
     }
   }
 
   async onModuleDestroy() {
     if (this.redis) {
       await this.redis.quit();
-      this.logger.log('Conexão do LockService com Redis fechada');
+      this.logger.info('Redis connection closed');
     }
   }
 }

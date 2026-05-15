@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
 import { RateLimiterService } from './rate-limiter.service';
 import { LockService } from '../lock/lock.service';
 import { Redis } from 'ioredis';
@@ -43,11 +44,20 @@ describe('RateLimiterService', () => {
       }),
     } as unknown as jest.Mocked<ConfigService>;
 
+    const mockLogger = {
+      setContext: jest.fn(),
+      info: jest.fn(),
+      debug: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+    } as unknown as PinoLogger;
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RateLimiterService,
         { provide: ConfigService, useValue: mockConfigService },
         { provide: LockService, useValue: mockLockService },
+        { provide: PinoLogger, useValue: mockLogger },
       ],
     }).compile();
 
@@ -179,10 +189,10 @@ describe('RateLimiterService', () => {
     it('should handle lock acquisition failure', async () => {
       // Primeira chamada: falha ao adquirir lock, segunda: sucesso
       let callCount = 0;
-mockLockService.acquireLock.mockImplementation(() => {
-         callCount++;
-         return Promise.resolve(callCount === 2);
-       });
+      mockLockService.acquireLock.mockImplementation(() => {
+        callCount++;
+        return Promise.resolve(callCount === 2);
+      });
       mockRedis.zcard.mockResolvedValue(50);
 
       // Mock do delay para evitar esperas longas
@@ -202,21 +212,21 @@ mockLockService.acquireLock.mockImplementation(() => {
       let zremrangeCount = 0;
       let zcardCount = 0;
 
-mockRedis.zremrangebyscore.mockImplementation(() => {
-         zremrangeCount++;
-         if (zremrangeCount === 1) {
-           return Promise.reject(new Error('Redis error'));
-         }
-         return Promise.resolve(0);
-       });
+      mockRedis.zremrangebyscore.mockImplementation(() => {
+        zremrangeCount++;
+        if (zremrangeCount === 1) {
+          return Promise.reject(new Error('Redis error'));
+        }
+        return Promise.resolve(0);
+      });
 
-       mockRedis.zcard.mockImplementation(() => {
-         zcardCount++;
-         if (zcardCount === 1) {
-           return Promise.reject(new Error('Redis error'));
-         }
-         return Promise.resolve(50);
-       });
+      mockRedis.zcard.mockImplementation(() => {
+        zcardCount++;
+        if (zcardCount === 1) {
+          return Promise.reject(new Error('Redis error'));
+        }
+        return Promise.resolve(50);
+      });
 
       mockLockService.acquireLock.mockResolvedValue(true);
 

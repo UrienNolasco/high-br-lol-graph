@@ -1,20 +1,15 @@
-import {
-  Injectable,
-  Logger,
-  OnModuleDestroy,
-  OnModuleInit,
-} from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
 import { Cron } from '@nestjs/schedule';
 import { Redis } from 'ioredis';
 import { RiotService } from '../../core/riot/riot.service';
-import { getErrorMessage } from '../../core/logger';
+import { getErrorMessage } from '../../core/logger/get-error-message';
 import { QueueService } from '../../core/queue/queue.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 
 @Injectable()
 export class CollectorService implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(CollectorService.name);
   private readonly redis: Redis;
   private isRunning = false;
 
@@ -23,6 +18,7 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
     private readonly queueService: QueueService,
     private readonly prisma: PrismaService,
     private readonly configService: ConfigService,
+    private readonly logger: PinoLogger,
   ) {
     const redisHost = this.configService.get<string>('REDIS_HOST', 'redis');
     const redisPort = this.configService.get<number>('REDIS_PORT', 6379);
@@ -34,16 +30,19 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
       maxRetriesPerRequest: 3,
     });
 
+    this.logger.setContext(CollectorService.name);
+
     this.redis.on('connect', () => {
-      this.logger.log(
-        `CollectorService conectado ao Redis em ${redisHost}:${redisPort}`,
+      this.logger.info(
+        { operation: 'redis_connect', host: redisHost, port: redisPort },
+        'Connected to Redis',
       );
     });
 
     this.redis.on('error', (error) => {
       this.logger.error(
-        'Erro na conexão do CollectorService com Redis:',
-        error,
+        { operation: 'redis_error', error: error.message },
+        'Redis connection error',
       );
     });
   }
@@ -76,13 +75,16 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
       await this.redis.set('collector:end_hour', defaultEnd);
     }
 
-    this.logger.log('CollectorService inicializado com valores do Redis');
+    this.logger.info(
+      { event: 'collector_initialized' },
+      'Collector initialized',
+    );
   }
 
   async onModuleDestroy(): Promise<void> {
     if (this.redis) {
       await this.redis.quit();
-      this.logger.log('Conexão do CollectorService com Redis fechada');
+      this.logger.info('Redis connection closed');
     }
   }
 
@@ -95,7 +97,10 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
     const hour = new Date().getHours();
     if (hour < startHour || hour >= endHour) return;
 
-    this.logger.log('⏰ [COLLECTOR] - Cron job disparado, iniciando coleta...');
+    this.logger.info(
+      { event: 'collection_started', trigger: 'cron' },
+      'Cron triggered collection',
+    );
     this.isRunning = true;
     try {
       await this.runCollection();
@@ -108,12 +113,16 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
   async triggerNow(): Promise<void> {
     if (this.isRunning) {
       this.logger.warn(
-        '⚠️ [COLLECTOR] - Coleta já em andamento, ignorando trigger manual',
+        { event: 'collection_skipped', reason: 'already_running' },
+        'Collection already in progress, ignoring manual trigger',
       );
       return;
     }
 
-    this.logger.log('🔧 [COLLECTOR] - Trigger manual recebido');
+    this.logger.info(
+      { event: 'collection_started', trigger: 'manual' },
+      'Manual trigger received',
+    );
     this.isRunning = true;
     try {
       await this.runCollection();
@@ -161,12 +170,18 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
   }
 
   async runCollection(): Promise<void> {
-    this.logger.log('🚀 [COLLECTOR] - Iniciando processo de coleta...');
+    const startTime = Date.now();
+    const { startHour, endHour } = await this.getWindow();
 
     try {
       const highEloPuids = await this.riotService.getHighEloPuids();
-      this.logger.log(
-        `📊 [COLLECTOR] - Encontrados ${highEloPuids.length} jogadores high-elo`,
+      this.logger.info(
+        {
+          event: 'collection_progress',
+          playersFound: highEloPuids.length,
+          step: 'high_elo_fetched',
+        },
+        'High-elo players fetched',
       );
 
       let totalMatchesFound = 0;
@@ -187,22 +202,39 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
           }
         } catch (error) {
           this.logger.warn(
-            `⚠️ [COLLECTOR] - Erro ao processar PUUID ${puuid}:`,
-            getErrorMessage(error),
+            {
+              event: 'collection_player_error',
+              puuid,
+              error: getErrorMessage(error),
+            },
+            'Error processing player PUUID',
           );
           continue;
         }
       }
 
-      this.logger.log(`✅ [COLLECTOR] - Coleta finalizada!`);
-      this.logger.log(
-        `📈 [COLLECTOR] - Total de partidas encontradas: ${totalMatchesFound}`,
-      );
-      this.logger.log(
-        `🆕 [COLLECTOR] - Novas partidas enfileiradas: ${newMatchesEnqueued}`,
+      const duration = Date.now() - startTime;
+      const duplicatesSkipped = totalMatchesFound - newMatchesEnqueued;
+
+      this.logger.info(
+        {
+          event: 'collection_completed',
+          playersFound: highEloPuids.length,
+          matchesFound: totalMatchesFound,
+          matchesEnqueued: newMatchesEnqueued,
+          duplicatesSkipped,
+          duration,
+          startHour,
+          endHour,
+        },
+        'Collection completed',
       );
     } catch (error) {
-      this.logger.error('❌ [COLLECTOR] - Erro durante a coleta:', error);
+      const duration = Date.now() - startTime;
+      this.logger.error(
+        { event: 'collection_failed', duration, error: getErrorMessage(error) },
+        'Collection failed',
+      );
       throw error;
     }
   }
@@ -217,8 +249,12 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
       return !match;
     } catch (error) {
       this.logger.warn(
-        `⚠️ [COLLECTOR] - Erro ao verificar duplicata para ${matchId}:`,
-        getErrorMessage(error),
+        {
+          event: 'duplicate_check_error',
+          matchId,
+          error: getErrorMessage(error),
+        },
+        'Error checking duplicate',
       );
       return true;
     }
@@ -228,7 +264,8 @@ export class CollectorService implements OnModuleInit, OnModuleDestroy {
     this.queueService.publishBackgroundMatch(matchId);
 
     this.logger.debug(
-      `📤 [COLLECTOR] - Partida ${matchId} enfileirada para processamento (prioridade baixa)`,
+      { event: 'match_enqueued', matchId, priority: 'background' },
+      'Match enqueued for processing',
     );
   }
 }

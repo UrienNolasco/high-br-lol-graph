@@ -6,25 +6,23 @@ import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
   imports: [
     PinoLoggerModule.forRootAsync({
       useFactory: () => {
-        const logLevel =
-          process.env.LOG_LEVEL ||
-          (process.env.APP_MODE === 'WORKER' ? 'debug' : 'info');
+        const logLevel = process.env.LOG_LEVEL || 'info';
         const service = (process.env.APP_MODE || 'api').toLowerCase();
+        const isProduction = process.env.NODE_ENV === 'production';
 
         return {
           pinoHttp: {
             level: logLevel,
-            transport:
-              process.env.NODE_ENV !== 'production'
-                ? {
-                    target: 'pino-pretty',
-                    options: {
-                      colorize: true,
-                      translateTime: 'SYS:yyyy-mm-dd HH:MM:ss.l',
-                      ignore: 'pid,hostname',
-                    },
-                  }
-                : undefined,
+            transport: isProduction
+              ? undefined
+              : {
+                  target: 'pino-pretty',
+                  options: {
+                    colorize: true,
+                    translateTime: 'SYS:yyyy-mm-dd HH:MM:ss.l',
+                    ignore: 'pid,hostname',
+                  },
+                },
             formatters: {
               level: (label: string) => ({ level: label }),
               log: (object: Record<string, unknown>) => ({
@@ -33,10 +31,7 @@ import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
               }),
             },
             redact: {
-              paths: [
-                'headers.authorization',
-                'req.headers.authorization',
-              ],
+              paths: ['headers.authorization', 'req.headers.authorization'],
               censor: '[REDACTED]',
             },
             autoLogging: false,

@@ -2,7 +2,8 @@ import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import type { Channel } from 'amqplib';
 import { RABBITMQ_CHANNEL } from './queue.constants';
-import { traceIdStore, getErrorMessage } from '../../core/logger';
+import { traceIdStore } from '../../core/logger';
+import { getErrorMessage } from '../../core/logger/get-error-message';
 
 export interface MatchPublishOptions {
   priority?: number;
@@ -69,7 +70,10 @@ export class QueueService implements OnModuleDestroy {
     try {
       await this.channel.close();
     } catch (error) {
-      this.logger.error({ event: 'queue_close_error', error: getErrorMessage(error) }, 'Erro ao fechar canal do RabbitMQ');
+      this.logger.error(
+        { event: 'queue_close_error', error: getErrorMessage(error) },
+        'Erro ao fechar canal do RabbitMQ',
+      );
     }
   }
 }

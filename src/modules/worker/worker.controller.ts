@@ -4,7 +4,8 @@ import type { Channel, Message } from 'amqplib';
 import { PinoLogger } from 'nestjs-pino';
 import { WorkerService } from './worker.service';
 import { ProcessMatchDto } from './dto/process-match.dto';
-import { traceIdStore, getErrorMessage } from '../../core/logger';
+import { traceIdStore } from '../../core/logger';
+import { getErrorMessage } from '../../core/logger/get-error-message';
 
 @Controller()
 export class WorkerController {
@@ -27,16 +28,25 @@ export class WorkerController {
     const traceId = payload.traceId || crypto.randomUUID();
 
     await traceIdStore.run({ traceId }, async () => {
-      this.logger.info({ matchId, event: 'match_received' }, `Recebida mensagem para processar partida: ${matchId}`);
+      this.logger.info(
+        { matchId, event: 'match_received' },
+        `Recebida mensagem para processar partida: ${matchId}`,
+      );
 
       try {
         await this.workerService.processMatch({ matchId });
 
         channel.ack(originalMsg);
 
-        this.logger.info({ matchId, event: 'match_processed' }, `Partida ${matchId} processada com sucesso.`);
+        this.logger.info(
+          { matchId, event: 'match_processed' },
+          `Partida ${matchId} processada com sucesso.`,
+        );
       } catch (error) {
-        this.logger.error({ matchId, event: 'match_failed', error: getErrorMessage(error) }, `Erro ao processar partida ${matchId}`);
+        this.logger.error(
+          { matchId, event: 'match_failed', error: getErrorMessage(error) },
+          `Erro ao processar partida ${matchId}`,
+        );
 
         channel.nack(originalMsg, false, false);
 
@@ -57,14 +67,28 @@ export class WorkerController {
     const traceId = payload.traceId || crypto.randomUUID();
 
     await traceIdStore.run({ traceId }, async () => {
-      this.logger.info({ matchId, event: 'match_received', pattern: 'user.update' }, `[USER UPDATE] Processando partida: ${matchId}`);
+      this.logger.info(
+        { matchId, event: 'match_received', pattern: 'user.update' },
+        `[USER UPDATE] Processando partida: ${matchId}`,
+      );
 
       try {
         await this.workerService.processMatch({ matchId });
         channel.ack(originalMsg);
-        this.logger.info({ matchId, event: 'match_processed', pattern: 'user.update' }, `[USER UPDATE] Partida ${matchId} processada.`);
+        this.logger.info(
+          { matchId, event: 'match_processed', pattern: 'user.update' },
+          `[USER UPDATE] Partida ${matchId} processada.`,
+        );
       } catch (error) {
-        this.logger.error({ matchId, event: 'match_failed', pattern: 'user.update', error: getErrorMessage(error) }, `[USER UPDATE] Erro ao processar ${matchId}`);
+        this.logger.error(
+          {
+            matchId,
+            event: 'match_failed',
+            pattern: 'user.update',
+            error: getErrorMessage(error),
+          },
+          `[USER UPDATE] Erro ao processar ${matchId}`,
+        );
         channel.nack(originalMsg, false, false);
         throw error;
       }
