@@ -1,21 +1,34 @@
-import { INestApplication } from '@nestjs/common';
+import { Module, INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { StatsModule } from './stats.module';
-import { StatsService } from './stats.service';
-import { PrismaService } from '../../core/prisma/prisma.service';
+import { StatsController } from './stats.controller';
+import { ChampionStatsService } from './services/champion-stats.service';
+import { ChampionDetailService } from './services/champion-detail.service';
+import { ProcessedMatchesService } from './services/processed-matches.service';
 import { createTestingApp } from '../../../test/helpers/app.builder';
-import { mockStatsService, mockPrismaService } from '../../../test/helpers/shared-mocks';
 import { paginatedStats, championStatsEntry } from '../../../test/fixtures/shared/stats.fixture';
+
+@Module({
+  controllers: [StatsController],
+  providers: [
+    { provide: ChampionStatsService, useValue: {} },
+    { provide: ChampionDetailService, useValue: {} },
+    { provide: ProcessedMatchesService, useValue: {} },
+  ],
+})
+class TestStatsModule {}
 
 describe('StatsController (e2e)', () => {
   let app: INestApplication;
-  const statsService = mockStatsService();
+  const championStatsSvc = { getChampionStats: jest.fn() };
+  const championDetailSvc = { getChampion: jest.fn() };
+  const processedMatchesSvc = { getProcessedMatches: jest.fn() };
 
   beforeAll(async () => {
-    app = await createTestingApp(StatsModule, {
+    app = await createTestingApp(TestStatsModule, {
       overrides: [
-        { provide: StatsService, useValue: statsService },
-        { provide: PrismaService, useValue: mockPrismaService() },
+        { provide: ChampionStatsService, useValue: championStatsSvc },
+        { provide: ChampionDetailService, useValue: championDetailSvc },
+        { provide: ProcessedMatchesService, useValue: processedMatchesSvc },
       ],
     });
   });
@@ -26,7 +39,7 @@ describe('StatsController (e2e)', () => {
 
   describe('GET /api/v1/stats/champions', () => {
     it('should return paginated champion stats', () => {
-      statsService.getChampionStats.mockResolvedValue(paginatedStats());
+      championStatsSvc.getChampionStats.mockResolvedValue(paginatedStats());
 
       return request(app.getHttpServer())
         .get('/api/v1/stats/champions?patch=15.23')
@@ -74,36 +87,29 @@ describe('StatsController (e2e)', () => {
     });
 
     it('should accept all valid sortBy values', () => {
+      championStatsSvc.getChampionStats.mockResolvedValue(paginatedStats());
       const validSortBy = [
         'winRate', 'gamesPlayed', 'championName', 'banRate',
         'pickRate', 'kda', 'dpm', 'cspm', 'gpm',
       ];
-
       const tests = validSortBy.map((sortBy) =>
         request(app.getHttpServer())
           .get(`/api/v1/stats/champions?patch=15.23&sortBy=${sortBy}`)
           .expect(200),
       );
-
       return Promise.all(tests);
     });
 
     it('should accept both asc and desc order', () => {
+      championStatsSvc.getChampionStats.mockResolvedValue(paginatedStats());
       return Promise.all([
-        request(app.getHttpServer())
-          .get('/api/v1/stats/champions?patch=15.23&order=asc')
-          .expect(200),
-        request(app.getHttpServer())
-          .get('/api/v1/stats/champions?patch=15.23&order=desc')
-          .expect(200),
+        request(app.getHttpServer()).get('/api/v1/stats/champions?patch=15.23&order=asc').expect(200),
+        request(app.getHttpServer()).get('/api/v1/stats/champions?patch=15.23&order=desc').expect(200),
       ]);
     });
 
     it('should handle pagination correctly', () => {
-      statsService.getChampionStats.mockResolvedValue(
-        paginatedStats({ page: 2, limit: 10 }),
-      );
-
+      championStatsSvc.getChampionStats.mockResolvedValue(paginatedStats({ page: 2, limit: 10 }));
       return request(app.getHttpServer())
         .get('/api/v1/stats/champions?patch=15.23&page=2&limit=10')
         .expect(200)
@@ -116,10 +122,7 @@ describe('StatsController (e2e)', () => {
 
   describe('GET /api/v1/stats/champions/:championName', () => {
     it('should return stats for a specific champion', () => {
-      statsService.getChampion.mockResolvedValue(
-        championStatsEntry({ championName: 'Annie' }),
-      );
-
+      championDetailSvc.getChampion.mockResolvedValue(championStatsEntry({ championName: 'Annie' }));
       return request(app.getHttpServer())
         .get('/api/v1/stats/champions/Annie?patch=15.23')
         .expect(200)
@@ -129,8 +132,7 @@ describe('StatsController (e2e)', () => {
     });
 
     it('should return 200 for non-existent champion (controller delegates to service)', () => {
-      statsService.getChampion.mockResolvedValue(null);
-
+      championDetailSvc.getChampion.mockResolvedValue(null);
       return request(app.getHttpServer())
         .get('/api/v1/stats/champions/NonExistent?patch=15.23')
         .expect(200);
@@ -139,8 +141,7 @@ describe('StatsController (e2e)', () => {
 
   describe('GET /api/v1/stats/processed-matches', () => {
     it('should return total count without filter', () => {
-      statsService.getProcessedMatches.mockResolvedValue({ count: 1000 });
-
+      processedMatchesSvc.getProcessedMatches.mockResolvedValue({ count: 1000 });
       return request(app.getHttpServer())
         .get('/api/v1/stats/processed-matches')
         .expect(200)
@@ -150,8 +151,7 @@ describe('StatsController (e2e)', () => {
     });
 
     it('should return count with patch filter', () => {
-      statsService.getProcessedMatches.mockResolvedValue({ count: 500, patch: '15.23' });
-
+      processedMatchesSvc.getProcessedMatches.mockResolvedValue({ count: 500, patch: '15.23' });
       return request(app.getHttpServer())
         .get('/api/v1/stats/processed-matches?patch=15.23')
         .expect(200)

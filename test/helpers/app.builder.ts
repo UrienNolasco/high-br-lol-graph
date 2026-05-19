@@ -20,7 +20,9 @@ export async function createTestingApp(
 
   if (options?.overrides) {
     for (const override of options.overrides) {
-      builder.overrideProvider(override.provide as Type<unknown>).useValue(override.useValue);
+      builder
+        .overrideProvider(override.provide as Type<unknown>)
+        .useValue(override.useValue);
     }
   }
 

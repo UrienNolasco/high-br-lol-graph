@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TierRankService, ChampionMetrics } from './tier-rank.service';
-import { PrismaService } from '../../core/prisma/prisma.service';
+import { PrismaService } from '../../../core/prisma/prisma.service';
 
 describe('TierRankService', () => {
   let service: TierRankService;
