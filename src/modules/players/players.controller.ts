@@ -7,8 +7,12 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
-import { PlayersService } from './players.service';
-import { SyncService } from './sync.service';
+import { PlayerSearchService } from './services/player-search.service';
+import { PlayerProfileService } from './services/player-profile.service';
+import { PlayerStatsService } from './services/player-stats.service';
+import { PlayerMatchesService } from './services/player-matches.service';
+import { SyncOrchestratorService } from './services/sync-orchestrator.service';
+import { SyncStatusService } from './services/sync-status.service';
 import { PlayerSearchDto } from './dto/player-search.dto';
 import { PlayerResponseDto } from './dto/player-response.dto';
 import {
@@ -30,11 +34,13 @@ import {
 @Controller('api/v1/players')
 export class PlayersController {
   constructor(
-    private readonly playersService: PlayersService,
-    private readonly syncService: SyncService,
+    private readonly searchSvc: PlayerSearchService,
+    private readonly profileSvc: PlayerProfileService,
+    private readonly statsSvc: PlayerStatsService,
+    private readonly matchesSvc: PlayerMatchesService,
+    private readonly syncOrchestrator: SyncOrchestratorService,
+    private readonly syncStatus: SyncStatusService,
   ) {}
-
-  // ========== Player Profile ==========
 
   @Get(':puuid')
   @ApiOperation({ summary: 'Get cached player profile' })
@@ -48,7 +54,7 @@ export class PlayersController {
   async getPlayerProfile(
     @Param('puuid') puuid: string,
   ): Promise<PlayerProfileDto> {
-    return this.playersService.getPlayerProfile(puuid);
+    return this.profileSvc.getProfile(puuid);
   }
 
   @Get(':puuid/status')
@@ -63,7 +69,7 @@ export class PlayersController {
   async getPlayerUpdateStatus(
     @Param('puuid') puuid: string,
   ): Promise<PlayerUpdateStatusDto> {
-    return this.playersService.getPlayerUpdateStatus(puuid);
+    return this.profileSvc.getUpdateStatus(puuid);
   }
 
   @Get(':puuid/summary')
@@ -84,9 +90,7 @@ export class PlayersController {
     @Param('puuid') puuid: string,
     @Query('patch') patch?: string,
   ): Promise<PlayerSummaryDto> {
-    return this.playersService.getPlayerSummary(puuid, {
-      patch: patch || 'ALL',
-    });
+    return this.statsSvc.getSummary(puuid, { patch: patch || 'ALL' });
   }
 
   @Get(':puuid/champions')
@@ -124,7 +128,7 @@ export class PlayersController {
     @Query('limit') limit?: string,
     @Query('sortBy') sortBy?: string,
   ): Promise<PlayerChampionsDto> {
-    return this.playersService.getPlayerChampions(puuid, {
+    return this.statsSvc.getChampions(puuid, {
       patch: patch || 'ALL',
       role,
       limit: limit ? parseInt(limit, 10) : undefined,
@@ -149,9 +153,7 @@ export class PlayersController {
     @Param('puuid') puuid: string,
     @Query('patch') patch?: string,
   ): Promise<PlayerRoleDistributionDto> {
-    return this.playersService.getPlayerRoleDistribution(puuid, {
-      patch: patch || 'ALL',
-    });
+    return this.statsSvc.getRoleDistribution(puuid, { patch: patch || 'ALL' });
   }
 
   @Get(':puuid/activity')
@@ -171,12 +173,8 @@ export class PlayersController {
     @Param('puuid') puuid: string,
     @Query('patch') patch?: string,
   ): Promise<PlayerActivityDto> {
-    return this.playersService.getPlayerActivity(puuid, {
-      patch: patch || 'ALL',
-    });
+    return this.statsSvc.getActivity(puuid, { patch: patch || 'ALL' });
   }
-
-  // ========== Player Match History ==========
 
   @Get(':puuid/matches')
   @ApiOperation({
@@ -200,15 +198,13 @@ export class PlayersController {
     @Query() query: PlayerMatchesQueryDto,
   ): Promise<PlayerMatchesDto> {
     if (query.page && !query.cursor) {
-      return this.playersService.getPlayerMatchesByPage(puuid, {
+      return this.matchesSvc.getMatchesByPage(puuid, {
         ...query,
         page: query.page,
       });
     }
-    return this.playersService.getPlayerMatches(puuid, query);
+    return this.matchesSvc.getMatches(puuid, query);
   }
-
-  // ========== Player Search & Sync ==========
 
   @Post('search')
   @ApiOperation({
@@ -230,7 +226,7 @@ export class PlayersController {
     description: 'Player not found on Riot servers.',
   })
   async searchPlayer(@Body() dto: PlayerSearchDto): Promise<PlayerResponseDto> {
-    return this.playersService.searchPlayer(dto);
+    return this.searchSvc.search(dto);
   }
 
   @Post(':puuid/sync')
@@ -245,7 +241,7 @@ export class PlayersController {
   async triggerSync(
     @Param('puuid') puuid: string,
   ): Promise<SyncTriggerResponseDto> {
-    return this.syncService.triggerDeepSync(puuid);
+    return this.syncOrchestrator.startDeepSync(puuid);
   }
 
   @Get(':puuid/sync-status')
@@ -258,6 +254,6 @@ export class PlayersController {
   async getSyncStatus(
     @Param('puuid') puuid: string,
   ): Promise<SyncStatusResponseDto> {
-    return this.syncService.getSyncStatus(puuid);
+    return this.syncStatus.getStatus(puuid);
   }
 }
