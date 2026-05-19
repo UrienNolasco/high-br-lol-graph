@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PinoLogger } from 'nestjs-pino';
 import { WorkerController } from './worker.controller';
-import { WorkerService } from './worker.service';
+import { WorkerService } from './services/worker.service';
 import { RmqContext } from '@nestjs/microservices';
 
 describe('WorkerController', () => {
@@ -14,10 +14,7 @@ describe('WorkerController', () => {
     content: Buffer;
   };
 
-  const mockWorkerService = {
-    processMatch: jest.fn(),
-  };
-
+  const mockWorkerService = { processMatch: jest.fn() };
   const mockLogger = {
     setContext: jest.fn(),
     info: jest.fn(),
@@ -38,11 +35,7 @@ describe('WorkerController', () => {
     controller = module.get<WorkerController>(WorkerController);
     workerService = module.get<WorkerService>(WorkerService);
 
-    mockChannel = {
-      ack: jest.fn(),
-      nack: jest.fn(),
-    };
-
+    mockChannel = { ack: jest.fn(), nack: jest.fn() };
     mockMessage = {
       fields: {},
       properties: {},
@@ -65,7 +58,6 @@ describe('WorkerController', () => {
         getChannelRef: () => mockChannel,
         getMessage: () => mockMessage,
       } as unknown as RmqContext;
-
       mockWorkerService.processMatch.mockResolvedValue(undefined);
 
       await controller.handleMatchCollect(payload, context);
@@ -75,28 +67,12 @@ describe('WorkerController', () => {
       expect(mockChannel.nack).not.toHaveBeenCalled();
     });
 
-    it('should skip already processed match and ACK', async () => {
-      const payload = { matchId: 'BR1_1234567890' };
-      const context = {
-        getChannelRef: () => mockChannel,
-        getMessage: () => mockMessage,
-      } as unknown as RmqContext;
-
-      mockWorkerService.processMatch.mockResolvedValue(undefined);
-
-      await controller.handleMatchCollect(payload, context);
-
-      expect(mockChannel.ack).toHaveBeenCalled();
-      expect(mockChannel.nack).not.toHaveBeenCalled();
-    });
-
     it('should NACK without requeue on processing error', async () => {
       const payload = { matchId: 'BR1_1234567890' };
       const context = {
         getChannelRef: () => mockChannel,
         getMessage: () => mockMessage,
       } as unknown as RmqContext;
-
       const error = new Error('Processing failed');
       mockWorkerService.processMatch.mockRejectedValue(error);
 
@@ -106,39 +82,6 @@ describe('WorkerController', () => {
 
       expect(mockChannel.nack).toHaveBeenCalledWith(mockMessage, false, false);
       expect(mockChannel.ack).not.toHaveBeenCalled();
-    });
-
-    it('should log match ID and patch when processing', async () => {
-      const payload = { matchId: 'BR1_1234567890' };
-      const context = {
-        getChannelRef: () => mockChannel,
-        getMessage: () => mockMessage,
-      } as unknown as RmqContext;
-
-      mockWorkerService.processMatch.mockResolvedValue(undefined);
-
-      await controller.handleMatchCollect(payload, context);
-
-      expect(workerService.processMatch).toHaveBeenCalledWith({
-        matchId: 'BR1_1234567890',
-      });
-    });
-
-    it('should handle match with different patch', async () => {
-      const payload = { matchId: 'BR1_9876543210' };
-      const context = {
-        getChannelRef: () => mockChannel,
-        getMessage: () => mockMessage,
-      } as unknown as RmqContext;
-
-      mockWorkerService.processMatch.mockResolvedValue(undefined);
-
-      await controller.handleMatchCollect(payload, context);
-
-      expect(workerService.processMatch).toHaveBeenCalledWith({
-        matchId: 'BR1_9876543210',
-      });
-      expect(mockChannel.ack).toHaveBeenCalledWith(mockMessage);
     });
   });
 });

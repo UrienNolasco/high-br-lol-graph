@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import type { Channel, Message } from 'amqplib';
 import { PinoLogger } from 'nestjs-pino';
-import { WorkerService } from './worker.service';
+import { WorkerService } from './services/worker.service';
 import { ProcessMatchDto } from './dto/process-match.dto';
 import { traceIdStore } from '../../core/logger';
 import { getErrorMessage } from '../../core/logger/get-error-message';
