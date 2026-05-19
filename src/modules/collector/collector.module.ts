@@ -3,7 +3,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CollectorService } from './collector.service';
 import { RiotModule } from '../../core/riot/riot.module';
 import { QueueModule } from '../../core/queue/queue.module';
-import { PrismaModule } from 'src/core/prisma/prisma.module';
+import { PrismaModule } from '../../core/prisma/prisma.module';
 
 @Module({
   imports: [ScheduleModule, RiotModule, QueueModule, PrismaModule],

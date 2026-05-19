@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HttpService } from '@nestjs/axios';
 import { of } from 'rxjs';
 import { DataDragonService } from './data-dragon.service';
+import { HttpService } from '@nestjs/axios';
 
 describe('DataDragonService', () => {
   let service: DataDragonService;

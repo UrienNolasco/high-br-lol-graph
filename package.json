@@ -86,7 +86,11 @@
       }]
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!**/*.spec.ts",
+      "!**/*.e2e-spec.ts",
+      "!test/**",
+      "!**/jest.setup.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
