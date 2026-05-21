@@ -90,13 +90,37 @@ export function mockAnalyticsService(overrides?: Record<string, unknown>) {
   };
 }
 
-export function mockMatchesService(overrides?: Record<string, unknown>) {
+export function mockMatchDetailService(overrides?: Record<string, unknown>) {
   return {
     getMatchDetails: jest.fn().mockResolvedValue({ matchId: 'BR1_123', participants: [] }),
-    getMatchGoldTimeline: jest.fn().mockResolvedValue({ frames: [] }),
-    getMatchTimelineEvents: jest.fn().mockResolvedValue({ events: [] }),
-    getMatchBuilds: jest.fn().mockResolvedValue({ builds: [] }),
-    getMatchPerformanceComparison: jest.fn().mockResolvedValue({
+    ...overrides,
+  };
+}
+
+export function mockMatchGoldTimelineService(overrides?: Record<string, unknown>) {
+  return {
+    getGoldTimeline: jest.fn().mockResolvedValue({ frames: [] }),
+    ...overrides,
+  };
+}
+
+export function mockMatchTimelineEventsService(overrides?: Record<string, unknown>) {
+  return {
+    getTimelineEvents: jest.fn().mockResolvedValue({ events: [] }),
+    ...overrides,
+  };
+}
+
+export function mockMatchBuildsService(overrides?: Record<string, unknown>) {
+  return {
+    getBuilds: jest.fn().mockResolvedValue({ builds: [] }),
+    ...overrides,
+  };
+}
+
+export function mockMatchPerformanceService(overrides?: Record<string, unknown>) {
+  return {
+    getPerformanceComparison: jest.fn().mockResolvedValue({
       player: { puuid: 'test', performance: {} },
       teamAverage: {},
     }),

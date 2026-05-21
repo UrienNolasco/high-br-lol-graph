@@ -1,6 +1,10 @@
 import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
-import { MatchesService } from './matches.service';
+import { MatchDetailService } from './services/match-detail.service';
+import { MatchGoldTimelineService } from './services/match-gold-timeline.service';
+import { MatchTimelineEventsService } from './services/match-timeline-events.service';
+import { MatchBuildsService } from './services/match-builds.service';
+import { MatchPerformanceService } from './services/match-performance.service';
 import { MatchDetailDto } from './dto/match-detail.dto';
 import {
   MatchGoldTimelineDto,
@@ -12,7 +16,13 @@ import {
 @ApiTags('Matches')
 @Controller('api/v1/matches')
 export class MatchesController {
-  constructor(private readonly matchesService: MatchesService) {}
+  constructor(
+    private readonly matchDetail: MatchDetailService,
+    private readonly matchGoldTimeline: MatchGoldTimelineService,
+    private readonly matchTimelineEvents: MatchTimelineEventsService,
+    private readonly matchBuilds: MatchBuildsService,
+    private readonly matchPerformance: MatchPerformanceService,
+  ) {}
 
   @Get(':matchId')
   @ApiOperation({
@@ -34,7 +44,7 @@ export class MatchesController {
   async getMatchDetails(
     @Param('matchId') matchId: string,
   ): Promise<MatchDetailDto> {
-    const match = await this.matchesService.getMatchDetails(matchId);
+    const match = await this.matchDetail.getMatchDetails(matchId);
 
     if (!match) {
       throw new NotFoundException('Match not found');
@@ -63,7 +73,7 @@ export class MatchesController {
   async getGoldTimeline(
     @Param('matchId') matchId: string,
   ): Promise<MatchGoldTimelineDto> {
-    return this.matchesService.getMatchGoldTimeline(matchId);
+    return this.matchGoldTimeline.getGoldTimeline(matchId);
   }
 
   @Get(':matchId/timeline/events')
@@ -86,7 +96,7 @@ export class MatchesController {
   async getTimelineEvents(
     @Param('matchId') matchId: string,
   ): Promise<MatchTimelineEventsDto> {
-    return this.matchesService.getMatchTimelineEvents(matchId);
+    return this.matchTimelineEvents.getTimelineEvents(matchId);
   }
 
   @Get(':matchId/builds')
@@ -106,7 +116,7 @@ export class MatchesController {
     example: 'BR1_3216549870',
   })
   async getBuilds(@Param('matchId') matchId: string): Promise<MatchBuildsDto> {
-    return this.matchesService.getMatchBuilds(matchId);
+    return this.matchBuilds.getBuilds(matchId);
   }
 
   @Get(':matchId/performance/:puuid')
@@ -135,6 +145,6 @@ export class MatchesController {
     @Param('matchId') matchId: string,
     @Param('puuid') puuid: string,
   ): Promise<MatchPerformanceComparisonDto> {
-    return this.matchesService.getMatchPerformanceComparison(matchId, puuid);
+    return this.matchPerformance.getPerformanceComparison(matchId, puuid);
   }
 }

@@ -1,20 +1,32 @@
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { MatchesModule } from './matches.module';
-import { MatchesService } from './matches.service';
+import { MatchDetailService } from './services/match-detail.service';
+import { MatchGoldTimelineService } from './services/match-gold-timeline.service';
+import { MatchTimelineEventsService } from './services/match-timeline-events.service';
+import { MatchBuildsService } from './services/match-builds.service';
+import { MatchPerformanceService } from './services/match-performance.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { createTestingApp } from '../../../test/helpers/app.builder';
-import { mockMatchesService, mockPrismaService } from '../../../test/helpers/shared-mocks';
+import { mockPrismaService } from '../../../test/helpers/shared-mocks';
 
 describe('MatchesController (e2e)', () => {
   let app: INestApplication;
-  const matchesService = mockMatchesService();
+  const matchDetail = { getMatchDetails: jest.fn() };
+  const matchGoldTimeline = { getGoldTimeline: jest.fn() };
+  const matchTimelineEvents = { getTimelineEvents: jest.fn() };
+  const matchBuilds = { getBuilds: jest.fn() };
+  const matchPerformance = { getPerformanceComparison: jest.fn() };
   const matchId = 'BR1_3200579475';
 
   beforeAll(async () => {
     app = await createTestingApp(MatchesModule, {
       overrides: [
-        { provide: MatchesService, useValue: matchesService },
+        { provide: MatchDetailService, useValue: matchDetail },
+        { provide: MatchGoldTimelineService, useValue: matchGoldTimeline },
+        { provide: MatchTimelineEventsService, useValue: matchTimelineEvents },
+        { provide: MatchBuildsService, useValue: matchBuilds },
+        { provide: MatchPerformanceService, useValue: matchPerformance },
         { provide: PrismaService, useValue: mockPrismaService() },
       ],
     });
@@ -26,7 +38,7 @@ describe('MatchesController (e2e)', () => {
 
   describe('GET /api/v1/matches/:matchId', () => {
     it('should return match details', () => {
-      matchesService.getMatchDetails.mockResolvedValue({
+      matchDetail.getMatchDetails.mockResolvedValue({
         matchId,
         participants: [],
       });
@@ -42,7 +54,7 @@ describe('MatchesController (e2e)', () => {
 
   describe('GET /api/v1/matches/:matchId/timeline/gold', () => {
     it('should return gold timeline', () => {
-      matchesService.getMatchGoldTimeline.mockResolvedValue({ frames: [] });
+      matchGoldTimeline.getGoldTimeline.mockResolvedValue({ frames: [] });
 
       return request(app.getHttpServer())
         .get(`/api/v1/matches/${matchId}/timeline/gold`)
@@ -52,7 +64,7 @@ describe('MatchesController (e2e)', () => {
 
   describe('GET /api/v1/matches/:matchId/timeline/events', () => {
     it('should return timeline events', () => {
-      matchesService.getMatchTimelineEvents.mockResolvedValue({ events: [] });
+      matchTimelineEvents.getTimelineEvents.mockResolvedValue({ events: [] });
 
       return request(app.getHttpServer())
         .get(`/api/v1/matches/${matchId}/timeline/events`)
@@ -62,7 +74,7 @@ describe('MatchesController (e2e)', () => {
 
   describe('GET /api/v1/matches/:matchId/builds', () => {
     it('should return builds', () => {
-      matchesService.getMatchBuilds.mockResolvedValue({ builds: [] });
+      matchBuilds.getBuilds.mockResolvedValue({ builds: [] });
 
       return request(app.getHttpServer())
         .get(`/api/v1/matches/${matchId}/builds`)
@@ -72,7 +84,7 @@ describe('MatchesController (e2e)', () => {
 
   describe('GET /api/v1/matches/:matchId/performance/:puuid', () => {
     it('should return performance comparison', () => {
-      matchesService.getMatchPerformanceComparison.mockResolvedValue({
+      matchPerformance.getPerformanceComparison.mockResolvedValue({
         player: { puuid: 'test-puuid', performance: {} },
         teamAverage: {},
       });

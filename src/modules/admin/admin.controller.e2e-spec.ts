@@ -4,7 +4,10 @@ import { AdminController } from './admin.controller';
 import { RateLimiterService } from '../../core/riot/rate-limiter.service';
 import { CollectorService } from '../collector/collector.service';
 import { createTestingApp } from '../../../test/helpers/app.builder';
-import { mockRateLimiterService, mockCollectorService } from '../../../test/helpers/shared-mocks';
+import {
+  mockRateLimiterService,
+  mockCollectorService,
+} from '../../../test/helpers/shared-mocks';
 
 @Module({
   controllers: [AdminController],
