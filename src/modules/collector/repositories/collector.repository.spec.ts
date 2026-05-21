@@ -24,7 +24,9 @@ describe('CollectorRepository', () => {
 
   describe('matchExists', () => {
     it('should return true when match exists', async () => {
-      (prisma.match.findUnique as jest.Mock).mockResolvedValue({ matchId: 'BR1_1' });
+      (prisma.match.findUnique as jest.Mock).mockResolvedValue({
+        matchId: 'BR1_1',
+      });
 
       const result = await repo.matchExists('BR1_1');
 

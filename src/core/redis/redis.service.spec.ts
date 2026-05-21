@@ -66,8 +66,14 @@ describe('RedisService', () => {
     const { Redis: MockRedis } = jest.requireMock('ioredis');
     const redisInstance = MockRedis.mock.results[0].value as { on: jest.Mock };
 
-    expect(redisInstance.on).toHaveBeenCalledWith('connect', expect.any(Function));
-    expect(redisInstance.on).toHaveBeenCalledWith('error', expect.any(Function));
+    expect(redisInstance.on).toHaveBeenCalledWith(
+      'connect',
+      expect.any(Function),
+    );
+    expect(redisInstance.on).toHaveBeenCalledWith(
+      'error',
+      expect.any(Function),
+    );
   });
 
   it('should quit Redis on module destroy', async () => {

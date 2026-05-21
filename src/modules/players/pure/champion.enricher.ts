@@ -42,8 +42,8 @@ export function enrichChampionStats(
     avgCsd15: number;
     avgGd15: number;
     avgXpd15: number;
-  roleDistribution: unknown;
-  lastPlayedAt: Date | null;
+    roleDistribution: unknown;
+    lastPlayedAt: Date | null;
   },
   championInfo: ChampionInfo | undefined | null,
   images: ChampionImages | null,

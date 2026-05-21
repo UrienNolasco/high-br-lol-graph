@@ -34,7 +34,12 @@ export class WorkerService {
 
       if (await this.persistence.exists(matchId)) {
         this.logger.info(
-          { matchId, traceId, event: 'match_skipped', reason: 'already_exists' },
+          {
+            matchId,
+            traceId,
+            event: 'match_skipped',
+            reason: 'already_exists',
+          },
           `Match ${matchId} já existe. Skipping.`,
         );
         return;
@@ -65,7 +70,10 @@ export class WorkerService {
       );
 
       const matchData = parseMatchData(matchDto);
-      const timelineData = this.timelineParser.parseTimeline(timelineDto, participantMap);
+      const timelineData = this.timelineParser.parseTimeline(
+        timelineDto,
+        participantMap,
+      );
 
       await this.persistence.save(matchData, timelineData);
       await this.persistence.updateChampionStats(matchData);
@@ -74,7 +82,10 @@ export class WorkerService {
       const duration = Date.now() - startTime;
       this.logger.info(
         {
-          matchId, traceId, event: 'match_processing_completed', duration,
+          matchId,
+          traceId,
+          event: 'match_processing_completed',
+          duration,
           queueId: matchDto.info.queueId,
           steps: ['extract', 'transform', 'load', 'aggregation'],
         },
@@ -86,14 +97,26 @@ export class WorkerService {
         error.code === 'P2002'
       ) {
         this.logger.warn(
-          { matchId, traceId, event: 'match_skipped', reason: 'duplicate_p2002' },
+          {
+            matchId,
+            traceId,
+            event: 'match_skipped',
+            reason: 'duplicate_p2002',
+          },
           `Match ${matchId} foi processada por outro worker. Skipping.`,
         );
         return;
       }
       const duration = Date.now() - startTime;
       this.logger.error(
-        { matchId, traceId, event: 'match_failed', duration, error: getErrorMessage(error), step: 'processing' },
+        {
+          matchId,
+          traceId,
+          event: 'match_failed',
+          duration,
+          error: getErrorMessage(error),
+          step: 'processing',
+        },
         `Error processing match ${matchId}`,
       );
       throw error;

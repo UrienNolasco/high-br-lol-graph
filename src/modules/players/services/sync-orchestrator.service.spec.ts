@@ -21,7 +21,14 @@ describe('SyncOrchestratorService', () => {
     matchRepo = { findExistingMatchIds: jest.fn() } as any;
     riotService = { getMatchIdsByPuuid: jest.fn() } as any;
     queueService = { publishDeepSyncMatch: jest.fn() } as any;
-    redis = { hget: jest.fn(), hgetall: jest.fn(), hset: jest.fn(), pipeline: jest.fn(), sadd: jest.fn(), expire: jest.fn() } as any;
+    redis = {
+      hget: jest.fn(),
+      hgetall: jest.fn(),
+      hset: jest.fn(),
+      pipeline: jest.fn(),
+      sadd: jest.fn(),
+      expire: jest.fn(),
+    } as any;
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -31,7 +38,14 @@ describe('SyncOrchestratorService', () => {
         { provide: RiotService, useValue: riotService },
         { provide: QueueService, useValue: queueService },
         { provide: SyncService, useValue: redis },
-        { provide: PinoLogger, useValue: { setContext: jest.fn(), info: jest.fn(), error: jest.fn() } },
+        {
+          provide: PinoLogger,
+          useValue: {
+            setContext: jest.fn(),
+            info: jest.fn(),
+            error: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
@@ -61,7 +75,12 @@ describe('SyncOrchestratorService', () => {
   });
 
   it('should enqueue new matches and update Redis', async () => {
-    const mockPipeline = { hset: jest.fn(), expire: jest.fn(), sadd: jest.fn(), exec: jest.fn().mockResolvedValue(undefined) } as any;
+    const mockPipeline = {
+      hset: jest.fn(),
+      expire: jest.fn(),
+      sadd: jest.fn(),
+      exec: jest.fn().mockResolvedValue(undefined),
+    } as any;
     redis.pipeline.mockReturnValue(mockPipeline);
     playerRepo.findByPuuid.mockResolvedValue({} as any);
     redis.hget.mockResolvedValue(null);
@@ -77,6 +96,8 @@ describe('SyncOrchestratorService', () => {
 
   it('should throw NotFoundException if player not in DB', async () => {
     playerRepo.findByPuuid.mockResolvedValue(null);
-    await expect(service.startDeepSync('p1')).rejects.toThrow('Player p1 not found');
+    await expect(service.startDeepSync('p1')).rejects.toThrow(
+      'Player p1 not found',
+    );
   });
 });

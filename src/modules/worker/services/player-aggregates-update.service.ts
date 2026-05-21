@@ -27,7 +27,9 @@ export class PlayerAggregatesUpdateService {
 
     for (const participant of matchData.participants) {
       try {
-        const timelineParticipant = timelineData.participants.get(participant.puuid);
+        const timelineParticipant = timelineData.participants.get(
+          participant.puuid,
+        );
         const participantData: ParticipantData = {
           ...participant,
           goldGraph: timelineParticipant?.goldGraph || [],
@@ -36,24 +38,36 @@ export class PlayerAggregatesUpdateService {
           damageGraph: timelineParticipant?.damageGraph || [],
         };
 
-        const allParticipants: ParticipantData[] = matchData.participants.map((p) => {
-          const tp = timelineData.participants.get(p.puuid);
-          return {
-            ...p,
-            goldGraph: tp?.goldGraph || [],
-            xpGraph: tp?.xpGraph || [],
-            csGraph: tp?.csGraph || [],
-            damageGraph: tp?.damageGraph || [],
-          };
-        });
+        const allParticipants: ParticipantData[] = matchData.participants.map(
+          (p) => {
+            const tp = timelineData.participants.get(p.puuid);
+            return {
+              ...p,
+              goldGraph: tp?.goldGraph || [],
+              xpGraph: tp?.xpGraph || [],
+              csGraph: tp?.csGraph || [],
+              damageGraph: tp?.damageGraph || [],
+            };
+          },
+        );
 
-        const opponent = this.playerStatsAggregation.findLaneOpponent(allParticipants, participantData);
+        const opponent = this.playerStatsAggregation.findLaneOpponent(
+          allParticipants,
+          participantData,
+        );
         await this.playerStatsAggregation.updatePlayerAggregates(
-          participantData, opponent, patch, gameDurationMinutes,
+          participantData,
+          opponent,
+          patch,
+          gameDurationMinutes,
         );
       } catch (error) {
         this.logger.warn(
-          { puuid: participant.puuid, event: 'player_stats_error', error: getErrorMessage(error) },
+          {
+            puuid: participant.puuid,
+            event: 'player_stats_error',
+            error: getErrorMessage(error),
+          },
           `Erro ao atualizar PlayerStats para ${participant.puuid}`,
         );
       }

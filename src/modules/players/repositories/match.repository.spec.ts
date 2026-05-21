@@ -27,7 +27,10 @@ describe('MatchRepository', () => {
 
   describe('findExistingMatchIds', () => {
     it('should return a Set of existing match IDs', async () => {
-      prisma.match.findMany.mockResolvedValue([{ matchId: 'M1' }, { matchId: 'M2' }]);
+      prisma.match.findMany.mockResolvedValue([
+        { matchId: 'M1' },
+        { matchId: 'M2' },
+      ]);
 
       const result = await repo.findExistingMatchIds(['M1', 'M2', 'M3']);
 

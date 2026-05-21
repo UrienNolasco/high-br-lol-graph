@@ -20,6 +20,12 @@ import { ProcessedMatchesService } from './services/processed-matches.service';
     ProcessedMatchesService,
     TierRankService,
   ],
-  exports: [ChampionStatsService, ChampionDetailService, ProcessedMatchesService, TierRankService, ChampionStatsRepository],
+  exports: [
+    ChampionStatsService,
+    ChampionDetailService,
+    ProcessedMatchesService,
+    TierRankService,
+    ChampionStatsRepository,
+  ],
 })
 export class StatsModule {}

@@ -73,12 +73,27 @@ describe('performance-calculator', () => {
   describe('computeComparison', () => {
     it('should compute advantage percentages', () => {
       const player = {
-        championId: 1, championName: 'P', role: 'MID',
-        dpm: 1000, gpm: 500, cspm: 8, visionScorePerMin: 1.5, damageTakenPerMin: 500, kda: 3,
+        championId: 1,
+        championName: 'P',
+        role: 'MID',
+        dpm: 1000,
+        gpm: 500,
+        cspm: 8,
+        visionScorePerMin: 1.5,
+        damageTakenPerMin: 500,
+        kda: 3,
       };
       const opponent = {
-        puuid: 'e', championId: 2, championName: 'O', role: 'MID',
-        dpm: 800, gpm: 400, cspm: 7, visionScorePerMin: 1.0, damageTakenPerMin: 600, kda: 2,
+        puuid: 'e',
+        championId: 2,
+        championName: 'O',
+        role: 'MID',
+        dpm: 800,
+        gpm: 400,
+        cspm: 7,
+        visionScorePerMin: 1.0,
+        damageTakenPerMin: 600,
+        kda: 2,
       };
 
       const result = computeComparison(player, opponent);
@@ -94,12 +109,27 @@ describe('performance-calculator', () => {
 
     it('should handle zero division', () => {
       const player = {
-        championId: 1, championName: 'P', role: 'MID',
-        dpm: 100, gpm: 100, cspm: 1, visionScorePerMin: 0.5, damageTakenPerMin: 100, kda: 1,
+        championId: 1,
+        championName: 'P',
+        role: 'MID',
+        dpm: 100,
+        gpm: 100,
+        cspm: 1,
+        visionScorePerMin: 0.5,
+        damageTakenPerMin: 100,
+        kda: 1,
       };
       const opponent = {
-        puuid: 'e', championId: 2, championName: 'O', role: 'MID',
-        dpm: 0, gpm: 0, cspm: 0, visionScorePerMin: 0, damageTakenPerMin: 0, kda: 0,
+        puuid: 'e',
+        championId: 2,
+        championName: 'O',
+        role: 'MID',
+        dpm: 0,
+        gpm: 0,
+        cspm: 0,
+        visionScorePerMin: 0,
+        damageTakenPerMin: 0,
+        kda: 0,
       };
 
       const result = computeComparison(player, opponent);

@@ -6,7 +6,7 @@ import { RedisService } from '../../../core/redis/redis.service';
 
 describe('CollectorConfigService', () => {
   let service: CollectorConfigService;
-  let mockRedisClient: any;
+  let mockRedisClient: Record<string, jest.Mock>;
 
   const mockRedisService = {
     get client() {

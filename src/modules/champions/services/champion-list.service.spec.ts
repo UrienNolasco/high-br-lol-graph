@@ -13,7 +13,13 @@ describe('ChampionListService', () => {
 
   it('should return champion list with images and total', async () => {
     mockDataDragon.getAllChampions.mockReturnValue([
-      { name: 'Annie', id: '1', key: '1', title: 'Dark Child', version: '15.1' },
+      {
+        name: 'Annie',
+        id: '1',
+        key: '1',
+        title: 'Dark Child',
+        version: '15.1',
+      },
       { name: 'Garen', id: '86', key: '86', title: 'Might', version: '15.1' },
     ]);
     mockDataDragon.getChampionImageUrls.mockResolvedValue({

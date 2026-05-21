@@ -2,10 +2,18 @@ import { CollectorPipelineService } from './collector-pipeline.service';
 
 describe('CollectorPipelineService', () => {
   let service: CollectorPipelineService;
-  let mockRiotService: any;
-  let mockQueueService: any;
-  let mockCollectorRepo: any;
-  let mockLogger: any;
+  let mockRiotService: {
+    getHighEloPuids: jest.Mock;
+    getMatchIdsByPuuid: jest.Mock;
+  };
+  let mockQueueService: { publishBackgroundMatch: jest.Mock };
+  let mockCollectorRepo: { matchExists: jest.Mock };
+  let mockLogger: {
+    info: jest.Mock;
+    debug: jest.Mock;
+    warn: jest.Mock;
+    error: jest.Mock;
+  };
 
   beforeEach(() => {
     mockRiotService = {
@@ -70,7 +78,10 @@ describe('CollectorPipelineService', () => {
     await service.runCollection({ startHour: 1, endHour: 8 });
 
     expect(mockLogger.warn).toHaveBeenCalledWith(
-      expect.objectContaining({ puuid: 'p1', event: 'collection_player_error' }),
+      expect.objectContaining({
+        puuid: 'p1',
+        event: 'collection_player_error',
+      }),
       'Error processing player PUUID',
     );
     expect(mockQueueService.publishBackgroundMatch).toHaveBeenCalledTimes(1);

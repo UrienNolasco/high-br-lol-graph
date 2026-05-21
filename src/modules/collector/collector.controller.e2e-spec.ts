@@ -17,9 +17,7 @@ describe('CollectorController (e2e)', () => {
 
   beforeAll(async () => {
     app = await createTestingApp(TestCollectorModule, {
-      overrides: [
-        { provide: CollectorService, useValue: collectorService },
-      ],
+      overrides: [{ provide: CollectorService, useValue: collectorService }],
     });
   });
 

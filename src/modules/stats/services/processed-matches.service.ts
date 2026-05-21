@@ -11,7 +11,11 @@ export class ProcessedMatchesService {
     if (patch) {
       const count = await this.repo.countByPatch(patch);
       if (count === 0) {
-        return { count: 0, patch, message: `Não há dados para o patch ${patch}` };
+        return {
+          count: 0,
+          patch,
+          message: `Não há dados para o patch ${patch}`,
+        };
       }
       return { count, patch };
     }

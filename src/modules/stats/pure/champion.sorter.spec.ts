@@ -2,16 +2,36 @@ import { sortChampions } from './champion.sorter';
 import { ChampionStatsDto } from '../dto/champion-stats.dto';
 
 describe('champion.sorter', () => {
-  function makeChampion(name: string, winRate: number, gamesPlayed: number): ChampionStatsDto {
+  function makeChampion(
+    name: string,
+    winRate: number,
+    gamesPlayed: number,
+  ): ChampionStatsDto {
     return {
-      championId: 1, championName: name, winRate, gamesPlayed,
-      wins: 0, losses: 0, images: null, kda: 0, dpm: 0, cspm: 0, gpm: 0,
-      banRate: 0, pickRate: 0, tier: 'S', rank: null,
+      championId: 1,
+      championName: name,
+      winRate,
+      gamesPlayed,
+      wins: 0,
+      losses: 0,
+      images: null,
+      kda: 0,
+      dpm: 0,
+      cspm: 0,
+      gpm: 0,
+      banRate: 0,
+      pickRate: 0,
+      tier: 'S',
+      rank: null,
     };
   }
 
   it('should sort by winRate descending by default', () => {
-    const champions = [makeChampion('A', 50, 100), makeChampion('B', 60, 100), makeChampion('C', 55, 100)];
+    const champions = [
+      makeChampion('A', 50, 100),
+      makeChampion('B', 60, 100),
+      makeChampion('C', 55, 100),
+    ];
     const result = sortChampions(champions, 'winRate', 'desc');
     expect(result[0].championName).toBe('B');
     expect(result[1].championName).toBe('C');

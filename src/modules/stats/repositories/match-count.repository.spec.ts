@@ -9,7 +9,10 @@ describe('MatchCountRepository', () => {
   beforeEach(async () => {
     prisma = { match: { count: jest.fn() } };
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MatchCountRepository, { provide: PrismaService, useValue: prisma }],
+      providers: [
+        MatchCountRepository,
+        { provide: PrismaService, useValue: prisma },
+      ],
     }).compile();
     repo = module.get<MatchCountRepository>(MatchCountRepository);
   });
@@ -19,7 +22,9 @@ describe('MatchCountRepository', () => {
       prisma.match.count.mockResolvedValue(500);
       const result = await repo.countByPatch('15.1');
       expect(result).toBe(500);
-      expect(prisma.match.count).toHaveBeenCalledWith({ where: { gameVersion: { startsWith: '15.1' } } });
+      expect(prisma.match.count).toHaveBeenCalledWith({
+        where: { gameVersion: { startsWith: '15.1' } },
+      });
     });
   });
 

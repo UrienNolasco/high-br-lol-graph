@@ -6,8 +6,18 @@ import { PinoLogger } from 'nestjs-pino';
 
 describe('PlayerStatsService', () => {
   let service: PlayerStatsService;
-  let statsRepo: jest.Mocked<Pick<PlayerStatsRepository, 'getAggregatedStats' | 'getChampionStats' | 'getRoleDistribution' | 'getActivityData'>>;
-  let dataDragon: jest.Mocked<Pick<DataDragonService, 'getChampionById' | 'getChampionImageUrls'>>;
+  let statsRepo: jest.Mocked<
+    Pick<
+      PlayerStatsRepository,
+      | 'getAggregatedStats'
+      | 'getChampionStats'
+      | 'getRoleDistribution'
+      | 'getActivityData'
+    >
+  >;
+  let dataDragon: jest.Mocked<
+    Pick<DataDragonService, 'getChampionById' | 'getChampionImageUrls'>
+  >;
 
   beforeEach(async () => {
     statsRepo = {
@@ -27,7 +37,10 @@ describe('PlayerStatsService', () => {
         PlayerStatsService,
         { provide: PlayerStatsRepository, useValue: statsRepo },
         { provide: DataDragonService, useValue: dataDragon },
-        { provide: PinoLogger, useValue: { setContext: jest.fn(), info: jest.fn() } },
+        {
+          provide: PinoLogger,
+          useValue: { setContext: jest.fn(), info: jest.fn() },
+        },
       ],
     }).compile();
 
@@ -54,7 +67,10 @@ describe('PlayerStatsService', () => {
         lastUpdated: new Date(),
       } as any);
 
-      dataDragon.getChampionById.mockReturnValue({ id: 'Annie', name: 'Annie' });
+      dataDragon.getChampionById.mockReturnValue({
+        id: 'Annie',
+        name: 'Annie',
+      });
 
       const result = await service.getSummary('p1', { patch: '15.1' });
 
@@ -65,7 +81,9 @@ describe('PlayerStatsService', () => {
     it('should throw NotFoundException if no stats', async () => {
       statsRepo.getAggregatedStats.mockResolvedValue(null);
 
-      await expect(service.getSummary('p1', { patch: '15.1' })).rejects.toThrow('No stats found for player p1');
+      await expect(service.getSummary('p1', { patch: '15.1' })).rejects.toThrow(
+        'No stats found for player p1',
+      );
     });
   });
 
@@ -73,14 +91,28 @@ describe('PlayerStatsService', () => {
     it('should return sorted and enriched champions', async () => {
       statsRepo.getChampionStats.mockResolvedValue([
         {
-          championId: 1, gamesPlayed: 10, wins: 6, losses: 4, winRate: 60,
-          avgKda: 3, avgCspm: 7, avgDpm: 600, avgGpm: 400, avgVisionScore: 20,
-          avgCsd15: 5, avgGd15: 200, avgXpd15: 100,
-          roleDistribution: { MID: 10 }, lastPlayedAt: new Date(),
+          championId: 1,
+          gamesPlayed: 10,
+          wins: 6,
+          losses: 4,
+          winRate: 60,
+          avgKda: 3,
+          avgCspm: 7,
+          avgDpm: 600,
+          avgGpm: 400,
+          avgVisionScore: 20,
+          avgCsd15: 5,
+          avgGd15: 200,
+          avgXpd15: 100,
+          roleDistribution: { MID: 10 },
+          lastPlayedAt: new Date(),
         } as any,
       ]);
 
-      dataDragon.getChampionById.mockReturnValue({ id: 'Annie', name: 'Annie' });
+      dataDragon.getChampionById.mockReturnValue({
+        id: 'Annie',
+        name: 'Annie',
+      });
       dataDragon.getChampionImageUrls.mockResolvedValue({ square: 'img.png' });
 
       const result = await service.getChampions('p1', { patch: '15.1' });
@@ -94,8 +126,22 @@ describe('PlayerStatsService', () => {
   describe('getRoleDistribution', () => {
     it('should return role distribution', async () => {
       statsRepo.getRoleDistribution.mockResolvedValue([
-        { role: 'MID', gamesplayed: BigInt(50), wins: BigInt(30), losses: BigInt(20), winrate: 60, avgkda: 3.5 },
-        { role: 'TOP', gamesplayed: BigInt(30), wins: BigInt(15), losses: BigInt(15), winrate: 50, avgkda: 2.5 },
+        {
+          role: 'MID',
+          gamesplayed: BigInt(50),
+          wins: BigInt(30),
+          losses: BigInt(20),
+          winrate: 60,
+          avgkda: 3.5,
+        },
+        {
+          role: 'TOP',
+          gamesplayed: BigInt(30),
+          wins: BigInt(15),
+          losses: BigInt(15),
+          winrate: 50,
+          avgkda: 2.5,
+        },
       ]);
 
       const result = await service.getRoleDistribution('p1', { patch: 'ALL' });
@@ -109,7 +155,14 @@ describe('PlayerStatsService', () => {
   describe('getActivity', () => {
     it('should return activity heatmap with insights', async () => {
       statsRepo.getActivityData.mockResolvedValue([
-        { dayofweek: 1, hour: 14, games: BigInt(10), wins: BigInt(7), losses: BigInt(3), winrate: 70 },
+        {
+          dayofweek: 1,
+          hour: 14,
+          games: BigInt(10),
+          wins: BigInt(7),
+          losses: BigInt(3),
+          winrate: 70,
+        },
       ]);
 
       const result = await service.getActivity('p1', { patch: 'ALL' });

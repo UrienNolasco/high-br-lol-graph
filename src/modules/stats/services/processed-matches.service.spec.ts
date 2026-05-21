@@ -4,12 +4,17 @@ import { MatchCountRepository } from '../repositories/match-count.repository';
 
 describe('ProcessedMatchesService', () => {
   let service: ProcessedMatchesService;
-  let repo: jest.Mocked<Pick<MatchCountRepository, 'countByPatch' | 'countTotal'>>;
+  let repo: jest.Mocked<
+    Pick<MatchCountRepository, 'countByPatch' | 'countTotal'>
+  >;
 
   beforeEach(async () => {
     repo = { countByPatch: jest.fn(), countTotal: jest.fn() } as any;
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProcessedMatchesService, { provide: MatchCountRepository, useValue: repo }],
+      providers: [
+        ProcessedMatchesService,
+        { provide: MatchCountRepository, useValue: repo },
+      ],
     }).compile();
     service = module.get<ProcessedMatchesService>(ProcessedMatchesService);
   });

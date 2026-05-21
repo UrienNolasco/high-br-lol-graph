@@ -32,7 +32,10 @@ export class ChampionStatsService {
     const championStats = await this.repo.findManyByPatch(patch);
 
     const previousPatch = this.tierRank.getPreviousPatch(patch);
-    const previousStatsMap = new Map<number, ReturnType<typeof toChampionMetrics>>();
+    const previousStatsMap = new Map<
+      number,
+      ReturnType<typeof toChampionMetrics>
+    >();
 
     if (previousPatch) {
       const previousStats = await this.repo.findManyByPatch(previousPatch);
@@ -45,13 +48,18 @@ export class ChampionStatsService {
       const championInfo = this.dataDragon.getChampionById(stat.championId);
       if (!championInfo) return null;
 
-      const images = await this.dataDragon.getChampionImageUrls(championInfo.id);
+      const images = await this.dataDragon.getChampionImageUrls(
+        championInfo.id,
+      );
 
       const currentMetrics = toChampionMetrics(stat);
       const previousMetrics = previousStatsMap.get(stat.championId) || null;
 
       const scoreResult = this.tierRank.calculateChampionScore(
-        stat.championId, patch, currentMetrics, previousMetrics,
+        stat.championId,
+        patch,
+        currentMetrics,
+        previousMetrics,
       );
 
       return {
@@ -82,9 +90,13 @@ export class ChampionStatsService {
 
     const withData = validResults.filter((c) => !c.hasInsufficientData);
     withData.sort((a, b) => b.score - a.score);
-    withData.forEach((c, i) => { c.rank = i + 1; });
+    withData.forEach((c, i) => {
+      c.rank = i + 1;
+    });
 
-    const enrichedStats: ChampionStatsDto[] = validResults.map((c) => toChampionDto(c as EnrichedChampion));
+    const enrichedStats: ChampionStatsDto[] = validResults.map((c) =>
+      toChampionDto(c as EnrichedChampion),
+    );
     const sorted = sortChampions(enrichedStats, sortBy, order);
 
     const startIndex = (page - 1) * limit;

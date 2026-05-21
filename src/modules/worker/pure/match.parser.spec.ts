@@ -1,11 +1,20 @@
-import { buildParticipantMap, parseMatchData, extractPatch } from './match.parser';
+import {
+  buildParticipantMap,
+  parseMatchData,
+  extractPatch,
+} from './match.parser';
 
 describe('match.parser', () => {
   describe('buildParticipantMap', () => {
     it('should map timeline PUUIDs to participant IDs (1-indexed)', () => {
-      const map = buildParticipantMap(['puuid-1', 'puuid-2', 'puuid-3'], [
-        { puuid: 'puuid-1' } as any, { puuid: 'puuid-2' } as any, { puuid: 'puuid-3' } as any,
-      ]);
+      const map = buildParticipantMap(
+        ['puuid-1', 'puuid-2', 'puuid-3'],
+        [
+          { puuid: 'puuid-1' } as any,
+          { puuid: 'puuid-2' } as any,
+          { puuid: 'puuid-3' } as any,
+        ],
+      );
 
       expect(map.get(1)).toBe('puuid-1');
       expect(map.get(2)).toBe('puuid-2');
@@ -14,7 +23,11 @@ describe('match.parser', () => {
 
     it('should call onMismatch callback for unmatched PUUIDs', () => {
       const onMismatch = jest.fn();
-      buildParticipantMap(['puuid-1', 'puuid-missing'], [{ puuid: 'puuid-1' } as any], onMismatch);
+      buildParticipantMap(
+        ['puuid-1', 'puuid-missing'],
+        [{ puuid: 'puuid-1' } as any],
+        onMismatch,
+      );
 
       expect(onMismatch).toHaveBeenCalledWith(2, 'puuid-missing');
     });
@@ -30,14 +43,33 @@ describe('match.parser', () => {
         queueId: 420,
         gameVersion: '15.1.1',
         mapId: 11,
-        teams: [{ teamId: 100, win: true, bans: [{ championId: 1 }], objectives: {} }],
-        participants: [{
-          puuid: 'p1', summonerName: 'Test', championId: 1, championName: 'Annie',
-          teamId: 100, teamPosition: 'MIDDLE', lane: 'MIDDLE', individualPosition: 'MIDDLE',
-          win: true, kills: 5, deaths: 3, assists: 10, goldEarned: 12000,
-          totalDamageDealtToChampions: 25000, totalDamageTaken: 15000, visionScore: 30,
-          perks: {}, challenges: {}, summoner1Id: 4, summoner2Id: 14,
-        }],
+        teams: [
+          { teamId: 100, win: true, bans: [{ championId: 1 }], objectives: {} },
+        ],
+        participants: [
+          {
+            puuid: 'p1',
+            summonerName: 'Test',
+            championId: 1,
+            championName: 'Annie',
+            teamId: 100,
+            teamPosition: 'MIDDLE',
+            lane: 'MIDDLE',
+            individualPosition: 'MIDDLE',
+            win: true,
+            kills: 5,
+            deaths: 3,
+            assists: 10,
+            goldEarned: 12000,
+            totalDamageDealtToChampions: 25000,
+            totalDamageTaken: 15000,
+            visionScore: 30,
+            perks: {},
+            challenges: {},
+            summoner1Id: 4,
+            summoner2Id: 14,
+          },
+        ],
       },
     } as any;
 
@@ -61,8 +93,18 @@ describe('match.parser', () => {
     it('should filter out championId 0 from bans', () => {
       const dto = {
         ...baseMatchDto,
-        info: { ...baseMatchDto.info, teams: [{ teamId: 100, win: true, bans: [{ championId: 0 }, { championId: 1 }], objectives: {} }] },
-      } as any;
+        info: {
+          ...baseMatchDto.info,
+          teams: [
+            {
+              teamId: 100,
+              win: true,
+              bans: [{ championId: 0 }, { championId: 1 }],
+              objectives: {},
+            },
+          ],
+        },
+      };
       const result = parseMatchData(dto);
       expect(result.teams[0].bans).toEqual([1]);
     });
@@ -84,14 +126,27 @@ describe('match.parser', () => {
     it('should calculate KDA with deaths = 1 when deaths is 0', () => {
       const dto = {
         ...baseMatchDto,
-        info: { ...baseMatchDto.info, participants: [{ ...baseMatchDto.info.participants[0], deaths: 0, kills: 10, assists: 5 }] },
-      } as any;
+        info: {
+          ...baseMatchDto.info,
+          participants: [
+            {
+              ...baseMatchDto.info.participants[0],
+              deaths: 0,
+              kills: 10,
+              assists: 5,
+            },
+          ],
+        },
+      };
       const result = parseMatchData(dto);
       expect(result.participants[0].kda).toBe(15);
     });
 
     it('should handle no teams gracefully', () => {
-      const dto = { ...baseMatchDto, info: { ...baseMatchDto.info, teams: undefined } } as any;
+      const dto = {
+        ...baseMatchDto,
+        info: { ...baseMatchDto.info, teams: undefined },
+      };
       const result = parseMatchData(dto);
       expect(result.teams).toEqual([]);
     });

@@ -28,19 +28,26 @@ export class MatchPersistenceService {
       }
 
       const participantsData = matchData.participants.map((participant) => {
-        const timelineParticipant = timelineData.participants.get(participant.puuid);
+        const timelineParticipant = timelineData.participants.get(
+          participant.puuid,
+        );
         return {
           ...participant,
           goldGraph: timelineParticipant?.goldGraph || [],
           xpGraph: timelineParticipant?.xpGraph || [],
           csGraph: timelineParticipant?.csGraph || [],
           damageGraph: timelineParticipant?.damageGraph || [],
-          deathPositions: (timelineParticipant?.deathPositions || []) as unknown as Prisma.InputJsonValue,
-          killPositions: (timelineParticipant?.killPositions || []) as unknown as Prisma.InputJsonValue,
-          wardPositions: (timelineParticipant?.wardPositions || []) as unknown as Prisma.InputJsonValue,
-          pathingSample: (timelineParticipant?.pathingSample || []) as unknown as Prisma.InputJsonValue,
+          deathPositions: (timelineParticipant?.deathPositions ||
+            []) as unknown as Prisma.InputJsonValue,
+          killPositions: (timelineParticipant?.killPositions ||
+            []) as unknown as Prisma.InputJsonValue,
+          wardPositions: (timelineParticipant?.wardPositions ||
+            []) as unknown as Prisma.InputJsonValue,
+          pathingSample: (timelineParticipant?.pathingSample ||
+            []) as unknown as Prisma.InputJsonValue,
           skillOrder: timelineParticipant?.skillOrder || [],
-          itemTimeline: (timelineParticipant?.itemTimeline || []) as unknown as Prisma.InputJsonValue,
+          itemTimeline: (timelineParticipant?.itemTimeline ||
+            []) as unknown as Prisma.InputJsonValue,
         };
       });
 
@@ -115,11 +122,25 @@ export class MatchPersistenceService {
             tier: 'C',
             rank: 0,
           },
-          update: { gamesPlayed, wins, losses, winRate, kda: newKda, dpm: newDpm, cspm: newCspm, gpm: newGpm },
+          update: {
+            gamesPlayed,
+            wins,
+            losses,
+            winRate,
+            kda: newKda,
+            dpm: newDpm,
+            cspm: newCspm,
+            gpm: newGpm,
+          },
         });
       } catch (error) {
         this.logger.warn(
-          { championId: participant.championId, championName: participant.championName, event: 'champion_stats_error', error: getErrorMessage(error) },
+          {
+            championId: participant.championId,
+            championName: participant.championName,
+            event: 'champion_stats_error',
+            error: getErrorMessage(error),
+          },
           `Erro ao atualizar ChampionStats para ${participant.championName}`,
         );
       }

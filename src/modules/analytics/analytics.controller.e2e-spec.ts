@@ -1,10 +1,13 @@
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AnalyticsModule } from './analytics.module';
-import { AnalyticsService } from './analytics.service';
+import { AnalyticsService } from './services/analytics.service';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { createTestingApp } from '../../../test/helpers/app.builder';
-import { mockAnalyticsService, mockPrismaService } from '../../../test/helpers/shared-mocks';
+import {
+  mockAnalyticsService,
+  mockPrismaService,
+} from '../../../test/helpers/shared-mocks';
 
 describe('AnalyticsController (e2e)', () => {
   let app: INestApplication;
@@ -60,7 +63,9 @@ describe('AnalyticsController (e2e)', () => {
       });
 
       return request(app.getHttpServer())
-        .get('/api/v1/analytics/compare?heroPuuid=hero&villainPuuid=villain&role=MID&championId=1&patch=15.23')
+        .get(
+          '/api/v1/analytics/compare?heroPuuid=hero&villainPuuid=villain&role=MID&championId=1&patch=15.23',
+        )
         .expect(200);
     });
   });

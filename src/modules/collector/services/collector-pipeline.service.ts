@@ -38,10 +38,7 @@ export class CollectorPipelineService {
 
       for (const puuid of highEloPuids) {
         try {
-          const matchIds = await this.riotService.getMatchIdsByPuuid(
-            puuid,
-            20,
-          );
+          const matchIds = await this.riotService.getMatchIdsByPuuid(puuid, 20);
           totalMatchesFound += matchIds.length;
 
           for (const matchId of matchIds) {

@@ -10,7 +10,11 @@ import { PlayerAggregatesUpdateService } from './services/player-aggregates-upda
 @Module({
   imports: [RiotModule, PrismaModule, StatsModule],
   controllers: [WorkerController],
-  providers: [WorkerService, MatchPersistenceService, PlayerAggregatesUpdateService],
+  providers: [
+    WorkerService,
+    MatchPersistenceService,
+    PlayerAggregatesUpdateService,
+  ],
   exports: [WorkerService],
 })
 export class WorkerModule {}

@@ -27,7 +27,9 @@ describe('PlayerRepository', () => {
 
       const result = await repo.findByPuuid('p1');
 
-      expect(prisma.user.findUnique).toHaveBeenCalledWith({ where: { puuid: 'p1' } });
+      expect(prisma.user.findUnique).toHaveBeenCalledWith({
+        where: { puuid: 'p1' },
+      });
       expect(result).toEqual({ puuid: 'p1' });
     });
   });
@@ -35,19 +37,29 @@ describe('PlayerRepository', () => {
   describe('upsert', () => {
     it('should call prisma.user.upsert with correct data', async () => {
       const data = {
-        gameName: 'Test', tagLine: 'BR1', region: 'br1',
-        profileIconId: 1, summonerLevel: 30, summonerId: null,
-        tier: null, rank: null, leaguePoints: null, rankedWins: null, rankedLosses: null,
+        gameName: 'Test',
+        tagLine: 'BR1',
+        region: 'br1',
+        profileIconId: 1,
+        summonerLevel: 30,
+        summonerId: null,
+        tier: null,
+        rank: null,
+        leaguePoints: null,
+        rankedWins: null,
+        rankedLosses: null,
       };
       prisma.user.upsert.mockResolvedValue({});
 
       await repo.upsert('p1', data);
 
-      expect(prisma.user.upsert).toHaveBeenCalledWith(expect.objectContaining({
-        where: { puuid: 'p1' },
-        update: expect.objectContaining({ gameName: 'Test' }),
-        create: expect.objectContaining({ puuid: 'p1', gameName: 'Test' }),
-      }));
+      expect(prisma.user.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { puuid: 'p1' },
+          update: expect.objectContaining({ gameName: 'Test' }),
+          create: expect.objectContaining({ puuid: 'p1', gameName: 'Test' }),
+        }),
+      );
     });
   });
 });

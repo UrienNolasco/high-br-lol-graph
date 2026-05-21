@@ -22,7 +22,14 @@ describe('PlayerProfileService', () => {
         { provide: PlayerRepository, useValue: playerRepo },
         { provide: MatchRepository, useValue: matchRepo },
         { provide: RiotService, useValue: riotService },
-        { provide: PinoLogger, useValue: { setContext: jest.fn(), info: jest.fn(), error: jest.fn() } },
+        {
+          provide: PinoLogger,
+          useValue: {
+            setContext: jest.fn(),
+            info: jest.fn(),
+            error: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
@@ -32,10 +39,19 @@ describe('PlayerProfileService', () => {
   describe('getProfile', () => {
     it('should return player profile', async () => {
       playerRepo.findByPuuid.mockResolvedValue({
-        puuid: 'p1', gameName: 'Test', tagLine: 'BR1', region: 'br1',
-        profileIconId: 1, summonerLevel: 30, tier: 'GOLD', rank: 'II',
-        leaguePoints: 50, rankedWins: 100, rankedLosses: 90,
-        lastUpdated: new Date(), createdAt: new Date(),
+        puuid: 'p1',
+        gameName: 'Test',
+        tagLine: 'BR1',
+        region: 'br1',
+        profileIconId: 1,
+        summonerLevel: 30,
+        tier: 'GOLD',
+        rank: 'II',
+        leaguePoints: 50,
+        rankedWins: 100,
+        rankedLosses: 90,
+        lastUpdated: new Date(),
+        createdAt: new Date(),
       } as any);
 
       const result = await service.getProfile('p1');
@@ -47,7 +63,9 @@ describe('PlayerProfileService', () => {
 
     it('should throw NotFoundException if user not found', async () => {
       playerRepo.findByPuuid.mockResolvedValue(null);
-      await expect(service.getProfile('p1')).rejects.toThrow('Player with PUUID p1 not found');
+      await expect(service.getProfile('p1')).rejects.toThrow(
+        'Player with PUUID p1 not found',
+      );
     });
   });
 
@@ -72,7 +90,9 @@ describe('PlayerProfileService', () => {
 
     it('should throw NotFoundException if user not found', async () => {
       playerRepo.findByPuuid.mockResolvedValue(null);
-      await expect(service.getUpdateStatus('p1')).rejects.toThrow('Player with PUUID p1 not found');
+      await expect(service.getUpdateStatus('p1')).rejects.toThrow(
+        'Player with PUUID p1 not found',
+      );
     });
   });
 });

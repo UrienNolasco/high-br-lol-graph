@@ -32,7 +32,9 @@ describe('PlayerStatsRepository', () => {
       await repo.getAggregatedStats('p1', '15.1', 420);
 
       expect(prisma.playerStats.findUnique).toHaveBeenCalledWith({
-        where: { puuid_patch_queueId: { puuid: 'p1', patch: '15.1', queueId: 420 } },
+        where: {
+          puuid_patch_queueId: { puuid: 'p1', patch: '15.1', queueId: 420 },
+        },
       });
     });
   });
@@ -41,15 +43,26 @@ describe('PlayerStatsRepository', () => {
     it('should query champion stats for player', async () => {
       await repo.getChampionStats('p1', '15.1', 420);
 
-      expect(prisma.playerChampionStats.findMany).toHaveBeenCalledWith(expect.objectContaining({
-        where: { puuid: 'p1', patch: '15.1', queueId: 420 },
-      }));
+      expect(prisma.playerChampionStats.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { puuid: 'p1', patch: '15.1', queueId: 420 },
+        }),
+      );
     });
   });
 
   describe('getRoleDistribution', () => {
     it('should execute raw SQL with patch filter', async () => {
-      const mockResult = [{ role: 'MID', gamesplayed: BigInt(10), wins: BigInt(6), losses: BigInt(4), winrate: 60, avgkda: 3 }];
+      const mockResult = [
+        {
+          role: 'MID',
+          gamesplayed: BigInt(10),
+          wins: BigInt(6),
+          losses: BigInt(4),
+          winrate: 60,
+          avgkda: 3,
+        },
+      ];
       prisma.$queryRaw.mockResolvedValue(mockResult);
 
       const result = await repo.getRoleDistribution('p1', '15.1');
@@ -60,7 +73,16 @@ describe('PlayerStatsRepository', () => {
 
   describe('getActivityData', () => {
     it('should execute raw SQL for activity heatmap', async () => {
-      const mockResult = [{ dayofweek: 1, hour: 14, games: BigInt(5), wins: BigInt(3), losses: BigInt(2), winrate: 60 }];
+      const mockResult = [
+        {
+          dayofweek: 1,
+          hour: 14,
+          games: BigInt(5),
+          wins: BigInt(3),
+          losses: BigInt(2),
+          winrate: 60,
+        },
+      ];
       prisma.$queryRaw.mockResolvedValue(mockResult);
 
       const result = await repo.getActivityData('p1', 'ALL');

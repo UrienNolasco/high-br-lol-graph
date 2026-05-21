@@ -5,11 +5,11 @@ import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
 // ========== Query DTO ==========
 
 export class CompareQueryDto {
-  @ApiProperty({ description: 'PUUID do jogador principal (herói)' })
+  @ApiProperty({ description: 'PUUID do jogador' })
   @IsString()
   heroPuuid: string;
 
-  @ApiProperty({ description: 'PUUID do jogador oponente (vilão)' })
+  @ApiProperty({ description: 'PUUID do jogador oponente' })
   @IsString()
   villainPuuid: string;
 

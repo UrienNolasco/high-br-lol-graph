@@ -1,10 +1,29 @@
 import { CollectorService } from './collector.service';
 
+interface MockConfig {
+  isEnabled: jest.Mock;
+  setEnabled: jest.Mock;
+  getWindow: jest.Mock;
+  getLastRun: jest.Mock;
+  setLastRun: jest.Mock;
+}
+
+interface MockPipeline {
+  runCollection: jest.Mock;
+}
+
+interface MockLogger {
+  setContext: jest.Mock;
+  info: jest.Mock;
+  warn: jest.Mock;
+  error: jest.Mock;
+}
+
 describe('CollectorService', () => {
   let service: CollectorService;
-  let mockConfig: any;
-  let mockPipeline: any;
-  let mockLogger: any;
+  let mockConfig: MockConfig;
+  let mockPipeline: MockPipeline;
+  let mockLogger: MockLogger;
 
   beforeEach(() => {
     mockConfig = {
@@ -81,7 +100,7 @@ describe('CollectorService', () => {
         }),
       );
 
-      service.triggerNow();
+      void service.triggerNow();
       const secondCall = service.triggerNow();
 
       resolvePromise!();
