@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { LockService } from './lock.service';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [RedisModule],
   providers: [LockService],
   exports: [LockService],
 })

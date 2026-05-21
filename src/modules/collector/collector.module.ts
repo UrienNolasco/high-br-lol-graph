@@ -8,9 +8,10 @@ import { CollectorRepository } from './repositories/collector.repository';
 import { RiotModule } from '../../core/riot/riot.module';
 import { QueueModule } from '../../core/queue/queue.module';
 import { PrismaModule } from '../../core/prisma/prisma.module';
+import { RedisModule } from '../../core/redis/redis.module';
 
 @Module({
-  imports: [ScheduleModule, RiotModule, QueueModule, PrismaModule],
+  imports: [ScheduleModule, RiotModule, QueueModule, PrismaModule, RedisModule],
   controllers: [CollectorController],
   providers: [
     CollectorConfigService,

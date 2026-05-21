@@ -1,58 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { PinoLogger } from 'nestjs-pino';
-import { Redis } from 'ioredis';
 import * as crypto from 'crypto';
 import { getErrorMessage } from '../logger/get-error-message';
-
 import { LockService } from '../lock/lock.service';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class RateLimiterService {
-  private redis: Redis | null = null;
   private readonly WINDOW_SIZE_SECONDS = 120;
   private readonly MAX_REQUESTS = 100;
   private readonly RETRY_DELAY_MS = 1000;
   private readonly LOCK_NAME = 'riot_rate_limiter_lock';
 
   constructor(
-    private configService: ConfigService,
     private readonly lockService: LockService,
+    private readonly redisService: RedisService,
     private readonly logger: PinoLogger,
   ) {
     this.logger.setContext(RateLimiterService.name);
-    this.initializeRedis();
   }
 
-  private initializeRedis() {
-    const redisHost = this.configService.get<string>('REDIS_HOST', 'localhost');
-    const redisPort = this.configService.get<number>('REDIS_PORT', 6379);
-
-    this.redis = new Redis({
-      host: redisHost,
-      port: redisPort,
-      enableReadyCheck: false,
-      maxRetriesPerRequest: 3,
-    });
-
-    this.redis.on('connect', () => {
-      this.logger.info(
-        { operation: 'redis_connect', host: redisHost, port: redisPort },
-        'Connected to Redis',
-      );
-    });
-
-    this.redis.on('error', (error) => {
-      this.logger.error(
-        { operation: 'redis_error', error: error.message },
-        'Redis connection error',
-      );
-    });
-  }
-
-  /**
-   * Gera um identificador único e seguro para a API key (hash)
-   */
   private getApiKeyIdentifier(apiKey: string): string {
     return crypto
       .createHash('sha256')
@@ -61,14 +28,6 @@ export class RateLimiterService {
       .substring(0, 16);
   }
 
-  /**
-   * Método principal que gerencia o rate limit.
-   * Implementa algoritmo de janela deslizante com Redis.
-   * Cada API key tem seu próprio contador de rate limit.
-   *
-   * @param apiKey A API key para rastrear o rate limit separadamente (opcional, para retrocompatibilidade)
-   * @returns Promise<void> - Resolve quando a permissão é concedida
-   */
   async throttle(apiKey?: string): Promise<void> {
     const apiKeyId = apiKey ? this.getApiKeyIdentifier(apiKey) : 'default';
     const redisKey = `riot_requests:${apiKeyId}`;
@@ -98,16 +57,20 @@ export class RateLimiterService {
         const windowStart = currentTimestamp - this.WINDOW_SIZE_SECONDS * 1000;
 
         try {
-          if (!this.redis) {
-            throw new Error('Redis not initialized');
-          }
+          await this.redisService.client.zremrangebyscore(
+            redisKey,
+            '-inf',
+            windowStart,
+          );
 
-          await this.redis.zremrangebyscore(redisKey, '-inf', windowStart);
-
-          const requestCount = await this.redis.zcard(redisKey);
+          const requestCount = await this.redisService.client.zcard(redisKey);
 
           if (requestCount < this.MAX_REQUESTS) {
-            await this.redis.zadd(redisKey, currentTimestamp, currentTimestamp);
+            await this.redisService.client.zadd(
+              redisKey,
+              currentTimestamp,
+              currentTimestamp,
+            );
             const waitTime = Date.now() - startTime;
             if (waitTime > 0) {
               this.logger.debug(
@@ -157,31 +120,25 @@ export class RateLimiterService {
     }
   }
 
-  /**
-   * Verifica o status atual do rate limit sem bloquear
-   *
-   * @param apiKey A API key para verificar o status (opcional, para retrocompatibilidade)
-   * @returns Promise<{requestsInWindow: number, maxRequests: number, canProceed: boolean}>
-   */
   async getStatus(apiKey?: string): Promise<{
     requestsInWindow: number;
     maxRequests: number;
     canProceed: boolean;
   }> {
     try {
-      if (!this.redis) {
-        throw new Error('Redis not initialized');
-      }
-
       const apiKeyId = apiKey ? this.getApiKeyIdentifier(apiKey) : 'default';
       const redisKey = `riot_requests:${apiKeyId}`;
 
       const currentTimestamp = Date.now();
       const windowStart = currentTimestamp - this.WINDOW_SIZE_SECONDS * 1000;
 
-      await this.redis.zremrangebyscore(redisKey, '-inf', windowStart);
+      await this.redisService.client.zremrangebyscore(
+        redisKey,
+        '-inf',
+        windowStart,
+      );
 
-      const requestCount = await this.redis.zcard(redisKey);
+      const requestCount = await this.redisService.client.zcard(redisKey);
 
       return {
         requestsInWindow: requestCount,
@@ -201,32 +158,22 @@ export class RateLimiterService {
     }
   }
 
-  /**
-   * Limpa todos os registros de rate limit (útil para testes)
-   * Remove todas as chaves que começam com 'riot_requests:' para suportar múltiplas API keys
-   *
-   * @param apiKey Opcional: se fornecido, limpa apenas o rate limit dessa API key
-   */
   async clear(apiKey?: string): Promise<void> {
     try {
-      if (!this.redis) {
-        throw new Error('Redis not initialized');
-      }
-
       if (apiKey) {
         const apiKeyId = this.getApiKeyIdentifier(apiKey);
         const redisKey = `riot_requests:${apiKeyId}`;
-        await this.redis.del(redisKey);
+        await this.redisService.client.del(redisKey);
         this.logger.info(
           { operation: 'rate_limit_clear', apiKeyHash: apiKeyId },
           'Rate limit cleared',
         );
       } else {
-        const keys = await this.redis.keys('riot_requests:*');
+        const keys = await this.redisService.client.keys('riot_requests:*');
         keys.push('riot_requests');
 
         if (keys.length > 0) {
-          await this.redis.del(...keys);
+          await this.redisService.client.del(...keys);
           this.logger.info(
             { operation: 'rate_limit_clear', keysCleared: keys.length },
             'Rate limit cleared',
@@ -243,16 +190,6 @@ export class RateLimiterService {
         { operation: 'rate_limit_clear', error: getErrorMessage(error) },
         'Failed to clear rate limit',
       );
-    }
-  }
-
-  /**
-   * Fecha a conexão com Redis
-   */
-  async onModuleDestroy() {
-    if (this.redis) {
-      await this.redis.quit();
-      this.logger.info('Redis connection closed');
     }
   }
 

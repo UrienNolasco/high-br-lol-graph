@@ -1,5 +1,3 @@
-import { championStatsEntry } from '../../../test/fixtures/shared/stats.fixture';
-
 export function aChampionStatRow(overrides?: Record<string, unknown>) {
   return {
     championId: 1,

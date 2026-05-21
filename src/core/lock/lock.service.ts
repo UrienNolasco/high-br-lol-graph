@@ -1,42 +1,17 @@
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
-import { Redis } from 'ioredis';
 import { getErrorMessage } from '../logger/get-error-message';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
-export class LockService implements OnModuleDestroy {
-  private readonly redis: Redis;
+export class LockService {
   private readonly lockTimeoutMs: number = 130000;
 
   constructor(
-    private configService: ConfigService,
+    private readonly redisService: RedisService,
     private readonly logger: PinoLogger,
   ) {
-    const redisHost = this.configService.get<string>('REDIS_HOST', 'redis');
-    const redisPort = this.configService.get<number>('REDIS_PORT', 6379);
-    this.redis = new Redis({
-      host: redisHost,
-      port: redisPort,
-      enableReadyCheck: false,
-      maxRetriesPerRequest: 3,
-    });
-
     this.logger.setContext(LockService.name);
-
-    this.redis.on('connect', () => {
-      this.logger.info(
-        { operation: 'redis_connect', host: redisHost, port: redisPort },
-        'Connected to Redis',
-      );
-    });
-
-    this.redis.on('error', (error) => {
-      this.logger.error(
-        { operation: 'redis_error', error: error.message },
-        'Redis connection error',
-      );
-    });
   }
 
   async acquireLock(
@@ -49,7 +24,7 @@ export class LockService implements OnModuleDestroy {
     let retries = 0;
 
     while (retries < maxRetries) {
-      const result = await this.redis.set(
+      const result = await this.redisService.client.set(
         lockKey,
         'locked',
         'PX',
@@ -94,7 +69,7 @@ export class LockService implements OnModuleDestroy {
     const lockKey = `lock:${lockName}`;
     const startTime = Date.now();
     try {
-      await this.redis.del(lockKey);
+      await this.redisService.client.del(lockKey);
       this.logger.debug(
         {
           operation: 'lock_release',
@@ -113,13 +88,6 @@ export class LockService implements OnModuleDestroy {
         },
         'Failed to release lock',
       );
-    }
-  }
-
-  async onModuleDestroy() {
-    if (this.redis) {
-      await this.redis.quit();
-      this.logger.info('Redis connection closed');
     }
   }
 }

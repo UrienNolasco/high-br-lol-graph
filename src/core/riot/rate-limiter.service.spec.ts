@@ -1,48 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigService } from '@nestjs/config';
 import { PinoLogger } from 'nestjs-pino';
 import { RateLimiterService } from './rate-limiter.service';
 import { LockService } from '../lock/lock.service';
-import { Redis } from 'ioredis';
-
-// Mock do ioredis antes de importar o serviço
-const mockRedisInstance = {
-  zremrangebyscore: jest.fn().mockResolvedValue(0),
-  zcard: jest.fn().mockResolvedValue(0),
-  zadd: jest.fn().mockResolvedValue(1),
-  keys: jest.fn().mockResolvedValue([]),
-  del: jest.fn().mockResolvedValue(1),
-  on: jest.fn(),
-  quit: jest.fn().mockResolvedValue('OK'),
-};
-
-jest.mock('ioredis', () => {
-  const MockRedis = jest.fn().mockImplementation(() => mockRedisInstance);
-  return {
-    Redis: MockRedis,
-    default: MockRedis,
-  };
-});
+import { RedisService } from '../redis/redis.service';
 
 describe('RateLimiterService', () => {
   let service: RateLimiterService;
-  let mockRedis: jest.Mocked<Redis>;
-  let mockLockService: jest.Mocked<LockService>;
-  let mockConfigService: jest.Mocked<ConfigService>;
+  let mockRedis: Record<string, jest.Mock>;
+  let mockLockService: jest.Mocked<Pick<LockService, 'acquireLock' | 'releaseLock'>>;
+  let mockRedisService: { client: Record<string, jest.Mock> };
 
   beforeEach(async () => {
+    mockRedis = {
+      zremrangebyscore: jest.fn().mockResolvedValue(0),
+      zcard: jest.fn().mockResolvedValue(0),
+      zadd: jest.fn().mockResolvedValue(1),
+      keys: jest.fn().mockResolvedValue([]),
+      del: jest.fn().mockResolvedValue(1),
+    };
+
+    mockRedisService = { client: mockRedis };
+
     mockLockService = {
       acquireLock: jest.fn().mockResolvedValue(true),
       releaseLock: jest.fn().mockResolvedValue(undefined),
-    } as unknown as jest.Mocked<LockService>;
-
-    mockConfigService = {
-      get: jest.fn((key: string, defaultValue?: any) => {
-        if (key === 'REDIS_HOST') return 'localhost';
-        if (key === 'REDIS_PORT') return 6379;
-        return defaultValue;
-      }),
-    } as unknown as jest.Mocked<ConfigService>;
+    };
 
     const mockLogger = {
       setContext: jest.fn(),
@@ -50,31 +32,22 @@ describe('RateLimiterService', () => {
       debug: jest.fn(),
       warn: jest.fn(),
       error: jest.fn(),
-    } as unknown as PinoLogger;
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RateLimiterService,
-        { provide: ConfigService, useValue: mockConfigService },
+        { provide: RedisService, useValue: mockRedisService },
         { provide: LockService, useValue: mockLockService },
         { provide: PinoLogger, useValue: mockLogger },
       ],
     }).compile();
 
     service = module.get<RateLimiterService>(RateLimiterService);
-
-    // Obter a instância mockada do Redis que foi criada no construtor
-    mockRedis = service['redis'] as jest.Mocked<Redis>;
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-    // Resetar os mocks do Redis para valores padrão
-    mockRedis.zremrangebyscore.mockResolvedValue(0);
-    mockRedis.zcard.mockResolvedValue(0);
-    mockRedis.zadd.mockResolvedValue('1');
-    mockRedis.keys.mockResolvedValue([]);
-    mockRedis.del.mockResolvedValue(1);
   });
 
   describe('getStatus', () => {
@@ -187,7 +160,6 @@ describe('RateLimiterService', () => {
     });
 
     it('should handle lock acquisition failure', async () => {
-      // Primeira chamada: falha ao adquirir lock, segunda: sucesso
       let callCount = 0;
       mockLockService.acquireLock.mockImplementation(() => {
         callCount++;
@@ -195,7 +167,6 @@ describe('RateLimiterService', () => {
       });
       mockRedis.zcard.mockResolvedValue(50);
 
-      // Mock do delay para evitar esperas longas
       const originalDelay = service['delay'];
       service['delay'] = jest.fn().mockResolvedValue(undefined);
 
@@ -208,7 +179,6 @@ describe('RateLimiterService', () => {
     });
 
     it('should release lock even on error', async () => {
-      // Mock para que o erro aconteça uma vez e depois resolva
       let zremrangeCount = 0;
       let zcardCount = 0;
 
@@ -230,7 +200,6 @@ describe('RateLimiterService', () => {
 
       mockLockService.acquireLock.mockResolvedValue(true);
 
-      // Mock do delay para evitar esperas longas
       const originalDelay = service['delay'];
       service['delay'] = jest.fn().mockResolvedValue(undefined);
 

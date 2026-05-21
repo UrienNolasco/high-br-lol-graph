@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PlayersController } from './players.controller';
 import { SyncService } from './services/sync.service';
+import { RedisModule } from '../../core/redis/redis.module';
 import { RiotModule } from '../../core/riot/riot.module';
 import { PrismaModule } from '../../core/prisma/prisma.module';
 import { QueueModule } from '../../core/queue/queue.module';
@@ -19,6 +20,7 @@ import { SyncStatusService } from './services/sync-status.service';
 @Module({
   imports: [
     RiotModule,
+    RedisModule,
     PrismaModule,
     QueueModule,
     ConfigModule,

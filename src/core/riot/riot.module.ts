@@ -20,11 +20,13 @@ import {
 } from '@nestjs/common';
 
 import { LockModule } from '../lock/lock.module';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
     ConfigModule,
     LockModule,
+    RedisModule,
     HttpModule.registerAsync({
       useFactory: () => ({
         timeout: 5000,
