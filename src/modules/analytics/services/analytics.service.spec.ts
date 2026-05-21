@@ -30,7 +30,7 @@ describe('AnalyticsService', () => {
       findPlayerLaningMetrics: jest.fn(),
       findMatchesForTimeline: jest.fn(),
     };
-    service = new AnalyticsService(mockRepo);
+    service = new AnalyticsService(mockRepo as any);
   });
 
   it('should return full comparison', async () => {
