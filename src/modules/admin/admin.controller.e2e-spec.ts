@@ -2,7 +2,7 @@ import { Module, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AdminController } from './admin.controller';
 import { RateLimiterService } from '../../core/riot/rate-limiter.service';
-import { CollectorService } from '../collector/collector.service';
+import { CollectorService } from '../collector/services/collector.service';
 import { createTestingApp } from '../../../test/helpers/app.builder';
 import {
   mockRateLimiterService,

@@ -72,7 +72,6 @@ export function mockCollectorService(overrides?: Record<string, unknown>) {
       startHour: 0,
       endHour: 23,
     }),
-    isEnabled: jest.fn().mockResolvedValue(true),
     setEnabled: jest.fn().mockResolvedValue(undefined),
     triggerNow: jest.fn().mockResolvedValue(undefined),
     ...overrides,

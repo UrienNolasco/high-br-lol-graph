@@ -1,6 +1,6 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CollectorService } from './collector.service';
+import { CollectorService } from './services/collector.service';
 
 @Controller('api/v1/collector')
 @ApiTags('Collector')

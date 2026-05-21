@@ -1,7 +1,7 @@
 import { Module, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { CollectorController } from './collector.controller';
-import { CollectorService } from './collector.service';
+import { CollectorService } from './services/collector.service';
 import { createTestingApp } from '../../../test/helpers/app.builder';
 import { mockCollectorService } from '../../../test/helpers/shared-mocks';
 
