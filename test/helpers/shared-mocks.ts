@@ -36,12 +36,18 @@ export function mockStatsService(overrides?: Record<string, unknown>) {
   };
 }
 
-export function mockChampionsService(overrides?: Record<string, unknown>) {
+export function mockChampionListService(overrides?: Record<string, unknown>) {
   return {
     getAllChampions: jest.fn().mockResolvedValue({
       champions: [],
       total: 0,
     }),
+    ...overrides,
+  };
+}
+
+export function mockCurrentPatchService(overrides?: Record<string, unknown>) {
+  return {
     getCurrentPatch: jest.fn().mockResolvedValue({
       patches: [],
       current: { patch: '15.1', fullVersion: '15.1.1' },

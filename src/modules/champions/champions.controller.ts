@@ -1,13 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ChampionsService } from './champions.service';
+import { ChampionListService } from './services/champion-list.service';
+import { CurrentPatchService } from './services/current-patch.service';
 import { ChampionListDto } from './dto/champion-list.dto';
 import { CurrentPatchDto } from './dto/current-patch.dto';
 
 @ApiTags('Champions')
 @Controller('api/v1/champions')
 export class ChampionsController {
-  constructor(private readonly championsService: ChampionsService) {}
+  constructor(
+    private readonly championList: ChampionListService,
+    private readonly currentPatch: CurrentPatchService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'List all available champions' })
@@ -17,7 +21,7 @@ export class ChampionsController {
     type: ChampionListDto,
   })
   getAllChampions(): Promise<ChampionListDto> {
-    return this.championsService.getAllChampions();
+    return this.championList.getAllChampions();
   }
 
   @Get('current-patch')
@@ -33,6 +37,6 @@ export class ChampionsController {
     type: CurrentPatchDto,
   })
   getCurrentPatch(): Promise<CurrentPatchDto> {
-    return this.championsService.getCurrentPatch();
+    return this.currentPatch.getCurrentPatch();
   }
 }
