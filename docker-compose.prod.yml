@@ -64,9 +64,8 @@ services:
       - redis_data_prod:/data
 
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
+    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    pull_policy: always
     container_name: high-br-lol-api-prod
     command: npm run start:prod
     environment:
@@ -111,9 +110,8 @@ services:
       start_period: 40s
 
   worker:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
+    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    pull_policy: always
     container_name: high-br-lol-worker-prod
     command: npm run start:prod
     environment:
@@ -153,9 +151,8 @@ services:
           memory: 512M
 
   worker-2:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
+    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    pull_policy: always
     container_name: high-br-lol-worker-2-prod
     command: npm run start:prod
     environment:
@@ -195,9 +192,8 @@ services:
           memory: 512M
 
   collector:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
+    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    pull_policy: always
     container_name: high-br-lol-collector-prod
     command: npm run start:prod
     environment:

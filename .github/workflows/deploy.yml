@@ -1,0 +1,240 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [prod]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  VM_USER: urien_dragon
+  VM_PROJECT_PATH: /home/urien_dragon/home/high-br-lol-graph
+
+jobs:
+  # ------------------------------------------------------------------
+  # 1. BUILD & PUSH
+  # ------------------------------------------------------------------
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    outputs:
+      short_sha: ${{ steps.sha.outputs.short_sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract short SHA
+        id: sha
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.prod
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod-${{ steps.sha.outputs.short_sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod-latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Output image reference
+        run: |
+          echo "Image pushed: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod-${{ steps.sha.outputs.short_sha }}"
+
+  # ------------------------------------------------------------------
+  # 2. VULNERABILITY SCAN  (Trivy — não bloqueia, apenas alerta)
+  # ------------------------------------------------------------------
+  vulnerability-scan:
+    name: Vulnerability Scan
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod-latest'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+  # ------------------------------------------------------------------
+  # 3. START VM  (obtem IP dinamico)
+  # ------------------------------------------------------------------
+  start-vm:
+    name: Start GCP VM
+    needs: [build-and-push, vulnerability-scan]
+    runs-on: ubuntu-latest
+    outputs:
+      vm_ip: ${{ steps.start.outputs.vm_ip }}
+    steps:
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq netcat-openbsd
+
+      - name: Start VM via Cloud Run endpoint
+        id: start
+        run: |
+          RESPONSE=$(curl -s -X POST https://ligar-high-br-lol-195555871350.us-central1.run.app \
+            -H "Authorization: Bearer ${{ secrets.VM_BEARER_TOKEN }}")
+          echo "Start VM response: $RESPONSE"
+          VM_IP=$(echo "$RESPONSE" | jq -r '.ip')
+          if [ -z "$VM_IP" ] || [ "$VM_IP" = "null" ]; then
+            echo "❌ Failed to get VM IP from response"
+            exit 1
+          fi
+          echo "vm_ip=$VM_IP" >> $GITHUB_OUTPUT
+          echo "✅ VM started with IP: $VM_IP"
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Wait for SSH to be available
+        env:
+          VM_IP: ${{ steps.start.outputs.vm_ip }}
+        run: |
+          for i in {1..30}; do
+            if nc -z -w 5 "$VM_IP" 22; then
+              echo "✅ SSH is ready on $VM_IP!"
+              exit 0
+            fi
+            echo "⏳ Waiting for SSH... attempt $i/30"
+            sleep 10
+          done
+          echo "❌ SSH not available on $VM_IP after 30 attempts"
+          exit 1
+
+  # ------------------------------------------------------------------
+  # 4. DEPLOY  (SSH na VM → docker pull → docker-compose up)
+  # ------------------------------------------------------------------
+  deploy:
+    name: Deploy to VM
+    needs: start-vm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy application via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ needs.start-vm.outputs.vm_ip }}
+          username: ${{ env.VM_USER }}
+          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            set -e
+            PROJECT_DIR="${{ env.VM_PROJECT_PATH }}"
+            IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+
+            cd "$PROJECT_DIR"
+
+            # Salva a imagem atual para rollback
+            CURRENT_IMAGE=$(docker inspect --format='{{.Config.Image}}' high-br-lol-api-prod 2>/dev/null || echo "")
+            if [ -n "$CURRENT_IMAGE" ]; then
+              echo "$CURRENT_IMAGE" > .prev-image-tag
+              echo "💾 Imagem anterior salva: $CURRENT_IMAGE"
+            fi
+
+            # Login no GHCR para pull
+            echo "${{ secrets.GHCR_PAT }}" | docker login ${{ env.REGISTRY }} -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
+
+            # Pull da imagem mais recente
+            docker pull "$IMAGE:prod-latest"
+
+            # Atualiza containers
+            docker-compose -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.prod.yml up -d --remove-orphans
+
+            echo "🚀 Deploy concluído com sucesso"
+
+  # ------------------------------------------------------------------
+  # 5. HEALTH CHECK  (valida /health por 60s)
+  # ------------------------------------------------------------------
+  health-check:
+    name: Health Check
+    needs: [start-vm, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for API health endpoint
+        env:
+          VM_IP: ${{ needs.start-vm.outputs.vm_ip }}
+        run: |
+          echo "🔍 Verificando health em http://$VM_IP:3000/health"
+          for i in {1..12}; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://$VM_IP:3000/health" || echo "000")
+            if [ "$HTTP_STATUS" = "200" ]; then
+              echo "✅ Health check passou na tentativa $i"
+              exit 0
+            fi
+            echo "⏳ Health check tentativa $i/12 falhou (HTTP $HTTP_STATUS). Retentando em 5s..."
+            sleep 5
+          done
+          echo "❌ Health check falhou após 12 tentativas"
+          exit 1
+
+  # ------------------------------------------------------------------
+  # 6. ROLLBACK  (so executa se health falhar)
+  # ------------------------------------------------------------------
+  rollback:
+    name: Rollback on Failure
+    needs: [start-vm, deploy, health-check]
+    if: failure() && needs.deploy.result == 'success' && needs.start-vm.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rollback to previous version
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ needs.start-vm.outputs.vm_ip }}
+          username: ${{ env.VM_USER }}
+          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            set -e
+            PROJECT_DIR="${{ env.VM_PROJECT_PATH }}"
+            IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+
+            cd "$PROJECT_DIR"
+
+            if [ ! -f .prev-image-tag ]; then
+              echo "❌ Nenhuma tag anterior encontrada. Rollback manual necessário."
+              exit 1
+            fi
+
+            PREV_TAG=$(cat .prev-image-tag)
+            echo "🔄 Executando rollback para: $PREV_TAG"
+
+            # Tenta pull da imagem anterior e marca como latest
+            docker pull "$PREV_TAG" || true
+            docker tag "$PREV_TAG" "$IMAGE:prod-latest"
+
+            # Reinstancia containers com a imagem anterior
+            docker-compose -f docker-compose.prod.yml up -d
+
+            echo "✅ Rollback concluído"
+
+  # ------------------------------------------------------------------
+  # 7. STOP VM  (SEMPRE executa para economizar dinheiro)
+  # ------------------------------------------------------------------
+  stop-vm:
+    name: Stop GCP VM
+    needs: [start-vm, deploy, health-check, rollback]
+    if: always() && needs.start-vm.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stop VM via Cloud Run endpoint
+        run: |
+          RESPONSE=$(curl -s -X POST https://desligar-high-br-lol-195555871350.us-central1.run.app \
+            -H "Authorization: Bearer ${{ secrets.VM_BEARER_TOKEN }}")
+          echo "Stop VM response: $RESPONSE"
+          echo "✅ Sinal de desligamento enviado para a VM"
