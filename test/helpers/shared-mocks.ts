@@ -8,16 +8,89 @@ export function mockPrismaService() {
     $executeRawUnsafe: jest.fn().mockResolvedValue(0),
     $queryRaw: jest.fn().mockResolvedValue([]),
     $queryRawUnsafe: jest.fn().mockResolvedValue([]),
-    player: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), create: jest.fn(), update: jest.fn(), upsert: jest.fn() },
-    match: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), create: jest.fn(), update: jest.fn(), upsert: jest.fn(), deleteMany: jest.fn() },
-    championStats: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), create: jest.fn(), update: jest.fn(), upsert: jest.fn() },
-    matchParticipant: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), create: jest.fn(), update: jest.fn(), upsert: jest.fn(), deleteMany: jest.fn(), createMany: jest.fn() },
-    matchTeam: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), create: jest.fn(), upsert: jest.fn() },
-    playerChampionStats: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), upsert: jest.fn() },
-    playerSync: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), create: jest.fn(), update: jest.fn(), upsert: jest.fn() },
-    timelineEvent: { findMany: jest.fn(), count: jest.fn(), createMany: jest.fn(), deleteMany: jest.fn() },
-    timelineFrame: { findMany: jest.fn(), count: jest.fn(), createMany: jest.fn(), deleteMany: jest.fn() },
-    processedMatch: { findUnique: jest.fn(), findFirst: jest.fn(), findMany: jest.fn(), count: jest.fn(), create: jest.fn(), upsert: jest.fn() },
+    player: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      upsert: jest.fn(),
+    },
+    match: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      upsert: jest.fn(),
+      deleteMany: jest.fn(),
+    },
+    championStats: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      upsert: jest.fn(),
+    },
+    matchParticipant: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      upsert: jest.fn(),
+      deleteMany: jest.fn(),
+      createMany: jest.fn(),
+    },
+    matchTeam: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      create: jest.fn(),
+      upsert: jest.fn(),
+    },
+    playerChampionStats: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      upsert: jest.fn(),
+    },
+    playerSync: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      upsert: jest.fn(),
+    },
+    timelineEvent: {
+      findMany: jest.fn(),
+      count: jest.fn(),
+      createMany: jest.fn(),
+      deleteMany: jest.fn(),
+    },
+    timelineFrame: {
+      findMany: jest.fn(),
+      count: jest.fn(),
+      createMany: jest.fn(),
+      deleteMany: jest.fn(),
+    },
+    processedMatch: {
+      findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      count: jest.fn(),
+      create: jest.fn(),
+      upsert: jest.fn(),
+    },
     patch: { findUnique: jest.fn(), findMany: jest.fn(), count: jest.fn() },
   };
 }
@@ -97,19 +170,25 @@ export function mockAnalyticsService(overrides?: Record<string, unknown>) {
 
 export function mockMatchDetailService(overrides?: Record<string, unknown>) {
   return {
-    getMatchDetails: jest.fn().mockResolvedValue({ matchId: 'BR1_123', participants: [] }),
+    getMatchDetails: jest
+      .fn()
+      .mockResolvedValue({ matchId: 'BR1_123', participants: [] }),
     ...overrides,
   };
 }
 
-export function mockMatchGoldTimelineService(overrides?: Record<string, unknown>) {
+export function mockMatchGoldTimelineService(
+  overrides?: Record<string, unknown>,
+) {
   return {
     getGoldTimeline: jest.fn().mockResolvedValue({ frames: [] }),
     ...overrides,
   };
 }
 
-export function mockMatchTimelineEventsService(overrides?: Record<string, unknown>) {
+export function mockMatchTimelineEventsService(
+  overrides?: Record<string, unknown>,
+) {
   return {
     getTimelineEvents: jest.fn().mockResolvedValue({ events: [] }),
     ...overrides,
@@ -123,7 +202,9 @@ export function mockMatchBuildsService(overrides?: Record<string, unknown>) {
   };
 }
 
-export function mockMatchPerformanceService(overrides?: Record<string, unknown>) {
+export function mockMatchPerformanceService(
+  overrides?: Record<string, unknown>,
+) {
   return {
     getPerformanceComparison: jest.fn().mockResolvedValue({
       player: { puuid: 'test', performance: {} },
@@ -135,15 +216,48 @@ export function mockMatchPerformanceService(overrides?: Record<string, unknown>)
 
 export function mockPlayersService(overrides?: Record<string, unknown>) {
   return {
-    searchPlayer: jest.fn().mockResolvedValue({ puuid: 'test-puuid', gameName: 'Test', tagLine: 'BR1' }),
-    getPlayerProfile: jest.fn().mockResolvedValue({ puuid: 'test-puuid', gameName: 'Test', tagLine: 'BR1', profileIconId: 1, summonerLevel: 30 }),
-    getPlayerUpdateStatus: jest.fn().mockResolvedValue({ puuid: 'test-puuid', status: 'idle' }),
-    getPlayerSummary: jest.fn().mockResolvedValue({ puuid: 'test-puuid', totalGames: 100, wins: 55, losses: 45 }),
-    getPlayerChampions: jest.fn().mockResolvedValue({ puuid: 'test-puuid', champions: [], total: 0 }),
-    getPlayerRoleDistribution: jest.fn().mockResolvedValue({ puuid: 'test-puuid', roles: {} }),
-    getPlayerActivity: jest.fn().mockResolvedValue({ puuid: 'test-puuid', activity: [] }),
-    getPlayerMatches: jest.fn().mockResolvedValue({ data: [], meta: { total: 0, page: 1, limit: 20 } }),
-    getPlayerMatchesByPage: jest.fn().mockResolvedValue({ data: [], meta: { total: 0, page: 1, limit: 20 } }),
+    searchPlayer: jest
+      .fn()
+      .mockResolvedValue({
+        puuid: 'test-puuid',
+        gameName: 'Test',
+        tagLine: 'BR1',
+      }),
+    getPlayerProfile: jest
+      .fn()
+      .mockResolvedValue({
+        puuid: 'test-puuid',
+        gameName: 'Test',
+        tagLine: 'BR1',
+        profileIconId: 1,
+        summonerLevel: 30,
+      }),
+    getPlayerUpdateStatus: jest
+      .fn()
+      .mockResolvedValue({ puuid: 'test-puuid', status: 'idle' }),
+    getPlayerSummary: jest
+      .fn()
+      .mockResolvedValue({
+        puuid: 'test-puuid',
+        totalGames: 100,
+        wins: 55,
+        losses: 45,
+      }),
+    getPlayerChampions: jest
+      .fn()
+      .mockResolvedValue({ puuid: 'test-puuid', champions: [], total: 0 }),
+    getPlayerRoleDistribution: jest
+      .fn()
+      .mockResolvedValue({ puuid: 'test-puuid', roles: {} }),
+    getPlayerActivity: jest
+      .fn()
+      .mockResolvedValue({ puuid: 'test-puuid', activity: [] }),
+    getPlayerMatches: jest
+      .fn()
+      .mockResolvedValue({ data: [], meta: { total: 0, page: 1, limit: 20 } }),
+    getPlayerMatchesByPage: jest
+      .fn()
+      .mockResolvedValue({ data: [], meta: { total: 0, page: 1, limit: 20 } }),
     ...overrides,
   };
 }
@@ -170,8 +284,12 @@ export function mockPinoLogger(overrides?: Record<string, unknown>) {
 
 export function mockSyncService(overrides?: Record<string, unknown>) {
   return {
-    triggerDeepSync: jest.fn().mockResolvedValue({ message: 'Sync started', puuid: 'test-puuid' }),
-    getSyncStatus: jest.fn().mockResolvedValue({ puuid: 'test-puuid', status: 'idle', progress: 0 }),
+    triggerDeepSync: jest
+      .fn()
+      .mockResolvedValue({ message: 'Sync started', puuid: 'test-puuid' }),
+    getSyncStatus: jest
+      .fn()
+      .mockResolvedValue({ puuid: 'test-puuid', status: 'idle', progress: 0 }),
     ...overrides,
   };
 }

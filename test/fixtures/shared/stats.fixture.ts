@@ -14,7 +14,11 @@ export function championStatsEntry(overrides?: Record<string, unknown>) {
     pickRate: 12.3,
     tier: 'A',
     rank: 3,
-    images: { square: 'https://example.com/square.png', loading: 'https://example.com/loading.png', splash: 'https://example.com/splash.png' },
+    images: {
+      square: 'https://example.com/square.png',
+      loading: 'https://example.com/loading.png',
+      splash: 'https://example.com/splash.png',
+    },
     ...overrides,
   };
 }

@@ -20,8 +20,8 @@ export class ChampionStatsDto {
   @ApiProperty({ example: 547 })
   losses: number;
 
-  @ApiProperty({ type: ChampionImagesDto })
-  images: ChampionImagesDto;
+  @ApiProperty({ type: ChampionImagesDto, nullable: true })
+  images: ChampionImagesDto | null;
 
   @ApiProperty({ example: 2.5 })
   kda: number;

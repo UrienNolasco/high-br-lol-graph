@@ -24,7 +24,7 @@ export interface EnrichedChampionData {
   avgGd15: number;
   avgXpd15: number;
   roleDistribution: Record<string, number>;
-  lastPlayedAt: Date;
+  lastPlayedAt: Date | null;
 }
 
 export function enrichChampionStats(

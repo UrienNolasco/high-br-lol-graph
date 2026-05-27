@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
+import { Prisma } from '@prisma/client';
 import { RiotService } from '../../../core/riot/riot.service';
 import { TimelineParserService } from '../../../core/riot/timeline-parser.service';
 import { ProcessMatchDto } from '../dto/process-match.dto';

@@ -1,4 +1,5 @@
-import { MatchDto, ParticipantDto } from '../../core/riot/dto/match.dto';
+import { MatchDto, ParticipantDto } from '../../../core/riot/dto/match.dto';
+import { Prisma } from '@prisma/client';
 
 export interface ProcessedMatchData {
   match: {
@@ -15,7 +16,7 @@ export interface ProcessedMatchData {
     teamId: number;
     win: boolean;
     bans: number[];
-    objectivesTimeline: unknown;
+    objectivesTimeline: Prisma.InputJsonValue;
   }>;
   participants: Array<{
     matchId: string;
@@ -35,9 +36,9 @@ export interface ProcessedMatchData {
     totalDamage: number;
     damageTaken: number;
     visionScore: number;
-    runes: unknown;
-    challenges: unknown;
-    pings: unknown;
+    runes: Prisma.InputJsonValue;
+    challenges: Prisma.InputJsonValue;
+    pings: Prisma.InputJsonValue;
     spells: number[];
   }>;
 }
@@ -82,7 +83,10 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
       teamId: team.teamId,
       win: team.win,
       bans: team.bans?.map((b) => b.championId).filter((id) => id > 0) || [],
-      objectivesTimeline: team.objectives,
+      // TeamObjectivesDto lacks an index signature so TypeScript can't verify
+      // structural compatibility with InputJsonValue without going through unknown.
+      // Safe: this value comes directly from Riot API JSON, always serializable.
+      objectivesTimeline: team.objectives as unknown as Prisma.InputJsonValue,
     })) || [];
 
   const participants = info.participants.map(
@@ -115,9 +119,10 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
         totalDamage: p.totalDamageDealtToChampions,
         damageTaken: p.totalDamageTaken,
         visionScore: p.visionScore || 0,
-        runes: p.perks,
-        challenges: p.challenges,
-        pings,
+        // PerksDto lacks an index signature, same limitation as TeamObjectivesDto above.
+        runes: p.perks as unknown as Prisma.InputJsonValue,
+        challenges: p.challenges as unknown as Prisma.InputJsonValue,
+        pings: pings as unknown as Prisma.InputJsonValue,
         spells: [p.summoner1Id, p.summoner2Id],
       };
     },

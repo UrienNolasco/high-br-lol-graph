@@ -7,7 +7,9 @@ import { RedisService } from '../redis/redis.service';
 describe('RateLimiterService', () => {
   let service: RateLimiterService;
   let mockRedis: Record<string, jest.Mock>;
-  let mockLockService: jest.Mocked<Pick<LockService, 'acquireLock' | 'releaseLock'>>;
+  let mockLockService: jest.Mocked<
+    Pick<LockService, 'acquireLock' | 'releaseLock'>
+  >;
   let mockRedisService: { client: Record<string, jest.Mock> };
 
   beforeEach(async () => {
