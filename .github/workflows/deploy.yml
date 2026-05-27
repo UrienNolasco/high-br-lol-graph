@@ -6,16 +6,45 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: uriennolasco/high-br-lol-graph
   VM_USER: urien_dragon
   VM_PROJECT_PATH: /home/urien_dragon/home/high-br-lol-graph
 
 jobs:
   # ------------------------------------------------------------------
-  # 1. BUILD & PUSH
+  # 1. TEST  (roda primeiro — se falhar, tudo para)
+  # ------------------------------------------------------------------
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Run unit tests
+        run: npm run test -- --coverage --passWithNoTests
+
+      - name: Run integration tests
+        run: npm run test:e2e -- --passWithNoTests
+
+  # ------------------------------------------------------------------
+  # 2. BUILD & PUSH
   # ------------------------------------------------------------------
   build-and-push:
     name: Build and Push Docker Image
+    needs: test
     runs-on: ubuntu-latest
     outputs:
       short_sha: ${{ steps.sha.outputs.short_sha }}
@@ -54,7 +83,7 @@ jobs:
           echo "Image pushed: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod-${{ steps.sha.outputs.short_sha }}"
 
   # ------------------------------------------------------------------
-  # 2. VULNERABILITY SCAN  (Trivy — não bloqueia, apenas alerta)
+  # 3. VULNERABILITY SCAN  (Trivy — nao bloqueia, apenas alerta)
   # ------------------------------------------------------------------
   vulnerability-scan:
     name: Vulnerability Scan
@@ -70,7 +99,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
   # ------------------------------------------------------------------
-  # 3. START VM  (obtem IP dinamico)
+  # 4. START VM  (obtem IP dinamico)
   # ------------------------------------------------------------------
   start-vm:
     name: Start GCP VM
@@ -118,7 +147,7 @@ jobs:
           exit 1
 
   # ------------------------------------------------------------------
-  # 4. DEPLOY  (SSH na VM → docker pull → docker-compose up)
+  # 5. DEPLOY  (SSH na VM → docker pull → docker-compose up)
   # ------------------------------------------------------------------
   deploy:
     name: Deploy to VM
@@ -156,10 +185,10 @@ jobs:
             docker-compose -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.prod.yml up -d --remove-orphans
 
-            echo "[DONE] Deploy concluído com sucesso"
+            echo "[DONE] Deploy concluido com sucesso"
 
   # ------------------------------------------------------------------
-  # 5. HEALTH CHECK  (valida /health por 60s)
+  # 6. HEALTH CHECK  (valida /health por 60s)
   # ------------------------------------------------------------------
   health-check:
     name: Health Check
@@ -177,14 +206,14 @@ jobs:
               echo "Health check passou na tentativa $i"
               exit 0
             fi
-            echo "⏳ Health check tentativa $i/12 falhou (HTTP $HTTP_STATUS). Retentando em 5s..."
+            echo "Health check tentativa $i/12 falhou (HTTP $HTTP_STATUS). Retentando em 5s..."
             sleep 5
           done
-          echo "Health check falhou após 12 tentativas"
+          echo "Health check falhou apos 12 tentativas"
           exit 1
 
   # ------------------------------------------------------------------
-  # 6. ROLLBACK  (so executa se health falhar)
+  # 7. ROLLBACK  (so executa se health falhar)
   # ------------------------------------------------------------------
   rollback:
     name: Rollback on Failure
@@ -207,7 +236,7 @@ jobs:
             cd "$PROJECT_DIR"
 
             if [ ! -f .prev-image-tag ]; then
-              echo "Nenhuma tag anterior encontrada. Rollback manual necessário."
+              echo "Nenhuma tag anterior encontrada. Rollback manual necessario."
               exit 1
             fi
 
@@ -221,10 +250,10 @@ jobs:
             # Reinstancia containers com a imagem anterior
             docker-compose -f docker-compose.prod.yml up -d
 
-            echo "Rollback concluído"
+            echo "Rollback concluido"
 
   # ------------------------------------------------------------------
-  # 7. STOP VM  (SEMPRE executa para economizar dinheiro)
+  # 8. STOP VM  (SEMPRE executa para economizar dinheiro)
   # ------------------------------------------------------------------
   stop-vm:
     name: Stop GCP VM
