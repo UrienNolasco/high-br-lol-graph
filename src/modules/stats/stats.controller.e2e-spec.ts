@@ -89,7 +89,7 @@ describe('StatsController (e2e)', () => {
         .expect(400);
     });
 
-    it('should accept all valid sortBy values', () => {
+    it('should accept all valid sortBy values', async () => {
       championStatsSvc.getChampionStats.mockResolvedValue(paginatedStats());
       const validSortBy = [
         'winRate',
@@ -102,24 +102,21 @@ describe('StatsController (e2e)', () => {
         'cspm',
         'gpm',
       ];
-      const tests = validSortBy.map((sortBy) =>
-        request(app.getHttpServer())
+      for (const sortBy of validSortBy) {
+        await request(app.getHttpServer())
           .get(`/api/v1/stats/champions?patch=15.23&sortBy=${sortBy}`)
-          .expect(200),
-      );
-      return Promise.all(tests);
+          .expect(200);
+      }
     });
 
-    it('should accept both asc and desc order', () => {
+    it('should accept both asc and desc order', async () => {
       championStatsSvc.getChampionStats.mockResolvedValue(paginatedStats());
-      return Promise.all([
-        request(app.getHttpServer())
-          .get('/api/v1/stats/champions?patch=15.23&order=asc')
-          .expect(200),
-        request(app.getHttpServer())
-          .get('/api/v1/stats/champions?patch=15.23&order=desc')
-          .expect(200),
-      ]);
+      await request(app.getHttpServer())
+        .get('/api/v1/stats/champions?patch=15.23&order=asc')
+        .expect(200);
+      await request(app.getHttpServer())
+        .get('/api/v1/stats/champions?patch=15.23&order=desc')
+        .expect(200);
     });
 
     it('should handle pagination correctly', () => {
