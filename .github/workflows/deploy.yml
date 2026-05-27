@@ -90,11 +90,11 @@ jobs:
           echo "Start VM response: $RESPONSE"
           VM_IP=$(echo "$RESPONSE" | jq -r '.ip')
           if [ -z "$VM_IP" ] || [ "$VM_IP" = "null" ]; then
-            echo "❌ Failed to get VM IP from response"
+            echo "[FAIL] Failed to get VM IP from response"
             exit 1
           fi
           echo "vm_ip=$VM_IP" >> $GITHUB_OUTPUT
-          echo "✅ VM started with IP: $VM_IP"
+          echo "[OK] VM started with IP: $VM_IP"
 
       - name: Setup SSH key
         run: |
@@ -108,13 +108,13 @@ jobs:
         run: |
           for i in {1..30}; do
             if nc -z -w 5 "$VM_IP" 22; then
-              echo "✅ SSH is ready on $VM_IP!"
+              echo "[OK] SSH is ready on $VM_IP!"
               exit 0
             fi
-            echo "⏳ Waiting for SSH... attempt $i/30"
+            echo "[WAIT] Waiting for SSH... attempt $i/30"
             sleep 10
           done
-          echo "❌ SSH not available on $VM_IP after 30 attempts"
+          echo "[FAIL] SSH not available on $VM_IP after 30 attempts"
           exit 1
 
   # ------------------------------------------------------------------
@@ -143,7 +143,7 @@ jobs:
             CURRENT_IMAGE=$(docker inspect --format='{{.Config.Image}}' high-br-lol-api-prod 2>/dev/null || echo "")
             if [ -n "$CURRENT_IMAGE" ]; then
               echo "$CURRENT_IMAGE" > .prev-image-tag
-              echo "💾 Imagem anterior salva: $CURRENT_IMAGE"
+              echo "[SAVE] Imagem anterior salva: $CURRENT_IMAGE"
             fi
 
             # Login no GHCR para pull
@@ -156,7 +156,7 @@ jobs:
             docker-compose -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.prod.yml up -d --remove-orphans
 
-            echo "🚀 Deploy concluído com sucesso"
+            echo "[DONE] Deploy concluído com sucesso"
 
   # ------------------------------------------------------------------
   # 5. HEALTH CHECK  (valida /health por 60s)
@@ -170,17 +170,17 @@ jobs:
         env:
           VM_IP: ${{ needs.start-vm.outputs.vm_ip }}
         run: |
-          echo "🔍 Verificando health em http://$VM_IP:3000/health"
+          echo "[CHECK] Verificando health em http://$VM_IP:3000/health"
           for i in {1..12}; do
             HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://$VM_IP:3000/health" || echo "000")
             if [ "$HTTP_STATUS" = "200" ]; then
-              echo "✅ Health check passou na tentativa $i"
+              echo "Health check passou na tentativa $i"
               exit 0
             fi
             echo "⏳ Health check tentativa $i/12 falhou (HTTP $HTTP_STATUS). Retentando em 5s..."
             sleep 5
           done
-          echo "❌ Health check falhou após 12 tentativas"
+          echo "Health check falhou após 12 tentativas"
           exit 1
 
   # ------------------------------------------------------------------
@@ -207,12 +207,12 @@ jobs:
             cd "$PROJECT_DIR"
 
             if [ ! -f .prev-image-tag ]; then
-              echo "❌ Nenhuma tag anterior encontrada. Rollback manual necessário."
+              echo "Nenhuma tag anterior encontrada. Rollback manual necessário."
               exit 1
             fi
 
             PREV_TAG=$(cat .prev-image-tag)
-            echo "🔄 Executando rollback para: $PREV_TAG"
+            echo "Executando rollback para: $PREV_TAG"
 
             # Tenta pull da imagem anterior e marca como latest
             docker pull "$PREV_TAG" || true
@@ -221,7 +221,7 @@ jobs:
             # Reinstancia containers com a imagem anterior
             docker-compose -f docker-compose.prod.yml up -d
 
-            echo "✅ Rollback concluído"
+            echo "Rollback concluído"
 
   # ------------------------------------------------------------------
   # 7. STOP VM  (SEMPRE executa para economizar dinheiro)
@@ -237,4 +237,4 @@ jobs:
           RESPONSE=$(curl -s -X POST https://desligar-high-br-lol-195555871350.us-central1.run.app \
             -H "Authorization: Bearer ${{ secrets.VM_BEARER_TOKEN }}")
           echo "Stop VM response: $RESPONSE"
-          echo "✅ Sinal de desligamento enviado para a VM"
+          echo "Sinal de desligamento enviado para a VM"
