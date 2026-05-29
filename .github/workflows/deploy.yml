@@ -185,8 +185,8 @@ jobs:
             docker pull "$IMAGE:prod-latest"
 
             # Atualiza containers
-            docker-compose -f docker-compose.prod.yml pull
-            docker-compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
             echo "[DONE] Deploy concluido com sucesso"
 
@@ -251,7 +251,7 @@ jobs:
             docker tag "$PREV_TAG" "$IMAGE:prod-latest"
 
             # Reinstancia containers com a imagem anterior
-            docker-compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.prod.yml up -d
 
             echo "Rollback concluido"
 
