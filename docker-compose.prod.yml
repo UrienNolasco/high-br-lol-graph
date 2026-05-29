@@ -140,14 +140,6 @@ services:
     networks:
       - lol-stats-network
     restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
 
   worker-2:
     image: ghcr.io/uriennolasco/high-br-lol-graph:prod-latest
@@ -181,14 +173,6 @@ services:
     networks:
       - lol-stats-network
     restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
 
   collector:
     image: ghcr.io/uriennolasco/high-br-lol-graph:prod-latest
@@ -222,14 +206,6 @@ services:
     networks:
       - lol-stats-network
     restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 256M
 
 volumes:
   postgres_data_prod:
