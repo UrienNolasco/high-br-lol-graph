@@ -1,4 +1,3 @@
-version: '3.8'
 
 networks:
   lol-stats-network:
@@ -64,7 +63,7 @@ services:
       - redis_data_prod:/data
 
   api:
-    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    image: ghcr.io/uriennolasco/high-br-lol-graph:prod-latest
     pull_policy: always
     container_name: high-br-lol-api-prod
     command: npm run start:prod
@@ -110,7 +109,7 @@ services:
       start_period: 40s
 
   worker:
-    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    image: ghcr.io/uriennolasco/high-br-lol-graph:prod-latest
     pull_policy: always
     container_name: high-br-lol-worker-prod
     command: npm run start:prod
@@ -151,7 +150,7 @@ services:
           memory: 512M
 
   worker-2:
-    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    image: ghcr.io/uriennolasco/high-br-lol-graph:prod-latest
     pull_policy: always
     container_name: high-br-lol-worker-2-prod
     command: npm run start:prod
@@ -192,7 +191,7 @@ services:
           memory: 512M
 
   collector:
-    image: ghcr.io/UrienNolasco/high-br-lol-graph:prod-latest
+    image: ghcr.io/uriennolasco/high-br-lol-graph:prod-latest
     pull_policy: always
     container_name: high-br-lol-collector-prod
     command: npm run start:prod
