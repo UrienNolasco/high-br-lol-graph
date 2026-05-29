@@ -12,7 +12,7 @@ env:
 
 jobs:
   # ------------------------------------------------------------------
-  # 1. TESTES  (se falhar, tudo para) deploy
+  # 1. TESTES  (se falhar, tudo para)
   # ------------------------------------------------------------------
   test:
     name: Run Tests
