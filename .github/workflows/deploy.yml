@@ -8,7 +8,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: uriennolasco/high-br-lol-graph
   VM_USER: urien_dragon
-  VM_PROJECT_PATH: urien_dragon/home/high-br-lol-graph
+  VM_PROJECT_PATH: /home/urien_dragon/home/high-br-lol-graph
 
 jobs:
   # ------------------------------------------------------------------
