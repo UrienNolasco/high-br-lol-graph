@@ -1,20 +1,25 @@
-import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { PinoLogger } from 'nestjs-pino';
+import { getErrorMessage } from '../logger';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  private readonly logger = new Logger(PrismaService.name);
+  constructor(private readonly logger: PinoLogger) {
+    super();
+    this.logger.setContext(PrismaService.name);
+  }
 
   async onModuleInit() {
     try {
       await this.$connect();
-      this.logger.log(
+      this.logger.info(
         '[DATABASE] - Conexão com o banco de dados estabelecida com sucesso!',
       );
     } catch (error) {
       this.logger.error(
+        { err: getErrorMessage(error) },
         '[DATABASE] - Falha ao conectar com o banco de dados',
-        error,
       );
       process.exit(1);
     }

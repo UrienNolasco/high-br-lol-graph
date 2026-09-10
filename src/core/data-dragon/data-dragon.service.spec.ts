@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
 import { DataDragonService } from './data-dragon.service';
 import { HttpService } from '@nestjs/axios';
+import { PinoLogger } from 'nestjs-pino';
 
 describe('DataDragonService', () => {
   let service: DataDragonService;
@@ -18,6 +19,16 @@ describe('DataDragonService', () => {
         {
           provide: HttpService,
           useValue: mockHttpService,
+        },
+        {
+          provide: PinoLogger,
+          useValue: {
+            setContext: jest.fn(),
+            info: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn(),
+          },
         },
       ],
     }).compile();

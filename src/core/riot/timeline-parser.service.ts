@@ -1,4 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { PinoLogger } from 'nestjs-pino';
 import {
   TimelineDto,
   TimelineFrame,
@@ -83,7 +84,9 @@ export interface ObjectiveEvent {
 
 @Injectable()
 export class TimelineParserService {
-  private readonly logger = new Logger(TimelineParserService.name);
+  constructor(private readonly logger: PinoLogger) {
+    this.logger.setContext(TimelineParserService.name);
+  }
 
   /**
    * Processa a Timeline V5 e extrai dados estruturados para análise.

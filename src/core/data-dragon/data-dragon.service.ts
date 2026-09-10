@@ -1,8 +1,10 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
+import { PinoLogger } from 'nestjs-pino';
 import { firstValueFrom } from 'rxjs';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getErrorMessage } from '../logger';
 interface ChampionData {
   version: string;
   id: string;
@@ -22,7 +24,6 @@ interface ChampionsFile {
 
 @Injectable()
 export class DataDragonService implements OnModuleInit {
-  private readonly logger = new Logger(DataDragonService.name);
   private readonly VERSIONS_URL =
     'https://ddragon.leagueoflegends.com/api/versions.json';
 
@@ -35,7 +36,12 @@ export class DataDragonService implements OnModuleInit {
   private cachedFullVersion: string | null = null;
   private fullVersionCachePromise: Promise<string> | null = null;
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(DataDragonService.name);
+  }
 
   onModuleInit() {
     this.loadChampionData();
@@ -60,11 +66,14 @@ export class DataDragonService implements OnModuleInit {
         );
       }
 
-      this.logger.log(
+      this.logger.info(
         `Carregados ${this.championsById.size} campeões do Data Dragon.`,
       );
     } catch (error) {
-      this.logger.error('Falha ao carregar o arquivo champions.json', error);
+      this.logger.error(
+        { err: getErrorMessage(error) },
+        'Falha ao carregar o arquivo champions.json',
+      );
     }
   }
 
@@ -94,7 +103,10 @@ export class DataDragonService implements OnModuleInit {
       );
       return response.data;
     } catch (error) {
-      this.logger.error('Falha ao buscar versões do Data Dragon', error);
+      this.logger.error(
+        { err: getErrorMessage(error) },
+        'Falha ao buscar versões do Data Dragon',
+      );
       throw new Error('Não foi possível buscar as versões do Data Dragon');
     }
   }

@@ -1,6 +1,7 @@
-import { Module, Logger } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
+import { PinoLogger } from 'nestjs-pino';
 import { RiotService } from './riot.service';
 import { MatchParserService } from './match-parser.service';
 import { TimelineParserService } from './timeline-parser.service';
@@ -42,7 +43,6 @@ import { RedisModule } from '../redis/redis.module';
     TimelineParserService,
     RateLimiterService,
     RetryService,
-    Logger,
   ],
   exports: [
     RiotService,
@@ -55,8 +55,9 @@ import { RedisModule } from '../redis/redis.module';
 export class RiotModule {
   constructor(
     private readonly httpService: HttpService,
-    private readonly logger: Logger,
+    private readonly logger: PinoLogger,
   ) {
+    this.logger.setContext(RiotModule.name);
     const axiosInstance = this.httpService.axiosRef;
 
     axiosInstance.interceptors.response.use(
@@ -72,8 +73,8 @@ export class RiotModule {
 
     if (!response) {
       this.logger.error(
+        { err: error.stack },
         `Erro de rede ou timeout ao acessar ${url}`,
-        error.stack,
       );
       throw new ServiceUnavailableException(
         `A API externa em ${url} está indisponível.`,
@@ -84,8 +85,8 @@ export class RiotModule {
     const data = response.data;
 
     this.logger.error(
+      { status, data },
       `Erro da Riot API: ${status} em ${url}`,
-      JSON.stringify(data),
     );
 
     switch (status) {

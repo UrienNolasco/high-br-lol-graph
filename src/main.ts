@@ -46,7 +46,7 @@ async function bootstrap() {
 
   const appMode = process.env.APP_MODE || 'DEFAULT';
   const serviceName = SERVICE_NAMES[appMode] || appMode.toLowerCase();
-  const pinoLogger = app.get(PinoLogger);
+  const pinoLogger = await app.resolve(PinoLogger);
 
   if (appMode === 'API') {
     const config = new DocumentBuilder()

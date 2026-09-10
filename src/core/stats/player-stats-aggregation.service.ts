@@ -1,4 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../prisma/prisma.service';
 
 export interface ParticipantData {
@@ -25,9 +26,12 @@ const r2 = (v: number): number => parseFloat(v.toFixed(2));
 
 @Injectable()
 export class PlayerStatsAggregationService {
-  private readonly logger = new Logger(PlayerStatsAggregationService.name);
-
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(PlayerStatsAggregationService.name);
+  }
 
   async updatePlayerAggregates(
     participant: ParticipantData,
