@@ -45,7 +45,7 @@ export class CollectorPipelineService {
             const isNew = await this.isNewMatch(matchId);
 
             if (isNew) {
-              this.enqueueMatch(matchId);
+              await this.enqueueMatch(matchId);
               newMatchesEnqueued++;
             }
           }
@@ -109,8 +109,8 @@ export class CollectorPipelineService {
     }
   }
 
-  private enqueueMatch(matchId: string): void {
-    this.queueService.publishBackgroundMatch(matchId);
+  private async enqueueMatch(matchId: string): Promise<void> {
+    await this.queueService.publishBackgroundMatch(matchId);
 
     this.logger.debug(
       { event: 'match_enqueued', matchId, priority: 'background' },

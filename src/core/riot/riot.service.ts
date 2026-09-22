@@ -1,9 +1,9 @@
+import { httpStatus } from '../processing/failure-policy';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PinoLogger } from 'nestjs-pino';
 import { firstValueFrom } from 'rxjs';
-import { AxiosError } from 'axios';
 import { LeagueListDto } from './dto/league-list.dto';
 import { MatchDto } from './dto/match.dto';
 import { TimelineDto } from './dto/timeline.dto';
@@ -211,16 +211,22 @@ export class RiotService {
     this.ensureApiKey();
     const startTime = Date.now();
 
-    const result = await this.retryService.executeWithRetry(async () => {
-      await this.rateLimiterService.throttle(this.apiKey);
+    const result = await this.retryService.executeWithRetry(
+      async () => {
+        await this.rateLimiterService.throttle(this.apiKey);
 
-      const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}`;
+        const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}`;
 
-      const response = await firstValueFrom(
-        this.httpService.get<MatchDto>(url, { headers: this.createHeaders() }),
-      );
-      return response.data;
-    }, `getMatchById(${matchId})`);
+        const response = await firstValueFrom(
+          this.httpService.get<MatchDto>(url, {
+            headers: this.createHeaders(),
+          }),
+        );
+        return response.data;
+      },
+      `getMatchById(${matchId})`,
+      1,
+    );
 
     this.logger.info(
       {
@@ -246,18 +252,22 @@ export class RiotService {
     const startTime = Date.now();
 
     try {
-      const result = await this.retryService.executeWithRetry(async () => {
-        await this.rateLimiterService.throttle(this.apiKey);
+      const result = await this.retryService.executeWithRetry(
+        async () => {
+          await this.rateLimiterService.throttle(this.apiKey);
 
-        const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}/timeline`;
+          const url = `${this.americasBaseUrl}/lol/match/v5/matches/${matchId}/timeline`;
 
-        const response = await firstValueFrom(
-          this.httpService.get<TimelineDto>(url, {
-            headers: this.createHeaders(),
-          }),
-        );
-        return response.data;
-      }, `getTimeline(${matchId})`);
+          const response = await firstValueFrom(
+            this.httpService.get<TimelineDto>(url, {
+              headers: this.createHeaders(),
+            }),
+          );
+          return response.data;
+        },
+        `getTimeline(${matchId})`,
+        1,
+      );
 
       this.logger.info(
         {
@@ -270,7 +280,7 @@ export class RiotService {
       );
       return result;
     } catch (error) {
-      if (error instanceof AxiosError && error.response?.status === 404) {
+      if (httpStatus(error) === 404) {
         this.logger.warn(
           {
             operation: 'riot_api',

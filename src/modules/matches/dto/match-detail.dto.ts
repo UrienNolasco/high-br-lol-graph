@@ -18,9 +18,10 @@ export class MatchTeamDto {
 
   @ApiProperty({
     description: 'Timeline de objetivos',
-    example: { baron: {}, dragon: {}, tower: {} },
+    example: [{ type: 'DRAGON', teamId: 100, timestamp: 900000 }],
+    isArray: true,
   })
-  objectivesTimeline: Record<string, any>;
+  objectivesTimeline: Array<Record<string, any>>;
 }
 
 /**

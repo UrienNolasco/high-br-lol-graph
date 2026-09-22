@@ -15,7 +15,7 @@ describe('ChampionStatsRepository', () => {
   beforeEach(async () => {
     prisma = {
       championStats: {
-        findMany: jest.fn(),
+        findMany: jest.fn().mockResolvedValue([]),
         findFirst: jest.fn(),
         findUnique: jest.fn(),
       },
@@ -33,7 +33,7 @@ describe('ChampionStatsRepository', () => {
     it('should query champion stats by patch', async () => {
       await repo.findManyByPatch('15.1');
       expect(prisma.championStats.findMany).toHaveBeenCalledWith({
-        where: { patch: '15.1' },
+        where: { patch: '15.1', queueId: 420 },
       });
     });
   });
@@ -41,8 +41,14 @@ describe('ChampionStatsRepository', () => {
   describe('findByChampionIdAndPatch', () => {
     it('should query by championId and patch', async () => {
       await repo.findByChampionIdAndPatch(1, '15.1');
-      expect(prisma.championStats.findFirst).toHaveBeenCalledWith({
-        where: { championId: 1, patch: '15.1' },
+      expect(prisma.championStats.findUnique).toHaveBeenCalledWith({
+        where: {
+          championId_patch_queueId: {
+            championId: 1,
+            patch: '15.1',
+            queueId: 420,
+          },
+        },
       });
     });
   });
@@ -66,7 +72,7 @@ describe('ChampionStatsRepository', () => {
     it('should query stats with minimum games filter', async () => {
       await repo.findQualifiedStats('15.1', 50);
       expect(prisma.championStats.findMany).toHaveBeenCalledWith({
-        where: { patch: '15.1', gamesPlayed: { gte: 50 } },
+        where: { patch: '15.1', queueId: 420, gamesPlayed: { gte: 50 } },
       });
     });
   });

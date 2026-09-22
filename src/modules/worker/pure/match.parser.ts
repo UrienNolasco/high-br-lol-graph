@@ -36,6 +36,7 @@ export interface ProcessedMatchData {
     totalDamage: number;
     damageTaken: number;
     visionScore: number;
+    totalCs: number;
     runes: Prisma.InputJsonValue;
     challenges: Prisma.InputJsonValue;
     pings: Prisma.InputJsonValue;
@@ -119,6 +120,7 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
         totalDamage: p.totalDamageDealtToChampions,
         damageTaken: p.totalDamageTaken,
         visionScore: p.visionScore || 0,
+        totalCs: (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0),
         // PerksDto lacks an index signature, same limitation as TeamObjectivesDto above.
         runes: p.perks as unknown as Prisma.InputJsonValue,
         challenges: p.challenges as unknown as Prisma.InputJsonValue,

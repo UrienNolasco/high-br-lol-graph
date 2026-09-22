@@ -49,7 +49,15 @@ describe('AnalyticsRepository', () => {
 
   describe('findPlayerStats', () => {
     it('should query stats with queueId 420', async () => {
-      prisma.playerStats.findUnique.mockResolvedValue({ gamesPlayed: 50 });
+      prisma.playerStats.findUnique.mockResolvedValue({
+        gamesPlayed: 50,
+        wins: 25,
+        sumKda: 100,
+        sumDpm: 25000,
+        sumCspm: 300,
+        sumGpm: 20000,
+        sumVisionScore: 1500,
+      });
 
       const result = await repo.findPlayerStats('p1', '15.1');
 
@@ -57,9 +65,8 @@ describe('AnalyticsRepository', () => {
         where: {
           puuid_patch_queueId: { puuid: 'p1', patch: '15.1', queueId: 420 },
         },
-        select: expect.any(Object),
       });
-      expect(result).toEqual({ gamesPlayed: 50 });
+      expect(result).toEqual(expect.objectContaining({ gamesPlayed: 50 }));
     });
   });
 
@@ -76,7 +83,6 @@ describe('AnalyticsRepository', () => {
             queueId: 420,
           },
         },
-        select: expect.any(Object),
       });
     });
   });
@@ -94,7 +100,6 @@ describe('AnalyticsRepository', () => {
             queueId: 420,
           },
         },
-        select: { avgCsd15: true, avgGd15: true, avgXpd15: true },
       });
     });
   });

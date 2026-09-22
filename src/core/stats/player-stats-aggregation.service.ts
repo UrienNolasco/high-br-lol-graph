@@ -1,322 +1,142 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-
-export interface ParticipantData {
-  puuid: string;
-  championId: number;
-  championName: string;
-  role: string;
-  teamId: number;
-  win: boolean;
-  kills: number;
-  deaths: number;
-  assists: number;
-  kda: number;
-  goldEarned: number;
-  totalDamage: number;
-  visionScore: number;
-  goldGraph: number[];
-  xpGraph: number[];
-  csGraph: number[];
-  damageGraph: number[];
-}
-
-const r2 = (v: number): number => parseFloat(v.toFixed(2));
-
+import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import {
+  ProcessedMatchData,
+  extractPatch,
+} from '../../modules/worker/pure/match.parser';
+import { TimelineDto } from '../riot/dto/timeline.dto';
+// Identifiers come exclusively from this module, never from a request.
+const identifier = (name: string) => Prisma.raw(`"${name}"`);
 @Injectable()
 export class PlayerStatsAggregationService {
-  private readonly logger = new Logger(PlayerStatsAggregationService.name);
-
-  constructor(private readonly prisma: PrismaService) {}
-
-  async updatePlayerAggregates(
-    participant: ParticipantData,
-    opponent: ParticipantData | null,
-    patch: string,
-    gameDurationMinutes: number,
-  ): Promise<void> {
-    // Lifetime stats (patch = 'ALL')
-    await this.updatePlayerStats(participant, 'ALL', gameDurationMinutes);
-    await this.updatePlayerChampionStats(
-      participant,
-      opponent,
-      'ALL',
-      gameDurationMinutes,
+  async update(
+    tx: Prisma.TransactionClient,
+    data: ProcessedMatchData,
+    timeline: TimelineDto,
+  ) {
+    const { match, participants } = data;
+    const patch = extractPatch(match.gameVersion);
+    const minutes = match.gameDuration / 60;
+    const frame15 =
+      match.gameDuration >= 900
+        ? timeline.info.frames.find(
+            (frame) => frame.timestamp >= 900_000 && frame.timestamp < 960_000,
+          )
+        : undefined;
+    const frames = new Map(
+      timeline.metadata.participants.map((puuid, index) => [
+        puuid,
+        frame15?.participantFrames[index + 1],
+      ]),
     );
-
-    // Patch-specific stats
-    await this.updatePlayerStats(participant, patch, gameDurationMinutes);
-    await this.updatePlayerChampionStats(
-      participant,
-      opponent,
-      patch,
-      gameDurationMinutes,
-    );
-  }
-
-  private async updatePlayerStats(
-    participant: ParticipantData,
-    patch: string,
-    gameDurationMinutes: number,
-  ): Promise<void> {
-    const current = await this.prisma.playerStats.findUnique({
-      where: {
-        puuid_patch_queueId: {
-          puuid: participant.puuid,
-          patch,
-          queueId: 420,
+    // Consistent ordering reduces deadlocks across overlapping matches.
+    for (const p of [...participants].sort(
+      (a, b) => a.championId - b.championId || a.puuid.localeCompare(b.puuid),
+    )) {
+      await this.increment(
+        tx,
+        'champion_stats',
+        { championId: p.championId, patch, queueId: match.queueId },
+        {
+          gamesPlayed: 1,
+          wins: +p.win,
+          losses: +!p.win,
+          sumKda: p.kda,
+          sumDpm: p.totalDamage / minutes,
+          sumGpm: p.goldEarned / minutes,
+          sumCspm: p.totalCs / minutes,
         },
-      },
-    });
-
-    const gamesPlayed = (current?.gamesPlayed || 0) + 1;
-    const wins = (current?.wins || 0) + (participant.win ? 1 : 0);
-    const losses = (current?.losses || 0) + (participant.win ? 0 : 1);
-    const winRate = r2((wins / gamesPlayed) * 100);
-
-    const weight = (current?.gamesPlayed || 0) / gamesPlayed;
-    const newWeight = 1 / gamesPlayed;
-
-    const avgKda = r2(
-      (current?.avgKda || 0) * weight + participant.kda * newWeight,
-    );
-    const avgDpm = r2(
-      (current?.avgDpm || 0) * weight +
-        (participant.totalDamage / gameDurationMinutes) * newWeight,
-    );
-    const avgGpm = r2(
-      (current?.avgGpm || 0) * weight +
-        (participant.goldEarned / gameDurationMinutes) * newWeight,
-    );
-    const avgCspm = r2(
-      (current?.avgCspm || 0) * weight +
-        ((participant.csGraph[participant.csGraph.length - 1] || 0) /
-          gameDurationMinutes) *
-          newWeight,
-    );
-    const avgVisionScore = r2(
-      (current?.avgVisionScore || 0) * weight +
-        participant.visionScore * newWeight,
-    );
-
-    const roleDistribution =
-      (current?.roleDistribution as Record<string, number>) || {};
-    roleDistribution[participant.role] =
-      (roleDistribution[participant.role] || 0) + 1;
-
-    let topChampions =
-      (current?.topChampions as Array<{
-        championId: number;
-        games: number;
-        winRate: number;
-      }>) || [];
-    const champIndex = topChampions.findIndex(
-      (c) => c.championId === participant.championId,
-    );
-    if (champIndex >= 0) {
-      topChampions[champIndex].games++;
-      topChampions[champIndex].winRate = r2(
-        (topChampions[champIndex].winRate *
-          (topChampions[champIndex].games - 1) +
-          (participant.win ? 100 : 0)) /
-          topChampions[champIndex].games,
+        { championName: p.championName },
       );
-    } else {
-      topChampions.push({
-        championId: participant.championId,
-        games: 1,
-        winRate: participant.win ? 100 : 0,
-      });
     }
-    topChampions.sort((a, b) => b.games - a.games);
-    topChampions = topChampions.slice(0, 5);
-
-    await this.prisma.playerStats.upsert({
-      where: {
-        puuid_patch_queueId: {
-          puuid: participant.puuid,
-          patch,
-          queueId: 420,
-        },
-      },
-      create: {
-        puuid: participant.puuid,
-        patch,
-        queueId: 420,
+    for (const p of [...participants].sort((a, b) =>
+      a.puuid.localeCompare(b.puuid),
+    )) {
+      const opponents = participants.filter(
+        (other) => p.role && other.role === p.role && other.teamId !== p.teamId,
+      );
+      const own = frames.get(p.puuid);
+      const opponent =
+        opponents.length === 1 ? frames.get(opponents[0].puuid) : undefined;
+      const valid = !!(
+        own &&
+        opponent &&
+        ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'].includes(p.role)
+      );
+      const sums = {
         gamesPlayed: 1,
-        wins: participant.win ? 1 : 0,
-        losses: participant.win ? 0 : 1,
-        winRate: participant.win ? 100 : 0,
-        avgKda: r2(participant.kda),
-        avgDpm: r2(participant.totalDamage / gameDurationMinutes),
-        avgCspm: r2(
-          (participant.csGraph[participant.csGraph.length - 1] || 0) /
-            gameDurationMinutes,
-        ),
-        avgGpm: r2(participant.goldEarned / gameDurationMinutes),
-        avgVisionScore: r2(participant.visionScore),
-        roleDistribution: { [participant.role]: 1 },
-        topChampions: [
+        wins: +p.win,
+        losses: +!p.win,
+        sumKda: p.kda,
+        sumDpm: p.totalDamage / minutes,
+        sumGpm: p.goldEarned / minutes,
+        sumCspm: p.totalCs / minutes,
+        sumVisionScore: p.visionScore,
+      };
+      for (const scope of ['ALL', patch]) {
+        const keys = { puuid: p.puuid, patch: scope, queueId: match.queueId };
+        await this.increment(tx, 'player_stats', keys, sums, {}, p.role);
+        await this.increment(
+          tx,
+          'player_champion_stats',
+          { ...keys, championId: p.championId },
           {
-            championId: participant.championId,
-            games: 1,
-            winRate: participant.win ? 100 : 0,
+            ...sums,
+            laningSamples: +valid,
+            sumCsd15: valid
+              ? own.minionsKilled +
+                own.jungleMinionsKilled -
+                opponent.minionsKilled -
+                opponent.jungleMinionsKilled
+              : 0,
+            sumGd15: valid ? own.totalGold - opponent.totalGold : 0,
+            sumXpd15: valid ? own.xp - opponent.xp : 0,
           },
-        ],
-      },
-      update: {
-        gamesPlayed,
-        wins,
-        losses,
-        winRate,
-        avgKda,
-        avgDpm,
-        avgCspm,
-        avgGpm,
-        avgVisionScore,
-        roleDistribution,
-        topChampions,
-        lastUpdated: new Date(),
-      },
-    });
-  }
-
-  private async updatePlayerChampionStats(
-    participant: ParticipantData,
-    opponent: ParticipantData | null,
-    patch: string,
-    gameDurationMinutes: number,
-  ): Promise<void> {
-    const current = await this.prisma.playerChampionStats.findUnique({
-      where: {
-        puuid_championId_patch_queueId: {
-          puuid: participant.puuid,
-          championId: participant.championId,
-          patch,
-          queueId: 420,
-        },
-      },
-    });
-
-    const gamesPlayed = (current?.gamesPlayed || 0) + 1;
-    const wins = (current?.wins || 0) + (participant.win ? 1 : 0);
-    const losses = (current?.losses || 0) + (participant.win ? 0 : 1);
-    const winRate = r2((wins / gamesPlayed) * 100);
-
-    const weight = (current?.gamesPlayed || 0) / gamesPlayed;
-    const newWeight = 1 / gamesPlayed;
-
-    const avgKda = r2(
-      (current?.avgKda || 0) * weight + participant.kda * newWeight,
-    );
-    const avgDpm = r2(
-      (current?.avgDpm || 0) * weight +
-        (participant.totalDamage / gameDurationMinutes) * newWeight,
-    );
-    const avgGpm = r2(
-      (current?.avgGpm || 0) * weight +
-        (participant.goldEarned / gameDurationMinutes) * newWeight,
-    );
-    const avgCspm = r2(
-      (current?.avgCspm || 0) * weight +
-        ((participant.csGraph[participant.csGraph.length - 1] || 0) /
-          gameDurationMinutes) *
-          newWeight,
-    );
-    const avgVisionScore = r2(
-      (current?.avgVisionScore || 0) * weight +
-        participant.visionScore * newWeight,
-    );
-
-    let avgCsd15 = current?.avgCsd15 || 0;
-    let avgGd15 = current?.avgGd15 || 0;
-    let avgXpd15 = current?.avgXpd15 || 0;
-
-    if (opponent) {
-      const csd15 =
-        (participant.csGraph[15] || 0) - (opponent.csGraph[15] || 0);
-      const gd15 =
-        (participant.goldGraph[15] || 0) - (opponent.goldGraph[15] || 0);
-      const xpd15 =
-        (participant.xpGraph[15] || 0) - (opponent.xpGraph[15] || 0);
-
-      avgCsd15 = r2((current?.avgCsd15 || 0) * weight + csd15 * newWeight);
-      avgGd15 = r2((current?.avgGd15 || 0) * weight + gd15 * newWeight);
-      avgXpd15 = r2((current?.avgXpd15 || 0) * weight + xpd15 * newWeight);
+          {},
+          p.role,
+          new Date(Number(match.gameCreation)),
+        );
+      }
     }
-
-    const roleDistribution =
-      (current?.roleDistribution as Record<string, number>) || {};
-    roleDistribution[participant.role] =
-      (roleDistribution[participant.role] || 0) + 1;
-
-    await this.prisma.playerChampionStats.upsert({
-      where: {
-        puuid_championId_patch_queueId: {
-          puuid: participant.puuid,
-          championId: participant.championId,
-          patch,
-          queueId: 420,
-        },
-      },
-      create: {
-        puuid: participant.puuid,
-        championId: participant.championId,
-        patch,
-        queueId: 420,
-        gamesPlayed: 1,
-        wins: participant.win ? 1 : 0,
-        losses: participant.win ? 0 : 1,
-        winRate: participant.win ? 100 : 0,
-        avgKda: r2(participant.kda),
-        avgDpm: r2(participant.totalDamage / gameDurationMinutes),
-        avgCspm: r2(
-          (participant.csGraph[participant.csGraph.length - 1] || 0) /
-            gameDurationMinutes,
-        ),
-        avgGpm: r2(participant.goldEarned / gameDurationMinutes),
-        avgVisionScore: r2(participant.visionScore),
-        avgCsd15: opponent
-          ? (participant.csGraph[15] || 0) - (opponent.csGraph[15] || 0)
-          : 0,
-        avgGd15: opponent
-          ? (participant.goldGraph[15] || 0) - (opponent.goldGraph[15] || 0)
-          : 0,
-        avgXpd15: opponent
-          ? (participant.xpGraph[15] || 0) - (opponent.xpGraph[15] || 0)
-          : 0,
-        roleDistribution: { [participant.role]: 1 },
-        lastPlayedAt: new Date(),
-      },
-      update: {
-        gamesPlayed,
-        wins,
-        losses,
-        winRate,
-        avgKda,
-        avgDpm,
-        avgCspm,
-        avgGpm,
-        avgVisionScore,
-        avgCsd15,
-        avgGd15,
-        avgXpd15,
-        roleDistribution,
-        lastPlayedAt: new Date(),
-      },
-    });
   }
-
-  findLaneOpponent(
-    participants: ParticipantData[],
-    currentParticipant: ParticipantData,
-  ): ParticipantData | null {
-    return (
-      participants.find(
-        (p) =>
-          p.role === currentParticipant.role &&
-          p.teamId !== currentParticipant.teamId,
-      ) || null
+  private async increment(
+    tx: Prisma.TransactionClient,
+    table: string,
+    keys: Record<string, string | number>,
+    sums: Record<string, number>,
+    extra: Record<string, string>,
+    role?: string,
+    lastPlayedAt?: Date,
+  ) {
+    const entries: Array<[string, string | number | Date]> = [
+      ...Object.entries(keys),
+      ...Object.entries(sums),
+      ...Object.entries(extra),
+    ];
+    const columns = entries.map(([key]) => identifier(key));
+    const values = entries.map(([, value]) => Prisma.sql`${value}`);
+    const updates = Object.keys(sums).map(
+      (key) =>
+        Prisma.sql`${identifier(key)} = ${identifier(table)}.${identifier(key)} + EXCLUDED.${identifier(key)}`,
     );
+    if (role !== undefined) {
+      columns.push(identifier('roleDistribution'));
+      values.push(Prisma.sql`${JSON.stringify({ [role]: 1 })}::jsonb`);
+      updates.push(
+        Prisma.sql`"roleDistribution" = jsonb_set(${identifier(table)}."roleDistribution", ARRAY[${role}]::text[], to_jsonb(COALESCE((${identifier(table)}."roleDistribution" ->> ${role})::int, 0) + 1))`,
+      );
+      if (table === 'player_stats')
+        updates.push(Prisma.sql`"lastUpdated" = CURRENT_TIMESTAMP`);
+    }
+    if (lastPlayedAt) {
+      columns.push(identifier('lastPlayedAt'));
+      values.push(Prisma.sql`${lastPlayedAt}`);
+      updates.push(
+        Prisma.sql`"lastPlayedAt" = GREATEST(${identifier(table)}."lastPlayedAt", EXCLUDED."lastPlayedAt")`,
+      );
+    }
+    await tx.$executeRaw(Prisma.sql`INSERT INTO ${identifier(table)} (${Prisma.join(columns)})
+      VALUES (${Prisma.join(values)}) ON CONFLICT (${Prisma.join(Object.keys(keys).map(identifier))})
+      DO UPDATE SET ${Prisma.join(updates)}`);
   }
 }

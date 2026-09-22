@@ -119,7 +119,7 @@ export class SyncOrchestratorService {
     await pipeline.exec();
 
     for (const matchId of newMatchIds) {
-      this.queueService.publishDeepSyncMatch(matchId);
+      await this.queueService.publishDeepSyncMatch(matchId);
     }
 
     const duration = Date.now() - startTime;

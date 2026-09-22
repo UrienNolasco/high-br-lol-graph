@@ -5,16 +5,12 @@ import { RiotModule } from '../../core/riot/riot.module';
 import { PrismaModule } from '../../core/prisma/prisma.module';
 import { StatsModule } from '../../core/stats/stats.module';
 import { MatchPersistenceService } from './services/match-persistence.service';
-import { PlayerAggregatesUpdateService } from './services/player-aggregates-update.service';
+import { ProcessingModule } from '../../core/processing/processing.module';
 
 @Module({
-  imports: [RiotModule, PrismaModule, StatsModule],
+  imports: [RiotModule, PrismaModule, StatsModule, ProcessingModule],
   controllers: [WorkerController],
-  providers: [
-    WorkerService,
-    MatchPersistenceService,
-    PlayerAggregatesUpdateService,
-  ],
+  providers: [WorkerService, MatchPersistenceService],
   exports: [WorkerService],
 })
 export class WorkerModule {}

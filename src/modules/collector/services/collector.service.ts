@@ -16,8 +16,9 @@ export class CollectorService {
     this.logger.setContext(CollectorService.name);
   }
 
-  @Cron('0 */30 * * *')
+  @Cron('0 */30 * * * *')
   async scheduledCollection(): Promise<void> {
+    if (process.env.APP_MODE !== 'COLLECTOR') return;
     const enabled = await this.config.isEnabled();
     if (!enabled || this.isRunning) return;
 

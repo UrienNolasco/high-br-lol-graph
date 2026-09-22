@@ -23,7 +23,7 @@ describe('MatchCountRepository', () => {
       const result = await repo.countByPatch('15.1');
       expect(result).toBe(500);
       expect(prisma.match.count).toHaveBeenCalledWith({
-        where: { gameVersion: { startsWith: '15.1' } },
+        where: { queueId: 420, gameVersion: { startsWith: '15.1.' } },
       });
     });
   });

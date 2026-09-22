@@ -65,22 +65,28 @@ export class ComparePlayerStatsDto {
 
 export class LaningPhaseDto {
   @ApiProperty({
+    type: Number,
+    nullable: true,
     example: 8.5,
     description: 'Diferença média de CS aos 15 min',
   })
-  avgCsd15: number;
+  avgCsd15: number | null;
 
   @ApiProperty({
+    type: Number,
+    nullable: true,
     example: 350,
     description: 'Diferença média de ouro aos 15 min',
   })
-  avgGd15: number;
+  avgGd15: number | null;
 
   @ApiProperty({
+    type: Number,
+    nullable: true,
     example: 120,
     description: 'Diferença média de XP aos 15 min',
   })
-  avgXpd15: number;
+  avgXpd15: number | null;
 
   @ApiProperty({ example: 0, description: 'Solo kills antes dos 15 min' })
   soloKills15: number;

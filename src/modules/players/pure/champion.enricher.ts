@@ -20,9 +20,9 @@ export interface EnrichedChampionData {
   avgDpm: number;
   avgGpm: number;
   avgVisionScore: number;
-  avgCsd15: number;
-  avgGd15: number;
-  avgXpd15: number;
+  avgCsd15: number | null;
+  avgGd15: number | null;
+  avgXpd15: number | null;
   roleDistribution: Record<string, number>;
   lastPlayedAt: Date | null;
 }
@@ -39,9 +39,9 @@ export function enrichChampionStats(
     avgDpm: number;
     avgGpm: number;
     avgVisionScore: number;
-    avgCsd15: number;
-    avgGd15: number;
-    avgXpd15: number;
+    avgCsd15: number | null;
+    avgGd15: number | null;
+    avgXpd15: number | null;
     roleDistribution: unknown;
     lastPlayedAt: Date | null;
   },

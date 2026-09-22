@@ -34,13 +34,13 @@ export class WorkerController {
       );
 
       try {
-        await this.workerService.processMatch({ matchId });
+        await this.workerService.processMatch({ matchId, traceId });
 
         channel.ack(originalMsg);
 
         this.logger.info(
-          { matchId, event: 'match_processed' },
-          `Partida ${matchId} processada com sucesso.`,
+          { matchId, event: 'match_delivery_handled' },
+          `Entrega da partida ${matchId} tratada e confirmada.`,
         );
       } catch (error) {
         this.logger.error(
@@ -48,7 +48,7 @@ export class WorkerController {
           `Erro ao processar partida ${matchId}`,
         );
 
-        channel.nack(originalMsg, false, false);
+        channel.nack(originalMsg, false, true);
 
         throw error;
       }
@@ -73,11 +73,11 @@ export class WorkerController {
       );
 
       try {
-        await this.workerService.processMatch({ matchId });
+        await this.workerService.processMatch({ matchId, traceId });
         channel.ack(originalMsg);
         this.logger.info(
-          { matchId, event: 'match_processed', pattern: 'user.update' },
-          `[USER UPDATE] Partida ${matchId} processada.`,
+          { matchId, event: 'match_delivery_handled', pattern: 'user.update' },
+          `[USER UPDATE] Entrega da partida ${matchId} tratada.`,
         );
       } catch (error) {
         this.logger.error(
@@ -89,7 +89,7 @@ export class WorkerController {
           },
           `[USER UPDATE] Erro ao processar ${matchId}`,
         );
-        channel.nack(originalMsg, false, false);
+        channel.nack(originalMsg, false, true);
         throw error;
       }
     });

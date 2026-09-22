@@ -1,3 +1,4 @@
+import { championAverages } from '../../../core/stats/aggregate.mapper';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 
@@ -256,7 +257,7 @@ export class TierRankService {
     patch: string,
     queueId: number,
   ): Promise<ChampionMetrics | null> {
-    const stats = await this.prisma.championStats.findUnique({
+    const row = await this.prisma.championStats.findUnique({
       where: {
         championId_patch_queueId: {
           championId,
@@ -266,10 +267,11 @@ export class TierRankService {
       },
     });
 
-    if (!stats) {
+    if (!row) {
       return null;
     }
 
+    const stats = championAverages(row);
     return {
       winRate: stats.winRate,
       banRate: stats.banRate,
@@ -286,11 +288,13 @@ export class TierRankService {
    * Busca todas as estatísticas de campeões para um patch
    */
   async getAllChampionStats(patch: string, queueId?: number) {
-    return this.prisma.championStats.findMany({
-      where: {
-        patch,
-        ...(queueId && { queueId }),
-      },
-    });
+    return (
+      await this.prisma.championStats.findMany({
+        where: {
+          patch,
+          queueId: queueId ?? 420,
+        },
+      })
+    ).map(championAverages);
   }
 }

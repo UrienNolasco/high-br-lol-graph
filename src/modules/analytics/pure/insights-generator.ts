@@ -28,7 +28,10 @@ export function generateInsights(
     }
   }
 
-  const csd15Diff = heroLaning.avgCsd15 - villainLaning.avgCsd15;
+  const csd15Diff =
+    heroLaning.avgCsd15 !== null && villainLaning.avgCsd15 !== null
+      ? heroLaning.avgCsd15 - villainLaning.avgCsd15
+      : 0;
   if (Math.abs(csd15Diff) > 3) {
     if (csd15Diff > 0) {
       advantages.push(`Herói tem +${parseFloat(csd15Diff.toFixed(1))} CSD@15`);

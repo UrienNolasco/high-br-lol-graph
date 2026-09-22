@@ -40,14 +40,14 @@ export class PlayerChampionDetailDto {
   @ApiProperty()
   avgVisionScore: number;
 
-  @ApiProperty()
-  avgCsd15: number;
+  @ApiProperty({ type: Number, nullable: true })
+  avgCsd15: number | null;
 
-  @ApiProperty()
-  avgGd15: number;
+  @ApiProperty({ type: Number, nullable: true })
+  avgGd15: number | null;
 
-  @ApiProperty()
-  avgXpd15: number;
+  @ApiProperty({ type: Number, nullable: true })
+  avgXpd15: number | null;
 
   @ApiProperty()
   roleDistribution: Record<string, number>;

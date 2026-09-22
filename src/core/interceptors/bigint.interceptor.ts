@@ -20,15 +20,17 @@ import { map } from 'rxjs/operators';
  */
 @Injectable()
 export class BigIntInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(map((data) => this.convertBigIntToString(data)));
   }
 
-  private convertBigIntToString(data: any): any {
+  private convertBigIntToString(data: unknown): unknown {
     // BigInt → String
     if (typeof data === 'bigint') {
       return data.toString();
     }
+
+    if (data instanceof Date) return data.toISOString();
 
     // Array → Processar cada elemento
     if (Array.isArray(data)) {
@@ -37,10 +39,8 @@ export class BigIntInterceptor implements NestInterceptor {
 
     // Objeto → Processar cada propriedade recursivamente
     if (data !== null && typeof data === 'object') {
-      return Object.keys(data).reduce((acc, key) => {
-        acc[key] = this.convertBigIntToString(data[key]);
-        return acc;
-      }, {} as any);
+      return Object.fromEntries(Object.entries(data as Record<string, unknown>)
+        .map(([key, value]) => [key, this.convertBigIntToString(value)]));
     }
 
     // Primitivos (string, number, boolean, null) → Retornar como está

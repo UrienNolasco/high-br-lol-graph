@@ -8,13 +8,15 @@ describe('PlayerStatsRepository', () => {
     playerStats: { findUnique: jest.Mock };
     playerChampionStats: { findMany: jest.Mock };
     $queryRaw: jest.Mock;
+    $transaction: jest.Mock;
   };
 
   beforeEach(async () => {
     prisma = {
       playerStats: { findUnique: jest.fn() },
-      playerChampionStats: { findMany: jest.fn() },
+      playerChampionStats: { findMany: jest.fn().mockResolvedValue([]) },
       $queryRaw: jest.fn(),
+      $transaction: jest.fn((fn: (tx: typeof prisma) => unknown) => fn(prisma)),
     };
 
     const module: TestingModule = await Test.createTestingModule({

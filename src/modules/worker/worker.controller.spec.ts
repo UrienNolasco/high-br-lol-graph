@@ -62,12 +62,15 @@ describe('WorkerController', () => {
 
       await controller.handleMatchCollect(payload, context);
 
-      expect(workerService.processMatch).toHaveBeenCalledWith(payload);
+      expect(workerService.processMatch).toHaveBeenCalledWith({
+        ...payload,
+        traceId: expect.any(String),
+      });
       expect(mockChannel.ack).toHaveBeenCalledWith(mockMessage);
       expect(mockChannel.nack).not.toHaveBeenCalled();
     });
 
-    it('should NACK without requeue on processing error', async () => {
+    it('should NACK with requeue when durable recovery fails', async () => {
       const payload = { matchId: 'BR1_1234567890' };
       const context = {
         getChannelRef: () => mockChannel,
@@ -80,7 +83,7 @@ describe('WorkerController', () => {
         controller.handleMatchCollect(payload, context),
       ).rejects.toThrow(error);
 
-      expect(mockChannel.nack).toHaveBeenCalledWith(mockMessage, false, false);
+      expect(mockChannel.nack).toHaveBeenCalledWith(mockMessage, false, true);
       expect(mockChannel.ack).not.toHaveBeenCalled();
     });
   });

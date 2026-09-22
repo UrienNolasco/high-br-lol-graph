@@ -1,0 +1,5701 @@
+{
+  "matchId": "BR1_3200579475",
+  "gameVersion": "16.2.741.3171",
+  "queueId": 420,
+  "durationSeconds": 2368,
+  "winnerTeamId": 100,
+  "sources": {
+    "exemplo_partida_BR1_3200579475.json": "84f4a95ab6be4c3e9ee264a4b2ca421d76b180e47d39bdd8eb9a4a6163dc79ef",
+    "exemplo_partida_timeline_BR1_3200579475.json": "47b305de799e4e737d43dc3eeedf41c5d9f84a8bdd4f43b608ca0466a2728626"
+  },
+  "definitions": {
+    "knownWardTypes": [
+      "BLUE_TRINKET",
+      "CONTROL_WARD",
+      "SIGHT_WARD",
+      "YELLOW_TRINKET"
+    ],
+    "unknownWards": "Retained as a separate count; not presumed to be ordinary vision wards.",
+    "checkpoints": "Nearest actual frame, for descriptive analysis only; offsetMs exposes timing error. Predictive features must use past-only frames.",
+    "soloKills": "CHAMPION_KILL without registered assistingParticipantIds; agrees with challenges.soloKills in this fixture, not proof of an isolated 1v1.",
+    "deathObjectiveWindow": "Opposing objective occurs in (death, death+60s]; windows can overlap and imply no causality.",
+    "objectiveGoldWindow": "Last frame at/before capture versus last frame at/before capture+180s; includes activity across the map, not buff gold.",
+    "damageGoldRatio": "Damage share divided by gold share; descriptive, unadjusted for champion/role."
+  },
+  "inventory": {
+    "frames": 41,
+    "participantSnapshots": 410,
+    "events": 1966,
+    "eventCounts": {
+      "PAUSE_END": 1,
+      "ITEM_PURCHASED": 292,
+      "SKILL_LEVEL_UP": 177,
+      "WARD_PLACED": 752,
+      "ITEM_DESTROYED": 277,
+      "CHAMPION_KILL": 92,
+      "CHAMPION_SPECIAL_KILL": 12,
+      "LEVEL_UP": 170,
+      "ITEM_UNDO": 18,
+      "TURRET_PLATE_DESTROYED": 74,
+      "WARD_KILL": 51,
+      "ELITE_MONSTER_KILL": 12,
+      "ITEM_SOLD": 19,
+      "BUILDING_KILL": 15,
+      "DRAGON_SOUL_GIVEN": 1,
+      "OBJECTIVE_BOUNTY_PRESTART": 1,
+      "OBJECTIVE_BOUNTY_FINISH": 1,
+      "GAME_END": 1
+    },
+    "participantTopLevelFields": 146,
+    "challengeFields": [
+      "12AssistStreakCount",
+      "HealFromMapSources",
+      "InfernalScalePickup",
+      "SWARM_DefeatAatrox",
+      "SWARM_DefeatBriar",
+      "SWARM_DefeatMiniBosses",
+      "SWARM_EvolveWeapon",
+      "SWARM_Have3Passives",
+      "SWARM_KillEnemy",
+      "SWARM_PickupGold",
+      "SWARM_ReachLevel50",
+      "SWARM_Survive15Min",
+      "SWARM_WinWith5EvolvedWeapons",
+      "abilityUses",
+      "acesBefore15Minutes",
+      "alliedJungleMonsterKills",
+      "baronTakedowns",
+      "blastConeOppositeOpponentCount",
+      "bountyGold",
+      "buffsStolen",
+      "completeSupportQuestInTime",
+      "controlWardTimeCoverageInRiverOrEnemyHalf",
+      "controlWardsPlaced",
+      "damagePerMinute",
+      "damageTakenOnTeamPercentage",
+      "dancedWithRiftHerald",
+      "deathsByEnemyChamps",
+      "dodgeSkillShotsSmallWindow",
+      "doubleAces",
+      "dragonTakedowns",
+      "earliestBaron",
+      "earliestDragonTakedown",
+      "earlyLaningPhaseGoldExpAdvantage",
+      "effectiveHealAndShielding",
+      "elderDragonKillsWithOpposingSoul",
+      "elderDragonMultikills",
+      "enemyChampionImmobilizations",
+      "enemyJungleMonsterKills",
+      "epicMonsterKillsNearEnemyJungler",
+      "epicMonsterKillsWithin30SecondsOfSpawn",
+      "epicMonsterSteals",
+      "epicMonsterStolenWithoutSmite",
+      "fasterSupportQuestCompletion",
+      "fastestLegendary",
+      "firstTurretKilled",
+      "firstTurretKilledTime",
+      "fistBumpParticipation",
+      "flawlessAces",
+      "fullTeamTakedown",
+      "gameLength",
+      "getTakedownsInAllLanesEarlyJungleAsLaner",
+      "goldPerMinute",
+      "hadOpenNexus",
+      "highestChampionDamage",
+      "highestCrowdControlScore",
+      "highestWardKills",
+      "immobilizeAndKillWithAlly",
+      "initialBuffCount",
+      "initialCrabCount",
+      "jungleCsBefore10Minutes",
+      "junglerKillsEarlyJungle",
+      "junglerTakedownsNearDamagedEpicMonster",
+      "kTurretsDestroyedBeforePlatesFall",
+      "kda",
+      "killAfterHiddenWithAlly",
+      "killParticipation",
+      "killedChampTookFullTeamDamageSurvived",
+      "killingSprees",
+      "killsNearEnemyTurret",
+      "killsOnLanersEarlyJungleAsJungler",
+      "killsOnOtherLanesEarlyJungleAsLaner",
+      "killsOnRecentlyHealedByAramPack",
+      "killsUnderOwnTurret",
+      "killsWithHelpFromEpicMonster",
+      "knockEnemyIntoTeamAndKill",
+      "landSkillShotsEarlyGame",
+      "laneMinionsFirst10Minutes",
+      "laningPhaseGoldExpAdvantage",
+      "legendaryCount",
+      "legendaryItemUsed",
+      "lostAnInhibitor",
+      "maxCsAdvantageOnLaneOpponent",
+      "maxKillDeficit",
+      "maxLevelLeadLaneOpponent",
+      "mejaisFullStackInTime",
+      "moreEnemyJungleThanOpponent",
+      "multiKillOneSpell",
+      "multiTurretRiftHeraldCount",
+      "multikills",
+      "multikillsAfterAggressiveFlash",
+      "outerTurretExecutesBefore10Minutes",
+      "outnumberedKills",
+      "outnumberedNexusKill",
+      "perfectDragonSoulsTaken",
+      "perfectGame",
+      "pickKillWithAlly",
+      "playedChampSelectPosition",
+      "poroExplosions",
+      "quickCleanse",
+      "quickFirstTurret",
+      "quickSoloKills",
+      "riftHeraldTakedowns",
+      "saveAllyFromDeath",
+      "scuttleCrabKills",
+      "shortestTimeToAceFromFirstTakedown",
+      "skillshotsDodged",
+      "skillshotsHit",
+      "snowballsHit",
+      "soloBaronKills",
+      "soloKills",
+      "soloTurretsLategame",
+      "stealthWardsPlaced",
+      "survivedSingleDigitHpCount",
+      "survivedThreeImmobilizesInFight",
+      "takedownOnFirstTurret",
+      "takedowns",
+      "takedownsAfterGainingLevelAdvantage",
+      "takedownsBeforeJungleMinionSpawn",
+      "takedownsFirstXMinutes",
+      "takedownsInAlcove",
+      "takedownsInEnemyFountain",
+      "teamBaronKills",
+      "teamDamagePercentage",
+      "teamElderDragonKills",
+      "teamRiftHeraldKills",
+      "tookLargeDamageSurvived",
+      "turretPlatesTaken",
+      "turretTakedowns",
+      "turretsTakenWithRiftHerald",
+      "twentyMinionsIn3SecondsCount",
+      "twoWardsOneSweeperCount",
+      "unseenRecalls",
+      "visionScoreAdvantageLaneOpponent",
+      "visionScorePerMinute",
+      "voidMonsterKill",
+      "wardTakedowns",
+      "wardTakedownsBefore20M",
+      "wardsGuarded"
+    ],
+    "leafPaths": {
+      "match": {
+        "info.endOfGameResult": {
+          "str": 1
+        },
+        "info.gameCreation": {
+          "int": 1
+        },
+        "info.gameDuration": {
+          "int": 1
+        },
+        "info.gameEndTimestamp": {
+          "int": 1
+        },
+        "info.gameId": {
+          "int": 1
+        },
+        "info.gameMode": {
+          "str": 1
+        },
+        "info.gameName": {
+          "str": 1
+        },
+        "info.gameStartTimestamp": {
+          "int": 1
+        },
+        "info.gameType": {
+          "str": 1
+        },
+        "info.gameVersion": {
+          "str": 1
+        },
+        "info.mapId": {
+          "int": 1
+        },
+        "info.participants[].PlayerScore0": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore1": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore10": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore11": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore2": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore3": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore4": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore5": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore6": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore7": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore8": {
+          "int": 10
+        },
+        "info.participants[].PlayerScore9": {
+          "int": 10
+        },
+        "info.participants[].allInPings": {
+          "int": 10
+        },
+        "info.participants[].assistMePings": {
+          "int": 10
+        },
+        "info.participants[].assists": {
+          "int": 10
+        },
+        "info.participants[].baronKills": {
+          "int": 10
+        },
+        "info.participants[].basicPings": {
+          "int": 10
+        },
+        "info.participants[].challenges.12AssistStreakCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.HealFromMapSources": {
+          "int": 9,
+          "float": 1
+        },
+        "info.participants[].challenges.InfernalScalePickup": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_DefeatAatrox": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_DefeatBriar": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_DefeatMiniBosses": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_EvolveWeapon": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_Have3Passives": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_KillEnemy": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_PickupGold": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_ReachLevel50": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_Survive15Min": {
+          "int": 10
+        },
+        "info.participants[].challenges.SWARM_WinWith5EvolvedWeapons": {
+          "int": 10
+        },
+        "info.participants[].challenges.abilityUses": {
+          "int": 10
+        },
+        "info.participants[].challenges.acesBefore15Minutes": {
+          "int": 10
+        },
+        "info.participants[].challenges.alliedJungleMonsterKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.baronTakedowns": {
+          "int": 10
+        },
+        "info.participants[].challenges.blastConeOppositeOpponentCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.bountyGold": {
+          "float": 3,
+          "int": 7
+        },
+        "info.participants[].challenges.buffsStolen": {
+          "int": 10
+        },
+        "info.participants[].challenges.completeSupportQuestInTime": {
+          "int": 10
+        },
+        "info.participants[].challenges.controlWardTimeCoverageInRiverOrEnemyHalf": {
+          "float": 4
+        },
+        "info.participants[].challenges.controlWardsPlaced": {
+          "int": 10
+        },
+        "info.participants[].challenges.damagePerMinute": {
+          "float": 10
+        },
+        "info.participants[].challenges.damageTakenOnTeamPercentage": {
+          "float": 10
+        },
+        "info.participants[].challenges.dancedWithRiftHerald": {
+          "int": 10
+        },
+        "info.participants[].challenges.deathsByEnemyChamps": {
+          "int": 10
+        },
+        "info.participants[].challenges.dodgeSkillShotsSmallWindow": {
+          "int": 10
+        },
+        "info.participants[].challenges.doubleAces": {
+          "int": 10
+        },
+        "info.participants[].challenges.dragonTakedowns": {
+          "int": 10
+        },
+        "info.participants[].challenges.earliestBaron": {
+          "float": 5
+        },
+        "info.participants[].challenges.earliestDragonTakedown": {
+          "float": 5
+        },
+        "info.participants[].challenges.earlyLaningPhaseGoldExpAdvantage": {
+          "int": 10
+        },
+        "info.participants[].challenges.effectiveHealAndShielding": {
+          "float": 4,
+          "int": 6
+        },
+        "info.participants[].challenges.elderDragonKillsWithOpposingSoul": {
+          "int": 10
+        },
+        "info.participants[].challenges.elderDragonMultikills": {
+          "int": 10
+        },
+        "info.participants[].challenges.enemyChampionImmobilizations": {
+          "int": 10
+        },
+        "info.participants[].challenges.enemyJungleMonsterKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.epicMonsterKillsNearEnemyJungler": {
+          "int": 10
+        },
+        "info.participants[].challenges.epicMonsterKillsWithin30SecondsOfSpawn": {
+          "int": 10
+        },
+        "info.participants[].challenges.epicMonsterSteals": {
+          "int": 10
+        },
+        "info.participants[].challenges.epicMonsterStolenWithoutSmite": {
+          "int": 10
+        },
+        "info.participants[].challenges.fasterSupportQuestCompletion": {
+          "int": 1
+        },
+        "info.participants[].challenges.fastestLegendary": {
+          "float": 2
+        },
+        "info.participants[].challenges.firstTurretKilled": {
+          "int": 10
+        },
+        "info.participants[].challenges.firstTurretKilledTime": {
+          "float": 5
+        },
+        "info.participants[].challenges.fistBumpParticipation": {
+          "int": 10
+        },
+        "info.participants[].challenges.flawlessAces": {
+          "int": 10
+        },
+        "info.participants[].challenges.fullTeamTakedown": {
+          "int": 10
+        },
+        "info.participants[].challenges.gameLength": {
+          "float": 10
+        },
+        "info.participants[].challenges.getTakedownsInAllLanesEarlyJungleAsLaner": {
+          "int": 8
+        },
+        "info.participants[].challenges.goldPerMinute": {
+          "float": 10
+        },
+        "info.participants[].challenges.hadOpenNexus": {
+          "int": 10
+        },
+        "info.participants[].challenges.highestChampionDamage": {
+          "int": 1
+        },
+        "info.participants[].challenges.highestCrowdControlScore": {
+          "int": 1
+        },
+        "info.participants[].challenges.highestWardKills": {
+          "int": 1
+        },
+        "info.participants[].challenges.immobilizeAndKillWithAlly": {
+          "int": 10
+        },
+        "info.participants[].challenges.initialBuffCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.initialCrabCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.jungleCsBefore10Minutes": {
+          "int": 8,
+          "float": 2
+        },
+        "info.participants[].challenges.junglerKillsEarlyJungle": {
+          "int": 2
+        },
+        "info.participants[].challenges.junglerTakedownsNearDamagedEpicMonster": {
+          "int": 10
+        },
+        "info.participants[].challenges.kTurretsDestroyedBeforePlatesFall": {
+          "int": 10
+        },
+        "info.participants[].challenges.kda": {
+          "float": 10
+        },
+        "info.participants[].challenges.killAfterHiddenWithAlly": {
+          "int": 10
+        },
+        "info.participants[].challenges.killParticipation": {
+          "float": 10
+        },
+        "info.participants[].challenges.killedChampTookFullTeamDamageSurvived": {
+          "int": 10
+        },
+        "info.participants[].challenges.killingSprees": {
+          "int": 10
+        },
+        "info.participants[].challenges.killsNearEnemyTurret": {
+          "int": 10
+        },
+        "info.participants[].challenges.killsOnLanersEarlyJungleAsJungler": {
+          "int": 2
+        },
+        "info.participants[].challenges.killsOnOtherLanesEarlyJungleAsLaner": {
+          "int": 8
+        },
+        "info.participants[].challenges.killsOnRecentlyHealedByAramPack": {
+          "int": 10
+        },
+        "info.participants[].challenges.killsUnderOwnTurret": {
+          "int": 10
+        },
+        "info.participants[].challenges.killsWithHelpFromEpicMonster": {
+          "int": 10
+        },
+        "info.participants[].challenges.knockEnemyIntoTeamAndKill": {
+          "int": 10
+        },
+        "info.participants[].challenges.landSkillShotsEarlyGame": {
+          "int": 10
+        },
+        "info.participants[].challenges.laneMinionsFirst10Minutes": {
+          "int": 10
+        },
+        "info.participants[].challenges.laningPhaseGoldExpAdvantage": {
+          "int": 10
+        },
+        "info.participants[].challenges.legendaryCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.legendaryItemUsed[]": {
+          "int": 45
+        },
+        "info.participants[].challenges.lostAnInhibitor": {
+          "int": 10
+        },
+        "info.participants[].challenges.maxCsAdvantageOnLaneOpponent": {
+          "float": 5,
+          "int": 5
+        },
+        "info.participants[].challenges.maxKillDeficit": {
+          "int": 10
+        },
+        "info.participants[].challenges.maxLevelLeadLaneOpponent": {
+          "int": 10
+        },
+        "info.participants[].challenges.mejaisFullStackInTime": {
+          "int": 10
+        },
+        "info.participants[].challenges.moreEnemyJungleThanOpponent": {
+          "int": 8,
+          "float": 2
+        },
+        "info.participants[].challenges.multiKillOneSpell": {
+          "int": 10
+        },
+        "info.participants[].challenges.multiTurretRiftHeraldCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.multikills": {
+          "int": 10
+        },
+        "info.participants[].challenges.multikillsAfterAggressiveFlash": {
+          "int": 10
+        },
+        "info.participants[].challenges.outerTurretExecutesBefore10Minutes": {
+          "int": 10
+        },
+        "info.participants[].challenges.outnumberedKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.outnumberedNexusKill": {
+          "int": 10
+        },
+        "info.participants[].challenges.perfectDragonSoulsTaken": {
+          "int": 10
+        },
+        "info.participants[].challenges.perfectGame": {
+          "int": 10
+        },
+        "info.participants[].challenges.pickKillWithAlly": {
+          "int": 10
+        },
+        "info.participants[].challenges.playedChampSelectPosition": {
+          "int": 10
+        },
+        "info.participants[].challenges.poroExplosions": {
+          "int": 10
+        },
+        "info.participants[].challenges.quickCleanse": {
+          "int": 10
+        },
+        "info.participants[].challenges.quickFirstTurret": {
+          "int": 10
+        },
+        "info.participants[].challenges.quickSoloKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.riftHeraldTakedowns": {
+          "int": 10
+        },
+        "info.participants[].challenges.saveAllyFromDeath": {
+          "int": 10
+        },
+        "info.participants[].challenges.scuttleCrabKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.shortestTimeToAceFromFirstTakedown": {
+          "float": 4
+        },
+        "info.participants[].challenges.skillshotsDodged": {
+          "int": 10
+        },
+        "info.participants[].challenges.skillshotsHit": {
+          "int": 10
+        },
+        "info.participants[].challenges.snowballsHit": {
+          "int": 10
+        },
+        "info.participants[].challenges.soloBaronKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.soloKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.soloTurretsLategame": {
+          "int": 1
+        },
+        "info.participants[].challenges.stealthWardsPlaced": {
+          "int": 10
+        },
+        "info.participants[].challenges.survivedSingleDigitHpCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.survivedThreeImmobilizesInFight": {
+          "int": 10
+        },
+        "info.participants[].challenges.takedownOnFirstTurret": {
+          "int": 10
+        },
+        "info.participants[].challenges.takedowns": {
+          "int": 10
+        },
+        "info.participants[].challenges.takedownsAfterGainingLevelAdvantage": {
+          "int": 10
+        },
+        "info.participants[].challenges.takedownsBeforeJungleMinionSpawn": {
+          "int": 10
+        },
+        "info.participants[].challenges.takedownsFirstXMinutes": {
+          "int": 10
+        },
+        "info.participants[].challenges.takedownsInAlcove": {
+          "int": 10
+        },
+        "info.participants[].challenges.takedownsInEnemyFountain": {
+          "int": 10
+        },
+        "info.participants[].challenges.teamBaronKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.teamDamagePercentage": {
+          "float": 10
+        },
+        "info.participants[].challenges.teamElderDragonKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.teamRiftHeraldKills": {
+          "int": 10
+        },
+        "info.participants[].challenges.tookLargeDamageSurvived": {
+          "int": 10
+        },
+        "info.participants[].challenges.turretPlatesTaken": {
+          "int": 10
+        },
+        "info.participants[].challenges.turretTakedowns": {
+          "int": 10
+        },
+        "info.participants[].challenges.turretsTakenWithRiftHerald": {
+          "int": 10
+        },
+        "info.participants[].challenges.twentyMinionsIn3SecondsCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.twoWardsOneSweeperCount": {
+          "int": 10
+        },
+        "info.participants[].challenges.unseenRecalls": {
+          "int": 10
+        },
+        "info.participants[].challenges.visionScoreAdvantageLaneOpponent": {
+          "float": 10
+        },
+        "info.participants[].challenges.visionScorePerMinute": {
+          "float": 10
+        },
+        "info.participants[].challenges.voidMonsterKill": {
+          "int": 10
+        },
+        "info.participants[].challenges.wardTakedowns": {
+          "int": 10
+        },
+        "info.participants[].challenges.wardTakedownsBefore20M": {
+          "int": 10
+        },
+        "info.participants[].challenges.wardsGuarded": {
+          "int": 10
+        },
+        "info.participants[].champExperience": {
+          "int": 10
+        },
+        "info.participants[].champLevel": {
+          "int": 10
+        },
+        "info.participants[].championId": {
+          "int": 10
+        },
+        "info.participants[].championName": {
+          "str": 10
+        },
+        "info.participants[].championTransform": {
+          "int": 10
+        },
+        "info.participants[].commandPings": {
+          "int": 10
+        },
+        "info.participants[].consumablesPurchased": {
+          "int": 10
+        },
+        "info.participants[].damageDealtToBuildings": {
+          "int": 10
+        },
+        "info.participants[].damageDealtToEpicMonsters": {
+          "int": 10
+        },
+        "info.participants[].damageDealtToObjectives": {
+          "int": 10
+        },
+        "info.participants[].damageDealtToTurrets": {
+          "int": 10
+        },
+        "info.participants[].damageSelfMitigated": {
+          "int": 10
+        },
+        "info.participants[].dangerPings": {
+          "int": 10
+        },
+        "info.participants[].deaths": {
+          "int": 10
+        },
+        "info.participants[].detectorWardsPlaced": {
+          "int": 10
+        },
+        "info.participants[].doubleKills": {
+          "int": 10
+        },
+        "info.participants[].dragonKills": {
+          "int": 10
+        },
+        "info.participants[].eligibleForProgression": {
+          "bool": 10
+        },
+        "info.participants[].enemyMissingPings": {
+          "int": 10
+        },
+        "info.participants[].enemyVisionPings": {
+          "int": 10
+        },
+        "info.participants[].firstBloodAssist": {
+          "bool": 10
+        },
+        "info.participants[].firstBloodKill": {
+          "bool": 10
+        },
+        "info.participants[].firstTowerAssist": {
+          "bool": 10
+        },
+        "info.participants[].firstTowerKill": {
+          "bool": 10
+        },
+        "info.participants[].gameEndedInEarlySurrender": {
+          "bool": 10
+        },
+        "info.participants[].gameEndedInSurrender": {
+          "bool": 10
+        },
+        "info.participants[].getBackPings": {
+          "int": 10
+        },
+        "info.participants[].goldEarned": {
+          "int": 10
+        },
+        "info.participants[].goldSpent": {
+          "int": 10
+        },
+        "info.participants[].holdPings": {
+          "int": 10
+        },
+        "info.participants[].individualPosition": {
+          "str": 10
+        },
+        "info.participants[].inhibitorKills": {
+          "int": 10
+        },
+        "info.participants[].inhibitorTakedowns": {
+          "int": 10
+        },
+        "info.participants[].inhibitorsLost": {
+          "int": 10
+        },
+        "info.participants[].item0": {
+          "int": 10
+        },
+        "info.participants[].item1": {
+          "int": 10
+        },
+        "info.participants[].item2": {
+          "int": 10
+        },
+        "info.participants[].item3": {
+          "int": 10
+        },
+        "info.participants[].item4": {
+          "int": 10
+        },
+        "info.participants[].item5": {
+          "int": 10
+        },
+        "info.participants[].item6": {
+          "int": 10
+        },
+        "info.participants[].itemsPurchased": {
+          "int": 10
+        },
+        "info.participants[].killingSprees": {
+          "int": 10
+        },
+        "info.participants[].kills": {
+          "int": 10
+        },
+        "info.participants[].lane": {
+          "str": 10
+        },
+        "info.participants[].largestCriticalStrike": {
+          "int": 10
+        },
+        "info.participants[].largestKillingSpree": {
+          "int": 10
+        },
+        "info.participants[].largestMultiKill": {
+          "int": 10
+        },
+        "info.participants[].longestTimeSpentLiving": {
+          "int": 10
+        },
+        "info.participants[].magicDamageDealt": {
+          "int": 10
+        },
+        "info.participants[].magicDamageDealtToChampions": {
+          "int": 10
+        },
+        "info.participants[].magicDamageTaken": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore0": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore1": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore10": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore11": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore2": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore3": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore4": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore5": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore6": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore7": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore8": {
+          "int": 10
+        },
+        "info.participants[].missions.playerScore9": {
+          "int": 10
+        },
+        "info.participants[].needVisionPings": {
+          "int": 10
+        },
+        "info.participants[].neutralMinionsKilled": {
+          "int": 10
+        },
+        "info.participants[].nexusKills": {
+          "int": 10
+        },
+        "info.participants[].nexusLost": {
+          "int": 10
+        },
+        "info.participants[].nexusTakedowns": {
+          "int": 10
+        },
+        "info.participants[].objectivesStolen": {
+          "int": 10
+        },
+        "info.participants[].objectivesStolenAssists": {
+          "int": 10
+        },
+        "info.participants[].onMyWayPings": {
+          "int": 10
+        },
+        "info.participants[].participantId": {
+          "int": 10
+        },
+        "info.participants[].pentaKills": {
+          "int": 10
+        },
+        "info.participants[].perks.statPerks.defense": {
+          "int": 10
+        },
+        "info.participants[].perks.statPerks.flex": {
+          "int": 10
+        },
+        "info.participants[].perks.statPerks.offense": {
+          "int": 10
+        },
+        "info.participants[].perks.styles[].description": {
+          "str": 20
+        },
+        "info.participants[].perks.styles[].selections[].perk": {
+          "int": 60
+        },
+        "info.participants[].perks.styles[].selections[].var1": {
+          "int": 60
+        },
+        "info.participants[].perks.styles[].selections[].var2": {
+          "int": 60
+        },
+        "info.participants[].perks.styles[].selections[].var3": {
+          "int": 60
+        },
+        "info.participants[].perks.styles[].style": {
+          "int": 20
+        },
+        "info.participants[].physicalDamageDealt": {
+          "int": 10
+        },
+        "info.participants[].physicalDamageDealtToChampions": {
+          "int": 10
+        },
+        "info.participants[].physicalDamageTaken": {
+          "int": 10
+        },
+        "info.participants[].placement": {
+          "int": 10
+        },
+        "info.participants[].playerAugment1": {
+          "int": 10
+        },
+        "info.participants[].playerAugment2": {
+          "int": 10
+        },
+        "info.participants[].playerAugment3": {
+          "int": 10
+        },
+        "info.participants[].playerAugment4": {
+          "int": 10
+        },
+        "info.participants[].playerAugment5": {
+          "int": 10
+        },
+        "info.participants[].playerAugment6": {
+          "int": 10
+        },
+        "info.participants[].playerSubteamId": {
+          "int": 10
+        },
+        "info.participants[].profileIcon": {
+          "int": 10
+        },
+        "info.participants[].pushPings": {
+          "int": 10
+        },
+        "info.participants[].puuid": {
+          "str": 10
+        },
+        "info.participants[].quadraKills": {
+          "int": 10
+        },
+        "info.participants[].retreatPings": {
+          "int": 10
+        },
+        "info.participants[].riotIdGameName": {
+          "str": 10
+        },
+        "info.participants[].riotIdTagline": {
+          "str": 10
+        },
+        "info.participants[].role": {
+          "str": 10
+        },
+        "info.participants[].roleBoundItem": {
+          "int": 10
+        },
+        "info.participants[].sightWardsBoughtInGame": {
+          "int": 10
+        },
+        "info.participants[].spell1Casts": {
+          "int": 10
+        },
+        "info.participants[].spell2Casts": {
+          "int": 10
+        },
+        "info.participants[].spell3Casts": {
+          "int": 10
+        },
+        "info.participants[].spell4Casts": {
+          "int": 10
+        },
+        "info.participants[].subteamPlacement": {
+          "int": 10
+        },
+        "info.participants[].summoner1Casts": {
+          "int": 10
+        },
+        "info.participants[].summoner1Id": {
+          "int": 10
+        },
+        "info.participants[].summoner2Casts": {
+          "int": 10
+        },
+        "info.participants[].summoner2Id": {
+          "int": 10
+        },
+        "info.participants[].summonerId": {
+          "str": 10
+        },
+        "info.participants[].summonerLevel": {
+          "int": 10
+        },
+        "info.participants[].summonerName": {
+          "str": 10
+        },
+        "info.participants[].teamEarlySurrendered": {
+          "bool": 10
+        },
+        "info.participants[].teamId": {
+          "int": 10
+        },
+        "info.participants[].teamPosition": {
+          "str": 10
+        },
+        "info.participants[].timeCCingOthers": {
+          "int": 10
+        },
+        "info.participants[].timePlayed": {
+          "int": 10
+        },
+        "info.participants[].totalAllyJungleMinionsKilled": {
+          "int": 10
+        },
+        "info.participants[].totalDamageDealt": {
+          "int": 10
+        },
+        "info.participants[].totalDamageDealtToChampions": {
+          "int": 10
+        },
+        "info.participants[].totalDamageShieldedOnTeammates": {
+          "int": 10
+        },
+        "info.participants[].totalDamageTaken": {
+          "int": 10
+        },
+        "info.participants[].totalEnemyJungleMinionsKilled": {
+          "int": 10
+        },
+        "info.participants[].totalHeal": {
+          "int": 10
+        },
+        "info.participants[].totalHealsOnTeammates": {
+          "int": 10
+        },
+        "info.participants[].totalMinionsKilled": {
+          "int": 10
+        },
+        "info.participants[].totalTimeCCDealt": {
+          "int": 10
+        },
+        "info.participants[].totalTimeSpentDead": {
+          "int": 10
+        },
+        "info.participants[].totalUnitsHealed": {
+          "int": 10
+        },
+        "info.participants[].tripleKills": {
+          "int": 10
+        },
+        "info.participants[].trueDamageDealt": {
+          "int": 10
+        },
+        "info.participants[].trueDamageDealtToChampions": {
+          "int": 10
+        },
+        "info.participants[].trueDamageTaken": {
+          "int": 10
+        },
+        "info.participants[].turretKills": {
+          "int": 10
+        },
+        "info.participants[].turretTakedowns": {
+          "int": 10
+        },
+        "info.participants[].turretsLost": {
+          "int": 10
+        },
+        "info.participants[].unrealKills": {
+          "int": 10
+        },
+        "info.participants[].visionClearedPings": {
+          "int": 10
+        },
+        "info.participants[].visionScore": {
+          "int": 10
+        },
+        "info.participants[].visionWardsBoughtInGame": {
+          "int": 10
+        },
+        "info.participants[].wardsKilled": {
+          "int": 10
+        },
+        "info.participants[].wardsPlaced": {
+          "int": 10
+        },
+        "info.participants[].win": {
+          "bool": 10
+        },
+        "info.platformId": {
+          "str": 1
+        },
+        "info.queueId": {
+          "int": 1
+        },
+        "info.teams[].bans[].championId": {
+          "int": 10
+        },
+        "info.teams[].bans[].pickTurn": {
+          "int": 10
+        },
+        "info.teams[].feats.EPIC_MONSTER_KILL.featState": {
+          "int": 2
+        },
+        "info.teams[].feats.FIRST_BLOOD.featState": {
+          "int": 2
+        },
+        "info.teams[].feats.FIRST_TURRET.featState": {
+          "int": 2
+        },
+        "info.teams[].objectives.atakhan.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.atakhan.kills": {
+          "int": 2
+        },
+        "info.teams[].objectives.baron.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.baron.kills": {
+          "int": 2
+        },
+        "info.teams[].objectives.champion.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.champion.kills": {
+          "int": 2
+        },
+        "info.teams[].objectives.dragon.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.dragon.kills": {
+          "int": 2
+        },
+        "info.teams[].objectives.horde.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.horde.kills": {
+          "int": 2
+        },
+        "info.teams[].objectives.inhibitor.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.inhibitor.kills": {
+          "int": 2
+        },
+        "info.teams[].objectives.riftHerald.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.riftHerald.kills": {
+          "int": 2
+        },
+        "info.teams[].objectives.tower.first": {
+          "bool": 2
+        },
+        "info.teams[].objectives.tower.kills": {
+          "int": 2
+        },
+        "info.teams[].teamId": {
+          "int": 2
+        },
+        "info.teams[].win": {
+          "bool": 2
+        },
+        "info.tournamentCode": {
+          "str": 1
+        },
+        "metadata.dataVersion": {
+          "str": 1
+        },
+        "metadata.matchId": {
+          "str": 1
+        },
+        "metadata.participants[]": {
+          "str": 10
+        }
+      },
+      "timeline": {
+        "info.endOfGameResult": {
+          "str": 1
+        },
+        "info.frameInterval": {
+          "int": 1
+        },
+        "info.frames[].events[].actualStartTime": {
+          "int": 1
+        },
+        "info.frames[].events[].afterId": {
+          "int": 18
+        },
+        "info.frames[].events[].assistingParticipantIds[]": {
+          "int": 157
+        },
+        "info.frames[].events[].beforeId": {
+          "int": 18
+        },
+        "info.frames[].events[].bounty": {
+          "int": 119
+        },
+        "info.frames[].events[].buildingType": {
+          "str": 15
+        },
+        "info.frames[].events[].creatorId": {
+          "int": 752
+        },
+        "info.frames[].events[].gameId": {
+          "int": 1
+        },
+        "info.frames[].events[].goldGain": {
+          "int": 18
+        },
+        "info.frames[].events[].itemId": {
+          "int": 588
+        },
+        "info.frames[].events[].killStreakLength": {
+          "int": 92
+        },
+        "info.frames[].events[].killType": {
+          "str": 12
+        },
+        "info.frames[].events[].killerId": {
+          "int": 256
+        },
+        "info.frames[].events[].killerTeamId": {
+          "int": 12
+        },
+        "info.frames[].events[].laneType": {
+          "str": 89
+        },
+        "info.frames[].events[].level": {
+          "int": 170
+        },
+        "info.frames[].events[].levelUpType": {
+          "str": 177
+        },
+        "info.frames[].events[].monsterSubType": {
+          "str": 6
+        },
+        "info.frames[].events[].monsterType": {
+          "str": 12
+        },
+        "info.frames[].events[].multiKillLength": {
+          "int": 10
+        },
+        "info.frames[].events[].name": {
+          "str": 1
+        },
+        "info.frames[].events[].participantId": {
+          "int": 953
+        },
+        "info.frames[].events[].position.x": {
+          "int": 205
+        },
+        "info.frames[].events[].position.y": {
+          "int": 205
+        },
+        "info.frames[].events[].realTimestamp": {
+          "int": 2
+        },
+        "info.frames[].events[].shutdownBounty": {
+          "int": 92
+        },
+        "info.frames[].events[].skillSlot": {
+          "int": 177
+        },
+        "info.frames[].events[].teamId": {
+          "int": 92
+        },
+        "info.frames[].events[].timestamp": {
+          "int": 1966
+        },
+        "info.frames[].events[].towerType": {
+          "str": 13
+        },
+        "info.frames[].events[].type": {
+          "str": 1966
+        },
+        "info.frames[].events[].victimDamageDealt[].basic": {
+          "bool": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].magicDamage": {
+          "int": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].name": {
+          "str": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].participantId": {
+          "int": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].physicalDamage": {
+          "int": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].spellName": {
+          "str": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].spellSlot": {
+          "int": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].trueDamage": {
+          "int": 592
+        },
+        "info.frames[].events[].victimDamageDealt[].type": {
+          "str": 592
+        },
+        "info.frames[].events[].victimDamageReceived[].basic": {
+          "bool": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].magicDamage": {
+          "int": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].name": {
+          "str": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].participantId": {
+          "int": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].physicalDamage": {
+          "int": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].spellName": {
+          "str": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].spellSlot": {
+          "int": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].trueDamage": {
+          "int": 1045
+        },
+        "info.frames[].events[].victimDamageReceived[].type": {
+          "str": 1045
+        },
+        "info.frames[].events[].victimId": {
+          "int": 92
+        },
+        "info.frames[].events[].wardType": {
+          "str": 803
+        },
+        "info.frames[].events[].winningTeam": {
+          "int": 1
+        },
+        "info.frames[].participantFrames.*.championStats.abilityHaste": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.abilityPower": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.armor": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.armorPen": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.armorPenPercent": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.attackDamage": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.attackSpeed": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.bonusArmorPenPercent": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.bonusMagicPenPercent": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.ccReduction": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.cooldownReduction": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.health": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.healthMax": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.healthRegen": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.lifesteal": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.magicPen": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.magicPenPercent": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.magicResist": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.movementSpeed": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.omnivamp": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.physicalVamp": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.power": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.powerMax": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.powerRegen": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.championStats.spellVamp": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.currentGold": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.magicDamageDone": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.magicDamageDoneToChampions": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.magicDamageTaken": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.physicalDamageDone": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.physicalDamageDoneToChampions": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.physicalDamageTaken": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.totalDamageDone": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.totalDamageDoneToChampions": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.totalDamageTaken": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.trueDamageDone": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.trueDamageDoneToChampions": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.damageStats.trueDamageTaken": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.goldPerSecond": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.jungleMinionsKilled": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.level": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.minionsKilled": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.participantId": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.position.x": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.position.y": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.timeEnemySpentControlled": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.totalGold": {
+          "int": 410
+        },
+        "info.frames[].participantFrames.*.xp": {
+          "int": 410
+        },
+        "info.frames[].timestamp": {
+          "int": 41
+        },
+        "info.gameId": {
+          "int": 1
+        },
+        "info.participants[].participantId": {
+          "int": 10
+        },
+        "info.participants[].puuid": {
+          "str": 10
+        },
+        "metadata.dataVersion": {
+          "str": 1
+        },
+        "metadata.matchId": {
+          "str": 1
+        },
+        "metadata.participants[]": {
+          "str": 10
+        }
+      }
+    },
+    "eventsByType": {
+      "BUILDING_KILL": {
+        "count": 15,
+        "fields": [
+          "[].assistingParticipantIds[]",
+          "[].bounty",
+          "[].buildingType",
+          "[].killerId",
+          "[].laneType",
+          "[].position.x",
+          "[].position.y",
+          "[].teamId",
+          "[].timestamp",
+          "[].towerType",
+          "[].type"
+        ],
+        "backendRetention": "Parsed into objective timeline, but event timeline is not saved by persistence."
+      },
+      "CHAMPION_KILL": {
+        "count": 92,
+        "fields": [
+          "[].assistingParticipantIds[]",
+          "[].bounty",
+          "[].killStreakLength",
+          "[].killerId",
+          "[].position.x",
+          "[].position.y",
+          "[].shutdownBounty",
+          "[].timestamp",
+          "[].type",
+          "[].victimDamageDealt[].basic",
+          "[].victimDamageDealt[].magicDamage",
+          "[].victimDamageDealt[].name",
+          "[].victimDamageDealt[].participantId",
+          "[].victimDamageDealt[].physicalDamage",
+          "[].victimDamageDealt[].spellName",
+          "[].victimDamageDealt[].spellSlot",
+          "[].victimDamageDealt[].trueDamage",
+          "[].victimDamageDealt[].type",
+          "[].victimDamageReceived[].basic",
+          "[].victimDamageReceived[].magicDamage",
+          "[].victimDamageReceived[].name",
+          "[].victimDamageReceived[].participantId",
+          "[].victimDamageReceived[].physicalDamage",
+          "[].victimDamageReceived[].spellName",
+          "[].victimDamageReceived[].spellSlot",
+          "[].victimDamageReceived[].trueDamage",
+          "[].victimDamageReceived[].type",
+          "[].victimId"
+        ],
+        "backendRetention": "Partial: killer/victim position and timestamp; explicit linkage, assistants, bounties and death recap discarded."
+      },
+      "CHAMPION_SPECIAL_KILL": {
+        "count": 12,
+        "fields": [
+          "[].killType",
+          "[].killerId",
+          "[].multiKillLength",
+          "[].position.x",
+          "[].position.y",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "DRAGON_SOUL_GIVEN": {
+        "count": 1,
+        "fields": [
+          "[].name",
+          "[].teamId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "ELITE_MONSTER_KILL": {
+        "count": 12,
+        "fields": [
+          "[].assistingParticipantIds[]",
+          "[].bounty",
+          "[].killerId",
+          "[].killerTeamId",
+          "[].monsterSubType",
+          "[].monsterType",
+          "[].position.x",
+          "[].position.y",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Parsed into objective timeline, but event timeline is not saved by persistence."
+      },
+      "GAME_END": {
+        "count": 1,
+        "fields": [
+          "[].gameId",
+          "[].realTimestamp",
+          "[].timestamp",
+          "[].type",
+          "[].winningTeam"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "ITEM_DESTROYED": {
+        "count": 277,
+        "fields": [
+          "[].itemId",
+          "[].participantId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "ITEM_PURCHASED": {
+        "count": 292,
+        "fields": [
+          "[].itemId",
+          "[].participantId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Item ID/timestamp/type stored, except purchases removed by undo handling."
+      },
+      "ITEM_SOLD": {
+        "count": 19,
+        "fields": [
+          "[].itemId",
+          "[].participantId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Item ID/timestamp/type stored; final build mapper ignores sale effects."
+      },
+      "ITEM_UNDO": {
+        "count": 18,
+        "fields": [
+          "[].afterId",
+          "[].beforeId",
+          "[].goldGain",
+          "[].participantId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Partial: beforeId/time stored and preceding buy removed; afterId/goldGain discarded."
+      },
+      "LEVEL_UP": {
+        "count": 170,
+        "fields": [
+          "[].level",
+          "[].participantId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "OBJECTIVE_BOUNTY_FINISH": {
+        "count": 1,
+        "fields": [
+          "[].teamId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "OBJECTIVE_BOUNTY_PRESTART": {
+        "count": 1,
+        "fields": [
+          "[].actualStartTime",
+          "[].teamId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "PAUSE_END": {
+        "count": 1,
+        "fields": [
+          "[].realTimestamp",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "SKILL_LEVEL_UP": {
+        "count": 177,
+        "fields": [
+          "[].levelUpType",
+          "[].participantId",
+          "[].skillSlot",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Partial: Q/W/E/R sequence stored; timestamps and levelUpType discarded."
+      },
+      "TURRET_PLATE_DESTROYED": {
+        "count": 74,
+        "fields": [
+          "[].killerId",
+          "[].laneType",
+          "[].position.x",
+          "[].position.y",
+          "[].teamId",
+          "[].timestamp",
+          "[].type"
+        ],
+        "backendRetention": "Ignored by active timeline parser."
+      },
+      "WARD_KILL": {
+        "count": 51,
+        "fields": [
+          "[].killerId",
+          "[].timestamp",
+          "[].type",
+          "[].wardType"
+        ],
+        "backendRetention": "Ignored by active parser (handler has no persistence)."
+      },
+      "WARD_PLACED": {
+        "count": 752,
+        "fields": [
+          "[].creatorId",
+          "[].timestamp",
+          "[].type",
+          "[].wardType"
+        ],
+        "backendRetention": "Partial: creator-associated timestamp/type stored, including UNDEFINED; fabricated coordinates 0,0."
+      }
+    }
+  },
+  "quality": {
+    "playerCrossChecks": [
+      {
+        "participantId": 1,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 2,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 3,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 4,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 5,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 6,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 7,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 8,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 9,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      },
+      {
+        "participantId": 10,
+        "checks": {
+          "kills": true,
+          "deaths": true,
+          "assists": true,
+          "wardsPlaced": true,
+          "wardsKilled": true,
+          "controlWards": true,
+          "soloKills": true,
+          "finalGold": true,
+          "finalCS": true,
+          "finalDamage": true
+        }
+      }
+    ],
+    "unidentifiedWardEvents": 556,
+    "soulEventsWithUnknownTeam": [
+      {
+        "name": "Infernal",
+        "teamId": 0,
+        "timestamp": 755595,
+        "type": "DRAGON_SOUL_GIVEN"
+      }
+    ],
+    "plateEventsAfter14Minutes": 60,
+    "frameCountVersusUniqueFloorMinutes": {
+      "frames": 41,
+      "floorMinutes": 40
+    },
+    "emptySummonerNames": 10,
+    "goldSpentAboveGoldEarned": [
+      1
+    ],
+    "crossCheckFailures": []
+  },
+  "teams": [
+    {
+      "teamId": 100,
+      "win": true,
+      "kills": 40,
+      "deaths": 52,
+      "assists": 63,
+      "damage": 232227,
+      "gold": 88606,
+      "turretDamage": 36129,
+      "wardsPlaced": 109,
+      "wardsKilled": 18,
+      "controlWardsPlaced": 9,
+      "controlWardsBought": 9,
+      "visionScore": 213,
+      "healsOnTeammates": 16618,
+      "shieldsOnTeammates": 19049,
+      "timeSpentDeadSeconds": 1811,
+      "unknownWardEvents": 45,
+      "wardTypes": {
+        "YELLOW_TRINKET": 41,
+        "SIGHT_WARD": 36,
+        "BLUE_TRINKET": 23,
+        "CONTROL_WARD": 9
+      },
+      "wardPlacementsUntil": {
+        "5": 10,
+        "10": 18,
+        "15": 35,
+        "20": 50
+      },
+      "summaryObjectives": {
+        "atakhan": {
+          "first": false,
+          "kills": 0
+        },
+        "baron": {
+          "first": false,
+          "kills": 0
+        },
+        "champion": {
+          "first": false,
+          "kills": 40
+        },
+        "dragon": {
+          "first": false,
+          "kills": 3
+        },
+        "horde": {
+          "first": false,
+          "kills": 0
+        },
+        "inhibitor": {
+          "first": false,
+          "kills": 1
+        },
+        "riftHerald": {
+          "first": false,
+          "kills": 0
+        },
+        "tower": {
+          "first": true,
+          "kills": 7
+        }
+      },
+      "knownWardsPerTeamMinute": 2.7618
+    },
+    {
+      "teamId": 200,
+      "win": false,
+      "kills": 52,
+      "deaths": 40,
+      "assists": 72,
+      "damage": 189529,
+      "gold": 78613,
+      "turretDamage": 29920,
+      "wardsPlaced": 87,
+      "wardsKilled": 33,
+      "controlWardsPlaced": 12,
+      "controlWardsBought": 14,
+      "visionScore": 269,
+      "healsOnTeammates": 12870,
+      "shieldsOnTeammates": 4071,
+      "timeSpentDeadSeconds": 1365,
+      "unknownWardEvents": 511,
+      "wardTypes": {
+        "YELLOW_TRINKET": 32,
+        "CONTROL_WARD": 12,
+        "SIGHT_WARD": 39,
+        "BLUE_TRINKET": 4
+      },
+      "wardPlacementsUntil": {
+        "5": 10,
+        "10": 21,
+        "15": 30,
+        "20": 44
+      },
+      "summaryObjectives": {
+        "atakhan": {
+          "first": false,
+          "kills": 0
+        },
+        "baron": {
+          "first": true,
+          "kills": 2
+        },
+        "champion": {
+          "first": true,
+          "kills": 52
+        },
+        "dragon": {
+          "first": true,
+          "kills": 3
+        },
+        "horde": {
+          "first": true,
+          "kills": 3
+        },
+        "inhibitor": {
+          "first": true,
+          "kills": 1
+        },
+        "riftHerald": {
+          "first": true,
+          "kills": 1
+        },
+        "tower": {
+          "first": false,
+          "kills": 6
+        }
+      },
+      "knownWardsPerTeamMinute": 2.2044
+    }
+  ],
+  "players": [
+    {
+      "participantId": 1,
+      "champion": "Fiora",
+      "teamId": 100,
+      "role": "TOP",
+      "win": true,
+      "kills": 19,
+      "deaths": 5,
+      "assists": 7,
+      "killParticipationPct": 65.0,
+      "damage": 81226,
+      "damageSharePct": 34.98,
+      "gold": 24864,
+      "goldSharePct": 28.06,
+      "damageShareOverGoldShare": 1.2466,
+      "turretDamage": 28592,
+      "turretDamageSharePct": 79.1386,
+      "damageToEpicMonsters": 2159,
+      "damageToObjectives": 30751,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 42899,
+        "magicDamageDealtToChampions": 3170,
+        "trueDamageDealtToChampions": 35155
+      },
+      "healsOnTeammates": 2877,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 72.897,
+      "timeCCingOthers": 22,
+      "damageSelfMitigated": 105588,
+      "timeSpentDeadSeconds": 212,
+      "timeSpentDeadPct": 8.9527,
+      "soloKillsNoRegisteredAssist": 7,
+      "soloKillsBefore15": 6,
+      "soloDeathsBefore15": 2,
+      "wardsPlaced": 13,
+      "wardsKilled": 4,
+      "wardsByType": {
+        "YELLOW_TRINKET": 3,
+        "BLUE_TRINKET": 10
+      },
+      "unknownWardEvents": 0,
+      "wardsPerMinute": 0.3294,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 2,
+        "15": 5,
+        "20": 6
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 1,
+        "20": 1
+      },
+      "controlWardsPlaced": 0,
+      "controlWardsBought": 0,
+      "visionScore": 28,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 2357,
+          "cs": 38,
+          "laneCs": 38,
+          "jungleCs": 0,
+          "xp": 2297,
+          "level": 5,
+          "currentGold": 1007,
+          "goldDifference": 888,
+          "csDifference": 9,
+          "xpDifference": 590,
+          "levelDifference": 1
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 4833,
+          "cs": 87,
+          "laneCs": 87,
+          "jungleCs": 0,
+          "xp": 5536,
+          "level": 9,
+          "currentGold": 733,
+          "goldDifference": 1382,
+          "csDifference": 28,
+          "xpDifference": 1206,
+          "levelDifference": 1
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 8395,
+          "cs": 138,
+          "laneCs": 138,
+          "jungleCs": 0,
+          "xp": 10292,
+          "level": 13,
+          "currentGold": 1600,
+          "goldDifference": 3088,
+          "csDifference": 38,
+          "xpDifference": 3318,
+          "levelDifference": 3
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 10655,
+          "cs": 191,
+          "laneCs": 191,
+          "jungleCs": 0,
+          "xp": 13580,
+          "level": 15,
+          "currentGold": 1827,
+          "goldDifference": 2707,
+          "csDifference": 35,
+          "xpDifference": 1646,
+          "levelDifference": 1
+        }
+      },
+      "maxSampledCurrentGold": 4297,
+      "framesWithCurrentGoldAtLeast1500": 10,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 1361,
+      "shutdownBountyFieldsConceded": 128,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 506225,
+          "deathTime": "08:26",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "HORDE",
+              "timestampMs": 511401
+            },
+            {
+              "type": "HORDE",
+              "timestampMs": 517079
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1198068,
+          "deathTime": "19:58",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1240704
+            },
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1244550
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        2517,
+        3074,
+        3078,
+        3111,
+        6333,
+        3156,
+        3363
+      ],
+      "roleBoundItem": 1220,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 7,
+        "skillshotsDodged": 69,
+        "skillshotsHit": 23,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 8,
+        "enemyChampionImmobilizations": 5,
+        "turretPlatesTaken": 23,
+        "laneMinionsFirst10Minutes": 87,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 3,
+        "epicMonsterSteals": 0,
+        "bountyGold": 1311.8846130371094
+      }
+    },
+    {
+      "participantId": 2,
+      "champion": "Karthus",
+      "teamId": 100,
+      "role": "JUNGLE",
+      "win": true,
+      "kills": 4,
+      "deaths": 9,
+      "assists": 16,
+      "killParticipationPct": 50.0,
+      "damage": 50016,
+      "damageSharePct": 21.54,
+      "gold": 17162,
+      "goldSharePct": 19.37,
+      "damageShareOverGoldShare": 1.112,
+      "turretDamage": 951,
+      "turretDamageSharePct": 2.6322,
+      "damageToEpicMonsters": 21460,
+      "damageToObjectives": 22412,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 437,
+        "magicDamageDealtToChampions": 45292,
+        "trueDamageDealtToChampions": 4285
+      },
+      "healsOnTeammates": 0,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 0.0,
+      "timeCCingOthers": 38,
+      "damageSelfMitigated": 16139,
+      "timeSpentDeadSeconds": 324,
+      "timeSpentDeadPct": 13.6824,
+      "soloKillsNoRegisteredAssist": 0,
+      "soloKillsBefore15": 0,
+      "soloDeathsBefore15": 0,
+      "wardsPlaced": 16,
+      "wardsKilled": 1,
+      "wardsByType": {
+        "YELLOW_TRINKET": 13,
+        "BLUE_TRINKET": 3
+      },
+      "unknownWardEvents": 0,
+      "wardsPerMinute": 0.4054,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 4,
+        "15": 6,
+        "20": 9
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0
+      },
+      "controlWardsPlaced": 0,
+      "controlWardsBought": 0,
+      "visionScore": 32,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 1765,
+          "cs": 24,
+          "laneCs": 0,
+          "jungleCs": 24,
+          "xp": 1288,
+          "level": 4,
+          "currentGold": 265,
+          "goldDifference": -183,
+          "csDifference": -11,
+          "xpDifference": -430,
+          "levelDifference": 0
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 3389,
+          "cs": 62,
+          "laneCs": 6,
+          "jungleCs": 56,
+          "xp": 3357,
+          "level": 7,
+          "currentGold": 989,
+          "goldDifference": -14,
+          "csDifference": -11,
+          "xpDifference": -413,
+          "levelDifference": 0
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 6115,
+          "cs": 117,
+          "laneCs": 25,
+          "jungleCs": 92,
+          "xp": 6963,
+          "level": 10,
+          "currentGold": 1415,
+          "goldDifference": 692,
+          "csDifference": 0,
+          "xpDifference": 541,
+          "levelDifference": 0
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 7815,
+          "cs": 153,
+          "laneCs": 25,
+          "jungleCs": 128,
+          "xp": 9085,
+          "level": 12,
+          "currentGold": 715,
+          "goldDifference": -965,
+          "csDifference": -8,
+          "xpDifference": -1187,
+          "levelDifference": -1
+        }
+      },
+      "maxSampledCurrentGold": 2365,
+      "framesWithCurrentGoldAtLeast1500": 7,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 0,
+      "shutdownBountyFieldsConceded": 13,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 1079061,
+          "deathTime": "17:59",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1105070
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1126044
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1198869,
+          "deathTime": "19:58",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1240704
+            },
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1244550
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1320062,
+          "deathTime": "22:00",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1333999
+            },
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 1338317
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1898357,
+          "deathTime": "31:38",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1948675
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        4645,
+        3135,
+        2503,
+        3020,
+        3916,
+        3089,
+        3363
+      ],
+      "roleBoundItem": 1209,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 0,
+        "skillshotsDodged": 29,
+        "skillshotsHit": 26,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 1,
+        "enemyChampionImmobilizations": 1,
+        "turretPlatesTaken": 2,
+        "laneMinionsFirst10Minutes": 4,
+        "jungleCsBefore10Minutes": 56.000000059604645,
+        "wardsGuarded": 0,
+        "epicMonsterSteals": 0,
+        "bountyGold": 0
+      }
+    },
+    {
+      "participantId": 3,
+      "champion": "Quinn",
+      "teamId": 100,
+      "role": "MIDDLE",
+      "win": true,
+      "kills": 13,
+      "deaths": 18,
+      "assists": 3,
+      "killParticipationPct": 40.0,
+      "damage": 40814,
+      "damageSharePct": 17.58,
+      "gold": 18929,
+      "goldSharePct": 21.36,
+      "damageShareOverGoldShare": 0.823,
+      "turretDamage": 3235,
+      "turretDamageSharePct": 8.954,
+      "damageToEpicMonsters": 0,
+      "damageToObjectives": 3235,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 35632,
+        "magicDamageDealtToChampions": 159,
+        "trueDamageDealtToChampions": 5022
+      },
+      "healsOnTeammates": 0,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 0.0,
+      "timeCCingOthers": 28,
+      "damageSelfMitigated": 27318,
+      "timeSpentDeadSeconds": 608,
+      "timeSpentDeadPct": 25.6757,
+      "soloKillsNoRegisteredAssist": 3,
+      "soloKillsBefore15": 1,
+      "soloDeathsBefore15": 6,
+      "wardsPlaced": 14,
+      "wardsKilled": 4,
+      "wardsByType": {
+        "YELLOW_TRINKET": 14
+      },
+      "unknownWardEvents": 0,
+      "wardsPerMinute": 0.3547,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 2,
+        "15": 5,
+        "20": 7
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 1,
+        "15": 1,
+        "20": 2
+      },
+      "controlWardsPlaced": 0,
+      "controlWardsBought": 0,
+      "visionScore": 33,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 2024,
+          "cs": 31,
+          "laneCs": 31,
+          "jungleCs": 0,
+          "xp": 1845,
+          "level": 5,
+          "currentGold": 1274,
+          "goldDifference": -335,
+          "csDifference": 1,
+          "xpDifference": -73,
+          "levelDifference": 0
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 3681,
+          "cs": 77,
+          "laneCs": 77,
+          "jungleCs": 0,
+          "xp": 4439,
+          "level": 8,
+          "currentGold": 126,
+          "goldDifference": -1387,
+          "csDifference": -14,
+          "xpDifference": -1231,
+          "levelDifference": -1
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 6562,
+          "cs": 100,
+          "laneCs": 100,
+          "jungleCs": 0,
+          "xp": 6688,
+          "level": 10,
+          "currentGold": 67,
+          "goldDifference": -605,
+          "csDifference": -19,
+          "xpDifference": -1369,
+          "levelDifference": -1
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 8011,
+          "cs": 139,
+          "laneCs": 139,
+          "jungleCs": 0,
+          "xp": 8707,
+          "level": 12,
+          "currentGold": 711,
+          "goldDifference": -1474,
+          "csDifference": -14,
+          "xpDifference": -1850,
+          "levelDifference": -1
+        }
+      },
+      "maxSampledCurrentGold": 2079,
+      "framesWithCurrentGoldAtLeast1500": 7,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 1316,
+      "shutdownBountyFieldsConceded": 0,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 699459,
+          "deathTime": "11:39",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 755094
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 934888,
+          "deathTime": "15:34",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 967981
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1001518,
+          "deathTime": "16:41",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "RIFTHERALD",
+              "timestampMs": 1037703
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1096479,
+          "deathTime": "18:16",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1105070
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1126044
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1205645,
+          "deathTime": "20:05",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1240704
+            },
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1244550
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1313764,
+          "deathTime": "21:53",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1333999
+            },
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 1338317
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1375069,
+          "deathTime": "22:55",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 1419571
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1895280,
+          "deathTime": "31:35",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1948675
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        3173,
+        6698,
+        6676,
+        3036,
+        3814,
+        3031,
+        3340
+      ],
+      "roleBoundItem": 1206,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 3,
+        "skillshotsDodged": 53,
+        "skillshotsHit": 17,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 3,
+        "enemyChampionImmobilizations": 31,
+        "turretPlatesTaken": 7,
+        "laneMinionsFirst10Minutes": 77,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 0,
+        "epicMonsterSteals": 0,
+        "bountyGold": 1277.824951171875
+      }
+    },
+    {
+      "participantId": 4,
+      "champion": "Varus",
+      "teamId": 100,
+      "role": "BOTTOM",
+      "win": true,
+      "kills": 3,
+      "deaths": 8,
+      "assists": 17,
+      "killParticipationPct": 50.0,
+      "damage": 54341,
+      "damageSharePct": 23.4,
+      "gold": 17153,
+      "goldSharePct": 19.36,
+      "damageShareOverGoldShare": 1.2087,
+      "turretDamage": 3351,
+      "turretDamageSharePct": 9.2751,
+      "damageToEpicMonsters": 2327,
+      "damageToObjectives": 5678,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 39603,
+        "magicDamageDealtToChampions": 12564,
+        "trueDamageDealtToChampions": 2172
+      },
+      "healsOnTeammates": 0,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 0.0,
+      "timeCCingOthers": 53,
+      "damageSelfMitigated": 16577,
+      "timeSpentDeadSeconds": 245,
+      "timeSpentDeadPct": 10.3463,
+      "soloKillsNoRegisteredAssist": 0,
+      "soloKillsBefore15": 0,
+      "soloDeathsBefore15": 0,
+      "wardsPlaced": 20,
+      "wardsKilled": 3,
+      "wardsByType": {
+        "YELLOW_TRINKET": 7,
+        "CONTROL_WARD": 3,
+        "BLUE_TRINKET": 10
+      },
+      "unknownWardEvents": 0,
+      "wardsPerMinute": 0.5068,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 4,
+        "15": 7,
+        "20": 9
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 1
+      },
+      "controlWardsPlaced": 3,
+      "controlWardsBought": 3,
+      "visionScore": 28,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 2216,
+          "cs": 34,
+          "laneCs": 34,
+          "jungleCs": 0,
+          "xp": 1415,
+          "level": 4,
+          "currentGold": 116,
+          "goldDifference": 697,
+          "csDifference": 9,
+          "xpDifference": 178,
+          "levelDifference": 0
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 3566,
+          "cs": 75,
+          "laneCs": 75,
+          "jungleCs": 0,
+          "xp": 3166,
+          "level": 6,
+          "currentGold": 816,
+          "goldDifference": -638,
+          "csDifference": -3,
+          "xpDifference": -425,
+          "levelDifference": -1
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 6145,
+          "cs": 118,
+          "laneCs": 118,
+          "jungleCs": 0,
+          "xp": 5487,
+          "level": 9,
+          "currentGold": 920,
+          "goldDifference": -394,
+          "csDifference": -7,
+          "xpDifference": -439,
+          "levelDifference": 0
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 8120,
+          "cs": 168,
+          "laneCs": 168,
+          "jungleCs": 0,
+          "xp": 7665,
+          "level": 11,
+          "currentGold": 740,
+          "goldDifference": -1565,
+          "csDifference": -2,
+          "xpDifference": -1375,
+          "levelDifference": -1
+        }
+      },
+      "maxSampledCurrentGold": 1493,
+      "framesWithCurrentGoldAtLeast1500": 0,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 0,
+      "shutdownBountyFieldsConceded": 99,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 382792,
+          "deathTime": "06:22",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 416461
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 499666,
+          "deathTime": "08:19",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "HORDE",
+              "timestampMs": 500948
+            },
+            {
+              "type": "HORDE",
+              "timestampMs": 511401
+            },
+            {
+              "type": "HORDE",
+              "timestampMs": 517079
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1103868,
+          "deathTime": "18:23",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1105070
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1126044
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1236997,
+          "deathTime": "20:36",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1240704
+            },
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1244550
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1304938,
+          "deathTime": "21:44",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1333999
+            },
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 1338317
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        3142,
+        3814,
+        0,
+        6694,
+        6695,
+        3042,
+        3363
+      ],
+      "roleBoundItem": 3158,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 0,
+        "skillshotsDodged": 51,
+        "skillshotsHit": 141,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 1,
+        "enemyChampionImmobilizations": 39,
+        "turretPlatesTaken": 5,
+        "laneMinionsFirst10Minutes": 61,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 0,
+        "epicMonsterSteals": 0,
+        "bountyGold": 0
+      }
+    },
+    {
+      "participantId": 5,
+      "champion": "Milio",
+      "teamId": 100,
+      "role": "UTILITY",
+      "win": true,
+      "kills": 1,
+      "deaths": 12,
+      "assists": 20,
+      "killParticipationPct": 52.5,
+      "damage": 5830,
+      "damageSharePct": 2.51,
+      "gold": 10498,
+      "goldSharePct": 11.85,
+      "damageShareOverGoldShare": 0.2118,
+      "turretDamage": 0,
+      "turretDamageSharePct": 0.0,
+      "damageToEpicMonsters": 81,
+      "damageToObjectives": 81,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 1259,
+        "magicDamageDealtToChampions": 4389,
+        "trueDamageDealtToChampions": 181
+      },
+      "healsOnTeammates": 13741,
+      "shieldsOnTeammates": 19049,
+      "allyHealShieldPerMinute": 830.8277,
+      "timeCCingOthers": 17,
+      "damageSelfMitigated": 17081,
+      "timeSpentDeadSeconds": 422,
+      "timeSpentDeadPct": 17.8209,
+      "soloKillsNoRegisteredAssist": 0,
+      "soloKillsBefore15": 0,
+      "soloDeathsBefore15": 0,
+      "wardsPlaced": 46,
+      "wardsKilled": 6,
+      "wardsByType": {
+        "YELLOW_TRINKET": 4,
+        "SIGHT_WARD": 36,
+        "CONTROL_WARD": 6
+      },
+      "unknownWardEvents": 45,
+      "wardsPerMinute": 1.1655,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 6,
+        "15": 12,
+        "20": 19
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 1,
+        "20": 5
+      },
+      "controlWardsPlaced": 6,
+      "controlWardsBought": 6,
+      "visionScore": 92,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 1730,
+          "cs": 8,
+          "laneCs": 8,
+          "jungleCs": 0,
+          "xp": 1415,
+          "level": 4,
+          "currentGold": 1230,
+          "goldDifference": 489,
+          "csDifference": 0,
+          "xpDifference": 426,
+          "levelDifference": 1
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 2817,
+          "cs": 18,
+          "laneCs": 18,
+          "jungleCs": 0,
+          "xp": 2567,
+          "level": 6,
+          "currentGold": 467,
+          "goldDifference": 76,
+          "csDifference": -1,
+          "xpDifference": -559,
+          "levelDifference": 0
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 4189,
+          "cs": 22,
+          "laneCs": 22,
+          "jungleCs": 0,
+          "xp": 4421,
+          "level": 8,
+          "currentGold": 243,
+          "goldDifference": 59,
+          "csDifference": -3,
+          "xpDifference": -197,
+          "levelDifference": 0
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 5335,
+          "cs": 28,
+          "laneCs": 28,
+          "jungleCs": 0,
+          "xp": 5578,
+          "level": 9,
+          "currentGold": 439,
+          "goldDifference": -447,
+          "csDifference": 1,
+          "xpDifference": -1258,
+          "levelDifference": -1
+        }
+      },
+      "maxSampledCurrentGold": 1628,
+      "framesWithCurrentGoldAtLeast1500": 1,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 0,
+      "shutdownBountyFieldsConceded": 0,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 503553,
+          "deathTime": "08:23",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "HORDE",
+              "timestampMs": 511401
+            },
+            {
+              "type": "HORDE",
+              "timestampMs": 517079
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1085307,
+          "deathTime": "18:05",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1105070
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1126044
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1199103,
+          "deathTime": "19:59",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1240704
+            },
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1244550
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1299461,
+          "deathTime": "21:39",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1333999
+            },
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 1338317
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1409037,
+          "deathTime": "23:29",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 1419571
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1896316,
+          "deathTime": "31:36",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "BARON_NASHOR",
+              "timestampMs": 1948675
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        3870,
+        2065,
+        3158,
+        6620,
+        6617,
+        3114,
+        3364
+      ],
+      "roleBoundItem": 1208,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 0,
+        "skillshotsDodged": 49,
+        "skillshotsHit": 17,
+        "saveAllyFromDeath": 65,
+        "outnumberedKills": 0,
+        "enemyChampionImmobilizations": 38,
+        "turretPlatesTaken": 1,
+        "laneMinionsFirst10Minutes": 18,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 0,
+        "epicMonsterSteals": 0,
+        "bountyGold": 0
+      }
+    },
+    {
+      "participantId": 6,
+      "champion": "Singed",
+      "teamId": 200,
+      "role": "TOP",
+      "win": false,
+      "kills": 9,
+      "deaths": 9,
+      "assists": 6,
+      "killParticipationPct": 28.8462,
+      "damage": 24541,
+      "damageSharePct": 12.95,
+      "gold": 15063,
+      "goldSharePct": 19.16,
+      "damageShareOverGoldShare": 0.6759,
+      "turretDamage": 4573,
+      "turretDamageSharePct": 15.2841,
+      "damageToEpicMonsters": 3307,
+      "damageToObjectives": 7881,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 1274,
+        "magicDamageDealtToChampions": 21600,
+        "trueDamageDealtToChampions": 1666
+      },
+      "healsOnTeammates": 0,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 0.0,
+      "timeCCingOthers": 52,
+      "damageSelfMitigated": 50867,
+      "timeSpentDeadSeconds": 266,
+      "timeSpentDeadPct": 11.2331,
+      "soloKillsNoRegisteredAssist": 4,
+      "soloKillsBefore15": 3,
+      "soloDeathsBefore15": 5,
+      "wardsPlaced": 16,
+      "wardsKilled": 4,
+      "wardsByType": {
+        "YELLOW_TRINKET": 16
+      },
+      "unknownWardEvents": 0,
+      "wardsPerMinute": 0.4054,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 3,
+        "15": 6,
+        "20": 8
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 1,
+        "20": 1
+      },
+      "controlWardsPlaced": 0,
+      "controlWardsBought": 0,
+      "visionScore": 39,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 1469,
+          "cs": 29,
+          "laneCs": 29,
+          "jungleCs": 0,
+          "xp": 1707,
+          "level": 4,
+          "currentGold": 369,
+          "goldDifference": -888,
+          "csDifference": -9,
+          "xpDifference": -590,
+          "levelDifference": -1
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 3451,
+          "cs": 59,
+          "laneCs": 59,
+          "jungleCs": 0,
+          "xp": 4330,
+          "level": 8,
+          "currentGold": 301,
+          "goldDifference": -1382,
+          "csDifference": -28,
+          "xpDifference": -1206,
+          "levelDifference": -1
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 5307,
+          "cs": 100,
+          "laneCs": 100,
+          "jungleCs": 0,
+          "xp": 6974,
+          "level": 10,
+          "currentGold": 57,
+          "goldDifference": -3088,
+          "csDifference": -38,
+          "xpDifference": -3318,
+          "levelDifference": -3
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 7948,
+          "cs": 156,
+          "laneCs": 156,
+          "jungleCs": 0,
+          "xp": 11934,
+          "level": 14,
+          "currentGold": 498,
+          "goldDifference": -2707,
+          "csDifference": -35,
+          "xpDifference": -1646,
+          "levelDifference": -1
+        }
+      },
+      "maxSampledCurrentGold": 2157,
+      "framesWithCurrentGoldAtLeast1500": 2,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 128,
+      "shutdownBountyFieldsConceded": 324,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 682461,
+          "deathTime": "11:22",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 729836
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1789974,
+          "deathTime": "29:49",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1795864
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2335491,
+          "deathTime": "38:55",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 2361241
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        3165,
+        3140,
+        3157,
+        6653,
+        3116,
+        3047,
+        3340
+      ],
+      "roleBoundItem": 1220,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 4,
+        "skillshotsDodged": 78,
+        "skillshotsHit": 2,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 0,
+        "enemyChampionImmobilizations": 24,
+        "turretPlatesTaken": 4,
+        "laneMinionsFirst10Minutes": 59,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 3,
+        "epicMonsterSteals": 0,
+        "bountyGold": 128.2612762451172
+      }
+    },
+    {
+      "participantId": 7,
+      "champion": "Aatrox",
+      "teamId": 200,
+      "role": "JUNGLE",
+      "win": false,
+      "kills": 12,
+      "deaths": 8,
+      "assists": 7,
+      "killParticipationPct": 36.5385,
+      "damage": 39571,
+      "damageSharePct": 20.88,
+      "gold": 17039,
+      "goldSharePct": 21.67,
+      "damageShareOverGoldShare": 0.9635,
+      "turretDamage": 4495,
+      "turretDamageSharePct": 15.0234,
+      "damageToEpicMonsters": 59848,
+      "damageToObjectives": 64344,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 34638,
+        "magicDamageDealtToChampions": 3222,
+        "trueDamageDealtToChampions": 1710
+      },
+      "healsOnTeammates": 0,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 0.0,
+      "timeCCingOthers": 28,
+      "damageSelfMitigated": 80338,
+      "timeSpentDeadSeconds": 308,
+      "timeSpentDeadPct": 13.0068,
+      "soloKillsNoRegisteredAssist": 3,
+      "soloKillsBefore15": 0,
+      "soloDeathsBefore15": 1,
+      "wardsPlaced": 10,
+      "wardsKilled": 8,
+      "wardsByType": {
+        "YELLOW_TRINKET": 5,
+        "CONTROL_WARD": 5
+      },
+      "unknownWardEvents": 0,
+      "wardsPerMinute": 0.2534,
+      "wardPlacementsUntil": {
+        "5": 3,
+        "10": 5,
+        "15": 6,
+        "20": 8
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 3
+      },
+      "controlWardsPlaced": 5,
+      "controlWardsBought": 5,
+      "visionScore": 51,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 1948,
+          "cs": 35,
+          "laneCs": 0,
+          "jungleCs": 35,
+          "xp": 1718,
+          "level": 4,
+          "currentGold": 348,
+          "goldDifference": 183,
+          "csDifference": 11,
+          "xpDifference": 430,
+          "levelDifference": 0
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 3403,
+          "cs": 73,
+          "laneCs": 0,
+          "jungleCs": 73,
+          "xp": 3770,
+          "level": 7,
+          "currentGold": 353,
+          "goldDifference": 14,
+          "csDifference": 11,
+          "xpDifference": 413,
+          "levelDifference": 0
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 5423,
+          "cs": 117,
+          "laneCs": 4,
+          "jungleCs": 113,
+          "xp": 6422,
+          "level": 10,
+          "currentGold": 98,
+          "goldDifference": -692,
+          "csDifference": 0,
+          "xpDifference": -541,
+          "levelDifference": 0
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 8780,
+          "cs": 161,
+          "laneCs": 8,
+          "jungleCs": 153,
+          "xp": 10272,
+          "level": 13,
+          "currentGold": 990,
+          "goldDifference": 965,
+          "csDifference": 8,
+          "xpDifference": 1187,
+          "levelDifference": 1
+        }
+      },
+      "maxSampledCurrentGold": 2030,
+      "framesWithCurrentGoldAtLeast1500": 4,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 0,
+      "shutdownBountyFieldsConceded": 685,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 1732951,
+          "deathTime": "28:52",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 1753314
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1758123
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2058997,
+          "deathTime": "34:18",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 2079806
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2227629,
+          "deathTime": "37:07",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 2250564
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2344489,
+          "deathTime": "39:04",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 2361241
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        3156,
+        1038,
+        6333,
+        3161,
+        6610,
+        3111,
+        3364
+      ],
+      "roleBoundItem": 1209,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 3,
+        "skillshotsDodged": 136,
+        "skillshotsHit": 27,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 5,
+        "enemyChampionImmobilizations": 46,
+        "turretPlatesTaken": 11,
+        "laneMinionsFirst10Minutes": 0,
+        "jungleCsBefore10Minutes": 73.00000014901161,
+        "wardsGuarded": 3,
+        "epicMonsterSteals": 0,
+        "bountyGold": 0
+      }
+    },
+    {
+      "participantId": 8,
+      "champion": "Zoe",
+      "teamId": 200,
+      "role": "MIDDLE",
+      "win": false,
+      "kills": 16,
+      "deaths": 8,
+      "assists": 15,
+      "killParticipationPct": 59.6154,
+      "damage": 48349,
+      "damageSharePct": 25.51,
+      "gold": 16188,
+      "goldSharePct": 20.59,
+      "damageShareOverGoldShare": 1.239,
+      "turretDamage": 11197,
+      "turretDamageSharePct": 37.4231,
+      "damageToEpicMonsters": 5654,
+      "damageToObjectives": 16851,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 2780,
+        "magicDamageDealtToChampions": 38127,
+        "trueDamageDealtToChampions": 7442
+      },
+      "healsOnTeammates": 247,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 6.2584,
+      "timeCCingOthers": 44,
+      "damageSelfMitigated": 20053,
+      "timeSpentDeadSeconds": 310,
+      "timeSpentDeadPct": 13.0912,
+      "soloKillsNoRegisteredAssist": 6,
+      "soloKillsBefore15": 5,
+      "soloDeathsBefore15": 1,
+      "wardsPlaced": 9,
+      "wardsKilled": 8,
+      "wardsByType": {
+        "YELLOW_TRINKET": 3,
+        "CONTROL_WARD": 6
+      },
+      "unknownWardEvents": 77,
+      "wardsPerMinute": 0.228,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 5,
+        "15": 6,
+        "20": 6
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 4
+      },
+      "controlWardsPlaced": 6,
+      "controlWardsBought": 7,
+      "visionScore": 39,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 2359,
+          "cs": 30,
+          "laneCs": 30,
+          "jungleCs": 0,
+          "xp": 1918,
+          "level": 5,
+          "currentGold": 34,
+          "goldDifference": 335,
+          "csDifference": -1,
+          "xpDifference": 73,
+          "levelDifference": 0
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 5068,
+          "cs": 91,
+          "laneCs": 91,
+          "jungleCs": 0,
+          "xp": 5670,
+          "level": 9,
+          "currentGold": 668,
+          "goldDifference": 1387,
+          "csDifference": 14,
+          "xpDifference": 1231,
+          "levelDifference": 1
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 7167,
+          "cs": 119,
+          "laneCs": 119,
+          "jungleCs": 0,
+          "xp": 8057,
+          "level": 11,
+          "currentGold": 497,
+          "goldDifference": 605,
+          "csDifference": 19,
+          "xpDifference": 1369,
+          "levelDifference": 1
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 9485,
+          "cs": 153,
+          "laneCs": 153,
+          "jungleCs": 0,
+          "xp": 10557,
+          "level": 13,
+          "currentGold": 1000,
+          "goldDifference": 1474,
+          "csDifference": 14,
+          "xpDifference": 1850,
+          "levelDifference": 1
+        }
+      },
+      "maxSampledCurrentGold": 1821,
+      "framesWithCurrentGoldAtLeast1500": 4,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 0,
+      "shutdownBountyFieldsConceded": 929,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 684365,
+          "deathTime": "11:24",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 729836
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1752913,
+          "deathTime": "29:12",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 1753314
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1758123
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1795864
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2198870,
+          "deathTime": "36:38",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 2250564
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2357029,
+          "deathTime": "39:17",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 2361241
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        4628,
+        3157,
+        1058,
+        6655,
+        3916,
+        3175,
+        3364
+      ],
+      "roleBoundItem": 1206,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 6,
+        "skillshotsDodged": 49,
+        "skillshotsHit": 107,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 0,
+        "enemyChampionImmobilizations": 21,
+        "turretPlatesTaken": 12,
+        "laneMinionsFirst10Minutes": 89,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 2,
+        "epicMonsterSteals": 0,
+        "bountyGold": 0
+      }
+    },
+    {
+      "participantId": 9,
+      "champion": "Zyra",
+      "teamId": 200,
+      "role": "BOTTOM",
+      "win": false,
+      "kills": 15,
+      "deaths": 7,
+      "assists": 14,
+      "killParticipationPct": 55.7692,
+      "damage": 69525,
+      "damageSharePct": 36.68,
+      "gold": 18680,
+      "goldSharePct": 23.76,
+      "damageShareOverGoldShare": 1.5438,
+      "turretDamage": 4912,
+      "turretDamageSharePct": 16.4171,
+      "damageToEpicMonsters": 11826,
+      "damageToObjectives": 16738,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 949,
+        "magicDamageDealtToChampions": 63632,
+        "trueDamageDealtToChampions": 4943
+      },
+      "healsOnTeammates": 0,
+      "shieldsOnTeammates": 0,
+      "allyHealShieldPerMinute": 0.0,
+      "timeCCingOthers": 43,
+      "damageSelfMitigated": 14179,
+      "timeSpentDeadSeconds": 248,
+      "timeSpentDeadPct": 10.473,
+      "soloKillsNoRegisteredAssist": 3,
+      "soloKillsBefore15": 0,
+      "soloDeathsBefore15": 0,
+      "wardsPlaced": 9,
+      "wardsKilled": 3,
+      "wardsByType": {
+        "YELLOW_TRINKET": 5,
+        "BLUE_TRINKET": 4
+      },
+      "unknownWardEvents": 434,
+      "wardsPerMinute": 0.228,
+      "wardPlacementsUntil": {
+        "5": 1,
+        "10": 3,
+        "15": 5,
+        "20": 6
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0
+      },
+      "controlWardsPlaced": 0,
+      "controlWardsBought": 0,
+      "visionScore": 30,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 1519,
+          "cs": 25,
+          "laneCs": 25,
+          "jungleCs": 0,
+          "xp": 1237,
+          "level": 4,
+          "currentGold": 119,
+          "goldDifference": -697,
+          "csDifference": -9,
+          "xpDifference": -178,
+          "levelDifference": 0
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 4204,
+          "cs": 78,
+          "laneCs": 78,
+          "jungleCs": 0,
+          "xp": 3591,
+          "level": 7,
+          "currentGold": 404,
+          "goldDifference": 638,
+          "csDifference": 3,
+          "xpDifference": 425,
+          "levelDifference": 1
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 6539,
+          "cs": 125,
+          "laneCs": 125,
+          "jungleCs": 0,
+          "xp": 5926,
+          "level": 9,
+          "currentGold": 389,
+          "goldDifference": 394,
+          "csDifference": 7,
+          "xpDifference": 439,
+          "levelDifference": 0
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 9685,
+          "cs": 170,
+          "laneCs": 170,
+          "jungleCs": 0,
+          "xp": 9040,
+          "level": 12,
+          "currentGold": 545,
+          "goldDifference": 1565,
+          "csDifference": 2,
+          "xpDifference": 1375,
+          "levelDifference": 1
+        }
+      },
+      "maxSampledCurrentGold": 1885,
+      "framesWithCurrentGoldAtLeast1500": 5,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 112,
+      "shutdownBountyFieldsConceded": 700,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 1723675,
+          "deathTime": "28:43",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 1753314
+            },
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1758123
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1792258,
+          "deathTime": "29:52",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1795864
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2194508,
+          "deathTime": "36:34",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 2250564
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2338206,
+          "deathTime": "38:58",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 2361241
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        3135,
+        6653,
+        2503,
+        3916,
+        4645,
+        4633,
+        3363
+      ],
+      "roleBoundItem": 3020,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 3,
+        "skillshotsDodged": 209,
+        "skillshotsHit": 28,
+        "saveAllyFromDeath": 0,
+        "outnumberedKills": 1,
+        "enemyChampionImmobilizations": 32,
+        "turretPlatesTaken": 14,
+        "laneMinionsFirst10Minutes": 62,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 0,
+        "epicMonsterSteals": 0,
+        "bountyGold": 0
+      }
+    },
+    {
+      "participantId": 10,
+      "champion": "Zilean",
+      "teamId": 200,
+      "role": "UTILITY",
+      "win": false,
+      "kills": 0,
+      "deaths": 8,
+      "assists": 30,
+      "killParticipationPct": 57.6923,
+      "damage": 7543,
+      "damageSharePct": 3.98,
+      "gold": 11643,
+      "goldSharePct": 14.81,
+      "damageShareOverGoldShare": 0.2687,
+      "turretDamage": 4743,
+      "turretDamageSharePct": 15.8523,
+      "damageToEpicMonsters": 0,
+      "damageToObjectives": 4743,
+      "damageTypesToChampions": {
+        "physicalDamageDealtToChampions": 1450,
+        "magicDamageDealtToChampions": 4346,
+        "trueDamageDealtToChampions": 1746
+      },
+      "healsOnTeammates": 12623,
+      "shieldsOnTeammates": 4071,
+      "allyHealShieldPerMinute": 422.9899,
+      "timeCCingOthers": 29,
+      "damageSelfMitigated": 27656,
+      "timeSpentDeadSeconds": 233,
+      "timeSpentDeadPct": 9.8395,
+      "soloKillsNoRegisteredAssist": 0,
+      "soloKillsBefore15": 0,
+      "soloDeathsBefore15": 0,
+      "wardsPlaced": 43,
+      "wardsKilled": 10,
+      "wardsByType": {
+        "YELLOW_TRINKET": 3,
+        "SIGHT_WARD": 39,
+        "CONTROL_WARD": 1
+      },
+      "unknownWardEvents": 0,
+      "wardsPerMinute": 1.0895,
+      "wardPlacementsUntil": {
+        "5": 2,
+        "10": 5,
+        "15": 7,
+        "20": 16
+      },
+      "wardKillsUntil": {
+        "5": 0,
+        "10": 1,
+        "15": 5,
+        "20": 5
+      },
+      "controlWardsPlaced": 1,
+      "controlWardsBought": 2,
+      "visionScore": 110,
+      "checkpoints": {
+        "5": {
+          "frameTimestampMs": 300154,
+          "offsetMs": 154,
+          "gold": 1241,
+          "cs": 8,
+          "laneCs": 8,
+          "jungleCs": 0,
+          "xp": 989,
+          "level": 3,
+          "currentGold": 191,
+          "goldDifference": -489,
+          "csDifference": 0,
+          "xpDifference": -426,
+          "levelDifference": -1
+        },
+        "10": {
+          "frameTimestampMs": 600264,
+          "offsetMs": 264,
+          "gold": 2741,
+          "cs": 19,
+          "laneCs": 19,
+          "jungleCs": 0,
+          "xp": 3126,
+          "level": 6,
+          "currentGold": 536,
+          "goldDifference": -76,
+          "csDifference": 1,
+          "xpDifference": 559,
+          "levelDifference": 0
+        },
+        "15": {
+          "frameTimestampMs": 900358,
+          "offsetMs": 358,
+          "gold": 4130,
+          "cs": 25,
+          "laneCs": 25,
+          "jungleCs": 0,
+          "xp": 4618,
+          "level": 8,
+          "currentGold": 505,
+          "goldDifference": -59,
+          "csDifference": 3,
+          "xpDifference": 197,
+          "levelDifference": 0
+        },
+        "20": {
+          "frameTimestampMs": 1200462,
+          "offsetMs": 462,
+          "gold": 5782,
+          "cs": 27,
+          "laneCs": 27,
+          "jungleCs": 0,
+          "xp": 6836,
+          "level": 10,
+          "currentGold": 717,
+          "goldDifference": 447,
+          "csDifference": -1,
+          "xpDifference": 1258,
+          "levelDifference": 1
+        }
+      },
+      "maxSampledCurrentGold": 1788,
+      "framesWithCurrentGoldAtLeast1500": 1,
+      "framesObserved": 41,
+      "shutdownBountyFieldsReceived": 0,
+      "shutdownBountyFieldsConceded": 39,
+      "deathsFollowedByOpponentObjectiveWithin60s": [
+        {
+          "deathTimestampMs": 697589,
+          "deathTime": "11:37",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 729836
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 1784417,
+          "deathTime": "29:44",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "TOWER_BUILDING",
+              "timestampMs": 1795864
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2067435,
+          "deathTime": "34:27",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "DRAGON",
+              "timestampMs": 2079806
+            }
+          ]
+        },
+        {
+          "deathTimestampMs": 2339427,
+          "deathTime": "38:59",
+          "opponentObjectivesNext60s": [
+            {
+              "type": "INHIBITOR_BUILDING",
+              "timestampMs": 2361241
+            }
+          ]
+        }
+      ],
+      "finalInventorySlots0to6": [
+        3869,
+        3190,
+        3222,
+        3107,
+        3109,
+        3158,
+        3364
+      ],
+      "roleBoundItem": 1208,
+      "selectedStoredButUnusedChallenges": {
+        "soloKills": 0,
+        "skillshotsDodged": 161,
+        "skillshotsHit": 54,
+        "saveAllyFromDeath": 8,
+        "outnumberedKills": 0,
+        "enemyChampionImmobilizations": 30,
+        "turretPlatesTaken": 14,
+        "laneMinionsFirst10Minutes": 19,
+        "jungleCsBefore10Minutes": 0,
+        "wardsGuarded": 0,
+        "epicMonsterSteals": 0,
+        "bountyGold": 0
+      }
+    }
+  ],
+  "objectives": [
+    {
+      "timestampMs": 416461,
+      "time": "06:56",
+      "type": "DRAGON",
+      "subType": "WATER_DRAGON",
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [],
+      "position": {
+        "x": 9837,
+        "y": 4397
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 1,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 3
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 360183,
+        "endFrameMs": 540234,
+        "differenceBefore": -1634,
+        "differenceAfter": 649,
+        "differenceChange": 2283,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 500948,
+      "time": "08:20",
+      "type": "HORDE",
+      "subType": null,
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [],
+      "position": {
+        "x": 5210,
+        "y": 10424
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 1,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 480226,
+        "endFrameMs": 660291,
+        "differenceBefore": -140,
+        "differenceAfter": 1053,
+        "differenceChange": 1193,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 511401,
+      "time": "08:31",
+      "type": "HORDE",
+      "subType": null,
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [],
+      "position": {
+        "x": 5116,
+        "y": 10233
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 3,
+      "deathsByBeneficiaryPrevious60s": 1,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 2
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 480226,
+        "endFrameMs": 660291,
+        "differenceBefore": -140,
+        "differenceAfter": 1053,
+        "differenceChange": 1193,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 517079,
+      "time": "08:37",
+      "type": "HORDE",
+      "subType": null,
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [],
+      "position": {
+        "x": 4939,
+        "y": 10401
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 3,
+      "deathsByBeneficiaryPrevious60s": 1,
+      "knownWardPlacementsPrevious90s": {
+        "100": 4,
+        "200": 2
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 480226,
+        "endFrameMs": 660291,
+        "differenceBefore": -140,
+        "differenceAfter": 1053,
+        "differenceChange": 1193,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 729836,
+      "time": "12:09",
+      "type": "TOWER_BUILDING",
+      "subType": "OUTER_TURRET",
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 1,
+      "assistants": [],
+      "position": {
+        "x": 4318,
+        "y": 13875
+      },
+      "lane": "TOP_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 3,
+      "deathsByBeneficiaryPrevious60s": 3,
+      "knownWardPlacementsPrevious90s": {
+        "100": 5,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 720309,
+        "endFrameMs": 900358,
+        "differenceBefore": -289,
+        "differenceAfter": 2840,
+        "differenceChange": 3129,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 755094,
+      "time": "12:35",
+      "type": "DRAGON",
+      "subType": "AIR_DRAGON",
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [],
+      "position": {
+        "x": 9837,
+        "y": 4397
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 1,
+      "deathsByBeneficiaryPrevious60s": 1,
+      "knownWardPlacementsPrevious90s": {
+        "100": 6,
+        "200": 3
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 2
+      },
+      "goldWindow": {
+        "startFrameMs": 720309,
+        "endFrameMs": 900358,
+        "differenceBefore": 289,
+        "differenceAfter": -2840,
+        "differenceChange": -3129,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 967981,
+      "time": "16:07",
+      "type": "TOWER_BUILDING",
+      "subType": "OUTER_TURRET",
+      "teamId": 200,
+      "destroyedTeamId": 100,
+      "killerId": 8,
+      "assistants": [],
+      "position": {
+        "x": 10504,
+        "y": 1029
+      },
+      "lane": "BOT_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 1,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 960386,
+        "endFrameMs": 1140438,
+        "differenceBefore": -2400,
+        "differenceAfter": 820,
+        "differenceChange": 3220,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1037703,
+      "time": "17:17",
+      "type": "RIFTHERALD",
+      "subType": null,
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [
+        8
+      ],
+      "position": {
+        "x": 4753,
+        "y": 9464
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 1,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 2,
+        "200": 3
+      },
+      "goldWindow": {
+        "startFrameMs": 1020408,
+        "endFrameMs": 1200462,
+        "differenceBefore": -1618,
+        "differenceAfter": 1744,
+        "differenceChange": 3362,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1073217,
+      "time": "17:53",
+      "type": "DRAGON",
+      "subType": "FIRE_DRAGON",
+      "teamId": 100,
+      "destroyedTeamId": null,
+      "killerId": 2,
+      "assistants": [
+        1
+      ],
+      "position": {
+        "x": 9703,
+        "y": 5095
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 0,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 7,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 3,
+        "200": 3
+      },
+      "goldWindow": {
+        "startFrameMs": 1020408,
+        "endFrameMs": 1200462,
+        "differenceBefore": 1618,
+        "differenceAfter": -1744,
+        "differenceChange": -3362,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1104703,
+      "time": "18:24",
+      "type": "TOWER_BUILDING",
+      "subType": "OUTER_TURRET",
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 1,
+      "assistants": [],
+      "position": {
+        "x": 13866,
+        "y": 4505
+      },
+      "lane": "BOT_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 0,
+      "deathsByBeneficiaryPrevious60s": 4,
+      "knownWardPlacementsPrevious90s": {
+        "100": 5,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 1080427,
+        "endFrameMs": 1260481,
+        "differenceBefore": 1433,
+        "differenceAfter": -3865,
+        "differenceChange": -5298,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1105070,
+      "time": "18:25",
+      "type": "TOWER_BUILDING",
+      "subType": "OUTER_TURRET",
+      "teamId": 200,
+      "destroyedTeamId": 100,
+      "killerId": 7,
+      "assistants": [
+        8,
+        9,
+        10
+      ],
+      "position": {
+        "x": 5846,
+        "y": 6396
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 4,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 5,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 1080427,
+        "endFrameMs": 1260481,
+        "differenceBefore": -1433,
+        "differenceAfter": 3865,
+        "differenceChange": 5298,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1126044,
+      "time": "18:46",
+      "type": "TOWER_BUILDING",
+      "subType": "INNER_TURRET",
+      "teamId": 200,
+      "destroyedTeamId": 100,
+      "killerId": 9,
+      "assistants": [
+        10
+      ],
+      "position": {
+        "x": 5048,
+        "y": 4812
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 4,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 5,
+        "200": 6
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 1080427,
+        "endFrameMs": 1260481,
+        "differenceBefore": -1433,
+        "differenceAfter": 3865,
+        "differenceChange": 5298,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1240704,
+      "time": "20:40",
+      "type": "TOWER_BUILDING",
+      "subType": "OUTER_TURRET",
+      "teamId": 200,
+      "destroyedTeamId": 100,
+      "killerId": 8,
+      "assistants": [
+        10
+      ],
+      "position": {
+        "x": 981,
+        "y": 10441
+      },
+      "lane": "TOP_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 5,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 5,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 2,
+        "200": 4
+      },
+      "goldWindow": {
+        "startFrameMs": 1200462,
+        "endFrameMs": 1380506,
+        "differenceBefore": 1744,
+        "differenceAfter": 4350,
+        "differenceChange": 2606,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1244550,
+      "time": "20:44",
+      "type": "BARON_NASHOR",
+      "subType": null,
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [
+        6,
+        9
+      ],
+      "position": {
+        "x": 5007,
+        "y": 10471
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 5,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 6,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 2,
+        "200": 4
+      },
+      "goldWindow": {
+        "startFrameMs": 1200462,
+        "endFrameMs": 1380506,
+        "differenceBefore": 1744,
+        "differenceAfter": 4350,
+        "differenceChange": 2606,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1333999,
+      "time": "22:13",
+      "type": "TOWER_BUILDING",
+      "subType": "BASE_TURRET",
+      "teamId": 200,
+      "destroyedTeamId": 100,
+      "killerId": 9,
+      "assistants": [
+        7,
+        8,
+        10
+      ],
+      "position": {
+        "x": 3651,
+        "y": 3696
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 4,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 2
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 1320496,
+        "endFrameMs": 1500558,
+        "differenceBefore": 4750,
+        "differenceAfter": 2548,
+        "differenceChange": -2202,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1338317,
+      "time": "22:18",
+      "type": "INHIBITOR_BUILDING",
+      "subType": null,
+      "teamId": 200,
+      "destroyedTeamId": 100,
+      "killerId": 10,
+      "assistants": [
+        7,
+        8,
+        9
+      ],
+      "position": {
+        "x": 3210,
+        "y": 3217
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 4,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 2,
+        "200": 2
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 1320496,
+        "endFrameMs": 1500558,
+        "differenceBefore": 4750,
+        "differenceAfter": 2548,
+        "differenceChange": -2202,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1343694,
+      "time": "22:23",
+      "type": "TOWER_BUILDING",
+      "subType": "INNER_TURRET",
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 1,
+      "assistants": [],
+      "position": {
+        "x": 7943,
+        "y": 13411
+      },
+      "lane": "TOP_LANE",
+      "bountyField": 800,
+      "killsByBeneficiaryPrevious60s": 0,
+      "deathsByBeneficiaryPrevious60s": 4,
+      "knownWardPlacementsPrevious90s": {
+        "100": 2,
+        "200": 2
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 1320496,
+        "endFrameMs": 1500558,
+        "differenceBefore": -4750,
+        "differenceAfter": -2548,
+        "differenceChange": 2202,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1419571,
+      "time": "23:39",
+      "type": "DRAGON",
+      "subType": "FIRE_DRAGON",
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [],
+      "position": {
+        "x": 9837,
+        "y": 4397
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 2,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 4,
+        "200": 7
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 1380506,
+        "endFrameMs": 1560573,
+        "differenceBefore": 4350,
+        "differenceAfter": 903,
+        "differenceChange": -3447,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1753314,
+      "time": "29:13",
+      "type": "DRAGON",
+      "subType": "FIRE_DRAGON",
+      "teamId": 100,
+      "destroyedTeamId": null,
+      "killerId": 2,
+      "assistants": [],
+      "position": {
+        "x": 9856,
+        "y": 4422
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 3,
+      "deathsByBeneficiaryPrevious60s": 2,
+      "knownWardPlacementsPrevious90s": {
+        "100": 2,
+        "200": 1
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 1740616,
+        "endFrameMs": 1920696,
+        "differenceBefore": 1404,
+        "differenceAfter": 3373,
+        "differenceChange": 1969,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1758123,
+      "time": "29:18",
+      "type": "TOWER_BUILDING",
+      "subType": "OUTER_TURRET",
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 0,
+      "assistants": [],
+      "position": {
+        "x": 8955,
+        "y": 8510
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 3,
+      "deathsByBeneficiaryPrevious60s": 2,
+      "knownWardPlacementsPrevious90s": {
+        "100": 2,
+        "200": 1
+      },
+      "wardKillsPrevious90s": {
+        "100": 2,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 1740616,
+        "endFrameMs": 1920696,
+        "differenceBefore": 1404,
+        "differenceAfter": 3373,
+        "differenceChange": 1969,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1795864,
+      "time": "29:55",
+      "type": "TOWER_BUILDING",
+      "subType": "INNER_TURRET",
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 2,
+      "assistants": [],
+      "position": {
+        "x": 13327,
+        "y": 8226
+      },
+      "lane": "BOT_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 4,
+      "deathsByBeneficiaryPrevious60s": 1,
+      "knownWardPlacementsPrevious90s": {
+        "100": 4,
+        "200": 1
+      },
+      "wardKillsPrevious90s": {
+        "100": 2,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 1740616,
+        "endFrameMs": 1920696,
+        "differenceBefore": 1404,
+        "differenceAfter": 3373,
+        "differenceChange": 1969,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1948675,
+      "time": "32:28",
+      "type": "BARON_NASHOR",
+      "subType": null,
+      "teamId": 200,
+      "destroyedTeamId": null,
+      "killerId": 7,
+      "assistants": [
+        6,
+        8,
+        9
+      ],
+      "position": {
+        "x": 5007,
+        "y": 10471
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 3,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 5
+      },
+      "wardKillsPrevious90s": {
+        "100": 3,
+        "200": 3
+      },
+      "goldWindow": {
+        "startFrameMs": 1920696,
+        "endFrameMs": 2100735,
+        "differenceBefore": -3373,
+        "differenceAfter": -3924,
+        "differenceChange": -551,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 1981514,
+      "time": "33:01",
+      "type": "TOWER_BUILDING",
+      "subType": "INNER_TURRET",
+      "teamId": 200,
+      "destroyedTeamId": 100,
+      "killerId": 7,
+      "assistants": [],
+      "position": {
+        "x": 1512,
+        "y": 6699
+      },
+      "lane": "TOP_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 0,
+      "deathsByBeneficiaryPrevious60s": 0,
+      "knownWardPlacementsPrevious90s": {
+        "100": 3,
+        "200": 3
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 4
+      },
+      "goldWindow": {
+        "startFrameMs": 1980724,
+        "endFrameMs": 2160740,
+        "differenceBefore": -2622,
+        "differenceAfter": -4969,
+        "differenceChange": -2347,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 2079806,
+      "time": "34:39",
+      "type": "DRAGON",
+      "subType": "FIRE_DRAGON",
+      "teamId": 100,
+      "destroyedTeamId": null,
+      "killerId": 2,
+      "assistants": [
+        1,
+        4,
+        5
+      ],
+      "position": {
+        "x": 9216,
+        "y": 5440
+      },
+      "lane": null,
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 2,
+      "deathsByBeneficiaryPrevious60s": 1,
+      "knownWardPlacementsPrevious90s": {
+        "100": 5,
+        "200": 3
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 2040730,
+        "endFrameMs": 2220745,
+        "differenceBefore": 2894,
+        "differenceAfter": 5572,
+        "differenceChange": 2678,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 2177674,
+      "time": "36:17",
+      "type": "TOWER_BUILDING",
+      "subType": "INNER_TURRET",
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 1,
+      "assistants": [],
+      "position": {
+        "x": 9767,
+        "y": 10113
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 0,
+      "deathsByBeneficiaryPrevious60s": 1,
+      "knownWardPlacementsPrevious90s": {
+        "100": 4,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 2,
+        "200": 1
+      },
+      "goldWindow": {
+        "startFrameMs": 2160740,
+        "endFrameMs": 2340765,
+        "differenceBefore": 4969,
+        "differenceAfter": 8765,
+        "differenceChange": 3796,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 2250564,
+      "time": "37:30",
+      "type": "TOWER_BUILDING",
+      "subType": "BASE_TURRET",
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 4,
+      "assistants": [
+        3
+      ],
+      "position": {
+        "x": 11134,
+        "y": 11207
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 3,
+      "deathsByBeneficiaryPrevious60s": 2,
+      "knownWardPlacementsPrevious90s": {
+        "100": 4,
+        "200": 3
+      },
+      "wardKillsPrevious90s": {
+        "100": 0,
+        "200": 0
+      },
+      "goldWindow": {
+        "startFrameMs": 2220745,
+        "endFrameMs": 2368922,
+        "differenceBefore": 5572,
+        "differenceAfter": 9993,
+        "differenceChange": 4421,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    },
+    {
+      "timestampMs": 2361241,
+      "time": "39:21",
+      "type": "INHIBITOR_BUILDING",
+      "subType": null,
+      "teamId": 100,
+      "destroyedTeamId": 200,
+      "killerId": 1,
+      "assistants": [],
+      "position": {
+        "x": 11593,
+        "y": 11669
+      },
+      "lane": "MID_LANE",
+      "bountyField": 0,
+      "killsByBeneficiaryPrevious60s": 5,
+      "deathsByBeneficiaryPrevious60s": 1,
+      "knownWardPlacementsPrevious90s": {
+        "100": 10,
+        "200": 4
+      },
+      "wardKillsPrevious90s": {
+        "100": 1,
+        "200": 5
+      },
+      "goldWindow": {
+        "startFrameMs": 2340765,
+        "endFrameMs": 2368922,
+        "differenceBefore": 8765,
+        "differenceAfter": 9993,
+        "differenceChange": 1228,
+        "nominalHorizonSeconds": 180,
+        "caution": "Whole-map change across sampled frames; not gold caused by the objective."
+      }
+    }
+  ],
+  "phases": [
+    {
+      "fromMinute": 0,
+      "toMinute": 10,
+      "teams": {
+        "100": {
+          "kills": 8,
+          "knownWardPlacements": 18,
+          "wardKills": 1
+        },
+        "200": {
+          "kills": 10,
+          "knownWardPlacements": 21,
+          "wardKills": 1
+        }
+      }
+    },
+    {
+      "fromMinute": 10,
+      "toMinute": 20,
+      "teams": {
+        "100": {
+          "kills": 7,
+          "knownWardPlacements": 32,
+          "wardKills": 8
+        },
+        "200": {
+          "kills": 15,
+          "knownWardPlacements": 23,
+          "wardKills": 12
+        }
+      }
+    },
+    {
+      "fromMinute": 20,
+      "toMinute": 30,
+      "teams": {
+        "100": {
+          "kills": 13,
+          "knownWardPlacements": 23,
+          "wardKills": 2
+        },
+        "200": {
+          "kills": 17,
+          "knownWardPlacements": 19,
+          "wardKills": 6
+        }
+      }
+    },
+    {
+      "fromMinute": 30,
+      "toMinute": 39.46666666666667,
+      "teams": {
+        "100": {
+          "kills": 12,
+          "knownWardPlacements": 36,
+          "wardKills": 7
+        },
+        "200": {
+          "kills": 10,
+          "knownWardPlacements": 24,
+          "wardKills": 14
+        }
+      }
+    }
+  ],
+  "goldTimeline": [
+    {
+      "timestampMs": 0,
+      "time": "00:00",
+      "blueGold": 2500,
+      "redGold": 2500,
+      "blueGoldDifference": 0,
+      "blueKills": 0,
+      "redKills": 0,
+      "blueKnownWards": 0,
+      "redKnownWards": 0
+    },
+    {
+      "timestampMs": 60020,
+      "time": "01:00",
+      "blueGold": 2512,
+      "redGold": 3040,
+      "blueGoldDifference": -528,
+      "blueKills": 0,
+      "redKills": 1,
+      "blueKnownWards": 0,
+      "redKnownWards": 1
+    },
+    {
+      "timestampMs": 120020,
+      "time": "02:00",
+      "blueGold": 4081,
+      "redGold": 4302,
+      "blueGoldDifference": -221,
+      "blueKills": 1,
+      "redKills": 1,
+      "blueKnownWards": 3,
+      "redKnownWards": 3
+    },
+    {
+      "timestampMs": 180041,
+      "time": "03:00",
+      "blueGold": 5939,
+      "redGold": 5933,
+      "blueGoldDifference": 6,
+      "blueKills": 2,
+      "redKills": 2,
+      "blueKnownWards": 5,
+      "redKnownWards": 4
+    },
+    {
+      "timestampMs": 240049,
+      "time": "04:00",
+      "blueGold": 7500,
+      "redGold": 7223,
+      "blueGoldDifference": 277,
+      "blueKills": 2,
+      "redKills": 2,
+      "blueKnownWards": 8,
+      "redKnownWards": 7
+    },
+    {
+      "timestampMs": 300154,
+      "time": "05:00",
+      "blueGold": 10092,
+      "redGold": 8536,
+      "blueGoldDifference": 1556,
+      "blueKills": 6,
+      "redKills": 3,
+      "blueKnownWards": 10,
+      "redKnownWards": 10
+    },
+    {
+      "timestampMs": 360183,
+      "time": "06:00",
+      "blueGold": 11722,
+      "redGold": 10088,
+      "blueGoldDifference": 1634,
+      "blueKills": 6,
+      "redKills": 3,
+      "blueKnownWards": 12,
+      "redKnownWards": 13
+    },
+    {
+      "timestampMs": 420207,
+      "time": "07:00",
+      "blueGold": 13285,
+      "redGold": 12076,
+      "blueGoldDifference": 1209,
+      "blueKills": 6,
+      "redKills": 4,
+      "blueKnownWards": 13,
+      "redKnownWards": 15
+    },
+    {
+      "timestampMs": 480226,
+      "time": "08:00",
+      "blueGold": 14262,
+      "redGold": 14122,
+      "blueGoldDifference": 140,
+      "blueKills": 6,
+      "redKills": 6,
+      "blueKnownWards": 14,
+      "redKnownWards": 16
+    },
+    {
+      "timestampMs": 540234,
+      "time": "09:00",
+      "blueGold": 16286,
+      "redGold": 16935,
+      "blueGoldDifference": -649,
+      "blueKills": 7,
+      "redKills": 9,
+      "blueKnownWards": 17,
+      "redKnownWards": 18
+    },
+    {
+      "timestampMs": 600264,
+      "time": "10:00",
+      "blueGold": 18286,
+      "redGold": 18867,
+      "blueGoldDifference": -581,
+      "blueKills": 8,
+      "redKills": 10,
+      "blueKnownWards": 18,
+      "redKnownWards": 21
+    },
+    {
+      "timestampMs": 660291,
+      "time": "11:00",
+      "blueGold": 19608,
+      "redGold": 20661,
+      "blueGoldDifference": -1053,
+      "blueKills": 8,
+      "redKills": 11,
+      "blueKnownWards": 21,
+      "redKnownWards": 23
+    },
+    {
+      "timestampMs": 720309,
+      "time": "12:00",
+      "blueGold": 23348,
+      "redGold": 23637,
+      "blueGoldDifference": -289,
+      "blueKills": 11,
+      "redKills": 14,
+      "blueKnownWards": 26,
+      "redKnownWards": 25
+    },
+    {
+      "timestampMs": 780326,
+      "time": "13:00",
+      "blueGold": 25564,
+      "redGold": 25552,
+      "blueGoldDifference": 12,
+      "blueKills": 11,
+      "redKills": 15,
+      "blueKnownWards": 28,
+      "redKnownWards": 27
+    },
+    {
+      "timestampMs": 840357,
+      "time": "14:00",
+      "blueGold": 28763,
+      "redGold": 27074,
+      "blueGoldDifference": 1689,
+      "blueKills": 13,
+      "redKills": 15,
+      "blueKnownWards": 32,
+      "redKnownWards": 27
+    },
+    {
+      "timestampMs": 900358,
+      "time": "15:00",
+      "blueGold": 31406,
+      "redGold": 28566,
+      "blueGoldDifference": 2840,
+      "blueKills": 15,
+      "redKills": 16,
+      "blueKnownWards": 35,
+      "redKnownWards": 30
+    },
+    {
+      "timestampMs": 960386,
+      "time": "16:00",
+      "blueGold": 33056,
+      "redGold": 30656,
+      "blueGoldDifference": 2400,
+      "blueKills": 15,
+      "redKills": 17,
+      "blueKnownWards": 37,
+      "redKnownWards": 33
+    },
+    {
+      "timestampMs": 1020408,
+      "time": "17:00",
+      "blueGold": 34358,
+      "redGold": 32740,
+      "blueGoldDifference": 1618,
+      "blueKills": 15,
+      "redKills": 18,
+      "blueKnownWards": 40,
+      "redKnownWards": 37
+    },
+    {
+      "timestampMs": 1080427,
+      "time": "18:00",
+      "blueGold": 36472,
+      "redGold": 35039,
+      "blueGoldDifference": 1433,
+      "blueKills": 15,
+      "redKills": 19,
+      "blueKnownWards": 45,
+      "redKnownWards": 41
+    },
+    {
+      "timestampMs": 1140438,
+      "time": "19:00",
+      "blueGold": 38072,
+      "redGold": 38892,
+      "blueGoldDifference": -820,
+      "blueKills": 15,
+      "redKills": 22,
+      "blueKnownWards": 45,
+      "redKnownWards": 43
+    },
+    {
+      "timestampMs": 1200462,
+      "time": "20:00",
+      "blueGold": 39936,
+      "redGold": 41680,
+      "blueGoldDifference": -1744,
+      "blueKills": 15,
+      "redKills": 25,
+      "blueKnownWards": 50,
+      "redKnownWards": 44
+    },
+    {
+      "timestampMs": 1260481,
+      "time": "21:00",
+      "blueGold": 40925,
+      "redGold": 44790,
+      "blueGoldDifference": -3865,
+      "blueKills": 15,
+      "redKills": 27,
+      "blueKnownWards": 52,
+      "redKnownWards": 47
+    },
+    {
+      "timestampMs": 1320496,
+      "time": "22:00",
+      "blueGold": 42510,
+      "redGold": 47260,
+      "blueGoldDifference": -4750,
+      "blueKills": 15,
+      "redKills": 31,
+      "blueKnownWards": 54,
+      "redKnownWards": 48
+    },
+    {
+      "timestampMs": 1380506,
+      "time": "23:00",
+      "blueGold": 45172,
+      "redGold": 49522,
+      "blueGoldDifference": -4350,
+      "blueKills": 15,
+      "redKills": 32,
+      "blueKnownWards": 56,
+      "redKnownWards": 53
+    },
+    {
+      "timestampMs": 1440528,
+      "time": "24:00",
+      "blueGold": 46818,
+      "redGold": 50892,
+      "blueGoldDifference": -4074,
+      "blueKills": 15,
+      "redKills": 33,
+      "blueKnownWards": 58,
+      "redKnownWards": 55
+    },
+    {
+      "timestampMs": 1500558,
+      "time": "25:00",
+      "blueGold": 50200,
+      "redGold": 52748,
+      "blueGoldDifference": -2548,
+      "blueKills": 17,
+      "redKills": 36,
+      "blueKnownWards": 59,
+      "redKnownWards": 55
+    },
+    {
+      "timestampMs": 1560573,
+      "time": "26:00",
+      "blueGold": 53543,
+      "redGold": 54446,
+      "blueGoldDifference": -903,
+      "blueKills": 19,
+      "redKills": 37,
+      "blueKnownWards": 63,
+      "redKnownWards": 57
+    },
+    {
+      "timestampMs": 1620577,
+      "time": "27:00",
+      "blueGold": 54640,
+      "redGold": 56212,
+      "blueGoldDifference": -1572,
+      "blueKills": 19,
+      "redKills": 38,
+      "blueKnownWards": 67,
+      "redKnownWards": 59
+    },
+    {
+      "timestampMs": 1680598,
+      "time": "28:00",
+      "blueGold": 58200,
+      "redGold": 57745,
+      "blueGoldDifference": 455,
+      "blueKills": 22,
+      "redKills": 39,
+      "blueKnownWards": 69,
+      "redKnownWards": 62
+    },
+    {
+      "timestampMs": 1740616,
+      "time": "29:00",
+      "blueGold": 60972,
+      "redGold": 59568,
+      "blueGoldDifference": 1404,
+      "blueKills": 24,
+      "redKills": 41,
+      "blueKnownWards": 71,
+      "redKnownWards": 62
+    },
+    {
+      "timestampMs": 1800640,
+      "time": "30:00",
+      "blueGold": 65524,
+      "redGold": 60958,
+      "blueGoldDifference": 4566,
+      "blueKills": 28,
+      "redKills": 42,
+      "blueKnownWards": 73,
+      "redKnownWards": 63
+    },
+    {
+      "timestampMs": 1860669,
+      "time": "31:00",
+      "blueGold": 67117,
+      "redGold": 63056,
+      "blueGoldDifference": 4061,
+      "blueKills": 28,
+      "redKills": 43,
+      "blueKnownWards": 79,
+      "redKnownWards": 66
+    },
+    {
+      "timestampMs": 1920696,
+      "time": "32:00",
+      "blueGold": 68836,
+      "redGold": 65463,
+      "blueGoldDifference": 3373,
+      "blueKills": 29,
+      "redKills": 46,
+      "blueKnownWards": 81,
+      "redKnownWards": 70
+    },
+    {
+      "timestampMs": 1980724,
+      "time": "33:00",
+      "blueGold": 70640,
+      "redGold": 68018,
+      "blueGoldDifference": 2622,
+      "blueKills": 29,
+      "redKills": 46,
+      "blueKnownWards": 84,
+      "redKnownWards": 72
+    },
+    {
+      "timestampMs": 2040730,
+      "time": "34:00",
+      "blueGold": 72886,
+      "redGold": 69992,
+      "blueGoldDifference": 2894,
+      "blueKills": 30,
+      "redKills": 47,
+      "blueKnownWards": 90,
+      "redKnownWards": 76
+    },
+    {
+      "timestampMs": 2100735,
+      "time": "35:00",
+      "blueGold": 74993,
+      "redGold": 71069,
+      "blueGoldDifference": 3924,
+      "blueKills": 32,
+      "redKills": 48,
+      "blueKnownWards": 91,
+      "redKnownWards": 76
+    },
+    {
+      "timestampMs": 2160740,
+      "time": "36:00",
+      "blueGold": 77153,
+      "redGold": 72184,
+      "blueGoldDifference": 4969,
+      "blueKills": 32,
+      "redKills": 48,
+      "blueKnownWards": 93,
+      "redKnownWards": 79
+    },
+    {
+      "timestampMs": 2220745,
+      "time": "37:00",
+      "blueGold": 80250,
+      "redGold": 74678,
+      "blueGoldDifference": 5572,
+      "blueKills": 34,
+      "redKills": 51,
+      "blueKnownWards": 97,
+      "redKnownWards": 80
+    },
+    {
+      "timestampMs": 2280754,
+      "time": "38:00",
+      "blueGold": 83650,
+      "redGold": 76092,
+      "blueGoldDifference": 7558,
+      "blueKills": 35,
+      "redKills": 51,
+      "blueKnownWards": 101,
+      "redKnownWards": 83
+    },
+    {
+      "timestampMs": 2340765,
+      "time": "39:00",
+      "blueGold": 87066,
+      "redGold": 78301,
+      "blueGoldDifference": 8765,
+      "blueKills": 38,
+      "redKills": 52,
+      "blueKnownWards": 106,
+      "redKnownWards": 87
+    },
+    {
+      "timestampMs": 2368922,
+      "time": "39:28",
+      "blueGold": 88606,
+      "redGold": 78613,
+      "blueGoldDifference": 9993,
+      "blueKills": 40,
+      "redKills": 52,
+      "blueKnownWards": 109,
+      "redKnownWards": 87
+    }
+  ],
+  "comeback": {
+    "largestSampledBlueDeficit": {
+      "timestampMs": 1320496,
+      "time": "22:00",
+      "blueGold": 42510,
+      "redGold": 47260,
+      "blueGoldDifference": -4750,
+      "blueKills": 15,
+      "redKills": 31,
+      "blueKnownWards": 54,
+      "redKnownWards": 48
+    },
+    "firstPersistentSampledBlueLead": {
+      "timestampMs": 1680598,
+      "time": "28:00",
+      "blueGold": 58200,
+      "redGold": 57745,
+      "blueGoldDifference": 455,
+      "blueKills": 22,
+      "redKills": 39,
+      "blueKnownWards": 69,
+      "redKnownWards": 62
+    }
+  },
+  "killMatrix": {
+    "1": {
+      "6": 7,
+      "7": 4,
+      "8": 4,
+      "9": 3,
+      "10": 1
+    },
+    "2": {
+      "10": 2,
+      "7": 2
+    },
+    "3": {
+      "7": 2,
+      "8": 4,
+      "6": 2,
+      "10": 3,
+      "9": 2
+    },
+    "4": {
+      "10": 2,
+      "9": 1
+    },
+    "5": {
+      "9": 1
+    },
+    "6": {
+      "1": 5,
+      "3": 2,
+      "5": 2
+    },
+    "7": {
+      "3": 4,
+      "5": 3,
+      "4": 3,
+      "2": 2
+    },
+    "8": {
+      "3": 9,
+      "2": 4,
+      "4": 2,
+      "5": 1
+    },
+    "9": {
+      "4": 3,
+      "5": 6,
+      "3": 3,
+      "2": 3
+    },
+    "10": {}
+  }
+}

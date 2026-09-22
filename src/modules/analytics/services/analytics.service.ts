@@ -179,18 +179,25 @@ export class AnalyticsService {
       );
       if (stats) {
         return {
-          avgCsd15: parseFloat(stats.avgCsd15.toFixed(1)),
-          avgGd15: parseFloat(stats.avgGd15.toFixed(1)),
-          avgXpd15: parseFloat(stats.avgXpd15.toFixed(1)),
+          avgCsd15:
+            stats.avgCsd15 == null
+              ? null
+              : parseFloat(stats.avgCsd15.toFixed(1)),
+          avgGd15:
+            stats.avgGd15 == null ? null : parseFloat(stats.avgGd15.toFixed(1)),
+          avgXpd15:
+            stats.avgXpd15 == null
+              ? null
+              : parseFloat(stats.avgXpd15.toFixed(1)),
           soloKills15: 0,
           soloDeaths15: 0,
         };
       }
     }
     return {
-      avgCsd15: 0,
-      avgGd15: 0,
-      avgXpd15: 0,
+      avgCsd15: null,
+      avgGd15: null,
+      avgXpd15: null,
       soloKills15: 0,
       soloDeaths15: 0,
     };

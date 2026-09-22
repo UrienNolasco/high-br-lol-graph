@@ -7,7 +7,7 @@ export class MatchCountRepository {
 
   async countByPatch(patch: string) {
     return this.prisma.match.count({
-      where: { gameVersion: { startsWith: patch } },
+      where: { queueId: 420, gameVersion: { startsWith: `${patch}.` } },
     });
   }
 

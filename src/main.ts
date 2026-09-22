@@ -21,6 +21,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
   app.useLogger(app.get(Logger));
+  app.enableShutdownHooks();
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -107,6 +108,7 @@ async function bootstrap() {
       },
     });
 
+    await app.init();
     await app.startAllMicroservices();
     pinoLogger.info(
       { event: 'app_started', service: serviceName, queue: rabbitQueue },

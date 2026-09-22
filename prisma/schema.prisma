@@ -11,17 +11,17 @@ datasource db {
 }
 
 model Match {
-  matchId       String   @id
-  gameCreation  BigInt
-  gameDuration  Int
-  gameMode      String
-  queueId       Int
-  gameVersion   String
-  mapId         Int
-  hasTimeline   Boolean  @default(true)
+  matchId      String  @id
+  gameCreation BigInt
+  gameDuration Int
+  gameMode     String
+  queueId      Int
+  gameVersion  String
+  mapId        Int
+  hasTimeline  Boolean @default(true)
 
-  teams         MatchTeam[]
-  participants  MatchParticipant[]
+  teams        MatchTeam[]
+  participants MatchParticipant[]
 
   @@index([queueId])
   @@index([queueId, gameCreation(sort: Desc)])
@@ -29,49 +29,50 @@ model Match {
 }
 
 model MatchParticipant {
-  matchId       String
-  puuid         String
-  match         Match    @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  matchId String
+  puuid   String
+  match   Match  @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
 
-  summonerName  String
-  championId    Int
-  championName  String
-  teamId        Int
-  role          String
-  lane          String
-  win           Boolean
+  summonerName String
+  championId   Int
+  championName String
+  teamId       Int
+  role         String
+  lane         String
+  win          Boolean
 
   // Estatísticas finais (Match V5)
-  kills         Int
-  deaths        Int
-  assists       Int
-  kda           Float
-  goldEarned    Int
-  totalDamage   Int
-  damageTaken   Int
-  visionScore   Int
+  kills       Int
+  deaths      Int
+  assists     Int
+  kda         Float
+  goldEarned  Int
+  totalDamage Int
+  damageTaken Int
+  visionScore Int
+  totalCs     Int   @default(0)
 
   // Séries temporais (Timeline V5) - índice = minuto
-  goldGraph     Int[]
-  xpGraph       Int[]
-  csGraph       Int[]
-  damageGraph   Int[]
+  goldGraph   Int[]
+  xpGraph     Int[]
+  csGraph     Int[]
+  damageGraph Int[]
 
   // Heatmaps e posicionamento
-  deathPositions  Json
-  killPositions   Json
-  wardPositions   Json
-  pathingSample   Json
+  deathPositions Json
+  killPositions  Json
+  wardPositions  Json
+  pathingSample  Json
 
   // Comportamento detalhado
-  skillOrder      String[]
-  itemTimeline    Json
+  skillOrder   String[]
+  itemTimeline Json
 
   // Dados brutos (JSONB)
-  runes           Json
-  challenges      Json
-  pings           Json
-  spells          Int[]
+  runes      Json
+  challenges Json
+  pings      Json
+  spells     Int[]
 
   @@id([matchId, puuid])
   @@index([puuid])
@@ -82,35 +83,37 @@ model MatchParticipant {
 }
 
 model MatchTeam {
-  id          Int     @id @default(autoincrement())
-  matchId     String
-  teamId      Int
-  win         Boolean
-  bans        Int[]
+  id                 Int     @id @default(autoincrement())
+  matchId            String
+  teamId             Int
+  win                Boolean
+  bans               Int[]
   objectivesTimeline Json
 
   match Match @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+
+  @@unique([matchId, teamId])
   @@map("match_teams")
 }
 
 model User {
-  puuid          String   @id
-  gameName       String
-  tagLine        String
-  region         String   @default("br1")
-  profileIconId  Int?
-  summonerLevel  Int?
+  puuid         String @id
+  gameName      String
+  tagLine       String
+  region        String @default("br1")
+  profileIconId Int?
+  summonerLevel Int?
 
   // Ranked stats (League-V4)
-  summonerId     String?
-  tier           String?  // IRON, BRONZE, SILVER, GOLD, PLATINUM, EMERALD, DIAMOND, MASTER, GRANDMASTER, CHALLENGER
-  rank           String?  // I, II, III, IV (null for Master+)
-  leaguePoints   Int?
-  rankedWins     Int?
-  rankedLosses   Int?
+  summonerId   String?
+  tier         String? // IRON, BRONZE, SILVER, GOLD, PLATINUM, EMERALD, DIAMOND, MASTER, GRANDMASTER, CHALLENGER
+  rank         String? // I, II, III, IV (null for Master+)
+  leaguePoints Int?
+  rankedWins   Int?
+  rankedLosses Int?
 
-  lastUpdated    DateTime @default(now())
-  createdAt      DateTime @default(now())
+  lastUpdated DateTime @default(now())
+  createdAt   DateTime @default(now())
 
   @@unique([gameName, tagLine, region])
   @@index([gameName])
@@ -119,31 +122,30 @@ model User {
 }
 
 model ChampionStats {
-  id           Int      @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   championId   Int
   championName String
   patch        String
   queueId      Int
 
   // Estatísticas agregadas
-  gamesPlayed  Int      @default(0)
-  wins         Int      @default(0)
-  losses       Int      @default(0)
-  winRate      Float    @default(0)
-
-  // Métricas médias
-  kda          Float    @default(0)
-  dpm          Float    @default(0)
-  cspm         Float    @default(0)
-  gpm          Float    @default(0)
+  gamesPlayed Int @default(0)
+  wins        Int @default(0)
+  losses      Int @default(0)
 
   // Taxas
-  banRate      Float    @default(0)
-  pickRate     Float    @default(0)
+  banRate  Float @default(0)
+  pickRate Float @default(0)
 
   // Tier calculado
-  tier         String   @default("C")
-  rank         Int      @default(0)
+  tier String @default("C")
+  rank Int    @default(0)
+
+  // Somas por partida; médias são calculadas na leitura.
+  sumKda  Float @default(0)
+  sumDpm  Float @default(0)
+  sumCspm Float @default(0)
+  sumGpm  Float @default(0)
 
   @@unique([championId, patch, queueId])
   @@index([patch, queueId])
@@ -151,26 +153,25 @@ model ChampionStats {
 }
 
 model PlayerStats {
-  id              Int       @id @default(autoincrement())
-  puuid           String
-  patch           String?
-  queueId         Int       @default(420)
+  id      Int    @id @default(autoincrement())
+  puuid   String
+  patch   String
+  queueId Int    @default(420)
 
-  gamesPlayed     Int       @default(0)
-  wins            Int       @default(0)
-  losses          Int       @default(0)
-  winRate         Float     @default(0)
+  gamesPlayed Int @default(0)
+  wins        Int @default(0)
+  losses      Int @default(0)
 
-  avgKda          Float     @default(0)
-  avgDpm          Float     @default(0)
-  avgCspm         Float     @default(0)
-  avgGpm          Float     @default(0)
-  avgVisionScore  Float     @default(0)
+  roleDistribution Json @default("{}")
 
-  roleDistribution Json    @default("{}")
-  topChampions    Json      @default("[]")
+  lastUpdated DateTime @default(now())
 
-  lastUpdated     DateTime  @default(now())
+  // Somas por partida; médias são calculadas na leitura.
+  sumKda         Float @default(0)
+  sumDpm         Float @default(0)
+  sumCspm        Float @default(0)
+  sumGpm         Float @default(0)
+  sumVisionScore Float @default(0)
 
   @@unique([puuid, patch, queueId])
   @@index([puuid])
@@ -179,34 +180,86 @@ model PlayerStats {
 }
 
 model PlayerChampionStats {
-  id              Int       @id @default(autoincrement())
-  puuid           String
-  championId      Int
-  patch           String?
-  queueId         Int       @default(420)
+  id         Int    @id @default(autoincrement())
+  puuid      String
+  championId Int
+  patch      String
+  queueId    Int    @default(420)
 
-  gamesPlayed     Int       @default(0)
-  wins            Int       @default(0)
-  losses          Int       @default(0)
-  winRate         Float     @default(0)
+  gamesPlayed Int @default(0)
+  wins        Int @default(0)
+  losses      Int @default(0)
 
-  avgKda          Float     @default(0)
-  avgDpm          Float     @default(0)
-  avgCspm         Float     @default(0)
-  avgGpm          Float     @default(0)
-  avgVisionScore  Float     @default(0)
+  roleDistribution Json @default("{}")
 
-  avgCsd15        Float     @default(0)
-  avgGd15         Float     @default(0)
-  avgXpd15        Float     @default(0)
+  lastPlayedAt DateTime?
 
-  roleDistribution Json    @default("{}")
-
-  lastPlayedAt    DateTime?
+  // Somas por partida; médias são calculadas na leitura.
+  sumKda         Float @default(0)
+  sumDpm         Float @default(0)
+  sumCspm        Float @default(0)
+  sumGpm         Float @default(0)
+  sumVisionScore Float @default(0)
+  sumCsd15       Float @default(0)
+  sumGd15        Float @default(0)
+  sumXpd15       Float @default(0)
+  laningSamples  Int   @default(0)
 
   @@unique([puuid, championId, patch, queueId])
   @@index([puuid])
   @@index([puuid, lastPlayedAt])
   @@index([championId])
   @@map("player_champion_stats")
+}
+
+// Durable inbox/outbox: RabbitMQ is a delivery mechanism, this is the source of truth.
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  RETRY_WAIT
+  COMPLETED
+  FAILED
+}
+
+model MatchProcessing {
+  matchId           String           @id
+  status            ProcessingStatus @default(PENDING)
+  attempts          Int              @default(0)
+  priority          Int              @default(1)
+  traceId           String?
+  nextAttemptAt     DateTime         @default(now())
+  publishedAt       DateTime?
+  leaseToken        String?
+  leaseUntil        DateTime?
+  lastError         String?
+  processingVersion Int?
+  completedAt       DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  raw               MatchRaw?
+
+  @@index([status, nextAttemptAt, publishedAt])
+  @@index([status, leaseUntil])
+  @@map("match_processing")
+}
+
+model MatchRaw {
+  matchId   String          @id
+  job       MatchProcessing @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  summary   Bytes?
+  timeline  Bytes?
+  updatedAt DateTime        @updatedAt
+
+  @@map("match_raw")
+}
+
+// Pauses dispatch/claims while the offline rebuild is in progress, including after a crash.
+model ProcessingMaintenance {
+  id            Int       @id @default(1)
+  rebuilding    Boolean   @default(false)
+  targetVersion Int?
+  startedAt     DateTime?
+  completedAt   DateTime?
+
+  @@map("processing_maintenance")
 }

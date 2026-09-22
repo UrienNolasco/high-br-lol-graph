@@ -315,7 +315,14 @@ describe('TierRankService', () => {
         gamesPlayed: 100,
       };
 
-      mockPrismaService.championStats.findUnique.mockResolvedValue(mockStats);
+      mockPrismaService.championStats.findUnique.mockResolvedValue({
+        ...mockStats,
+        wins: 55,
+        sumKda: 300,
+        sumDpm: 70000,
+        sumGpm: 45000,
+        sumCspm: 800,
+      });
 
       const result = await service.getChampionStats(championId, patch, queueId);
 
@@ -340,17 +347,36 @@ describe('TierRankService', () => {
     it('should return all champion stats for a patch', async () => {
       const patch = '15.23';
       const mockStats = [
-        { championId: 266, patch: '15.23', winRate: 55 },
-        { championId: 103, patch: '15.23', winRate: 52 },
+        {
+          championId: 266,
+          patch: '15.23',
+          gamesPlayed: 100,
+          wins: 55,
+          sumKda: 300,
+          sumDpm: 70000,
+          sumGpm: 45000,
+          sumCspm: 800,
+        },
+        {
+          championId: 103,
+          patch: '15.23',
+          gamesPlayed: 100,
+          wins: 52,
+          sumKda: 300,
+          sumDpm: 70000,
+          sumGpm: 45000,
+          sumCspm: 800,
+        },
       ];
 
       mockPrismaService.championStats.findMany.mockResolvedValue(mockStats);
 
       const result = await service.getAllChampionStats(patch);
 
-      expect(result).toEqual(mockStats);
+      expect(result.map((row) => row.winRate)).toEqual([55, 52]);
+      expect(result[0].kda).toBe(3);
       expect(mockPrismaService.championStats.findMany).toHaveBeenCalledWith({
-        where: { patch },
+        where: { patch, queueId: 420 },
       });
     });
 

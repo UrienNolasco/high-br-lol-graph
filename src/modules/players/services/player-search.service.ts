@@ -58,7 +58,7 @@ export class PlayerSearchService {
       const newMatchIds = matchIds.filter((id) => !existingSet.has(id));
 
       for (const matchId of newMatchIds) {
-        this.queueService.publishUserRequestedMatch(matchId);
+        await this.queueService.publishUserRequestedMatch(matchId);
       }
 
       await this.playerRepo.upsert(account.puuid, {

@@ -101,7 +101,13 @@ export class RiotModule {
         this.logger.warn(
           `Rate limit exceeded for ${url}. Consider implementing retry logic.`,
         );
-        throw new HttpException('Rate limit exceeded', 429);
+        throw new HttpException(
+          {
+            message: 'Rate limit exceeded',
+            retryAfter: response.headers['retry-after'] as unknown,
+          },
+          429,
+        );
       case 500:
         throw new InternalServerErrorException(data);
       case 502:

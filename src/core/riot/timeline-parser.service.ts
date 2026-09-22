@@ -456,7 +456,7 @@ export class TimelineParserService {
     objectivesTimeline.push({
       type: event.buildingType === 'INHIBITOR_BUILDING' ? 'INHIBITOR' : 'TOWER',
       subType: event.laneType,
-      teamId: event.teamId,
+      teamId: event.teamId === 100 ? 200 : 100,
       timestamp: event.timestamp,
       killerId: event.killerId,
     });

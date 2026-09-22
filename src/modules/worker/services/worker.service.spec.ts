@@ -1,140 +1,82 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PinoLogger } from 'nestjs-pino';
 import { WorkerService } from './worker.service';
+import { ProcessingService } from '../../../core/processing/processing.service';
+import { MatchPersistenceService } from './match-persistence.service';
 import { RiotService } from '../../../core/riot/riot.service';
 import { TimelineParserService } from '../../../core/riot/timeline-parser.service';
-import { MatchPersistenceService } from './match-persistence.service';
-import { PlayerAggregatesUpdateService } from './player-aggregates-update.service';
+import { PinoLogger } from 'nestjs-pino';
+import { MissingTimelineError } from '../../../core/processing/processing.constants';
 
-describe('WorkerService', () => {
+describe('WorkerService durable recovery', () => {
+  const lease = { matchId: 'BR1_1', leaseToken: 'owner', attempts: 1 };
   let service: WorkerService;
-  let persistence: jest.Mocked<
-    Pick<MatchPersistenceService, 'exists' | 'save' | 'updateChampionStats'>
-  >;
-  let playerAggregates: jest.Mocked<
-    Pick<PlayerAggregatesUpdateService, 'update'>
-  >;
-  let riotService: jest.Mocked<
-    Pick<RiotService, 'getMatchById' | 'getTimeline'>
-  >;
-  let timelineParser: jest.Mocked<Pick<TimelineParserService, 'parseTimeline'>>;
-
-  const mockMatchDto = {
-    metadata: { matchId: 'BR1_1' },
-    info: {
-      gameCreation: 1700000000000,
-      gameDuration: 1800,
-      gameMode: 'CLASSIC',
-      queueId: 420,
-      gameVersion: '15.1.1',
-      mapId: 11,
-      teams: [
-        { teamId: 100, win: true, bans: [{ championId: 1 }], objectives: {} },
-      ],
-      participants: [
-        {
-          puuid: 'p1',
-          summonerName: 'Test',
-          championId: 1,
-          championName: 'Annie',
-          teamId: 100,
-          teamPosition: 'MIDDLE',
-          lane: 'MIDDLE',
-          individualPosition: 'MIDDLE',
-          win: true,
-          kills: 5,
-          deaths: 3,
-          assists: 10,
-          goldEarned: 12000,
-          totalDamageDealtToChampions: 25000,
-          totalDamageTaken: 15000,
-          visionScore: 30,
-          perks: {},
-          challenges: {},
-          pings: {},
-          summoner1Id: 4,
-          summoner2Id: 14,
-        },
-      ],
-    },
-  } as any;
-
-  beforeEach(async () => {
-    persistence = {
-      exists: jest.fn(),
-      save: jest.fn(),
-      updateChampionStats: jest.fn(),
-    } as any;
-    playerAggregates = { update: jest.fn() } as any;
-    riotService = { getMatchById: jest.fn(), getTimeline: jest.fn() } as any;
-    timelineParser = { parseTimeline: jest.fn() } as any;
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        WorkerService,
-        { provide: MatchPersistenceService, useValue: persistence },
-        { provide: PlayerAggregatesUpdateService, useValue: playerAggregates },
-        { provide: RiotService, useValue: riotService },
-        { provide: TimelineParserService, useValue: timelineParser },
-        {
-          provide: PinoLogger,
-          useValue: {
-            setContext: jest.fn(),
-            info: jest.fn(),
-            debug: jest.fn(),
-            warn: jest.fn(),
-            error: jest.fn(),
-          },
-        },
-      ],
-    }).compile();
-
-    service = module.get<WorkerService>(WorkerService);
+  let jobs: {
+    enqueue: jest.Mock;
+    claim: jest.Mock;
+    readRaw: jest.Mock;
+    saveRaw: jest.Mock;
+    recordFailure: jest.Mock;
+    renew: jest.Mock;
+  };
+  let riot: { getMatchById: jest.Mock; getTimeline: jest.Mock };
+  let save: jest.Mock;
+  beforeEach(() => {
+    jobs = {
+      enqueue: jest.fn(),
+      claim: jest.fn().mockResolvedValue(lease),
+      readRaw: jest.fn().mockResolvedValue(null),
+      saveRaw: jest.fn(),
+      recordFailure: jest.fn(),
+      renew: jest.fn(),
+    };
+    riot = {
+      getMatchById: jest
+        .fn()
+        .mockResolvedValue({ metadata: { matchId: 'BR1_1' } }),
+      getTimeline: jest.fn().mockResolvedValue(null),
+    };
+    save = jest.fn();
+    service = new WorkerService(
+      riot as unknown as RiotService,
+      new TimelineParserService(),
+      { save } as unknown as MatchPersistenceService,
+      jobs as unknown as ProcessingService,
+      {
+        setContext: jest.fn(),
+        info: jest.fn(),
+        error: jest.fn(),
+        warn: jest.fn(),
+      } as unknown as PinoLogger,
+    );
   });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
-  it('should skip if match already exists', async () => {
-    persistence.exists.mockResolvedValue(true);
-
+  it('does not fetch or aggregate a completed/already claimed delivery', async () => {
+    jobs.claim.mockResolvedValue(null);
     await service.processMatch({ matchId: 'BR1_1' });
-
-    expect(persistence.exists).toHaveBeenCalledWith('BR1_1');
-    expect(riotService.getMatchById).not.toHaveBeenCalled();
+    expect(riot.getMatchById).not.toHaveBeenCalled();
+    expect(save).not.toHaveBeenCalled();
   });
-
-  it('should skip if no timeline available', async () => {
-    persistence.exists.mockResolvedValue(false);
-    riotService.getMatchById.mockResolvedValue(mockMatchDto);
-    riotService.getTimeline.mockResolvedValue(null);
-
+  it('retains the summary and records a missing timeline for recovery', async () => {
     await service.processMatch({ matchId: 'BR1_1' });
-
-    expect(riotService.getTimeline).toHaveBeenCalledWith('BR1_1');
-    expect(persistence.save).not.toHaveBeenCalled();
+    expect(jobs.saveRaw).toHaveBeenCalledWith(lease, 'summary', {
+      metadata: { matchId: 'BR1_1' },
+    });
+    expect(jobs.recordFailure).toHaveBeenCalledWith(
+      lease,
+      expect.any(MissingTimelineError),
+    );
+    expect(save).not.toHaveBeenCalled();
   });
-
-  it('should process match with timeline successfully', async () => {
-    persistence.exists.mockResolvedValue(false);
-    riotService.getMatchById.mockResolvedValue(mockMatchDto);
-    riotService.getTimeline.mockResolvedValue({
-      metadata: { participants: ['p1'] },
-      info: { frames: [] },
-    } as any);
-    timelineParser.parseTimeline.mockReturnValue({
-      participants: new Map(),
-    } as any);
-    persistence.save.mockResolvedValue(undefined);
-    persistence.updateChampionStats.mockResolvedValue(undefined);
-    playerAggregates.update.mockResolvedValue(undefined);
-
+  it('reuses stored summary on a later attempt', async () => {
+    jobs.readRaw.mockImplementation((_id, field) => Promise.resolve(
+      field === 'summary' ? { metadata: { matchId: 'BR1_1' } } : null,
+    ));
     await service.processMatch({ matchId: 'BR1_1' });
-
-    expect(timelineParser.parseTimeline).toHaveBeenCalled();
-    expect(persistence.save).toHaveBeenCalled();
-    expect(persistence.updateChampionStats).toHaveBeenCalled();
-    expect(playerAggregates.update).toHaveBeenCalled();
+    expect(riot.getMatchById).not.toHaveBeenCalled();
+    expect(riot.getTimeline).toHaveBeenCalledWith('BR1_1');
+  });
+  it('propagates a failed recovery write so the broker delivery is not ACKed', async () => {
+    jobs.recordFailure.mockRejectedValue(new Error('database unavailable'));
+    await expect(service.processMatch({ matchId: 'BR1_1' })).rejects.toThrow(
+      'database unavailable',
+    );
   });
 });

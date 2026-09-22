@@ -17,6 +17,27 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: integration
+          POSTGRES_PASSWORD: integration
+          POSTGRES_DB: high_br_integration
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U integration -d high_br_integration"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+      rabbitmq:
+        image: rabbitmq:3.13-alpine
+        ports: ['5672:5672']
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://integration:integration@localhost:5432/high_br_integration
+      TEST_DATABASE_URL: postgresql://integration:integration@localhost:5432/high_br_integration
+      TEST_RABBITMQ_URL: amqp://guest:guest@localhost:5672
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,11 +54,26 @@ jobs:
       - name: Generate Prisma client
         run: npx prisma generate
 
+      - name: Verify production build entrypoints
+        run: |
+          npm run build
+          test -f dist/main.js
+          test -f dist/processing-cli.js
+
       - name: Run unit tests
         run: npm run test -- --coverage --passWithNoTests
 
-      - name: Run integration tests
-        run: npm run test:e2e -- --passWithNoTests
+      - name: Run HTTP tests
+        run: npm run test:e2e
+
+      - name: Apply migrations to integration database
+        run: npx prisma migrate deploy
+
+      - name: Check compiled processing CLI
+        run: node dist/processing-cli.js status
+
+      - name: Run processing integration tests
+        run: npm run test:integration
 
   # ------------------------------------------------------------------
   # 2. BUILD & PUSH

@@ -2,6 +2,8 @@
 
 Backend em NestJS que coleta dados da Riot API, processa partidas de League of Legends, e serve estatísticas para o app mobile via API REST.
 
+O fluxo atual de ingestão usa trabalhos duráveis no PostgreSQL, payloads brutos preservados e gravação transacional da partida com seus agregados. Consulte [Processamento confiável de partidas](docs/PROCESSAMENTO-CONFIAVEL.md) para as garantias, migration, testes e comandos de recuperação/reconstrução. Os diagramas e exemplos de ingestão abaixo antecedem essa mudança; o guia de processamento é a referência para esse fluxo.
+
 ---
 
 ## Visão Geral
@@ -581,13 +583,13 @@ executeWithRetry(operation, operationName, maxRetries=5)
 
 | Cenário | Comportamento |
 |---------|---------------|
-| Riot API retorna 404 para timeline | Worker ignora a partida (log warning) |
-| Riot API retorna 429 (rate limited) | RateLimiterService já gerencia internamente |
-| Dois workers processam o mesmo matchId | Segundo worker: Prisma P2002 → skip com warning |
-| Worker crasha durante processamento | Mensagem é nack'd (sem requeue) — partida será re-coletada pelo Collector |
+| Riot API retorna 404 para timeline | Resumo preservado; trabalho aguarda nova tentativa |
+| Riot API retorna 429 (rate limited) | Nova tentativa persistida, respeitando Retry-After |
+| Dois workers processam o mesmo matchId | Posse por token e transação impedem contribuição duplicada |
+| Worker crasha durante processamento | Reentrega pelo broker ou recuperação da posse expirada pelo banco |
 | Redis cai | LockService falha após 100 retries (~5s), RateLimiterService falha, chamadas à Riot API são bloqueadas |
-| RabbitMQ cai | Collector/SyncService não conseguem enfileirar partidas, mas continuam processando outros jogadores |
-| PostgreSQL cai | Worker crasha, mensagem é nack'd, sistema para |
+| RabbitMQ cai | Trabalho já aceito permanece no PostgreSQL para republicação pelos workers |
+| PostgreSQL cai | Admissão falha; mensagens sem tratamento durável confirmado são recolocadas na fila |
 
 ---
 
