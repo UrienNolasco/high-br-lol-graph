@@ -494,6 +494,8 @@ MET-10 entrega contribuições em quatro dimensões, com fórmulas e evidências
 
 ### Critério comum de conclusão das futuras tasks
 
+MET-12 publica checkpoints e curvas temporais com denominadores reais e ausência explícita; contrato e exemplos em [ECONOMIA-E-PROGRESSAO.md](ECONOMIA-E-PROGRESSAO.md).
+
 1. Fórmula, unidade, fonte, denominador, filtro, janela e ausência documentados; referência ao ID da oportunidade preservada.
 2. Testes do cálculo e contrato cobrem comportamento significativo: falta de campo/frame, denominador zero, fim de jogo, tipo desconhecido e patch suportado conforme a família.
 3. Alterações persistidas têm migration, versão e ensaio de rebuild idempotente; partidas não contribuem duas vezes e falhas não publicam estado parcial.

@@ -14,10 +14,17 @@ import { MatchPerformanceService } from './services/match-performance.service';
 import { MatchRepository } from './repositories/match.repository';
 import { PrismaModule } from '../../core/prisma/prisma.module';
 import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
+import { MatchEconomyController } from './match-economy.controller';
+import { MatchEconomyService } from './services/match-economy.service';
 
 @Module({
   imports: [PrismaModule, DataDragonModule],
-  controllers: [MatchesController, MatchVisionController, MatchCombatController],
+  controllers: [
+    MatchesController,
+    MatchVisionController,
+    MatchCombatController,
+    MatchEconomyController,
+  ],
   providers: [
     MatchVisionService,
     MatchRepository,
@@ -29,6 +36,7 @@ import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
     MatchBuildsService,
     MatchPerformanceService,
     MatchContributionService,
+    MatchEconomyService,
   ],
   exports: [MatchContributionService],
 })

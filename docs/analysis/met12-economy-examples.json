@@ -1,0 +1,3697 @@
+{
+  "provenance": "Offline real patch16.2 source observations with explicitly synthetic processing timestamp for reproducible examples. Excerpts, not a complete HTTP response or production evidence.",
+  "fullResponseBytes": 651336,
+  "excerpt": {
+    "matchId": "BR1_3200579475",
+    "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+    "metricVersion": 1,
+    "processedAt": "2026-09-23T00:00:00.000Z",
+    "processingVersion": 2,
+    "eligibility": {
+      "mapId": 11,
+      "queueId": 420,
+      "gameVersion": "16.2.741.3171",
+      "remakeRuleVersion": 1,
+      "remakeStatus": "not_remake"
+    },
+    "checkpointContract": {
+      "metricVersion": 1,
+      "mode": "nearest",
+      "toleranceMs": 60000,
+      "legacyAt15Version": 0
+    },
+    "checkpoint15": {
+      "targetMs": 900000,
+      "actualMs": 900358,
+      "offsetMs": 358,
+      "mode": "nearest",
+      "toleranceMs": 60000,
+      "frameIndex": 15,
+      "eligible": true,
+      "comparisonEligible": true,
+      "reason": null,
+      "comparisonReason": null,
+      "values": {
+        "totalGold": {
+          "metricId": "E01",
+          "unit": "gold",
+          "value": 8395,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 8395,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "currentGold": {
+          "metricId": "E05",
+          "unit": "gold",
+          "value": 1600,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.currentGold",
+              "value": 1600,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "xp": {
+          "metricId": "E01",
+          "unit": "xp",
+          "value": 10292,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 10292,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "level": {
+          "metricId": "E07",
+          "unit": "level",
+          "value": 13,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.level",
+              "value": 13,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "laneCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": 138,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 138,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "jungleCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": 0,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "totalCs": {
+          "metricId": "E01",
+          "unit": "cs",
+          "value": 138,
+          "origin": "derived",
+          "reason": null,
+          "method": "laneCs + jungleCs",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 138,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "goldShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": 0.26730561039291856,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant resource / complete five-player team total",
+          "denominator": {
+            "value": 31406,
+            "unit": "gold",
+            "population": "five teammates in the same frame"
+          },
+          "quality": {
+            "validSamples": 5,
+            "totalSamples": 5,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 8395,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.2.totalGold",
+              "value": 6115,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.3.totalGold",
+              "value": 6562,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.4.totalGold",
+              "value": 6145,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.5.totalGold",
+              "value": 4189,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "csShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": 0.2787878787878788,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant resource / complete five-player team total",
+          "denominator": {
+            "value": 495,
+            "unit": "cs",
+            "population": "five teammates in the same frame"
+          },
+          "quality": {
+            "validSamples": 5,
+            "totalSamples": 5,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 138,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.2.minionsKilled",
+              "value": 25,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.2.jungleMinionsKilled",
+              "value": 92,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.3.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.3.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.4.minionsKilled",
+              "value": 118,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.4.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.5.minionsKilled",
+              "value": 22,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.5.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        }
+      },
+      "opponent": {
+        "totalGold": {
+          "metricId": "E01",
+          "unit": "gold",
+          "value": 5307,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.totalGold",
+              "value": 5307,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "currentGold": {
+          "metricId": "E05",
+          "unit": "gold",
+          "value": 57,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.currentGold",
+              "value": 57,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "xp": {
+          "metricId": "E01",
+          "unit": "xp",
+          "value": 6974,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.xp",
+              "value": 6974,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "level": {
+          "metricId": "E07",
+          "unit": "level",
+          "value": 10,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.level",
+              "value": 10,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "laneCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": 100,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "jungleCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": 0,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "totalCs": {
+          "metricId": "E01",
+          "unit": "cs",
+          "value": 100,
+          "origin": "derived",
+          "reason": null,
+          "method": "laneCs + jungleCs",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "goldShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": 0.18578029825666878,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant resource / complete five-player team total",
+          "denominator": {
+            "value": 28566,
+            "unit": "gold",
+            "population": "five teammates in the same frame"
+          },
+          "quality": {
+            "validSamples": 5,
+            "totalSamples": 5,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.totalGold",
+              "value": 5307,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.7.totalGold",
+              "value": 5423,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.8.totalGold",
+              "value": 7167,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.9.totalGold",
+              "value": 6539,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.10.totalGold",
+              "value": 4130,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "csShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": 0.205761316872428,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant resource / complete five-player team total",
+          "denominator": {
+            "value": 486,
+            "unit": "cs",
+            "population": "five teammates in the same frame"
+          },
+          "quality": {
+            "validSamples": 5,
+            "totalSamples": 5,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.7.minionsKilled",
+              "value": 4,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.7.jungleMinionsKilled",
+              "value": 113,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.8.minionsKilled",
+              "value": 119,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.8.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.9.minionsKilled",
+              "value": 125,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.9.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.10.minionsKilled",
+              "value": 25,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.10.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        }
+      },
+      "differences": {
+        "totalGold": {
+          "metricId": "E01",
+          "unit": "gold",
+          "value": 3088,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 8395,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.totalGold",
+              "value": 5307,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "currentGold": {
+          "metricId": "E05",
+          "unit": "gold",
+          "value": 1543,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.currentGold",
+              "value": 1600,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.currentGold",
+              "value": 57,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "xp": {
+          "metricId": "E01",
+          "unit": "xp",
+          "value": 3318,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 10292,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.xp",
+              "value": 6974,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "level": {
+          "metricId": "E07",
+          "unit": "level",
+          "value": 3,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.level",
+              "value": 13,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.level",
+              "value": 10,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "laneCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": 38,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 138,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "jungleCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "totalCs": {
+          "metricId": "E01",
+          "unit": "cs",
+          "value": 38,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 138,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "goldShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": 0.08152531213624978,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 8395,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.2.totalGold",
+              "value": 6115,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.3.totalGold",
+              "value": 6562,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.4.totalGold",
+              "value": 6145,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.5.totalGold",
+              "value": 4189,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.totalGold",
+              "value": 5307,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.7.totalGold",
+              "value": 5423,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.8.totalGold",
+              "value": 7167,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.9.totalGold",
+              "value": 6539,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.10.totalGold",
+              "value": 4130,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        },
+        "csShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": 0.07302656191545082,
+          "origin": "derived",
+          "reason": null,
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 138,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.2.minionsKilled",
+              "value": 25,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.2.jungleMinionsKilled",
+              "value": 92,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.3.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.3.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.4.minionsKilled",
+              "value": 118,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.4.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.5.minionsKilled",
+              "value": 22,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.5.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.minionsKilled",
+              "value": 100,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.6.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.7.minionsKilled",
+              "value": 4,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.7.jungleMinionsKilled",
+              "value": 113,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.8.minionsKilled",
+              "value": 119,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.8.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.9.minionsKilled",
+              "value": 125,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.9.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.10.minionsKilled",
+              "value": 25,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.10.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 15,
+              "timestampMs": 900358
+            }
+          ]
+        }
+      }
+    },
+    "lastInterval": {
+      "startMs": 2340765,
+      "endMs": 2368922,
+      "elapsedMs": 28157,
+      "fromFrameIndex": 39,
+      "toFrameIndex": 40,
+      "partialFinalInterval": true,
+      "reason": null,
+      "gains": {
+        "totalGold": {
+          "metricId": "E03",
+          "unit": "gold",
+          "value": 301,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 24563,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 24864,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "xp": {
+          "metricId": "E03",
+          "unit": "xp",
+          "value": 505,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 25677,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 26182,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "laneCs": {
+          "metricId": "E03",
+          "unit": "cs",
+          "value": 6,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 326,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "jungleCs": {
+          "metricId": "E03",
+          "unit": "cs",
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "totalCs": {
+          "metricId": "E03",
+          "unit": "cs",
+          "value": 6,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 326,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        }
+      },
+      "perMinute": {
+        "totalGold": {
+          "metricId": "E03",
+          "unit": "gold_per_minute",
+          "value": 641.4035586177505,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 0.46928333333333333,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 24563,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 24864,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "xp": {
+          "metricId": "E03",
+          "unit": "xp_per_minute",
+          "value": 1076.1089604716412,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 0.46928333333333333,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 25677,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 26182,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "laneCs": {
+          "metricId": "E03",
+          "unit": "cs_per_minute",
+          "value": 12.785452995702668,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 0.46928333333333333,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 326,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "jungleCs": {
+          "metricId": "E03",
+          "unit": "cs_per_minute",
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 0.46928333333333333,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "totalCs": {
+          "metricId": "E03",
+          "unit": "cs_per_minute",
+          "value": 12.785452995702668,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 0.46928333333333333,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 326,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 39,
+              "timestampMs": 2340765
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        }
+      }
+    },
+    "lastPhase": {
+      "targetStartMs": 1200000,
+      "targetEndMs": 2368922,
+      "startOffsetMs": 462,
+      "endOffsetMs": 0,
+      "mode": "nearest",
+      "toleranceMs": 60000,
+      "startMs": 1200462,
+      "endMs": 2368922,
+      "elapsedMs": 1168460,
+      "fromFrameIndex": 20,
+      "toFrameIndex": 40,
+      "partialFinalInterval": false,
+      "reason": null,
+      "gains": {
+        "totalGold": {
+          "metricId": "E03",
+          "unit": "gold",
+          "value": 14209,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 10655,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 24864,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "xp": {
+          "metricId": "E03",
+          "unit": "xp",
+          "value": 12602,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 13580,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 26182,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "laneCs": {
+          "metricId": "E03",
+          "unit": "cs",
+          "value": 141,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 191,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "jungleCs": {
+          "metricId": "E03",
+          "unit": "cs",
+          "value": 8,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "totalCs": {
+          "metricId": "E03",
+          "unit": "cs",
+          "value": 149,
+          "origin": "derived",
+          "reason": null,
+          "method": "end observed cumulative counter - start observed cumulative counter",
+          "denominator": null,
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 191,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        }
+      },
+      "perMinute": {
+        "totalGold": {
+          "metricId": "E03",
+          "unit": "gold_per_minute",
+          "value": 729.6270304503363,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 19.474333333333334,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 10655,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.totalGold",
+              "value": 24864,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "xp": {
+          "metricId": "E03",
+          "unit": "xp_per_minute",
+          "value": 647.1081594577478,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 19.474333333333334,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 13580,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.xp",
+              "value": 26182,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "laneCs": {
+          "metricId": "E03",
+          "unit": "cs_per_minute",
+          "value": 7.240299197233965,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 19.474333333333334,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 191,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "jungleCs": {
+          "metricId": "E03",
+          "unit": "cs_per_minute",
+          "value": 0.41079711757355836,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 19.474333333333334,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        },
+        "totalCs": {
+          "metricId": "E03",
+          "unit": "cs_per_minute",
+          "value": 7.651096314807524,
+          "origin": "derived",
+          "reason": null,
+          "method": "counter delta / (actual elapsed milliseconds / 60000)",
+          "denominator": {
+            "value": 19.474333333333334,
+            "unit": "minutes",
+            "population": "actual elapsed time between the two observations"
+          },
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": [
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 191,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 0,
+              "frameIndex": 20,
+              "timestampMs": 1200462
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.minionsKilled",
+              "value": 332,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            },
+            {
+              "source": "MatchTimelineProjection.frames",
+              "field": "participantFrames.1.jungleMinionsKilled",
+              "value": 8,
+              "frameIndex": 40,
+              "timestampMs": 2368922
+            }
+          ]
+        }
+      }
+    },
+    "finalResources": {
+      "totalMinionsKilled": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 332,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal final counter; no jungle route inferred",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant.finalStats.values",
+            "field": "totalMinionsKilled",
+            "value": 332
+          }
+        ]
+      },
+      "neutralMinionsKilled": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 8,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal final counter; no jungle route inferred",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant.finalStats.values",
+            "field": "neutralMinionsKilled",
+            "value": 8
+          }
+        ]
+      },
+      "totalAllyJungleMinionsKilled": {
+        "metricId": "E10",
+        "unit": "cs",
+        "value": 8,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal final counter; no jungle route inferred",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant.finalStats.values",
+            "field": "totalAllyJungleMinionsKilled",
+            "value": 8
+          }
+        ]
+      },
+      "totalEnemyJungleMinionsKilled": {
+        "metricId": "E10",
+        "unit": "cs",
+        "value": 0,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal final counter; no jungle route inferred",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant.finalStats.values",
+            "field": "totalEnemyJungleMinionsKilled",
+            "value": 0
+          }
+        ]
+      }
+    }
+  },
+  "pastOnlyCheckpoint15": {
+    "targetMs": 900000,
+    "actualMs": 840357,
+    "offsetMs": -59643,
+    "mode": "pastOnly",
+    "toleranceMs": 60000,
+    "frameIndex": 14,
+    "eligible": true,
+    "comparisonEligible": true,
+    "reason": null,
+    "comparisonReason": null,
+    "values": {
+      "totalGold": {
+        "metricId": "E01",
+        "unit": "gold",
+        "value": 7745,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.totalGold",
+            "value": 7745,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "currentGold": {
+        "metricId": "E05",
+        "unit": "gold",
+        "value": 950,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.currentGold",
+            "value": 950,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "xp": {
+        "metricId": "E01",
+        "unit": "xp",
+        "value": 9578,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.xp",
+            "value": 9578,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "level": {
+        "metricId": "E07",
+        "unit": "level",
+        "value": 12,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.level",
+            "value": 12,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "laneCs": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 130,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.minionsKilled",
+            "value": 130,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "jungleCs": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 0,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "totalCs": {
+        "metricId": "E01",
+        "unit": "cs",
+        "value": 130,
+        "origin": "derived",
+        "reason": null,
+        "method": "laneCs + jungleCs",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.minionsKilled",
+            "value": 130,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "goldShare": {
+        "metricId": "E04",
+        "unit": "ratio",
+        "value": 0.26926954768278694,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant resource / complete five-player team total",
+        "denominator": {
+          "value": 28763,
+          "unit": "gold",
+          "population": "five teammates in the same frame"
+        },
+        "quality": {
+          "validSamples": 5,
+          "totalSamples": 5,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.totalGold",
+            "value": 7745,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.2.totalGold",
+            "value": 5519,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.3.totalGold",
+            "value": 6320,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.4.totalGold",
+            "value": 5332,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.5.totalGold",
+            "value": 3847,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "csShare": {
+        "metricId": "E04",
+        "unit": "ratio",
+        "value": 0.28077753779697623,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant resource / complete five-player team total",
+        "denominator": {
+          "value": 463,
+          "unit": "cs",
+          "population": "five teammates in the same frame"
+        },
+        "quality": {
+          "validSamples": 5,
+          "totalSamples": 5,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.minionsKilled",
+            "value": 130,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.2.minionsKilled",
+            "value": 25,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.2.jungleMinionsKilled",
+            "value": 80,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.3.minionsKilled",
+            "value": 100,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.3.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.4.minionsKilled",
+            "value": 106,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.4.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.5.minionsKilled",
+            "value": 22,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.5.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      }
+    },
+    "opponent": {
+      "totalGold": {
+        "metricId": "E01",
+        "unit": "gold",
+        "value": 4651,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.totalGold",
+            "value": 4651,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "currentGold": {
+        "metricId": "E05",
+        "unit": "gold",
+        "value": 601,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.currentGold",
+            "value": 601,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "xp": {
+        "metricId": "E01",
+        "unit": "xp",
+        "value": 5968,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.xp",
+            "value": 5968,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "level": {
+        "metricId": "E07",
+        "unit": "level",
+        "value": 9,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.level",
+            "value": 9,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "laneCs": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 92,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.minionsKilled",
+            "value": 92,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "jungleCs": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 0,
+        "origin": "observed",
+        "reason": null,
+        "method": "literal snapshot field",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "totalCs": {
+        "metricId": "E01",
+        "unit": "cs",
+        "value": 92,
+        "origin": "derived",
+        "reason": null,
+        "method": "laneCs + jungleCs",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.minionsKilled",
+            "value": 92,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "goldShare": {
+        "metricId": "E04",
+        "unit": "ratio",
+        "value": 0.1717884317056955,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant resource / complete five-player team total",
+        "denominator": {
+          "value": 27074,
+          "unit": "gold",
+          "population": "five teammates in the same frame"
+        },
+        "quality": {
+          "validSamples": 5,
+          "totalSamples": 5,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.totalGold",
+            "value": 4651,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.7.totalGold",
+            "value": 5195,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.8.totalGold",
+            "value": 7003,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.9.totalGold",
+            "value": 6351,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.10.totalGold",
+            "value": 3874,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "csShare": {
+        "metricId": "E04",
+        "unit": "ratio",
+        "value": 0.19742489270386265,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant resource / complete five-player team total",
+        "denominator": {
+          "value": 466,
+          "unit": "cs",
+          "population": "five teammates in the same frame"
+        },
+        "quality": {
+          "validSamples": 5,
+          "totalSamples": 5,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.minionsKilled",
+            "value": 92,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.7.minionsKilled",
+            "value": 4,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.7.jungleMinionsKilled",
+            "value": 109,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.8.minionsKilled",
+            "value": 116,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.8.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.9.minionsKilled",
+            "value": 122,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.9.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.10.minionsKilled",
+            "value": 23,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.10.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      }
+    },
+    "differences": {
+      "totalGold": {
+        "metricId": "E01",
+        "unit": "gold",
+        "value": 3094,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.totalGold",
+            "value": 7745,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.totalGold",
+            "value": 4651,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "currentGold": {
+        "metricId": "E05",
+        "unit": "gold",
+        "value": 349,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.currentGold",
+            "value": 950,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.currentGold",
+            "value": 601,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "xp": {
+        "metricId": "E01",
+        "unit": "xp",
+        "value": 3610,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.xp",
+            "value": 9578,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.xp",
+            "value": 5968,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "level": {
+        "metricId": "E07",
+        "unit": "level",
+        "value": 3,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.level",
+            "value": 12,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.level",
+            "value": 9,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "laneCs": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 38,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.minionsKilled",
+            "value": 130,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.minionsKilled",
+            "value": 92,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "jungleCs": {
+        "metricId": "E02",
+        "unit": "cs",
+        "value": 0,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "totalCs": {
+        "metricId": "E01",
+        "unit": "cs",
+        "value": 38,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.minionsKilled",
+            "value": 130,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.minionsKilled",
+            "value": 92,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "goldShare": {
+        "metricId": "E04",
+        "unit": "ratio",
+        "value": 0.09748111597709144,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.totalGold",
+            "value": 7745,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.2.totalGold",
+            "value": 5519,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.3.totalGold",
+            "value": 6320,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.4.totalGold",
+            "value": 5332,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.5.totalGold",
+            "value": 3847,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.totalGold",
+            "value": 4651,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.7.totalGold",
+            "value": 5195,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.8.totalGold",
+            "value": 7003,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.9.totalGold",
+            "value": 6351,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.10.totalGold",
+            "value": 3874,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      },
+      "csShare": {
+        "metricId": "E04",
+        "unit": "ratio",
+        "value": 0.08335264509311358,
+        "origin": "derived",
+        "reason": null,
+        "method": "participant minus unique same-role opponent, same frame",
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.minionsKilled",
+            "value": 130,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.1.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.2.minionsKilled",
+            "value": 25,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.2.jungleMinionsKilled",
+            "value": 80,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.3.minionsKilled",
+            "value": 100,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.3.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.4.minionsKilled",
+            "value": 106,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.4.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.5.minionsKilled",
+            "value": 22,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.5.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.minionsKilled",
+            "value": 92,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.6.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.7.minionsKilled",
+            "value": 4,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.7.jungleMinionsKilled",
+            "value": 109,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.8.minionsKilled",
+            "value": 116,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.8.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.9.minionsKilled",
+            "value": 122,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.9.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.10.minionsKilled",
+            "value": 23,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          },
+          {
+            "source": "MatchTimelineProjection.frames",
+            "field": "participantFrames.10.jungleMinionsKilled",
+            "value": 0,
+            "frameIndex": 14,
+            "timestampMs": 840357
+          }
+        ]
+      }
+    }
+  },
+  "missingProvenance": {
+    "processedAt": null,
+    "processingVersion": null,
+    "reason": "missing_processing_provenance",
+    "samples": [],
+    "checkpoint5": {
+      "targetMs": 300000,
+      "actualMs": 300154,
+      "offsetMs": 154,
+      "mode": "nearest",
+      "toleranceMs": 60000,
+      "frameIndex": 5,
+      "eligible": false,
+      "comparisonEligible": false,
+      "reason": "missing_processing_provenance",
+      "comparisonReason": "missing_processing_provenance",
+      "values": {
+        "totalGold": {
+          "metricId": "E01",
+          "unit": "gold",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "currentGold": {
+          "metricId": "E05",
+          "unit": "gold",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "xp": {
+          "metricId": "E01",
+          "unit": "xp",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "level": {
+          "metricId": "E07",
+          "unit": "level",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "laneCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "jungleCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "totalCs": {
+          "metricId": "E01",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "goldShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "csShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        }
+      },
+      "opponent": {
+        "totalGold": {
+          "metricId": "E01",
+          "unit": "gold",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "currentGold": {
+          "metricId": "E05",
+          "unit": "gold",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "xp": {
+          "metricId": "E01",
+          "unit": "xp",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "level": {
+          "metricId": "E07",
+          "unit": "level",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "laneCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "jungleCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "totalCs": {
+          "metricId": "E01",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "goldShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "csShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "literal snapshot field",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        }
+      },
+      "differences": {
+        "totalGold": {
+          "metricId": "E01",
+          "unit": "gold",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "currentGold": {
+          "metricId": "E05",
+          "unit": "gold",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "xp": {
+          "metricId": "E01",
+          "unit": "xp",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "level": {
+          "metricId": "E07",
+          "unit": "level",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "laneCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "jungleCs": {
+          "metricId": "E02",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "totalCs": {
+          "metricId": "E01",
+          "unit": "cs",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "goldShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        },
+        "csShare": {
+          "metricId": "E04",
+          "unit": "ratio",
+          "value": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_provenance",
+          "method": "participant minus unique same-role opponent, same frame",
+          "denominator": null,
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": []
+        }
+      }
+    }
+  }
+}
