@@ -60,6 +60,7 @@ export function aMatchRow(overrides?: Record<string, unknown>) {
     visionScore: 30,
     win: true,
     csGraph: [0, 50, 100, 150, 200],
+    totalCs: 210,
     match: {
       gameCreation: BigInt(1700000000000),
       gameDuration: 1800,

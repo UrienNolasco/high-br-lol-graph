@@ -1,87 +1,78 @@
 import { AnalyticsService } from './analytics.service';
+import { comparisonFixture, timelineFixture } from '../pure/cohort.fixture';
 
-interface MockRepo {
-  findUserByPuuid: jest.Mock;
-  findPlayerStats: jest.Mock;
-  findPlayerChampionStats: jest.Mock;
-  findPlayerLaningMetrics: jest.Mock;
-  findMatchesForTimeline: jest.Mock;
-}
-
-describe('AnalyticsService', () => {
-  let service: AnalyticsService;
-  let mockRepo: MockRepo;
-
-  const baseStats = {
-    gamesPlayed: 100,
-    winRate: 55,
-    avgKda: 3.0,
-    avgCspm: 7.0,
-    avgDpm: 600,
-    avgGpm: 400,
-    avgVisionScore: 20,
-  };
-
+describe('AnalyticsService unified cohort', () => {
+  const repo = { findUserByPuuid: jest.fn(), findComparisonCohort: jest.fn() };
+  const service = new AnalyticsService(repo as any);
   beforeEach(() => {
-    mockRepo = {
-      findUserByPuuid: jest.fn(),
-      findPlayerStats: jest.fn(),
-      findPlayerChampionStats: jest.fn(),
-      findPlayerLaningMetrics: jest.fn(),
-      findMatchesForTimeline: jest.fn(),
-    };
-    service = new AnalyticsService(mockRepo as any);
+    jest.clearAllMocks();
+    repo.findUserByPuuid.mockResolvedValue({ gameName: 'Player' });
+    repo.findComparisonCohort.mockResolvedValue({
+      matches: [comparisonFixture()],
+      raw: [{ matchId: 'm1', timeline: timelineFixture() }],
+      eligibleN: 30,
+      returnedN: 1,
+      limit: 1,
+      truncated: true,
+    });
   });
-
-  it('should return full comparison', async () => {
-    mockRepo.findUserByPuuid.mockResolvedValue({
-      puuid: 'h',
-      gameName: 'Hero',
-    });
-    mockRepo.findPlayerStats.mockResolvedValue(baseStats);
-    mockRepo.findPlayerLaningMetrics.mockResolvedValue(null);
-    mockRepo.findMatchesForTimeline.mockResolvedValue([]);
-
-    const result = await service.comparePlayerPerformance('h', 'v', {
-      patch: '15.1',
-    });
-
-    expect(result.hero.puuid).toBe('h');
-    expect(result.hero.stats.avgKda).toBe(baseStats.avgKda);
-    expect(result.villain.puuid).toBe('v');
-    expect(result.insights.winner).toBeDefined();
-    expect(result.timelineComparison.csGraph.hero).toEqual([]);
-  });
-
-  it('should throw when hero not found', async () => {
-    mockRepo.findUserByPuuid
-      .mockResolvedValueOnce(null)
-      .mockResolvedValueOnce({ puuid: 'v', gameName: 'Villain' });
-
-    await expect(
-      service.comparePlayerPerformance('h', 'v', { patch: '15.1' }),
-    ).rejects.toThrow('não encontrado');
-  });
-
-  it('should use champion stats when championId provided', async () => {
-    mockRepo.findUserByPuuid.mockResolvedValue({
-      puuid: 'h',
-      gameName: 'Hero',
-    });
-    mockRepo.findPlayerChampionStats.mockResolvedValue(baseStats);
-    mockRepo.findPlayerLaningMetrics.mockResolvedValue({
-      avgCsd15: 5,
-      avgGd15: 200,
-      avgXpd15: 150,
-    });
-    mockRepo.findMatchesForTimeline.mockResolvedValue([]);
-
-    const result = await service.comparePlayerPerformance('h', 'v', {
+  it('fetches one cohort per subject and shares rows for summary, lane and timeline', async () => {
+    const filters = {
       championId: 1,
-      patch: '15.1',
+      role: 'MID',
+      patch: '16.2',
+      queueId: 440,
+      startDate: 0,
+      endDate: 1000,
+      limit: 1,
+    };
+    const r = await service.comparePlayerPerformance(
+      'hero',
+      'villain',
+      filters,
+    );
+    expect(repo.findComparisonCohort).toHaveBeenCalledTimes(2);
+    expect(repo.findComparisonCohort).toHaveBeenCalledWith('hero', {
+      ...filters,
+      role: 'MIDDLE',
     });
-
-    expect(mockRepo.findPlayerChampionStats).toHaveBeenCalledTimes(2);
-    expect(result.hero.stats.avgKda).toBe(baseStats.avgKda);
+    expect(r.hero.cohort).toMatchObject({
+      matchIds: ['m1'],
+      eligibleN: 30,
+      returnedN: 1,
+      truncated: true,
+    });
+    expect(r.hero.stats.gamesPlayed).toBe(1);
+    expect(r.hero.laningPhase.avgCsd15).toBe(15);
+    expect(r.timelineComparison.csGraph.hero[15]).toMatchObject({
+      value: 100,
+      validN: 1,
+    });
+  });
+  it('keeps known player with empty filters result available without fabricated winrate', async () => {
+    repo.findComparisonCohort.mockResolvedValue({
+      matches: [],
+      raw: [],
+      eligibleN: 0,
+      returnedN: 0,
+      limit: 100,
+      truncated: false,
+    });
+    const r = await service.comparePlayerPerformance('hero', 'villain', {});
+    expect(r.hero.stats.gamesPlayed).toBe(0);
+    expect(r.hero.stats.winRate).toBeNull();
+    expect(r.insights.winner).toBeNull();
+  });
+  it('rejects reversed period before querying', async () => {
+    await expect(
+      service.comparePlayerPerformance('h', 'v', { startDate: 2, endDate: 1 }),
+    ).rejects.toThrow('startDate');
+    expect(repo.findComparisonCohort).not.toHaveBeenCalled();
+  });
+  it('reports unknown users', async () => {
+    repo.findUserByPuuid.mockResolvedValueOnce(null);
+    await expect(
+      service.comparePlayerPerformance('h', 'v', {}),
+    ).rejects.toThrow('não encontrado');
   });
 });

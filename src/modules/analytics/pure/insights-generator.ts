@@ -13,7 +13,12 @@ export function generateInsights(
   const advantages: string[] = [];
   const recommendations: string[] = [];
 
-  if (heroStats.avgCspm > 0 && villainStats.avgCspm > 0) {
+  if (
+    heroStats.avgCspm !== null &&
+    villainStats.avgCspm !== null &&
+    heroStats.avgCspm > 0 &&
+    villainStats.avgCspm > 0
+  ) {
     const csDiff =
       ((heroStats.avgCspm - villainStats.avgCspm) / villainStats.avgCspm) * 100;
     if (csDiff > 10) {
@@ -45,7 +50,10 @@ export function generateInsights(
     }
   }
 
-  const visionDiff = heroStats.avgVisionScore - villainStats.avgVisionScore;
+  const visionDiff =
+    heroStats.avgVisionScore !== null && villainStats.avgVisionScore !== null
+      ? heroStats.avgVisionScore - villainStats.avgVisionScore
+      : 0;
   if (Math.abs(visionDiff) > 5) {
     if (visionDiff > 0) {
       advantages.push(
@@ -61,7 +69,12 @@ export function generateInsights(
     }
   }
 
-  if (heroStats.avgDpm > 0 && villainStats.avgDpm > 0) {
+  if (
+    heroStats.avgDpm !== null &&
+    villainStats.avgDpm !== null &&
+    heroStats.avgDpm > 0 &&
+    villainStats.avgDpm > 0
+  ) {
     const dpmDiff =
       ((heroStats.avgDpm - villainStats.avgDpm) / villainStats.avgDpm) * 100;
     if (dpmDiff > 10) {
@@ -77,6 +90,10 @@ export function generateInsights(
   }
 
   if (
+    heroStats.avgKda !== null &&
+    villainStats.avgKda !== null &&
+    heroStats.winRate !== null &&
+    villainStats.winRate !== null &&
     heroStats.avgKda > villainStats.avgKda &&
     heroStats.winRate < villainStats.winRate
   ) {
@@ -84,6 +101,10 @@ export function generateInsights(
       'Herói tem KDA superior mas winrate inferior — deve converter vantagens em objetivos',
     );
   } else if (
+    heroStats.avgKda !== null &&
+    villainStats.avgKda !== null &&
+    heroStats.winRate !== null &&
+    villainStats.winRate !== null &&
     villainStats.avgKda > heroStats.avgKda &&
     villainStats.winRate < heroStats.winRate
   ) {
@@ -92,8 +113,12 @@ export function generateInsights(
     );
   }
 
-  const winner: 'hero' | 'villain' =
-    heroStats.winRate >= villainStats.winRate ? 'hero' : 'villain';
+  const winner =
+    heroStats.winRate === null || villainStats.winRate === null
+      ? null
+      : heroStats.winRate >= villainStats.winRate
+        ? ('hero' as const)
+        : ('villain' as const);
 
   return { winner, advantages, recommendations };
 }

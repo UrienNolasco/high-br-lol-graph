@@ -21,16 +21,17 @@ describe('match.mapper', () => {
     it('should calculate cspm correctly', () => {
       const row = aMatchRow({
         csGraph: [0, 100, 200, 300],
+        totalCs: 300,
         match: { gameCreation: BigInt(1), gameDuration: 1200, queueId: 420 },
       }) as any;
       const result = toPlayerMatchDto(row);
       expect(result.cspm).toBe(15.0);
     });
 
-    it('should return 0 cspm for empty csGraph', () => {
-      const row = aMatchRow({ csGraph: [] }) as any;
+    it('uses final CS with an empty timeline', () => {
+      const row = aMatchRow({ csGraph: [], totalCs: 150 }) as any;
       const result = toPlayerMatchDto(row);
-      expect(result.cspm).toBe(0);
+      expect(result.cspm).toBe(5);
     });
   });
 
@@ -48,7 +49,7 @@ describe('match.mapper', () => {
 
     it('should add role filter', () => {
       const where = buildMatchWhere('puuid', { role: 'MID' } as any);
-      expect(where.role).toBe('MID');
+      expect(where.role).toEqual({ in: ['MID', 'MIDDLE'] });
     });
 
     it('should add win filter for result=win', () => {

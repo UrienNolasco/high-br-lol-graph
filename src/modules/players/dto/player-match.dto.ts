@@ -23,11 +23,11 @@ export class PlayerMatchesQueryDto {
 
   @ApiProperty({
     required: false,
-    enum: ['TOP', 'JUNGLE', 'MID', 'BOTTOM', 'UTILITY'],
+    enum: ['TOP', 'JUNGLE', 'MID', 'MIDDLE', 'BOTTOM', 'UTILITY'],
     description: 'Filter by role',
   })
   @IsOptional()
-  @IsIn(['TOP', 'JUNGLE', 'MID', 'BOTTOM', 'UTILITY'])
+  @IsIn(['TOP', 'JUNGLE', 'MID', 'MIDDLE', 'BOTTOM', 'UTILITY'])
   role?: string;
 
   @ApiProperty({
@@ -162,8 +162,15 @@ export class PlayerMatchDto {
   @ApiProperty({ example: 25, description: 'Score de visão' })
   visionScore: number;
 
-  @ApiProperty({ example: 8.1, description: 'Farm por minuto' })
-  cspm: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 8.1,
+    description: 'CS final (totalCs) por minuto, independente da timeline',
+  })
+  cspm: number | null;
+  @ApiProperty({ type: String, nullable: true })
+  cspmReason?: string | null;
 
   @ApiProperty({ example: true, description: 'Resultado da partida' })
   win: boolean;

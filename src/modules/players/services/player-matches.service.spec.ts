@@ -27,6 +27,7 @@ describe('PlayerMatchesService', () => {
     visionScore: 30,
     win: true,
     csGraph: [0, 100, 200],
+    totalCs: 210,
     match: {
       gameCreation: BigInt(1700000000000),
       gameDuration: 1800,

@@ -30,6 +30,10 @@ export class AnalyticsController {
         role: query.role,
         championId: query.championId,
         patch: query.patch || 'ALL',
+        queueId: query.queueId,
+        startDate: query.startDate,
+        endDate: query.endDate,
+        limit: query.limit,
       },
     );
   }

@@ -15,6 +15,7 @@ describe('performance-calculator', () => {
     totalDamage: 30000,
     goldEarned: 15000,
     csGraph: [10, 20, 30, 40, 50],
+    totalCs: 300,
     visionScore: 30,
     damageTaken: 25000,
     kda: 3.5,
@@ -27,9 +28,9 @@ describe('performance-calculator', () => {
 
       expect(result.dpm).toBe(1000);
       expect(result.gpm).toBe(500);
-      expect(result.cspm).toBe(1.7);
+      expect(result.cspm).toBe(10);
       expect(result.visionScorePerMin).toBe(1);
-      expect(result.damageTakenPerMin).toBe(833.3);
+      expect(result.damageTakenPerMin).toBeCloseTo(833.333333333);
     });
 
     it('should handle empty csGraph', () => {
@@ -37,10 +38,38 @@ describe('performance-calculator', () => {
 
       const result = computePlayerMetrics(player, 30);
 
-      expect(result.cspm).toBe(0);
+      expect(result.cspm).toBe(10);
     });
   });
 
+  it('does not fabricate final CS from timeline or divide by zero duration', () => {
+    expect(
+      computePlayerMetrics({ ...basePlayer, totalCs: undefined }, 30),
+    ).toMatchObject({
+      cspm: null,
+      reasons: { cspm: 'missing_or_invalid_field' },
+    });
+    expect(computePlayerMetrics(basePlayer, 0)).toMatchObject({
+      cspm: null,
+      dpm: null,
+      reasons: { cspm: 'zero_denominator' },
+    });
+  });
+  it('normalizes roles and rejects ambiguous opponents', () => {
+    const enemy = {
+      ...basePlayer,
+      role: 'MIDDLE',
+      teamId: 200,
+      puuid: 'enemy',
+    };
+    expect(findLaneOpponent([basePlayer, enemy], basePlayer)).toBe(enemy);
+    expect(
+      findLaneOpponent(
+        [basePlayer, enemy, { ...enemy, puuid: 'other' }],
+        basePlayer,
+      ),
+    ).toBeUndefined();
+  });
   describe('findLaneOpponent', () => {
     it('should find opponent in same role on opposite team', () => {
       const participants: MatchParticipant[] = [
@@ -104,7 +133,9 @@ describe('performance-calculator', () => {
       expect(result.gpmAdvantagePercent).toBe(25);
       expect(result.cspmAdvantage).toBe(1);
       expect(result.visionAdvantage).toBe(0.5);
-      expect(result.survivability).toBe(100);
+      expect(result.survivability).toBeNull();
+      expect(result.survivabilityReason).toBe('not_a_survivability_measure');
+      expect(result.damageTakenPerMinDifference).toBe(-100);
     });
 
     it('should handle zero division', () => {
@@ -134,9 +165,9 @@ describe('performance-calculator', () => {
 
       const result = computeComparison(player, opponent);
 
-      expect(result.dpmAdvantagePercent).toBe(0);
-      expect(result.gpmAdvantagePercent).toBe(0);
-      expect(result.cspmAdvantagePercent).toBe(0);
+      expect(result.dpmAdvantagePercent).toBeNull();
+      expect(result.gpmAdvantagePercent).toBeNull();
+      expect(result.cspmAdvantagePercent).toBeNull();
     });
   });
 });

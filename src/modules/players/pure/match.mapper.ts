@@ -16,6 +16,7 @@ export type MatchRow = {
   visionScore: number;
   win: boolean;
   csGraph: number[];
+  totalCs?: number;
   match: {
     gameCreation: bigint;
     gameDuration: number;
@@ -38,6 +39,7 @@ export const MATCH_SELECT_FIELDS = {
   visionScore: true,
   win: true,
   csGraph: true,
+  totalCs: true,
   match: {
     select: {
       gameCreation: true,
@@ -80,7 +82,9 @@ export function buildMatchWhere(
   }
 
   if (filters.role) {
-    where.role = filters.role;
+    where.role = ['MID', 'MIDDLE'].includes(filters.role)
+      ? { in: ['MID', 'MIDDLE'] }
+      : filters.role;
   }
 
   if (filters.result) {
@@ -108,9 +112,11 @@ export function buildMatchOrderBy(
 export function toPlayerMatchDto(match: MatchRow): PlayerMatchDto {
   const gameDurationMinutes = match.match.gameDuration / 60;
   const cspm =
-    match.csGraph.length > 0
-      ? match.csGraph[match.csGraph.length - 1] / gameDurationMinutes
-      : 0;
+    typeof match.totalCs === 'number' &&
+    Number.isFinite(match.totalCs) &&
+    gameDurationMinutes > 0
+      ? match.totalCs / gameDurationMinutes
+      : null;
 
   return {
     matchId: match.matchId,
@@ -125,7 +131,13 @@ export function toPlayerMatchDto(match: MatchRow): PlayerMatchDto {
     goldEarned: match.goldEarned,
     totalDamage: match.totalDamage,
     visionScore: match.visionScore,
-    cspm: parseFloat(cspm.toFixed(2)),
+    cspm,
+    cspmReason:
+      cspm === null
+        ? gameDurationMinutes <= 0
+          ? 'zero_denominator'
+          : 'missing_field'
+        : null,
     win: match.win,
     gameCreation: Number(match.match.gameCreation),
     gameDuration: match.match.gameDuration,

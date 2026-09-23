@@ -1,8 +1,8 @@
+import { selectUniqueOpponent } from '../../../core/metrics';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { MatchRepository } from '../repositories/match.repository';
 import {
   computePlayerMetrics,
-  findLaneOpponent,
   computeComparison,
   OpponentMetrics,
   Comparison,
@@ -37,7 +37,10 @@ export class MatchPerformanceService {
       (player.match as { gameDuration: number }).gameDuration / 60;
     const playerMetrics = computePlayerMetrics(player, gameDurationMinutes);
 
-    const opponent = findLaneOpponent(typedParticipants, player);
+    const { opponent, reason: opponentReason } = selectUniqueOpponent(
+      player,
+      typedParticipants,
+    );
 
     let opponentMetrics: OpponentMetrics | null = null;
     let comparison: Comparison | null = null;
@@ -54,6 +57,8 @@ export class MatchPerformanceService {
     return {
       matchId,
       puuid,
+      metricVersion: 1,
+      opponentReason,
       player: playerMetrics,
       opponent: opponentMetrics,
       comparison,

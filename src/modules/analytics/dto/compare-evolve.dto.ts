@@ -1,6 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
+import {
+  IsIn,
+  IsInt,
+  IsOptional,
+  IsString,
+  Min,
+  Max,
+  Matches,
+} from 'class-validator';
 
 // ========== Query DTO ==========
 
@@ -15,11 +23,11 @@ export class CompareQueryDto {
 
   @ApiProperty({
     required: false,
-    enum: ['TOP', 'JUNGLE', 'MID', 'BOTTOM', 'UTILITY'],
+    enum: ['TOP', 'JUNGLE', 'MID', 'MIDDLE', 'BOTTOM', 'UTILITY'],
     description: 'Filtrar por role',
   })
   @IsOptional()
-  @IsIn(['TOP', 'JUNGLE', 'MID', 'BOTTOM', 'UTILITY'])
+  @IsIn(['TOP', 'JUNGLE', 'MID', 'MIDDLE', 'BOTTOM', 'UTILITY'])
   role?: string;
 
   @ApiProperty({ required: false, description: 'Filtrar por campeão (ID)' })
@@ -34,8 +42,42 @@ export class CompareQueryDto {
     description: 'Filtrar por patch (ex: 15.19) ou "ALL" para todos',
   })
   @IsOptional()
-  @IsString()
+  @Matches(/^(ALL|\d+\.\d+)$/)
   patch?: string = 'ALL';
+  @ApiProperty({
+    required: false,
+    default: 420,
+    description: 'Fila da mesma coorte para todas as seções',
+  })
+  @IsOptional()
+  @Transform(({ value }) => Number(value))
+  @IsInt()
+  @Min(1)
+  queueId?: number = 420;
+
+  @ApiProperty({ required: false, description: 'Início inclusivo em Unix ms' })
+  @IsOptional()
+  @Transform(({ value }) => Number(value))
+  @IsInt()
+  @Min(0)
+  @Max(Number.MAX_SAFE_INTEGER)
+  startDate?: number;
+
+  @ApiProperty({ required: false, description: 'Fim exclusivo em Unix ms' })
+  @IsOptional()
+  @Transform(({ value }) => Number(value))
+  @IsInt()
+  @Min(0)
+  @Max(Number.MAX_SAFE_INTEGER)
+  endDate?: number;
+
+  @ApiProperty({ required: false, default: 100, minimum: 1, maximum: 100 })
+  @IsOptional()
+  @Transform(({ value }) => Number(value))
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  limit?: number = 100;
 }
 
 // ========== Response DTOs ==========
@@ -44,23 +86,60 @@ export class ComparePlayerStatsDto {
   @ApiProperty({ example: 50, description: 'Total de partidas jogadas' })
   gamesPlayed: number;
 
-  @ApiProperty({ example: 54.5, description: 'Taxa de vitória (%)' })
-  winRate: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 54.5,
+    description: 'Taxa de vitória (%)',
+  })
+  winRate: number | null;
 
-  @ApiProperty({ example: 3.2, description: 'KDA médio' })
-  avgKda: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 3.2,
+    description: 'KDA médio',
+  })
+  avgKda: number | null;
 
-  @ApiProperty({ example: 7.5, description: 'CS por minuto médio' })
-  avgCspm: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 7.5,
+    description: 'CS por minuto médio',
+  })
+  avgCspm: number | null;
 
-  @ApiProperty({ example: 620.3, description: 'Dano por minuto médio' })
-  avgDpm: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 620.3,
+    description: 'Dano por minuto médio',
+  })
+  avgDpm: number | null;
 
-  @ApiProperty({ example: 410.8, description: 'Ouro por minuto médio' })
-  avgGpm: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 410.8,
+    description: 'Ouro por minuto médio',
+  })
+  avgGpm: number | null;
 
-  @ApiProperty({ example: 28.5, description: 'Score de visão médio' })
-  avgVisionScore: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 28.5,
+    description: 'Score de visão médio',
+  })
+  avgVisionScore: number | null;
+
+  @ApiProperty({
+    type: Object,
+    description:
+      'N válido, N total, cobertura, valor e motivo por medida; médias por partida, sem arredondamento',
+  })
+  samples?: Record<string, unknown>;
 }
 
 export class LaningPhaseDto {
@@ -88,11 +167,42 @@ export class LaningPhaseDto {
   })
   avgXpd15: number | null;
 
-  @ApiProperty({ example: 0, description: 'Solo kills antes dos 15 min' })
-  soloKills15: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 0,
+    description: 'Solo kills antes dos 15 min',
+  })
+  soloKills15: number | null;
 
-  @ApiProperty({ example: 0, description: 'Solo deaths antes dos 15 min' })
-  soloDeaths15: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 0,
+    description: 'Solo deaths antes dos 15 min',
+  })
+  soloDeaths15: number | null;
+
+  @ApiProperty({ example: 'not_calculated' })
+  soloKills15Reason?: string;
+  @ApiProperty({ example: 'not_calculated' })
+  soloDeaths15Reason?: string;
+  @ApiProperty({
+    type: Object,
+    description: 'N próprio de CS, ouro e XP; somente pares com campos válidos',
+  })
+  samples?: Record<string, unknown>;
+  @ApiProperty({
+    type: Object,
+    example: { targetMs: 900000, mode: 'nearest', toleranceMs: 60000 },
+  })
+  checkpoint?: object;
+  @ApiProperty({
+    type: [Object],
+    description:
+      'Partida, adversário, timestamp real, offset, diferenças e motivo de ausência',
+  })
+  evidence?: object[];
 }
 
 export class ComparePlayerDto {
@@ -101,6 +211,13 @@ export class ComparePlayerDto {
 
   @ApiProperty({ example: 'PlayerName', description: 'Nome no jogo' })
   gameName: string;
+
+  @ApiProperty({
+    type: Object,
+    description:
+      'Filtros efetivos, matchIds ordenados, eligibleN, returnedN, limit, truncated; população comum a todas as medidas',
+  })
+  cohort?: object;
 
   @ApiProperty({
     type: ComparePlayerStatsDto,
@@ -119,8 +236,26 @@ export class TimelinePointDto {
   @ApiProperty({ example: 5, description: 'Minuto da partida' })
   minute: number;
 
-  @ApiProperty({ example: 3200, description: 'Valor no minuto' })
-  value: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 3200,
+    description: 'Média no checkpoint; null sem amostras válidas',
+  })
+  value: number | null;
+  @ApiProperty({ example: 14 })
+  validN?: number;
+  @ApiProperty({ example: 20 })
+  totalN?: number;
+  @ApiProperty({ type: Number, nullable: true, example: 0.7 })
+  coverage?: number | null;
+  @ApiProperty({ type: String, nullable: true, example: 'no_valid_samples' })
+  reason?: string | null;
+  @ApiProperty({
+    type: [Object],
+    description: 'matchId, timestampMs e offsetMs dos frames contribuintes',
+  })
+  evidence?: object[];
 }
 
 export class TimelineGraphDto {
@@ -149,9 +284,10 @@ export class CompareInsightsDto {
   @ApiProperty({
     example: 'hero',
     enum: ['hero', 'villain'],
+    nullable: true,
     description: 'Jogador com melhor desempenho geral',
   })
-  winner: 'hero' | 'villain';
+  winner: 'hero' | 'villain' | null;
 
   @ApiProperty({
     example: ['Herói tem 15% mais CS/min', 'Vilão tem melhor vision score'],
@@ -167,6 +303,12 @@ export class CompareInsightsDto {
 }
 
 export class PlayerComparisonDto {
+  @ApiProperty({
+    example: 1,
+    description:
+      'Versão MET-08: coorte única, ausência explícita, timestamps observados',
+  })
+  metricVersion?: number;
   @ApiProperty({
     type: ComparePlayerDto,
     description: 'Dados do herói (jogador principal)',

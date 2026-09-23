@@ -1,15 +1,16 @@
-import {
-  playerAverages,
-  playerChampionAverages,
-} from '../../../core/stats/aggregate.mapper';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
+import { normalizeRole } from '../../../core/metrics';
 
 export interface TimelineFilters {
   role?: string;
   championId?: number;
   patch?: string;
+  queueId?: number;
+  startDate?: number;
+  endDate?: number;
+  limit?: number;
 }
 
 @Injectable()
@@ -20,61 +21,70 @@ export class AnalyticsRepository {
     return this.prisma.user.findUnique({ where: { puuid } });
   }
 
-  async findPlayerStats(puuid: string, patch: string) {
-    const row = await this.prisma.playerStats.findUnique({
-      where: { puuid_patch_queueId: { puuid, patch, queueId: 420 } },
-    });
-    return row ? playerAverages(row) : null;
-  }
-  async findPlayerChampionStats(
-    puuid: string,
-    championId: number,
-    patch: string,
-  ) {
-    const row = await this.prisma.playerChampionStats.findUnique({
-      where: {
-        puuid_championId_patch_queueId: {
-          puuid,
-          championId,
-          patch,
-          queueId: 420,
-        },
-      },
-    });
-    return row ? playerChampionAverages(row) : null;
-  }
-  async findPlayerLaningMetrics(
-    puuid: string,
-    championId: number,
-    patch: string,
-  ) {
-    return this.findPlayerChampionStats(puuid, championId, patch);
-  }
-
-  async findMatchesForTimeline(puuid: string, filters: TimelineFilters) {
-    const matchConditions: Prisma.MatchWhereInput = { queueId: 420 };
-
+  async findComparisonCohort(puuid: string, filters: TimelineFilters) {
+    const limit = filters.limit ?? 100;
+    if (!Number.isInteger(limit) || limit < 1 || limit > 100)
+      throw new RangeError('Comparison limit must be between 1 and 100');
+    const role = normalizeRole(filters.role);
+    const match: Prisma.MatchWhereInput = {
+      queueId: filters.queueId ?? 420,
+      mapId: 11,
+    };
     if (filters.patch && filters.patch !== 'ALL') {
-      matchConditions.gameVersion = { startsWith: `${filters.patch}.` };
+      match.OR = [
+        { gameVersion: filters.patch },
+        { gameVersion: { startsWith: `${filters.patch}.` } },
+      ];
     }
-
+    if (filters.startDate !== undefined || filters.endDate !== undefined) {
+      match.gameCreation = {
+        ...(filters.startDate !== undefined
+          ? { gte: BigInt(filters.startDate) }
+          : {}),
+        ...(filters.endDate !== undefined
+          ? { lt: BigInt(filters.endDate) }
+          : {}),
+      };
+    }
     const where: Prisma.MatchParticipantWhereInput = {
       puuid,
-      match: matchConditions,
+      match,
+      ...(filters.championId !== undefined
+        ? { championId: filters.championId }
+        : {}),
+      ...(filters.role
+        ? {
+            role:
+              role === 'MIDDLE'
+                ? { in: ['MID', 'MIDDLE'] }
+                : (role ?? '__UNKNOWN_ROLE__'),
+          }
+        : {}),
     };
-
-    if (filters.championId) {
-      where.championId = filters.championId;
-    }
-
-    if (filters.role) {
-      where.role = filters.role;
-    }
-
-    return this.prisma.matchParticipant.findMany({
-      where,
-      select: { csGraph: true, goldGraph: true },
-      take: 100,
-    });
+    // Count and rows share a snapshot, so concurrent ingestion cannot change N mid-response.
+    return this.prisma.$transaction(
+      async (tx) => {
+        const eligibleN = await tx.matchParticipant.count({ where });
+        const matches = await tx.matchParticipant.findMany({
+          where,
+          orderBy: [{ match: { gameCreation: 'desc' } }, { matchId: 'asc' }],
+          take: limit,
+          include: { match: { include: { participants: true } } },
+        });
+        const raw = await tx.matchRaw.findMany({
+          where: { matchId: { in: matches.map((m) => m.matchId) } },
+          select: { matchId: true, timeline: true },
+        });
+        return {
+          matches,
+          raw,
+          eligibleN,
+          returnedN: matches.length,
+          limit,
+          truncated: eligibleN > matches.length,
+        };
+      },
+      { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead },
+    );
   }
 }

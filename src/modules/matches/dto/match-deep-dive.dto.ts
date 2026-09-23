@@ -362,26 +362,50 @@ export class PerformanceMetricsDto {
   @ApiProperty({ example: 'MID' })
   role: string;
 
-  @ApiProperty({ example: 720.5, description: 'Dano por minuto' })
-  dpm: number;
-
-  @ApiProperty({ example: 450.2, description: 'Ouro por minuto' })
-  gpm: number;
-
-  @ApiProperty({ example: 8.1, description: 'CS por minuto' })
-  cspm: number;
-
-  @ApiProperty({ example: 0.83, description: 'Vision score por minuto' })
-  visionScorePerMin: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 720.5,
+    description: 'Dano por minuto',
+  })
+  dpm: number | null;
 
   @ApiProperty({
-    example: 615.2,
-    description: 'Dano recebido por minuto (0 se não disponível)',
+    type: Number,
+    nullable: true,
+    example: 450.2,
+    description: 'Ouro por minuto',
   })
-  damageTakenPerMin: number;
+  gpm: number | null;
+
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 8.1,
+    description: 'CS por minuto',
+  })
+  cspm: number | null;
+
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 0.83,
+    description: 'Vision score por minuto',
+  })
+  visionScorePerMin: number | null;
+
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 615.2,
+    description: 'Dano recebido por minuto; ausência resulta null',
+  })
+  damageTakenPerMin: number | null;
 
   @ApiProperty({ example: 6.0, description: 'KDA' })
   kda: number;
+  @ApiProperty({ type: Object, description: 'Motivos de ausência das taxas' })
+  reasons?: Record<string, string>;
 }
 
 export class OpponentMetricsDto extends PerformanceMetricsDto {
@@ -390,35 +414,60 @@ export class OpponentMetricsDto extends PerformanceMetricsDto {
 }
 
 export class ComparisonDto {
-  @ApiProperty({ example: 70.2 })
-  dpmAdvantage: number;
+  @ApiProperty({ type: Number, nullable: true, example: 70.2 })
+  dpmAdvantage: number | null;
 
-  @ApiProperty({ example: 10.8 })
-  dpmAdvantagePercent: number;
+  @ApiProperty({ type: Number, nullable: true, example: 10.8 })
+  dpmAdvantagePercent: number | null;
 
-  @ApiProperty({ example: 29.4 })
-  gpmAdvantage: number;
+  @ApiProperty({ type: Number, nullable: true, example: 29.4 })
+  gpmAdvantage: number | null;
 
-  @ApiProperty({ example: 7.0 })
-  gpmAdvantagePercent: number;
+  @ApiProperty({ type: Number, nullable: true, example: 7.0 })
+  gpmAdvantagePercent: number | null;
 
-  @ApiProperty({ example: 0.6 })
-  cspmAdvantage: number;
+  @ApiProperty({ type: Number, nullable: true, example: 0.6 })
+  cspmAdvantage: number | null;
 
-  @ApiProperty({ example: 8.0 })
-  cspmAdvantagePercent: number;
+  @ApiProperty({ type: Number, nullable: true, example: 8.0 })
+  cspmAdvantagePercent: number | null;
 
-  @ApiProperty({ example: 0.16 })
-  visionAdvantage: number;
+  @ApiProperty({ type: Number, nullable: true, example: 0.16 })
+  visionAdvantage: number | null;
 
   @ApiProperty({
     example: -49.8,
-    description: 'Diferença de dano recebido/min (positivo = mais tanky)',
+    description: 'Removido: dano recebido não mede sobrevivência',
+    deprecated: true,
+    nullable: true,
+    type: Number,
   })
-  survivability: number;
+  survivability: null;
+  @ApiProperty({ example: 'not_a_survivability_measure' })
+  survivabilityReason: string;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    description:
+      'Dano recebido/min jogador menos adversário, sem atribuir valor positivo/negativo ao desempenho',
+  })
+  damageTakenPerMinDifference: number | null;
+  @ApiProperty({
+    type: Object,
+    description: 'Motivos de ausência por percentual',
+  })
+  reasons: Record<string, string>;
 }
 
 export class MatchPerformanceComparisonDto {
+  @ApiProperty({ example: 1 })
+  metricVersion?: number;
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    enum: ['missing_opponent', 'ambiguous_role'],
+  })
+  opponentReason?: string | null;
   @ApiProperty({ example: 'BR1_3216549870' })
   matchId: string;
 

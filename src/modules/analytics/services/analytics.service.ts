@@ -1,18 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { AnalyticsRepository } from '../repositories/analytics.repository';
-import { calculateAverageTimeline } from '../pure/timeline-calculator';
-import { generateInsights } from '../pure/insights-generator';
+import { decodeComparisonTimeline } from '../pure/comparison-timeline.adapter';
 import {
-  ComparePlayerStatsDto,
-  LaningPhaseDto,
-  PlayerComparisonDto,
-} from '../dto/compare-evolve.dto';
-
-interface CompareFilters {
-  role?: string;
-  championId?: number;
-  patch?: string;
-}
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  AnalyticsRepository,
+  TimelineFilters,
+} from '../repositories/analytics.repository';
+import { generateInsights } from '../pure/insights-generator';
+import { PlayerComparisonDto } from '../dto/compare-evolve.dto';
+import { calculateCohort } from '../pure/cohort-calculator';
+import { normalizeRole } from '../../../core/metrics';
 
 @Injectable()
 export class AnalyticsService {
@@ -21,185 +20,94 @@ export class AnalyticsService {
   async comparePlayerPerformance(
     heroPuuid: string,
     villainPuuid: string,
-    filters: CompareFilters,
+    filters: TimelineFilters,
   ): Promise<PlayerComparisonDto> {
-    const patch = filters.patch || 'ALL';
-
+    if (
+      filters.startDate !== undefined &&
+      filters.endDate !== undefined &&
+      filters.startDate > filters.endDate
+    ) {
+      throw new BadRequestException(
+        'startDate deve ser menor ou igual a endDate',
+      );
+    }
+    const effectiveFilters = {
+      ...filters,
+      role: filters.role
+        ? (normalizeRole(filters.role) ?? undefined)
+        : undefined,
+      patch: filters.patch || 'ALL',
+      queueId: filters.queueId ?? 420,
+      limit: filters.limit ?? 100,
+    };
     const [heroUser, villainUser] = await Promise.all([
       this.analyticsRepo.findUserByPuuid(heroPuuid),
       this.analyticsRepo.findUserByPuuid(villainPuuid),
     ]);
-
-    if (!heroUser) {
+    if (!heroUser)
       throw new NotFoundException(`Jogador herói ${heroPuuid} não encontrado`);
-    }
-    if (!villainUser) {
+    if (!villainUser)
       throw new NotFoundException(
         `Jogador vilão ${villainPuuid} não encontrado`,
       );
-    }
-
-    const [heroStats, villainStats] = await this.fetchStats(
-      heroPuuid,
-      villainPuuid,
-      filters.championId,
-      patch,
-    );
-
-    const filtersWithPatch = { ...filters, patch };
-
-    const [timelineComparison, heroLaning, villainLaning] = await Promise.all([
-      this.calculateTimeline(heroPuuid, villainPuuid, filtersWithPatch),
-      this.calculateLaning(heroPuuid, filters.championId, patch),
-      this.calculateLaning(villainPuuid, filters.championId, patch),
+    const [heroRows, villainRows] = await Promise.all([
+      this.analyticsRepo.findComparisonCohort(heroPuuid, effectiveFilters),
+      this.analyticsRepo.findComparisonCohort(villainPuuid, effectiveFilters),
     ]);
-
-    const insights = generateInsights(
-      heroStats,
-      villainStats,
-      heroLaning,
-      villainLaning,
-    );
-
+    const compute = (rows: typeof heroRows) =>
+      calculateCohort(
+        rows.matches,
+        new Map(
+          rows.raw.map((r) => [
+            r.matchId,
+            decodeComparisonTimeline(r.timeline),
+          ]),
+        ),
+      );
+    const hero = compute(heroRows),
+      villain = compute(villainRows);
+    const cohort = (rows: typeof heroRows) => ({
+      eligibleN: rows.eligibleN,
+      returnedN: rows.returnedN,
+      limit: rows.limit,
+      truncated: rows.truncated,
+      order: 'gameCreation DESC, matchId ASC',
+      timelineSource: 'bounded_raw_fallback',
+      timelineReadN: rows.raw.filter((r) => r.timeline !== null).length,
+      summarySource: 'MatchParticipant',
+      filters: {
+        ...effectiveFilters,
+        mapId: 11,
+        remakePolicy: 'included_descriptive',
+      },
+      matchIds: rows.matches.map((m) => m.matchId),
+    });
     return {
+      metricVersion: 1,
       hero: {
         puuid: heroPuuid,
         gameName: heroUser.gameName,
-        stats: heroStats,
-        laningPhase: heroLaning,
+        stats: hero.stats,
+        laningPhase: hero.laningPhase,
+        cohort: cohort(heroRows),
       },
       villain: {
         puuid: villainPuuid,
         gameName: villainUser.gameName,
-        stats: villainStats,
-        laningPhase: villainLaning,
+        stats: villain.stats,
+        laningPhase: villain.laningPhase,
+        cohort: cohort(villainRows),
       },
-      timelineComparison,
-      insights,
-    };
-  }
-
-  private async fetchStats(
-    heroPuuid: string,
-    villainPuuid: string,
-    championId: number | undefined,
-    patch: string,
-  ): Promise<[ComparePlayerStatsDto, ComparePlayerStatsDto]> {
-    if (championId) {
-      return Promise.all([
-        this.getChampionStatsOrThrow(heroPuuid, championId, patch),
-        this.getChampionStatsOrThrow(villainPuuid, championId, patch),
-      ]);
-    }
-    return Promise.all([
-      this.getGlobalStatsOrThrow(heroPuuid, patch),
-      this.getGlobalStatsOrThrow(villainPuuid, patch),
-    ]);
-  }
-
-  private async getGlobalStatsOrThrow(
-    puuid: string,
-    patch: string,
-  ): Promise<ComparePlayerStatsDto> {
-    const stats = await this.analyticsRepo.findPlayerStats(puuid, patch);
-    if (!stats) {
-      throw new NotFoundException(
-        `Estatísticas não encontradas para jogador ${puuid} (patch: ${patch})`,
-      );
-    }
-    return {
-      gamesPlayed: stats.gamesPlayed,
-      winRate: parseFloat(stats.winRate.toFixed(2)),
-      avgKda: parseFloat(stats.avgKda.toFixed(2)),
-      avgCspm: parseFloat(stats.avgCspm.toFixed(1)),
-      avgDpm: parseFloat(stats.avgDpm.toFixed(1)),
-      avgGpm: parseFloat(stats.avgGpm.toFixed(1)),
-      avgVisionScore: parseFloat(stats.avgVisionScore.toFixed(1)),
-    };
-  }
-
-  private async getChampionStatsOrThrow(
-    puuid: string,
-    championId: number,
-    patch: string,
-  ): Promise<ComparePlayerStatsDto> {
-    const stats = await this.analyticsRepo.findPlayerChampionStats(
-      puuid,
-      championId,
-      patch,
-    );
-    if (!stats) {
-      throw new NotFoundException(
-        `Estatísticas de campeão ${championId} não encontradas para jogador ${puuid} (patch: ${patch})`,
-      );
-    }
-    return {
-      gamesPlayed: stats.gamesPlayed,
-      winRate: parseFloat(stats.winRate.toFixed(2)),
-      avgKda: parseFloat(stats.avgKda.toFixed(2)),
-      avgCspm: parseFloat(stats.avgCspm.toFixed(1)),
-      avgDpm: parseFloat(stats.avgDpm.toFixed(1)),
-      avgGpm: parseFloat(stats.avgGpm.toFixed(1)),
-      avgVisionScore: parseFloat(stats.avgVisionScore.toFixed(1)),
-    };
-  }
-
-  private async calculateTimeline(
-    heroPuuid: string,
-    villainPuuid: string,
-    filters: CompareFilters,
-  ) {
-    const [heroMatches, villainMatches] = await Promise.all([
-      this.analyticsRepo.findMatchesForTimeline(heroPuuid, filters),
-      this.analyticsRepo.findMatchesForTimeline(villainPuuid, filters),
-    ]);
-
-    return {
-      csGraph: {
-        hero: calculateAverageTimeline(heroMatches, 'csGraph'),
-        villain: calculateAverageTimeline(villainMatches, 'csGraph'),
+      timelineComparison: {
+        csGraph: { hero: hero.csGraph, villain: villain.csGraph },
+        goldGraph: { hero: hero.goldGraph, villain: villain.goldGraph },
       },
-      goldGraph: {
-        hero: calculateAverageTimeline(heroMatches, 'goldGraph'),
-        villain: calculateAverageTimeline(villainMatches, 'goldGraph'),
-      },
-    };
-  }
-
-  private async calculateLaning(
-    puuid: string,
-    championId: number | undefined,
-    patch: string,
-  ): Promise<LaningPhaseDto> {
-    if (championId) {
-      const stats = await this.analyticsRepo.findPlayerLaningMetrics(
-        puuid,
-        championId,
-        patch,
-      );
-      if (stats) {
-        return {
-          avgCsd15:
-            stats.avgCsd15 == null
-              ? null
-              : parseFloat(stats.avgCsd15.toFixed(1)),
-          avgGd15:
-            stats.avgGd15 == null ? null : parseFloat(stats.avgGd15.toFixed(1)),
-          avgXpd15:
-            stats.avgXpd15 == null
-              ? null
-              : parseFloat(stats.avgXpd15.toFixed(1)),
-          soloKills15: 0,
-          soloDeaths15: 0,
-        };
-      }
-    }
-    return {
-      avgCsd15: null,
-      avgGd15: null,
-      avgXpd15: null,
-      soloKills15: 0,
-      soloDeaths15: 0,
+      insights: generateInsights(
+        hero.stats,
+        villain.stats,
+        hero.laningPhase,
+        villain.laningPhase,
+      ),
     };
   }
 }

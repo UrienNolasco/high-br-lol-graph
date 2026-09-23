@@ -66,6 +66,7 @@ describe('MatchPerformanceService', () => {
     const result = await service.getPerformanceComparison('BR1_1', 'p1');
 
     expect(result.opponent).toBeNull();
+    expect(result.opponentReason).toBe('missing_opponent');
     expect(result.comparison).toBeNull();
   });
 

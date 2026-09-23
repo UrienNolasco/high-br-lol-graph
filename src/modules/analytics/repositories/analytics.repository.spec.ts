@@ -1,136 +1,84 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { AnalyticsRepository } from './analytics.repository';
-import { PrismaService } from '../../../core/prisma/prisma.service';
 
-interface MockPrisma {
-  user: { findUnique: jest.Mock };
-  playerStats: { findUnique: jest.Mock };
-  playerChampionStats: { findUnique: jest.Mock };
-  matchParticipant: { findMany: jest.Mock };
-}
-
-describe('AnalyticsRepository', () => {
-  let repo: AnalyticsRepository;
-  let prisma: MockPrisma;
-
-  beforeEach(async () => {
-    prisma = {
-      user: { findUnique: jest.fn() },
-      playerStats: { findUnique: jest.fn() },
-      playerChampionStats: { findUnique: jest.fn() },
-      matchParticipant: { findMany: jest.fn() },
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AnalyticsRepository,
-        { provide: PrismaService, useValue: prisma },
-      ],
-    }).compile();
-
-    repo = module.get<AnalyticsRepository>(AnalyticsRepository);
+describe('comparison cohort query', () => {
+  const tx = {
+    matchParticipant: { count: jest.fn(), findMany: jest.fn() },
+    matchRaw: { findMany: jest.fn() },
+  };
+  const prisma = {
+    $transaction: jest.fn((callback) => callback(tx)),
+    user: { findUnique: jest.fn() },
+  };
+  const repo = new AnalyticsRepository(prisma as any);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    tx.matchParticipant.count.mockResolvedValue(102);
+    tx.matchParticipant.findMany.mockResolvedValue([
+      { matchId: 'BR1_2' },
+      { matchId: 'BR1_1' },
+    ]);
+    tx.matchRaw.findMany.mockResolvedValue([]);
   });
-
-  describe('findUserByPuuid', () => {
-    it('should query user by puuid', async () => {
-      prisma.user.findUnique.mockResolvedValue({
-        puuid: 'p1',
-        gameName: 'Test',
-      });
-
-      const result = await repo.findUserByPuuid('p1');
-
-      expect(prisma.user.findUnique).toHaveBeenCalledWith({
-        where: { puuid: 'p1' },
-      });
-      expect(result).toEqual({ puuid: 'p1', gameName: 'Test' });
-    });
-  });
-
-  describe('findPlayerStats', () => {
-    it('should query stats with queueId 420', async () => {
-      prisma.playerStats.findUnique.mockResolvedValue({
-        gamesPlayed: 50,
-        wins: 25,
-        sumKda: 100,
-        sumDpm: 25000,
-        sumCspm: 300,
-        sumGpm: 20000,
-        sumVisionScore: 1500,
-      });
-
-      const result = await repo.findPlayerStats('p1', '15.1');
-
-      expect(prisma.playerStats.findUnique).toHaveBeenCalledWith({
-        where: {
-          puuid_patch_queueId: { puuid: 'p1', patch: '15.1', queueId: 420 },
-        },
-      });
-      expect(result).toEqual(expect.objectContaining({ gamesPlayed: 50 }));
-    });
-  });
-
-  describe('findPlayerChampionStats', () => {
-    it('should query champion-specific stats', async () => {
-      await repo.findPlayerChampionStats('p1', 1, '15.1');
-
-      expect(prisma.playerChampionStats.findUnique).toHaveBeenCalledWith({
-        where: {
-          puuid_championId_patch_queueId: {
-            puuid: 'p1',
-            championId: 1,
-            patch: '15.1',
-            queueId: 420,
-          },
-        },
-      });
-    });
-  });
-
-  describe('findPlayerLaningMetrics', () => {
-    it('should query laning metrics', async () => {
-      await repo.findPlayerLaningMetrics('p1', 1, '15.1');
-
-      expect(prisma.playerChampionStats.findUnique).toHaveBeenCalledWith({
-        where: {
-          puuid_championId_patch_queueId: {
-            puuid: 'p1',
-            championId: 1,
-            patch: '15.1',
-            queueId: 420,
-          },
-        },
-      });
-    });
-  });
-
-  describe('findMatchesForTimeline', () => {
-    it('should query match participants with all filters', async () => {
-      prisma.matchParticipant.findMany.mockResolvedValue([]);
-
-      await repo.findMatchesForTimeline('p1', {
+  it.each(['MID', 'MIDDLE'])(
+    'uses all filters and stable ordering with alias %s for one cohort',
+    async (role) => {
+      const result = await repo.findComparisonCohort('p1', {
         championId: 1,
-        role: 'MID',
-        patch: '15.1',
+        role,
+        patch: '16.2',
+        queueId: 440,
+        startDate: 0,
+        endDate: 1000,
+        limit: 2,
       });
-
-      expect(prisma.matchParticipant.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.any(Object),
-          select: { csGraph: true, goldGraph: true },
-          take: 100,
-        }),
-      );
+      const where = {
+        puuid: 'p1',
+        championId: 1,
+        role: { in: ['MID', 'MIDDLE'] },
+        match: {
+          queueId: 440,
+          mapId: 11,
+          OR: [
+            { gameVersion: '16.2' },
+            { gameVersion: { startsWith: '16.2.' } },
+          ],
+          gameCreation: { gte: 0n, lt: 1000n },
+        },
+      };
+      expect(tx.matchParticipant.count).toHaveBeenCalledWith({ where });
+      expect(tx.matchParticipant.findMany).toHaveBeenCalledWith({
+        where,
+        orderBy: [{ match: { gameCreation: 'desc' } }, { matchId: 'asc' }],
+        take: 2,
+        include: { match: { include: { participants: true } } },
+      });
+      expect(prisma.$transaction).toHaveBeenCalledWith(expect.any(Function), {
+        isolationLevel: 'RepeatableRead',
+      });
+      expect(result).toMatchObject({
+        eligibleN: 102,
+        returnedN: 2,
+        limit: 2,
+        truncated: true,
+      });
+      expect(tx.matchRaw.findMany).toHaveBeenCalledWith({
+        where: { matchId: { in: ['BR1_2', 'BR1_1'] } },
+        select: { matchId: true, timeline: true },
+      });
+    },
+  );
+  it('defaults to ranked solo/all patches and reports empty population', async () => {
+    tx.matchParticipant.count.mockResolvedValue(0);
+    tx.matchParticipant.findMany.mockResolvedValue([]);
+    const result = await repo.findComparisonCohort('p1', {});
+    expect(tx.matchParticipant.count).toHaveBeenCalledWith({
+      where: { puuid: 'p1', match: { queueId: 420, mapId: 11 } },
     });
-
-    it('should query without filters', async () => {
-      prisma.matchParticipant.findMany.mockResolvedValue([]);
-
-      await repo.findMatchesForTimeline('p1', {});
-
-      expect(prisma.matchParticipant.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({ take: 100 }),
-      );
+    expect(result).toMatchObject({
+      eligibleN: 0,
+      returnedN: 0,
+      limit: 100,
+      truncated: false,
     });
   });
 });
