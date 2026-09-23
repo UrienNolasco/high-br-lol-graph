@@ -85,17 +85,22 @@ describe('MatchRepository', () => {
     });
   });
 
-  describe('findParticipantsBuilds', () => {
-    it('should query builds data', async () => {
-      await repo.findParticipantsBuilds('BR1_1');
-
-      expect(prisma.matchParticipant.findMany).toHaveBeenCalledWith({
+  describe('findBuilds', () => {
+    it('reads final summary projection together with the original game version', async () => {
+      await repo.findBuilds('BR1_1');
+      expect(prisma.match.findUnique).toHaveBeenCalledWith({
         where: { matchId: 'BR1_1' },
         select: {
-          puuid: true,
-          championId: true,
-          championName: true,
-          itemTimeline: true,
+          gameVersion: true,
+          participants: {
+            select: {
+              puuid: true,
+              championId: true,
+              championName: true,
+              itemTimeline: true,
+              finalInventory: true,
+            },
+          },
         },
       });
     });

@@ -48,14 +48,20 @@ export class MatchRepository {
     });
   }
 
-  async findParticipantsBuilds(matchId: string) {
-    return this.prisma.matchParticipant.findMany({
+  async findBuilds(matchId: string) {
+    return this.prisma.match.findUnique({
       where: { matchId },
       select: {
-        puuid: true,
-        championId: true,
-        championName: true,
-        itemTimeline: true,
+        gameVersion: true,
+        participants: {
+          select: {
+            puuid: true,
+            championId: true,
+            championName: true,
+            itemTimeline: true,
+            finalInventory: true,
+          },
+        },
       },
     });
   }

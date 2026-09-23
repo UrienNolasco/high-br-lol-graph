@@ -1,0 +1,20 @@
+{
+  "task": "MET-06",
+  "date": "2026-09-23",
+  "fixture": "BR1_3200579475",
+  "participants": 10,
+  "slots": 70,
+  "roleBoundFields": 10,
+  "unitTests": 277,
+  "httpTests": 2,
+  "integrationTests": 2,
+  "integrationSeconds": 5.428,
+  "rebuildsCompared": 2,
+  "rollbackVerified": true,
+  "gameVersion": "16.2.741.3171",
+  "catalogVersion": "16.2.1",
+  "catalogItems": 697,
+  "fixtureDistinctNonemptyItemIds": 54,
+  "missingCatalogIds": [],
+  "scope": "isolated local PostgreSQL and public Data Dragon; no production writes"
+}

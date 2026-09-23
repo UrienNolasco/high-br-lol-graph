@@ -70,6 +70,7 @@ export interface ParticipantDto {
   item4: number;
   item5: number;
   item6: number;
+  roleBoundItem?: number | null;
   itemsPurchased: number;
   killingSprees: number;
   kills: number;

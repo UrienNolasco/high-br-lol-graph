@@ -3,6 +3,16 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import * as fs from 'fs';
 import * as path from 'path';
+import {
+  compatibleItemVersion,
+  ItemCatalog,
+  unavailableItemCatalog,
+} from './item-catalog';
+const record = (value: unknown): Record<string, unknown> | null =>
+  value !== null && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+
 interface ChampionData {
   version: string;
   id: string;
@@ -34,8 +44,99 @@ export class DataDragonService implements OnModuleInit {
 
   private cachedFullVersion: string | null = null;
   private fullVersionCachePromise: Promise<string> | null = null;
+  private itemCatalogs = new Map<
+    string,
+    { expiresAt: number; catalog: ItemCatalog }
+  >();
+  private pendingItemCatalogs = new Map<string, Promise<ItemCatalog>>();
 
   constructor(private readonly httpService: HttpService) {}
+
+  /** Network-free read for reports. Missing metadata must not block inventory. */
+  getCachedItemCatalog(gameVersion: string): ItemCatalog {
+    const entry = this.itemCatalogs.get(gameVersion);
+    return entry && entry.expiresAt > Date.now()
+      ? entry.catalog
+      : unavailableItemCatalog(gameVersion);
+  }
+
+  /** Resolve within the match patch; never fall back to current/latest patch. */
+  async getItemCatalogForGameVersion(
+    gameVersion: string,
+  ): Promise<ItemCatalog> {
+    const cached = this.itemCatalogs.get(gameVersion);
+    if (cached && cached.expiresAt > Date.now()) return cached.catalog;
+    const pending = this.pendingItemCatalogs.get(gameVersion);
+    if (pending) return pending;
+    const request = this.loadItemCatalog(gameVersion)
+      .then((catalog) => {
+        this.itemCatalogs.set(gameVersion, {
+          catalog,
+          expiresAt: Date.now() + (catalog.reason ? 60_000 : 3_600_000),
+        });
+        return catalog;
+      })
+      .finally(() => this.pendingItemCatalogs.delete(gameVersion));
+    this.pendingItemCatalogs.set(gameVersion, request);
+    return request;
+  }
+
+  private async loadItemCatalog(gameVersion: string): Promise<ItemCatalog> {
+    try {
+      const options = { timeout: 5000, maxContentLength: 5_000_000 };
+      const versions = (
+        await firstValueFrom(
+          this.httpService.get<unknown>(this.VERSIONS_URL, options),
+        )
+      ).data;
+      if (
+        !Array.isArray(versions) ||
+        !versions.every((v) => typeof v === 'string')
+      )
+        return unavailableItemCatalog(gameVersion, 'invalid_catalog');
+      const version = compatibleItemVersion(gameVersion, versions);
+      if (!version)
+        return unavailableItemCatalog(gameVersion, 'unsupported_version');
+      const url = `https://ddragon.leagueoflegends.com/cdn/${version}/data/pt_BR/item.json`;
+      const rawFile = (
+        await firstValueFrom(this.httpService.get<unknown>(url, options))
+      ).data;
+      const file = record(rawFile);
+      const data = record(file?.data);
+      if (file?.version !== version || !data)
+        return unavailableItemCatalog(gameVersion, 'invalid_catalog');
+      const items = Object.fromEntries(
+        Object.entries(data).flatMap(([id, rawValue]) => {
+          const value = record(rawValue);
+          if (!/^\d+$/.test(id) || typeof value?.name !== 'string') return [];
+          const filename = record(value.image)?.full;
+          return [
+            [
+              id,
+              {
+                name: value.name,
+                imageUrl:
+                  typeof filename === 'string' &&
+                  /^[\w.-]+\.png$/.test(filename)
+                    ? `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${filename}`
+                    : null,
+              },
+            ],
+          ];
+        }),
+      );
+      return {
+        gameVersion,
+        version,
+        locale: 'pt_BR',
+        policy: 'latest_revision_of_exact_patch',
+        reason: null,
+        items,
+      };
+    } catch {
+      return unavailableItemCatalog(gameVersion);
+    }
+  }
 
   onModuleInit() {
     this.loadChampionData();

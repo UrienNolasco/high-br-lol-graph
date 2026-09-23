@@ -543,3 +543,5 @@ As tasks são trabalho futuro. O objetivo desta retomada termina com análise, d
 Verificação em 22/09/2026: **34 tasks, 79 dependências nativas, 60 oportunidades cobertas**; IDs #4 a #37, todos na coluna Ready. Títulos, critérios de aceite e dependências foram lidos de volta pelo MCP e comparados com o manifesto. Não foram criadas tarefas duplicando os fundamentos já concluídos.
 
 Primeiro cartão acionável: **#4 — MET-01, contratos de métricas, elegibilidade e versionamento**. As prioridades estão no título porque o MCP do kanban-tui não oferece campo nativo de prioridade. Nenhuma data limite foi inventada.
+
+Implementação B01/MET-06: [inventário final e catálogo](INVENTARIO-FINAL.md), slots observados separados das transações.

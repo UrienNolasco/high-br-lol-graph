@@ -1,5 +1,6 @@
 import { MatchDto, ParticipantDto } from '../../../core/riot/dto/match.dto';
 import { Prisma } from '@prisma/client';
+import { projectFinalInventory } from '../../../core/riot/final-inventory';
 
 export interface ProcessedMatchData {
   match: {
@@ -41,6 +42,7 @@ export interface ProcessedMatchData {
     challenges: Prisma.InputJsonValue;
     pings: Prisma.InputJsonValue;
     spells: number[];
+    finalInventory: Prisma.InputJsonValue;
   }>;
 }
 
@@ -126,6 +128,9 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
         challenges: p.challenges as unknown as Prisma.InputJsonValue,
         pings: pings as unknown as Prisma.InputJsonValue,
         spells: [p.summoner1Id, p.summoner2Id],
+        finalInventory: projectFinalInventory(
+          p,
+        ) as unknown as Prisma.InputJsonValue,
       };
     },
   );

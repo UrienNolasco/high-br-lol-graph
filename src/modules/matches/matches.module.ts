@@ -7,9 +7,10 @@ import { MatchBuildsService } from './services/match-builds.service';
 import { MatchPerformanceService } from './services/match-performance.service';
 import { MatchRepository } from './repositories/match.repository';
 import { PrismaModule } from '../../core/prisma/prisma.module';
+import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, DataDragonModule],
   controllers: [MatchesController],
   providers: [
     MatchRepository,

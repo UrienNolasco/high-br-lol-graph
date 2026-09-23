@@ -355,9 +355,42 @@ export class ItemEventDto {
   type: string;
 }
 
+export class ItemMetadataDto {
+  @ApiProperty() name: string;
+  @ApiProperty({ type: String, nullable: true }) imageUrl: string | null;
+}
+
 export class FinalItemDto {
-  @ApiProperty({ example: 3031 })
-  itemId: number;
+  @ApiProperty({
+    oneOf: [
+      { type: 'integer', minimum: 0, maximum: 6 },
+      { type: 'string', enum: ['roleBoundItem'] },
+    ],
+  })
+  slot: number | 'roleBoundItem';
+  @ApiProperty({ enum: ['item', 'trinket', 'roleBoundItem'] }) kind: string;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: 3031,
+    description:
+      'ID from summary. 0 means an observed empty slot; null means unavailable.',
+  })
+  itemId: number | null;
+  @ApiProperty({ type: Boolean, nullable: true }) empty: boolean | null;
+  @ApiProperty({ enum: ['observed', 'unavailable'] }) origin: string;
+  @ApiProperty({ type: String, nullable: true }) reason: string | null;
+  @ApiProperty({ type: ItemMetadataDto, nullable: true })
+  metadata: ItemMetadataDto | null;
+  @ApiProperty({ type: String, nullable: true }) metadataReason: string | null;
+}
+
+export class ItemCatalogContextDto {
+  @ApiProperty() gameVersion: string;
+  @ApiProperty({ type: String, nullable: true }) version: string | null;
+  @ApiProperty({ example: 'pt_BR' }) locale: string;
+  @ApiProperty({ example: 'latest_revision_of_exact_patch' }) policy: string;
+  @ApiProperty({ type: String, nullable: true }) reason: string | null;
 }
 
 export class ParticipantBuildDto {
@@ -372,15 +405,32 @@ export class ParticipantBuildDto {
 
   @ApiProperty({
     type: [ItemEventDto],
-    description: 'Timeline completa de compras/vendas',
+    description:
+      'Histórico legado disponível de transações; separado do inventário final. Undo normalizado completo em MET-04/16.',
   })
   itemTimeline: ItemEventDto[];
 
   @ApiProperty({
     type: [FinalItemDto],
-    description: 'Build final (últimos 6 itens comprados)',
+    description:
+      'Sete slots finais item0..item6 do resumo, incluindo vazios, duplicatas e trinket; nunca inferidos das compras.',
   })
   finalBuild: FinalItemDto[];
+  @ApiProperty({ type: FinalItemDto }) roleBoundItem: FinalItemDto;
+  @ApiProperty({ example: 'MatchV5.item0..item6+roleBoundItem' })
+  inventorySource: string;
+  @ApiProperty({ example: 1 }) inventoryVersion: number;
+  @ApiProperty({ type: String, nullable: true }) inventoryReason: string | null;
+  @ApiProperty({ example: 'legacy_item_timeline' })
+  transactionHistorySource: string;
+  @ApiProperty({
+    type: 'object',
+    properties: {
+      validSlots: { type: 'integer' },
+      totalSlots: { type: 'integer', example: 7 },
+    },
+  })
+  inventoryCoverage: { validSlots: number; totalSlots: number };
 }
 
 export class MatchBuildsDto {
@@ -389,6 +439,7 @@ export class MatchBuildsDto {
 
   @ApiProperty({ type: [ParticipantBuildDto] })
   builds: ParticipantBuildDto[];
+  @ApiProperty({ type: ItemCatalogContextDto }) catalog: ItemCatalogContextDto;
 }
 
 // ========== Performance Comparison ==========

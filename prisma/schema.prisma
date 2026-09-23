@@ -80,6 +80,7 @@ model MatchParticipant {
   // Comportamento detalhado
   skillOrder   String[]
   itemTimeline Json
+  finalInventory Json?
 
   // Dados brutos (JSONB)
   runes      Json
