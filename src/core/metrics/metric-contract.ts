@@ -25,6 +25,7 @@ export type MissingReason =
   | 'not_calculated';
 export type MetricUnit =
   | 'count'
+  | 'count_per_minute'
   | 'gold'
   | 'xp'
   | 'level'

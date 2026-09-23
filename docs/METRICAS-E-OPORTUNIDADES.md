@@ -551,3 +551,4 @@ Implementação B01/MET-06: [inventário final e catálogo](INVENTARIO-FINAL.md)
 
 
 Ensaio conjunto MET-09 da geração2 (migrations aditivas, rollback, retomada e rebuild idempotente): [RECONSTRUCAO-PROJECOES.md](RECONSTRUCAO-PROJECOES.md).
+Visão MET-11 (V01–V07), contratos e evidências: [VISAO-POR-FASE.md](VISAO-POR-FASE.md).

@@ -1,0 +1,2645 @@
+{
+  "kind": "response_excerpt",
+  "matchId": "BR1_3200579475",
+  "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+  "metricVersion": 1,
+  "processingVersion": 3,
+  "processedAt": "2026-09-23T00:00:00.000Z",
+  "coverage": {
+    "projectionComplete": true,
+    "sourceEvents": 803,
+    "timedEvents": 803,
+    "attributedEvents": 803,
+    "unknownTypeEvents": 556,
+    "duplicateInputIdentities": 0
+  },
+  "metrics": {
+    "recognizedPlacements": {
+      "metricId": "V01.recognized_placements",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:4:23",
+          "timestampMs": 209788
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:5:29",
+          "timestampMs": 273999
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:11:16",
+          "timestampMs": 621347
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:12:10",
+          "timestampMs": 673324
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:14:56",
+          "timestampMs": 840257
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:18:63",
+          "timestampMs": 1061471
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:22:0",
+          "timestampMs": 1265991
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:25:28",
+          "timestampMs": 1470711
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:28:9",
+          "timestampMs": 1640809
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:32:16",
+          "timestampMs": 1877934
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:34:38",
+          "timestampMs": 2034618
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:37:8",
+          "timestampMs": 2172646
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:39:38",
+          "timestampMs": 2328130
+        }
+      ],
+      "value": 13,
+      "origin": "derived",
+      "reason": null,
+      "method": "count of distinct attributed source event identities in the stated category/window"
+    },
+    "unknownPlacements": {
+      "metricId": "V01.unknown_placements",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [],
+      "value": 0,
+      "origin": "derived",
+      "reason": null,
+      "method": "count of distinct attributed source event identities in the stated category/window"
+    },
+    "recognizedRemovals": {
+      "metricId": "V02.recognized_removals",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:13:26",
+          "timestampMs": 748213
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "CONTROL_WARD",
+          "eventId": "BR1_3200579475:30:7",
+          "timestampMs": 1746402
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:32:38",
+          "timestampMs": 1896888
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:36:23",
+          "timestampMs": 2140471
+        }
+      ],
+      "value": 4,
+      "origin": "derived",
+      "reason": null,
+      "method": "count of distinct attributed source event identities in the stated category/window"
+    },
+    "unknownRemovals": {
+      "metricId": "V02.unknown_removals",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [],
+      "value": 0,
+      "origin": "derived",
+      "reason": null,
+      "method": "count of distinct attributed source event identities in the stated category/window"
+    },
+    "controlPlacements": {
+      "metricId": "V01.control_placements",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [],
+      "value": 0,
+      "origin": "derived",
+      "reason": null,
+      "method": "count of distinct attributed source event identities in the stated category/window"
+    },
+    "controlRemovals": {
+      "metricId": "V02.control_removals",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "CONTROL_WARD",
+          "eventId": "BR1_3200579475:30:7",
+          "timestampMs": 1746402
+        }
+      ],
+      "value": 1,
+      "origin": "derived",
+      "reason": null,
+      "method": "count of distinct attributed source event identities in the stated category/window"
+    },
+    "visionWardsBoughtInGame": {
+      "metricId": "V03.visionWardsBoughtInGame",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "values.visionWardsBoughtInGame",
+          "value": 0
+        }
+      ],
+      "value": 0,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal summary field visionWardsBoughtInGame; separate from timeline event counts"
+    },
+    "detectorWardsPlaced": {
+      "metricId": "V03.detectorWardsPlaced",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "values.detectorWardsPlaced",
+          "value": 0
+        }
+      ],
+      "value": 0,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal summary field detectorWardsPlaced; separate from timeline event counts"
+    },
+    "wardsPlaced": {
+      "metricId": "V01.wardsPlaced",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "values.wardsPlaced",
+          "value": 13
+        }
+      ],
+      "value": 13,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal summary field wardsPlaced; separate from timeline event counts"
+    },
+    "wardsKilled": {
+      "metricId": "V02.wardsKilled",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "values.wardsKilled",
+          "value": 4
+        }
+      ],
+      "value": 4,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal summary field wardsKilled; separate from timeline event counts"
+    },
+    "visionScore": {
+      "metricId": "V04.visionScore",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "score",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "values.visionScore",
+          "value": 28
+        }
+      ],
+      "value": 28,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal summary field visionScore; separate from timeline event counts"
+    },
+    "placementShare": {
+      "metricId": "V04.recognized_placement_share",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "percent",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": {
+        "value": 109,
+        "unit": "recognized placements",
+        "population": "attributed recognized WARD_PLACED of team 100"
+      },
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:4:23",
+          "timestampMs": 209788
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:5:29",
+          "timestampMs": 273999
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:11:16",
+          "timestampMs": 621347
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:12:10",
+          "timestampMs": 673324
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:14:56",
+          "timestampMs": 840257
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:18:63",
+          "timestampMs": 1061471
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:22:0",
+          "timestampMs": 1265991
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:25:28",
+          "timestampMs": 1470711
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:28:9",
+          "timestampMs": 1640809
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:32:16",
+          "timestampMs": 1877934
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:34:38",
+          "timestampMs": 2034618
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:37:8",
+          "timestampMs": 2172646
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:39:38",
+          "timestampMs": 2328130
+        }
+      ],
+      "value": 11.926605504587156,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 100"
+    },
+    "removalShare": {
+      "metricId": "V04.recognized_removal_share",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "percent",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": {
+        "value": 18,
+        "unit": "recognized removals",
+        "population": "attributed recognized WARD_KILL of team 100"
+      },
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:13:26",
+          "timestampMs": 748213
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "CONTROL_WARD",
+          "eventId": "BR1_3200579475:30:7",
+          "timestampMs": 1746402
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:32:38",
+          "timestampMs": 1896888
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_KILL",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:36:23",
+          "timestampMs": 2140471
+        }
+      ],
+      "value": 22.22222222222222,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 100"
+    },
+    "visionScoreShare": {
+      "metricId": "V04.vision_score_share",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "percent",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": {
+        "value": 213,
+        "unit": "score",
+        "population": "summary visionScore of all five participants of team 100"
+      },
+      "quality": {
+        "validSamples": 5,
+        "totalSamples": 5,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.values.visionScore",
+          "value": 28
+        },
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.values.visionScore",
+          "value": 32
+        },
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ.values.visionScore",
+          "value": 33
+        },
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.values.visionScore",
+          "value": 28
+        },
+        {
+          "source": "MatchParticipant.finalStats",
+          "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.values.visionScore",
+          "value": 92
+        }
+      ],
+      "value": 13.145539906103288,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 100"
+    },
+    "recognizedPlacementsPerMinute": {
+      "metricId": "V05.recognized_placements_per_minute",
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count_per_minute",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "denominator": {
+        "value": 39.482033333333334,
+        "unit": "minutes",
+        "population": "observed game interval from zero to GAME_END"
+      },
+      "quality": {
+        "validSamples": 803,
+        "totalSamples": 803,
+        "coverage": 1,
+        "unknownEvents": 556,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:4:23",
+          "timestampMs": 209788
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:5:29",
+          "timestampMs": 273999
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "YELLOW_TRINKET",
+          "eventId": "BR1_3200579475:11:16",
+          "timestampMs": 621347
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:12:10",
+          "timestampMs": 673324
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:14:56",
+          "timestampMs": 840257
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:18:63",
+          "timestampMs": 1061471
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:22:0",
+          "timestampMs": 1265991
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:25:28",
+          "timestampMs": 1470711
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:28:9",
+          "timestampMs": 1640809
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:32:16",
+          "timestampMs": 1877934
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:34:38",
+          "timestampMs": 2034618
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:37:8",
+          "timestampMs": 2172646
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "WARD_PLACED",
+          "value": "BLUE_TRINKET",
+          "eventId": "BR1_3200579475:39:38",
+          "timestampMs": 2328130
+        }
+      ],
+      "value": 0.32926369040432735,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 1"
+    }
+  },
+  "gaps": [
+    {
+      "includeGameEdges": false,
+      "metric": {
+        "metricId": "V05.longest_recognized_placement_gap",
+        "metricVersion": 1,
+        "processingVersion": 3,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "matchId": "BR1_3200579475",
+        "subject": {
+          "kind": "participant",
+          "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+        },
+        "unit": "seconds",
+        "window": {
+          "startMs": 0,
+          "endMs": 2368922,
+          "bounds": "[]"
+        },
+        "denominator": null,
+        "quality": {
+          "validSamples": 803,
+          "totalSamples": 803,
+          "coverage": 1,
+          "unknownEvents": 556,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "YELLOW_TRINKET",
+            "eventId": "BR1_3200579475:4:23",
+            "timestampMs": 209788
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "YELLOW_TRINKET",
+            "eventId": "BR1_3200579475:5:29",
+            "timestampMs": 273999
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "YELLOW_TRINKET",
+            "eventId": "BR1_3200579475:11:16",
+            "timestampMs": 621347
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:12:10",
+            "timestampMs": 673324
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:14:56",
+            "timestampMs": 840257
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:18:63",
+            "timestampMs": 1061471
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:22:0",
+            "timestampMs": 1265991
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:25:28",
+            "timestampMs": 1470711
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:28:9",
+            "timestampMs": 1640809
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:32:16",
+            "timestampMs": 1877934
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:34:38",
+            "timestampMs": 2034618
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:37:8",
+            "timestampMs": 2172646
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:39:38",
+            "timestampMs": 2328130
+          }
+        ],
+        "value": 347.348,
+        "origin": "derived",
+        "reason": null,
+        "method": "maximum consecutive timestamp difference between recognized placements; configured game edges included explicitly"
+      },
+      "startMs": 273999,
+      "endMs": 621347,
+      "startEventId": "BR1_3200579475:5:29",
+      "endEventId": "BR1_3200579475:11:16",
+      "unknownPlacementEvents": 0
+    },
+    {
+      "includeGameEdges": true,
+      "metric": {
+        "metricId": "V05.longest_recognized_placement_gap",
+        "metricVersion": 1,
+        "processingVersion": 3,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "matchId": "BR1_3200579475",
+        "subject": {
+          "kind": "participant",
+          "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+        },
+        "unit": "seconds",
+        "window": {
+          "startMs": 0,
+          "endMs": 2368922,
+          "bounds": "[]"
+        },
+        "denominator": null,
+        "quality": {
+          "validSamples": 803,
+          "totalSamples": 803,
+          "coverage": 1,
+          "unknownEvents": 556,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "YELLOW_TRINKET",
+            "eventId": "BR1_3200579475:4:23",
+            "timestampMs": 209788
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "YELLOW_TRINKET",
+            "eventId": "BR1_3200579475:5:29",
+            "timestampMs": 273999
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "YELLOW_TRINKET",
+            "eventId": "BR1_3200579475:11:16",
+            "timestampMs": 621347
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:12:10",
+            "timestampMs": 673324
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:14:56",
+            "timestampMs": 840257
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:18:63",
+            "timestampMs": 1061471
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:22:0",
+            "timestampMs": 1265991
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:25:28",
+            "timestampMs": 1470711
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:28:9",
+            "timestampMs": 1640809
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:32:16",
+            "timestampMs": 1877934
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:34:38",
+            "timestampMs": 2034618
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:37:8",
+            "timestampMs": 2172646
+          },
+          {
+            "source": "MatchEventProjection",
+            "field": "WARD_PLACED",
+            "value": "BLUE_TRINKET",
+            "eventId": "BR1_3200579475:39:38",
+            "timestampMs": 2328130
+          }
+        ],
+        "value": 347.348,
+        "origin": "derived",
+        "reason": null,
+        "method": "maximum consecutive timestamp difference between recognized placements; configured game edges included explicitly"
+      },
+      "startMs": 273999,
+      "endMs": 621347,
+      "startEventId": "BR1_3200579475:5:29",
+      "endEventId": "BR1_3200579475:11:16",
+      "unknownPlacementEvents": 0
+    }
+  ],
+  "objectiveWindows": [
+    {
+      "objectiveEventId": "BR1_3200579475:7:39",
+      "beneficiaryTeamId": 200,
+      "lookbackMs": 60000,
+      "requestedStartMs": 356461,
+      "window": {
+        "startMs": 356461,
+        "endMs": 416461,
+        "bounds": "[)"
+      },
+      "censored": false,
+      "eventIds": [
+        "BR1_3200579475:7:0",
+        "BR1_3200579475:7:10",
+        "BR1_3200579475:7:13",
+        "BR1_3200579475:7:14",
+        "BR1_3200579475:7:15",
+        "BR1_3200579475:7:16",
+        "BR1_3200579475:7:17",
+        "BR1_3200579475:7:18",
+        "BR1_3200579475:7:19",
+        "BR1_3200579475:7:24",
+        "BR1_3200579475:7:25",
+        "BR1_3200579475:7:29",
+        "BR1_3200579475:7:31",
+        "BR1_3200579475:7:33",
+        "BR1_3200579475:7:37"
+      ],
+      "player": {
+        "recognizedPlacements": {
+          "metricId": "V06.recognizedPlacements",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 356461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "unknownPlacements": {
+          "metricId": "V06.unknownPlacements",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 356461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "recognizedRemovals": {
+          "metricId": "V06.recognizedRemovals",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 356461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "unknownRemovals": {
+          "metricId": "V06.unknownRemovals",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 356461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "controlPlacements": {
+          "metricId": "V06.controlPlacements",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 356461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "controlRemovals": {
+          "metricId": "V06.controlRemovals",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 356461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        }
+      },
+      "teams": [
+        {
+          "teamId": 100,
+          "metrics": {
+            "recognizedPlacements": {
+              "metricId": "V06.recognizedPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "YELLOW_TRINKET",
+                  "eventId": "BR1_3200579475:7:29",
+                  "timestampMs": 392009
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownPlacements": {
+              "metricId": "V06.unknownPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:13",
+                  "timestampMs": 375044
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "recognizedRemovals": {
+              "metricId": "V06.recognizedRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_KILL",
+                  "value": "CONTROL_WARD",
+                  "eventId": "BR1_3200579475:7:19",
+                  "timestampMs": 382792
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownRemovals": {
+              "metricId": "V06.unknownRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlPlacements": {
+              "metricId": "V06.controlPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlRemovals": {
+              "metricId": "V06.controlRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_KILL",
+                  "value": "CONTROL_WARD",
+                  "eventId": "BR1_3200579475:7:19",
+                  "timestampMs": 382792
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            }
+          }
+        },
+        {
+          "teamId": 200,
+          "metrics": {
+            "recognizedPlacements": {
+              "metricId": "V06.recognizedPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownPlacements": {
+              "metricId": "V06.unknownPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:0",
+                  "timestampMs": 361552
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:10",
+                  "timestampMs": 367697
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:14",
+                  "timestampMs": 376247
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:15",
+                  "timestampMs": 376314
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:16",
+                  "timestampMs": 376781
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:17",
+                  "timestampMs": 376915
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:18",
+                  "timestampMs": 377015
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:24",
+                  "timestampMs": 389338
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:25",
+                  "timestampMs": 389605
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:31",
+                  "timestampMs": 399824
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:33",
+                  "timestampMs": 401895
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:37",
+                  "timestampMs": 407805
+                }
+              ],
+              "value": 12,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "recognizedRemovals": {
+              "metricId": "V06.recognizedRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownRemovals": {
+              "metricId": "V06.unknownRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlPlacements": {
+              "metricId": "V06.controlPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlRemovals": {
+              "metricId": "V06.controlRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 356461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            }
+          }
+        }
+      ],
+      "spatialInterpretation": "global_event_activity_only"
+    },
+    {
+      "objectiveEventId": "BR1_3200579475:7:39",
+      "beneficiaryTeamId": 200,
+      "lookbackMs": 90000,
+      "requestedStartMs": 326461,
+      "window": {
+        "startMs": 326461,
+        "endMs": 416461,
+        "bounds": "[)"
+      },
+      "censored": false,
+      "eventIds": [
+        "BR1_3200579475:6:15",
+        "BR1_3200579475:6:17",
+        "BR1_3200579475:6:19",
+        "BR1_3200579475:6:20",
+        "BR1_3200579475:6:24",
+        "BR1_3200579475:6:25",
+        "BR1_3200579475:6:26",
+        "BR1_3200579475:6:27",
+        "BR1_3200579475:6:28",
+        "BR1_3200579475:6:31",
+        "BR1_3200579475:6:32",
+        "BR1_3200579475:7:0",
+        "BR1_3200579475:7:10",
+        "BR1_3200579475:7:13",
+        "BR1_3200579475:7:14",
+        "BR1_3200579475:7:15",
+        "BR1_3200579475:7:16",
+        "BR1_3200579475:7:17",
+        "BR1_3200579475:7:18",
+        "BR1_3200579475:7:19",
+        "BR1_3200579475:7:24",
+        "BR1_3200579475:7:25",
+        "BR1_3200579475:7:29",
+        "BR1_3200579475:7:31",
+        "BR1_3200579475:7:33",
+        "BR1_3200579475:7:37"
+      ],
+      "player": {
+        "recognizedPlacements": {
+          "metricId": "V06.recognizedPlacements",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 326461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "unknownPlacements": {
+          "metricId": "V06.unknownPlacements",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 326461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "recognizedRemovals": {
+          "metricId": "V06.recognizedRemovals",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 326461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "unknownRemovals": {
+          "metricId": "V06.unknownRemovals",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 326461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "controlPlacements": {
+          "metricId": "V06.controlPlacements",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 326461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        },
+        "controlRemovals": {
+          "metricId": "V06.controlRemovals",
+          "metricVersion": 1,
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 326461,
+            "endMs": 416461,
+            "bounds": "[)"
+          },
+          "denominator": null,
+          "quality": {
+            "validSamples": 803,
+            "totalSamples": 803,
+            "coverage": 1,
+            "unknownEvents": 556,
+            "reconciliationIssues": []
+          },
+          "evidence": [],
+          "value": 0,
+          "origin": "derived",
+          "reason": null,
+          "method": "count of distinct attributed source event identities in the stated category/window"
+        }
+      },
+      "teams": [
+        {
+          "teamId": 100,
+          "metrics": {
+            "recognizedPlacements": {
+              "metricId": "V06.recognizedPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "YELLOW_TRINKET",
+                  "eventId": "BR1_3200579475:6:15",
+                  "timestampMs": 331856
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "YELLOW_TRINKET",
+                  "eventId": "BR1_3200579475:6:25",
+                  "timestampMs": 346421
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "YELLOW_TRINKET",
+                  "eventId": "BR1_3200579475:7:29",
+                  "timestampMs": 392009
+                }
+              ],
+              "value": 3,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownPlacements": {
+              "metricId": "V06.unknownPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:13",
+                  "timestampMs": 375044
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "recognizedRemovals": {
+              "metricId": "V06.recognizedRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_KILL",
+                  "value": "CONTROL_WARD",
+                  "eventId": "BR1_3200579475:7:19",
+                  "timestampMs": 382792
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownRemovals": {
+              "metricId": "V06.unknownRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlPlacements": {
+              "metricId": "V06.controlPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlRemovals": {
+              "metricId": "V06.controlRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "100"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_KILL",
+                  "value": "CONTROL_WARD",
+                  "eventId": "BR1_3200579475:7:19",
+                  "timestampMs": 382792
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            }
+          }
+        },
+        {
+          "teamId": 200,
+          "metrics": {
+            "recognizedPlacements": {
+              "metricId": "V06.recognizedPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "CONTROL_WARD",
+                  "eventId": "BR1_3200579475:6:19",
+                  "timestampMs": 335162
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "YELLOW_TRINKET",
+                  "eventId": "BR1_3200579475:6:26",
+                  "timestampMs": 347456
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "YELLOW_TRINKET",
+                  "eventId": "BR1_3200579475:6:31",
+                  "timestampMs": 352833
+                }
+              ],
+              "value": 3,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownPlacements": {
+              "metricId": "V06.unknownPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:6:17",
+                  "timestampMs": 333793
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:6:20",
+                  "timestampMs": 335896
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:6:24",
+                  "timestampMs": 341841
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:6:27",
+                  "timestampMs": 348291
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:6:28",
+                  "timestampMs": 348725
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:6:32",
+                  "timestampMs": 355203
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:0",
+                  "timestampMs": 361552
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:10",
+                  "timestampMs": 367697
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:14",
+                  "timestampMs": 376247
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:15",
+                  "timestampMs": 376314
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:16",
+                  "timestampMs": 376781
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:17",
+                  "timestampMs": 376915
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:18",
+                  "timestampMs": 377015
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:24",
+                  "timestampMs": 389338
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:25",
+                  "timestampMs": 389605
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:31",
+                  "timestampMs": 399824
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:33",
+                  "timestampMs": 401895
+                },
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "UNDEFINED",
+                  "eventId": "BR1_3200579475:7:37",
+                  "timestampMs": 407805
+                }
+              ],
+              "value": 18,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "recognizedRemovals": {
+              "metricId": "V06.recognizedRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "unknownRemovals": {
+              "metricId": "V06.unknownRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlPlacements": {
+              "metricId": "V06.controlPlacements",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [
+                {
+                  "source": "MatchEventProjection",
+                  "field": "WARD_PLACED",
+                  "value": "CONTROL_WARD",
+                  "eventId": "BR1_3200579475:6:19",
+                  "timestampMs": 335162
+                }
+              ],
+              "value": 1,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            },
+            "controlRemovals": {
+              "metricId": "V06.controlRemovals",
+              "metricVersion": 1,
+              "processingVersion": 3,
+              "processedAt": "2026-09-23T00:00:00.000Z",
+              "matchId": "BR1_3200579475",
+              "subject": {
+                "kind": "team",
+                "id": "200"
+              },
+              "unit": "count",
+              "window": {
+                "startMs": 326461,
+                "endMs": 416461,
+                "bounds": "[)"
+              },
+              "denominator": null,
+              "quality": {
+                "validSamples": 803,
+                "totalSamples": 803,
+                "coverage": 1,
+                "unknownEvents": 556,
+                "reconciliationIssues": []
+              },
+              "evidence": [],
+              "value": 0,
+              "origin": "derived",
+              "reason": null,
+              "method": "count of distinct attributed source event identities in the stated category/window"
+            }
+          }
+        }
+      ],
+      "spatialInterpretation": "global_event_activity_only"
+    }
+  ]
+}
