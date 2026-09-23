@@ -54,3 +54,7 @@ O @15 legado é explicitamente `LEGACY_LANE_CHECKPOINT` metricVersion=0: primeir
 ## MET-16: itens e habilidades
 
 [Contrato da progressão observada](PROGRESSAO-ITENS-HABILIDADES-MET16.md): B02/B04 v1 em `GET /api/v1/matches/:matchId/progression/:puuid`, transições completas com undo preservado, aquisições efetivas observadas e alocações de habilidade. Inventário final permanece autoritativo; receitas/skills usam apenas cache do patch compatível no GET. Ambiguidade e ausência de proveniência são explícitas, sem eficácia inferida.
+
+## Relatório integrado MET-17
+
+[Contrato e navegação](RELATORIO-PARTIDA-MET17.md): `GET /api/v1/matches/:matchId/report/:puuid` e subrotas metrics, evidence, episodes e families. Quatro dimensões equivalentes, páginas com total/hasMore/next, modos preservados nos links, limites e 400/404 explícitos. Cada requisição compartilha uma leitura RepeatableRead, exclusivamente projeções e catálogos cached-only. Totais finais observados admitem proveniência nula no envelope específico do relatório; ausência de processamento não fabrica MetricResult. Rotas prévias permanecem compatíveis. [Exemplos com metadados de processamento sintéticos identificados](analysis/met17-report-examples.json).

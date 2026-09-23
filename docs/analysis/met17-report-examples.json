@@ -1,0 +1,3423 @@
+{
+  "fixture": "BR1_3200579475",
+  "frames": 41,
+  "schemaVersion": 1,
+  "processingMetadata": "Synthetic fixture generation=2 and timestamp=2026-09-23T00:00:00Z, not an actual database job timestamp",
+  "catalogs": "Offline cached-only; unavailable",
+  "sizes": [
+    {
+      "champion": "Fiora",
+      "summaryBytes": 42274,
+      "familyDefaultPageBytes": {
+        "contribution.resources": 12005,
+        "contribution.combat": 52871,
+        "contribution.vision": 14273,
+        "contribution.structures": 7525,
+        "economy.checkpoints": 135855,
+        "economy.samples": 104608,
+        "economy.intervals": 140180,
+        "economy.phases": 70828,
+        "economy.unspentGold": 6092,
+        "economy.finalResources": 4862,
+        "vision.metrics": 22757,
+        "vision.byType": 13563,
+        "vision.phases": 35480,
+        "vision.gaps": 5104,
+        "vision.objectiveWindows": 219016,
+        "vision.reconciliation": 982,
+        "objectives.chronology": 15240,
+        "objectives.finalTotals": 19842,
+        "objectives.reconciliation": 25853,
+        "objectives.participantContributions": 34166,
+        "objectives.structures": 8644,
+        "objectives.plates": 10878,
+        "combat.participant": 29490,
+        "combat.killerVictimMatrix": 16527,
+        "combat.coParticipation": 12615,
+        "sequences.deathEpisodes": 4458,
+        "sequences.deathRates": 3803,
+        "sequences.killEpisodes": 5741,
+        "sequences.killRates": 5690,
+        "sequences.goldChanges": 23102,
+        "sequences.temporalTrades": 5383,
+        "sequences.comeback": 3921,
+        "progression.inventory": 2111,
+        "progression.acquisitions": 2913,
+        "progression.transitions": 7106,
+        "progression.itemTimings": 19350,
+        "progression.skills": 38681,
+        "progression.reconciliation": 2425
+      }
+    },
+    {
+      "champion": "Milio",
+      "summaryBytes": 42301,
+      "familyDefaultPageBytes": {
+        "contribution.resources": 12035,
+        "contribution.combat": 52904,
+        "contribution.vision": 14285,
+        "contribution.structures": 7505,
+        "economy.checkpoints": 135853,
+        "economy.samples": 104596,
+        "economy.intervals": 140158,
+        "economy.phases": 70817,
+        "economy.unspentGold": 6096,
+        "economy.finalResources": 4865,
+        "vision.metrics": 25381,
+        "vision.byType": 16423,
+        "vision.phases": 41323,
+        "vision.gaps": 5082,
+        "vision.objectiveWindows": 226197,
+        "vision.reconciliation": 982,
+        "objectives.chronology": 15240,
+        "objectives.finalTotals": 19842,
+        "objectives.reconciliation": 25853,
+        "objectives.participantContributions": 28783,
+        "objectives.structures": 8644,
+        "objectives.plates": 10878,
+        "combat.participant": 25290,
+        "combat.killerVictimMatrix": 11584,
+        "combat.coParticipation": 12582,
+        "sequences.deathEpisodes": 7869,
+        "sequences.deathRates": 3810,
+        "sequences.killEpisodes": 5741,
+        "sequences.killRates": 5690,
+        "sequences.goldChanges": 23102,
+        "sequences.temporalTrades": 5383,
+        "sequences.comeback": 3921,
+        "progression.inventory": 2111,
+        "progression.acquisitions": 2898,
+        "progression.transitions": 6457,
+        "progression.itemTimings": 19825,
+        "progression.skills": 38751,
+        "progression.reconciliation": 2236
+      }
+    }
+  ],
+  "examples": [
+    {
+      "champion": "Fiora",
+      "summary": {
+        "schemaVersion": 1,
+        "matchId": "BR1_3200579475",
+        "participant": {
+          "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+          "riotId": "naul#001",
+          "championId": 114,
+          "champion": "Fiora",
+          "role": "TOP",
+          "teamId": 100
+        },
+        "context": {
+          "queueId": 420,
+          "mapId": 11,
+          "gameVersion": "16.2.741.3171",
+          "gameCreationMs": "1770015288681",
+          "gameDurationSeconds": 2368,
+          "win": true,
+          "region": null,
+          "regionReason": "not_recorded_in_match_projection",
+          "historicalReference": null,
+          "historicalReferenceReason": "insufficient_sample"
+        },
+        "provenance": {
+          "processingVersion": 2,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "known": true,
+          "reason": null
+        },
+        "availability": {
+          "status": "available",
+          "finalTotals": {
+            "validN": 12,
+            "totalN": 12
+          },
+          "processingReason": null,
+          "eventsReason": null,
+          "framesReason": null
+        },
+        "dimensions": [
+          {
+            "id": "resources",
+            "label": "Recursos",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Ouro do time",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "E04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 88606,
+                  "unit": "gold",
+                  "population": "sum goldEarned across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 5,
+                  "totalSamples": 5,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 28.06130510349186,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJyZXNvdXJjZXMiLCJnb2xkIiwidGVhbVNoYXJlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:c7be421bc6bcc806194fe819",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ac7be421bc6bcc806194fe819?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:68e679396d4f3c54980eccb0",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A68e679396d4f3c54980eccb0?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:79ceee015413cda639353066",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A79ceee015413cda639353066?mode=pastOnly"
+                    }
+                  ],
+                  "total": 5,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJnb2xkIiwidGVhbVNoYXJlIl0?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJnb2xkIiwidGVhbVNoYXJlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Ouro obtido",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "E04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "gold",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 24864,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJyZXNvdXJjZXMiLCJnb2xkIiwiYWJzb2x1dGUiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:c7be421bc6bcc806194fe819",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ac7be421bc6bcc806194fe819?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJnb2xkIiwiYWJzb2x1dGUiXQ?mode=pastOnly"
+              },
+              {
+                "label": "CS por minuto",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "E04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "cs_per_minute",
+                "window": null,
+                "denominator": {
+                  "value": 2368,
+                  "unit": "seconds",
+                  "population": "timePlayed of tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "quality": {
+                  "validSamples": 3,
+                  "totalSamples": 3,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 8.614864864864865,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 60",
+                "key": "contribution:WyJyZXNvdXJjZXMiLCJjcyIsInBlck1pbnV0ZSJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:d5f058bd5c58cbd2c6d74461",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ad5f058bd5c58cbd2c6d74461?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:8351ba89a976d6ece9c494ce",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A8351ba89a976d6ece9c494ce?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:832e6f32cadd47c56c29d910",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A832e6f32cadd47c56c29d910?mode=pastOnly"
+                    }
+                  ],
+                  "total": 3,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJjcyIsInBlck1pbnV0ZSJd?mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "id": "combat",
+            "label": "Combate",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Dano a campeões do time",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C02",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 232227,
+                  "unit": "damage",
+                  "population": "sum totalDamageDealtToChampions across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 5,
+                  "totalSamples": 5,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 34.97698372712906,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJjb21iYXQiLCJkYW1hZ2UiLCJ0ZWFtU2hhcmUiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:4aac624d8e359cf1d4ccd3b1",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A4aac624d8e359cf1d4ccd3b1?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:80995073fe0ec21d37a88302",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A80995073fe0ec21d37a88302?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:d911f3fff27e35864eb1f955",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ad911f3fff27e35864eb1f955?mode=pastOnly"
+                    }
+                  ],
+                  "total": 5,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJjb21iYXQiLCJkYW1hZ2UiLCJ0ZWFtU2hhcmUiXQ?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJjb21iYXQiLCJkYW1hZ2UiLCJ0ZWFtU2hhcmUiXQ?mode=pastOnly"
+              },
+              {
+                "label": "Cura em aliados",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "health",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 2877,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJjb21iYXQiLCJhbGx5SGVhbGluZyIsImFic29sdXRlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:40d4e11cdf3f6c7990811b4f",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A40d4e11cdf3f6c7990811b4f?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJjb21iYXQiLCJhbGx5SGVhbGluZyIsImFic29sdXRlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Escudos em aliados",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "damage",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 0,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJjb21iYXQiLCJhbGx5U2hpZWxkaW5nIiwiYWJzb2x1dGUiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:e2198415c1c1f3898d36842e",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ae2198415c1c1f3898d36842e?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJjb21iYXQiLCJhbGx5U2hpZWxkaW5nIiwiYWJzb2x1dGUiXQ?mode=pastOnly"
+              },
+              {
+                "label": "Controle de grupo",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C05",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "seconds",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 22,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJjb21iYXQiLCJjcm93ZENvbnRyb2wiLCJhYnNvbHV0ZSJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:503fa33400e0445b22f9f5f8",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A503fa33400e0445b22f9f5f8?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJjb21iYXQiLCJjcm93ZENvbnRyb2wiLCJhYnNvbHV0ZSJd?mode=pastOnly"
+              },
+              {
+                "label": "Participação em abates",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C01",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 40,
+                  "unit": "count",
+                  "population": "kills summed across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 6,
+                  "totalSamples": 6,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 65,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJjb21iYXQiLCJraWxsUGFydGljaXBhdGlvbiJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:4fe458da184d508b888027c6",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A4fe458da184d508b888027c6?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:d45987996c81eab3d84596ed",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ad45987996c81eab3d84596ed?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:688bf6c729aed27f5dfb3115",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A688bf6c729aed27f5dfb3115?mode=pastOnly"
+                    }
+                  ],
+                  "total": 6,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJjb21iYXQiLCJraWxsUGFydGljaXBhdGlvbiJd?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJjb21iYXQiLCJraWxsUGFydGljaXBhdGlvbiJd?mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "id": "vision",
+            "label": "Visão",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Wards colocadas",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "V04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "count",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 13,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJ2aXNpb24iLCJ3YXJkc1BsYWNlZCIsImFic29sdXRlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:aad1603b7b28241f9dc9afd4",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Aaad1603b7b28241f9dc9afd4?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJ2aXNpb24iLCJ3YXJkc1BsYWNlZCIsImFic29sdXRlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Wards removidas",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "V04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "count",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 4,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJ2aXNpb24iLCJ3YXJkc1JlbW92ZWQiLCJhYnNvbHV0ZSJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:d54530e8ff8852490564deef",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ad54530e8ff8852490564deef?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJ2aXNpb24iLCJ3YXJkc1JlbW92ZWQiLCJhYnNvbHV0ZSJd?mode=pastOnly"
+              },
+              {
+                "label": "Pontuação de visão",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "V04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "score",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 28,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJ2aXNpb24iLCJzY29yZSIsImFic29sdXRlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:6314bf220fabd3cbbedc5cc9",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A6314bf220fabd3cbbedc5cc9?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJ2aXNpb24iLCJzY29yZSIsImFic29sdXRlIl0?mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "id": "structures",
+            "label": "Estruturas",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Dano a torres do time",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "O03",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 36129,
+                  "unit": "damage",
+                  "population": "sum damageDealtToTurrets across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 5,
+                  "totalSamples": 5,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 79.1386420880733,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJzdHJ1Y3R1cmVzIiwidHVycmV0RGFtYWdlIiwidGVhbVNoYXJlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:55e82df3671840d7cc4ef16c",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A55e82df3671840d7cc4ef16c?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:c431f0fa288f7a85900e7fd4",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ac431f0fa288f7a85900e7fd4?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:394e3255f3ff801d0175eb73",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A394e3255f3ff801d0175eb73?mode=pastOnly"
+                    }
+                  ],
+                  "total": 5,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJzdHJ1Y3R1cmVzIiwidHVycmV0RGFtYWdlIiwidGVhbVNoYXJlIl0?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJzdHJ1Y3R1cmVzIiwidHVycmV0RGFtYWdlIiwidGVhbVNoYXJlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Participações em torres",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "O03",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "count",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 4,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJzdHJ1Y3R1cmVzIiwidHVycmV0VGFrZWRvd25zIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:543bbaa8e6a15d86a7910fe5",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3A543bbaa8e6a15d86a7910fe5?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJzdHJ1Y3R1cmVzIiwidHVycmV0VGFrZWRvd25zIl0?mode=pastOnly"
+              }
+            ]
+          }
+        ],
+        "finalTotals": [
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Ouro obtido",
+            "metricId": "E04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "gold",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 24864,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJnb2xkRWFybmVkIl0",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:c7be421bc6bcc806194fe819",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3Ac7be421bc6bcc806194fe819?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJnb2xkRWFybmVkIl0?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Dano a campeões",
+            "metricId": "C02",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "damage",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 81226,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0b3RhbERhbWFnZURlYWx0VG9DaGFtcGlvbnMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:4aac624d8e359cf1d4ccd3b1",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3A4aac624d8e359cf1d4ccd3b1?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJ0b3RhbERhbWFnZURlYWx0VG9DaGFtcGlvbnMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Cura em aliados",
+            "metricId": "C04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "health",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 2877,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0b3RhbEhlYWxzT25UZWFtbWF0ZXMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:40d4e11cdf3f6c7990811b4f",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3A40d4e11cdf3f6c7990811b4f?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJ0b3RhbEhlYWxzT25UZWFtbWF0ZXMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Escudos em aliados",
+            "metricId": "C04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "damage",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 0,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0b3RhbERhbWFnZVNoaWVsZGVkT25UZWFtbWF0ZXMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:e2198415c1c1f3898d36842e",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3Ae2198415c1c1f3898d36842e?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJ0b3RhbERhbWFnZVNoaWVsZGVkT25UZWFtbWF0ZXMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Wards colocadas",
+            "metricId": "V04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 13,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ3YXJkc1BsYWNlZCJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:aad1603b7b28241f9dc9afd4",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3Aaad1603b7b28241f9dc9afd4?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJ3YXJkc1BsYWNlZCJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Wards removidas",
+            "metricId": "V04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 4,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ3YXJkc0tpbGxlZCJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:d54530e8ff8852490564deef",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3Ad54530e8ff8852490564deef?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJ3YXJkc0tpbGxlZCJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Pontuação de visão",
+            "metricId": "V04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "score",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 28,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ2aXNpb25TY29yZSJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:6314bf220fabd3cbbedc5cc9",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3A6314bf220fabd3cbbedc5cc9?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJ2aXNpb25TY29yZSJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Dano a torres",
+            "metricId": "O03",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "damage",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 28592,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJkYW1hZ2VEZWFsdFRvVHVycmV0cyJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:55e82df3671840d7cc4ef16c",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3A55e82df3671840d7cc4ef16c?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJkYW1hZ2VEZWFsdFRvVHVycmV0cyJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Abates",
+            "metricId": "C01",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 19,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJraWxscyJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:4fe458da184d508b888027c6",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3A4fe458da184d508b888027c6?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJraWxscyJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Mortes",
+            "metricId": "C09",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 5,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJkZWF0aHMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:8408b50aa1374ac59851374b",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3A8408b50aa1374ac59851374b?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJkZWF0aHMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Assistências",
+            "metricId": "C01",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 7,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJhc3Npc3RzIl0",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:d45987996c81eab3d84596ed",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3Ad45987996c81eab3d84596ed?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJhc3Npc3RzIl0?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Tempo jogado",
+            "metricId": "E04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+            },
+            "unit": "seconds",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 2368,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0aW1lUGxheWVkIl0",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:832e6f32cadd47c56c29d910",
+                  "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3A832e6f32cadd47c56c29d910?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJ0aW1lUGxheWVkIl0?mode=pastOnly"
+          }
+        ],
+        "families": [
+          {
+            "family": "contribution",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "resources",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/contribution?section=resources&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "combat",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/contribution?section=combat&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "vision",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/contribution?section=vision&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "structures",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/contribution?section=structures&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "economy",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "checkpoints",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/economy?section=checkpoints&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "samples",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/economy?section=samples&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "intervals",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/economy?section=intervals&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "phases",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/economy?section=phases&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "unspentGold",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/economy?section=unspentGold&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "finalResources",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/economy?section=finalResources&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "vision",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "metrics",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/vision?section=metrics&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "byType",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/vision?section=byType&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "phases",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/vision?section=phases&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "gaps",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/vision?section=gaps&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "objectiveWindows",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/vision?section=objectiveWindows&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "reconciliation",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/vision?section=reconciliation&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "objectives",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "chronology",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/objectives?section=chronology&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "finalTotals",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/objectives?section=finalTotals&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "reconciliation",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/objectives?section=reconciliation&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "participantContributions",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/objectives?section=participantContributions&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "structures",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/objectives?section=structures&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "plates",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/objectives?section=plates&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "combat",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "participant",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/combat?section=participant&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "killerVictimMatrix",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/combat?section=killerVictimMatrix&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "coParticipation",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/combat?section=coParticipation&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "sequences",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "deathEpisodes",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/sequences?section=deathEpisodes&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "deathRates",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/sequences?section=deathRates&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "killEpisodes",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/sequences?section=killEpisodes&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "killRates",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/sequences?section=killRates&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "goldChanges",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/sequences?section=goldChanges&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "temporalTrades",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/sequences?section=temporalTrades&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "comeback",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/sequences?section=comeback&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "progression",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "inventory",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/progression?section=inventory&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "acquisitions",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/progression?section=acquisitions&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "transitions",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/progression?section=transitions&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "itemTimings",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/progression?section=itemTimings&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "skills",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/progression?section=skills&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "reconciliation",
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/progression?section=reconciliation&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ],
+            "catalogs": {
+              "items": "catalog_unavailable",
+              "skills": "catalog_unavailable"
+            }
+          }
+        ],
+        "roleExplanation": "Leia recursos, dano e estruturas junto ao campeão e à função exercida; pressão lateral não aparece toda nos abates.",
+        "episodes": {
+          "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/episodes?limit=10&evidenceLimit=3",
+          "reason": null
+        },
+        "readLimits": {
+          "eventLimit": 10000,
+          "eventRows": 1966,
+          "eventsTruncated": false,
+          "frameLimit": 300,
+          "frameRows": 41,
+          "framesTruncated": false
+        },
+        "payloadPolicy": {
+          "defaultCollectionLimit": 10,
+          "nestedPreviewLimit": 3,
+          "evidencePreviewLimit": 3,
+          "maximumPageSize": 50,
+          "filtersAffect": "presentation_only; metric denominators and calculation windows are unchanged"
+        },
+        "interpretation": "Quatro dimensões equivalentes; sem nota geral, causalidade ou referência histórica presumida."
+      },
+      "episodes": {
+        "schemaVersion": 1,
+        "matchId": "BR1_3200579475",
+        "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+        "reason": null,
+        "availability": {
+          "sequences": null,
+          "objectives": null
+        },
+        "filters": {
+          "kind": "death",
+          "fromMs": 1198000,
+          "toMs": 1200000
+        },
+        "page": {
+          "items": [
+            {
+              "id": "death:BR1_3200579475:20:46:60000",
+              "kind": "death",
+              "timestampMs": 1198068,
+              "title": "Morte registrada e capturas posteriores",
+              "interpretation": "Associação temporal; não demonstra causa, culpa, disponibilidade do objetivo ou intenção.",
+              "window": {
+                "startMs": 1198068,
+                "endMs": 1258068,
+                "bounds": "(]"
+              },
+              "occurrence": {
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C07",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "count",
+                "window": {
+                  "startMs": 1198068,
+                  "endMs": 1198068,
+                  "bounds": "[]"
+                },
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 1,
+                "origin": "derived",
+                "reason": null,
+                "method": "One distinct recorded event; captures do not multiply the number of deaths/kills",
+                "key": "episodes:WyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0Njo2MDAwMCIsIm9jY3VycmVuY2UiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "episodes:89c2d7ec172124ed8e1b0ade",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/episodes%3A89c2d7ec172124ed8e1b0ade?mode=pastOnly",
+                      "eventId": "BR1_3200579475:20:46",
+                      "timestampMs": 1198068
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/episodes%3AWyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0Njo2MDAwMCIsIm9jY3VycmVuY2UiXQ?mode=pastOnly"
+              },
+              "associatedCaptures": {
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C07",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+                },
+                "unit": "count",
+                "window": {
+                  "startMs": 1198068,
+                  "endMs": 1258068,
+                  "bounds": "(]"
+                },
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 2,
+                "origin": "derived",
+                "reason": null,
+                "method": "Count captures returned by the versioned temporal-sequence calculation; association is not causation",
+                "key": "episodes:WyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0Njo2MDAwMCIsImFzc29jaWF0ZWRDYXB0dXJlcyJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "episodes:89c2d7ec172124ed8e1b0ade",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/episodes%3A89c2d7ec172124ed8e1b0ade?mode=pastOnly",
+                      "eventId": "BR1_3200579475:20:46",
+                      "timestampMs": 1198068
+                    },
+                    {
+                      "id": "episodes:d91cc33254d77656c53b4aff",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/episodes%3Ad91cc33254d77656c53b4aff?mode=pastOnly",
+                      "eventId": "BR1_3200579475:21:33",
+                      "timestampMs": 1240704
+                    },
+                    {
+                      "id": "episodes:9e7ba56f8aece9285ec84390",
+                      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/episodes%3A9e7ba56f8aece9285ec84390?mode=pastOnly",
+                      "eventId": "BR1_3200579475:21:41",
+                      "timestampMs": 1244550
+                    }
+                  ],
+                  "total": 3,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/episodes%3AWyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0Njo2MDAwMCIsImFzc29jaWF0ZWRDYXB0dXJlcyJd?mode=pastOnly"
+              },
+              "events": {
+                "items": [
+                  {
+                    "eventId": "BR1_3200579475:20:46",
+                    "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/event%3ABR1_3200579475%3A20%3A46"
+                  },
+                  {
+                    "eventId": "BR1_3200579475:21:33",
+                    "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/event%3ABR1_3200579475%3A21%3A33"
+                  },
+                  {
+                    "eventId": "BR1_3200579475:21:41",
+                    "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/event%3ABR1_3200579475%3A21%3A41"
+                  }
+                ],
+                "total": 3,
+                "offset": 0,
+                "limit": 3,
+                "hasMore": false,
+                "next": null
+              },
+              "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/episodes/death%3ABR1_3200579475%3A20%3A46%3A60000"
+            }
+          ],
+          "total": 1,
+          "offset": 0,
+          "limit": 10,
+          "hasMore": false,
+          "next": null
+        }
+      }
+    },
+    {
+      "champion": "Milio",
+      "summary": {
+        "schemaVersion": 1,
+        "matchId": "BR1_3200579475",
+        "participant": {
+          "puuid": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+          "riotId": "PIXELATED KISSES#V1NI",
+          "championId": 902,
+          "champion": "Milio",
+          "role": "UTILITY",
+          "teamId": 100
+        },
+        "context": {
+          "queueId": 420,
+          "mapId": 11,
+          "gameVersion": "16.2.741.3171",
+          "gameCreationMs": "1770015288681",
+          "gameDurationSeconds": 2368,
+          "win": true,
+          "region": null,
+          "regionReason": "not_recorded_in_match_projection",
+          "historicalReference": null,
+          "historicalReferenceReason": "insufficient_sample"
+        },
+        "provenance": {
+          "processingVersion": 2,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "known": true,
+          "reason": null
+        },
+        "availability": {
+          "status": "available",
+          "finalTotals": {
+            "validN": 12,
+            "totalN": 12
+          },
+          "processingReason": null,
+          "eventsReason": null,
+          "framesReason": null
+        },
+        "dimensions": [
+          {
+            "id": "resources",
+            "label": "Recursos",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Ouro do time",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "E04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 88606,
+                  "unit": "gold",
+                  "population": "sum goldEarned across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 5,
+                  "totalSamples": 5,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 11.847956120353023,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJyZXNvdXJjZXMiLCJnb2xkIiwidGVhbVNoYXJlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:3496911fffbe0e91b9682b0e",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A3496911fffbe0e91b9682b0e?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:c7be421bc6bcc806194fe819",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3Ac7be421bc6bcc806194fe819?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:68e679396d4f3c54980eccb0",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A68e679396d4f3c54980eccb0?mode=pastOnly"
+                    }
+                  ],
+                  "total": 5,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJnb2xkIiwidGVhbVNoYXJlIl0?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJnb2xkIiwidGVhbVNoYXJlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Ouro obtido",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "E04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "gold",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 10498,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJyZXNvdXJjZXMiLCJnb2xkIiwiYWJzb2x1dGUiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:3496911fffbe0e91b9682b0e",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A3496911fffbe0e91b9682b0e?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJnb2xkIiwiYWJzb2x1dGUiXQ?mode=pastOnly"
+              },
+              {
+                "label": "CS por minuto",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "E04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "cs_per_minute",
+                "window": null,
+                "denominator": {
+                  "value": 2368,
+                  "unit": "seconds",
+                  "population": "timePlayed of gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "quality": {
+                  "validSamples": 3,
+                  "totalSamples": 3,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 0.8614864864864865,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 60",
+                "key": "contribution:WyJyZXNvdXJjZXMiLCJjcyIsInBlck1pbnV0ZSJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:5716ac2407a294c1d374f6ce",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A5716ac2407a294c1d374f6ce?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:69a5f9c673453bd18d303004",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A69a5f9c673453bd18d303004?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:54fbec9247ed0f38d7ae0bba",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A54fbec9247ed0f38d7ae0bba?mode=pastOnly"
+                    }
+                  ],
+                  "total": 3,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJjcyIsInBlck1pbnV0ZSJd?mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "id": "combat",
+            "label": "Combate",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Dano a campeões do time",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C02",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 232227,
+                  "unit": "damage",
+                  "population": "sum totalDamageDealtToChampions across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 5,
+                  "totalSamples": 5,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 2.510474664875316,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJjb21iYXQiLCJkYW1hZ2UiLCJ0ZWFtU2hhcmUiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:bc3ca37b7b994fb6b4091010",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3Abc3ca37b7b994fb6b4091010?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:4aac624d8e359cf1d4ccd3b1",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A4aac624d8e359cf1d4ccd3b1?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:80995073fe0ec21d37a88302",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A80995073fe0ec21d37a88302?mode=pastOnly"
+                    }
+                  ],
+                  "total": 5,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJjb21iYXQiLCJkYW1hZ2UiLCJ0ZWFtU2hhcmUiXQ?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJjb21iYXQiLCJkYW1hZ2UiLCJ0ZWFtU2hhcmUiXQ?mode=pastOnly"
+              },
+              {
+                "label": "Cura em aliados",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "health",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 13741,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJjb21iYXQiLCJhbGx5SGVhbGluZyIsImFic29sdXRlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:b73bbe770d5906ded9b3069e",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3Ab73bbe770d5906ded9b3069e?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJjb21iYXQiLCJhbGx5SGVhbGluZyIsImFic29sdXRlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Escudos em aliados",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "damage",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 19049,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJjb21iYXQiLCJhbGx5U2hpZWxkaW5nIiwiYWJzb2x1dGUiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:9ede1d30ee952cd9ad4ac748",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A9ede1d30ee952cd9ad4ac748?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJjb21iYXQiLCJhbGx5U2hpZWxkaW5nIiwiYWJzb2x1dGUiXQ?mode=pastOnly"
+              },
+              {
+                "label": "Controle de grupo",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C05",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "seconds",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 17,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJjb21iYXQiLCJjcm93ZENvbnRyb2wiLCJhYnNvbHV0ZSJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:5686e1f3c7c22526310a4a32",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A5686e1f3c7c22526310a4a32?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJjb21iYXQiLCJjcm93ZENvbnRyb2wiLCJhYnNvbHV0ZSJd?mode=pastOnly"
+              },
+              {
+                "label": "Participação em abates",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C01",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 40,
+                  "unit": "count",
+                  "population": "kills summed across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 6,
+                  "totalSamples": 6,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 52.5,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJjb21iYXQiLCJraWxsUGFydGljaXBhdGlvbiJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:5a796bb853afba7405420bb3",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A5a796bb853afba7405420bb3?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:4a5f319d3d231a46434da833",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A4a5f319d3d231a46434da833?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:4fe458da184d508b888027c6",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A4fe458da184d508b888027c6?mode=pastOnly"
+                    }
+                  ],
+                  "total": 6,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJjb21iYXQiLCJraWxsUGFydGljaXBhdGlvbiJd?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJjb21iYXQiLCJraWxsUGFydGljaXBhdGlvbiJd?mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "id": "vision",
+            "label": "Visão",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Wards colocadas",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "V04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "count",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 46,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJ2aXNpb24iLCJ3YXJkc1BsYWNlZCIsImFic29sdXRlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:ae6b01ee75a1a5d517557584",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3Aae6b01ee75a1a5d517557584?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJ2aXNpb24iLCJ3YXJkc1BsYWNlZCIsImFic29sdXRlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Wards removidas",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "V04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "count",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 6,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJ2aXNpb24iLCJ3YXJkc1JlbW92ZWQiLCJhYnNvbHV0ZSJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:967c7a2c2cb4443ace5cd69c",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A967c7a2c2cb4443ace5cd69c?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJ2aXNpb24iLCJ3YXJkc1JlbW92ZWQiLCJhYnNvbHV0ZSJd?mode=pastOnly"
+              },
+              {
+                "label": "Pontuação de visão",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "V04",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "score",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 92,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJ2aXNpb24iLCJzY29yZSIsImFic29sdXRlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:e9a5001cbe3453eace8aea59",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3Ae9a5001cbe3453eace8aea59?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJ2aXNpb24iLCJzY29yZSIsImFic29sdXRlIl0?mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "id": "structures",
+            "label": "Estruturas",
+            "presentationWeight": 1,
+            "reason": null,
+            "metrics": [
+              {
+                "label": "Dano a torres do time",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "O03",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "percent",
+                "window": null,
+                "denominator": {
+                  "value": 36129,
+                  "unit": "damage",
+                  "population": "sum damageDealtToTurrets across the five participants of team 100"
+                },
+                "quality": {
+                  "validSamples": 5,
+                  "totalSamples": 5,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 0,
+                "origin": "derived",
+                "reason": null,
+                "method": "numerator / denominator * 100",
+                "key": "contribution:WyJzdHJ1Y3R1cmVzIiwidHVycmV0RGFtYWdlIiwidGVhbVNoYXJlIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:226ec6e0b9095ae5873d410b",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A226ec6e0b9095ae5873d410b?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:55e82df3671840d7cc4ef16c",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A55e82df3671840d7cc4ef16c?mode=pastOnly"
+                    },
+                    {
+                      "id": "contribution:c431f0fa288f7a85900e7fd4",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3Ac431f0fa288f7a85900e7fd4?mode=pastOnly"
+                    }
+                  ],
+                  "total": 5,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": true,
+                  "next": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJzdHJ1Y3R1cmVzIiwidHVycmV0RGFtYWdlIiwidGVhbVNoYXJlIl0?offset=3&limit=10&mode=pastOnly"
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJzdHJ1Y3R1cmVzIiwidHVycmV0RGFtYWdlIiwidGVhbVNoYXJlIl0?mode=pastOnly"
+              },
+              {
+                "label": "Participações em torres",
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "O03",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "count",
+                "window": null,
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 0,
+                "origin": "observed",
+                "reason": null,
+                "method": "direct persisted summary observation",
+                "key": "contribution:WyJzdHJ1Y3R1cmVzIiwidHVycmV0VGFrZWRvd25zIl0",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "contribution:36941a25b3bee33dfd897a91",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/contribution%3A36941a25b3bee33dfd897a91?mode=pastOnly"
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/contribution%3AWyJzdHJ1Y3R1cmVzIiwidHVycmV0VGFrZWRvd25zIl0?mode=pastOnly"
+              }
+            ]
+          }
+        ],
+        "finalTotals": [
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Ouro obtido",
+            "metricId": "E04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "gold",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 10498,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJnb2xkRWFybmVkIl0",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:3496911fffbe0e91b9682b0e",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A3496911fffbe0e91b9682b0e?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJnb2xkRWFybmVkIl0?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Dano a campeões",
+            "metricId": "C02",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "damage",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 5830,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0b3RhbERhbWFnZURlYWx0VG9DaGFtcGlvbnMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:bc3ca37b7b994fb6b4091010",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3Abc3ca37b7b994fb6b4091010?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJ0b3RhbERhbWFnZURlYWx0VG9DaGFtcGlvbnMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Cura em aliados",
+            "metricId": "C04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "health",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 13741,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0b3RhbEhlYWxzT25UZWFtbWF0ZXMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:b73bbe770d5906ded9b3069e",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3Ab73bbe770d5906ded9b3069e?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJ0b3RhbEhlYWxzT25UZWFtbWF0ZXMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Escudos em aliados",
+            "metricId": "C04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "damage",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 19049,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0b3RhbERhbWFnZVNoaWVsZGVkT25UZWFtbWF0ZXMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:9ede1d30ee952cd9ad4ac748",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A9ede1d30ee952cd9ad4ac748?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJ0b3RhbERhbWFnZVNoaWVsZGVkT25UZWFtbWF0ZXMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Wards colocadas",
+            "metricId": "V04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 46,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ3YXJkc1BsYWNlZCJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:ae6b01ee75a1a5d517557584",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3Aae6b01ee75a1a5d517557584?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJ3YXJkc1BsYWNlZCJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Wards removidas",
+            "metricId": "V04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 6,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ3YXJkc0tpbGxlZCJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:967c7a2c2cb4443ace5cd69c",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A967c7a2c2cb4443ace5cd69c?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJ3YXJkc0tpbGxlZCJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Pontuação de visão",
+            "metricId": "V04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "score",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 92,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ2aXNpb25TY29yZSJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:e9a5001cbe3453eace8aea59",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3Ae9a5001cbe3453eace8aea59?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJ2aXNpb25TY29yZSJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Dano a torres",
+            "metricId": "O03",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "damage",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 0,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJkYW1hZ2VEZWFsdFRvVHVycmV0cyJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:226ec6e0b9095ae5873d410b",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A226ec6e0b9095ae5873d410b?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJkYW1hZ2VEZWFsdFRvVHVycmV0cyJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Abates",
+            "metricId": "C01",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 1,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJraWxscyJd",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:5a796bb853afba7405420bb3",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A5a796bb853afba7405420bb3?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJraWxscyJd?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Mortes",
+            "metricId": "C09",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 12,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJkZWF0aHMiXQ",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:1817d00428dd550d06e78ffe",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A1817d00428dd550d06e78ffe?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJkZWF0aHMiXQ?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Assistências",
+            "metricId": "C01",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "count",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 20,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJhc3Npc3RzIl0",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:4a5f319d3d231a46434da833",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A4a5f319d3d231a46434da833?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJhc3Npc3RzIl0?mode=pastOnly"
+          },
+          {
+            "metricVersion": 1,
+            "processingVersion": 2,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "label": "Tempo jogado",
+            "metricId": "E04",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "seconds",
+            "window": null,
+            "denominator": null,
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "value": 2368,
+            "origin": "observed",
+            "reason": null,
+            "method": "Literal persisted final summary field; processing provenance may be unknown",
+            "key": "totals:WyJ0aW1lUGxheWVkIl0",
+            "evidence": {
+              "items": [
+                {
+                  "id": "totals:54fbec9247ed0f38d7ae0bba",
+                  "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/totals%3A54fbec9247ed0f38d7ae0bba?mode=pastOnly"
+                }
+              ],
+              "total": 1,
+              "offset": 0,
+              "limit": 3,
+              "hasMore": false,
+              "next": null
+            },
+            "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/totals%3AWyJ0aW1lUGxheWVkIl0?mode=pastOnly"
+          }
+        ],
+        "families": [
+          {
+            "family": "contribution",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "resources",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/contribution?section=resources&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "combat",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/contribution?section=combat&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "vision",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/contribution?section=vision&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "structures",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/contribution?section=structures&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "economy",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "checkpoints",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/economy?section=checkpoints&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "samples",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/economy?section=samples&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "intervals",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/economy?section=intervals&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "phases",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/economy?section=phases&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "unspentGold",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/economy?section=unspentGold&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "finalResources",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/economy?section=finalResources&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "vision",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "metrics",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/vision?section=metrics&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "byType",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/vision?section=byType&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "phases",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/vision?section=phases&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "gaps",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/vision?section=gaps&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "objectiveWindows",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/vision?section=objectiveWindows&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "reconciliation",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/vision?section=reconciliation&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "objectives",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "chronology",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/objectives?section=chronology&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "finalTotals",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/objectives?section=finalTotals&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "reconciliation",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/objectives?section=reconciliation&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "participantContributions",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/objectives?section=participantContributions&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "structures",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/objectives?section=structures&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "plates",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/objectives?section=plates&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "combat",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "participant",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/combat?section=participant&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "killerVictimMatrix",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/combat?section=killerVictimMatrix&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "coParticipation",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/combat?section=coParticipation&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "sequences",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "deathEpisodes",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/sequences?section=deathEpisodes&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "deathRates",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/sequences?section=deathRates&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "killEpisodes",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/sequences?section=killEpisodes&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "killRates",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/sequences?section=killRates&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "goldChanges",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/sequences?section=goldChanges&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "temporalTrades",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/sequences?section=temporalTrades&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "comeback",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/sequences?section=comeback&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ]
+          },
+          {
+            "family": "progression",
+            "dataAvailable": true,
+            "reason": null,
+            "sections": [
+              {
+                "id": "inventory",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/progression?section=inventory&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "acquisitions",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/progression?section=acquisitions&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "transitions",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/progression?section=transitions&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "itemTimings",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/progression?section=itemTimings&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "skills",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/progression?section=skills&limit=10&evidenceLimit=3&mode=pastOnly"
+              },
+              {
+                "id": "reconciliation",
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/families/progression?section=reconciliation&limit=10&evidenceLimit=3&mode=pastOnly"
+              }
+            ],
+            "catalogs": {
+              "items": "catalog_unavailable",
+              "skills": "catalog_unavailable"
+            }
+          }
+        ],
+        "roleExplanation": "Cura, escudos, controle de grupo e visão tornam contribuições de suporte visíveis; dano e ouro baixos não determinam ineficiência.",
+        "episodes": {
+          "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/episodes?limit=10&evidenceLimit=3",
+          "reason": null
+        },
+        "readLimits": {
+          "eventLimit": 10000,
+          "eventRows": 1966,
+          "eventsTruncated": false,
+          "frameLimit": 300,
+          "frameRows": 41,
+          "framesTruncated": false
+        },
+        "payloadPolicy": {
+          "defaultCollectionLimit": 10,
+          "nestedPreviewLimit": 3,
+          "evidencePreviewLimit": 3,
+          "maximumPageSize": 50,
+          "filtersAffect": "presentation_only; metric denominators and calculation windows are unchanged"
+        },
+        "interpretation": "Quatro dimensões equivalentes; sem nota geral, causalidade ou referência histórica presumida."
+      },
+      "episodes": {
+        "schemaVersion": 1,
+        "matchId": "BR1_3200579475",
+        "puuid": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+        "reason": null,
+        "availability": {
+          "sequences": null,
+          "objectives": null
+        },
+        "filters": {
+          "kind": "death",
+          "fromMs": 1198000,
+          "toMs": 1200000
+        },
+        "page": {
+          "items": [
+            {
+              "id": "death:BR1_3200579475:20:49:60000",
+              "kind": "death",
+              "timestampMs": 1199103,
+              "title": "Morte registrada e capturas posteriores",
+              "interpretation": "Associação temporal; não demonstra causa, culpa, disponibilidade do objetivo ou intenção.",
+              "window": {
+                "startMs": 1199103,
+                "endMs": 1259103,
+                "bounds": "(]"
+              },
+              "occurrence": {
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C07",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "count",
+                "window": {
+                  "startMs": 1199103,
+                  "endMs": 1199103,
+                  "bounds": "[]"
+                },
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 1,
+                "origin": "derived",
+                "reason": null,
+                "method": "One distinct recorded event; captures do not multiply the number of deaths/kills",
+                "key": "episodes:WyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0OTo2MDAwMCIsIm9jY3VycmVuY2UiXQ",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "episodes:91d6467e001af67a6c07cac1",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/episodes%3A91d6467e001af67a6c07cac1?mode=pastOnly",
+                      "eventId": "BR1_3200579475:20:49",
+                      "timestampMs": 1199103
+                    }
+                  ],
+                  "total": 1,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/episodes%3AWyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0OTo2MDAwMCIsIm9jY3VycmVuY2UiXQ?mode=pastOnly"
+              },
+              "associatedCaptures": {
+                "metricVersion": 1,
+                "processingVersion": 2,
+                "processedAt": "2026-09-23T00:00:00.000Z",
+                "metricId": "C07",
+                "matchId": "BR1_3200579475",
+                "subject": {
+                  "kind": "participant",
+                  "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+                },
+                "unit": "count",
+                "window": {
+                  "startMs": 1199103,
+                  "endMs": 1259103,
+                  "bounds": "(]"
+                },
+                "denominator": null,
+                "quality": {
+                  "validSamples": 1,
+                  "totalSamples": 1,
+                  "coverage": 1,
+                  "unknownEvents": 0,
+                  "reconciliationIssues": []
+                },
+                "value": 2,
+                "origin": "derived",
+                "reason": null,
+                "method": "Count captures returned by the versioned temporal-sequence calculation; association is not causation",
+                "key": "episodes:WyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0OTo2MDAwMCIsImFzc29jaWF0ZWRDYXB0dXJlcyJd",
+                "evidence": {
+                  "items": [
+                    {
+                      "id": "episodes:91d6467e001af67a6c07cac1",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/episodes%3A91d6467e001af67a6c07cac1?mode=pastOnly",
+                      "eventId": "BR1_3200579475:20:49",
+                      "timestampMs": 1199103
+                    },
+                    {
+                      "id": "episodes:d91cc33254d77656c53b4aff",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/episodes%3Ad91cc33254d77656c53b4aff?mode=pastOnly",
+                      "eventId": "BR1_3200579475:21:33",
+                      "timestampMs": 1240704
+                    },
+                    {
+                      "id": "episodes:9e7ba56f8aece9285ec84390",
+                      "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/episodes%3A9e7ba56f8aece9285ec84390?mode=pastOnly",
+                      "eventId": "BR1_3200579475:21:41",
+                      "timestampMs": 1244550
+                    }
+                  ],
+                  "total": 3,
+                  "offset": 0,
+                  "limit": 3,
+                  "hasMore": false,
+                  "next": null
+                },
+                "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/metrics/episodes%3AWyJkZWF0aDpCUjFfMzIwMDU3OTQ3NToyMDo0OTo2MDAwMCIsImFzc29jaWF0ZWRDYXB0dXJlcyJd?mode=pastOnly"
+              },
+              "events": {
+                "items": [
+                  {
+                    "eventId": "BR1_3200579475:20:49",
+                    "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/event%3ABR1_3200579475%3A20%3A49"
+                  },
+                  {
+                    "eventId": "BR1_3200579475:21:33",
+                    "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/event%3ABR1_3200579475%3A21%3A33"
+                  },
+                  {
+                    "eventId": "BR1_3200579475:21:41",
+                    "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/evidence/event%3ABR1_3200579475%3A21%3A41"
+                  }
+                ],
+                "total": 3,
+                "offset": 0,
+                "limit": 3,
+                "hasMore": false,
+                "next": null
+              },
+              "href": "/api/v1/matches/BR1_3200579475/report/gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA/episodes/death%3ABR1_3200579475%3A20%3A49%3A60000"
+            }
+          ],
+          "total": 1,
+          "offset": 0,
+          "limit": 10,
+          "hasMore": false,
+          "next": null
+        }
+      }
+    }
+  ],
+  "partialExcerpt": {
+    "provenance": {
+      "processingVersion": 2,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "known": true,
+      "reason": null
+    },
+    "availability": {
+      "status": "partial",
+      "finalTotals": {
+        "validN": 12,
+        "totalN": 12
+      },
+      "processingReason": null,
+      "eventsReason": "missing_event_projection",
+      "framesReason": "missing_snapshot_projection"
+    },
+    "firstFinalTotal": {
+      "metricVersion": 1,
+      "processingVersion": 2,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "label": "Ouro obtido",
+      "metricId": "E04",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "gold",
+      "window": null,
+      "denominator": null,
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "value": 24864,
+      "origin": "observed",
+      "reason": null,
+      "method": "Literal persisted final summary field; processing provenance may be unknown",
+      "key": "totals:WyJnb2xkRWFybmVkIl0",
+      "evidence": {
+        "items": [
+          {
+            "id": "totals:c7be421bc6bcc806194fe819",
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3Ac7be421bc6bcc806194fe819?mode=pastOnly"
+          }
+        ],
+        "total": 1,
+        "offset": 0,
+        "limit": 3,
+        "hasMore": false,
+        "next": null
+      },
+      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJnb2xkRWFybmVkIl0?mode=pastOnly"
+    }
+  },
+  "unknownProvenanceExcerpt": {
+    "provenance": {
+      "processingVersion": null,
+      "processedAt": null,
+      "known": false,
+      "reason": "missing_processing_metadata"
+    },
+    "availability": {
+      "status": "partial",
+      "finalTotals": {
+        "validN": 12,
+        "totalN": 12
+      },
+      "processingReason": "missing_processing_metadata",
+      "eventsReason": "missing_processing_metadata",
+      "framesReason": "missing_processing_metadata"
+    },
+    "firstFinalTotal": {
+      "metricVersion": 1,
+      "processingVersion": null,
+      "processedAt": null,
+      "label": "Ouro obtido",
+      "metricId": "E04",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "gold",
+      "window": null,
+      "denominator": null,
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "value": 24864,
+      "origin": "observed",
+      "reason": null,
+      "method": "Literal persisted final summary field; processing provenance may be unknown",
+      "key": "totals:WyJnb2xkRWFybmVkIl0",
+      "evidence": {
+        "items": [
+          {
+            "id": "totals:c7be421bc6bcc806194fe819",
+            "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/totals%3Ac7be421bc6bcc806194fe819?mode=pastOnly"
+          }
+        ],
+        "total": 1,
+        "offset": 0,
+        "limit": 3,
+        "hasMore": false,
+        "next": null
+      },
+      "href": "/api/v1/matches/BR1_3200579475/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/totals%3AWyJnb2xkRWFybmVkIl0?mode=pastOnly"
+    },
+    "firstDimension": {
+      "id": "resources",
+      "label": "Recursos",
+      "presentationWeight": 1,
+      "reason": "missing_processing_metadata",
+      "metrics": [
+        {
+          "label": "Ouro do time",
+          "key": "resources.gold.teamShare",
+          "metricId": "E04",
+          "window": null,
+          "denominator": null,
+          "value": null,
+          "unit": "percent",
+          "metricVersion": 1,
+          "processingVersion": null,
+          "processedAt": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_metadata",
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": {
+            "items": [],
+            "total": 0,
+            "offset": 0,
+            "limit": 3,
+            "hasMore": false,
+            "next": null
+          },
+          "href": null
+        },
+        {
+          "label": "Ouro obtido",
+          "key": "resources.gold.absolute",
+          "metricId": "E04",
+          "window": null,
+          "denominator": null,
+          "value": null,
+          "unit": "gold",
+          "metricVersion": 1,
+          "processingVersion": null,
+          "processedAt": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_metadata",
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": {
+            "items": [],
+            "total": 0,
+            "offset": 0,
+            "limit": 3,
+            "hasMore": false,
+            "next": null
+          },
+          "href": null
+        },
+        {
+          "label": "CS por minuto",
+          "key": "resources.cs.perMinute",
+          "metricId": "E02",
+          "window": null,
+          "denominator": null,
+          "value": null,
+          "unit": "cs_per_minute",
+          "metricVersion": 1,
+          "processingVersion": null,
+          "processedAt": null,
+          "origin": "unavailable",
+          "reason": "missing_processing_metadata",
+          "quality": {
+            "validSamples": 0,
+            "totalSamples": 1,
+            "coverage": 0,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "evidence": {
+            "items": [],
+            "total": 0,
+            "offset": 0,
+            "limit": 3,
+            "hasMore": false,
+            "next": null
+          },
+          "href": null
+        }
+      ]
+    }
+  }
+}

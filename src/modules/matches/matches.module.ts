@@ -1,5 +1,8 @@
 import { MatchBountiesStealsController } from './match-bounties-steals.controller';
 import { MatchBountiesStealsService } from './services/match-bounties-steals.service';
+import { ReportRepository } from './repositories/report.repository';
+import { MatchReportService } from './services/match-report.service';
+import { MatchReportController } from './match-report.controller';
 import { ProgressionRepository } from './repositories/progression.repository';
 import { MatchProgressionService } from './services/match-progression.service';
 import { MatchProgressionController } from './match-progression.controller';
@@ -34,6 +37,7 @@ import { MatchEconomyService } from './services/match-economy.service';
 @Module({
   imports: [PrismaModule, DataDragonModule],
   controllers: [
+    MatchReportController,
     MatchKillEpisodesController,
     MatchSequencesController,
     MatchMapPresenceController,
@@ -47,6 +51,8 @@ import { MatchEconomyService } from './services/match-economy.service';
   ],
   providers: [
     MatchBountiesStealsService,
+    ReportRepository,
+    MatchReportService,
     ProgressionRepository,
     MatchProgressionService,
     MatchMapPresenceService,

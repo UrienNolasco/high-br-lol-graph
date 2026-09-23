@@ -1,0 +1,70 @@
+{
+  "task": "MET-17",
+  "fixture": "BR1_3200579475",
+  "fixtureFrames": 41,
+  "schemaVersion": 1,
+  "gates": {
+    "unit": {
+      "suites": 3,
+      "tests": 16,
+      "command": "npm test -- --runInBand --testPathPatterns=report",
+      "seconds": 5.418
+    },
+    "http": {
+      "suites": 1,
+      "tests": 19,
+      "seconds": 8.947,
+      "runner": "coordinator",
+      "command": "npm run test:e2e -- --runInBand --testPathPatterns=report-contract.e2e-spec.ts"
+    },
+    "postgresql": {
+      "suites": 1,
+      "tests": 1,
+      "seconds": 12.867,
+      "runner": "coordinator, disposable integration database",
+      "command": "npm run test:integration -- --testPathPatterns=report.integration-spec.ts"
+    },
+    "build": {
+      "passed": true,
+      "command": "npm run build"
+    },
+    "lint": {
+      "passed": true,
+      "scope": "Changed src/test TypeScript files; offline audit script verified by ts-node and prettier (scripts excluded from ESLint project service)"
+    }
+  },
+  "coverage": [
+    "Four equal dimensions, no overall score, Fiora and Milio final summary reconciliation",
+    "Contribution to metric to evidence; one death to two captures to projected event identity",
+    "Nearest checkpoint roundtrip preserves future-selected frame and differs from pastOnly",
+    "Validated limits, intervals, modes, family/section allowlists, prototype-safe detail paths",
+    "Explicit collection total/hasMore/next and stable original indices after presentation filters",
+    "Missing timeline preserves final totals; absent processing has null date/version",
+    "Legacy processing generation, oversized event/frame projections, zero observed versus zero denominator",
+    "One RepeatableRead repository snapshot and bounded event query",
+    "Database fixture processed then MatchRaw removed; report and evidence remain queryable"
+  ],
+  "payloadBytes": {
+    "FioraSummary": 42274,
+    "MilioSummary": 42301,
+    "largestDefaultFamilyPageMeasured": 226197
+  },
+  "limits": {
+    "maximumPageSize": 50,
+    "maximumEvidencePreview": 20,
+    "defaultPageSize": 10,
+    "defaultEvidencePreview": 3,
+    "nestedPreview": 3,
+    "eventReadLimit": 10000,
+    "snapshotFrameCalculationLimit": 300
+  },
+  "compatibility": "Additive REST routes; existing family routes and calculations unchanged; no schema/migration/rebuild change",
+  "limitations": [
+    "Fixture example generation/date are synthetic and labeled; database test uses the real job metadata",
+    "Catalog access cached-only; unavailable catalog remains explicit",
+    "Snapshot JSON is read for one match before checking frame calculation limit",
+    "Repeated navigation requests may see a newer completed processing generation; there is no cross-request snapshot token",
+    "Payload bytes are fixture observations, not production latency/cost approval; MET-33 measures release budget",
+    "No usability sessions, retention result or player improvement claim"
+  ]
+}
