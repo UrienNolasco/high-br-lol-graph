@@ -1,3 +1,4 @@
+import { IndicatorModule } from './modules/indicators/indicator.module';
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
@@ -18,6 +19,7 @@ import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
+    IndicatorModule,
     LoggerModule,
     AppConfigModule,
     PrismaModule,

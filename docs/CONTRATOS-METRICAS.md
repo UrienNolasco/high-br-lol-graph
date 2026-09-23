@@ -58,3 +58,7 @@ O @15 legado é explicitamente `LEGACY_LANE_CHECKPOINT` metricVersion=0: primeir
 ## Relatório integrado MET-17
 
 [Contrato e navegação](RELATORIO-PARTIDA-MET17.md): `GET /api/v1/matches/:matchId/report/:puuid` e subrotas metrics, evidence, episodes e families. Quatro dimensões equivalentes, páginas com total/hasMore/next, modos preservados nos links, limites e 400/404 explícitos. Cada requisição compartilha uma leitura RepeatableRead, exclusivamente projeções e catálogos cached-only. Totais finais observados admitem proveniência nula no envelope específico do relatório; ausência de processamento não fabrica MetricResult. Rotas prévias permanecem compatíveis. [Exemplos com metadados de processamento sintéticos identificados](analysis/met17-report-examples.json).
+
+## Indicadores opcionais MET-29
+
+[Catálogo e histórico C12/B06/B07](INDICADORES-OPCIONAIS-MET29.md): rotas aditivas `GET /api/v1/indicators/catalog`, `/api/v1/matches/:matchId/indicators/:puuid` e `/api/v1/players/:puuid/indicators`. Contadores finais opcionais preservam ausência e zero; frequências usam timePlayed observado. Histórico com cursor criação/ID, N limitado à página, coortes por campeão/posição/patch/versão e nenhum percentil presumido. Sem novo schema ou geração, sem bruto/rede nos GETs. [Exemplos e cobertura por campo/versão](analysis/met29-optional-indicators-examples.json).

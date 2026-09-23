@@ -1,0 +1,73 @@
+{
+  "task": "MET-29",
+  "catalogVersion": 1,
+  "processingGenerationChanged": false,
+  "schemaChanged": false,
+  "fixture": "BR1_3200579475",
+  "gameVersion": "16.2.741.3171",
+  "independentRealMatches": 1,
+  "participants": 10,
+  "optionalFields": 24,
+  "fieldFamilies": {
+    "C12": 4,
+    "B06": 6,
+    "B07": 14
+  },
+  "coverage": {
+    "validCounterObservations": 240,
+    "totalCounterObservations": 240,
+    "validDurationPairs": 200,
+    "totalDurationPairs": 200
+  },
+  "payloadBytes": {
+    "FioraAllFamilies": 54497,
+    "MilioAllFamilies": 54487
+  },
+  "unitGate": {
+    "suites": 2,
+    "tests": 38,
+    "seconds": 3.911,
+    "command": "npm test -- --runInBand --testPathPatterns=indicator"
+  },
+  "validationScope": [
+    "Literal optional counts; absent, invalid and observed zero remain distinct",
+    "Rates use only observed participant timePlayed, no gameDuration fallback",
+    "Historical rate uses matching valid counter-duration pairs and reports N",
+    "Distinct match/player identity, exact champion/role/patch/full-version/generation strata",
+    "Bounded source pages and filter-scoped creation/ID cursor with SQL tie-break",
+    "No skillshot accuracy, cast timestamps/cooldowns or communication/toxicity judgment",
+    "Unknown patch marked outside validation corpus; unknown catalog keys not promoted",
+    "Legacy/missing processing provenance is explicit and excluded from derived aggregates"
+  ],
+  "limitations": [
+    "One real fixture patch; other versions and missing data variants are synthetic tests",
+    "Example publication metadata is synthetic and identified in the examples artifact",
+    "Historical N and aggregates apply only to the selected cursor page, not all filtered matches",
+    "No cross-request snapshot token, population percentile or predictor based on final counters",
+    "GETs read existing final projections only; no Riot, CDN, MatchRaw, events or frames"
+  ],
+  "build": {
+    "passed": true,
+    "command": "npm run build"
+  },
+  "lint": {
+    "passed": true,
+    "scope": "Changed src/test TypeScript; audit script verified separately by ts-node and prettier"
+  },
+  "postgresqlGate": {
+    "suites": 1,
+    "tests": 1,
+    "seconds": 15.104,
+    "runner": "coordinator on disposable integration PostgreSQL",
+    "command": "npm run test:integration -- --testPathPatterns=indicators.integration-spec.ts",
+    "includes": "Real processing then raw deletion; actual cursor SQL across equal-creation-time original and one synthetic copy"
+  },
+  "httpGate": {
+    "suites": 1,
+    "tests": 15,
+    "seconds": 3.814,
+    "runner": "coordinator",
+    "command": "npm run test:e2e -- --runInBand --testPathPatterns=indicator-contract.e2e-spec.ts",
+    "note": "Subsequent Int32 upper-bound filter guard verified by two additional unit cases; ordinary routes unchanged"
+  }
+}
