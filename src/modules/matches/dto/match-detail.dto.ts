@@ -1,9 +1,25 @@
+import {
+  FinalParticipantStatsDto,
+  FinalObjectivesDto,
+  FinalMatchContextDto,
+} from './final-stats.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 /**
  * DTO para representar um time na partida
  */
 export class MatchTeamDto {
+  @ApiProperty({
+    type: FinalObjectivesDto,
+    nullable: true,
+    description:
+      'Totais finais do resumo, separados dos eventos; null no legado anterior ao rebuild.',
+  })
+  finalObjectives: FinalObjectivesDto | null;
+  @ApiProperty({ type: String, nullable: true }) finalObjectivesReason:
+    | string
+    | null;
+
   @ApiProperty({ description: 'ID do time (100=Blue, 200=Red)' })
   teamId: number;
 
@@ -29,6 +45,23 @@ export class MatchTeamDto {
  * Versão COMPLETA com todos os dados de timeline
  */
 export class ParticipantDetailDto {
+  @ApiProperty({ type: FinalParticipantStatsDto, nullable: true })
+  finalStats: FinalParticipantStatsDto | null;
+  @ApiProperty({ type: String, nullable: true }) finalStatsReason:
+    | string
+    | null;
+  @ApiProperty({ type: String, nullable: true }) riotIdGameName: string | null;
+  @ApiProperty({ type: String, nullable: true }) riotIdTagline: string | null;
+  @ApiProperty({ type: String, nullable: true }) riotIdReason: string | null;
+  @ApiProperty({
+    example: 'naul#001',
+    description:
+      'Riot ID quando disponível; fallback summonerName e depois PUUID.',
+  })
+  displayName: string;
+  @ApiProperty({ enum: ['riot_id', 'summoner_name', 'puuid'] })
+  displayNameSource: string;
+
   @ApiProperty({ description: 'PUUID do jogador' })
   puuid: string;
 
@@ -159,6 +192,12 @@ export class ParticipantDetailDto {
  * DTO para representar detalhes completos de uma partida
  */
 export class MatchDetailDto {
+  @ApiProperty({ type: FinalMatchContextDto, nullable: true })
+  finalContext: FinalMatchContextDto | null;
+  @ApiProperty({ type: String, nullable: true }) finalContextReason:
+    | string
+    | null;
+
   @ApiProperty({ description: 'ID da partida' })
   matchId: string;
 

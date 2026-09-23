@@ -1,0 +1,135 @@
+{
+  "task": "MET-05",
+  "fixture": "BR1_3200579475",
+  "gameVersion": "16.2.741.3171",
+  "source": "one real repository fixture; no additional patch representativeness claim",
+  "projectionVersion": 1,
+  "numericUnits": {
+    "wardsPlaced": "count",
+    "wardsKilled": "count",
+    "detectorWardsPlaced": "count",
+    "visionWardsBoughtInGame": "count",
+    "sightWardsBoughtInGame": "count",
+    "visionScore": "score",
+    "totalDamageDealt": "damage",
+    "physicalDamageDealt": "damage",
+    "magicDamageDealt": "damage",
+    "trueDamageDealt": "damage",
+    "totalDamageDealtToChampions": "damage",
+    "physicalDamageDealtToChampions": "damage",
+    "magicDamageDealtToChampions": "damage",
+    "trueDamageDealtToChampions": "damage",
+    "totalDamageTaken": "damage",
+    "physicalDamageTaken": "damage",
+    "magicDamageTaken": "damage",
+    "trueDamageTaken": "damage",
+    "damageSelfMitigated": "damage",
+    "damageDealtToBuildings": "damage",
+    "damageDealtToObjectives": "damage",
+    "damageDealtToTurrets": "damage",
+    "damageDealtToEpicMonsters": "damage",
+    "totalHeal": "health",
+    "totalHealsOnTeammates": "health",
+    "totalDamageShieldedOnTeammates": "damage",
+    "totalUnitsHealed": "count",
+    "timeCCingOthers": "seconds",
+    "totalTimeCCDealt": "seconds",
+    "totalTimeSpentDead": "seconds",
+    "timePlayed": "seconds",
+    "longestTimeSpentLiving": "seconds",
+    "totalMinionsKilled": "cs",
+    "neutralMinionsKilled": "cs",
+    "totalAllyJungleMinionsKilled": "cs",
+    "totalEnemyJungleMinionsKilled": "cs",
+    "spell1Casts": "count",
+    "spell2Casts": "count",
+    "spell3Casts": "count",
+    "spell4Casts": "count",
+    "summoner1Casts": "count",
+    "summoner2Casts": "count",
+    "goldEarned": "gold",
+    "goldSpent": "gold",
+    "champExperience": "xp",
+    "champLevel": "level",
+    "baronKills": "count",
+    "dragonKills": "count",
+    "turretKills": "count",
+    "turretTakedowns": "count",
+    "inhibitorKills": "count",
+    "inhibitorTakedowns": "count",
+    "nexusKills": "count",
+    "nexusTakedowns": "count",
+    "objectivesStolen": "count",
+    "objectivesStolenAssists": "count"
+  },
+  "booleanFields": [
+    "gameEndedInSurrender",
+    "gameEndedInEarlySurrender",
+    "teamEarlySurrendered"
+  ],
+  "participants": [
+    {
+      "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "championName": "Fiora",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+      "championName": "Karthus",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ",
+      "championName": "Quinn",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA",
+      "championName": "Varus",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+      "championName": "Milio",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "0qNyt7J3guxGHtH9ti4tq5zzwy_LPnQtnPSOk5t9Qk_5KZVfoNrUo9SVU5pQa3iEjmTivRe7ZWKbzw",
+      "championName": "Singed",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA",
+      "championName": "Aatrox",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw",
+      "championName": "Zoe",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w",
+      "championName": "Zyra",
+      "checkedFields": 59,
+      "coverage": 1
+    },
+    {
+      "puuid": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg",
+      "championName": "Zilean",
+      "checkedFields": 59,
+      "coverage": 1
+    }
+  ],
+  "participantChecks": 590,
+  "objectiveChecks": 32,
+  "failures": 0
+}

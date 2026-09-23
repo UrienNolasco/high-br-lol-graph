@@ -18,7 +18,10 @@ export interface MatchInfo {
   gameDuration: number;
   gameMode: string;
   gameName: string;
-  gameStartTimestamp: number;
+  gameStartTimestamp?: number | null;
+  gameEndTimestamp?: number | null;
+  gameId?: number | null;
+  endOfGameResult?: string | null;
   gameType: string;
   gameVersion: string;
   mapId: number;
@@ -43,10 +46,10 @@ export interface ParticipantDto {
   championTransform: number;
   commandPings: number;
   consumablesPurchased: number;
-  damageDealtToBuildings: number;
-  damageDealtToObjectives: number;
-  damageDealtToTurrets: number;
-  damageSelfMitigated: number;
+  damageDealtToBuildings?: number | null;
+  damageDealtToObjectives?: number | null;
+  damageDealtToTurrets?: number | null;
+  damageSelfMitigated?: number | null;
   dangerPings: number;
   deaths: number;
   doubleKills: number;
@@ -79,9 +82,9 @@ export interface ParticipantDto {
   largestKillingSpree: number;
   largestMultiKill: number;
   longestTimeSpentLiving: number;
-  magicDamageDealt: number;
-  magicDamageDealtToChampions: number;
-  magicDamageTaken: number;
+  magicDamageDealt?: number | null;
+  magicDamageDealtToChampions?: number | null;
+  magicDamageTaken?: number | null;
   neutralMinionsKilled: number;
   nexusKills: number;
   nexusTakedowns: number;
@@ -92,51 +95,59 @@ export interface ParticipantDto {
   participantId: number;
   pings: unknown[];
   pentakills: number;
-  physicalDamageDealt: number;
-  physicalDamageDealtToChampions: number;
-  physicalDamageTaken: number;
+  physicalDamageDealt?: number | null;
+  physicalDamageDealtToChampions?: number | null;
+  physicalDamageTaken?: number | null;
   platformId: string;
   profileIcon: number;
   puuid: string;
   quadraKills: number;
-  riotIdGameName: string;
-  riotIdTagline: string;
+  riotIdGameName?: string | null;
+  riotIdTagline?: string | null;
   role: string;
-  sightWardsBoughtInGame: number;
-  spell1Casts: number;
-  spell2Casts: number;
-  spell3Casts: number;
-  spell4Casts: number;
+  sightWardsBoughtInGame?: number | null;
+  spell1Casts?: number | null;
+  spell2Casts?: number | null;
+  spell3Casts?: number | null;
+  spell4Casts?: number | null;
   summoner1Id: number;
-  summoner1Casts: number;
+  summoner1Casts?: number | null;
   summoner2Id: number;
-  summoner2Casts: number;
+  summoner2Casts?: number | null;
   summonerLevel: number;
   summonerName: string;
-  teamEarlySurrendered: number;
+  teamEarlySurrendered?: boolean | null;
+  gameEndedInSurrender?: boolean | null;
+  gameEndedInEarlySurrender?: boolean | null;
   teamId: number;
   teamPosition: string;
-  timeCCingOthers: number;
-  timePlayed: number;
-  totalDamageDealt: number;
+  timeCCingOthers?: number | null;
+  timePlayed?: number | null;
+  totalDamageDealt?: number | null;
   totalDamageDealtToChampions: number;
-  totalDamageShieldedOnTeammates: number;
+  totalDamageShieldedOnTeammates?: number | null;
   totalDamageTaken: number;
-  totalHeal: number;
-  totalHealsOnTeammates: number;
+  totalHeal?: number | null;
+  totalHealsOnTeammates?: number | null;
   totalMinionsKilled: number;
-  totalTimeCCDealt: number;
-  totalTimeSpentDead: number;
-  totalUnitsHealed: number;
+  totalAllyJungleMinionsKilled?: number | null;
+  totalEnemyJungleMinionsKilled?: number | null;
+  wardsPlaced?: number | null;
+  wardsKilled?: number | null;
+  detectorWardsPlaced?: number | null;
+  damageDealtToEpicMonsters?: number | null;
+  totalTimeCCDealt?: number | null;
+  totalTimeSpentDead?: number | null;
+  totalUnitsHealed?: number | null;
   tripleKills: number;
-  trueDamageDealt: number;
-  trueDamageDealtToChampions: number;
-  trueDamageTaken: number;
+  trueDamageDealt?: number | null;
+  trueDamageDealtToChampions?: number | null;
+  trueDamageTaken?: number | null;
   turretKills: number;
   turretTakedowns: number;
   unrealKills: number;
   visionScore: number;
-  visionWardsBoughtInGame: number;
+  visionWardsBoughtInGame?: number | null;
   win: boolean;
   individualPosition: string;
   perks: PerksDto;
@@ -174,24 +185,27 @@ export interface BanDto {
 
 export interface TeamDto {
   bans: BanDto[];
-  objectives: TeamObjectivesDto;
+  objectives?: TeamObjectivesDto | null;
   teamId: number;
   win: boolean;
 }
 
 export interface TeamObjectivesDto {
-  baron: TeamObjectiveDto;
-  champion: TeamObjectiveDto;
-  dragon: TeamObjectiveDto;
-  inhibitor: TeamObjectiveDto;
-  riftHerald: TeamObjectiveDto;
-  tower: TeamObjectiveDto;
+  [type: string]: TeamObjectiveDto | undefined;
+  atakhan?: TeamObjectiveDto;
+  horde?: TeamObjectiveDto;
+  baron?: TeamObjectiveDto;
+  champion?: TeamObjectiveDto;
+  dragon?: TeamObjectiveDto;
+  inhibitor?: TeamObjectiveDto;
+  riftHerald?: TeamObjectiveDto;
+  tower?: TeamObjectiveDto;
 }
 
 export interface TeamObjectiveDto {
-  first: boolean;
-  kills: number;
-  lost: boolean;
+  first?: boolean | null;
+  kills?: number | null;
+  lost?: boolean | null;
 }
 
 // DTOs legados para compatibilidade

@@ -1,3 +1,4 @@
+import { participantDisplayName } from '../../../core/riot/final-stats';
 import { Injectable } from '@nestjs/common';
 import { MatchRepository } from '../repositories/match.repository';
 import { MatchDetailDto } from '../dto/match-detail.dto';
@@ -14,6 +15,23 @@ export class MatchDetailService {
     return {
       ...match,
       gameCreation: match.gameCreation.toString(),
-    } as MatchDetailDto;
+      finalContext: match.finalContext ?? null,
+      finalContextReason: match.finalContext ? null : 'not_calculated',
+      teams: (match.teams ?? []).map((team) => ({
+        ...team,
+        finalObjectives: team.finalObjectives ?? null,
+        finalObjectivesReason: team.finalObjectives ? null : 'not_calculated',
+      })),
+      participants: (match.participants ?? []).map((p) => ({
+        ...p,
+        ...participantDisplayName(p),
+        riotIdGameName: p.riotIdGameName ?? null,
+        riotIdTagline: p.riotIdTagline ?? null,
+        riotIdReason:
+          p.riotIdGameName && p.riotIdTagline ? null : 'missing_field',
+        finalStats: p.finalStats ?? null,
+        finalStatsReason: p.finalStats ? null : 'not_calculated',
+      })),
+    } as unknown as MatchDetailDto;
   }
 }

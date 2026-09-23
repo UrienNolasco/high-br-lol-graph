@@ -1,3 +1,7 @@
+import {
+  FINAL_STAT_UNITS,
+  FINAL_FLAG_FIELDS,
+} from '../../src/core/riot/final-stats';
 import { DiscoveryReportService } from '../../src/core/processing/discovery-report.service';
 import { DiscoveryContext } from '../../src/core/processing/discovery';
 import { readFileSync } from 'node:fs';
@@ -823,4 +827,93 @@ test('legacy origins stay unknown and report accounts for incomplete raw pairs a
     unknownN: 3,
     first: new Date(summary.info.gameCreation).toISOString(),
   });
+});
+
+test('final summary projections reconcile ten participants, remain nullable, retain raw and rebuild twice', async () => {
+  const { summary, timeline } = fixture();
+  const matchId = summary.metadata.matchId;
+  await seed(summary, timeline);
+  await worker.processMatch({ matchId });
+  const persisted = await prisma.match.findUniqueOrThrow({
+    where: { matchId },
+    include: { participants: true, teams: true },
+  });
+  expect(persisted.participants).toHaveLength(10);
+  for (const participant of persisted.participants) {
+    const original = summary.info.participants.find(
+      (p) => p.puuid === participant.puuid,
+    )!;
+    const stats = participant.finalStats as any;
+    for (const field of [
+      ...Object.keys(FINAL_STAT_UNITS),
+      ...FINAL_FLAG_FIELDS,
+    ]) {
+      expect(stats.values[field]).toEqual(original[field] ?? null);
+    }
+    expect(participant.riotIdGameName).toBe(original.riotIdGameName);
+    expect(participant.riotIdTagline).toBe(original.riotIdTagline);
+    expect(stats.quality.coverage).toBe(1);
+  }
+  for (const team of persisted.teams) {
+    const original = summary.info.teams.find((t) => t.teamId === team.teamId)!;
+    const totals = team.finalObjectives as any;
+    for (const [type, value] of Object.entries(original.objectives!)) {
+      expect(totals.values[type].kills).toBe(value!.kills);
+      expect(totals.values[type].first).toBe(value!.first);
+    }
+    expect(Array.isArray(team.objectivesTimeline)).toBe(true);
+    expect((team.objectivesTimeline as any[]).length).toBeGreaterThan(0);
+  }
+  expect(await jobs.readRaw(matchId, 'summary')).toEqual(summary);
+  const legacy = fixture('BR1_505');
+  delete legacy.summary.info.participants[0].totalHealsOnTeammates;
+  delete legacy.summary.info.participants[0].riotIdGameName;
+  delete legacy.summary.info.teams[0].objectives;
+  await seed(legacy.summary, legacy.timeline);
+  await worker.processMatch({ matchId: 'BR1_505' });
+  const projection = async () =>
+    prisma.match.findMany({
+      orderBy: { matchId: 'asc' },
+      select: {
+        matchId: true,
+        finalContext: true,
+        participants: {
+          orderBy: { puuid: 'asc' },
+          select: {
+            puuid: true,
+            riotIdGameName: true,
+            riotIdTagline: true,
+            finalStats: true,
+          },
+        },
+        teams: {
+          orderBy: { teamId: 'asc' },
+          select: {
+            teamId: true,
+            finalObjectives: true,
+            objectivesTimeline: true,
+          },
+        },
+      },
+    });
+  const projected = await projection();
+  const missing = projected.find((m) => m.matchId === 'BR1_505')!;
+  const missingParticipant = missing.participants.find(
+    (p) => p.puuid === legacy.summary.info.participants[0].puuid,
+  )!;
+  expect(
+    (missingParticipant.finalStats as any).values.totalHealsOnTeammates,
+  ).toBeNull();
+  expect(
+    (missingParticipant.finalStats as any).missingReasons.totalHealsOnTeammates,
+  ).toBe('missing_field');
+  expect(missingParticipant.riotIdGameName).toBeNull();
+  expect((missing.teams[0].finalObjectives as any).values.dragon).toBeNull();
+  const aggregateBefore = await snapshot();
+  for (let i = 0; i < 2; i++) {
+    expect(await new RebuildService(prisma, worker).run()).toBe(2);
+    expect(await projection()).toEqual(projected);
+    expect(await snapshot()).toEqual(aggregateBefore);
+    expect(await jobs.readRaw('BR1_505', 'summary')).toEqual(legacy.summary);
+  }
 });

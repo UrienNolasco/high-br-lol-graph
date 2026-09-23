@@ -19,6 +19,7 @@ model Match {
   gameVersion  String
   mapId        Int
   hasTimeline  Boolean @default(true)
+  finalContext Json?
 
   teams        MatchTeam[]
   participants MatchParticipant[]
@@ -46,13 +47,16 @@ model MatchParticipant {
   puuid   String
   match   Match  @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
 
-  summonerName String
-  championId   Int
-  championName String
-  teamId       Int
-  role         String
-  lane         String
-  win          Boolean
+  riotIdGameName String?
+  riotIdTagline  String?
+  finalStats     Json?
+  summonerName   String
+  championId     Int
+  championName   String
+  teamId         Int
+  role           String
+  lane           String
+  win            Boolean
 
   // Estatísticas finais (Match V5)
   kills       Int
@@ -103,6 +107,7 @@ model MatchTeam {
   win                Boolean
   bans               Int[]
   objectivesTimeline Json
+  finalObjectives    Json?
 
   match Match @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
 

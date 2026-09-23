@@ -1,3 +1,9 @@
+import {
+  projectFinalStats,
+  projectFinalContext,
+  projectFinalObjectives,
+  optionalText,
+} from '../../../core/riot/final-stats';
 import { MatchDto, ParticipantDto } from '../../../core/riot/dto/match.dto';
 import { Prisma } from '@prisma/client';
 import { projectFinalInventory } from '../../../core/riot/final-inventory';
@@ -11,6 +17,7 @@ export interface ProcessedMatchData {
     queueId: number;
     gameVersion: string;
     mapId: number;
+    finalContext: Prisma.InputJsonValue;
   };
   teams: Array<{
     matchId: string;
@@ -18,11 +25,15 @@ export interface ProcessedMatchData {
     win: boolean;
     bans: number[];
     objectivesTimeline: Prisma.InputJsonValue;
+    finalObjectives: Prisma.InputJsonValue;
   }>;
   participants: Array<{
     matchId: string;
     puuid: string;
     summonerName: string;
+    riotIdGameName: string | null;
+    riotIdTagline: string | null;
+    finalStats: Prisma.InputJsonValue;
     championId: number;
     championName: string;
     teamId: number;
@@ -78,6 +89,7 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
     queueId: info.queueId,
     gameVersion: info.gameVersion,
     mapId: info.mapId,
+    finalContext: projectFinalContext(info) as unknown as Prisma.InputJsonValue,
   };
 
   const teams =
@@ -86,10 +98,11 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
       teamId: team.teamId,
       win: team.win,
       bans: team.bans?.map((b) => b.championId).filter((id) => id > 0) || [],
-      // TeamObjectivesDto lacks an index signature so TypeScript can't verify
-      // structural compatibility with InputJsonValue without going through unknown.
-      // Safe: this value comes directly from Riot API JSON, always serializable.
-      objectivesTimeline: team.objectives as unknown as Prisma.InputJsonValue,
+      // Totals are summary observations; the timeline is populated only from events.
+      objectivesTimeline: [],
+      finalObjectives: projectFinalObjectives(
+        team.objectives,
+      ) as unknown as Prisma.InputJsonValue,
     })) || [];
 
   const participants = info.participants.map(
@@ -108,6 +121,9 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
         matchId: metadata.matchId,
         puuid: p.puuid,
         summonerName: p.summonerName,
+        riotIdGameName: optionalText(p.riotIdGameName),
+        riotIdTagline: optionalText(p.riotIdTagline),
+        finalStats: projectFinalStats(p) as unknown as Prisma.InputJsonValue,
         championId: p.championId,
         championName: p.championName,
         teamId: p.teamId,

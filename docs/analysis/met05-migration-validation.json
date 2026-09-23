@@ -1,0 +1,68 @@
+{
+  "task": "MET-05",
+  "validatedAt": "2026-09-23",
+  "environment": "disposable high_br_integration only; existing synthetic test data; no production access",
+  "migration": "20260923030000_met05",
+  "legacyDataPreserved": true,
+  "fingerprintMethod": "md5 of concatenated ordered to_jsonb(row) after removing only the five new MET05 column names; identical before/after migration",
+  "identicalBeforeAndAfter": {
+    "matches": {
+      "rows": 1,
+      "md5": "f02d8dae5cbb2fe0865df999be6b97ae"
+    },
+    "match_participants": {
+      "rows": 10,
+      "md5": "e29139673d2aaada02f67cb8b2028de2"
+    },
+    "match_teams": {
+      "rows": 2,
+      "md5": "d91f93db96962ea50bae3ab8346c2a8d"
+    },
+    "match_raw": {
+      "rows": 1,
+      "md5": "1250ea6a313bbf0cb379b4153176fe8d"
+    },
+    "match_processing": {
+      "rows": 1,
+      "md5": "76043b725f22b40347e8b1e8a5e45a3c"
+    },
+    "player_stats": {
+      "rows": 20,
+      "md5": "8cfb4f5b943889d1d0615c5b1270e413"
+    },
+    "champion_stats": {
+      "rows": 10,
+      "md5": "d0096ad793d1be1cf99d656feb8dffa5"
+    },
+    "player_champion_stats": {
+      "rows": 20,
+      "md5": "978c0f2732ce1af4f8e395f78f5939ab"
+    }
+  },
+  "beforeReader": "MET05 agent",
+  "migrationAndAfterReader": "root coordinator using MET05 worktree and isolated Prisma client",
+  "checks": {
+    "build": "passed",
+    "prismaValidate": "passed",
+    "unit": {
+      "suites": 57,
+      "tests": 285,
+      "passed": true
+    },
+    "http": {
+      "suites": 11,
+      "tests": 64,
+      "passed": true
+    },
+    "integration": {
+      "suites": 2,
+      "tests": 26,
+      "seconds": 44.799,
+      "passed": true
+    },
+    "twoRebuildsPreserveFinalProjectionsAndAggregates": true,
+    "rawSummaryRetained": true,
+    "participantReconciliationChecks": 590,
+    "objectiveReconciliationChecks": 32
+  }
+}

@@ -487,6 +487,8 @@ MET-07 implementa a correção O08 da rota legada; fórmula, migração de `thro
 
 MET-18 registra observações de descoberta e oferece relatório CLI de linhagem/completude; contrato, população e limitações estão em [ORIGEM-E-COBERTURA.md](ORIGEM-E-COBERTURA.md).
 
+MET-05 promove estatísticas finais e contexto com ausência explícita; catálogo, reconciliação e compatibilidade em [ESTATISTICAS-FINAIS.md](ESTATISTICAS-FINAIS.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 1. Fórmula, unidade, fonte, denominador, filtro, janela e ausência documentados; referência ao ID da oportunidade preservada.
