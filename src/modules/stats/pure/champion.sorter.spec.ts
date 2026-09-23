@@ -64,4 +64,21 @@ describe('champion.sorter', () => {
     const result = sortChampions(champions, 'winRate', 'desc');
     expect(result).toHaveLength(2);
   });
+
+  it('keeps unknown values last in both directions and breaks ties by champion id', () => {
+    const unknown = {
+      ...makeChampion('Unknown', 0, 0),
+      championId: 99,
+      winRate: null,
+    };
+    const zero = { ...makeChampion('Zero', 0, 20), championId: 3 };
+    const tie = { ...makeChampion('Tie', 0, 10), championId: 2 };
+    for (const order of ['asc', 'desc'] as const) {
+      expect(
+        sortChampions([unknown, zero, tie], 'winRate', order).map(
+          (c) => c.championId,
+        ),
+      ).toEqual([2, 3, 99]);
+    }
+  });
 });

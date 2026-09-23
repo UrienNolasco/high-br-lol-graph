@@ -1,79 +1,39 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ChampionStatsRepository } from './champion-stats.repository';
-import { PrismaService } from '../../../core/prisma/prisma.service';
 
-describe('ChampionStatsRepository', () => {
-  let repo: ChampionStatsRepository;
-  let prisma: {
-    championStats: {
-      findMany: jest.Mock;
-      findFirst: jest.Mock;
-      findUnique: jest.Mock;
-    };
-  };
-
-  beforeEach(async () => {
-    prisma = {
-      championStats: {
-        findMany: jest.fn().mockResolvedValue([]),
-        findFirst: jest.fn(),
-        findUnique: jest.fn(),
+describe('champion population repository contract', () => {
+  const prisma = { $queryRaw: jest.fn() };
+  const repo = new ChampionStatsRepository(prisma as any);
+  it('keeps metadata when no champion has eligible observations', async () => {
+    prisma.$queryRaw.mockResolvedValue([
+      {
+        championId: null,
+        selectedN: 2,
+        eligibleN: 0,
+        excludedN: 2,
+        bansObservedN: 0,
+        excludedReasons: { missing_eligibility_projection: 2 },
       },
-    };
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ChampionStatsRepository,
-        { provide: PrismaService, useValue: prisma },
-      ],
-    }).compile();
-    repo = module.get<ChampionStatsRepository>(ChampionStatsRepository);
-  });
-
-  describe('findManyByPatch', () => {
-    it('should query champion stats by patch', async () => {
-      await repo.findManyByPatch('15.1');
-      expect(prisma.championStats.findMany).toHaveBeenCalledWith({
-        where: { patch: '15.1', queueId: 420 },
-      });
+    ]);
+    expect(await repo.findPopulation('16.2', 420)).toEqual({
+      champions: [],
+      cohort: {
+        patch: '16.2',
+        queueId: 420,
+        mapId: 11,
+        selectedN: 2,
+        eligibleN: 0,
+        excludedN: 2,
+        bansObservedN: 0,
+        excludedReasons: { missing_eligibility_projection: 2 },
+      },
     });
   });
-
-  describe('findByChampionIdAndPatch', () => {
-    it('should query by championId and patch', async () => {
-      await repo.findByChampionIdAndPatch(1, '15.1');
-      expect(prisma.championStats.findUnique).toHaveBeenCalledWith({
-        where: {
-          championId_patch_queueId: {
-            championId: 1,
-            patch: '15.1',
-            queueId: 420,
-          },
-        },
-      });
-    });
-  });
-
-  describe('findUnique', () => {
-    it('should query with composite key', async () => {
-      await repo.findUnique(1, '15.1', 420);
-      expect(prisma.championStats.findUnique).toHaveBeenCalledWith({
-        where: {
-          championId_patch_queueId: {
-            championId: 1,
-            patch: '15.1',
-            queueId: 420,
-          },
-        },
-      });
-    });
-  });
-
-  describe('findQualifiedStats', () => {
-    it('should query stats with minimum games filter', async () => {
-      await repo.findQualifiedStats('15.1', 50);
-      expect(prisma.championStats.findMany).toHaveBeenCalledWith({
-        where: { patch: '15.1', queueId: 420, gamesPlayed: { gte: 50 } },
-      });
-    });
+  it('binds an exact patch boundary and independent queue; rejects unsupported filters', async () => {
+    prisma.$queryRaw.mockResolvedValue([]);
+    await repo.findPopulation('16.2', 440);
+    const sql = prisma.$queryRaw.mock.calls.at(-1)![0];
+    expect(sql.values).toEqual([440, '16.2', '16.2.%']);
+    await expect(repo.findPopulation('16.2%')).rejects.toThrow();
+    await expect(repo.findPopulation('16.2', 450)).rejects.toThrow();
   });
 });

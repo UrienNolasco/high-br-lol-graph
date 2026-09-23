@@ -1,7 +1,7 @@
 // Persistence/aggregate generation, independent from per-definition metricVersion.
 // Formula changes affecting persisted values require a bump and offline rebuild.
 // Adding pure contracts alone does not invalidate existing persisted work.
-export const PROCESSING_VERSION = 2;
+export const PROCESSING_VERSION = 3;
 export const PROCESSING_GATE = 938402;
 export const LEASE_MS = 120_000;
 export const MAX_ATTEMPTS = 6;

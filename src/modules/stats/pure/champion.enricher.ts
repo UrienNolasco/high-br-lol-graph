@@ -1,15 +1,14 @@
-import { ChampionMetrics } from '../services/tier-rank.service';
+import {
+  ChampionMetrics,
+  ScoreResult,
+  TIER_METHOD,
+} from '../services/tier-rank.service';
+import { ChampionPopulationRow } from '../repositories/champion-stats.repository';
+import { ChampionStatsDto } from '../dto/champion-stats.dto';
 
-export function toChampionMetrics(stat: {
-  winRate: number;
-  banRate: number;
-  pickRate: number;
-  kda: number;
-  dpm: number;
-  gpm: number;
-  cspm: number;
-  gamesPlayed: number;
-}): ChampionMetrics {
+export function toChampionMetrics(
+  stat: ChampionMetrics & { performanceN?: number },
+): ChampionMetrics {
   return {
     winRate: stat.winRate,
     banRate: stat.banRate,
@@ -18,50 +17,75 @@ export function toChampionMetrics(stat: {
     dpm: stat.dpm,
     gpm: stat.gpm,
     cspm: stat.cspm,
-    gamesPlayed: stat.gamesPlayed,
+    gamesPlayed: stat.performanceN ?? stat.gamesPlayed,
   };
 }
-
-export interface EnrichedChampion {
-  championId: number;
-  championName: string;
-  winRate: number;
-  gamesPlayed: number;
-  wins: number;
-  losses: number;
-  images: { square: string; loading: string; splash: string } | null;
-  kda: number;
-  dpm: number;
-  cspm: number;
-  gpm: number;
-  banRate: number;
-  pickRate: number;
-  tier: string;
-  rank: number | null;
-  score: number;
-  hasInsufficientData: boolean;
-}
-
+export type EnrichedChampion = ChampionStatsDto & ScoreResult;
 export function toChampionDto(c: EnrichedChampion) {
-  return {
-    championId: c.championId,
-    championName: c.championName,
-    winRate: c.winRate,
-    gamesPlayed: c.gamesPlayed,
-    wins: c.wins,
-    losses: c.losses,
-    images: c.images,
-    kda: c.kda,
-    dpm: c.dpm,
-    cspm: c.cspm,
-    gpm: c.gpm,
-    banRate: c.banRate,
-    pickRate: c.pickRate,
-    tier: c.tier,
-    rank: c.rank,
-  };
+  return { ...c };
+}
+export function r2(v: number | null): number | null {
+  return v === null ? null : parseFloat(v.toFixed(2));
 }
 
-export function r2(v: number): number {
-  return parseFloat(v.toFixed(2));
+export function championDto(
+  stat: ChampionPopulationRow,
+  score: ScoreResult,
+  images: ChampionStatsDto['images'],
+  name: string | null,
+  catalogAvailable: boolean,
+  previousPatch: string | null,
+): ChampionStatsDto {
+  return {
+    championId: stat.championId,
+    championName: name ?? stat.championName,
+    images,
+    winRate: stat.winRate,
+    gamesPlayed: stat.gamesPlayed,
+    wins: stat.wins,
+    losses: stat.losses,
+    kda: stat.kda,
+    dpm: stat.dpm,
+    cspm: stat.cspm,
+    gpm: stat.gpm,
+    banRate: stat.banRate,
+    pickRate: stat.pickRate,
+    tier: score.tier,
+    rank: null,
+    score: score.score,
+    hasInsufficientData: score.hasInsufficientData,
+    metricId: 'H07',
+    metricVersion: 1,
+    availability: {
+      performance: stat.performanceN
+        ? null
+        : stat.pickedMatches
+          ? 'ambiguous_selection'
+          : 'no_picks',
+      banRate:
+        stat.banRate === null
+          ? stat.eligibleN
+            ? 'missing_bans'
+            : 'zero_denominator'
+          : null,
+      pickRate: stat.pickRate === null ? 'zero_denominator' : null,
+      catalog: catalogAvailable ? null : 'missing_catalog',
+      tier: score.reason ?? null,
+    },
+    population: {
+      eligibleN: stat.eligibleN,
+      selectedN: stat.selectedN,
+      excludedN: stat.excludedN,
+      excludedReasons: stat.excludedReasons,
+      pickedMatches: stat.pickedMatches,
+      bannedMatches: stat.bannedMatches,
+      bansObservedN: stat.bansObservedN,
+      performanceN: stat.performanceN,
+      banCoverage: stat.eligibleN ? stat.bansObservedN / stat.eligibleN : null,
+      patch: stat.patch,
+      queueId: stat.queueId,
+      mapId: 11,
+    },
+    tierMethod: { ...TIER_METHOD, previousPatch },
+  };
 }

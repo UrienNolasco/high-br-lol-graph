@@ -1,81 +1,24 @@
-import { toChampionMetrics, toChampionDto, r2 } from './champion.enricher';
+import { toChampionMetrics, r2 } from './champion.enricher';
 
-describe('champion.enricher', () => {
-  describe('toChampionMetrics', () => {
-    it('should map stat row to ChampionMetrics', () => {
-      const row = {
-        winRate: 55,
-        banRate: 15,
-        pickRate: 20,
-        kda: 3.0,
-        dpm: 700,
-        gpm: 450,
-        cspm: 8.0,
-        gamesPlayed: 100,
-      };
-      const result = toChampionMetrics(row);
-      expect(result).toEqual({
-        winRate: 55,
-        banRate: 15,
-        pickRate: 20,
-        kda: 3.0,
-        dpm: 700,
-        gpm: 450,
-        cspm: 8.0,
-        gamesPlayed: 100,
-      });
+describe('champion metric availability', () => {
+  it('uses valid performance N for heuristic sample threshold and preserves null ban rate', () => {
+    const result = toChampionMetrics({
+      gamesPlayed: 100,
+      performanceN: 20,
+      winRate: 55,
+      banRate: null,
+      pickRate: 50,
+      kda: 2,
+      dpm: 700,
+      gpm: 500,
+      cspm: 8,
     });
+    expect(result.gamesPlayed).toBe(20);
+    expect(result.banRate).toBeNull();
   });
-
-  describe('toChampionDto', () => {
-    it('should map enriched champion to DTO fields', () => {
-      const enriched = {
-        championId: 1,
-        championName: 'Annie',
-        winRate: 55,
-        gamesPlayed: 100,
-        wins: 55,
-        losses: 45,
-        images: { square: 's', loading: 'l', splash: 'sp' },
-        kda: 2.5,
-        dpm: 650,
-        cspm: 7.2,
-        gpm: 450,
-        banRate: 15,
-        pickRate: 12,
-        tier: 'S',
-        rank: 3,
-        score: 75,
-        hasInsufficientData: false,
-      };
-      const result = toChampionDto(enriched as any);
-      expect(result).toEqual({
-        championId: 1,
-        championName: 'Annie',
-        winRate: 55,
-        gamesPlayed: 100,
-        wins: 55,
-        losses: 45,
-        images: { square: 's', loading: 'l', splash: 'sp' },
-        kda: 2.5,
-        dpm: 650,
-        cspm: 7.2,
-        gpm: 450,
-        banRate: 15,
-        pickRate: 12,
-        tier: 'S',
-        rank: 3,
-      });
-      expect(result).not.toHaveProperty('score');
-      expect(result).not.toHaveProperty('hasInsufficientData');
-    });
-  });
-
-  describe('r2', () => {
-    it('should round to 2 decimal places', () => {
-      expect(r2(3.14159)).toBe(3.14);
-      expect(r2(3.14659)).toBe(3.15);
-      expect(r2(5)).toBe(5);
-    });
+  it('does not turn unavailable values into display zeros', () => {
+    expect(r2(null)).toBeNull();
+    expect(r2(0)).toBe(0);
+    expect(r2(3.146)).toBe(3.15);
   });
 });

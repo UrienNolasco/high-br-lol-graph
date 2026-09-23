@@ -1,300 +1,159 @@
-import { championAverages } from '../../../core/stats/aggregate.mapper';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../core/prisma/prisma.service';
+import { ChampionStatsRepository } from '../repositories/champion-stats.repository';
+import { gameVersionPatch } from '../../../core/metrics';
 
 export interface ChampionMetrics {
-  winRate: number;
-  banRate: number;
-  pickRate: number;
-  kda: number;
-  dpm: number;
-  gpm: number;
-  cspm: number;
+  winRate: number | null;
+  banRate: number | null;
+  pickRate: number | null;
+  kda: number | null;
+  dpm: number | null;
+  gpm: number | null;
+  cspm: number | null;
   gamesPlayed: number;
 }
-
+type AvailableMetrics = { [K in keyof ChampionMetrics]: number };
 export interface ScoreResult {
-  score: number;
+  score: number | null;
   tier: string;
   hasInsufficientData: boolean;
+  reason?: string | null;
 }
+export const TIER_METHOD = {
+  version: 2,
+  kind: 'heuristic',
+  minimumPerformanceSamples: 50,
+  weights: {
+    winRate: 0.35,
+    banRate: 0.25,
+    pickRate: 0.15,
+    kda: 0.1,
+    dpm: 0.08,
+    gpm: 0.04,
+    cspm: 0.03,
+  },
+  normalization:
+    'clamp0..100: (WR-45)*10, BR*10, PR, KDA/3*100, DPM/1200*100, GPM/600*100, CSPM/8.5*100',
+  sampleWeight: '50..99:0.90;100..199:0.94;200..499:0.97;500+:1.00',
+  patchBlend:
+    '0.7 current + 0.3 previous observed patch when both have complete inputs and >=50 performance samples',
+  adjustment:
+    '+5 if WR delta>2 and BR delta>1; -5 if WR delta<-2 and BR delta<-1',
+  tiers:
+    'S+ score>=80 and WR>51 and BR>5; S>=70; A>=55; B>=40; C>=30; otherwise D',
+  limitation:
+    'Descriptive heuristic, not statistical confidence or causal strength. Role composition is not controlled; no universal performance interpretation.',
+} as const;
+const complete = (m: ChampionMetrics | null): m is AvailableMetrics =>
+  !!m &&
+  Object.values(m).every(
+    (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0,
+  );
+const clamp = (n: number) => Math.max(0, Math.min(100, n));
+const sampleWeight = (n: number) =>
+  n >= 500 ? 1 : n >= 200 ? 0.97 : n >= 100 ? 0.94 : n >= 50 ? 0.9 : 0;
+const base = (m: AvailableMetrics) =>
+  (clamp((m.winRate - 45) * 10) * 0.35 +
+    clamp(m.banRate * 10) * 0.25 +
+    clamp(m.pickRate) * 0.15 +
+    clamp((m.kda / 3) * 100) * 0.1 +
+    clamp((m.dpm / 1200) * 100) * 0.08 +
+    clamp((m.gpm / 600) * 100) * 0.04 +
+    clamp((m.cspm / 8.5) * 100) * 0.03) *
+  sampleWeight(m.gamesPlayed);
 
-/**
- * Service simplificado para cálculo de Tier List
- *
- * Agora o Worker popula a tabela ChampionStats incrementalmente.
- * Este service apenas lê os dados e calcula tiers/scores.
- */
 @Injectable()
 export class TierRankService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Calcula o patch anterior baseado no patch atual
-   * Ex: 15.24 -> 15.23, 15.1 -> 14.24
-   */
-  getPreviousPatch(currentPatch: string): string | null {
-    const parts = currentPatch.split('.');
-    if (parts.length < 2) {
-      return null;
-    }
-
-    let major = parseInt(parts[0], 10);
-    let minor = parseInt(parts[1], 10);
-
-    if (major <= 1 && minor <= 1) {
-      return null;
-    }
-
-    if (minor > 1) {
-      minor -= 1;
-    } else {
-      major -= 1;
-      minor = 23;
-    }
-
-    return `${major}.${minor.toString().padStart(2, '0')}`;
-  }
-
-  /**
-   * Normaliza métricas para escala 0-100 conforme especificação
-   */
-  private normalizeMetrics(
-    winRate: number,
-    banRate: number,
-    pickRate: number,
-    kda: number,
-    dpm: number,
-    gpm: number,
-    cspm: number,
-  ): {
-    wrScore: number;
-    brScore: number;
-    prScore: number;
-    kdaScore: number;
-    dpmScore: number;
-    gpmScore: number;
-    cspmScore: number;
-  } {
-    const wrScore = Math.max(0, Math.min(100, (winRate - 45) * 10));
-    const brScore = Math.max(0, Math.min(100, banRate * 10));
-    const prScore = Math.max(0, Math.min(100, pickRate));
-    const kdaScore = Math.min(100, (kda / 3.0) * 100);
-    const dpmScore = Math.max(0, Math.min(100, (dpm / 1200) * 100));
-    const gpmScore = Math.max(0, Math.min(100, (gpm / 600) * 100));
-    const cspmScore = Math.max(0, Math.min(100, (cspm / 8.5) * 100));
-
-    return {
-      wrScore,
-      brScore,
-      prScore,
-      kdaScore,
-      dpmScore,
-      gpmScore,
-      cspmScore,
-    };
-  }
-
-  /**
-   * Calcula multiplicador de confiança baseado em sample size
-   */
-  private getConfidenceMultiplier(gamesPlayed: number): number {
-    if (gamesPlayed >= 500) return 1.0;
-    if (gamesPlayed >= 200) return 0.97;
-    if (gamesPlayed >= 100) return 0.94;
-    if (gamesPlayed >= 50) return 0.9;
-    return 0; // Dados insuficientes
-  }
-
-  /**
-   * Calcula score base usando pesos das métricas
-   */
-  private calculateBaseScore(
-    wrScore: number,
-    brScore: number,
-    prScore: number,
-    kdaScore: number,
-    dpmScore: number,
-    gpmScore: number,
-    cspmScore: number,
-  ): number {
-    return (
-      wrScore * 0.35 +
-      brScore * 0.25 +
-      prScore * 0.15 +
-      kdaScore * 0.1 +
-      dpmScore * 0.08 +
-      gpmScore * 0.04 +
-      cspmScore * 0.03
-    );
-  }
-
-  /**
-   * Converte score final em tier
-   */
-  private scoreToTier(score: number, winRate: number, banRate: number): string {
-    if (score >= 80 && winRate > 51 && banRate > 5) {
-      return 'S+';
-    }
-    if (score >= 70) return 'S';
-    if (score >= 55) return 'A';
-    if (score >= 40) return 'B';
-    if (score >= 30) return 'C';
-    return 'D';
-  }
-
-  /**
-   * Calcula score final para um campeão considerando patch atual e anterior
-   */
-  calculateChampionScore(
-    championId: number,
+  /** Only actual observed patch keys can be predecessors; no assumed patch count/padding. */
+  async getPreviousPatch(
     currentPatch: string,
-    currentStats: ChampionMetrics,
-    previousStats: ChampionMetrics | null,
+    queueId = 420,
+  ): Promise<string | null> {
+    const rows = await this.prisma.match.findMany({
+      where: { queueId, mapId: 11 },
+      distinct: ['gameVersion'],
+      select: { gameVersion: true },
+    });
+    const patches = [
+      ...new Set(
+        rows
+          .map((row) => gameVersionPatch(row.gameVersion))
+          .filter((p): p is string => p !== null),
+      ),
+    ].sort((a, b) => {
+      const [am, an] = a.split('.').map(Number),
+        [bm, bn] = b.split('.').map(Number);
+      return am - bm || an - bn;
+    });
+    const index = patches.indexOf(gameVersionPatch(currentPatch) ?? '');
+    return index > 0 ? patches[index - 1] : null;
+  }
+
+  calculateChampionScore(
+    _championId: number,
+    _currentPatch: string,
+    current: ChampionMetrics,
+    previous: ChampionMetrics | null,
   ): ScoreResult {
-    if (currentStats.gamesPlayed < 50) {
+    if (!complete(current) || current.gamesPlayed < 50)
       return {
-        score: 0,
+        score: null,
         tier: 'Dados Insuficientes',
         hasInsufficientData: true,
+        reason: !complete(current) ? 'missing_metric' : 'insufficient_sample',
       };
+    let score = base(current);
+    if (complete(previous) && previous.gamesPlayed >= 50) {
+      score = score * 0.7 + base(previous) * 0.3;
+      const wr = current.winRate - previous.winRate,
+        br = current.banRate - previous.banRate;
+      if (wr > 2 && br > 1) score += 5;
+      else if (wr < -2 && br < -1) score -= 5;
     }
-
-    const currentNormalized = this.normalizeMetrics(
-      currentStats.winRate,
-      currentStats.banRate,
-      currentStats.pickRate,
-      currentStats.kda,
-      currentStats.dpm,
-      currentStats.gpm,
-      currentStats.cspm,
-    );
-
-    const currentBaseScore = this.calculateBaseScore(
-      currentNormalized.wrScore,
-      currentNormalized.brScore,
-      currentNormalized.prScore,
-      currentNormalized.kdaScore,
-      currentNormalized.dpmScore,
-      currentNormalized.gpmScore,
-      currentNormalized.cspmScore,
-    );
-
-    const confidenceMultiplier = this.getConfidenceMultiplier(
-      currentStats.gamesPlayed,
-    );
-    const currentAdjustedScore = currentBaseScore * confidenceMultiplier;
-
-    if (!previousStats || previousStats.gamesPlayed < 50) {
-      const tier = this.scoreToTier(
-        currentAdjustedScore,
-        currentStats.winRate,
-        currentStats.banRate,
-      );
-      return {
-        score: currentAdjustedScore,
-        tier,
-        hasInsufficientData: false,
-      };
-    }
-
-    const previousNormalized = this.normalizeMetrics(
-      previousStats.winRate,
-      previousStats.banRate,
-      previousStats.pickRate,
-      previousStats.kda,
-      previousStats.dpm,
-      previousStats.gpm,
-      previousStats.cspm,
-    );
-
-    const previousBaseScore = this.calculateBaseScore(
-      previousNormalized.wrScore,
-      previousNormalized.brScore,
-      previousNormalized.prScore,
-      previousNormalized.kdaScore,
-      previousNormalized.dpmScore,
-      previousNormalized.gpmScore,
-      previousNormalized.cspmScore,
-    );
-
-    const previousConfidenceMultiplier = this.getConfidenceMultiplier(
-      previousStats.gamesPlayed,
-    );
-    const previousAdjustedScore =
-      previousBaseScore * previousConfidenceMultiplier;
-
-    let finalScore = currentAdjustedScore * 0.7 + previousAdjustedScore * 0.3;
-
-    const deltaWR = currentStats.winRate - previousStats.winRate;
-    const deltaBR = currentStats.banRate - previousStats.banRate;
-
-    if (deltaWR > 2 && deltaBR > 1) {
-      finalScore += 5;
-    } else if (deltaWR < -2 && deltaBR < -1) {
-      finalScore -= 5;
-    }
-
-    const tier = this.scoreToTier(
-      finalScore,
-      currentStats.winRate,
-      currentStats.banRate,
-    );
-
-    return {
-      score: finalScore,
-      tier,
-      hasInsufficientData: false,
-    };
+    const tier =
+      score >= 80 && current.winRate > 51 && current.banRate > 5
+        ? 'S+'
+        : score >= 70
+          ? 'S'
+          : score >= 55
+            ? 'A'
+            : score >= 40
+              ? 'B'
+              : score >= 30
+                ? 'C'
+                : 'D';
+    return { score, tier, hasInsufficientData: false, reason: null };
   }
-
-  /**
-   * Busca estatísticas do campeão para um patch específico
-   * Agora lê da tabela ChampionStats populada pelo Worker
-   */
   async getChampionStats(
     championId: number,
     patch: string,
     queueId: number,
   ): Promise<ChampionMetrics | null> {
-    const row = await this.prisma.championStats.findUnique({
-      where: {
-        championId_patch_queueId: {
-          championId,
-          patch,
-          queueId,
-        },
-      },
-    });
-
-    if (!row) {
-      return null;
-    }
-
-    const stats = championAverages(row);
-    return {
-      winRate: stats.winRate,
-      banRate: stats.banRate,
-      pickRate: stats.pickRate,
-      kda: stats.kda,
-      dpm: stats.dpm,
-      gpm: stats.gpm,
-      cspm: stats.cspm,
-      gamesPlayed: stats.gamesPlayed,
-    };
+    const row = await new ChampionStatsRepository(this.prisma).findUnique(
+      championId,
+      patch,
+      queueId,
+    );
+    return row
+      ? {
+          winRate: row.winRate,
+          banRate: row.banRate,
+          pickRate: row.pickRate,
+          kda: row.kda,
+          dpm: row.dpm,
+          gpm: row.gpm,
+          cspm: row.cspm,
+          gamesPlayed: row.performanceN,
+        }
+      : null;
   }
-
-  /**
-   * Busca todas as estatísticas de campeões para um patch
-   */
-  async getAllChampionStats(patch: string, queueId?: number) {
-    return (
-      await this.prisma.championStats.findMany({
-        where: {
-          patch,
-          queueId: queueId ?? 420,
-        },
-      })
-    ).map(championAverages);
+  async getAllChampionStats(patch: string, queueId = 420) {
+    return new ChampionStatsRepository(this.prisma).findManyByPatch(
+      patch,
+      queueId,
+    );
   }
 }

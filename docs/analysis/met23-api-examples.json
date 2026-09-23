@@ -1,0 +1,219 @@
+{
+  "provenance": "Controlled synthetic examples produced by application DTO/heuristic functions. No production observations; only patch16.2 eligibility has real corpus evidence.",
+  "banOnlyUnknownCatalog": {
+    "championId": 9999,
+    "championName": null,
+    "images": null,
+    "winRate": null,
+    "gamesPlayed": 0,
+    "wins": null,
+    "losses": null,
+    "kda": null,
+    "dpm": null,
+    "cspm": null,
+    "gpm": null,
+    "banRate": 66.66666666666667,
+    "pickRate": 0,
+    "tier": "Dados Insuficientes",
+    "rank": null,
+    "score": null,
+    "hasInsufficientData": true,
+    "metricId": "H07",
+    "metricVersion": 1,
+    "availability": {
+      "performance": "no_picks",
+      "banRate": null,
+      "pickRate": null,
+      "catalog": "missing_catalog",
+      "tier": "missing_metric"
+    },
+    "population": {
+      "eligibleN": 3,
+      "selectedN": 5,
+      "excludedN": 2,
+      "excludedReasons": {
+        "unknown_remake": 1,
+        "missing_eligibility_projection": 1
+      },
+      "pickedMatches": 0,
+      "bannedMatches": 2,
+      "bansObservedN": 3,
+      "performanceN": 0,
+      "banCoverage": 1,
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11
+    },
+    "tierMethod": {
+      "version": 2,
+      "kind": "heuristic",
+      "minimumPerformanceSamples": 50,
+      "weights": {
+        "winRate": 0.35,
+        "banRate": 0.25,
+        "pickRate": 0.15,
+        "kda": 0.1,
+        "dpm": 0.08,
+        "gpm": 0.04,
+        "cspm": 0.03
+      },
+      "normalization": "clamp0..100: (WR-45)*10, BR*10, PR, KDA/3*100, DPM/1200*100, GPM/600*100, CSPM/8.5*100",
+      "sampleWeight": "50..99:0.90;100..199:0.94;200..499:0.97;500+:1.00",
+      "patchBlend": "0.7 current + 0.3 previous observed patch when both have complete inputs and >=50 performance samples",
+      "adjustment": "+5 if WR delta>2 and BR delta>1; -5 if WR delta<-2 and BR delta<-1",
+      "tiers": "S+ score>=80 and WR>51 and BR>5; S>=70; A>=55; B>=40; C>=30; otherwise D",
+      "limitation": "Descriptive heuristic, not statistical confidence or causal strength. Role composition is not controlled; no universal performance interpretation.",
+      "previousPatch": null
+    }
+  },
+  "missingBans": {
+    "championId": 9999,
+    "championName": null,
+    "images": null,
+    "winRate": null,
+    "gamesPlayed": 0,
+    "wins": null,
+    "losses": null,
+    "kda": null,
+    "dpm": null,
+    "cspm": null,
+    "gpm": null,
+    "banRate": null,
+    "pickRate": 0,
+    "tier": "Dados Insuficientes",
+    "rank": null,
+    "score": null,
+    "hasInsufficientData": true,
+    "metricId": "H07",
+    "metricVersion": 1,
+    "availability": {
+      "performance": "no_picks",
+      "banRate": "missing_bans",
+      "pickRate": null,
+      "catalog": "missing_catalog",
+      "tier": "missing_metric"
+    },
+    "population": {
+      "eligibleN": 4,
+      "selectedN": 6,
+      "excludedN": 2,
+      "excludedReasons": {
+        "unknown_remake": 1,
+        "missing_eligibility_projection": 1
+      },
+      "pickedMatches": 0,
+      "bannedMatches": 2,
+      "bansObservedN": 3,
+      "performanceN": 0,
+      "banCoverage": 0.75,
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11
+    },
+    "tierMethod": {
+      "version": 2,
+      "kind": "heuristic",
+      "minimumPerformanceSamples": 50,
+      "weights": {
+        "winRate": 0.35,
+        "banRate": 0.25,
+        "pickRate": 0.15,
+        "kda": 0.1,
+        "dpm": 0.08,
+        "gpm": 0.04,
+        "cspm": 0.03
+      },
+      "normalization": "clamp0..100: (WR-45)*10, BR*10, PR, KDA/3*100, DPM/1200*100, GPM/600*100, CSPM/8.5*100",
+      "sampleWeight": "50..99:0.90;100..199:0.94;200..499:0.97;500+:1.00",
+      "patchBlend": "0.7 current + 0.3 previous observed patch when both have complete inputs and >=50 performance samples",
+      "adjustment": "+5 if WR delta>2 and BR delta>1; -5 if WR delta<-2 and BR delta<-1",
+      "tiers": "S+ score>=80 and WR>51 and BR>5; S>=70; A>=55; B>=40; C>=30; otherwise D",
+      "limitation": "Descriptive heuristic, not statistical confidence or causal strength. Role composition is not controlled; no universal performance interpretation.",
+      "previousPatch": null
+    }
+  },
+  "observedZeroBans": {
+    "championId": 1,
+    "championName": "Annie",
+    "images": null,
+    "winRate": 50,
+    "gamesPlayed": 2,
+    "wins": 1,
+    "losses": 1,
+    "kda": 2,
+    "dpm": 600,
+    "cspm": 7,
+    "gpm": 400,
+    "banRate": 0,
+    "pickRate": 66.66666666666667,
+    "tier": "Dados Insuficientes",
+    "rank": null,
+    "score": null,
+    "hasInsufficientData": true,
+    "metricId": "H07",
+    "metricVersion": 1,
+    "availability": {
+      "performance": null,
+      "banRate": null,
+      "pickRate": null,
+      "catalog": "missing_catalog",
+      "tier": "insufficient_sample"
+    },
+    "population": {
+      "eligibleN": 3,
+      "selectedN": 5,
+      "excludedN": 2,
+      "excludedReasons": {
+        "unknown_remake": 1,
+        "missing_eligibility_projection": 1
+      },
+      "pickedMatches": 2,
+      "bannedMatches": 0,
+      "bansObservedN": 3,
+      "performanceN": 2,
+      "banCoverage": 1,
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11
+    },
+    "tierMethod": {
+      "version": 2,
+      "kind": "heuristic",
+      "minimumPerformanceSamples": 50,
+      "weights": {
+        "winRate": 0.35,
+        "banRate": 0.25,
+        "pickRate": 0.15,
+        "kda": 0.1,
+        "dpm": 0.08,
+        "gpm": 0.04,
+        "cspm": 0.03
+      },
+      "normalization": "clamp0..100: (WR-45)*10, BR*10, PR, KDA/3*100, DPM/1200*100, GPM/600*100, CSPM/8.5*100",
+      "sampleWeight": "50..99:0.90;100..199:0.94;200..499:0.97;500+:1.00",
+      "patchBlend": "0.7 current + 0.3 previous observed patch when both have complete inputs and >=50 performance samples",
+      "adjustment": "+5 if WR delta>2 and BR delta>1; -5 if WR delta<-2 and BR delta<-1",
+      "tiers": "S+ score>=80 and WR>51 and BR>5; S>=70; A>=55; B>=40; C>=30; otherwise D",
+      "limitation": "Descriptive heuristic, not statistical confidence or causal strength. Role composition is not controlled; no universal performance interpretation.",
+      "previousPatch": null
+    }
+  },
+  "emptyPopulation": {
+    "data": [],
+    "total": 0,
+    "page": 1,
+    "limit": 20,
+    "cohort": {
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "eligibleN": 0,
+      "selectedN": 1,
+      "excludedN": 1,
+      "bansObservedN": 0,
+      "excludedReasons": {
+        "missing_eligibility_projection": 1
+      }
+    }
+  }
+}

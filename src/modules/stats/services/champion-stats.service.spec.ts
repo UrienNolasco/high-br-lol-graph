@@ -1,143 +1,152 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ChampionStatsService } from './champion-stats.service';
-import { ChampionStatsRepository } from '../repositories/champion-stats.repository';
-import { DataDragonService } from '../../../core/data-dragon/data-dragon.service';
 import { TierRankService } from './tier-rank.service';
+import { ChampionPopulationRow } from '../repositories/champion-stats.repository';
 
-describe('ChampionStatsService', () => {
-  let service: ChampionStatsService;
-  let repo: jest.Mocked<Pick<ChampionStatsRepository, 'findManyByPatch'>>;
-  let dataDragon: jest.Mocked<
-    Pick<DataDragonService, 'getChampionById' | 'getChampionImageUrls'>
-  >;
-  let tierRank: jest.Mocked<
-    Pick<TierRankService, 'getPreviousPatch' | 'calculateChampionScore'>
-  >;
+export const populationRow = (
+  overrides: Partial<ChampionPopulationRow> = {},
+): ChampionPopulationRow => ({
+  championId: 1,
+  championName: 'Annie',
+  patch: '16.2',
+  queueId: 420,
+  winRate: 55,
+  gamesPlayed: 100,
+  performanceN: 100,
+  wins: 55,
+  losses: 45,
+  kda: 3,
+  dpm: 700,
+  gpm: 450,
+  cspm: 8,
+  banRate: 15,
+  pickRate: 20,
+  pickedMatches: 100,
+  bannedMatches: 75,
+  eligibleN: 500,
+  selectedN: 500,
+  excludedN: 0,
+  excludedReasons: {},
+  bansObservedN: 500,
+  ...overrides,
+});
 
-  const mockStat = {
-    championId: 1,
-    patch: '15.1',
-    queueId: 420,
-    winRate: 55.5,
-    gamesPlayed: 100,
-    wins: 55,
-    losses: 45,
-    kda: 2.5,
-    dpm: 650,
-    cspm: 7.2,
-    gpm: 450,
-    banRate: 15.5,
-    pickRate: 12.3,
+describe('champion population responses', () => {
+  const repo = { findPopulation: jest.fn(), findManyByPatch: jest.fn() };
+  const dragon = {
+    getChampionById: jest.fn(),
+    getChampionImageUrls: jest.fn(),
   };
-
-  beforeEach(async () => {
-    repo = { findManyByPatch: jest.fn() } as any;
-    dataDragon = {
-      getChampionById: jest.fn(),
-      getChampionImageUrls: jest.fn(),
-    } as any;
-    tierRank = {
-      getPreviousPatch: jest.fn(),
-      calculateChampionScore: jest.fn(),
-    } as any;
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ChampionStatsService,
-        { provide: ChampionStatsRepository, useValue: repo },
-        { provide: DataDragonService, useValue: dataDragon },
-        { provide: TierRankService, useValue: tierRank },
+  const tier = new TierRankService({
+    match: {
+      findMany: jest.fn().mockResolvedValue([{ gameVersion: '16.2.1' }]),
+    },
+  } as any);
+  const service = new ChampionStatsService(repo as any, dragon as any, tier);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    dragon.getChampionById.mockReturnValue(undefined);
+    repo.findPopulation.mockResolvedValue({
+      champions: [populationRow()],
+      cohort: { eligibleN: 500 },
+    });
+  });
+  it('retains observed IDs and metrics when champion catalog is absent', async () => {
+    const result = await service.getChampionStats('16.2');
+    expect(result.data[0]).toMatchObject({
+      championId: 1,
+      championName: 'Annie',
+      images: null,
+      rank: 1,
+      score: expect.any(Number),
+      availability: { catalog: 'missing_catalog' },
+      tierMethod: { kind: 'heuristic', previousPatch: null },
+    });
+    expect(dragon.getChampionImageUrls).not.toHaveBeenCalled();
+  });
+  it('publishes a banned-only champion without fake performance or display metadata', async () => {
+    repo.findPopulation.mockResolvedValue({
+      champions: [
+        populationRow({
+          championId: 9999,
+          championName: null,
+          gamesPlayed: 0,
+          pickedMatches: 0,
+          performanceN: 0,
+          wins: null,
+          losses: null,
+          winRate: null,
+          kda: null,
+          dpm: null,
+          gpm: null,
+          cspm: null,
+          pickRate: 0,
+        }),
       ],
-    }).compile();
-    service = module.get<ChampionStatsService>(ChampionStatsService);
+      cohort: { eligibleN: 500 },
+    });
+    expect((await service.getChampionStats('16.2')).data[0]).toMatchObject({
+      championId: 9999,
+      championName: null,
+      pickRate: 0,
+      banRate: 15,
+      winRate: null,
+      kda: null,
+      score: null,
+      rank: null,
+      availability: {
+        performance: 'no_picks',
+        catalog: 'missing_catalog',
+        tier: 'missing_metric',
+      },
+    });
   });
-
-  it('should return paginated champion stats', async () => {
-    repo.findManyByPatch.mockResolvedValue([mockStat] as any);
-    tierRank.getPreviousPatch.mockReturnValue(null);
-    dataDragon.getChampionById.mockReturnValue({
+  it('does not substitute a newer catalog for the requested patch', async () => {
+    dragon.getChampionById.mockReturnValue({
+      version: '16.20.1',
+      id: 'Annie',
+      name: 'NewName',
+    });
+    expect((await service.getChampionStats('16.2')).data[0]).toMatchObject({
+      championName: 'Annie',
+      images: null,
+      availability: { catalog: 'missing_catalog' },
+    });
+    dragon.getChampionById.mockReturnValue({
+      version: '16.2.1',
       id: 'Annie',
       name: 'Annie',
-      key: '1',
     });
-    dataDragon.getChampionImageUrls.mockResolvedValue({
-      square: 'img.png',
-      loading: 'l.png',
-      splash: 'sp.png',
+    dragon.getChampionImageUrls.mockResolvedValue({
+      square: 's',
+      loading: 'l',
+      splash: 'p',
     });
-    tierRank.calculateChampionScore.mockReturnValue({
-      score: 75,
-      tier: 'S',
-      hasInsufficientData: false,
-    });
-
-    const result = await service.getChampionStats('15.1');
-
-    expect(result.data).toHaveLength(1);
-    expect(result.total).toBe(1);
-    expect(result.page).toBe(1);
-    expect(result.limit).toBe(20);
-    expect(result.data[0].championName).toBe('Annie');
-    expect(result.data[0].rank).toBe(1);
+    await service.getChampionStats('16.2');
+    expect(dragon.getChampionImageUrls).toHaveBeenCalledWith('Annie', '16.2.1');
   });
-
-  it('should handle champions with insufficient data', async () => {
-    repo.findManyByPatch.mockResolvedValue([mockStat] as any);
-    tierRank.getPreviousPatch.mockReturnValue(null);
-    dataDragon.getChampionById.mockReturnValue({
-      id: 'Annie',
-      name: 'Annie',
-      key: '1',
+  it('disables tier for incomplete bans and publishes correct cohort metadata even empty', async () => {
+    repo.findPopulation.mockResolvedValue({
+      champions: [populationRow({ banRate: null, bansObservedN: 499 })],
+      cohort: { eligibleN: 500 },
     });
-    dataDragon.getChampionImageUrls.mockResolvedValue({
-      square: 'img.png',
-      loading: 'l.png',
-      splash: 'sp.png',
+    expect(
+      (await service.getChampionStats('16.2', 1, 20, 'banRate', 'desc', 440))
+        .data[0],
+    ).toMatchObject({
+      score: null,
+      rank: null,
+      banRate: null,
+      availability: { banRate: 'missing_bans' },
     });
-    tierRank.calculateChampionScore.mockReturnValue({
-      score: 0,
-      tier: 'Dados Insuficientes',
-      hasInsufficientData: true,
+    expect(repo.findPopulation).toHaveBeenCalledWith('16.2', 440);
+    repo.findPopulation.mockResolvedValue({
+      champions: [],
+      cohort: { eligibleN: 0, selectedN: 3, excludedN: 3 },
     });
-
-    const result = await service.getChampionStats('15.1');
-    expect(result.data[0].rank).toBeNull();
-  });
-
-  it('should paginate correctly', async () => {
-    const stats = Array.from({ length: 30 }, (_, i) => ({
-      ...mockStat,
-      championId: i + 1,
-    }));
-    repo.findManyByPatch.mockResolvedValue(stats as any);
-    tierRank.getPreviousPatch.mockReturnValue(null);
-    dataDragon.getChampionById.mockReturnValue({
-      id: 'Champ',
-      name: 'Champ',
-      key: '1',
+    expect(await service.getChampionStats('16.2')).toMatchObject({
+      data: [],
+      total: 0,
+      cohort: { eligibleN: 0, selectedN: 3, excludedN: 3 },
     });
-    dataDragon.getChampionImageUrls.mockResolvedValue({
-      square: 'img.png',
-      loading: 'l.png',
-      splash: 'sp.png',
-    });
-    tierRank.calculateChampionScore.mockReturnValue({
-      score: 50,
-      tier: 'A',
-      hasInsufficientData: false,
-    });
-
-    const result = await service.getChampionStats(
-      '15.1',
-      2,
-      10,
-      'winRate',
-      'desc',
-    );
-
-    expect(result.page).toBe(2);
-    expect(result.limit).toBe(10);
-    expect(result.data).toHaveLength(10);
-    expect(result.total).toBe(30);
   });
 });

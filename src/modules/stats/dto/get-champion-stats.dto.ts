@@ -10,6 +10,10 @@ import {
 } from 'class-validator';
 
 export class GetChampionStatsDto {
+  @IsOptional()
+  @Transform(({ value }) => Number(value))
+  @IsIn([420, 440])
+  queueId?: number = 420;
   @IsString()
   @Matches(/^[0-9]+\.[0-9]+$/, {
     message: 'Patch must be in the format XX.XX (e.g., 12.23)',

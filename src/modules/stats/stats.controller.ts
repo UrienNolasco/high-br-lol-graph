@@ -33,6 +33,12 @@ export class StatsController {
   })
   @ApiQuery({ name: 'patch', required: true, description: 'e.g., 15.20' })
   @ApiQuery({
+    name: 'queueId',
+    required: false,
+    enum: [420, 440],
+    description: 'Independent ranked queue cohort; default 420.',
+  })
+  @ApiQuery({
     name: 'page',
     required: false,
     description: 'e.g., 1',
@@ -76,6 +82,7 @@ export class StatsController {
       limit = 20,
       sortBy = 'winRate',
       order = 'desc',
+      queueId = 420,
     } = query;
     return this.championStatsSvc.getChampionStats(
       patch,
@@ -83,6 +90,7 @@ export class StatsController {
       limit,
       sortBy,
       order,
+      queueId,
     );
   }
 
@@ -93,13 +101,27 @@ export class StatsController {
     description: 'Return detailed stats for a single champion.',
     type: ChampionStatsDto,
   })
-  @ApiParam({ name: 'championName', description: 'e.g., Aatrox' })
+  @ApiParam({
+    name: 'championName',
+    description:
+      'Champion catalog key or numeric id, e.g., Aatrox or 266; numeric ids remain available without catalog.',
+  })
   @ApiQuery({ name: 'patch', required: true, description: 'e.g., 15.20' })
+  @ApiQuery({
+    name: 'queueId',
+    required: false,
+    enum: [420, 440],
+    description: 'Independent ranked queue cohort; default 420.',
+  })
   getChampion(
     @Param('championName') championName: string,
-    @Query('patch') patch: string,
+    @Query() query: GetChampionStatsDto,
   ): Promise<ChampionStatsDto> {
-    return this.championDetailSvc.getChampion(championName, patch);
+    return this.championDetailSvc.getChampion(
+      championName,
+      query.patch,
+      query.queueId,
+    );
   }
 
   @Get('processed-matches')

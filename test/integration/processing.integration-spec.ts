@@ -120,6 +120,9 @@ async function snapshot() {
       ),
     );
   return {
+    popularity: await new ChampionStatsRepository(prisma).findPopulation(
+      '16.2',
+    ),
     players: players.map(strip),
     champions: champions.map(strip),
     playerChampions: playerChampions.map(strip),
@@ -493,9 +496,14 @@ test('missing samples do not become zero, while queues stay separate', async () 
   const list = await new ChampionStatsRepository(prisma).findManyByPatch(
     '16.2',
   );
-  expect(list).toHaveLength(10);
+  expect(list.filter((row) => row.gamesPlayed > 0)).toHaveLength(10);
   expect(
-    list.every((row) => row.queueId === 420 && row.gamesPlayed === 3),
+    list
+      .filter((row) => row.gamesPlayed > 0)
+      .every(
+        (row) =>
+          row.queueId === 420 && row.gamesPlayed === 3 && row.pickRate === 100,
+      ),
   ).toBe(true);
   expect(
     await prisma.playerStats.count({ where: { queueId: 440, patch: 'ALL' } }),

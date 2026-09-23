@@ -1,17 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { DataDragonService } from '../../../core/data-dragon/data-dragon.service';
-import { TierRankService } from './tier-rank.service';
+import { TierRankService, TIER_METHOD } from './tier-rank.service';
 import {
   PaginatedChampionStatsDto,
   ChampionStatsDto,
 } from '../dto/champion-stats.dto';
 import { ChampionStatsRepository } from '../repositories/champion-stats.repository';
-import {
-  toChampionMetrics,
-  toChampionDto,
-  r2,
-  EnrichedChampion,
-} from '../pure/champion.enricher';
+import { toChampionMetrics, championDto } from '../pure/champion.enricher';
 import { sortChampions } from '../pure/champion.sorter';
 
 @Injectable()
@@ -24,89 +19,66 @@ export class ChampionStatsService {
 
   async getChampionStats(
     patch: string,
-    page: number = 1,
-    limit: number = 20,
-    sortBy: string = 'winRate',
+    page = 1,
+    limit = 20,
+    sortBy = 'winRate',
     order: 'asc' | 'desc' = 'desc',
+    queueId = 420,
   ): Promise<PaginatedChampionStatsDto> {
-    const championStats = await this.repo.findManyByPatch(patch);
-
-    const previousPatch = this.tierRank.getPreviousPatch(patch);
-    const previousStatsMap = new Map<
-      number,
-      ReturnType<typeof toChampionMetrics>
-    >();
-
-    if (previousPatch) {
-      const previousStats = await this.repo.findManyByPatch(previousPatch);
-      for (const stat of previousStats) {
-        previousStatsMap.set(stat.championId, toChampionMetrics(stat));
-      }
-    }
-
-    const enrichedStatsPromises = championStats.map(async (stat) => {
-      const championInfo = this.dataDragon.getChampionById(stat.championId);
-      if (!championInfo) return null;
-
-      const images = await this.dataDragon.getChampionImageUrls(
-        championInfo.id,
-      );
-
-      const currentMetrics = toChampionMetrics(stat);
-      const previousMetrics = previousStatsMap.get(stat.championId) || null;
-
-      const scoreResult = this.tierRank.calculateChampionScore(
-        stat.championId,
-        patch,
-        currentMetrics,
-        previousMetrics,
-      );
-
-      return {
-        championId: stat.championId,
-        championName: championInfo.name,
-        winRate: r2(stat.winRate),
-        gamesPlayed: stat.gamesPlayed,
-        wins: stat.wins,
-        losses: stat.losses,
-        images,
-        kda: r2(stat.kda),
-        dpm: r2(stat.dpm),
-        cspm: r2(stat.cspm),
-        gpm: r2(stat.gpm),
-        banRate: r2(stat.banRate),
-        pickRate: r2(stat.pickRate),
-        tier: scoreResult.tier,
-        rank: null as number | null,
-        score: scoreResult.score,
-        hasInsufficientData: scoreResult.hasInsufficientData,
-      };
-    });
-
-    const results = await Promise.all(enrichedStatsPromises);
-    const validResults = results.filter(
-      (r): r is NonNullable<typeof r> => r !== null,
+    const population = await this.repo.findPopulation(patch, queueId);
+    const previousPatch = await this.tierRank.getPreviousPatch(patch, queueId);
+    const previous = previousPatch
+      ? await this.repo.findManyByPatch(previousPatch, queueId)
+      : [];
+    const previousMap = new Map(
+      previous.map((row) => [row.championId, toChampionMetrics(row)]),
     );
-
-    const withData = validResults.filter((c) => !c.hasInsufficientData);
-    withData.sort((a, b) => b.score - a.score);
-    withData.forEach((c, i) => {
-      c.rank = i + 1;
-    });
-
-    const enrichedStats: ChampionStatsDto[] = validResults.map((c) =>
-      toChampionDto(c as EnrichedChampion),
+    const champions = await Promise.all(
+      population.champions.map(async (stat) => {
+        const info = this.dataDragon.getChampionById(stat.championId);
+        let images: ChampionStatsDto['images'] = null;
+        // Only use a catalog whose internal major.minor matches the requested patch.
+        const compatible =
+          !!info?.version &&
+          info.version.split('.').slice(0, 2).join('.') === patch;
+        if (compatible) {
+          try {
+            images = await this.dataDragon.getChampionImageUrls(
+              info.id,
+              info.version,
+            );
+          } catch {
+            images = null;
+          }
+        }
+        const score = this.tierRank.calculateChampionScore(
+          stat.championId,
+          patch,
+          toChampionMetrics(stat),
+          previousMap.get(stat.championId) ?? null,
+        );
+        return championDto(
+          stat,
+          score,
+          images,
+          compatible ? info.name : null,
+          compatible,
+          previousPatch,
+        );
+      }),
     );
-    const sorted = sortChampions(enrichedStats, sortBy, order);
-
-    const startIndex = (page - 1) * limit;
-    const paginatedData = sorted.slice(startIndex, startIndex + limit);
-
+    champions
+      .filter((c) => c.score !== null && !c.hasInsufficientData)
+      .sort((a, b) => b.score! - a.score! || a.championId - b.championId)
+      .forEach((c, index) => (c.rank = index + 1));
+    const sorted = sortChampions(champions, sortBy, order);
     return {
-      data: paginatedData,
-      total: enrichedStats.length,
+      data: sorted.slice((page - 1) * limit, page * limit),
+      total: champions.length,
       page,
       limit,
+      cohort: population.cohort,
+      tierMethod: { ...TIER_METHOD, previousPatch },
     };
   }
 }

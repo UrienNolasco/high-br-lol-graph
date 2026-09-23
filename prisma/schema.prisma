@@ -20,6 +20,8 @@ model Match {
   mapId        Int
   hasTimeline  Boolean @default(true)
   finalContext Json?
+  populationEligible Boolean?
+  populationExclusionReason String?
 
   teams        MatchTeam[]
   participants MatchParticipant[]
@@ -28,6 +30,7 @@ model Match {
 
   @@index([queueId])
   @@index([queueId, gameCreation(sort: Desc)])
+  @@index([queueId, mapId, gameVersion])
   @@map("matches")
 }
 
@@ -106,6 +109,7 @@ model MatchTeam {
   teamId             Int
   win                Boolean
   bans               Int[]
+  bansAvailable      Boolean?
   objectivesTimeline Json
   finalObjectives    Json?
 

@@ -9,8 +9,10 @@ export function sortChampions(
     const aValue = a[sortBy as keyof ChampionStatsDto];
     const bValue = b[sortBy as keyof ChampionStatsDto];
 
-    if (aValue === undefined || bValue === undefined) return 0;
-    if (aValue === bValue) return 0;
+    if (aValue == null && bValue == null) return a.championId - b.championId;
+    if (aValue == null) return 1;
+    if (bValue == null) return -1;
+    if (aValue === bValue) return a.championId - b.championId;
 
     if (order === 'desc') {
       return (aValue ?? 0) > (bValue ?? 0) ? -1 : 1;

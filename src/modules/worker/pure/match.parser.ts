@@ -7,9 +7,15 @@ import {
 import { MatchDto, ParticipantDto } from '../../../core/riot/dto/match.dto';
 import { Prisma } from '@prisma/client';
 import { projectFinalInventory } from '../../../core/riot/final-inventory';
+import {
+  championPopulationEligibility,
+  bansAvailable,
+} from '../../../core/metrics/champion-population';
 
 export interface ProcessedMatchData {
   match: {
+    populationEligible: boolean;
+    populationExclusionReason: string | null;
     matchId: string;
     gameCreation: bigint;
     gameDuration: number;
@@ -24,6 +30,7 @@ export interface ProcessedMatchData {
     teamId: number;
     win: boolean;
     bans: number[];
+    bansAvailable: boolean;
     objectivesTimeline: Prisma.InputJsonValue;
     finalObjectives: Prisma.InputJsonValue;
   }>;
@@ -82,6 +89,7 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
   const { info, metadata } = matchDto;
 
   const match = {
+    ...championPopulationEligibility(info),
     matchId: metadata.matchId,
     gameCreation: BigInt(info.gameCreation),
     gameDuration: info.gameDuration,
@@ -97,7 +105,14 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
       matchId: metadata.matchId,
       teamId: team.teamId,
       win: team.win,
-      bans: team.bans?.map((b) => b.championId).filter((id) => id > 0) || [],
+      bans: Array.isArray(team.bans)
+        ? team.bans
+            .filter(
+              (b) => b && Number.isInteger(b.championId) && b.championId > 0,
+            )
+            .map((b) => b.championId)
+        : [],
+      bansAvailable: bansAvailable(team.bans),
       // Totals are summary observations; the timeline is populated only from events.
       objectivesTimeline: [],
       finalObjectives: projectFinalObjectives(
