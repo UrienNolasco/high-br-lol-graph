@@ -1,12 +1,17 @@
 import { AnalyticsRepository } from './analytics.repository';
+import { COMBAT_EVENT_FILTER } from '../../matches/repositories/combat.repository';
 
 describe('comparison cohort query', () => {
   const tx = {
     matchParticipant: { count: jest.fn(), findMany: jest.fn() },
     matchTimelineProjection: { findMany: jest.fn() },
+    matchEventProjection: { findMany: jest.fn().mockResolvedValue([]) },
+    matchProcessing: { findMany: jest.fn().mockResolvedValue([]) },
   };
   const prisma = {
-    $transaction: jest.fn((callback) => callback(tx)),
+    $transaction: jest.fn((callback: (client: typeof tx) => unknown) =>
+      callback(tx),
+    ),
     user: { findUnique: jest.fn() },
   };
   const repo = new AnalyticsRepository(prisma as any);
@@ -63,6 +68,23 @@ describe('comparison cohort query', () => {
       });
       expect(tx.matchTimelineProjection.findMany).toHaveBeenCalledWith({
         where: { matchId: { in: ['BR1_2', 'BR1_1'] } },
+      });
+      expect(tx.matchEventProjection.findMany).toHaveBeenCalledWith({
+        where: { matchId: { in: ['BR1_2', 'BR1_1'] }, ...COMBAT_EVENT_FILTER },
+        orderBy: [
+          { matchId: 'asc' },
+          { frameIndex: 'asc' },
+          { eventIndex: 'asc' },
+        ],
+      });
+      expect(tx.matchProcessing.findMany).toHaveBeenCalledWith({
+        where: { matchId: { in: ['BR1_2', 'BR1_1'] } },
+        select: {
+          matchId: true,
+          status: true,
+          processingVersion: true,
+          completedAt: true,
+        },
       });
     },
   );

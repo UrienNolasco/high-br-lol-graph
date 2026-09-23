@@ -1,3 +1,4 @@
+import { historicalSolo } from '../pure/historical-solo';
 import { projectionComparisonTimeline } from '../pure/comparison-timeline.adapter';
 import {
   BadRequestException,
@@ -54,8 +55,8 @@ export class AnalyticsService {
       this.analyticsRepo.findComparisonCohort(heroPuuid, effectiveFilters),
       this.analyticsRepo.findComparisonCohort(villainPuuid, effectiveFilters),
     ]);
-    const compute = (rows: typeof heroRows) =>
-      calculateCohort(
+    const compute = (rows: typeof heroRows) => {
+      const result = calculateCohort(
         rows.matches,
         new Map(
           rows.projections.map((r) => [
@@ -64,6 +65,13 @@ export class AnalyticsService {
           ]),
         ),
       );
+      const solo = historicalSolo(
+        rows.matches,
+        rows.events ?? [],
+        rows.eventSources ?? [],
+      );
+      return { ...result, laningPhase: { ...result.laningPhase, ...solo } };
+    };
     const hero = compute(heroRows),
       villain = compute(villainRows);
     const cohort = (rows: typeof heroRows) => ({

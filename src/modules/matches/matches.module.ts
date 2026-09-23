@@ -1,6 +1,9 @@
 import { MatchVisionController } from './match-vision.controller';
 import { MatchVisionService } from './services/match-vision.service';
 import { MatchContributionService } from './services/match-contribution.service';
+import { CombatRepository } from './repositories/combat.repository';
+import { MatchCombatService } from './services/match-combat.service';
+import { MatchCombatController } from './match-combat.controller';
 import { Module } from '@nestjs/common';
 import { MatchesController } from './matches.controller';
 import { MatchDetailService } from './services/match-detail.service';
@@ -14,10 +17,12 @@ import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
 
 @Module({
   imports: [PrismaModule, DataDragonModule],
-  controllers: [MatchesController, MatchVisionController],
+  controllers: [MatchesController, MatchVisionController, MatchCombatController],
   providers: [
     MatchVisionService,
     MatchRepository,
+    CombatRepository,
+    MatchCombatService,
     MatchDetailService,
     MatchGoldTimelineService,
     MatchTimelineEventsService,

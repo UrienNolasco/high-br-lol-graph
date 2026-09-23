@@ -79,7 +79,7 @@ describe('MET-08 comparison HTTP contract', () => {
       laningPhase: {
         soloKills15: null,
         soloDeaths15: null,
-        soloKills15Reason: 'not_calculated',
+        soloKills15Reason: 'no_valid_samples',
         samples: { cs: { validN: 1 } },
       },
     });

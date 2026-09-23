@@ -1,0 +1,379 @@
+{
+  "fixture": "BR1_3200579475",
+  "frameCount": 41,
+  "metricVersion": 1,
+  "quality": {
+    "available": true,
+    "reason": null,
+    "uniqueKillEvents": 92,
+    "duplicateIdentities": 0,
+    "unknownEvents": 0,
+    "environmentalDeaths": 0,
+    "unknownAssistanceEvents": 26,
+    "unresolvedActors": 0,
+    "unresolvedVictims": 0,
+    "summaryKillDeathMismatch": false,
+    "relationCoverage": {
+      "killerVictim": {
+        "validSamples": 92,
+        "totalSamples": 92,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "coParticipation": {
+        "validSamples": 66,
+        "totalSamples": 92,
+        "coverage": 0.717391304347826,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      }
+    }
+  },
+  "reconciliation": [
+    {
+      "participantId": 1,
+      "fields": {
+        "kills": {
+          "observedCount": 19,
+          "summaryCount": 19,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 5,
+          "summaryCount": 5,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 7,
+          "summaryCount": 7,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      },
+      "soloDeaths15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      }
+    },
+    {
+      "participantId": 2,
+      "fields": {
+        "kills": {
+          "observedCount": 4,
+          "summaryCount": 4,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 9,
+          "summaryCount": 9,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 16,
+          "summaryCount": 16,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": 0,
+        "reason": null
+      },
+      "soloDeaths15": {
+        "value": 0,
+        "reason": null
+      }
+    },
+    {
+      "participantId": 3,
+      "fields": {
+        "kills": {
+          "observedCount": 13,
+          "summaryCount": 13,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 18,
+          "summaryCount": 18,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 3,
+          "summaryCount": 3,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      },
+      "soloDeaths15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      }
+    },
+    {
+      "participantId": 4,
+      "fields": {
+        "kills": {
+          "observedCount": 3,
+          "summaryCount": 3,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 8,
+          "summaryCount": 8,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 17,
+          "summaryCount": 17,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": 0,
+        "reason": null
+      },
+      "soloDeaths15": {
+        "value": 0,
+        "reason": null
+      }
+    },
+    {
+      "participantId": 5,
+      "fields": {
+        "kills": {
+          "observedCount": 1,
+          "summaryCount": 1,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 12,
+          "summaryCount": 12,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 20,
+          "summaryCount": 20,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": 0,
+        "reason": null
+      },
+      "soloDeaths15": {
+        "value": 0,
+        "reason": null
+      }
+    },
+    {
+      "participantId": 6,
+      "fields": {
+        "kills": {
+          "observedCount": 9,
+          "summaryCount": 9,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 9,
+          "summaryCount": 9,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 6,
+          "summaryCount": 6,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      },
+      "soloDeaths15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      }
+    },
+    {
+      "participantId": 7,
+      "fields": {
+        "kills": {
+          "observedCount": 12,
+          "summaryCount": 12,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 8,
+          "summaryCount": 8,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 7,
+          "summaryCount": 7,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": 0,
+        "reason": null
+      },
+      "soloDeaths15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      }
+    },
+    {
+      "participantId": 8,
+      "fields": {
+        "kills": {
+          "observedCount": 16,
+          "summaryCount": 16,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 8,
+          "summaryCount": 8,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 15,
+          "summaryCount": 15,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      },
+      "soloDeaths15": {
+        "value": null,
+        "reason": "unknown_assistance"
+      }
+    },
+    {
+      "participantId": 9,
+      "fields": {
+        "kills": {
+          "observedCount": 15,
+          "summaryCount": 15,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 7,
+          "summaryCount": 7,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 14,
+          "summaryCount": 14,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": 0,
+        "reason": null
+      },
+      "soloDeaths15": {
+        "value": 0,
+        "reason": null
+      }
+    },
+    {
+      "participantId": 10,
+      "fields": {
+        "kills": {
+          "observedCount": 0,
+          "summaryCount": 0,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "deaths": {
+          "observedCount": 8,
+          "summaryCount": 8,
+          "difference": 0,
+          "matches": true,
+          "complete": true
+        },
+        "assists": {
+          "observedCount": 30,
+          "summaryCount": 30,
+          "difference": 0,
+          "matches": true,
+          "complete": false
+        }
+      },
+      "soloKills15": {
+        "value": 0,
+        "reason": null
+      },
+      "soloDeaths15": {
+        "value": 0,
+        "reason": null
+      }
+    }
+  ],
+  "registeredBounty": 27478,
+  "registeredShutdownBounty": 2917,
+  "matrixEdges": 30,
+  "coparticipationEdges": 20
+}

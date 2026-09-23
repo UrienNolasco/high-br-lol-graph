@@ -22,7 +22,10 @@ export type MissingReason =
   | 'unknown_remake'
   | 'remake'
   | 'outside_cohort'
-  | 'not_calculated';
+  | 'not_calculated'
+  | 'missing_projection'
+  | 'unknown_assistance'
+  | 'incomplete_events';
 export type MetricUnit =
   | 'count'
   | 'count_per_minute'

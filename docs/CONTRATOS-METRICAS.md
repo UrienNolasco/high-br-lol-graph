@@ -47,3 +47,7 @@ O @15 legado é explicitamente `LEGACY_LANE_CHECKPOINT` metricVersion=0: primeir
 ## Validação
 
 `npm test -- --runInBand src/core/metrics` cobre serialização de quatro estados, zero válido, ausência, denominador zero/inválido, precisão, frames futuros/ausentes/duplicados, fim de jogo, bordas/censura, role ambígua, coorte ordenada/deduplicada e patches desconhecidos. `npm run build` valida integração Nest/OpenAPI. Dados e exemplos sintéticos estão explicitamente identificados. Não há migration ou rebuild nesta task, pois não muda o schema nem o significado de valores persistidos.
+
+## MET-13: combate e solo histórico
+
+[Contrato completo de combate](COMBATE-MET13.md): `GET /api/v1/matches/:matchId/combat`, envelopes E08/C01/C08/C09 v1, relações com cobertura e identidade de evento, contagens solo por partida e médias históricas com N válido. Campos novos de ausência: `missing_projection`, `unknown_assistance`, `incomplete_events`. `bounty` e `shutdownBounty` permanecem separados. Consultas exclusivamente em projeções MET-04; assistência omitida não equivale a array vazio.

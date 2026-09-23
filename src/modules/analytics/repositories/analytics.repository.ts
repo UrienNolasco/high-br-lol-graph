@@ -1,3 +1,4 @@
+import { COMBAT_EVENT_FILTER } from '../../matches/repositories/combat.repository';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
@@ -74,9 +75,31 @@ export class AnalyticsRepository {
         const projections = await tx.matchTimelineProjection.findMany({
           where: { matchId: { in: matches.map((m) => m.matchId) } },
         });
+        const ids = matches.map((m) => m.matchId);
+        const [events, eventSources] = await Promise.all([
+          tx.matchEventProjection.findMany({
+            where: { matchId: { in: ids }, ...COMBAT_EVENT_FILTER },
+            orderBy: [
+              { matchId: 'asc' },
+              { frameIndex: 'asc' },
+              { eventIndex: 'asc' },
+            ],
+          }),
+          tx.matchProcessing.findMany({
+            where: { matchId: { in: ids } },
+            select: {
+              matchId: true,
+              status: true,
+              processingVersion: true,
+              completedAt: true,
+            },
+          }),
+        ]);
         return {
           matches,
           projections,
+          events,
+          eventSources,
           eligibleN,
           returnedN: matches.length,
           limit,

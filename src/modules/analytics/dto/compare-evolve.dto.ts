@@ -146,6 +146,32 @@ export class LaningPhaseDto {
   @ApiProperty({
     type: Number,
     nullable: true,
+    description:
+      'Média por partida elegível, não contagem de uma única partida',
+  })
+  avgSoloKills15?: number | null;
+  @ApiProperty({ type: Number, nullable: true })
+  avgSoloDeaths15?: number | null;
+  @ApiProperty({ example: 'mean_per_valid_match' })
+  soloAggregation?: string;
+  @ApiProperty({ example: 1 })
+  soloMetricVersion?: number;
+  @ApiProperty({
+    type: Object,
+    description:
+      'N válido de partidas, N da coorte, cobertura e média independentes para kills15/deaths15',
+  })
+  soloSamples?: object;
+  @ApiProperty({
+    type: [Object],
+    description:
+      'Contagens de cada partida, razões de ausência e referências aos eventos projetados',
+  })
+  soloEvidence?: object[];
+
+  @ApiProperty({
+    type: Number,
+    nullable: true,
     example: 8.5,
     description: 'Diferença média de CS aos 15 min',
   })
@@ -171,7 +197,8 @@ export class LaningPhaseDto {
     type: Number,
     nullable: true,
     example: 0,
-    description: 'Solo kills antes dos 15 min',
+    description:
+      'Alias de avgSoloKills15: média histórica de contagens antes dos 15 min',
   })
   soloKills15: number | null;
 
@@ -179,14 +206,15 @@ export class LaningPhaseDto {
     type: Number,
     nullable: true,
     example: 0,
-    description: 'Solo deaths antes dos 15 min',
+    description:
+      'Alias de avgSoloDeaths15: média histórica de contagens antes dos 15 min',
   })
   soloDeaths15: number | null;
 
-  @ApiProperty({ example: 'not_calculated' })
-  soloKills15Reason?: string;
-  @ApiProperty({ example: 'not_calculated' })
-  soloDeaths15Reason?: string;
+  @ApiProperty({ type: String, nullable: true, example: 'no_valid_samples' })
+  soloKills15Reason?: string | null;
+  @ApiProperty({ type: String, nullable: true, example: 'no_valid_samples' })
+  soloDeaths15Reason?: string | null;
   @ApiProperty({
     type: Object,
     description: 'N próprio de CS, ouro e XP; somente pares com campos válidos',

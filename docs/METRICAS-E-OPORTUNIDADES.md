@@ -169,7 +169,7 @@ O número de wards removidas pelo time dividido pelas wards colocadas pelo adver
 | E05 / P1 | Ouro não gasto nos snapshots — P/T | `currentGold`, máximo/mediana, proporção de snapshots acima de limiar | Ingestão; não usar `goldEarned − goldSpent`; não equivale a ouro desperdiçado |
 | E06 / P2 | Recurso não gasto antes de episódio de combate — P | Snapshot anterior ao episódio + tempo desde snapshot | Ingestão + estimativa; não é inventário/caixa exato no segundo da luta |
 | E07 / P1 | Nível e diferença de nível nos checkpoints — P | `participantFrames.level`; tempo até níveis observados em `LEVEL_UP` | Ingestão; limites dependem da versão/posição, não fixar 18 |
-| E08 / P1 | Abates sem assistentes aos 10/15 e mortes equivalentes — P | `CHAMPION_KILL` sem `assistingParticipantIds`, com autor válido | Ingestão para vínculo completo; total final já em challenges; não comprova duelo isolado |
+| E08 / P1 | Abates sem assistentes aos 10/15 e mortes equivalentes — P | `CHAMPION_KILL` com `assistingParticipantIds` explicitamente vazio e válido, com autor jogador válido; campo ausente é desconhecido | Ingestão para vínculo completo; total final já em challenges; não comprova duelo isolado |
 | E09 / P2 | Conversão da vantagem de lane — P/H | Relação entre lead@15 e ganho posterior de estruturas/recursos/resultado | Ingestão + histórico; estratificar campeão/role, duração e partida elegível |
 | E10 / P2 | Recursos de jungle adversária e aliados — P | `totalEnemyJungleMinionsKilled`, `totalAllyJungleMinionsKilled`, challenges correspondentes | Ingestão / JSON bruto; não representa rota exata dos campos |
 
