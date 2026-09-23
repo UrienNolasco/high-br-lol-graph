@@ -1,3 +1,4 @@
+import type { ObservedAccountRank } from '../processing/discovery';
 import { httpStatus } from '../processing/failure-policy';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
@@ -125,6 +126,12 @@ export class RiotService {
   }
 
   async getHighEloPuids(): Promise<string[]> {
+    return (await this.getHighEloAccounts()).map((account) => account.puuid);
+  }
+
+  async getHighEloAccounts(): Promise<
+    { puuid: string; rank: ObservedAccountRank | null }[]
+  > {
     this.ensureApiKey();
     const startTime = Date.now();
 
@@ -140,7 +147,7 @@ export class RiotService {
             headers: this.createHeaders(),
           }),
         );
-        return response.data;
+        return { league: response.data, observedAt: new Date() };
       }, `get${leagueName}League`);
     };
 
@@ -148,24 +155,43 @@ export class RiotService {
     const grandmasterLeague = await fetchLeague(grandmasterUrl, 'Grandmaster');
     const masterLeague = await fetchLeague(masterUrl, 'Master');
 
-    const allEntries = [
-      ...challengerLeague.entries,
-      ...grandmasterLeague.entries,
-      ...masterLeague.entries,
-    ];
-
-    const uniquePuids = [...new Set(allEntries.map((entry) => entry.puuid))];
+    const accounts = new Map<
+      string,
+      { puuid: string; rank: ObservedAccountRank | null }
+    >();
+    for (const { league, observedAt } of [
+      challengerLeague,
+      grandmasterLeague,
+      masterLeague,
+    ]) {
+      for (const entry of league.entries) {
+        if (!accounts.has(entry.puuid))
+          accounts.set(entry.puuid, {
+            puuid: entry.puuid,
+            rank:
+              league.tier && league.queue
+                ? {
+                    tier: league.tier,
+                    division: entry.rank ?? null,
+                    leaguePoints: entry.leaguePoints ?? null,
+                    queue: league.queue,
+                    observedAt,
+                  }
+                : null,
+          });
+      }
+    }
 
     this.logger.info(
       {
         operation: 'riot_api',
-        endpoint: 'getHighEloPuids',
-        puuidsFound: uniquePuids.length,
+        endpoint: 'getHighEloAccounts',
+        puuidsFound: accounts.size,
         duration: Date.now() - startTime,
       },
       'High-elo PUUIDs fetched',
     );
-    return uniquePuids;
+    return [...accounts.values()];
   }
 
   async getMatchIdsByPuuid(

@@ -1,3 +1,5 @@
+import { DiscoveryReportService } from '../../src/core/processing/discovery-report.service';
+import { DiscoveryContext } from '../../src/core/processing/discovery';
 import { readFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { join } from 'node:path';
@@ -164,6 +166,7 @@ beforeEach(async () => {
     .mockReset()
     .mockRejectedValue(new Error('Unexpected Riot request'));
   await prisma.$transaction([
+    prisma.discoveryObservation.deleteMany(),
     prisma.match.deleteMany(),
     prisma.playerStats.deleteMany(),
     prisma.playerChampionStats.deleteMany(),
@@ -675,5 +678,123 @@ test('top five champions are selected from full history, including a previously 
     championId: 1005,
     games: 3,
     winRate: 100,
+  });
+});
+
+test('multiple discovery paths preserve lineage but contribute once, including two offline rebuilds', async () => {
+  const { summary, timeline } = fixture();
+  const matchId = summary.metadata.matchId;
+  const base: DiscoveryContext = {
+    observationId: 'collector-one',
+    source: 'collector',
+    observedAt: new Date('2026-09-23T12:00:00Z'),
+    region: 'br1',
+    queriedPuuid: summary.info.participants[0].puuid,
+    queueFilter: null,
+    requestedCount: 20,
+    startIndex: 0,
+    rank: {
+      tier: 'MASTER',
+      division: 'I',
+      leaguePoints: 0,
+      queue: 'RANKED_SOLO_5x5',
+      observedAt: new Date('2026-09-23T11:59:00Z'),
+    },
+  };
+  await jobs.recordDiscovery([matchId, matchId], base);
+  await jobs.recordDiscovery([matchId], base); // Same API observation retried.
+  await jobs.recordDiscovery([matchId], {
+    ...base,
+    source: 'search',
+    observationId: 'search-two',
+  });
+  await seed(summary, timeline);
+  await worker.processMatch({ matchId });
+  await queue.publishUserRequestedMatch(matchId);
+  await worker.processMatch({ matchId });
+  expect(await prisma.match.count()).toBe(1);
+  expect(await prisma.matchDiscovery.count()).toBe(2);
+  expect(await prisma.discoveryObservation.count()).toBe(2);
+  const before = await snapshot();
+  expect(before.champions.every((row) => row.gamesPlayed === 1)).toBe(true);
+  const report = new DiscoveryReportService(prisma);
+  const lineage = await report.lineage(matchId);
+  expect(lineage.observations.map((o) => o.source)).toEqual([
+    'collector',
+    'search',
+  ]);
+  expect(lineage.observations[0].rankLeaguePoints).toBe(0);
+  const coverage = await report.coverage();
+  expect(coverage.population).toMatchObject({
+    distinctKnownMatches: 1,
+    queriedAccounts: 1,
+    participantAccounts: 10,
+  });
+  expect(coverage.rawPair).toMatchObject({
+    complete: 1,
+    denominator: 1,
+    coverage: 1,
+  });
+  expect(coverage.lineage).toMatchObject({
+    knownMatches: 1,
+    unknownMatches: 0,
+  });
+  for (let i = 0; i < 2; i++) {
+    expect(await new RebuildService(prisma, worker).run()).toBe(1);
+    expect(await snapshot()).toEqual(before);
+    expect(await report.lineage(matchId)).toEqual(lineage);
+  }
+});
+
+test('legacy origins stay unknown and report accounts for incomplete raw pairs and empty queries', async () => {
+  const { summary, timeline } = fixture();
+  await seed(summary, timeline);
+  await worker.processMatch({ matchId: summary.metadata.matchId });
+  await jobs.enqueue('BR1_900', 10); // Priority is never provenance.
+  await prisma.matchRaw.create({
+    data: { matchId: 'BR1_900', summary: gzipSync('{}') },
+  });
+  await jobs.enqueue('BR1_901', 1);
+  await prisma.matchRaw.create({
+    data: { matchId: 'BR1_901', timeline: gzipSync('{}') },
+  });
+  await jobs.enqueue('BR1_902', 5);
+  await jobs.recordDiscovery([], {
+    observationId: 'empty-sync',
+    source: 'sync',
+    observedAt: new Date(),
+    region: null,
+    queriedPuuid: 'unranked-query-account',
+    queueFilter: 420,
+    requestedCount: 100,
+    startIndex: 0,
+    rank: null,
+  });
+  const report = new DiscoveryReportService(prisma);
+  expect(await report.lineage(summary.metadata.matchId)).toMatchObject({
+    source: 'unknown',
+    reason: 'missing_discovery_observation',
+    observations: [],
+  });
+  const coverage = await report.coverage();
+  expect(coverage.rawPair).toMatchObject({
+    complete: 1,
+    summaryOnly: 1,
+    timelineOnly: 1,
+    neither: 1,
+    denominator: 4,
+    coverage: 0.25,
+  });
+  expect(coverage.lineage.unknownMatches).toBe(4);
+  expect(coverage.population).toMatchObject({
+    queriedAccounts: 1,
+    discoveryObservations: 1,
+    observationsWithNoMatches: 1,
+    historicalParticipantRank: 'unavailable',
+  });
+  expect(coverage.importedGamePeriod).toMatchObject({
+    knownN: 1,
+    unknownN: 3,
+    first: new Date(summary.info.gameCreation).toISOString(),
   });
 });

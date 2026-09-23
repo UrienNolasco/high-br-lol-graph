@@ -20,7 +20,10 @@ describe('SyncOrchestratorService', () => {
     playerRepo = { findByPuuid: jest.fn() } as any;
     matchRepo = { findExistingMatchIds: jest.fn() } as any;
     riotService = { getMatchIdsByPuuid: jest.fn() } as any;
-    queueService = { publishDeepSyncMatch: jest.fn() } as any;
+    queueService = {
+      publishDeepSyncMatch: jest.fn(),
+      recordDiscovery: jest.fn(),
+    } as any;
     redis = {
       hget: jest.fn(),
       hgetall: jest.fn(),
@@ -72,6 +75,10 @@ describe('SyncOrchestratorService', () => {
 
     expect(result.status).toBe(SyncStatus.DONE);
     expect(result.matchesTotal).toBe(0);
+    expect(queueService.recordDiscovery).toHaveBeenCalledWith(
+      [],
+      expect.objectContaining({ source: 'sync' }),
+    );
   });
 
   it('should enqueue new matches and update Redis', async () => {
@@ -82,13 +89,27 @@ describe('SyncOrchestratorService', () => {
       exec: jest.fn().mockResolvedValue(undefined),
     } as any;
     redis.pipeline.mockReturnValue(mockPipeline);
-    playerRepo.findByPuuid.mockResolvedValue({} as any);
+    playerRepo.findByPuuid.mockResolvedValue({
+      region: 'br1',
+      tier: 'MASTER',
+      rank: 'I',
+    } as any);
     redis.hget.mockResolvedValue(null);
     riotService.getMatchIdsByPuuid.mockResolvedValue(['M1', 'M2', 'M3']);
     matchRepo.findExistingMatchIds.mockResolvedValue(new Set(['M1']));
 
     const result = await service.startDeepSync('p1');
 
+    expect(queueService.recordDiscovery).toHaveBeenCalledWith(
+      ['M1', 'M2', 'M3'],
+      expect.objectContaining({
+        source: 'sync',
+        region: 'br1',
+        queriedPuuid: 'p1',
+        queueFilter: 420,
+        rank: null,
+      }),
+    );
     expect(result.matchesEnqueued).toBe(2);
     expect(result.matchesTotal).toBe(3);
     expect(queueService.publishDeepSyncMatch).toHaveBeenCalledTimes(2);

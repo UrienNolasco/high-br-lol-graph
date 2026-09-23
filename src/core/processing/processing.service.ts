@@ -10,6 +10,7 @@ import {
   PROCESSING_GATE,
 } from './processing.constants';
 import { failureDelay, isPermanentFailure } from './failure-policy';
+import { DiscoveryContext, discoveryData } from './discovery';
 
 export type ProcessingLease = {
   matchId: string;
@@ -39,6 +40,21 @@ export class ProcessingService {
         ON CONFLICT ("matchId") DO UPDATE SET priority = GREATEST(match_processing.priority, EXCLUDED.priority),
           "traceId" = COALESCE(match_processing."traceId", EXCLUDED."traceId") RETURNING *`;
       return job;
+    });
+  }
+
+  async recordDiscovery(matchIds: string[], context: DiscoveryContext) {
+    const data = discoveryData(context, matchIds);
+    return this.prisma.$transaction(async (tx) => {
+      if (!(await this.gate(tx)))
+        throw new Error('Rebuild in progress; ingestion is paused');
+      // A caller can retry the same immutable observation ID safely. New API
+      // queries receive new IDs even if their match lists happen to be identical.
+      return tx.discoveryObservation.upsert({
+        where: { id: context.observationId },
+        create: data,
+        update: {},
+      });
     });
   }
 

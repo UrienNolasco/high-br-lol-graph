@@ -3,10 +3,13 @@ import { CollectorPipelineService } from './collector-pipeline.service';
 describe('CollectorPipelineService', () => {
   let service: CollectorPipelineService;
   let mockRiotService: {
-    getHighEloPuids: jest.Mock;
+    getHighEloAccounts: jest.Mock;
     getMatchIdsByPuuid: jest.Mock;
   };
-  let mockQueueService: { publishBackgroundMatch: jest.Mock };
+  let mockQueueService: {
+    publishBackgroundMatch: jest.Mock;
+    recordDiscovery: jest.Mock;
+  };
   let mockCollectorRepo: { matchExists: jest.Mock };
   let mockLogger: {
     info: jest.Mock;
@@ -17,11 +20,12 @@ describe('CollectorPipelineService', () => {
 
   beforeEach(() => {
     mockRiotService = {
-      getHighEloPuids: jest.fn(),
+      getHighEloAccounts: jest.fn(),
       getMatchIdsByPuuid: jest.fn(),
     };
     mockQueueService = {
       publishBackgroundMatch: jest.fn(),
+      recordDiscovery: jest.fn(),
     };
     mockCollectorRepo = {
       matchExists: jest.fn(),
@@ -42,7 +46,9 @@ describe('CollectorPipelineService', () => {
   });
 
   it('should fetch high-elo puids and enqueue new matches', async () => {
-    mockRiotService.getHighEloPuids.mockResolvedValue(['p1', 'p2']);
+    mockRiotService.getHighEloAccounts.mockResolvedValue(
+      ['p1', 'p2'].map((puuid) => ({ puuid, rank: null })),
+    );
     mockRiotService.getMatchIdsByPuuid.mockResolvedValue(['M1', 'M2']);
     mockCollectorRepo.matchExists.mockResolvedValue(false);
 
@@ -56,7 +62,9 @@ describe('CollectorPipelineService', () => {
   });
 
   it('should skip existing matches', async () => {
-    mockRiotService.getHighEloPuids.mockResolvedValue(['p1']);
+    mockRiotService.getHighEloAccounts.mockResolvedValue([
+      { puuid: 'p1', rank: null },
+    ]);
     mockRiotService.getMatchIdsByPuuid.mockResolvedValue(['M1', 'M2']);
     mockCollectorRepo.matchExists
       .mockResolvedValueOnce(true)
@@ -66,10 +74,21 @@ describe('CollectorPipelineService', () => {
 
     expect(mockQueueService.publishBackgroundMatch).toHaveBeenCalledTimes(1);
     expect(mockQueueService.publishBackgroundMatch).toHaveBeenCalledWith('M2');
+    expect(mockQueueService.recordDiscovery).toHaveBeenCalledWith(
+      ['M1', 'M2'],
+      expect.objectContaining({
+        source: 'collector',
+        queriedPuuid: 'p1',
+        queueFilter: null,
+        rank: null,
+      }),
+    );
   });
 
   it('should continue on per-player errors', async () => {
-    mockRiotService.getHighEloPuids.mockResolvedValue(['p1', 'p2']);
+    mockRiotService.getHighEloAccounts.mockResolvedValue(
+      ['p1', 'p2'].map((puuid) => ({ puuid, rank: null })),
+    );
     mockRiotService.getMatchIdsByPuuid
       .mockRejectedValueOnce(new Error('Rate limited'))
       .mockResolvedValueOnce(['M1']);
@@ -88,12 +107,33 @@ describe('CollectorPipelineService', () => {
   });
 
   it('should treat matchExists errors as new match', async () => {
-    mockRiotService.getHighEloPuids.mockResolvedValue(['p1']);
+    mockRiotService.getHighEloAccounts.mockResolvedValue([
+      { puuid: 'p1', rank: null },
+    ]);
     mockRiotService.getMatchIdsByPuuid.mockResolvedValue(['M1']);
     mockCollectorRepo.matchExists.mockRejectedValue(new Error('DB error'));
 
     await service.runCollection({ startHour: 1, endHour: 8 });
 
     expect(mockQueueService.publishBackgroundMatch).toHaveBeenCalledWith('M1');
+  });
+  it('records queried account rank and empty results without inferring match queue', async () => {
+    const rank = {
+      tier: 'MASTER',
+      division: 'I',
+      leaguePoints: 0,
+      queue: 'RANKED_SOLO_5x5',
+      observedAt: new Date(0),
+    };
+    mockRiotService.getHighEloAccounts.mockResolvedValue([
+      { puuid: 'p1', rank },
+    ]);
+    mockRiotService.getMatchIdsByPuuid.mockResolvedValue([]);
+    await service.runCollection({ startHour: 1, endHour: 8 });
+    expect(mockQueueService.recordDiscovery).toHaveBeenCalledWith(
+      [],
+      expect.objectContaining({ rank, queueFilter: null, region: 'br1' }),
+    );
+    expect(mockQueueService.publishBackgroundMatch).not.toHaveBeenCalled();
   });
 });

@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { getErrorMessage } from '../../../core/logger/get-error-message';
@@ -46,6 +47,7 @@ export class PlayerSearchService {
         account.puuid,
         REGION,
       );
+      const rankObservedAt = new Date();
       const rankedSolo = leagueEntries.find(
         (e) => e.queueType === 'RANKED_SOLO_5x5',
       );
@@ -54,6 +56,25 @@ export class PlayerSearchService {
         account.puuid,
         20,
       );
+      await this.queueService.recordDiscovery(matchIds, {
+        observationId: randomUUID(),
+        source: 'search',
+        observedAt: new Date(),
+        region: REGION,
+        queriedPuuid: account.puuid,
+        queueFilter: null,
+        requestedCount: 20,
+        startIndex: 0,
+        rank: rankedSolo?.tier
+          ? {
+              tier: rankedSolo.tier,
+              division: rankedSolo.rank ?? null,
+              leaguePoints: rankedSolo.leaguePoints ?? null,
+              queue: rankedSolo.queueType,
+              observedAt: rankObservedAt,
+            }
+          : null,
+      });
       const existingSet = await this.matchRepo.findExistingMatchIds(matchIds);
       const newMatchIds = matchIds.filter((id) => !existingSet.has(id));
 

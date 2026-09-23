@@ -31,6 +31,7 @@ describe('PlayerSearchService', () => {
     } as any;
     queueService = {
       publishUserRequestedMatch: jest.fn(),
+      recordDiscovery: jest.fn(),
       publishDeepSyncMatch: jest.fn(),
     } as any;
 
@@ -83,6 +84,20 @@ describe('PlayerSearchService', () => {
 
     const result = await service.search(dto);
 
+    expect(queueService.recordDiscovery).toHaveBeenCalledWith(
+      ['MATCH_1', 'MATCH_2'],
+      expect.objectContaining({
+        source: 'search',
+        queriedPuuid: 'puuid-123',
+        queueFilter: null,
+        rank: expect.objectContaining({
+          tier: 'GOLD',
+          division: 'II',
+          leaguePoints: 50,
+          observedAt: expect.any(Date),
+        }),
+      }),
+    );
     expect(result.puuid).toBe('puuid-123');
     expect(result.matchesEnqueued).toBe(1);
     expect(queueService.publishUserRequestedMatch).toHaveBeenCalledWith(

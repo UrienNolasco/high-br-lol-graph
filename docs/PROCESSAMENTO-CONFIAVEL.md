@@ -68,7 +68,7 @@ npm run processing -- rebuild --resume
 docker compose start api collector worker worker-2
 ```
 
-A reconstrução preserva usuários e payloads brutos; limpa partidas e agregados e reaplica os payloads completos. Trabalhos sem o par de payloads permanecem pendentes para a coleta posterior. Antes da limpeza, o comando recusa uma base com partidas concluídas sem payloads completos.
+A reconstrução preserva usuários, payloads brutos e observações de descoberta; limpa partidas e agregados e reaplica os payloads completos. Trabalhos sem o par de payloads permanecem pendentes para a coleta posterior. Antes da limpeza, o comando recusa uma base com partidas concluídas sem payloads completos.
 
 Um marcador persistente bloqueia novas admissões e posses normais durante a reconstrução, inclusive após interrupção. A API deve permanecer parada para não expor resultados parciais. Uma trava no PostgreSQL impede comandos de reconstrução simultâneos. Cada partida tem seu próprio commit; `--resume` reutiliza os commits concluídos e reinicia as tentativas restantes. A execução tem limite de uma hora; se exceder, mantenha os serviços parados e use `--resume`.
 
@@ -99,3 +99,10 @@ Também cobre oito variações de payload inválido sem resultados parciais, iso
 Na imagem compilada, os mesmos comandos administrativos estão disponíveis por `node dist/processing-cli.js status`, `node dist/processing-cli.js retry BR1_3200579475` e `node dist/processing-cli.js rebuild [--resume]`, sem depender do `ts-node` de desenvolvimento.
 
 Validação local em 22/09/2026: 253 testes unitários, 48 testes HTTP e 22 testes de integração passaram. O schema Prisma foi validado e as dez migrations foram aplicadas em um banco descartável vazio. O build gera `dist/main.js` e `dist/processing-cli.js`, e o comando compilado `status` foi executado contra o PostgreSQL de teste. O workflow verifica esses executáveis e o CLI antes do deploy. A validação usa fixtures da Riot e não inclui execução em produção.
+
+
+## Linhagem e cobertura (MET-18)
+
+A migration `20260923010000_discovery_lineage` adiciona observações de collector/search/sync e suas relações com partidas. Aplicar antes de iniciar os novos produtores. Não altera os agregados nem PROCESSING_VERSION; histórico sem observações mantém origem unknown. Rebuild preserva as observações e não tenta inferi-las dos payloads.
+
+`npm run processing -- coverage` e `npm run processing -- lineage BR1_3200579475` produzem relatórios JSON somente leitura; equivalentes compilados: `node dist/processing-cli.js coverage` e `node dist/processing-cli.js lineage BR1_3200579475`. Definições, denominadores, população, limites e exemplos: [ORIGEM-E-COBERTURA.md](ORIGEM-E-COBERTURA.md). Rank registrado é o da conta consultada no instante da descoberta, jamais rank histórico de todos os participantes.

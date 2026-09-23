@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { getErrorMessage } from '../../../core/logger/get-error-message';
@@ -75,6 +76,19 @@ export class SyncOrchestratorService {
     const riotMatchIds = await this.riotService.getMatchIdsByPuuid(puuid, 100, {
       start: 0,
       queue: 420,
+    });
+
+    await this.queueService.recordDiscovery(riotMatchIds, {
+      observationId: randomUUID(),
+      source: 'sync',
+      observedAt: new Date(),
+      region: player.region ?? null,
+      queriedPuuid: puuid,
+      queueFilter: 420,
+      requestedCount: 100,
+      startIndex: 0,
+      // Stored User.rank has no observation timestamp; never relabel it as fresh.
+      rank: null,
     });
 
     if (riotMatchIds.length === 0) {

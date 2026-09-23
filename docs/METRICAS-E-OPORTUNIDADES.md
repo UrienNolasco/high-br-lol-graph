@@ -483,6 +483,8 @@ Todos os cartões começam em `Ready`, a primeira coluna disponível no board. A
 
 MET-07 implementa a correção O08 da rota legada; fórmula, migração de `throwPoint`, nulabilidade, cobertura e evidências estão em [TIMELINE-OURO.md](TIMELINE-OURO.md).
 
+MET-18 registra observações de descoberta e oferece relatório CLI de linhagem/completude; contrato, população e limitações estão em [ORIGEM-E-COBERTURA.md](ORIGEM-E-COBERTURA.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 1. Fórmula, unidade, fonte, denominador, filtro, janela e ausência documentados; referência ao ID da oportunidade preservada.

@@ -1,0 +1,38 @@
+{
+  "task": "MET-18",
+  "validatedAt": "2026-09-23",
+  "environment": "disposable high_br_integration; synthetic integration scenarios based on BR1_3200579475; no production access",
+  "migration": "20260923010000_discovery_lineage",
+  "legacyDataPreserved": true,
+  "fingerprintMethod": "md5(COALESCE(string_agg(row_to_json(t)::text, '' ORDER BY row_to_json(t)::text), '')); checked before and immediately after migrate deploy",
+  "identicalBeforeAndAfter": {
+    "matches": { "rows": 8, "md5": "5d50997a083e8d7347ba469e786eb709" },
+    "match_raw": { "rows": 8, "md5": "5235ab3348ffb8fd9c5fe32d01d97af5" },
+    "match_processing": { "rows": 8, "md5": "af206a0fe43a293396d025288f4d41fb" },
+    "player_stats": { "rows": 20, "md5": "beadf6d45fdc714258eafb0d55ef955f" },
+    "champion_stats": { "rows": 15, "md5": "16df7748a6e3fed275060f73fdeecca8" },
+    "player_champion_stats": { "rows": 30, "md5": "c46ddbed0593bfd605e1040c8830d698" }
+  },
+  "checks": {
+    "build": "passed",
+    "prismaValidate": "passed",
+    "unit": { "suites": 55, "tests": 272, "passed": true },
+    "http": { "suites": 9, "tests": 52, "passed": true },
+    "integration": { "suites": 1, "tests": 24, "seconds": 23.617, "passed": true },
+    "twoRebuildsPreserveLineageAndAggregates": true,
+    "compiledCoverageCli": "passed",
+    "compiledLineageCli": "passed"
+  },
+  "compiledCliAfterFinalIntegrationScenario": {
+    "distinctKnownMatches": 4,
+    "importedMatches": 1,
+    "queriedAccounts": 1,
+    "participantAccounts": 10,
+    "discoveryObservations": 1,
+    "observationsWithNoMatches": 1,
+    "rawPair": { "complete": 1, "summaryOnly": 1, "timelineOnly": 1, "neither": 1, "denominator": 4, "coverage": 0.25 },
+    "lineageUnknownMatches": 4,
+    "importedGamePeriod": { "first": "2026-02-02T06:54:48.681Z", "last": "2026-02-02T06:54:48.681Z", "knownN": 1, "unknownN": 3 },
+    "legacyMatchLineage": { "matchId": "BR1_3200579475", "exists": true, "source": "unknown", "reason": "missing_discovery_observation", "observations": [] }
+  }
+}

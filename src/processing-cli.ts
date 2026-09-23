@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { PrismaService } from './core/prisma/prisma.service';
 import { ProcessingService } from './core/processing/processing.service';
+import { DiscoveryReportService } from './core/processing/discovery-report.service';
 import { RebuildService } from './core/processing/rebuild.service';
 import { PlayerStatsAggregationService } from './core/stats/player-stats-aggregation.service';
 import { MatchPersistenceService } from './modules/worker/services/match-persistence.service';
@@ -12,22 +13,40 @@ import { PinoLogger } from 'nestjs-pino';
 async function main() {
   const [command, ...args] = process.argv.slice(2);
   if (
-    !['status', 'retry', 'rebuild'].includes(command) ||
+    !['status', 'retry', 'rebuild', 'coverage', 'lineage'].includes(command) ||
     (command === 'rebuild' && args.some((arg) => arg !== '--resume')) ||
     (command === 'retry' &&
       (args.length !== 1 ||
         (!/^BR1_\d+$/.test(args[0]) && args[0] !== '--all'))) ||
-    (command === 'status' && args.length)
+    (['status', 'coverage'].includes(command) && args.length) ||
+    (command === 'lineage' &&
+      (args.length !== 1 || !/^[A-Z0-9]+_\d+$/.test(args[0])))
   ) {
     throw new Error(
-      'Usage: npm run processing -- status | retry <BR1_id|--all> | rebuild [--resume]',
+      'Usage: npm run processing -- status | coverage | lineage <matchId> | retry <BR1_id|--all> | rebuild [--resume]',
     );
   }
   const prisma = new PrismaService();
   await prisma.$connect();
   try {
     const processing = new ProcessingService(prisma);
-    if (command === 'status') {
+    if (command === 'coverage') {
+      console.log(
+        JSON.stringify(
+          await new DiscoveryReportService(prisma).coverage(),
+          null,
+          2,
+        ),
+      );
+    } else if (command === 'lineage') {
+      console.log(
+        JSON.stringify(
+          await new DiscoveryReportService(prisma).lineage(args[0]),
+          null,
+          2,
+        ),
+      );
+    } else if (command === 'status') {
       const states = await prisma.matchProcessing.groupBy({
         by: ['status'],
         _count: true,

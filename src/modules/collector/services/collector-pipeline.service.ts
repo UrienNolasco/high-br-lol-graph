@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { RiotService } from '../../../core/riot/riot.service';
@@ -23,11 +24,11 @@ export class CollectorPipelineService {
     const startTime = Date.now();
 
     try {
-      const highEloPuids = await this.riotService.getHighEloPuids();
+      const highEloAccounts = await this.riotService.getHighEloAccounts();
       this.logger.info(
         {
           event: 'collection_progress',
-          playersFound: highEloPuids.length,
+          playersFound: highEloAccounts.length,
           step: 'high_elo_fetched',
         },
         'High-elo players fetched',
@@ -36,9 +37,20 @@ export class CollectorPipelineService {
       let totalMatchesFound = 0;
       let newMatchesEnqueued = 0;
 
-      for (const puuid of highEloPuids) {
+      for (const { puuid, rank } of highEloAccounts) {
         try {
           const matchIds = await this.riotService.getMatchIdsByPuuid(puuid, 20);
+          await this.queueService.recordDiscovery(matchIds, {
+            observationId: randomUUID(),
+            source: 'collector',
+            observedAt: new Date(),
+            region: 'br1',
+            queriedPuuid: puuid,
+            queueFilter: null,
+            requestedCount: 20,
+            startIndex: 0,
+            rank,
+          });
           totalMatchesFound += matchIds.length;
 
           for (const matchId of matchIds) {
@@ -68,7 +80,7 @@ export class CollectorPipelineService {
       this.logger.info(
         {
           event: 'collection_completed',
-          playersFound: highEloPuids.length,
+          playersFound: highEloAccounts.length,
           matchesFound: totalMatchesFound,
           matchesEnqueued: newMatchesEnqueued,
           duplicatesSkipped,

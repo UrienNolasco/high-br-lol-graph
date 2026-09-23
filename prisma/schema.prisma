@@ -263,3 +263,37 @@ model ProcessingMaintenance {
 
   @@map("processing_maintenance")
 }
+
+// Discovery is an observation of a queried account, never historical match rank.
+// No FK to Match: lineage exists before ingestion and survives projection rebuilds.
+model DiscoveryObservation {
+  id               String   @id
+  source           String
+  observedAt       DateTime
+  region           String?
+  queriedPuuid     String
+  queueFilter      Int?
+  requestedCount   Int
+  startIndex       Int
+  rankTier         String?
+  rankDivision     String?
+  rankLeaguePoints Int?
+  rankQueue        String?
+  rankObservedAt   DateTime?
+  lineageVersion   Int      @default(1)
+  matches          MatchDiscovery[]
+
+  @@index([source, observedAt])
+  @@index([queriedPuuid, observedAt])
+  @@map("discovery_observations")
+}
+
+model MatchDiscovery {
+  observationId String
+  matchId       String
+  observation   DiscoveryObservation @relation(fields: [observationId], references: [id], onDelete: Cascade)
+
+  @@id([observationId, matchId])
+  @@index([matchId])
+  @@map("match_discoveries")
+}
