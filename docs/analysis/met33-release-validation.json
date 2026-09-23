@@ -1,0 +1,203 @@
+{
+  "task": "MET33",
+  "auditVersion": 1,
+  "sourceSha256": {
+    "exemplo_partida_BR1_3200579475.json": "84f4a95ab6be4c3e9ee264a4b2ca421d76b180e47d39bdd8eb9a4a6163dc79ef",
+    "exemplo_partida_timeline_BR1_3200579475.json": "47b305de799e4e737d43dc3eeedf41c5d9f84a8bdd4f43b608ca0466a2728626"
+  },
+  "realSampleN": 1,
+  "syntheticSampleN": 9,
+  "supportMatrix": [
+    {
+      "gameVersion": "16.2.741.3171",
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "realN": 1,
+      "status": "fixture_validated",
+      "scope": "100 participant and 12 objective summary/timeline reconciliations; observed field and event shapes only",
+      "limitation": "One match cannot validate every match or optional field in this patch."
+    },
+    {
+      "gameVersion": "16.20.999.1",
+      "patch": "16.20",
+      "queueId": 420,
+      "mapId": 11,
+      "realN": 0,
+      "status": "synthetic_only_unsupported",
+      "scope": "Controlled version-label mutation; no real evidence of semantics"
+    },
+    {
+      "gameVersion": null,
+      "patch": null,
+      "queueId": null,
+      "mapId": null,
+      "realN": 0,
+      "status": "unvalidated",
+      "scope": "All other versions, queues and maps lack real samples in the current corpus"
+    }
+  ],
+  "corpusCommand": "python scripts/audit-metrics-corpus.py --output /tmp/met33-corpus-audit.json",
+  "corpusExitCode": 0,
+  "pythonTests": {
+    "command": "python -m unittest discover -s scripts -p test_metrics_corpus.py",
+    "passed": 8
+  },
+  "note": "Compiled reconciliations use generation4. Worker/dataset PostgreSQL gates ran before the clean integration rebase; remaining integration suites ran on the integrated tree. The two commands together cover all14suites/50tests, without repeating already-passed unchanged worker/dataset tests.",
+  "compiledReconciliations": [
+    {
+      "command": "node scripts/validate-final-stats.cjs",
+      "exitCode": 0,
+      "stderr": "",
+      "result": {
+        "participantChecks": 590,
+        "objectiveChecks": 32,
+        "failures": 0
+      }
+    },
+    {
+      "command": "node scripts/validate-contribution.cjs",
+      "exitCode": 0,
+      "stderr": "",
+      "result": {
+        "checkedParticipants": 10,
+        "formulaChecks": 40,
+        "fioraTurretSharePercent": 79.1386420880733,
+        "milioAllyShielding": 19049,
+        "failures": 0
+      }
+    },
+    {
+      "command": "node scripts/validate-vision.cjs",
+      "exitCode": 0,
+      "stderr": "",
+      "result": {
+        "totals": {
+          "recognizedPlacements": 196,
+          "unknownPlacements": 556,
+          "recognizedRemovals": 51
+        },
+        "failures": 0,
+        "calculationMs": 137.70505
+      }
+    },
+    {
+      "command": "node scripts/validate-kill-episodes.cjs",
+      "exitCode": 0,
+      "stderr": "",
+      "result": {
+        "assignedKills": 92,
+        "episodes": 62,
+        "quickTrades": 11,
+        "participantSnapshotsChecked": 239,
+        "sensitivity": [
+          {
+            "profile": "tight",
+            "episodes": 74,
+            "trades": 8,
+            "coClusterPairChanges": 28
+          },
+          {
+            "profile": "default",
+            "episodes": 62,
+            "trades": 11,
+            "coClusterPairChanges": 0
+          },
+          {
+            "profile": "loose",
+            "episodes": 53,
+            "trades": 16,
+            "coClusterPairChanges": 21
+          }
+        ],
+        "failures": 0
+      }
+    },
+    {
+      "command": "node scripts/validate-objectives.cjs",
+      "exitCode": 0,
+      "stderr": "",
+      "result": {
+        "reconciliations": 12,
+        "towers": 13,
+        "inhibitors": 2,
+        "plates": 74,
+        "killerIdZero": 28,
+        "platesAtOrAfter14Minutes": 60,
+        "fioraTurretShare": 79.1386420880733,
+        "failures": 0
+      }
+    },
+    {
+      "command": "node scripts/validate-sequences.cjs",
+      "exitCode": 0,
+      "stderr": "",
+      "result": {
+        "precedingRedKills": 5,
+        "persistentLeadFrame": 28,
+        "largestObservedDeficit": 4750,
+        "firstBaronGoldChange": 2606,
+        "failures": 0
+      }
+    },
+    {
+      "command": "node scripts/validate-bounties-steals.cjs",
+      "exitCode": 0,
+      "stderr": "",
+      "result": {
+        "windowStart": 1260000,
+        "windowEnd": 1555457,
+        "observedDurationMs": 295457,
+        "participantChecks": 80,
+        "eventChecks": 238,
+        "literalRewardEvents": 119,
+        "failures": 0
+      }
+    }
+  ],
+  "processingVersion": 4,
+  "integratedBaseCommit": "f275910",
+  "gates": {
+    "build": {
+      "passed": true
+    },
+    "unit": {
+      "suites": 90,
+      "tests": 509,
+      "seconds": 50.282,
+      "passed": true
+    },
+    "http": {
+      "suites": 25,
+      "tests": 131,
+      "seconds": 33.506,
+      "passed": true
+    },
+    "postgresqlDatasetAndProcessing": {
+      "suites": 2,
+      "tests": 29,
+      "seconds": 159.651,
+      "passed": true,
+      "command": "npm run test:integration -- --testPathPatterns='dataset.integration-spec.ts|processing.integration-spec.ts'"
+    },
+    "postgresqlOtherIntegrated": {
+      "suites": 12,
+      "tests": 21,
+      "seconds": 152.576,
+      "passed": true,
+      "command": "npm run test:integration -- --testPathIgnorePatterns='dataset.integration-spec.ts|processing.integration-spec.ts'"
+    }
+  },
+  "schemaDiffAfterIntegratedTests": "No difference detected; exit0",
+  "benchmark": {
+    "command": "TEST_DATABASE_URL=<disposable> node scripts/benchmark-release.cjs --reset-disposable",
+    "passed": true,
+    "artifact": "met33-release-benchmark.json"
+  },
+  "benchmarkRecheck": {
+    "passed": true,
+    "artifact": "met33-release-recheck.json",
+    "command": "node scripts/benchmark-release.cjs --reset-disposable --baseline docs/analysis/met33-release-benchmark.json --output /tmp/met33-recheck.json",
+    "failures": []
+  }
+}

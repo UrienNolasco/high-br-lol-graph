@@ -518,7 +518,7 @@ O MVP é aceito quando os exemplos reconciliam, os estados de ausência funciona
 
 Board `high-br-lol` (ID 3), coluna `Ready` (ID 9). O [manifesto do backlog](analysis/metrics-backlog.json) registra os 34 cartões, escopo, tamanho, critérios de aceite, arquivos de referência, dependências e IDs reais retornados pelo MCP. Os critérios completos também estão na descrição de cada cartão. Todas as 60 oportunidades da seção 4 estão cobertas; uma oportunidade pode envolver uma task de dados e outra de produto.
 
-As tasks são trabalho futuro. O objetivo desta retomada termina com análise, documentação e criação/verificação do backlog, não com desenvolvimento dessas funcionalidades.
+O manifesto preserva o escopo e as dependências definidos na análise inicial. A execução posterior implementa cada task em uma branch e um commit, com integração na `dev`; o estado atual e as evidências ficam no cartão correspondente do kanban. Desenvolvimento e ensaios locais não incluem deploy nem alterações em produção. Custos, limites de cobertura e procedimento de liberação por partida estão em [LIBERACAO-POR-PARTIDA.md](LIBERACAO-POR-PARTIDA.md).
 
 | Código / cartão | Prioridade / tamanho | Entrega e task | Depende de | Oportunidades |
 |---|---|---|---|---|

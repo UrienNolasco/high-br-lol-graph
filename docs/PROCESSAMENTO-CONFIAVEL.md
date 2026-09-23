@@ -30,7 +30,7 @@ São permitidas seis tentativas por trabalho. O atraso começa em 30 segundos e 
 - CSD/GD/XPD aos 15 minutos usam o primeiro frame no intervalo `[900000, 960000)` e adversário único da mesma posição no outro time. Partidas menores que 15 minutos, frames ausentes e posições não reconhecidas não entram no denominador. Sem amostras válidas, a API retorna `null` nesses três campos.
 - `MatchTeam` é único por `(matchId, teamId)`. `objectivesTimeline` agora contém a lista de eventos da timeline, atribuídos ao time que conquistou o objetivo. Em destruição de estruturas, o `teamId` da Riot indica o proprietário destruído; o beneficiário é o adversário.
 
-Não houve revisão do algoritmo de tier nem implementação das novas métricas de visão. `banRate` e `pickRate` continuam com o comportamento anterior. As mudanças de contrato são a nulabilidade dos três indicadores de rota e a lista efetiva de eventos em `objectivesTimeline`.
+O escopo original de processamento confiável preservava tier, `banRate` e `pickRate`. As entregas MET posteriores acrescentaram visão por partida e revisaram popularidade por população elegível: veja [VISAO-POR-FASE.md](VISAO-POR-FASE.md) e [POPULARIDADE-CAMPEOES.md](POPULARIDADE-CAMPEOES.md). Os contratos atuais distinguem ausência e zero; o registro histórico de validação abaixo não substitui os gates da geração atual em [LIBERACAO-POR-PARTIDA.md](LIBERACAO-POR-PARTIDA.md).
 
 ## Instalação e operação
 
