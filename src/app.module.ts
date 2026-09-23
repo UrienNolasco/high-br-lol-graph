@@ -14,6 +14,7 @@ import { ChampionsModule } from './modules/champions/champions.module';
 import { StatsModule } from './modules/stats/stats.module';
 import { MatchesModule } from './modules/matches/matches.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { ReferenceModule } from './modules/references/reference.module';
 import { DatasetModule } from './modules/dataset/dataset.module';
 import { AdminModule } from './modules/admin/admin.module';
 
@@ -34,6 +35,7 @@ import { AdminModule } from './modules/admin/admin.module';
     WorkerModule,
     AdminModule,
     DatasetModule,
+    ReferenceModule,
   ],
   controllers: [AppController],
 })

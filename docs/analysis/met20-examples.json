@@ -1,0 +1,313 @@
+{
+  "methodVersion": 1,
+  "scope": "Illustrative response fragments, not complete endpoint responses",
+  "realFixture": {
+    "matchId": "BR1_3200579475",
+    "coverage": "One real match/patch16.2/queue420/map11; processedAt and discovery metadata explicitly synthetic",
+    "response": {
+      "status": "insufficient",
+      "reason": "insufficient_precision",
+      "filters": {
+        "eligibleOnly": true,
+        "queueId": 420,
+        "mapId": 11,
+        "championId": 114,
+        "patch": "16.2",
+        "definitionId": "snapshot.totalGold",
+        "horizonKey": "t:900000",
+        "subjectKind": "participant",
+        "usage": "predictive",
+        "role": "TOP"
+      },
+      "counts": {
+        "candidateRows": 1,
+        "eligibleRows": 1,
+        "eligibleMatches": 1,
+        "eligiblePlayers": 1,
+        "validEligibleRows": 1,
+        "validEligibleMatches": 1,
+        "validEligiblePlayers": 1,
+        "selectedRows": 0,
+        "selectedMatches": 0,
+        "selectedSubjects": 0,
+        "selectedRosterPlayers": 0
+      },
+      "coverage": {
+        "validEligibleRows": 1,
+        "eligibleRows": 1,
+        "value": 1,
+        "missingReasons": {},
+        "unmaterializedMatches": 0
+      },
+      "period": {
+        "requestedFromMs": null,
+        "requestedToMs": null,
+        "bounds": "[)",
+        "eligible": {
+          "firstGameCreationMs": "1770015288681",
+          "lastGameCreationMs": "1770015288681"
+        },
+        "selected": null
+      },
+      "precision": {
+        "confidence": 0.95,
+        "cdfHalfWidth": 0.15,
+        "minimumUnits": 0,
+        "requiredUnits": 82,
+        "observedUnits": 0,
+        "achievedCdfHalfWidth": null,
+        "sufficient": false
+      },
+      "median": null,
+      "quantiles": null,
+      "individual": {
+        "contributionId": "6eec08ec367a4c36b0eac092f644ed10f6eb4f17baeb2cb48052aaf1b27a2e8e",
+        "matchId": "BR1_3200579475",
+        "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+        "value": 7745,
+        "reason": null,
+        "eligible": true,
+        "source": {
+          "datasetContributionId": "6eec08ec367a4c36b0eac092f644ed10f6eb4f17baeb2cb48052aaf1b27a2e8e",
+          "evidence": {
+            "sources": [
+              "MatchTimelineProjection.frames:participantFrames.1.totalGold"
+            ],
+            "frameIndices": [
+              14
+            ],
+            "eventIds": [],
+            "sourceObservations": 1
+          }
+        },
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "percentile": null
+      },
+      "selection": {
+        "policy": "chronological greedy selection, then matchId/id; full ten-player rosters disjoint; selection never sorts by metric value",
+        "assumptions": "Conditional bands assume remaining units are independent and share a distribution. Removing direct roster reuse does not establish this; selection may favor less frequent players and earlier matches.",
+        "estimand": "Distribution within the roster-disjoint selected subcohort; not the full collection or all high-elo players",
+        "targetRosterExcluded": true,
+        "exclusions": {
+          "overlapping_player": 1
+        },
+        "fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "provenance": {
+        "processedAt": {
+          "earliest": "2026-09-23T00:00:00.000Z",
+          "latest": "2026-09-23T00:00:00.000Z"
+        },
+        "lineageUnknownRows": 0,
+        "rankMeaning": "Collected rank is not match-time rank",
+        "method": "Empirical inverse CDF/type1; lower median for even N; ties use midrank. Simultaneous nominal DKW-Massart band conditional on iid selected units. No competitive rank."
+      }
+    }
+  },
+  "controlledSynthetic": {
+    "coverage": "83 fabricated values, matches and disjoint ten-player rosters; no population evidence",
+    "response": {
+      "status": "available",
+      "reason": null,
+      "filters": {
+        "eligibleOnly": true,
+        "queueId": 420,
+        "mapId": 11,
+        "championId": 103,
+        "patch": "16.2",
+        "definitionId": "snapshot.totalGold",
+        "horizonKey": "t:900000",
+        "subjectKind": "participant",
+        "usage": "predictive",
+        "role": "MIDDLE"
+      },
+      "counts": {
+        "candidateRows": 83,
+        "eligibleRows": 83,
+        "eligibleMatches": 83,
+        "eligiblePlayers": 83,
+        "validEligibleRows": 83,
+        "validEligibleMatches": 83,
+        "validEligiblePlayers": 83,
+        "selectedRows": 82,
+        "selectedMatches": 82,
+        "selectedSubjects": 82,
+        "selectedRosterPlayers": 820
+      },
+      "coverage": {
+        "validEligibleRows": 83,
+        "eligibleRows": 83,
+        "value": 1,
+        "missingReasons": {},
+        "unmaterializedMatches": 0
+      },
+      "period": {
+        "requestedFromMs": null,
+        "requestedToMs": null,
+        "bounds": "[)",
+        "eligible": {
+          "firstGameCreationMs": "1000",
+          "lastGameCreationMs": "1082"
+        },
+        "selected": {
+          "firstGameCreationMs": "1001",
+          "lastGameCreationMs": "1082"
+        }
+      },
+      "precision": {
+        "confidence": 0.95,
+        "cdfHalfWidth": 0.15,
+        "minimumUnits": 0,
+        "requiredUnits": 82,
+        "observedUnits": 82,
+        "achievedCdfHalfWidth": 0.14997722294779883,
+        "sufficient": true
+      },
+      "median": 41,
+      "quantiles": [
+        {
+          "probability": 0.1,
+          "value": 9,
+          "interval": {
+            "lower": null,
+            "upper": 21,
+            "lowerUnbounded": true,
+            "upperUnbounded": false,
+            "confidence": 0.95,
+            "method": "inverse DKW simultaneous CDF band; null endpoint means unbounded"
+          }
+        },
+        {
+          "probability": 0.25,
+          "value": 21,
+          "interval": {
+            "lower": 9,
+            "upper": 33,
+            "lowerUnbounded": false,
+            "upperUnbounded": false,
+            "confidence": 0.95,
+            "method": "inverse DKW simultaneous CDF band; null endpoint means unbounded"
+          }
+        },
+        {
+          "probability": 0.5,
+          "value": 41,
+          "interval": {
+            "lower": 29,
+            "upper": 54,
+            "lowerUnbounded": false,
+            "upperUnbounded": false,
+            "confidence": 0.95,
+            "method": "inverse DKW simultaneous CDF band; null endpoint means unbounded"
+          }
+        },
+        {
+          "probability": 0.75,
+          "value": 62,
+          "interval": {
+            "lower": 50,
+            "upper": 74,
+            "lowerUnbounded": false,
+            "upperUnbounded": false,
+            "confidence": 0.95,
+            "method": "inverse DKW simultaneous CDF band; null endpoint means unbounded"
+          }
+        },
+        {
+          "probability": 0.9,
+          "value": 74,
+          "interval": {
+            "lower": 62,
+            "upper": null,
+            "lowerUnbounded": false,
+            "upperUnbounded": true,
+            "confidence": 0.95,
+            "method": "inverse DKW simultaneous CDF band; null endpoint means unbounded"
+          }
+        }
+      ],
+      "individual": {
+        "contributionId": "0000000000000000000000000000000000000000000000000000000000000000",
+        "matchId": "MET20_0",
+        "puuid": "MET20_0:0",
+        "value": 0,
+        "reason": null,
+        "eligible": true,
+        "source": {
+          "synthetic": true
+        },
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "percentile": {
+          "value": 0,
+          "lower": 0,
+          "upper": 14.997722294779884,
+          "ties": 0,
+          "method": "100*(strictly smaller + half ties)/n; conditional DKW band; not a competitive rank"
+        }
+      },
+      "selection": {
+        "policy": "chronological greedy selection, then matchId/id; full ten-player rosters disjoint; selection never sorts by metric value",
+        "assumptions": "Conditional bands assume remaining units are independent and share a distribution. Removing direct roster reuse does not establish this; selection may favor less frequent players and earlier matches.",
+        "estimand": "Distribution within the roster-disjoint selected subcohort; not the full collection or all high-elo players",
+        "targetRosterExcluded": true,
+        "exclusions": {
+          "overlapping_player": 1
+        },
+        "fingerprint": "a312fef04de207e2d99ac087ffc3993ba68dfbfca5a7c48498aa2a676d126658"
+      },
+      "provenance": {
+        "processedAt": {
+          "earliest": "2026-09-23T00:00:00.000Z",
+          "latest": "2026-09-23T00:00:00.000Z"
+        },
+        "lineageUnknownRows": 83,
+        "rankMeaning": "Collected rank is not match-time rank",
+        "method": "Empirical inverse CDF/type1; lower median for even N; ties use midrank. Simultaneous nominal DKW-Massart band conditional on iid selected units. No competitive rank."
+      }
+    }
+  },
+  "visionInvestment": {
+    "definitionVersion": 1,
+    "source": "MatchParticipant.finalStats projectionVersion1",
+    "controlWardsBought": {
+      "value": 0,
+      "reason": null
+    },
+    "controlWardsPlaced": {
+      "value": 0,
+      "reason": null
+    },
+    "visionScore": {
+      "value": 28,
+      "reason": null
+    },
+    "goldSpent": {
+      "value": null,
+      "unit": "gold",
+      "origin": "unavailable",
+      "reason": "missing_validated_purchase_context",
+      "catalog": {
+        "patch": "16.2",
+        "catalogVersion": "16.2.1",
+        "itemId": 2055,
+        "mapId": 11,
+        "purchasable": true,
+        "listPriceGold": 75,
+        "source": "https://ddragon.leagueoflegends.com/cdn/16.2.1/data/en_US/item.json",
+        "checkedOn": "2026-09-23"
+      },
+      "conditionalRuleEvidence": {
+        "publicPatch": "26.1",
+        "afterQuestGold": 40,
+        "source": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+        "interpretation": "Documents conditional price; public patch label is not inferred from internal gameVersion, and quest state at purchase is not proven by final role/inventory."
+      },
+      "requiredEvidence": [
+        "validated exact-patch purchase-price rule",
+        "quest state and eligibility at each purchase",
+        "purchase/undo accounting"
+      ],
+      "method": "Do not multiply final purchase count or placements by list price; no currentGold/goldSpent balance proxy."
+    }
+  }
+}

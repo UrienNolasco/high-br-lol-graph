@@ -502,6 +502,8 @@ MET-15 entrega episódios temporais e viradas observadas; janelas, denominadores
 MET-25 descreve B08 como presença amostrada em uma grade geométrica experimental versionada; fórmulas, limites de validação e exemplos em [PRESENCA-AMOSTRADA.md](PRESENCA-AMOSTRADA.md).
 MET-30 documenta janelas de bounty e registros independentes de roubos/proximidade em [BOUNTIES-E-ROUBOS-REGISTRADOS.md](BOUNTIES-E-ROUBOS-REGISTRADOS.md).
 
+MET-20 publica referências homogêneas com precisão nominal, dependência explícita e ausência de gasto V08 sem contexto de compra validado; contrato em [REFERENCIAS-HISTORICAS.md](REFERENCIAS-HISTORICAS.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 MET-19 materializa o dataset histórico geração 4 com preditores até t, descritivos/rótulos separados e exportação temporal reproduzível; contrato e evidências em [DATASET-HISTORICO.md](DATASET-HISTORICO.md).
