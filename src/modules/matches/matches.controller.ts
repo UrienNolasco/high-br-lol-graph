@@ -1,3 +1,5 @@
+import { MatchContributionService } from './services/match-contribution.service';
+import { MatchContributionDto } from './dto/match-contribution.dto';
 import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { MatchDetailService } from './services/match-detail.service';
@@ -22,6 +24,7 @@ export class MatchesController {
     private readonly matchTimelineEvents: MatchTimelineEventsService,
     private readonly matchBuilds: MatchBuildsService,
     private readonly matchPerformance: MatchPerformanceService,
+    private readonly matchContribution: MatchContributionService,
   ) {}
 
   @Get(':matchId')
@@ -146,5 +149,22 @@ export class MatchesController {
     @Param('puuid') puuid: string,
   ): Promise<MatchPerformanceComparisonDto> {
     return this.matchPerformance.getPerformanceComparison(matchId, puuid);
+  }
+
+  @Get(':matchId/contribution/:puuid')
+  @ApiOperation({
+    summary: 'Get four separate contribution dimensions',
+    description:
+      'Final resources, combat, vision and structures with values, units, denominators, evidence and missing reasons. Reads persisted projections only; no universal score.',
+  })
+  @ApiResponse({ status: 200, type: MatchContributionDto })
+  @ApiResponse({ status: 404, description: 'Match or participant not found.' })
+  @ApiParam({ name: 'matchId', example: 'BR1_3200579475' })
+  @ApiParam({ name: 'puuid', description: 'Stable participant identifier' })
+  getContribution(
+    @Param('matchId') matchId: string,
+    @Param('puuid') puuid: string,
+  ): Promise<MatchContributionDto> {
+    return this.matchContribution.getContribution(matchId, puuid);
   }
 }

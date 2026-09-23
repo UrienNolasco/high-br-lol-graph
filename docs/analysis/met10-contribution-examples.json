@@ -1,0 +1,570 @@
+{
+  "task": "MET-10",
+  "fixture": "BR1_3200579475",
+  "examplesAreResponseExcerpts": true,
+  "processingMetadataIsSyntheticForOfflineExamples": true,
+  "realFixtureChecks": [
+    {
+      "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "championName": "Fiora",
+      "role": "TOP",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+      "championName": "Karthus",
+      "role": "JUNGLE",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ",
+      "championName": "Quinn",
+      "role": "MIDDLE",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA",
+      "championName": "Varus",
+      "role": "BOTTOM",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+      "championName": "Milio",
+      "role": "UTILITY",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "0qNyt7J3guxGHtH9ti4tq5zzwy_LPnQtnPSOk5t9Qk_5KZVfoNrUo9SVU5pQa3iEjmTivRe7ZWKbzw",
+      "championName": "Singed",
+      "role": "TOP",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA",
+      "championName": "Aatrox",
+      "role": "JUNGLE",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw",
+      "championName": "Zoe",
+      "role": "MIDDLE",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w",
+      "championName": "Zyra",
+      "role": "BOTTOM",
+      "checkedFormulas": 4
+    },
+    {
+      "puuid": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg",
+      "championName": "Zilean",
+      "role": "UTILITY",
+      "checkedFormulas": 4
+    }
+  ],
+  "totalFormulaChecks": 40,
+  "fiora": {
+    "roleExplanation": "Leia recursos, dano e estruturas junto ao campeão e à função exercida; pressão lateral não aparece toda nos abates.",
+    "turretDamage": {
+      "absolute": {
+        "metricId": "O03",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+        },
+        "unit": "damage",
+        "window": null,
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.damageDealtToTurrets",
+            "value": 28592
+          }
+        ],
+        "metricVersion": 1,
+        "value": 28592,
+        "origin": "observed",
+        "reason": null,
+        "method": "direct persisted summary observation"
+      },
+      "perMinute": {
+        "metricId": "O03",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+        },
+        "unit": "damage_per_minute",
+        "window": null,
+        "denominator": {
+          "value": 2368,
+          "unit": "seconds",
+          "population": "timePlayed of tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+        },
+        "quality": {
+          "validSamples": 2,
+          "totalSamples": 2,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.damageDealtToTurrets",
+            "value": 28592
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.timePlayed",
+            "value": 2368
+          }
+        ],
+        "metricVersion": 1,
+        "value": 724.4594594594595,
+        "origin": "derived",
+        "reason": null,
+        "method": "numerator / denominator * 60"
+      },
+      "teamShare": {
+        "metricId": "O03",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+        },
+        "unit": "percent",
+        "window": null,
+        "denominator": {
+          "value": 36129,
+          "unit": "damage",
+          "population": "sum damageDealtToTurrets across the five participants of team 100"
+        },
+        "quality": {
+          "validSamples": 5,
+          "totalSamples": 5,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.damageDealtToTurrets",
+            "value": 28592
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.finalStats.values.damageDealtToTurrets",
+            "value": 951
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ.finalStats.values.damageDealtToTurrets",
+            "value": 3235
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.finalStats.values.damageDealtToTurrets",
+            "value": 3351
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.damageDealtToTurrets",
+            "value": 0
+          }
+        ],
+        "metricVersion": 1,
+        "value": 79.1386420880733,
+        "origin": "derived",
+        "reason": null,
+        "method": "numerator / denominator * 100"
+      }
+    },
+    "deadTimePercent": {
+      "metricId": "C06",
+      "matchId": "BR1_3200579475",
+      "processingVersion": 2,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "percent",
+      "window": null,
+      "denominator": {
+        "value": 2368,
+        "unit": "seconds",
+        "population": "timePlayed of tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "quality": {
+        "validSamples": 2,
+        "totalSamples": 2,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant",
+          "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.totalTimeSpentDead",
+          "value": 212
+        },
+        {
+          "source": "MatchParticipant",
+          "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.timePlayed",
+          "value": 2368
+        }
+      ],
+      "metricVersion": 1,
+      "value": 8.952702702702704,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 100"
+    }
+  },
+  "milio": {
+    "roleExplanation": "Cura, escudos, controle de grupo e visão tornam contribuições de suporte visíveis; dano e ouro baixos não determinam ineficiência.",
+    "allyHealing": {
+      "absolute": {
+        "metricId": "C04",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "unit": "health",
+        "window": null,
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.totalHealsOnTeammates",
+            "value": 13741
+          }
+        ],
+        "metricVersion": 1,
+        "value": 13741,
+        "origin": "observed",
+        "reason": null,
+        "method": "direct persisted summary observation"
+      },
+      "perMinute": {
+        "metricId": "C04",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "unit": "health_per_minute",
+        "window": null,
+        "denominator": {
+          "value": 2368,
+          "unit": "seconds",
+          "population": "timePlayed of gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "quality": {
+          "validSamples": 2,
+          "totalSamples": 2,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.totalHealsOnTeammates",
+            "value": 13741
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.timePlayed",
+            "value": 2368
+          }
+        ],
+        "metricVersion": 1,
+        "value": 348.16722972972974,
+        "origin": "derived",
+        "reason": null,
+        "method": "numerator / denominator * 60"
+      },
+      "teamShare": {
+        "metricId": "C04",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "unit": "percent",
+        "window": null,
+        "denominator": {
+          "value": 16618,
+          "unit": "health",
+          "population": "sum totalHealsOnTeammates across the five participants of team 100"
+        },
+        "quality": {
+          "validSamples": 5,
+          "totalSamples": 5,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.totalHealsOnTeammates",
+            "value": 13741
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.totalHealsOnTeammates",
+            "value": 2877
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.finalStats.values.totalHealsOnTeammates",
+            "value": 0
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ.finalStats.values.totalHealsOnTeammates",
+            "value": 0
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.finalStats.values.totalHealsOnTeammates",
+            "value": 0
+          }
+        ],
+        "metricVersion": 1,
+        "value": 82.68744734625105,
+        "origin": "derived",
+        "reason": null,
+        "method": "numerator / denominator * 100"
+      }
+    },
+    "allyShielding": {
+      "absolute": {
+        "metricId": "C04",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "unit": "damage",
+        "window": null,
+        "denominator": null,
+        "quality": {
+          "validSamples": 1,
+          "totalSamples": 1,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.totalDamageShieldedOnTeammates",
+            "value": 19049
+          }
+        ],
+        "metricVersion": 1,
+        "value": 19049,
+        "origin": "observed",
+        "reason": null,
+        "method": "direct persisted summary observation"
+      },
+      "perMinute": {
+        "metricId": "C04",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "unit": "damage_per_minute",
+        "window": null,
+        "denominator": {
+          "value": 2368,
+          "unit": "seconds",
+          "population": "timePlayed of gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "quality": {
+          "validSamples": 2,
+          "totalSamples": 2,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.totalDamageShieldedOnTeammates",
+            "value": 19049
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.timePlayed",
+            "value": 2368
+          }
+        ],
+        "metricVersion": 1,
+        "value": 482.66047297297297,
+        "origin": "derived",
+        "reason": null,
+        "method": "numerator / denominator * 60"
+      },
+      "teamShare": {
+        "metricId": "C04",
+        "matchId": "BR1_3200579475",
+        "processingVersion": 2,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "subject": {
+          "kind": "participant",
+          "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        },
+        "unit": "percent",
+        "window": null,
+        "denominator": {
+          "value": 19049,
+          "unit": "damage",
+          "population": "sum totalDamageShieldedOnTeammates across the five participants of team 100"
+        },
+        "quality": {
+          "validSamples": 5,
+          "totalSamples": 5,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "evidence": [
+          {
+            "source": "MatchParticipant",
+            "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.finalStats.values.totalDamageShieldedOnTeammates",
+            "value": 19049
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.finalStats.values.totalDamageShieldedOnTeammates",
+            "value": 0
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.finalStats.values.totalDamageShieldedOnTeammates",
+            "value": 0
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ.finalStats.values.totalDamageShieldedOnTeammates",
+            "value": 0
+          },
+          {
+            "source": "MatchParticipant",
+            "field": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.finalStats.values.totalDamageShieldedOnTeammates",
+            "value": 0
+          }
+        ],
+        "metricVersion": 1,
+        "value": 100,
+        "origin": "derived",
+        "reason": null,
+        "method": "numerator / denominator * 100"
+      }
+    }
+  },
+  "syntheticZeroTeamKills": {
+    "metricId": "C01",
+    "matchId": "BR1_3200579475",
+    "processingVersion": 2,
+    "processedAt": "2026-09-23T00:00:00.000Z",
+    "subject": {
+      "kind": "participant",
+      "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+    },
+    "unit": "percent",
+    "window": null,
+    "denominator": {
+      "value": 0,
+      "unit": "count",
+      "population": "kills summed across the five participants of team 100"
+    },
+    "quality": {
+      "validSamples": 6,
+      "totalSamples": 6,
+      "coverage": 1,
+      "unknownEvents": 0,
+      "reconciliationIssues": []
+    },
+    "evidence": [
+      {
+        "source": "MatchParticipant",
+        "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.kills",
+        "value": 0
+      },
+      {
+        "source": "MatchParticipant",
+        "field": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ.assists",
+        "value": 7
+      },
+      {
+        "source": "MatchParticipant",
+        "field": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.kills",
+        "value": 0
+      },
+      {
+        "source": "MatchParticipant",
+        "field": "BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ.kills",
+        "value": 0
+      },
+      {
+        "source": "MatchParticipant",
+        "field": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.kills",
+        "value": 0
+      },
+      {
+        "source": "MatchParticipant",
+        "field": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.kills",
+        "value": 0
+      }
+    ],
+    "metricVersion": 1,
+    "value": null,
+    "origin": "unavailable",
+    "reason": "zero_denominator",
+    "method": "numerator / denominator * 100"
+  }
+}

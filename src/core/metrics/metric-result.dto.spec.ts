@@ -20,6 +20,14 @@ describe('metrics OpenAPI contract', () => {
       );
       const schema = doc.components?.schemas?.MetricResultDto;
       expect(schema).toMatchObject({
+        required: expect.arrayContaining([
+          'subject',
+          'window',
+          'denominator',
+          'quality',
+          'value',
+          'reason',
+        ]),
         properties: {
           origin: { enum: ['observed', 'derived', 'estimated', 'unavailable'] },
           value: { type: 'number', nullable: true },

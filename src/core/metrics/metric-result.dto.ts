@@ -18,6 +18,7 @@ export class MetricResultDto implements MetricContext {
   @ApiProperty({ example: 'BR1_3200579475' }) matchId: string;
   @ApiProperty({
     type: 'object',
+    selfRequired: true,
     required: ['kind', 'id'],
     properties: {
       kind: { type: 'string', enum: ['participant', 'team', 'match'] },
@@ -33,6 +34,7 @@ export class MetricResultDto implements MetricContext {
   unit: MetricUnit;
   @ApiProperty({
     type: 'object',
+    selfRequired: true,
     nullable: true,
     required: ['startMs', 'endMs', 'bounds'],
     properties: {
@@ -44,6 +46,7 @@ export class MetricResultDto implements MetricContext {
   window: MetricContext['window'];
   @ApiProperty({
     type: 'object',
+    selfRequired: true,
     nullable: true,
     required: ['value', 'unit', 'population'],
     properties: {
@@ -55,6 +58,7 @@ export class MetricResultDto implements MetricContext {
   denominator: MetricContext['denominator'];
   @ApiProperty({
     type: 'object',
+    selfRequired: true,
     required: [
       'validSamples',
       'totalSamples',

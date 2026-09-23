@@ -26,6 +26,9 @@ export type MissingReason =
 export type MetricUnit =
   | 'count'
   | 'count_per_minute'
+  | 'health'
+  | 'health_per_minute'
+  | 'seconds_per_minute'
   | 'gold'
   | 'xp'
   | 'level'

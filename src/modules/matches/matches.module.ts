@@ -1,5 +1,6 @@
 import { MatchVisionController } from './match-vision.controller';
 import { MatchVisionService } from './services/match-vision.service';
+import { MatchContributionService } from './services/match-contribution.service';
 import { Module } from '@nestjs/common';
 import { MatchesController } from './matches.controller';
 import { MatchDetailService } from './services/match-detail.service';
@@ -22,6 +23,8 @@ import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
     MatchTimelineEventsService,
     MatchBuildsService,
     MatchPerformanceService,
+    MatchContributionService,
   ],
+  exports: [MatchContributionService],
 })
 export class MatchesModule {}

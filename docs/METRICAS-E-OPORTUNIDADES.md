@@ -490,6 +490,8 @@ MET-18 registra observações de descoberta e oferece relatório CLI de linhagem
 MET-05 promove estatísticas finais e contexto com ausência explícita; catálogo, reconciliação e compatibilidade em [ESTATISTICAS-FINAIS.md](ESTATISTICAS-FINAIS.md).
 MET-23 corrige H07 por partidas elegíveis distintas e explicita ausência, cobertura e a heurística de tier; contrato, fórmulas, migração e exemplos estão em [POPULARIDADE-CAMPEOES.md](POPULARIDADE-CAMPEOES.md).
 
+MET-10 entrega contribuições em quatro dimensões, com fórmulas e evidências em [CONTRIBUICAO-INDIVIDUAL.md](CONTRIBUICAO-INDIVIDUAL.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 1. Fórmula, unidade, fonte, denominador, filtro, janela e ausência documentados; referência ao ID da oportunidade preservada.

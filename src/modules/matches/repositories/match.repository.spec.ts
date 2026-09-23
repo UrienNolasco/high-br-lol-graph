@@ -117,3 +117,44 @@ describe('MatchRepository', () => {
     });
   });
 });
+
+describe('contribution projection query', () => {
+  it('reads only final projection fields and actual completion metadata in one repeatable snapshot', async () => {
+    const tx = {
+      match: { findUnique: jest.fn().mockResolvedValue(null) },
+      matchProcessing: { findUnique: jest.fn().mockResolvedValue(null) },
+    };
+    const database = { $transaction: jest.fn((callback) => callback(tx)) };
+    const repo = new MatchRepository(database as any);
+    expect(await repo.findContribution('BR1_1')).toEqual({
+      match: null,
+      processing: null,
+    });
+    expect(database.$transaction).toHaveBeenCalledWith(expect.any(Function), {
+      isolationLevel: 'RepeatableRead',
+    });
+    expect(tx.match.findUnique).toHaveBeenCalledWith({
+      where: { matchId: 'BR1_1' },
+      select: {
+        matchId: true,
+        mapId: true,
+        participants: {
+          select: {
+            puuid: true,
+            teamId: true,
+            championId: true,
+            championName: true,
+            role: true,
+            kills: true,
+            assists: true,
+            finalStats: true,
+          },
+        },
+      },
+    });
+    expect(tx.matchProcessing.findUnique).toHaveBeenCalledWith({
+      where: { matchId: 'BR1_1' },
+      select: { status: true, processingVersion: true, completedAt: true },
+    });
+  });
+});

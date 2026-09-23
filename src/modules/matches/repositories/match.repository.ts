@@ -66,6 +66,38 @@ export class MatchRepository {
     });
   }
 
+  async findContribution(matchId: string) {
+    return this.prisma.$transaction(
+      async (tx) => {
+        const match = await tx.match.findUnique({
+          where: { matchId },
+          select: {
+            matchId: true,
+            mapId: true,
+            participants: {
+              select: {
+                puuid: true,
+                teamId: true,
+                championId: true,
+                championName: true,
+                role: true,
+                kills: true,
+                assists: true,
+                finalStats: true,
+              },
+            },
+          },
+        });
+        const processing = await tx.matchProcessing.findUnique({
+          where: { matchId },
+          select: { status: true, processingVersion: true, completedAt: true },
+        });
+        return { match, processing };
+      },
+      { isolationLevel: 'RepeatableRead' },
+    );
+  }
+
   async findParticipantsForPerformance(matchId: string) {
     return this.prisma.matchParticipant.findMany({
       where: { matchId },
