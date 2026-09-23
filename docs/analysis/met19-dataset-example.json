@@ -1,0 +1,323 @@
+{
+  "source": "Single real fixture BR1_3200579475; processedAt and discovery lineage are explicitly synthetic test metadata",
+  "registryDefinitions": 46,
+  "counts": {
+    "rows": 877,
+    "matches": 1,
+    "players": 10,
+    "validRows": 787
+  },
+  "usageRows": {
+    "predictive": 620,
+    "descriptive": 245,
+    "label": 12
+  },
+  "exampleRows": [
+    {
+      "id": "6eec08ec367a4c36b0eac092f644ed10f6eb4f17baeb2cb48052aaf1b27a2e8e",
+      "matchId": "BR1_3200579475",
+      "datasetVersion": 1,
+      "subjectKind": "participant",
+      "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "definitionId": "snapshot.totalGold",
+      "definitionVersion": 1,
+      "usage": "predictive",
+      "horizonKey": "t:900000",
+      "horizonMs": 900000,
+      "sourceMaxTimestampMs": 840357,
+      "horizonComplete": true,
+      "metricId": "E01",
+      "unit": "gold",
+      "value": 7745,
+      "sumValue": 7745,
+      "validCount": 1,
+      "sampleCount": 1,
+      "numerator": null,
+      "denominatorValue": null,
+      "ratioScale": 1,
+      "origin": "derived",
+      "reason": null,
+      "method": "past-only snapshot, tolerance60000ms",
+      "eligible": true,
+      "exclusionReason": null,
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "championId": 114,
+      "role": "TOP",
+      "teamId": 100,
+      "playerIds": [
+        "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      ],
+      "gameCreation": "1770015288681",
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": {
+        "sources": [
+          "MatchTimelineProjection.frames:participantFrames.1.totalGold"
+        ],
+        "frameIndices": [
+          14
+        ],
+        "eventIds": [],
+        "sourceObservations": 1
+      },
+      "denominator": null,
+      "lineage": {
+        "observationIds": [
+          "synthetic:collector:fixture",
+          "synthetic:sync:fixture"
+        ],
+        "sources": [
+          "collector",
+          "player_sync"
+        ],
+        "status": "observed",
+        "reason": null
+      },
+      "processingVersion": 4,
+      "processedAt": "2026-09-23T00:00:00.000Z"
+    },
+    {
+      "id": "73275bdb115b30292c7f1fb1993d17732bcfa6a590fb2eeeecea05420929b583",
+      "matchId": "BR1_3200579475",
+      "datasetVersion": 1,
+      "subjectKind": "participant",
+      "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "definitionId": "events.wardsPlaced",
+      "definitionVersion": 1,
+      "usage": "predictive",
+      "horizonKey": "t:900000",
+      "horizonMs": 900000,
+      "sourceMaxTimestampMs": 840357,
+      "horizonComplete": true,
+      "metricId": "V01",
+      "unit": "count",
+      "value": 5,
+      "sumValue": 5,
+      "validCount": 1,
+      "sampleCount": 1,
+      "numerator": null,
+      "denominatorValue": null,
+      "ratioScale": 1,
+      "origin": "derived",
+      "reason": null,
+      "method": "count distinct registered prefix events with known timestamp/attribution <= horizon; no final reconciliation",
+      "eligible": true,
+      "exclusionReason": null,
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "championId": 114,
+      "role": "TOP",
+      "teamId": 100,
+      "playerIds": [
+        "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      ],
+      "gameCreation": "1770015288681",
+      "quality": {
+        "validSamples": 235,
+        "totalSamples": 235,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": {
+        "sources": [
+          "MatchEventProjection:WARD_PLACED",
+          "MatchTimelineProjection.frames:prefix_sample_coverage"
+        ],
+        "frameIndices": [
+          4,
+          5,
+          11,
+          12,
+          14
+        ],
+        "eventIds": [
+          "BR1_3200579475:11:16",
+          "BR1_3200579475:12:10",
+          "BR1_3200579475:14:56",
+          "BR1_3200579475:4:23",
+          "BR1_3200579475:5:29"
+        ],
+        "sourceObservations": 6
+      },
+      "denominator": null,
+      "lineage": {
+        "observationIds": [
+          "synthetic:collector:fixture",
+          "synthetic:sync:fixture"
+        ],
+        "sources": [
+          "collector",
+          "player_sync"
+        ],
+        "status": "observed",
+        "reason": null
+      },
+      "processingVersion": 4,
+      "processedAt": "2026-09-23T00:00:00.000Z"
+    },
+    {
+      "id": "81e69d1eefab4b5a0a474ae933095bd93ec05f7a0fa689c67affce6a6269b7b9",
+      "matchId": "BR1_3200579475",
+      "datasetVersion": 1,
+      "subjectKind": "participant",
+      "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "definitionId": "final.deathsNearObjectives",
+      "definitionVersion": 1,
+      "usage": "descriptive",
+      "horizonKey": "final",
+      "horizonMs": null,
+      "sourceMaxTimestampMs": null,
+      "horizonComplete": true,
+      "metricId": "C07",
+      "unit": "percent",
+      "value": 40,
+      "sumValue": 40,
+      "validCount": 1,
+      "sampleCount": 1,
+      "numerator": 2,
+      "denominatorValue": 5,
+      "ratioScale": 100,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 100",
+      "eligible": true,
+      "exclusionReason": null,
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "championId": 114,
+      "role": "TOP",
+      "teamId": 100,
+      "playerIds": [
+        "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      ],
+      "gameCreation": "1770015288681",
+      "quality": {
+        "validSamples": 5,
+        "totalSamples": 5,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": {
+        "sources": [
+          "MatchEvent:GAME_END",
+          "MatchEvent:eligible_trigger"
+        ],
+        "frameIndices": [
+          8,
+          9,
+          20,
+          30,
+          37,
+          40
+        ],
+        "eventIds": [
+          "BR1_3200579475:20:46",
+          "BR1_3200579475:30:41",
+          "BR1_3200579475:37:31",
+          "BR1_3200579475:40:16",
+          "BR1_3200579475:8:4",
+          "BR1_3200579475:9:32"
+        ],
+        "sourceObservations": 6
+      },
+      "denominator": {
+        "value": 5,
+        "unit": "count",
+        "population": "recorded participant deaths with complete 60000ms follow-up"
+      },
+      "lineage": {
+        "observationIds": [
+          "synthetic:collector:fixture",
+          "synthetic:sync:fixture"
+        ],
+        "sources": [
+          "collector",
+          "player_sync"
+        ],
+        "status": "observed",
+        "reason": null
+      },
+      "processingVersion": 4,
+      "processedAt": "2026-09-23T00:00:00.000Z"
+    },
+    {
+      "id": "71848ec1d7a974597c56cfa4680e6c7c7838c32682e015c2a47c926b03843dcd",
+      "matchId": "BR1_3200579475",
+      "datasetVersion": 1,
+      "subjectKind": "participant",
+      "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "definitionId": "label.win",
+      "definitionVersion": 1,
+      "usage": "label",
+      "horizonKey": "final",
+      "horizonMs": null,
+      "sourceMaxTimestampMs": null,
+      "horizonComplete": true,
+      "metricId": "outcome",
+      "unit": "binary",
+      "value": 1,
+      "sumValue": 1,
+      "validCount": 1,
+      "sampleCount": 1,
+      "numerator": null,
+      "denominatorValue": null,
+      "ratioScale": 1,
+      "origin": "observed",
+      "reason": null,
+      "method": "final observed outcome, label only",
+      "eligible": true,
+      "exclusionReason": null,
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "championId": 114,
+      "role": "TOP",
+      "teamId": 100,
+      "playerIds": [
+        "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      ],
+      "gameCreation": "1770015288681",
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": {
+        "sources": [
+          "MatchParticipant:win"
+        ],
+        "frameIndices": [],
+        "eventIds": [],
+        "sourceObservations": 1
+      },
+      "denominator": null,
+      "lineage": {
+        "observationIds": [
+          "synthetic:collector:fixture",
+          "synthetic:sync:fixture"
+        ],
+        "sources": [
+          "collector",
+          "player_sync"
+        ],
+        "status": "observed",
+        "reason": null
+      },
+      "processingVersion": 4,
+      "processedAt": "2026-09-23T00:00:00.000Z"
+    }
+  ]
+}

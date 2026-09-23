@@ -57,9 +57,7 @@ function wardType(e: VisionEvent): string {
 function known(e: VisionEvent) {
   return (VISION_WARD_TYPES as readonly string[]).includes(wardType(e));
 }
-export function calculateVision(input: VisionInput, puuid: string) {
-  const player = input.participants.find((p) => p.puuid === puuid);
-  if (!player) throw new Error('Participant not found');
+function prepareVision(input: VisionInput) {
   const byPuuid = new Map(input.participants.map((p) => [p.puuid, p]));
   const sourceEvents = input.events.filter((e) =>
     ['WARD_PLACED', 'WARD_KILL', 'ELITE_MONSTER_KILL', 'GAME_END'].includes(
@@ -102,6 +100,43 @@ export function calculateVision(input: VisionInput, puuid: string) {
     !!endEvent &&
     timed.length === relevant.length;
   const processedAt = input.processing?.completedAt?.toISOString() ?? null;
+  return {
+    byPuuid,
+    sourceEvents,
+    unique,
+    events,
+    generation,
+    endMs,
+    relevant,
+    timed,
+    attributed,
+    processedAt,
+    sourceComplete: complete && attributed.length === relevant.length,
+    unknownTypeEvents: relevant.filter((e) => !known(e)).length,
+    calculated:
+      !!processedAt &&
+      input.processing?.status === 'COMPLETED' &&
+      input.processing.processingVersion !== null,
+  };
+}
+
+function createVisionCounters(
+  input: VisionInput,
+  puuid: string,
+  prepared: ReturnType<typeof prepareVision>,
+) {
+  const player = input.participants.find((p) => p.puuid === puuid);
+  if (!player) throw new Error('Participant not found');
+  const {
+    byPuuid,
+    generation,
+    endMs,
+    relevant,
+    attributed,
+    processedAt,
+    sourceComplete,
+    unknownTypeEvents,
+  } = prepared;
   const own = attributed.filter((e) => e.actorPuuid === puuid);
   const team = attributed.filter(
     (e) => byPuuid.get(e.actorPuuid!)!.teamId === player.teamId,
@@ -111,7 +146,6 @@ export function calculateVision(input: VisionInput, puuid: string) {
     endMs,
     bounds: '[]',
   };
-  const sourceComplete = complete && attributed.length === relevant.length;
   const context = (
     id: string,
     unit: 'count' | 'count_per_minute' | 'seconds' | 'score' | 'percent',
@@ -130,7 +164,7 @@ export function calculateVision(input: VisionInput, puuid: string) {
       denominator: null,
       quality: {
         ...metricQuality(attributed.length, relevant.length),
-        unknownEvents: relevant.filter((e) => !known(e)).length,
+        unknownEvents: unknownTypeEvents,
         reconciliationIssues: [],
       },
       evidence: selected.map((e) => ({
@@ -156,25 +190,83 @@ export function calculateVision(input: VisionInput, puuid: string) {
           'complete, version-compatible event projection with timestamps and actors required',
         );
   };
+  const recognizedCount = (
+    type: 'WARD_PLACED' | 'WARD_KILL',
+    selected: VisionEvent[],
+    w = window,
+  ) =>
+    count(
+      type === 'WARD_PLACED'
+        ? 'V01.recognized_placements'
+        : 'V02.recognized_removals',
+      selected.filter((e) => e.type === type && known(e)),
+      w,
+    );
+  return { player, own, team, window, context, count, recognizedCount };
+}
+
+export interface VisionTotals {
+  metrics: {
+    recognizedPlacements: MetricResult;
+    recognizedRemovals: MetricResult;
+  } | null;
+}
+
+/** Reuses the full report's source gates, counters and evidence; prepares a match once. */
+export function calculateVisionTotals(
+  input: VisionInput,
+): Map<string, VisionTotals> {
+  const prepared = prepareVision(input);
+  return new Map<string, VisionTotals>(
+    input.participants.map((player) => {
+      if (!prepared.calculated) return [player.puuid, { metrics: null }];
+      const { own, recognizedCount } = createVisionCounters(
+        input,
+        player.puuid,
+        prepared,
+      );
+      return [
+        player.puuid,
+        {
+          metrics: {
+            recognizedPlacements: recognizedCount('WARD_PLACED', own),
+            recognizedRemovals: recognizedCount('WARD_KILL', own),
+          },
+        },
+      ];
+    }),
+  );
+}
+
+export function calculateVision(input: VisionInput, puuid: string) {
+  const prepared = prepareVision(input);
+  const {
+    byPuuid,
+    sourceEvents,
+    unique,
+    events,
+    endMs,
+    relevant,
+    timed,
+    attributed,
+    processedAt,
+    sourceComplete,
+    unknownTypeEvents,
+    calculated,
+  } = prepared;
+  const { player, own, team, window, context, count, recognizedCount } =
+    createVisionCounters(input, puuid, prepared);
   const groups = (
     selected: VisionEvent[],
     w = window,
   ): Record<string, MetricResult> => ({
-    recognizedPlacements: count(
-      'V01.recognized_placements',
-      selected.filter((e) => e.type === 'WARD_PLACED' && known(e)),
-      w,
-    ),
+    recognizedPlacements: recognizedCount('WARD_PLACED', selected, w),
     unknownPlacements: count(
       'V01.unknown_placements',
       selected.filter((e) => e.type === 'WARD_PLACED' && !known(e)),
       w,
     ),
-    recognizedRemovals: count(
-      'V02.recognized_removals',
-      selected.filter((e) => e.type === 'WARD_KILL' && known(e)),
-      w,
-    ),
+    recognizedRemovals: recognizedCount('WARD_KILL', selected, w),
     unknownRemovals: count(
       'V02.unknown_removals',
       selected.filter((e) => e.type === 'WARD_KILL' && !known(e)),
@@ -234,16 +326,12 @@ export function calculateVision(input: VisionInput, puuid: string) {
       sourceEvents: relevant.length,
       timedEvents: timed.length,
       attributedEvents: attributed.length,
-      unknownTypeEvents: relevant.filter((e) => !known(e)).length,
+      unknownTypeEvents,
       duplicateInputIdentities: sourceEvents.length - unique.length,
     },
     events: eventRefs,
   };
-  if (
-    !processedAt ||
-    input.processing?.status !== 'COMPLETED' ||
-    input.processing.processingVersion === null
-  )
+  if (!calculated)
     return {
       ...base,
       reason: 'not_calculated',

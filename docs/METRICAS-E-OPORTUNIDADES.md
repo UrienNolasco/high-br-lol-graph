@@ -502,6 +502,8 @@ MET-30 documenta janelas de bounty e registros independentes de roubos/proximida
 
 ### Critério comum de conclusão das futuras tasks
 
+MET-19 materializa o dataset histórico geração 4 com preditores até t, descritivos/rótulos separados e exportação temporal reproduzível; contrato e evidências em [DATASET-HISTORICO.md](DATASET-HISTORICO.md).
+
 MET-12 publica checkpoints e curvas temporais com denominadores reais e ausência explícita; contrato e exemplos em [ECONOMIA-E-PROGRESSAO.md](ECONOMIA-E-PROGRESSAO.md).
 
 1. Fórmula, unidade, fonte, denominador, filtro, janela e ausência documentados; referência ao ID da oportunidade preservada.

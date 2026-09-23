@@ -1,0 +1,11 @@
+{
+  "fixture": "BR1_3200579475; synthetic match IDs/discovery and +1day creation only",
+  "datasetVersion": 1,
+  "processingVersion": 4,
+  "rowsPerMatch": 877,
+  "jsonBytesPerMatch": 1394056,
+  "ingestTwoMatchesMs": 20095,
+  "distinctPlayers": 10,
+  "distinctMatches": 2,
+  "note": "Local integration includes two rebuilds in elapsed duration; not a production throughput estimate."
+}

@@ -13,6 +13,7 @@ import { ChampionsModule } from './modules/champions/champions.module';
 import { StatsModule } from './modules/stats/stats.module';
 import { MatchesModule } from './modules/matches/matches.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { DatasetModule } from './modules/dataset/dataset.module';
 import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
@@ -30,6 +31,7 @@ import { AdminModule } from './modules/admin/admin.module';
     CollectorModule,
     WorkerModule,
     AdminModule,
+    DatasetModule,
   ],
   controllers: [AppController],
 })

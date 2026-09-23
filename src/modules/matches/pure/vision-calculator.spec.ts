@@ -1,7 +1,12 @@
 import { PROCESSING_VERSION } from '../../../core/processing/processing.constants';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { calculateVision, VisionInput, VisionEvent } from './vision-calculator';
+import {
+  calculateVision,
+  calculateVisionTotals,
+  VisionInput,
+  VisionEvent,
+} from './vision-calculator';
 import { normalizeTimelineEvents } from '../../../core/riot/normalized-events';
 import { projectFinalStats } from '../../../core/riot/final-stats';
 import { MatchDto } from '../../../core/riot/dto/match.dto';
@@ -96,7 +101,15 @@ it('reconciles 196 recognized and 556 unknown placements and 51 removals across 
   expect(
     reports.reduce((n, r) => n + r.metrics!.recognizedRemovals.value!, 0),
   ).toBe(51);
+  const totals = calculateVisionTotals(input);
+  expect(totals.size).toBe(10);
   for (const report of reports) {
+    expect(totals.get(report.puuid)).toEqual({
+      metrics: {
+        recognizedPlacements: report.metrics!.recognizedPlacements,
+        recognizedRemovals: report.metrics!.recognizedRemovals,
+      },
+    });
     expect(report.reconciliation).toMatchObject({
       placementDifference: 0,
       removalDifference: 0,
@@ -279,8 +292,195 @@ it('rejects absent participants and never mutates source arrays', () => {
   const input = small([event('WARD_PLACED', 2, 2), event('WARD_PLACED', 1, 1)]),
     before = structuredClone(input);
   calculateVision(input, 'a');
+  calculateVisionTotals(input);
   expect(input).toEqual(before);
   expect(() => calculateVision(input, 'missing')).toThrow(
     'Participant not found',
   );
+});
+
+describe('shared vision totals for historical datasets', () => {
+  const unavailableCases: Array<
+    [string, (input: VisionInput) => void, boolean]
+  > = [
+    [
+      'missing processing',
+      (input) => {
+        input.processing = null;
+      },
+      true,
+    ],
+    [
+      'processing incomplete',
+      (input) => {
+        input.processing!.status = 'PROCESSING';
+      },
+      true,
+    ],
+    [
+      'missing completion timestamp',
+      (input) => {
+        input.processing!.completedAt = null;
+      },
+      true,
+    ],
+    [
+      'missing generation',
+      (input) => {
+        input.processing!.processingVersion = null;
+      },
+      true,
+    ],
+    [
+      'unsupported generation',
+      (input) => {
+        input.processing!.processingVersion = 1;
+        input.events.forEach((e) => {
+          e.processingVersion = 1;
+        });
+      },
+      false,
+    ],
+    [
+      'missing GAME_END',
+      (input) => {
+        input.events.pop();
+      },
+      false,
+    ],
+    [
+      'missing actor',
+      (input) => {
+        input.events[0].actorPuuid = null;
+      },
+      false,
+    ],
+    [
+      'unknown actor',
+      (input) => {
+        input.events[0].actorPuuid = 'unknown';
+      },
+      false,
+    ],
+    [
+      'missing timestamp',
+      (input) => {
+        input.events[0].timestampMs = null;
+      },
+      false,
+    ],
+    [
+      'negative timestamp',
+      (input) => {
+        input.events[0].timestampMs = -1;
+      },
+      false,
+    ],
+    [
+      'timestamp past end',
+      (input) => {
+        input.events[0].timestampMs = 1800001;
+      },
+      false,
+    ],
+    [
+      'incompatible metric version',
+      (input) => {
+        input.events[0].metricVersion = 2;
+      },
+      false,
+    ],
+    [
+      'incompatible processing version',
+      (input) => {
+        input.events[0].processingVersion = 999;
+      },
+      false,
+    ],
+    [
+      'incompatible objective version',
+      (input) => {
+        input.events.push({
+          ...event('ELITE_MONSTER_KILL', 1000, 2),
+          metricVersion: 2,
+        });
+      },
+      false,
+    ],
+  ];
+  it.each(unavailableCases)(
+    'preserves the full report gate and evidence: %s',
+    (_name, mutate, noMetrics) => {
+      const input = small([event('WARD_PLACED', 100, 1)]);
+      mutate(input);
+      const totals = calculateVisionTotals(input);
+      for (const player of input.participants) {
+        const full = calculateVision(input, player.puuid);
+        const total = totals.get(player.puuid)!;
+        if (noMetrics) {
+          expect(total.metrics).toBeNull();
+          expect(full.metrics).toBeNull();
+        } else {
+          for (const name of [
+            'recognizedPlacements',
+            'recognizedRemovals',
+          ] as const) {
+            expect(total.metrics![name]).toEqual(full.metrics![name]);
+            expect(total.metrics![name]).toMatchObject({
+              value: null,
+              reason: 'missing_field',
+              origin: 'unavailable',
+            });
+          }
+        }
+      }
+    },
+  );
+
+  it('keeps literal zero, unknown categories, replay identities and inclusive game boundaries', () => {
+    const duplicate = event('WARD_PLACED', 0, 1);
+    const input = small([
+      duplicate,
+      { ...duplicate },
+      event('WARD_PLACED', 0, 2),
+      event('WARD_PLACED', 100, 3, 'FUTURE_WARD'),
+      event('WARD_KILL', 1800000, 4, 'CONTROL_WARD'),
+    ]);
+    const totals = calculateVisionTotals(input);
+    for (const player of input.participants) {
+      const full = calculateVision(input, player.puuid);
+      const total = totals.get(player.puuid)!;
+      expect(total.metrics).toEqual({
+        recognizedPlacements: full.metrics!.recognizedPlacements,
+        recognizedRemovals: full.metrics!.recognizedRemovals,
+      });
+    }
+    expect(totals.get('a')!.metrics!.recognizedPlacements).toMatchObject({
+      value: 2,
+      quality: { validSamples: 4, totalSamples: 4, unknownEvents: 1 },
+      evidence: [
+        { eventId: 'M:0:1', timestampMs: 0 },
+        { eventId: 'M:0:2', timestampMs: 0 },
+      ],
+    });
+    expect(totals.get('a')!.metrics!.recognizedRemovals.value).toBe(1);
+    expect(totals.get('b')!.metrics!.recognizedPlacements).toMatchObject({
+      value: 0,
+      reason: null,
+      evidence: [],
+      origin: 'derived',
+    });
+  });
+
+  it('does not read final summaries to calculate timestamped event totals', () => {
+    const input = small([event('WARD_PLACED', 1, 1)]);
+    const before = calculateVisionTotals(input);
+    for (const player of input.participants)
+      Object.defineProperty(player, 'finalStats', {
+        get() {
+          throw new Error('Final summary must not be read for event totals');
+        },
+      });
+    expect(calculateVisionTotals(input)).toEqual(before);
+  });
 });

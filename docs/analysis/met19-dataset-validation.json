@@ -1,0 +1,115 @@
+{
+  "task": "MET19",
+  "date": "2026-09-23",
+  "environment": "Local isolated high_br_integration PostgreSQL and local RabbitMQ; no production operations",
+  "scope": {
+    "realFixture": "BR1_3200579475",
+    "realPatches": [
+      "16.2"
+    ],
+    "realQueues": [
+      420
+    ],
+    "realMaps": [
+      11
+    ],
+    "syntheticVariations": "Distinct match IDs/creation days/discovery observations; missing, invalid, conflicting, foreign-match and future-poisoned sources"
+  },
+  "versions": {
+    "dataset": 1,
+    "processing": 4,
+    "definitions": 1
+  },
+  "schema": {
+    "migration": "20260923200000_met19_historical_dataset",
+    "deploy": "applied",
+    "secondDeploy": "no pending migrations",
+    "prismaMigrateDiff": "exit 0; No difference detected"
+  },
+  "checks": {
+    "build": "passed",
+    "unit": {
+      "suites": 79,
+      "tests": 423,
+      "passed": true,
+      "note": "Full checkout baseline passed before the final vision/control refactor; affected vision and builder suites passed afterwards. Coordinator will run the complete integrated generation4 matrix."
+    },
+    "adversarialBuilderAndWorkerAfterPublicationRefactor": {
+      "suites": 2,
+      "tests": 25,
+      "passed": true
+    },
+    "queryAndExportFocused": {
+      "suites": 2,
+      "tests": 16,
+      "passed": true
+    },
+    "httpApiV1Dataset": {
+      "tests": 7,
+      "passed": true,
+      "elapsedSeconds": 5.927
+    },
+    "sixConcurrentPublications": {
+      "tests": 1,
+      "passed": true,
+      "elapsedSeconds": 34.471,
+      "transactionTimeoutMs": 30000
+    },
+    "datasetPostgres": {
+      "tests": 3,
+      "passed": true,
+      "elapsedSeconds": 74.2,
+      "note": "Earlier standalone pass; superseded by the final combined29-test gate after publication-order, vision and admission-control changes."
+    },
+    "finalCombinedPostgres": {
+      "suites": 2,
+      "tests": 29,
+      "passed": true,
+      "elapsedSeconds": 159.651,
+      "includes": [
+        "dataset.integration-spec.ts:3/3",
+        "processing.integration-spec.ts:26/26"
+      ],
+      "buildBeforeRun": "passed"
+    },
+    "visionTotalsEquivalence": {
+      "tests": 24,
+      "passed": true,
+      "elapsedSeconds": 2.182
+    },
+    "builderAfterVisionTotals": {
+      "tests": 21,
+      "passed": true,
+      "elapsedSeconds": 8.419
+    },
+    "initialCombinedPostgres": {
+      "tests": 29,
+      "passed": 27,
+      "elapsedSeconds": 311.338,
+      "note": "Observed claim timeout caused one rejection and a subsequent leaked-worker failure. Retained as diagnostic evidence; not the final gate."
+    }
+  },
+  "coverage": [
+    "Four predictive horizons independent from future events/frames/final totals/outcome",
+    "Zero versus missing, malformed assistants, environmental kills, unsupported versions, overflow, event identity conflicts, foreign-match rejection",
+    "Distinct row/match/player counts, common filters and exclusion versus missing-value counts",
+    "Atomic worker publication, same processing provenance, two idempotent offline rebuilds and removed-definition replacement",
+    "Rollback after dataset materialization preserves raw and recovery state",
+    "Database temporal/finiteness CHECKs and cascade deletion",
+    "Byte-identical exports, whole-match temporal split, separate features/labels/descriptive files and captured lineage"
+  ],
+  "costArtifact": "met19-dataset-benchmark.json",
+  "limitations": "Single real patch/queue/map; synthetic copies do not establish population representativeness or production throughput. Export cap100000 rows is explicit and rejects partial publication.",
+  "regressionsResolved": [
+    {
+      "trigger": "Six concurrent matches in the same Node process",
+      "observedFailure": "Interactive claim transaction implicit5000ms deadline expired after6553ms; Promise.all rejected before other workers settled",
+      "change": "Pure calculation/JSON preparation outside publication transaction; independent per-match writes before shared aggregates; explicit admission timeout30000ms and maxWait5000ms below lease120000ms; allSettled isolates test failures"
+    },
+    {
+      "trigger": "Dataset needs only recognized placement/removal totals",
+      "change": "Shared calculateVisionTotals prepares one match; full and compact reports share gates/counters/evidence, with equivalence tests",
+      "measurement": "Single-fixture local ts-node median,7runs after warmup:10full reports before386.85ms; compact match totals2.80ms. Not a production throughput estimate."
+    }
+  ]
+}

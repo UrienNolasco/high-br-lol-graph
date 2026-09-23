@@ -120,6 +120,11 @@ async function snapshot() {
       ),
     );
   return {
+    historical: (
+      await prisma.historicalMetricContribution.findMany({
+        orderBy: { id: 'asc' },
+      })
+    ).map(({ processedAt, ...row }) => row),
     popularity: await new ChampionStatsRepository(prisma).findPopulation(
       '16.2',
     ),
@@ -277,12 +282,31 @@ test('different concurrent matches retain every shared aggregate increment and l
     return value;
   });
   for (const item of matches) await seed(item.summary, item.timeline);
-  await Promise.all(
+  const outcomes = await Promise.allSettled(
     matches.map((item, i) =>
       (i % 2 ? worker : otherWorker).processMatch({
         matchId: item.summary.metadata.matchId,
       }),
     ),
+  );
+  expect(outcomes).toEqual(
+    matches.map(() => ({ status: 'fulfilled', value: undefined })),
+  );
+  const publications = await prisma.matchProcessing.findMany({
+    where: {
+      matchId: { in: matches.map((item) => item.summary.metadata.matchId) },
+    },
+    select: { matchId: true, status: true, lastError: true },
+    orderBy: { matchId: 'asc' },
+  });
+  expect(publications).toEqual(
+    matches
+      .map((item) => ({
+        matchId: item.summary.metadata.matchId,
+        status: 'COMPLETED',
+        lastError: null,
+      }))
+      .sort((a, b) => a.matchId.localeCompare(b.matchId)),
   );
   expect(await prisma.match.count()).toBe(6);
   const p = summaryTemplate.info.participants[0];

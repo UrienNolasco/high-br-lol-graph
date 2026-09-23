@@ -8,6 +8,7 @@ import {
   LeaseLostError,
   MAX_ATTEMPTS,
   PROCESSING_GATE,
+  CONTROL_TRANSACTION_OPTIONS,
 } from './processing.constants';
 import { failureDelay, isPermanentFailure } from './failure-policy';
 import { DiscoveryContext, discoveryData } from './discovery';
@@ -40,7 +41,7 @@ export class ProcessingService {
         ON CONFLICT ("matchId") DO UPDATE SET priority = GREATEST(match_processing.priority, EXCLUDED.priority),
           "traceId" = COALESCE(match_processing."traceId", EXCLUDED."traceId") RETURNING *`;
       return job;
-    });
+    }, CONTROL_TRANSACTION_OPTIONS);
   }
 
   async recordDiscovery(matchIds: string[], context: DiscoveryContext) {
@@ -90,7 +91,7 @@ export class ProcessingService {
         where: { matchId },
       });
       return { matchId, leaseToken: token, attempts: job.attempts };
-    });
+    }, CONTROL_TRANSACTION_OPTIONS);
   }
 
   async lockLease(tx: Prisma.TransactionClient, lease: ProcessingLease) {

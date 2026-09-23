@@ -27,6 +27,7 @@ model Match {
   participants MatchParticipant[]
   timelineProjection MatchTimelineProjection?
   events       MatchEventProjection[]
+  historicalMetrics HistoricalMetricContribution[]
 
   @@index([queueId])
   @@index([queueId, gameCreation(sort: Desc)])
@@ -43,6 +44,57 @@ model MatchTimelineProjection {
   frames Json
 
   @@map("match_timeline_projections")
+}
+
+// One replaceable contribution per source match, subject, definition and horizon.
+model HistoricalMetricContribution {
+  id String @id
+  matchId String
+  match Match @relation(fields: [matchId], references: [matchId], onDelete: Cascade, map: "historical_metric_match_fk")
+  datasetVersion Int
+  subjectKind String
+  subjectId String
+  definitionId String
+  definitionVersion Int
+  usage String
+  horizonKey String
+  horizonMs Int?
+  sourceMaxTimestampMs Int?
+  horizonComplete Boolean
+  metricId String
+  unit String
+  value Float?
+  sumValue Float
+  validCount Int
+  sampleCount Int
+  numerator Float?
+  denominatorValue Float?
+  ratioScale Float
+  origin String
+  reason String?
+  method String?
+  eligible Boolean
+  exclusionReason String?
+  patch String?
+  queueId Int
+  mapId Int
+  championId Int?
+  role String?
+  teamId Int?
+  playerIds String[]
+  gameCreation BigInt
+  quality Json
+  evidence Json
+  denominator Json?
+  lineage Json
+  processingVersion Int
+  processedAt DateTime
+
+  @@unique([matchId, subjectKind, subjectId, definitionId, definitionVersion, horizonKey], map: "historical_metric_identity")
+  @@index([patch, queueId, mapId, gameCreation], map: "historical_metric_cohort_idx")
+  @@index([definitionId, definitionVersion, horizonKey, eligible], map: "historical_metric_definition_idx")
+  @@index([championId, role, gameCreation], map: "historical_metric_champion_role_idx")
+  @@map("historical_metric_contributions")
 }
 
 model MatchParticipant {

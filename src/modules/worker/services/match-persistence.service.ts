@@ -10,6 +10,10 @@ import { PlayerStatsAggregationService } from '../../../core/stats/player-stats-
 import { ProcessedMatchData } from '../pure/match.parser';
 import { ParsedTimelineData } from '../../../core/riot/timeline-parser.service';
 import { TimelineDto } from '../../../core/riot/dto/timeline.dto';
+import {
+  replaceHistoricalDataset,
+  prepareHistoricalDataset,
+} from '../../../core/dataset/dataset-persistence';
 @Injectable()
 export class MatchPersistenceService {
   constructor(
@@ -24,11 +28,20 @@ export class MatchPersistenceService {
     raw: TimelineDto,
     offline = false,
   ) {
+    const datasetInput = {
+      ...matchData,
+      projection: timeline.snapshotProjection,
+      events: timeline.normalizedEvents,
+      processingVersion: PROCESSING_VERSION,
+      processedAt: new Date(),
+    };
+    const preparedDataset = prepareHistoricalDataset(datasetInput);
     await this.prisma.$transaction(
       async (tx) => {
         if (!(await this.processing.gate(tx, offline)))
           throw new Error('Rebuild in progress');
         await this.processing.lockLease(tx, lease);
+        const completedAt = new Date();
         await tx.match.create({ data: matchData.match });
         await tx.matchTeam.createMany({
           data: matchData.teams.map((team) => ({
@@ -73,6 +86,7 @@ export class MatchPersistenceService {
         await tx.matchEventProjection.createMany({
           data: timeline.normalizedEvents.map((event) => ({
             ...event,
+            processedAt: completedAt,
             assistingParticipantIds:
               event.assistingParticipantIds ?? Prisma.DbNull,
             assistingPuuids: event.assistingPuuids ?? Prisma.DbNull,
@@ -80,12 +94,18 @@ export class MatchPersistenceService {
             quality: event.quality as unknown as Prisma.InputJsonObject,
           })),
         });
+        await replaceHistoricalDataset(
+          tx,
+          { ...datasetInput, processedAt: completedAt },
+          preparedDataset,
+        );
+        // Shared aggregate rows are locked only after independent per-match writes finish.
         await this.aggregates.update(tx, matchData, raw);
         await tx.matchProcessing.update({
           where: { matchId: lease.matchId },
           data: {
             status: 'COMPLETED',
-            completedAt: new Date(),
+            completedAt,
             processingVersion: PROCESSING_VERSION,
             lastError: null,
             leaseToken: null,
