@@ -5,6 +5,7 @@ import {
   extractPatch,
 } from '../../modules/worker/pure/match.parser';
 import { TimelineDto } from '../riot/dto/timeline.dto';
+import { LEGACY_LANE_CHECKPOINT } from '../metrics/temporal';
 // Identifiers come exclusively from this module, never from a request.
 const identifier = (name: string) => Prisma.raw(`"${name}"`);
 @Injectable()
@@ -20,7 +21,9 @@ export class PlayerStatsAggregationService {
     const frame15 =
       match.gameDuration >= 900
         ? timeline.info.frames.find(
-            (frame) => frame.timestamp >= 900_000 && frame.timestamp < 960_000,
+            (frame) =>
+              frame.timestamp >= LEGACY_LANE_CHECKPOINT.startMs &&
+              frame.timestamp < LEGACY_LANE_CHECKPOINT.endMs,
           )
         : undefined;
     const frames = new Map(

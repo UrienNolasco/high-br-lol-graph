@@ -389,6 +389,8 @@ Os cálculos numéricos do relatório são rastreáveis ao JSON gerado. Nesta re
 
 Cada métrica precisa responder: qual pergunta atende, em qual população, a partir de quais campos, com qual unidade, regra temporal, denominador e limitação. O catálogo da seção 4 identifica as fontes; MET-01 deve transformar as convenções abaixo em contratos executáveis e exemplos OpenAPI.
 
+MET-01 implementada: [contratos executáveis, matriz de elegibilidade e compatibilidade](CONTRATOS-METRICAS.md), com exemplos dos quatro estados em `src/core/metrics/metric-examples.ts` e schema compartilhado no OpenAPI.
+
 | Elemento | Regra proposta |
 |---|---|
 | Identidade | `metricId`, `metricVersion`, sujeito (`participant`, `team`, `match`), `matchId` e horizonte/janela |

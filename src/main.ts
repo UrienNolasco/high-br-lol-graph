@@ -9,6 +9,8 @@ import { Logger, PinoLogger } from 'nestjs-pino';
 import pino from 'pino';
 import { TraceIdMiddleware, SERVICE_NAMES } from './core/logger';
 import { getErrorMessage } from './core/logger/get-error-message';
+import { MetricResultDto } from './core/metrics/metric-result.dto';
+import { METRIC_OPENAPI_EXAMPLES } from './core/metrics/metric-result.dto';
 
 const bootLogger = pino({
   transport:
@@ -59,7 +61,14 @@ async function bootstrap() {
       .addTag('lol')
       .build();
 
-    const document = SwaggerModule.createDocument(app, config);
+    const document = SwaggerModule.createDocument(app, config, {
+      extraModels: [MetricResultDto],
+    });
+    document.components ??= {};
+    document.components.examples = {
+      ...document.components.examples,
+      ...METRIC_OPENAPI_EXAMPLES,
+    };
 
     app.use(
       '/reference',
