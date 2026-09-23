@@ -498,6 +498,7 @@ MET-24 explora episódios de abates, respostas rápidas e recursos anteriores co
 MET-15 entrega episódios temporais e viradas observadas; janelas, denominadores e evidências em [SEQUENCIAS-E-VIRADAS.md](SEQUENCIAS-E-VIRADAS.md).
 
 MET-25 descreve B08 como presença amostrada em uma grade geométrica experimental versionada; fórmulas, limites de validação e exemplos em [PRESENCA-AMOSTRADA.md](PRESENCA-AMOSTRADA.md).
+MET-30 documenta janelas de bounty e registros independentes de roubos/proximidade em [BOUNTIES-E-ROUBOS-REGISTRADOS.md](BOUNTIES-E-ROUBOS-REGISTRADOS.md).
 
 ### Critério comum de conclusão das futuras tasks
 

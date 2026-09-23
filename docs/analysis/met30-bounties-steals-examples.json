@@ -1,0 +1,901 @@
+{
+  "source": "exemplo_partida_BR1_3200579475.json + exemplo_partida_timeline_BR1_3200579475.json",
+  "processingMetadata": "Synthetic offline processing metadata; API reads real committed metadata.",
+  "matchId": "BR1_3200579475",
+  "gameVersion": "16.2.741.3171",
+  "metricVersion": 1,
+  "processingVersion": 3,
+  "processedAt": "2026-09-23T00:00:00.000Z",
+  "contracts": {
+    "definitionVersion": 1,
+    "eventProjectionVersion": 1,
+    "finalStatsProjectionVersion": 1,
+    "challengeCatalogVersion": 1,
+    "fixtureValidatedPatch": "16.2",
+    "currentPatchFixtureValidated": true,
+    "crossPatchPolicy": "Literal optional fields only; no inferred patch-specific activation delay, payout formula, attempted steals or contestation semantics"
+  },
+  "coverage": {
+    "terminalObserved": true,
+    "gameEndMs": 2368922,
+    "boundaryEvents": 2,
+    "windows": 1,
+    "censoredStartWindows": 0,
+    "censoredEndWindows": 0,
+    "unknownTeamBoundaries": 0,
+    "issues": [],
+    "reason": null
+  },
+  "window": {
+    "windowId": "bounty:v1:BR1_3200579475:21:44",
+    "teamId": 100,
+    "startMs": 1260000,
+    "startSource": "actualStartTime",
+    "endMs": 1555457,
+    "observedEndMs": 1555457,
+    "censoredStart": false,
+    "censoredEnd": false,
+    "reason": null,
+    "issues": [],
+    "announcementEventId": "BR1_3200579475:21:44",
+    "announcementTimestampMs": 1245318,
+    "actualStartTime": 1260000,
+    "finishEventId": "BR1_3200579475:26:38",
+    "observedDuration": {
+      "metricId": "O10",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "team",
+        "id": "100"
+      },
+      "unit": "milliseconds",
+      "window": {
+        "startMs": 1260000,
+        "endMs": 1555457,
+        "bounds": "[)"
+      },
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "timestamp",
+          "value": 1245318,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "actualStartTime",
+          "value": 1260000,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "teamId",
+          "value": 100,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "timestamp",
+          "value": 1555457,
+          "eventId": "BR1_3200579475:26:38",
+          "frameIndex": 26,
+          "timestampMs": 1555457
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "teamId",
+          "value": 100,
+          "eventId": "BR1_3200579475:26:38",
+          "frameIndex": 26,
+          "timestampMs": 1555457
+        }
+      ],
+      "quality": {
+        "validSamples": 2,
+        "totalSamples": 2,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 295457,
+      "origin": "derived",
+      "reason": null,
+      "method": "observed end minus effective start; censored portion only, not total bounty duration"
+    },
+    "associatedObjectiveEventIds": [
+      "BR1_3200579475:23:25"
+    ],
+    "associatedObjectiveCount": {
+      "metricId": "O10",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "team",
+        "id": "100"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 1260000,
+        "endMs": 1555457,
+        "bounds": "[)"
+      },
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "timestamp",
+          "value": 1245318,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "actualStartTime",
+          "value": 1260000,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "teamId",
+          "value": 100,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "timestamp",
+          "value": 1555457,
+          "eventId": "BR1_3200579475:26:38",
+          "frameIndex": 26,
+          "timestampMs": 1555457
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "teamId",
+          "value": 100,
+          "eventId": "BR1_3200579475:26:38",
+          "frameIndex": 26,
+          "timestampMs": 1555457
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "type",
+          "value": "BUILDING_KILL",
+          "eventId": "BR1_3200579475:23:25",
+          "frameIndex": 23,
+          "timestampMs": 1343694
+        }
+      ],
+      "quality": {
+        "validSamples": 11,
+        "totalSamples": 11,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 1,
+      "origin": "derived",
+      "reason": null,
+      "method": "objective events for the known beneficiary within the interval; temporal association does not prove bounty awarded"
+    },
+    "evidence": [
+      {
+        "source": "MatchEventProjection.payload",
+        "field": "timestamp",
+        "value": 1245318,
+        "eventId": "BR1_3200579475:21:44",
+        "frameIndex": 21,
+        "timestampMs": 1245318
+      },
+      {
+        "source": "MatchEventProjection.payload",
+        "field": "actualStartTime",
+        "value": 1260000,
+        "eventId": "BR1_3200579475:21:44",
+        "frameIndex": 21,
+        "timestampMs": 1245318
+      },
+      {
+        "source": "MatchEventProjection.payload",
+        "field": "teamId",
+        "value": 100,
+        "eventId": "BR1_3200579475:21:44",
+        "frameIndex": 21,
+        "timestampMs": 1245318
+      },
+      {
+        "source": "MatchEventProjection.payload",
+        "field": "timestamp",
+        "value": 1555457,
+        "eventId": "BR1_3200579475:26:38",
+        "frameIndex": 26,
+        "timestampMs": 1555457
+      },
+      {
+        "source": "MatchEventProjection.payload",
+        "field": "teamId",
+        "value": 100,
+        "eventId": "BR1_3200579475:26:38",
+        "frameIndex": 26,
+        "timestampMs": 1555457
+      }
+    ]
+  },
+  "karthus": {
+    "puuid": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+    "teamId": 100,
+    "championName": "Karthus",
+    "objectivesStolen": {
+      "metricId": "O11",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+      },
+      "unit": "count",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+          "field": "values.objectivesStolen",
+          "value": 0
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 0,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+    },
+    "objectivesStolenAssists": {
+      "metricId": "O11",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+      },
+      "unit": "count",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+          "field": "values.objectivesStolenAssists",
+          "value": 0
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 0,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+    },
+    "challenges": {
+      "epicMonsterSteals": {
+        "category": "steals",
+        "metric": {
+          "metricId": "O11",
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+          },
+          "unit": "count",
+          "window": null,
+          "denominator": null,
+          "evidence": [
+            {
+              "source": "MatchParticipant.challenges:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+              "field": "epicMonsterSteals",
+              "value": 0
+            }
+          ],
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "metricVersion": 1,
+          "value": 0,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+        }
+      },
+      "epicMonsterStolenWithoutSmite": {
+        "category": "steals_without_smite",
+        "metric": {
+          "metricId": "O11",
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+          },
+          "unit": "count",
+          "window": null,
+          "denominator": null,
+          "evidence": [
+            {
+              "source": "MatchParticipant.challenges:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+              "field": "epicMonsterStolenWithoutSmite",
+              "value": 0
+            }
+          ],
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "metricVersion": 1,
+          "value": 0,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+        }
+      },
+      "epicMonsterKillsNearEnemyJungler": {
+        "category": "proximity",
+        "metric": {
+          "metricId": "O11",
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+          },
+          "unit": "count",
+          "window": null,
+          "denominator": null,
+          "evidence": [
+            {
+              "source": "MatchParticipant.challenges:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+              "field": "epicMonsterKillsNearEnemyJungler",
+              "value": 2
+            }
+          ],
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "metricVersion": 1,
+          "value": 2,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+        }
+      },
+      "junglerTakedownsNearDamagedEpicMonster": {
+        "category": "proximity",
+        "metric": {
+          "metricId": "O11",
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+          },
+          "unit": "count",
+          "window": null,
+          "denominator": null,
+          "evidence": [
+            {
+              "source": "MatchParticipant.challenges:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+              "field": "junglerTakedownsNearDamagedEpicMonster",
+              "value": 0
+            }
+          ],
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "metricVersion": 1,
+          "value": 0,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+        }
+      },
+      "epicMonsterKillsWithin30SecondsOfSpawn": {
+        "category": "spawn_timing",
+        "metric": {
+          "metricId": "O11",
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "participant",
+            "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+          },
+          "unit": "count",
+          "window": null,
+          "denominator": null,
+          "evidence": [
+            {
+              "source": "MatchParticipant.challenges:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+              "field": "epicMonsterKillsWithin30SecondsOfSpawn",
+              "value": 1
+            }
+          ],
+          "quality": {
+            "validSamples": 1,
+            "totalSamples": 1,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "metricVersion": 1,
+          "value": 1,
+          "origin": "observed",
+          "reason": null,
+          "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+        }
+      }
+    },
+    "bountyGold": {
+      "metricId": "C08",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+      },
+      "unit": "gold",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchParticipant.challenges:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+          "field": "bountyGold",
+          "value": 0
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 0,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+    },
+    "interpretation": "Independent optional literal records: steals, assists, without-smite, proximity and timing are not interchangeable. No success rate, attempt count or event-level steal attribution."
+  },
+  "fioraBountyGold": {
+    "metricId": "C08",
+    "processingVersion": 3,
+    "processedAt": "2026-09-23T00:00:00.000Z",
+    "matchId": "BR1_3200579475",
+    "subject": {
+      "kind": "participant",
+      "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+    },
+    "unit": "gold",
+    "window": null,
+    "denominator": null,
+    "evidence": [
+      {
+        "source": "MatchParticipant.challenges:tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+        "field": "bountyGold",
+        "value": 1311.8846130371094
+      }
+    ],
+    "quality": {
+      "validSamples": 1,
+      "totalSamples": 1,
+      "coverage": 1,
+      "unknownEvents": 0,
+      "reconciliationIssues": []
+    },
+    "metricVersion": 1,
+    "value": 1311.8846130371094,
+    "origin": "observed",
+    "reason": null,
+    "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+  },
+  "exampleSeparateBountyShutdown": {
+    "eventId": "BR1_3200579475:7:20",
+    "type": "CHAMPION_KILL",
+    "timestampMs": 382792,
+    "actorPuuid": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w",
+    "actorReason": null,
+    "sourceKillerId": 9,
+    "sourceTeamId": 200,
+    "ownerTeamId": null,
+    "beneficiaryTeamId": 200,
+    "objectiveType": null,
+    "bounty": {
+      "metricId": "C08",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w"
+      },
+      "unit": "gold",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "bounty",
+          "value": 300,
+          "eventId": "BR1_3200579475:7:20",
+          "frameIndex": 7,
+          "timestampMs": 382792
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 300,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+    },
+    "shutdownBounty": {
+      "metricId": "C08",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w"
+      },
+      "unit": "gold",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "shutdownBounty",
+          "value": 99,
+          "eventId": "BR1_3200579475:7:20",
+          "frameIndex": 7,
+          "timestampMs": 382792
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 99,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal source field, no inferred reward/attempt/steal semantics or addition to other counters"
+    },
+    "quality": {
+      "unknownType": false,
+      "missingFields": [],
+      "invalidFields": [],
+      "sentinelFields": [],
+      "unresolvedParticipantIds": [],
+      "conflicts": []
+    }
+  },
+  "syntheticCensoredExample": {
+    "synthetic": true,
+    "change": "Removed recorded FINISH event from fixture copy",
+    "window": {
+      "windowId": "bounty:v1:BR1_3200579475:21:44",
+      "teamId": 100,
+      "startMs": 1260000,
+      "startSource": "actualStartTime",
+      "endMs": null,
+      "observedEndMs": 2368922,
+      "censoredStart": false,
+      "censoredEnd": true,
+      "reason": null,
+      "issues": [],
+      "announcementEventId": "BR1_3200579475:21:44",
+      "announcementTimestampMs": 1245318,
+      "actualStartTime": 1260000,
+      "finishEventId": null,
+      "observedDuration": {
+        "metricId": "O10",
+        "processingVersion": 3,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "matchId": "BR1_3200579475",
+        "subject": {
+          "kind": "team",
+          "id": "100"
+        },
+        "unit": "milliseconds",
+        "window": {
+          "startMs": 1260000,
+          "endMs": 2368922,
+          "bounds": "[]"
+        },
+        "denominator": null,
+        "evidence": [
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "timestamp",
+            "value": 1245318,
+            "eventId": "BR1_3200579475:21:44",
+            "frameIndex": 21,
+            "timestampMs": 1245318
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "actualStartTime",
+            "value": 1260000,
+            "eventId": "BR1_3200579475:21:44",
+            "frameIndex": 21,
+            "timestampMs": 1245318
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "teamId",
+            "value": 100,
+            "eventId": "BR1_3200579475:21:44",
+            "frameIndex": 21,
+            "timestampMs": 1245318
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "timestamp",
+            "value": 2368922,
+            "eventId": "BR1_3200579475:40:16",
+            "frameIndex": 40,
+            "timestampMs": 2368922
+          }
+        ],
+        "quality": {
+          "validSamples": 2,
+          "totalSamples": 2,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "metricVersion": 1,
+        "value": 1108922,
+        "origin": "derived",
+        "reason": null,
+        "method": "observed end minus effective start; censored portion only, not total bounty duration"
+      },
+      "associatedObjectiveEventIds": [
+        "BR1_3200579475:23:25",
+        "BR1_3200579475:30:11",
+        "BR1_3200579475:30:21",
+        "BR1_3200579475:30:49",
+        "BR1_3200579475:35:30",
+        "BR1_3200579475:37:12",
+        "BR1_3200579475:38:17",
+        "BR1_3200579475:40:14"
+      ],
+      "associatedObjectiveCount": {
+        "metricId": "O10",
+        "processingVersion": 3,
+        "processedAt": "2026-09-23T00:00:00.000Z",
+        "matchId": "BR1_3200579475",
+        "subject": {
+          "kind": "team",
+          "id": "100"
+        },
+        "unit": "count",
+        "window": {
+          "startMs": 1260000,
+          "endMs": 2368922,
+          "bounds": "[]"
+        },
+        "denominator": null,
+        "evidence": [
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "timestamp",
+            "value": 1245318,
+            "eventId": "BR1_3200579475:21:44",
+            "frameIndex": 21,
+            "timestampMs": 1245318
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "actualStartTime",
+            "value": 1260000,
+            "eventId": "BR1_3200579475:21:44",
+            "frameIndex": 21,
+            "timestampMs": 1245318
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "teamId",
+            "value": 100,
+            "eventId": "BR1_3200579475:21:44",
+            "frameIndex": 21,
+            "timestampMs": 1245318
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "timestamp",
+            "value": 2368922,
+            "eventId": "BR1_3200579475:40:16",
+            "frameIndex": 40,
+            "timestampMs": 2368922
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "BUILDING_KILL",
+            "eventId": "BR1_3200579475:23:25",
+            "frameIndex": 23,
+            "timestampMs": 1343694
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "ELITE_MONSTER_KILL",
+            "eventId": "BR1_3200579475:30:11",
+            "frameIndex": 30,
+            "timestampMs": 1753314
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "BUILDING_KILL",
+            "eventId": "BR1_3200579475:30:21",
+            "frameIndex": 30,
+            "timestampMs": 1758123
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "BUILDING_KILL",
+            "eventId": "BR1_3200579475:30:49",
+            "frameIndex": 30,
+            "timestampMs": 1795864
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "ELITE_MONSTER_KILL",
+            "eventId": "BR1_3200579475:35:30",
+            "frameIndex": 35,
+            "timestampMs": 2079806
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "BUILDING_KILL",
+            "eventId": "BR1_3200579475:37:12",
+            "frameIndex": 37,
+            "timestampMs": 2177674
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "BUILDING_KILL",
+            "eventId": "BR1_3200579475:38:17",
+            "frameIndex": 38,
+            "timestampMs": 2250564
+          },
+          {
+            "source": "MatchEventProjection.payload",
+            "field": "type",
+            "value": "BUILDING_KILL",
+            "eventId": "BR1_3200579475:40:14",
+            "frameIndex": 40,
+            "timestampMs": 2361241
+          }
+        ],
+        "quality": {
+          "validSamples": 29,
+          "totalSamples": 29,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "metricVersion": 1,
+        "value": 8,
+        "origin": "derived",
+        "reason": null,
+        "method": "objective events for the known beneficiary within the interval; temporal association does not prove bounty awarded"
+      },
+      "evidence": [
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "timestamp",
+          "value": 1245318,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "actualStartTime",
+          "value": 1260000,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "teamId",
+          "value": 100,
+          "eventId": "BR1_3200579475:21:44",
+          "frameIndex": 21,
+          "timestampMs": 1245318
+        },
+        {
+          "source": "MatchEventProjection.payload",
+          "field": "timestamp",
+          "value": 2368922,
+          "eventId": "BR1_3200579475:40:16",
+          "frameIndex": 40,
+          "timestampMs": 2368922
+        }
+      ]
+    }
+  },
+  "checks": {
+    "participantChecks": 80,
+    "eventChecks": 238,
+    "literalRewardEvents": 119,
+    "failures": 0
+  }
+}

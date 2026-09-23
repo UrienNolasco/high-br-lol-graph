@@ -1,3 +1,5 @@
+import { MatchBountiesStealsController } from './match-bounties-steals.controller';
+import { MatchBountiesStealsService } from './services/match-bounties-steals.service';
 import { ProgressionRepository } from './repositories/progression.repository';
 import { MatchProgressionService } from './services/match-progression.service';
 import { MatchProgressionController } from './match-progression.controller';
@@ -36,6 +38,7 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchSequencesController,
     MatchMapPresenceController,
     MatchProgressionController,
+    MatchBountiesStealsController,
     MatchesController,
     MatchVisionController,
     MatchCombatController,
@@ -43,6 +46,7 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchObjectivesController,
   ],
   providers: [
+    MatchBountiesStealsService,
     ProgressionRepository,
     MatchProgressionService,
     MatchMapPresenceService,
@@ -63,6 +67,7 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchEconomyService,
   ],
   exports: [
+    MatchBountiesStealsService,
     MatchSequencesService,
     MatchKillEpisodesService,
     MatchContributionService,
