@@ -39,18 +39,20 @@ describe('MatchRepository', () => {
     });
   });
 
-  describe('findParticipantsGold', () => {
-    it('should query participants gold data', async () => {
-      const mock = [{ teamId: 100, goldGraph: [500] }];
-      (prisma.matchParticipant.findMany as jest.Mock).mockResolvedValue(mock);
-
-      const result = await repo.findParticipantsGold('BR1_1');
-
-      expect(prisma.matchParticipant.findMany).toHaveBeenCalledWith({
+  describe('findGoldTimeline', () => {
+    it('reads existence, outcome and gold in one match query', async () => {
+      const mock = { teams: [{ teamId: 100, win: true }], participants: [] };
+      (prisma.match.findUnique as jest.Mock).mockResolvedValue(mock);
+      expect(await repo.findGoldTimeline('BR1_1')).toBe(mock);
+      expect(prisma.match.findUnique).toHaveBeenCalledWith({
         where: { matchId: 'BR1_1' },
-        select: { teamId: true, goldGraph: true },
+        select: {
+          mapId: true,
+          gameVersion: true,
+          teams: { select: { teamId: true, win: true } },
+          participants: { select: { teamId: true, goldGraph: true } },
+        },
       });
-      expect(result).toBe(mock);
     });
   });
 

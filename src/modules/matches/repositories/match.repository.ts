@@ -15,10 +15,15 @@ export class MatchRepository {
     });
   }
 
-  async findParticipantsGold(matchId: string) {
-    return this.prisma.matchParticipant.findMany({
+  async findGoldTimeline(matchId: string) {
+    return this.prisma.match.findUnique({
       where: { matchId },
-      select: { teamId: true, goldGraph: true },
+      select: {
+        mapId: true,
+        gameVersion: true,
+        teams: { select: { teamId: true, win: true } },
+        participants: { select: { teamId: true, goldGraph: true } },
+      },
     });
   }
 

@@ -477,6 +477,8 @@ O caminho inicial é MET-01 → MET-02 → MET-03/04/05/06 → MET-09. MET-07/08
 
 Todos os cartões começam em `Ready`, a primeira coluna disponível no board. Aqui isso significa backlog planejado; uma task com dependências abertas não está pronta para execução. Usar a visão `--actionable` do kanban-tui e mover para `Doing` somente após as dependências. Sugestão inicial de gestão: manter uma entrega principal em andamento, revisar prioridades ao concluir cada entrega e refinar tarefas L antes de iniciá-las. Isso é recomendação de fluxo, não limite técnico do board.
 
+MET-07 implementa a correção O08 da rota legada; fórmula, migração de `throwPoint`, nulabilidade, cobertura e evidências estão em [TIMELINE-OURO.md](TIMELINE-OURO.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 1. Fórmula, unidade, fonte, denominador, filtro, janela e ausência documentados; referência ao ID da oportunidade preservada.

@@ -2,90 +2,182 @@ import { ApiProperty } from '@nestjs/swagger';
 
 // ========== Gold Timeline ==========
 
+export class GoldCoverageDto {
+  @ApiProperty({ example: 5 }) validSamples: number;
+  @ApiProperty({ example: 5 }) totalSamples: number;
+  @ApiProperty({ type: Number, nullable: true, example: 1 }) coverage:
+    | number
+    | null;
+  @ApiProperty({ example: 0 }) unknownEvents: number;
+  @ApiProperty({ type: [String], example: [] }) reconciliationIssues: string[];
+}
+
+export class TeamGoldCoverageDto {
+  @ApiProperty({ type: GoldCoverageDto }) blueTeam: GoldCoverageDto;
+  @ApiProperty({ type: GoldCoverageDto }) redTeam: GoldCoverageDto;
+}
+
+export class TeamGoldMissingReasonsDto {
+  @ApiProperty({ type: String, nullable: true, example: null }) blueTeam:
+    | string
+    | null;
+  @ApiProperty({ type: String, nullable: true, example: 'missing_frame' })
+  redTeam: string | null;
+}
+
 export class GoldDifferenceEntryDto {
-  @ApiProperty({ example: 5, description: 'Minuto da partida' })
+  @ApiProperty({
+    example: 5,
+    description: 'Índice de minuto legado; não é timestamp exato do frame.',
+  })
   minute: number;
-
   @ApiProperty({
+    type: Number,
+    nullable: true,
     example: 15200,
-    description: 'Ouro total do time azul (teamId 100)',
+    description: 'Soma em ouro dos 5 jogadores azuis; null se incompleta.',
   })
-  blueTeam: number;
-
+  blueTeam: number | null;
   @ApiProperty({
+    type: Number,
+    nullable: true,
     example: 14800,
-    description: 'Ouro total do time vermelho (teamId 200)',
+    description: 'Soma em ouro dos 5 jogadores vermelhos; null se incompleta.',
   })
-  redTeam: number;
-
+  redTeam: number | null;
   @ApiProperty({
+    type: Number,
+    nullable: true,
     example: 400,
-    description: 'Diferença de ouro (blue - red). Positivo = vantagem azul',
+    description:
+      'blueTeam - redTeam; cálculo derivado, null quando um total está ausente.',
   })
-  difference: number;
+  difference: number | null;
+  @ApiProperty({ type: String, nullable: true, example: null }) reason:
+    | string
+    | null;
+  @ApiProperty({ type: TeamGoldCoverageDto }) coverage: TeamGoldCoverageDto;
+  @ApiProperty({ type: TeamGoldMissingReasonsDto })
+  missingReasons: TeamGoldMissingReasonsDto;
 }
 
 export class MaxAdvantageDto {
-  @ApiProperty({ example: 15, description: 'Minuto do pico de vantagem' })
-  minute: number;
-
   @ApiProperty({
-    example: 'blueTeam',
-    enum: ['blueTeam', 'redTeam'],
-    description: 'Time com maior vantagem',
+    example: 15,
+    description: 'Primeiro minuto válido com a maior magnitude observada.',
   })
-  team: string;
-
+  minute: number;
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    enum: ['blueTeam', 'redTeam'],
+    description: 'null quando todas as diferenças válidas são zero (empate).',
+  })
+  team: string | null;
   @ApiProperty({
     example: 3000,
-    description: 'Valor absoluto da vantagem de ouro',
+    description: 'abs(blueTeam - redTeam), em ouro.',
   })
   difference: number;
 }
 
-export class ThrowPointDto {
-  @ApiProperty({ example: 18, description: 'Minuto do throw' })
+export class ObservedSwingDto {
+  @ApiProperty({
+    example: 18,
+    description: 'Minuto posterior da primeira variação observada > 3000 ouro.',
+  })
   minute: number;
-
-  @ApiProperty({ example: 2500, description: 'Diferença antes do swing' })
-  beforeDifference: number;
-
-  @ApiProperty({ example: -1500, description: 'Diferença depois do swing' })
-  afterDifference: number;
-
-  @ApiProperty({ example: 4000, description: 'Magnitude do swing de ouro' })
+  @ApiProperty({ example: 17 }) beforeMinute: number;
+  @ApiProperty({ example: 2500 }) beforeDifference: number;
+  @ApiProperty({ example: -1500 }) afterDifference: number;
+  @ApiProperty({
+    example: 4000,
+    description:
+      'abs(afterDifference - beforeDifference); não atribui culpa nem causalidade.',
+  })
   swing: number;
 }
 
-export class MatchGoldTimelineDto {
-  @ApiProperty({ example: 'BR1_3216549870' })
-  matchId: string;
+/** @deprecated Use ObservedSwingDto. */
+export class ThrowPointDto extends ObservedSwingDto {}
 
+export class GoldTeamEvidenceDto {
+  @ApiProperty({ example: 100 }) teamId: number;
+  @ApiProperty({ example: true }) win: boolean;
+}
+
+export class GoldEvidenceDto {
+  @ApiProperty({ example: 'MatchTeam.win' }) winnerSource: string;
+  @ApiProperty({ type: [GoldTeamEvidenceDto] }) teams: GoldTeamEvidenceDto[];
+  @ApiProperty({ example: 'MatchParticipant.goldGraph' }) goldSource: string;
+  @ApiProperty({ example: '16.2.741.8224' }) gameVersion: string;
+  @ApiProperty({ example: 11 }) mapId: number;
+  @ApiProperty({ example: 5 }) expectedParticipantsPerTeam: number;
+  @ApiProperty({ example: 'legacy_minute_index' }) timeBasis: string;
+  @ApiProperty({ example: 3000 }) swingThresholdGold: number;
+  @ApiProperty({
+    example: 39,
+    description:
+      'Pares adjacentes completos avaliados; lacunas não são interpoladas.',
+  })
+  validAdjacentPairs: number;
+}
+
+export class MatchGoldTimelineDto {
+  @ApiProperty({ example: 'BR1_3216549870' }) matchId: string;
+  @ApiProperty({ example: 'O08' }) metricId: string;
+  @ApiProperty({ example: 1 }) metricVersion: number;
   @ApiProperty({
     type: [GoldDifferenceEntryDto],
-    description: 'Diferença de ouro por minuto',
+    description:
+      'Totais derivados do ouro observado por minuto; nenhuma ausência vira zero.',
   })
   goldDifference: GoldDifferenceEntryDto[];
-
   @ApiProperty({
-    example: 'redTeam',
+    type: String,
+    nullable: true,
     enum: ['blueTeam', 'redTeam'],
-    description: 'Time vencedor em ouro final',
+    description:
+      'Vencedor observado no resumo MatchTeam.win, independentemente do ouro. null se ausente ou contraditório.',
   })
-  winner: string;
-
+  winner: string | null;
+  @ApiProperty({ type: String, nullable: true }) winnerReason: string | null;
+  @ApiProperty({ type: MaxAdvantageDto, nullable: true })
+  maxAdvantage: MaxAdvantageDto | null;
+  @ApiProperty({ type: String, nullable: true }) maxAdvantageReason:
+    | string
+    | null;
+  @ApiProperty({ type: ObservedSwingDto, nullable: true })
+  observedSwing: ObservedSwingDto | null;
   @ApiProperty({
-    type: MaxAdvantageDto,
-    description: 'Ponto de maior vantagem na partida',
+    type: String,
+    nullable: true,
+    description:
+      'not_observed: nenhum par válido excede limiar; missing_frame: nenhum par válido; unsupported_version: formato de mapa não suportado.',
   })
-  maxAdvantage: MaxAdvantageDto;
-
+  observedSwingReason: string | null;
   @ApiProperty({
     type: ThrowPointDto,
     nullable: true,
-    description: 'Ponto de virada (swing > 3k gold), null se não houve',
+    deprecated: true,
+    description:
+      'Alias exato de observedSwing mantido para migração; não significa erro, culpa ou causa da derrota.',
   })
   throwPoint: ThrowPointDto | null;
+  @ApiProperty({
+    type: GoldCoverageDto,
+    description:
+      'Minutos com ambos os totais completos / índices presentes. Não mede cobertura temporal integral da partida.',
+  })
+  coverage: GoldCoverageDto;
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    description:
+      'Motivo de série indisponível. Série parcialmente válida usa cobertura e motivos por minuto.',
+  })
+  reason: string | null;
+  @ApiProperty({ type: GoldEvidenceDto }) evidence: GoldEvidenceDto;
 }
 
 // ========== Timeline Events ==========

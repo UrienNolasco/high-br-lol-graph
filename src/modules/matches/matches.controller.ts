@@ -57,7 +57,7 @@ export class MatchesController {
   @ApiOperation({
     summary: 'Get match gold timeline',
     description:
-      'Returns gold difference between teams per minute, winner, max advantage point and throw point detection.',
+      'Returns observed summary winner, nullable team gold totals with coverage, maximum observed advantage and observed swing. throwPoint is a deprecated alias of observedSwing, without causal attribution.',
   })
   @ApiResponse({
     status: 200,

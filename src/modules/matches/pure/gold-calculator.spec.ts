@@ -2,136 +2,155 @@ import {
   computeGoldTimeline,
   determineWinner,
   findMaxAdvantage,
+  findObservedSwing,
   findThrowPoint,
   GoldParticipant,
 } from './gold-calculator';
 
+const roster = (
+  blue: (number | null)[],
+  red: (number | null)[],
+): GoldParticipant[] =>
+  [100, 200].flatMap((teamId) =>
+    Array.from({ length: 5 }, () => ({
+      teamId,
+      goldGraph: [...(teamId === 100 ? blue : red)],
+    })),
+  );
+const point = (minute: number, difference: number | null) => ({
+  minute,
+  difference,
+  blueTeam: null,
+  redTeam: null,
+});
+
 describe('gold-calculator', () => {
-  describe('computeGoldTimeline', () => {
-    it('should compute gold difference per minute', () => {
-      const participants: GoldParticipant[] = [
-        { teamId: 100, goldGraph: [500, 800, 1200] },
-        { teamId: 100, goldGraph: [500, 800, 1200] },
-        { teamId: 200, goldGraph: [500, 700, 1000] },
-        { teamId: 200, goldGraph: [500, 800, 1100] },
-      ];
+  it('sums complete rosters and preserves observed zero', () => {
+    const result = computeGoldTimeline(roster([0, 1200], [0, 1000]));
+    expect(result[0]).toMatchObject({
+      blueTeam: 0,
+      redTeam: 0,
+      difference: 0,
+      reason: null,
+    });
+    expect(result[1]).toMatchObject({
+      blueTeam: 6000,
+      redTeam: 5000,
+      difference: 1000,
+    });
+    expect(result[1].coverage.blueTeam).toMatchObject({
+      validSamples: 5,
+      totalSamples: 5,
+      coverage: 1,
+    });
+  });
 
-      const result = computeGoldTimeline(participants);
+  it('returns empty series safely', () => {
+    expect(computeGoldTimeline([])).toEqual([]);
+    expect(computeGoldTimeline(roster([], []))).toEqual([]);
+    expect(findMaxAdvantage([])).toBeNull();
+    expect(findObservedSwing([])).toBeNull();
+  });
 
-      expect(result).toHaveLength(3);
-      expect(result[0]).toEqual({
-        minute: 0,
-        blueTeam: 1000,
-        redTeam: 1000,
-        difference: 0,
+  it('never turns a missing player, frame or invalid value into zero', () => {
+    const players = roster([500, 800], [500, 1000, 1500]);
+    players[0].goldGraph[1] = null;
+    const result = computeGoldTimeline(players);
+    expect(result[1]).toMatchObject({
+      blueTeam: null,
+      redTeam: 5000,
+      difference: null,
+      reason: 'missing_frame',
+    });
+    expect(result[1].coverage.blueTeam.coverage).toBe(0.8);
+    expect(result[2]).toMatchObject({
+      blueTeam: null,
+      redTeam: 7500,
+      difference: null,
+    });
+    expect(computeGoldTimeline(players.slice(1))[0].blueTeam).toBeNull();
+    for (const invalid of [NaN, Infinity, -1]) {
+      players[0].goldGraph[0] = invalid;
+      expect(computeGoldTimeline(players)[0]).toMatchObject({
+        blueTeam: null,
+        reason: 'invalid_value',
       });
-      expect(result[2]).toEqual({
-        minute: 2,
-        blueTeam: 2400,
-        redTeam: 2100,
-        difference: 300,
-      });
-    });
-
-    it('should handle empty participants', () => {
-      expect(computeGoldTimeline([])).toEqual([]);
-    });
-
-    it('should handle uneven graph lengths', () => {
-      const participants: GoldParticipant[] = [
-        { teamId: 100, goldGraph: [500, 800] },
-        { teamId: 200, goldGraph: [500, 800, 1100, 1400] },
-      ];
-
-      const result = computeGoldTimeline(participants);
-
-      expect(result).toHaveLength(4);
-      expect(result[2].redTeam).toBe(1100);
-      expect(result[3].blueTeam).toBe(0);
-      expect(result[3].redTeam).toBe(1400);
-    });
+    }
   });
 
-  describe('determineWinner', () => {
-    it('should return blueTeam when blue has positive final diff', () => {
-      const diff = [
-        { minute: 0, blueTeam: 500, redTeam: 500, difference: 0 },
-        { minute: 1, blueTeam: 1000, redTeam: 500, difference: 500 },
-      ];
-      expect(determineWinner(diff)).toBe('blueTeam');
-    });
-
-    it('should return redTeam when blue has negative final diff', () => {
-      const diff = [
-        { minute: 0, blueTeam: 500, redTeam: 500, difference: 0 },
-        { minute: 1, blueTeam: 500, redTeam: 1000, difference: -500 },
-      ];
-      expect(determineWinner(diff)).toBe('redTeam');
-    });
-
-    it('should return redTeam when no data', () => {
-      expect(determineWinner([])).toBe('redTeam');
-    });
+  it('does not assign unknown teams or extra participants to a valid total', () => {
+    const players = roster([500], [500]);
+    expect(
+      computeGoldTimeline([...players, { teamId: 0, goldGraph: [999999] }])[0]
+        .difference,
+    ).toBe(0);
+    expect(
+      computeGoldTimeline([...players, players[0]])[0].blueTeam,
+    ).toBeNull();
   });
 
-  describe('findMaxAdvantage', () => {
-    it('should find the peak advantage', () => {
-      const diff = [
-        { minute: 0, blueTeam: 500, redTeam: 500, difference: 0 },
-        { minute: 1, blueTeam: 500, redTeam: 1000, difference: -500 },
-        { minute: 2, blueTeam: 500, redTeam: 500, difference: 0 },
-      ];
-
-      const result = findMaxAdvantage(diff);
-
-      expect(result.minute).toBe(1);
-      expect(result.team).toBe('redTeam');
-      expect(result.difference).toBe(500);
-    });
-
-    it('should return first entry as max when all equal', () => {
-      const diff = [
-        { minute: 0, blueTeam: 500, redTeam: 500, difference: 0 },
-        { minute: 1, blueTeam: 600, redTeam: 600, difference: 0 },
-      ];
-
-      expect(findMaxAdvantage(diff).minute).toBe(0);
-    });
+  it('uses exactly one winner in a valid summary, never gold', () => {
+    expect(
+      determineWinner([
+        { teamId: 100, win: true },
+        { teamId: 200, win: false },
+      ]),
+    ).toBe('blueTeam');
+    expect(
+      determineWinner([
+        { teamId: 100, win: false },
+        { teamId: 200, win: true },
+      ]),
+    ).toBe('redTeam');
+    for (const teams of [
+      [],
+      [{ teamId: 100, win: true }],
+      [
+        { teamId: 100, win: false },
+        { teamId: 200, win: false },
+      ],
+      [
+        { teamId: 100, win: true },
+        { teamId: 200, win: true },
+      ],
+      [
+        { teamId: 0, win: true },
+        { teamId: 200, win: false },
+      ],
+    ]) {
+      expect(determineWinner(teams)).toBeNull();
+    }
   });
 
-  describe('findThrowPoint', () => {
-    it('should detect a throw when swing exceeds threshold', () => {
-      const diff = [
-        { minute: 0, blueTeam: 500, redTeam: 500, difference: 0 },
-        { minute: 1, blueTeam: 5000, redTeam: 500, difference: 4500 },
-        { minute: 2, blueTeam: 500, redTeam: 3500, difference: -3000 },
-      ];
-
-      const result = findThrowPoint(diff);
-
-      expect(result).not.toBeNull();
-      expect(result!.minute).toBe(1);
-      expect(result!.swing).toBe(4500);
+  it('uses valid samples only, chooses earliest equal magnitude and never assigns tied gold to red', () => {
+    expect(
+      findMaxAdvantage([point(0, null), point(1, -500), point(2, 500)]),
+    ).toEqual({ minute: 1, team: 'redTeam', difference: 500 });
+    expect(findMaxAdvantage([point(0, 0), point(1, 0)])).toEqual({
+      minute: 0,
+      team: null,
+      difference: 0,
     });
+    expect(findMaxAdvantage([point(0, null)])).toBeNull();
+  });
 
-    it('should return null when no throw', () => {
-      const diff = [
-        { minute: 0, blueTeam: 500, redTeam: 500, difference: 0 },
-        { minute: 1, blueTeam: 800, redTeam: 500, difference: 300 },
-      ];
-
-      expect(findThrowPoint(diff)).toBeNull();
+  it('uses a strict threshold, records source indices and returns the first observed swing', () => {
+    const points = [point(5, 0), point(6, 3000), point(7, -1), point(8, 10000)];
+    expect(findObservedSwing(points)).toEqual({
+      minute: 7,
+      beforeMinute: 6,
+      beforeDifference: 3000,
+      afterDifference: -1,
+      swing: 3001,
     });
+    expect(findThrowPoint(points)).toEqual(findObservedSwing(points));
+  });
 
-    it('should return first throw point only', () => {
-      const diff = [
-        { minute: 0, blueTeam: 1000, redTeam: 1000, difference: 0 },
-        { minute: 1, blueTeam: 5000, redTeam: 1000, difference: 4000 },
-        { minute: 2, blueTeam: 1000, redTeam: 5000, difference: -4000 },
-      ];
-
-      const result = findThrowPoint(diff);
-      expect(result!.minute).toBe(1);
-    });
+  it('does not interpolate gaps or compare nonadjacent observations', () => {
+    expect(
+      findObservedSwing([point(0, 5000), point(1, null), point(2, -5000)]),
+    ).toBeNull();
+    expect(findObservedSwing([point(0, 5000), point(2, -5000)])).toBeNull();
+    expect(findObservedSwing([point(0, 0), point(1, 3000)])).toBeNull();
   });
 });
