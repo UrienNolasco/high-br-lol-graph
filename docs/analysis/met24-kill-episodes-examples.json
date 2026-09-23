@@ -1,0 +1,1523 @@
+{
+  "source": "exemplo_partida_BR1_3200579475.json + exemplo_partida_timeline_BR1_3200579475.json",
+  "processingMetadata": "Synthetic offline timestamp/generation from fixture projections; API uses actual committed processing metadata.",
+  "matchId": "BR1_3200579475",
+  "gameVersion": "16.2.741.3171",
+  "metricVersion": 1,
+  "processingVersion": 3,
+  "processedAt": "2026-09-23T00:00:00.000Z",
+  "definition": {
+    "version": 1,
+    "thresholds": {
+      "profile": "default",
+      "gapMs": 15000,
+      "maxSpanMs": 30000,
+      "diameterUnits": 2000,
+      "tradeMs": 10000,
+      "tradeDistanceUnits": 2000,
+      "maxSnapshotAgeMs": 60000
+    },
+    "grouping": "chronological greedy, spatial complete-link, maximum gap and total span; choose smallest maximum distance, then gap, then stable episode id",
+    "quickTrade": "strictly later reciprocal-team kill; most recent eligible unmatched death, then nearest distance and stable event id; each event used once in either role"
+  },
+  "coverage": {
+    "sourceKillEvents": 92,
+    "assignedKillEvents": 92,
+    "unassignedKillEvents": 0,
+    "excludedEnvironmentalEvents": 0,
+    "unknownTradeTeamEvents": 0,
+    "tradeReason": null,
+    "knownTradeTeamEvents": 92,
+    "unknownAssistanceEvents": 26,
+    "unknownSourceEvents": 0,
+    "terminalObserved": true,
+    "summaryReconciled": true,
+    "reason": null
+  },
+  "episodeCount": 62,
+  "quickTradeCount": 11,
+  "sensitivity": [
+    {
+      "thresholds": {
+        "profile": "tight",
+        "gapMs": 7500,
+        "maxSpanMs": 15000,
+        "diameterUnits": 1250,
+        "tradeMs": 5000,
+        "tradeDistanceUnits": 1250,
+        "maxSnapshotAgeMs": 60000
+      },
+      "observedEpisodeCount": 74,
+      "observedQuickTradeCount": 8,
+      "multiKillEpisodes": 13,
+      "largestEpisodeKillCount": 4,
+      "coClusterPairChangesFromDefault": 28,
+      "quickTradePairChangesFromDefault": 3,
+      "reason": null,
+      "tradeReason": null
+    },
+    {
+      "thresholds": {
+        "profile": "default",
+        "gapMs": 15000,
+        "maxSpanMs": 30000,
+        "diameterUnits": 2000,
+        "tradeMs": 10000,
+        "tradeDistanceUnits": 2000,
+        "maxSnapshotAgeMs": 60000
+      },
+      "observedEpisodeCount": 62,
+      "observedQuickTradeCount": 11,
+      "multiKillEpisodes": 17,
+      "largestEpisodeKillCount": 5,
+      "coClusterPairChangesFromDefault": 0,
+      "quickTradePairChangesFromDefault": 0,
+      "reason": null,
+      "tradeReason": null
+    },
+    {
+      "thresholds": {
+        "profile": "loose",
+        "gapMs": 22500,
+        "maxSpanMs": 45000,
+        "diameterUnits": 3000,
+        "tradeMs": 15000,
+        "tradeDistanceUnits": 3000,
+        "maxSnapshotAgeMs": 60000
+      },
+      "observedEpisodeCount": 53,
+      "observedQuickTradeCount": 16,
+      "multiKillEpisodes": 20,
+      "largestEpisodeKillCount": 5,
+      "coClusterPairChangesFromDefault": 21,
+      "quickTradePairChangesFromDefault": 5,
+      "reason": null,
+      "tradeReason": null
+    }
+  ],
+  "exampleEpisode": {
+    "episodeId": "kill-episode:v1:default:BR1_3200579475:5:6",
+    "startMs": 244358,
+    "endMs": 247029,
+    "durationMs": 2671,
+    "eventIds": [
+      "BR1_3200579475:5:6",
+      "BR1_3200579475:5:9"
+    ],
+    "events": [
+      {
+        "eventId": "BR1_3200579475:5:6",
+        "timestampMs": 244358,
+        "frameIndex": 5,
+        "eventIndex": 6,
+        "x": 9273,
+        "y": 2082,
+        "actorPuuid": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA",
+        "victimPuuid": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg",
+        "actorTeamId": 100,
+        "victimTeamId": 200,
+        "assistingPuuids": [
+          "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+          "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+        ]
+      },
+      {
+        "eventId": "BR1_3200579475:5:9",
+        "timestampMs": 247029,
+        "frameIndex": 5,
+        "eventIndex": 9,
+        "x": 9336,
+        "y": 2133,
+        "actorPuuid": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw",
+        "victimPuuid": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+        "actorTeamId": 200,
+        "victimTeamId": 100,
+        "assistingPuuids": [
+          "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA",
+          "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w",
+          "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg"
+        ]
+      }
+    ],
+    "participantPuuids": [
+      "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA",
+      "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+      "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w",
+      "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+      "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA",
+      "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg",
+      "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw"
+    ],
+    "unknownAssistanceEventIds": [],
+    "killEvents": {
+      "metricId": "C11",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "match",
+        "id": "BR1_3200579475"
+      },
+      "unit": "count",
+      "window": {
+        "startMs": 244358,
+        "endMs": 247029,
+        "bounds": "[]"
+      },
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchEventProjection",
+          "field": "CHAMPION_KILL",
+          "value": "BR1_3200579475:5:6",
+          "eventId": "BR1_3200579475:5:6",
+          "frameIndex": 5,
+          "timestampMs": 244358
+        },
+        {
+          "source": "MatchEventProjection",
+          "field": "CHAMPION_KILL",
+          "value": "BR1_3200579475:5:9",
+          "eventId": "BR1_3200579475:5:9",
+          "frameIndex": 5,
+          "timestampMs": 247029
+        }
+      ],
+      "quality": {
+        "validSamples": 92,
+        "totalSamples": 92,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 2,
+      "origin": "estimated",
+      "reason": null,
+      "method": "count of observed kill events assigned once by the versioned time/diameter/max-span algorithm"
+    },
+    "teamBalance": [
+      {
+        "teamId": 100,
+        "killsRegistered": 1,
+        "deathsRegistered": 1,
+        "attributionComplete": true,
+        "net": {
+          "metricId": "C11",
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "team",
+            "id": "100"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 244358,
+            "endMs": 247029,
+            "bounds": "[]"
+          },
+          "denominator": null,
+          "evidence": [
+            {
+              "source": "MatchEventProjection",
+              "field": "CHAMPION_KILL",
+              "value": "BR1_3200579475:5:6",
+              "eventId": "BR1_3200579475:5:6",
+              "frameIndex": 5,
+              "timestampMs": 244358
+            },
+            {
+              "source": "MatchEventProjection",
+              "field": "CHAMPION_KILL",
+              "value": "BR1_3200579475:5:9",
+              "eventId": "BR1_3200579475:5:9",
+              "frameIndex": 5,
+              "timestampMs": 247029
+            }
+          ],
+          "quality": {
+            "validSamples": 4,
+            "totalSamples": 4,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "metricVersion": 1,
+          "value": 0,
+          "origin": "estimated",
+          "reason": null,
+          "method": "registered kills minus deaths inside a threshold-defined episode, not a fight outcome or causal advantage"
+        }
+      },
+      {
+        "teamId": 200,
+        "killsRegistered": 1,
+        "deathsRegistered": 1,
+        "attributionComplete": true,
+        "net": {
+          "metricId": "C11",
+          "processingVersion": 3,
+          "processedAt": "2026-09-23T00:00:00.000Z",
+          "matchId": "BR1_3200579475",
+          "subject": {
+            "kind": "team",
+            "id": "200"
+          },
+          "unit": "count",
+          "window": {
+            "startMs": 244358,
+            "endMs": 247029,
+            "bounds": "[]"
+          },
+          "denominator": null,
+          "evidence": [
+            {
+              "source": "MatchEventProjection",
+              "field": "CHAMPION_KILL",
+              "value": "BR1_3200579475:5:6",
+              "eventId": "BR1_3200579475:5:6",
+              "frameIndex": 5,
+              "timestampMs": 244358
+            },
+            {
+              "source": "MatchEventProjection",
+              "field": "CHAMPION_KILL",
+              "value": "BR1_3200579475:5:9",
+              "eventId": "BR1_3200579475:5:9",
+              "frameIndex": 5,
+              "timestampMs": 247029
+            }
+          ],
+          "quality": {
+            "validSamples": 4,
+            "totalSamples": 4,
+            "coverage": 1,
+            "unknownEvents": 0,
+            "reconciliationIssues": []
+          },
+          "metricVersion": 1,
+          "value": 0,
+          "origin": "estimated",
+          "reason": null,
+          "method": "registered kills minus deaths inside a threshold-defined episode, not a fight outcome or causal advantage"
+        }
+      }
+    ],
+    "resources": {
+      "episodeId": "kill-episode:v1:default:BR1_3200579475:5:6",
+      "selection": "latest timestamp strictly less than episode start; greatest frameIndex breaks equal timestamp ties",
+      "snapshotFrameIndex": 4,
+      "snapshotTimestampMs": 240049,
+      "ageMs": 4309,
+      "maxAgeMs": 60000,
+      "stale": false,
+      "reason": null,
+      "participants": [
+        {
+          "puuid": "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA",
+          "reason": null,
+          "currentGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA.currentGold",
+                "value": 1235,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1235,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal currentGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "totalGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA.totalGold",
+                "value": 1685,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1685,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal totalGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "unspentGoldProxy": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA.currentGold",
+                "value": 1235,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1235,
+            "origin": "estimated",
+            "reason": null,
+            "method": "last strictly previous currentGold used as an approximate pre-episode resource; age and staleness threshold are explicit"
+          },
+          "unspentShare": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA"
+            },
+            "unit": "percent",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": {
+              "value": 1685,
+              "unit": "gold",
+              "population": "this participant totalGold in the same strictly previous snapshot"
+            },
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA.currentGold",
+                "value": 1235,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              },
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.-EqIBAZmtO10wIZz0kGf2MGDjrLMQs_dKd2LRUPVo-xlVM9gjiWhM2OgAl4gxFuzjfH6dIXLitOHzA.totalGold",
+                "value": 1685,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 2,
+              "totalSamples": 2,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 73.29376854599407,
+            "origin": "derived",
+            "reason": null,
+            "method": "numerator / denominator * 100"
+          }
+        },
+        {
+          "puuid": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+          "reason": null,
+          "currentGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.currentGold",
+                "value": 233,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 233,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal currentGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "totalGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.totalGold",
+                "value": 1433,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1433,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal totalGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "unspentGoldProxy": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.currentGold",
+                "value": 233,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 233,
+            "origin": "estimated",
+            "reason": null,
+            "method": "last strictly previous currentGold used as an approximate pre-episode resource; age and staleness threshold are explicit"
+          },
+          "unspentShare": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ"
+            },
+            "unit": "percent",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": {
+              "value": 1433,
+              "unit": "gold",
+              "population": "this participant totalGold in the same strictly previous snapshot"
+            },
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.currentGold",
+                "value": 233,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              },
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ.totalGold",
+                "value": 1433,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 2,
+              "totalSamples": 2,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 16.259595254710398,
+            "origin": "derived",
+            "reason": null,
+            "method": "numerator / denominator * 100"
+          }
+        },
+        {
+          "puuid": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w",
+          "reason": null,
+          "currentGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w.currentGold",
+                "value": 447,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 447,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal currentGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "totalGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w.totalGold",
+                "value": 1347,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1347,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal totalGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "unspentGoldProxy": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w.currentGold",
+                "value": 447,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 447,
+            "origin": "estimated",
+            "reason": null,
+            "method": "last strictly previous currentGold used as an approximate pre-episode resource; age and staleness threshold are explicit"
+          },
+          "unspentShare": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w"
+            },
+            "unit": "percent",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": {
+              "value": 1347,
+              "unit": "gold",
+              "population": "this participant totalGold in the same strictly previous snapshot"
+            },
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w.currentGold",
+                "value": 447,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              },
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.H17lfbPORbwNP4c8Z81_6dhJQmyQhSMAg34onPa_aP1CrxKB633qt-AUMPELkIvJf8UDGI_-jlfh_w.totalGold",
+                "value": 1347,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 2,
+              "totalSamples": 2,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 33.18485523385301,
+            "origin": "derived",
+            "reason": null,
+            "method": "numerator / denominator * 100"
+          }
+        },
+        {
+          "puuid": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+          "reason": null,
+          "currentGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.currentGold",
+                "value": 700,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 700,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal currentGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "totalGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.totalGold",
+                "value": 1200,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1200,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal totalGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "unspentGoldProxy": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.currentGold",
+                "value": 700,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 700,
+            "origin": "estimated",
+            "reason": null,
+            "method": "last strictly previous currentGold used as an approximate pre-episode resource; age and staleness threshold are explicit"
+          },
+          "unspentShare": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA"
+            },
+            "unit": "percent",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": {
+              "value": 1200,
+              "unit": "gold",
+              "population": "this participant totalGold in the same strictly previous snapshot"
+            },
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.currentGold",
+                "value": 700,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              },
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA.totalGold",
+                "value": 1200,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 2,
+              "totalSamples": 2,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 58.333333333333336,
+            "origin": "derived",
+            "reason": null,
+            "method": "numerator / denominator * 100"
+          }
+        },
+        {
+          "puuid": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA",
+          "reason": null,
+          "currentGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.currentGold",
+                "value": 442,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 442,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal currentGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "totalGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.totalGold",
+                "value": 1742,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1742,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal totalGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "unspentGoldProxy": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.currentGold",
+                "value": 442,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 442,
+            "origin": "estimated",
+            "reason": null,
+            "method": "last strictly previous currentGold used as an approximate pre-episode resource; age and staleness threshold are explicit"
+          },
+          "unspentShare": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA"
+            },
+            "unit": "percent",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": {
+              "value": 1742,
+              "unit": "gold",
+              "population": "this participant totalGold in the same strictly previous snapshot"
+            },
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.currentGold",
+                "value": 442,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              },
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA.totalGold",
+                "value": 1742,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 2,
+              "totalSamples": 2,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 25.37313432835821,
+            "origin": "derived",
+            "reason": null,
+            "method": "numerator / denominator * 100"
+          }
+        },
+        {
+          "puuid": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg",
+          "reason": null,
+          "currentGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg.currentGold",
+                "value": 230,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 230,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal currentGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "totalGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg.totalGold",
+                "value": 1030,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1030,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal totalGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "unspentGoldProxy": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg.currentGold",
+                "value": 230,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 230,
+            "origin": "estimated",
+            "reason": null,
+            "method": "last strictly previous currentGold used as an approximate pre-episode resource; age and staleness threshold are explicit"
+          },
+          "unspentShare": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg"
+            },
+            "unit": "percent",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": {
+              "value": 1030,
+              "unit": "gold",
+              "population": "this participant totalGold in the same strictly previous snapshot"
+            },
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg.currentGold",
+                "value": 230,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              },
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.lDrRBy6e3b04BOj-yG1h5ylgfBrs-Ft4h8yJBwfykOnkZrQ0OoowxZT94SpG2pJA8ulFY2kL9vh8hg.totalGold",
+                "value": 1030,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 2,
+              "totalSamples": 2,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 22.330097087378643,
+            "origin": "derived",
+            "reason": null,
+            "method": "numerator / denominator * 100"
+          }
+        },
+        {
+          "puuid": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw",
+          "reason": null,
+          "currentGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw.currentGold",
+                "value": 387,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 387,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal currentGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "totalGold": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw.totalGold",
+                "value": 1937,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 1937,
+            "origin": "observed",
+            "reason": null,
+            "method": "literal totalGold at the explicitly dated previous frame, not an exact value at episode start"
+          },
+          "unspentGoldProxy": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw"
+            },
+            "unit": "gold",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": null,
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw.currentGold",
+                "value": 387,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 1,
+              "totalSamples": 1,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 387,
+            "origin": "estimated",
+            "reason": null,
+            "method": "last strictly previous currentGold used as an approximate pre-episode resource; age and staleness threshold are explicit"
+          },
+          "unspentShare": {
+            "metricId": "E06",
+            "processingVersion": 3,
+            "processedAt": "2026-09-23T00:00:00.000Z",
+            "matchId": "BR1_3200579475",
+            "subject": {
+              "kind": "participant",
+              "id": "z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw"
+            },
+            "unit": "percent",
+            "window": {
+              "startMs": 240049,
+              "endMs": 240049,
+              "bounds": "[]"
+            },
+            "denominator": {
+              "value": 1937,
+              "unit": "gold",
+              "population": "this participant totalGold in the same strictly previous snapshot"
+            },
+            "evidence": [
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw.currentGold",
+                "value": 387,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              },
+              {
+                "source": "MatchTimelineProjection.frames",
+                "field": "participantFrames.z0YxsAw3x6-UwD9ZETxHxoJR4p-rhN5byi3yd2II91E9aXd42rYTy5PC_zTt8WI1pGmv5z0FwIoKZw.totalGold",
+                "value": 1937,
+                "frameIndex": 4,
+                "timestampMs": 240049
+              }
+            ],
+            "quality": {
+              "validSamples": 2,
+              "totalSamples": 2,
+              "coverage": 1,
+              "unknownEvents": 0,
+              "reconciliationIssues": []
+            },
+            "metricVersion": 1,
+            "value": 19.97934950955085,
+            "origin": "derived",
+            "reason": null,
+            "method": "numerator / denominator * 100"
+          }
+        }
+      ]
+    }
+  },
+  "exampleTrade": {
+    "deathEventId": "BR1_3200579475:5:6",
+    "responseEventId": "BR1_3200579475:5:9",
+    "respondingTeamId": 200,
+    "latencyMs": 2671,
+    "distanceUnits": 81.05553651663779,
+    "killedOriginalAuthor": false,
+    "deathEpisodeId": "kill-episode:v1:default:BR1_3200579475:5:6",
+    "responseEpisodeId": "kill-episode:v1:default:BR1_3200579475:5:6",
+    "evidence": [
+      {
+        "source": "MatchEventProjection",
+        "field": "CHAMPION_KILL",
+        "value": "BR1_3200579475:5:6",
+        "eventId": "BR1_3200579475:5:6",
+        "frameIndex": 5,
+        "timestampMs": 244358
+      },
+      {
+        "source": "MatchEventProjection",
+        "field": "CHAMPION_KILL",
+        "value": "BR1_3200579475:5:9",
+        "eventId": "BR1_3200579475:5:9",
+        "frameIndex": 5,
+        "timestampMs": 247029
+      }
+    ]
+  },
+  "checks": {
+    "uniqueAssignedKills": 92,
+    "participantSnapshotsChecked": 239,
+    "futureResourceReads": 0,
+    "reusedTradeEvents": 0
+  }
+}

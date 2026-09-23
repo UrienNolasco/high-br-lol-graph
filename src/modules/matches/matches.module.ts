@@ -1,3 +1,6 @@
+import { MatchKillEpisodesController } from './match-kill-episodes.controller';
+import { MatchKillEpisodesService } from './services/match-kill-episodes.service';
+import { KillEpisodesRepository } from './repositories/kill-episodes.repository';
 import { MatchObjectivesController } from './match-objectives.controller';
 import { MatchObjectivesService } from './services/match-objectives.service';
 import { MatchVisionController } from './match-vision.controller';
@@ -22,6 +25,7 @@ import { MatchEconomyService } from './services/match-economy.service';
 @Module({
   imports: [PrismaModule, DataDragonModule],
   controllers: [
+    MatchKillEpisodesController,
     MatchesController,
     MatchVisionController,
     MatchCombatController,
@@ -29,6 +33,8 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchObjectivesController,
   ],
   providers: [
+    KillEpisodesRepository,
+    MatchKillEpisodesService,
     MatchVisionService,
     MatchObjectivesService,
     MatchRepository,
@@ -42,6 +48,10 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchContributionService,
     MatchEconomyService,
   ],
-  exports: [MatchContributionService, MatchObjectivesService],
+  exports: [
+    MatchKillEpisodesService,
+    MatchContributionService,
+    MatchObjectivesService,
+  ],
 })
 export class MatchesModule {}

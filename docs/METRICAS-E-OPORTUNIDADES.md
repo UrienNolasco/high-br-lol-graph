@@ -493,6 +493,8 @@ MET-23 corrige H07 por partidas elegíveis distintas e explicita ausência, cobe
 MET-10 entrega contribuições em quatro dimensões, com fórmulas e evidências em [CONTRIBUICAO-INDIVIDUAL.md](CONTRIBUICAO-INDIVIDUAL.md).
 MET-14 expõe cronologia, placas e contribuição em estruturas; fórmulas, cobertura e reconciliação em [OBJETIVOS-E-ESTRUTURAS.md](OBJETIVOS-E-ESTRUTURAS.md).
 
+MET-24 explora episódios de abates, respostas rápidas e recursos anteriores com limiares versionados; contrato e sensibilidade em [EPISODIOS-DE-ABATES.md](EPISODIOS-DE-ABATES.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 MET-12 publica checkpoints e curvas temporais com denominadores reais e ausência explícita; contrato e exemplos em [ECONOMIA-E-PROGRESSAO.md](ECONOMIA-E-PROGRESSAO.md).
