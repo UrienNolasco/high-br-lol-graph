@@ -1,0 +1,119 @@
+{
+  "task": "MET-09",
+  "processingVersion": 2,
+  "scope": "isolated local PostgreSQL; one real fixture plus renamed synthetic copies; no production changes",
+  "fixture": "BR1_3200579475",
+  "migration": {
+    "migrationMs": 101.00924200000009,
+    "migrations": [
+      "20260923020000_met04_normalized_events",
+      "20260923030000_met05",
+      "20260923040000_met06_final_inventory",
+      "20260923120000_met03_timeline_snapshots"
+    ],
+    "legacyHashes": {
+      "matches": {
+        "rows": 1,
+        "before": "fc25311f38a98449e8bc69248f7e8bf1ddd4d7322dd3edaa0b9c1895099cee06",
+        "after": "fc25311f38a98449e8bc69248f7e8bf1ddd4d7322dd3edaa0b9c1895099cee06"
+      },
+      "match_participants": {
+        "rows": 10,
+        "before": "805c780f71c1d4faa0fd2a9b732649e0bb5098d8cab0a6ee6c90a738627bde61",
+        "after": "805c780f71c1d4faa0fd2a9b732649e0bb5098d8cab0a6ee6c90a738627bde61"
+      },
+      "match_teams": {
+        "rows": 2,
+        "before": "61ab31061d39079bf1cc6cc691a8b2e2c93ad78df6381068f17f9ae84a5f49d1",
+        "after": "61ab31061d39079bf1cc6cc691a8b2e2c93ad78df6381068f17f9ae84a5f49d1"
+      },
+      "match_raw": {
+        "rows": 1,
+        "before": "ce9447bac88dc1f5aed32c99fe9d6e5ffe0522e31c796d1955f1ecc3674b17e5",
+        "after": "ce9447bac88dc1f5aed32c99fe9d6e5ffe0522e31c796d1955f1ecc3674b17e5"
+      },
+      "player_stats": {
+        "rows": 20,
+        "before": "d7fab0836a410542abe6f8c6e61d2a9e976b42a4d6636023062dd7ccdbd5446b",
+        "after": "d7fab0836a410542abe6f8c6e61d2a9e976b42a4d6636023062dd7ccdbd5446b"
+      },
+      "player_champion_stats": {
+        "rows": 20,
+        "before": "51f63f803c092efaeabf39bf21d1b8056d3b1e783a3644b92d6191ac6b609a28",
+        "after": "51f63f803c092efaeabf39bf21d1b8056d3b1e783a3644b92d6191ac6b609a28"
+      },
+      "champion_stats": {
+        "rows": 10,
+        "before": "5d64aa8480b41133be19e33df2c1aefba458d236ae5f4878fccf724ce175c32c",
+        "after": "5d64aa8480b41133be19e33df2c1aefba458d236ae5f4878fccf724ce175c32c"
+      }
+    },
+    "absentProjectionsBeforeRebuild": {
+      "participants": 10,
+      "matches": 1,
+      "teams": 2,
+      "events": 0,
+      "snapshots": 0
+    }
+  },
+  "rebuild": {
+    "syntheticMatchCopies": 2,
+    "sourceFramesPerMatch": 41,
+    "sourceSnapshotsPerMatch": 410,
+    "sourceEventsPerMatch": 1966,
+    "redeliveryIdentical": true,
+    "interruptedResumeMs": 10016.218094,
+    "fullRebuildMs": 9854.055879000007,
+    "beforeHash": "bdb59cb6eedb99b8932af58445760616fd65d6f34576a2864f83b42dddef1e63",
+    "afterHash": "bdb59cb6eedb99b8932af58445760616fd65d6f34576a2864f83b42dddef1e63",
+    "rawBefore": "3e7d4cfb4e7912ab437fba1b0e98d0dc403cffb75507980e82a329fceec624df",
+    "rawAfter": "3e7d4cfb4e7912ab437fba1b0e98d0dc403cffb75507980e82a329fceec624df",
+    "committedMatchRetained": true,
+    "storage": {
+      "matches": {
+        "rows": 2,
+        "rowBytes": 1096
+      },
+      "match_participants": {
+        "rows": 20,
+        "rowBytes": 152044
+      },
+      "match_teams": {
+        "rows": 4,
+        "rowBytes": 7232
+      },
+      "match_timeline_projections": {
+        "rows": 2,
+        "rowBytes": 219228
+      },
+      "match_event_projections": {
+        "rows": 3932,
+        "rowBytes": 2062000
+      },
+      "player_stats": {
+        "rows": 20,
+        "rowBytes": 4320
+      },
+      "player_champion_stats": {
+        "rows": 20,
+        "rowBytes": 5104
+      },
+      "champion_stats": {
+        "rows": 10,
+        "rowBytes": 1360
+      },
+      "match_raw": {
+        "rows": 2,
+        "rowBytes": 199392
+      }
+    },
+    "storageMethod": "sum(pg_column_size(row)); row payload only, excludes indexes and relation free space"
+  },
+  "rollback": {
+    "failureAfterAggregateWrite": true,
+    "allProjectionAndAggregateTablesUnchanged": true,
+    "rawRetained": true,
+    "recoveryComplete": true,
+    "recoveryRedeliveryIdentical": true
+  }
+}

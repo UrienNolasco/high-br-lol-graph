@@ -547,3 +547,6 @@ Verificação em 22/09/2026: **34 tasks, 79 dependências nativas, 60 oportunida
 Primeiro cartão acionável: **#4 — MET-01, contratos de métricas, elegibilidade e versionamento**. As prioridades estão no título porque o MCP do kanban-tui não oferece campo nativo de prioridade. Nenhuma data limite foi inventada.
 
 Implementação B01/MET-06: [inventário final e catálogo](INVENTARIO-FINAL.md), slots observados separados das transações.
+
+
+Ensaio conjunto MET-09 da geração2 (migrations aditivas, rollback, retomada e rebuild idempotente): [RECONSTRUCAO-PROJECOES.md](RECONSTRUCAO-PROJECOES.md).

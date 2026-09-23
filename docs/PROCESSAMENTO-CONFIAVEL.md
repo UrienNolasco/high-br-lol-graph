@@ -106,3 +106,6 @@ Validação local em 22/09/2026: 253 testes unitários, 48 testes HTTP e 22 test
 A migration `20260923010000_discovery_lineage` adiciona observações de collector/search/sync e suas relações com partidas. Aplicar antes de iniciar os novos produtores. Não altera os agregados nem PROCESSING_VERSION; histórico sem observações mantém origem unknown. Rebuild preserva as observações e não tenta inferi-las dos payloads.
 
 `npm run processing -- coverage` e `npm run processing -- lineage BR1_3200579475` produzem relatórios JSON somente leitura; equivalentes compilados: `node dist/processing-cli.js coverage` e `node dist/processing-cli.js lineage BR1_3200579475`. Definições, denominadores, população, limites e exemplos: [ORIGEM-E-COBERTURA.md](ORIGEM-E-COBERTURA.md). Rank registrado é o da conta consultada no instante da descoberta, jamais rank histórico de todos os participantes.
+
+
+Ensaio conjunto MET-09 da geração2 (migrations aditivas, rollback, retomada e rebuild idempotente): [RECONSTRUCAO-PROJECOES.md](RECONSTRUCAO-PROJECOES.md).
