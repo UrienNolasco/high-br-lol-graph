@@ -1,3 +1,5 @@
+import { MatchSequencesController } from './match-sequences.controller';
+import { MatchSequencesService } from './services/match-sequences.service';
 import { MatchKillEpisodesController } from './match-kill-episodes.controller';
 import { MatchKillEpisodesService } from './services/match-kill-episodes.service';
 import { KillEpisodesRepository } from './repositories/kill-episodes.repository';
@@ -26,6 +28,7 @@ import { MatchEconomyService } from './services/match-economy.service';
   imports: [PrismaModule, DataDragonModule],
   controllers: [
     MatchKillEpisodesController,
+    MatchSequencesController,
     MatchesController,
     MatchVisionController,
     MatchCombatController,
@@ -33,6 +36,7 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchObjectivesController,
   ],
   providers: [
+    MatchSequencesService,
     KillEpisodesRepository,
     MatchKillEpisodesService,
     MatchVisionService,
@@ -49,6 +53,7 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchEconomyService,
   ],
   exports: [
+    MatchSequencesService,
     MatchKillEpisodesService,
     MatchContributionService,
     MatchObjectivesService,

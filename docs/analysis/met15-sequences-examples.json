@@ -1,0 +1,460 @@
+{
+  "source": "exemplo_partida_BR1_3200579475.json + exemplo_partida_timeline_BR1_3200579475.json",
+  "processingMetadata": "Synthetic offline metadata; API reads committed MatchProcessing.",
+  "matchId": "BR1_3200579475",
+  "metricVersion": 1,
+  "processingVersion": 3,
+  "processedAt": "2026-09-23T00:00:00.000Z",
+  "parameters": {
+    "version": 1,
+    "deathWindowMs": 60000,
+    "killWindowsMs": [
+      60000,
+      90000
+    ],
+    "goldAfterMs": 180000,
+    "frameToleranceMs": 60000,
+    "tradeWindowMs": 90000,
+    "eventBounds": "(]",
+    "checkpointMode": "pastOnly",
+    "objectiveTypes": [
+      "ELITE_MONSTER_KILL",
+      "BUILDING_KILL"
+    ]
+  },
+  "coverage": {
+    "observedEndMs": 2368922,
+    "uniqueEvents": 120,
+    "identicalDuplicatesRemoved": 0,
+    "invalidTimestampEvents": 0,
+    "unknownObjectiveTeams": 0,
+    "unknownKillTeamsOrVictims": 0,
+    "rateUnavailableReason": null
+  },
+  "firstBaron": {
+    "objective": {
+      "eventId": "BR1_3200579475:21:41",
+      "frameIndex": 21,
+      "eventIndex": 41,
+      "timestampMs": 1244550,
+      "type": "ELITE_MONSTER_KILL",
+      "objective": "BARON_NASHOR",
+      "teamId": 200,
+      "lane": null
+    },
+    "before": {
+      "frameIndex": 20,
+      "timestampMs": 1200462,
+      "targetMs": 1244550,
+      "offsetMs": -44088,
+      "blueGold": 39936,
+      "redGold": 41680,
+      "difference": -1744
+    },
+    "after": {
+      "frameIndex": 23,
+      "timestampMs": 1380506,
+      "targetMs": 1424550,
+      "offsetMs": -44044,
+      "blueGold": 45172,
+      "redGold": 49522,
+      "difference": -4350
+    },
+    "delta": {
+      "metricId": "O06",
+      "subject": {
+        "kind": "team",
+        "id": "200"
+      },
+      "unit": "gold",
+      "denominator": null,
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "window": {
+        "startMs": 1244550,
+        "endMs": 1424550,
+        "bounds": "[]"
+      },
+      "quality": {
+        "validSamples": 2,
+        "totalSamples": 2,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEvent",
+          "field": "objective",
+          "value": "ELITE_MONSTER_KILL",
+          "eventId": "BR1_3200579475:21:41",
+          "frameIndex": 21,
+          "timestampMs": 1244550
+        },
+        {
+          "source": "Match.timelineProjection",
+          "field": "team_gold_difference_blue_minus_red",
+          "value": -1744,
+          "frameIndex": 20,
+          "timestampMs": 1200462
+        },
+        {
+          "source": "Match.timelineProjection",
+          "field": "team_gold_difference_blue_minus_red",
+          "value": -4350,
+          "frameIndex": 23,
+          "timestampMs": 1380506
+        }
+      ],
+      "value": 2606,
+      "origin": "derived",
+      "reason": null,
+      "method": "beneficiary team gold advantage at past-only objective+180s minus past-only objective; whole-map observed change, no causal attribution"
+    }
+  },
+  "precedingRedKills": [
+    {
+      "eventId": "BR1_3200579475:20:46",
+      "frameIndex": 20,
+      "eventIndex": 46,
+      "timestampMs": 1198068,
+      "type": "CHAMPION_KILL",
+      "objective": null,
+      "teamId": 200,
+      "lane": null
+    },
+    {
+      "eventId": "BR1_3200579475:20:48",
+      "frameIndex": 20,
+      "eventIndex": 48,
+      "timestampMs": 1198869,
+      "type": "CHAMPION_KILL",
+      "objective": null,
+      "teamId": 200,
+      "lane": null
+    },
+    {
+      "eventId": "BR1_3200579475:20:49",
+      "frameIndex": 20,
+      "eventIndex": 49,
+      "timestampMs": 1199103,
+      "type": "CHAMPION_KILL",
+      "objective": null,
+      "teamId": 200,
+      "lane": null
+    },
+    {
+      "eventId": "BR1_3200579475:21:6",
+      "frameIndex": 21,
+      "eventIndex": 6,
+      "timestampMs": 1205645,
+      "type": "CHAMPION_KILL",
+      "objective": null,
+      "teamId": 200,
+      "lane": null
+    },
+    {
+      "eventId": "BR1_3200579475:21:27",
+      "frameIndex": 21,
+      "eventIndex": 27,
+      "timestampMs": 1236997,
+      "type": "CHAMPION_KILL",
+      "objective": null,
+      "teamId": 200,
+      "lane": null
+    }
+  ],
+  "comeback": {
+    "winnerTeamId": 100,
+    "largestObservedDeficit": {
+      "metricId": "O08",
+      "subject": {
+        "kind": "team",
+        "id": "100"
+      },
+      "unit": "gold",
+      "denominator": null,
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "quality": {
+        "validSamples": 41,
+        "totalSamples": 41,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "Match.timelineProjection",
+          "field": "winner_gold_difference",
+          "value": -4750,
+          "frameIndex": 22,
+          "timestampMs": 1320496
+        }
+      ],
+      "value": 4750,
+      "origin": "derived",
+      "reason": null,
+      "method": "negative minimum observed gold difference of the actual Match-V5 winner, floored at zero"
+    },
+    "firstPersistentLead": {
+      "frameIndex": 28,
+      "timestampMs": 1680598,
+      "winnerGoldAdvantage": 455,
+      "subsequentSamples": 13
+    },
+    "persistenceReason": null,
+    "signChanges": [
+      {
+        "before": {
+          "frameIndex": 0,
+          "timestampMs": 0,
+          "targetMs": 0,
+          "offsetMs": 0,
+          "blueGold": 2500,
+          "redGold": 2500,
+          "difference": 0
+        },
+        "after": {
+          "frameIndex": 1,
+          "timestampMs": 60020,
+          "targetMs": 60020,
+          "offsetMs": 0,
+          "blueGold": 2512,
+          "redGold": 3040,
+          "difference": -528
+        }
+      },
+      {
+        "before": {
+          "frameIndex": 2,
+          "timestampMs": 120020,
+          "targetMs": 120020,
+          "offsetMs": 0,
+          "blueGold": 4081,
+          "redGold": 4302,
+          "difference": -221
+        },
+        "after": {
+          "frameIndex": 3,
+          "timestampMs": 180041,
+          "targetMs": 180041,
+          "offsetMs": 0,
+          "blueGold": 5939,
+          "redGold": 5933,
+          "difference": 6
+        }
+      },
+      {
+        "before": {
+          "frameIndex": 8,
+          "timestampMs": 480226,
+          "targetMs": 480226,
+          "offsetMs": 0,
+          "blueGold": 14262,
+          "redGold": 14122,
+          "difference": 140
+        },
+        "after": {
+          "frameIndex": 9,
+          "timestampMs": 540234,
+          "targetMs": 540234,
+          "offsetMs": 0,
+          "blueGold": 16286,
+          "redGold": 16935,
+          "difference": -649
+        }
+      },
+      {
+        "before": {
+          "frameIndex": 12,
+          "timestampMs": 720309,
+          "targetMs": 720309,
+          "offsetMs": 0,
+          "blueGold": 23348,
+          "redGold": 23637,
+          "difference": -289
+        },
+        "after": {
+          "frameIndex": 13,
+          "timestampMs": 780326,
+          "targetMs": 780326,
+          "offsetMs": 0,
+          "blueGold": 25564,
+          "redGold": 25552,
+          "difference": 12
+        }
+      },
+      {
+        "before": {
+          "frameIndex": 18,
+          "timestampMs": 1080427,
+          "targetMs": 1080427,
+          "offsetMs": 0,
+          "blueGold": 36472,
+          "redGold": 35039,
+          "difference": 1433
+        },
+        "after": {
+          "frameIndex": 19,
+          "timestampMs": 1140438,
+          "targetMs": 1140438,
+          "offsetMs": 0,
+          "blueGold": 38072,
+          "redGold": 38892,
+          "difference": -820
+        }
+      },
+      {
+        "before": {
+          "frameIndex": 27,
+          "timestampMs": 1620577,
+          "targetMs": 1620577,
+          "offsetMs": 0,
+          "blueGold": 54640,
+          "redGold": 56212,
+          "difference": -1572
+        },
+        "after": {
+          "frameIndex": 28,
+          "timestampMs": 1680598,
+          "targetMs": 1680598,
+          "offsetMs": 0,
+          "blueGold": 58200,
+          "redGold": 57745,
+          "difference": 455
+        }
+      }
+    ],
+    "finalSampleMs": 2368922
+  },
+  "deathRateExample": {
+    "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+    "windowMs": 60000,
+    "eligibleEvents": 5,
+    "censoredEvents": 0,
+    "associatedEvents": 2,
+    "rate": {
+      "metricId": "C07",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "percent",
+      "denominator": {
+        "value": 5,
+        "unit": "count",
+        "population": "recorded participant deaths with complete 60000ms follow-up"
+      },
+      "metricVersion": 1,
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "window": {
+        "startMs": 0,
+        "endMs": 2368922,
+        "bounds": "[]"
+      },
+      "quality": {
+        "validSamples": 5,
+        "totalSamples": 5,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "evidence": [
+        {
+          "source": "MatchEvent",
+          "field": "GAME_END",
+          "value": 2368922,
+          "eventId": "BR1_3200579475:40:16",
+          "frameIndex": 40,
+          "timestampMs": 2368922
+        },
+        {
+          "source": "MatchEvent",
+          "field": "eligible_trigger",
+          "value": 0,
+          "eventId": "BR1_3200579475:8:4",
+          "frameIndex": 8,
+          "timestampMs": 428857
+        },
+        {
+          "source": "MatchEvent",
+          "field": "eligible_trigger",
+          "value": 2,
+          "eventId": "BR1_3200579475:9:32",
+          "frameIndex": 9,
+          "timestampMs": 506225
+        },
+        {
+          "source": "MatchEvent",
+          "field": "eligible_trigger",
+          "value": 2,
+          "eventId": "BR1_3200579475:20:46",
+          "frameIndex": 20,
+          "timestampMs": 1198068
+        },
+        {
+          "source": "MatchEvent",
+          "field": "eligible_trigger",
+          "value": 0,
+          "eventId": "BR1_3200579475:30:41",
+          "frameIndex": 30,
+          "timestampMs": 1792692
+        },
+        {
+          "source": "MatchEvent",
+          "field": "eligible_trigger",
+          "value": 0,
+          "eventId": "BR1_3200579475:37:31",
+          "frameIndex": 37,
+          "timestampMs": 2211956
+        }
+      ],
+      "value": 40,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 100"
+    }
+  },
+  "censoredEpisodeExample": {
+    "event": {
+      "eventId": "BR1_3200579475:39:45",
+      "frameIndex": 39,
+      "eventIndex": 45,
+      "timestampMs": 2335491,
+      "type": "CHAMPION_KILL",
+      "objective": null,
+      "teamId": 100,
+      "lane": null
+    },
+    "subjectId": "100",
+    "windowMs": 60000,
+    "windowEndMs": 2395491,
+    "observedUntilMs": 2368922,
+    "eligible": false,
+    "reason": "short_match",
+    "objectives": [
+      {
+        "eventId": "BR1_3200579475:40:14",
+        "frameIndex": 40,
+        "eventIndex": 14,
+        "timestampMs": 2361241,
+        "type": "BUILDING_KILL",
+        "objective": "INHIBITOR_BUILDING",
+        "teamId": 100,
+        "lane": "MID_LANE"
+      }
+    ]
+  }
+}
