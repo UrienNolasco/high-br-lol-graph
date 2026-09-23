@@ -1,0 +1,369 @@
+{
+  "source": "exemplo_partida_BR1_3200579475.json + exemplo_partida_timeline_BR1_3200579475.json",
+  "processingMetadata": "Synthetic offline metadata; API reads actual MatchProcessing metadata.",
+  "matchId": "BR1_3200579475",
+  "gameVersion": "16.2.741.3171",
+  "metricVersion": 1,
+  "processingVersion": 3,
+  "processedAt": "2026-09-23T00:00:00.000Z",
+  "coverage": {
+    "completeTimeline": true,
+    "endMs": 2368922,
+    "validTimestampEvents": 102,
+    "totalEvents": 102,
+    "unknownObjectiveEvents": 0,
+    "unknownActorEvents": 30,
+    "unknownBeneficiaryEvents": 1,
+    "reason": null
+  },
+  "reconciliation": [
+    {
+      "teamId": 100,
+      "objective": "baron",
+      "final": 0,
+      "timeline": 0,
+      "matches": true
+    },
+    {
+      "teamId": 100,
+      "objective": "dragon",
+      "final": 3,
+      "timeline": 3,
+      "matches": true
+    },
+    {
+      "teamId": 100,
+      "objective": "horde",
+      "final": 0,
+      "timeline": 0,
+      "matches": true
+    },
+    {
+      "teamId": 100,
+      "objective": "riftHerald",
+      "final": 0,
+      "timeline": 0,
+      "matches": true
+    },
+    {
+      "teamId": 100,
+      "objective": "tower",
+      "final": 7,
+      "timeline": 7,
+      "matches": true
+    },
+    {
+      "teamId": 100,
+      "objective": "inhibitor",
+      "final": 1,
+      "timeline": 1,
+      "matches": true
+    },
+    {
+      "teamId": 200,
+      "objective": "baron",
+      "final": 2,
+      "timeline": 2,
+      "matches": true
+    },
+    {
+      "teamId": 200,
+      "objective": "dragon",
+      "final": 3,
+      "timeline": 3,
+      "matches": true
+    },
+    {
+      "teamId": 200,
+      "objective": "horde",
+      "final": 3,
+      "timeline": 3,
+      "matches": true
+    },
+    {
+      "teamId": 200,
+      "objective": "riftHerald",
+      "final": 1,
+      "timeline": 1,
+      "matches": true
+    },
+    {
+      "teamId": 200,
+      "objective": "tower",
+      "final": 6,
+      "timeline": 6,
+      "matches": true
+    },
+    {
+      "teamId": 200,
+      "objective": "inhibitor",
+      "final": 1,
+      "timeline": 1,
+      "matches": true
+    }
+  ],
+  "structures": {
+    "towers": 13,
+    "inhibitors": 2
+  },
+  "plates": {
+    "total": 74,
+    "killerIdZero": 28,
+    "atOrAfter14Minutes": 60
+  },
+  "soul": {
+    "eventId": "BR1_3200579475:13:37",
+    "metricId": "O01",
+    "metricVersion": 1,
+    "processingVersion": 3,
+    "processedAt": "2026-09-23T00:00:00.000Z",
+    "frameIndex": 13,
+    "eventIndex": 37,
+    "timestampMs": 755595,
+    "type": "DRAGON_SOUL_GIVEN",
+    "objective": "soul",
+    "rawObjectiveType": "Infernal",
+    "subtype": null,
+    "phase": "early",
+    "actorParticipantId": null,
+    "actorPuuid": null,
+    "actorReason": "missing_field",
+    "assistingParticipantIds": null,
+    "assistingPuuids": null,
+    "assistsReason": "missing_field",
+    "sourceTeamId": null,
+    "ownerTeamId": null,
+    "beneficiaryTeamId": null,
+    "beneficiaryReason": "missing_field",
+    "lane": null,
+    "tier": null,
+    "position": null,
+    "sourceKillerId": null,
+    "quality": {
+      "unknownType": false,
+      "missingFields": [],
+      "invalidFields": [],
+      "sentinelFields": [
+        "teamId"
+      ],
+      "unresolvedParticipantIds": [],
+      "conflicts": []
+    },
+    "evidence": [
+      {
+        "source": "MatchEventProjection",
+        "field": "DRAGON_SOUL_GIVEN",
+        "value": "soul",
+        "eventId": "BR1_3200579475:13:37",
+        "frameIndex": 13,
+        "timestampMs": 755595
+      }
+    ]
+  },
+  "firstTower": {
+    "eventId": "BR1_3200579475:13:12",
+    "metricId": "O01",
+    "metricVersion": 1,
+    "processingVersion": 3,
+    "processedAt": "2026-09-23T00:00:00.000Z",
+    "frameIndex": 13,
+    "eventIndex": 12,
+    "timestampMs": 729836,
+    "type": "BUILDING_KILL",
+    "objective": "tower",
+    "rawObjectiveType": "TOWER_BUILDING",
+    "subtype": null,
+    "phase": "early",
+    "actorParticipantId": 1,
+    "actorPuuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+    "actorReason": null,
+    "assistingParticipantIds": null,
+    "assistingPuuids": null,
+    "assistsReason": "missing_field",
+    "sourceTeamId": 100,
+    "ownerTeamId": 200,
+    "beneficiaryTeamId": 100,
+    "beneficiaryReason": null,
+    "lane": "TOP_LANE",
+    "tier": "OUTER_TURRET",
+    "position": {
+      "x": 4318,
+      "y": 13875
+    },
+    "sourceKillerId": 1,
+    "quality": {
+      "unknownType": false,
+      "missingFields": [
+        "assistingParticipantIds"
+      ],
+      "invalidFields": [],
+      "sentinelFields": [],
+      "unresolvedParticipantIds": [],
+      "conflicts": []
+    },
+    "evidence": [
+      {
+        "source": "MatchEventProjection",
+        "field": "BUILDING_KILL",
+        "value": "tower",
+        "eventId": "BR1_3200579475:13:12",
+        "frameIndex": 13,
+        "timestampMs": 729836
+      }
+    ]
+  },
+  "fiora": {
+    "turretDamage": {
+      "metricId": "O03",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "damage",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats:tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+          "field": "values.damageDealtToTurrets",
+          "value": 28592
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 28592,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal damageDealtToTurrets; not interchangeable with event last hits or participation"
+    },
+    "turretDamageShare": {
+      "metricId": "O03",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "percent",
+      "window": null,
+      "denominator": {
+        "value": 36129,
+        "unit": "damage",
+        "population": "five distinct participants of team 100"
+      },
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats:tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+          "field": "values.damageDealtToTurrets",
+          "value": 28592
+        },
+        {
+          "source": "MatchParticipant.finalStats:3b87KlJzA-sN1F8PhsRxN1UYh2dIxxQj3HmRe0YlLD1GNrREPiT22LLM2PDRY1iNryhQivOeOsa0AQ",
+          "field": "values.damageDealtToTurrets",
+          "value": 951
+        },
+        {
+          "source": "MatchParticipant.finalStats:BhWbKKCS_4M0FuPaKrl30EOgMKFQ1MdCAbsj4WUgSabdjxz1JpNTKR4juZlSfKCa8XG8K5ja1ClECQ",
+          "field": "values.damageDealtToTurrets",
+          "value": 3235
+        },
+        {
+          "source": "MatchParticipant.finalStats:l0JgV7i9bFIr5QlXJkGKwCMDNjP441-QtWzXHKnUCzI4IZmgfweoo3ZBUrTfgV077hqFG2KVC-vOeA",
+          "field": "values.damageDealtToTurrets",
+          "value": 3351
+        },
+        {
+          "source": "MatchParticipant.finalStats:gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+          "field": "values.damageDealtToTurrets",
+          "value": 0
+        }
+      ],
+      "quality": {
+        "validSamples": 5,
+        "totalSamples": 5,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 79.1386420880733,
+      "origin": "derived",
+      "reason": null,
+      "method": "numerator / denominator * 100"
+    },
+    "turretKills": {
+      "metricId": "O03",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats:tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+          "field": "values.turretKills",
+          "value": 4
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 4,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal turretKills; not interchangeable with event last hits or participation"
+    },
+    "turretTakedowns": {
+      "metricId": "O03",
+      "processingVersion": 3,
+      "processedAt": "2026-09-23T00:00:00.000Z",
+      "matchId": "BR1_3200579475",
+      "subject": {
+        "kind": "participant",
+        "id": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ"
+      },
+      "unit": "count",
+      "window": null,
+      "denominator": null,
+      "evidence": [
+        {
+          "source": "MatchParticipant.finalStats:tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+          "field": "values.turretTakedowns",
+          "value": 4
+        }
+      ],
+      "quality": {
+        "validSamples": 1,
+        "totalSamples": 1,
+        "coverage": 1,
+        "unknownEvents": 0,
+        "reconciliationIssues": []
+      },
+      "metricVersion": 1,
+      "value": 4,
+      "origin": "observed",
+      "reason": null,
+      "method": "literal turretTakedowns; not interchangeable with event last hits or participation"
+    }
+  }
+}

@@ -491,6 +491,7 @@ MET-05 promove estatísticas finais e contexto com ausência explícita; catálo
 MET-23 corrige H07 por partidas elegíveis distintas e explicita ausência, cobertura e a heurística de tier; contrato, fórmulas, migração e exemplos estão em [POPULARIDADE-CAMPEOES.md](POPULARIDADE-CAMPEOES.md).
 
 MET-10 entrega contribuições em quatro dimensões, com fórmulas e evidências em [CONTRIBUICAO-INDIVIDUAL.md](CONTRIBUICAO-INDIVIDUAL.md).
+MET-14 expõe cronologia, placas e contribuição em estruturas; fórmulas, cobertura e reconciliação em [OBJETIVOS-E-ESTRUTURAS.md](OBJETIVOS-E-ESTRUTURAS.md).
 
 ### Critério comum de conclusão das futuras tasks
 

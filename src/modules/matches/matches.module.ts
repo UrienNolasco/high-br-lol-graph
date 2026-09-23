@@ -1,3 +1,5 @@
+import { MatchObjectivesController } from './match-objectives.controller';
+import { MatchObjectivesService } from './services/match-objectives.service';
 import { MatchVisionController } from './match-vision.controller';
 import { MatchVisionService } from './services/match-vision.service';
 import { MatchContributionService } from './services/match-contribution.service';
@@ -24,9 +26,11 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchVisionController,
     MatchCombatController,
     MatchEconomyController,
+    MatchObjectivesController,
   ],
   providers: [
     MatchVisionService,
+    MatchObjectivesService,
     MatchRepository,
     CombatRepository,
     MatchCombatService,
@@ -38,6 +42,6 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchContributionService,
     MatchEconomyService,
   ],
-  exports: [MatchContributionService],
+  exports: [MatchContributionService, MatchObjectivesService],
 })
 export class MatchesModule {}
