@@ -27,8 +27,19 @@ export class TeamGoldMissingReasonsDto {
 
 export class GoldDifferenceEntryDto {
   @ApiProperty({
+    example: 2368922,
+    description:
+      'Timestamp observado em milissegundos; dois frames podem compartilhar minuto.',
+  })
+  timestampMs: number;
+  @ApiProperty({
+    example: 40,
+    description: 'Índice original do frame; identidade preservada.',
+  })
+  frameIndex: number;
+  @ApiProperty({
     example: 5,
-    description: 'Índice de minuto legado; não é timestamp exato do frame.',
+    description: 'floor(timestampMs / 60000); pode se repetir entre frames.',
   })
   minute: number;
   @ApiProperty({
@@ -62,6 +73,8 @@ export class GoldDifferenceEntryDto {
 }
 
 export class MaxAdvantageDto {
+  @ApiProperty({ example: 2368922, required: false }) timestampMs?: number;
+  @ApiProperty({ example: 40, required: false }) frameIndex?: number;
   @ApiProperty({
     example: 15,
     description: 'Primeiro minuto válido com a maior magnitude observada.',
@@ -82,6 +95,9 @@ export class MaxAdvantageDto {
 }
 
 export class ObservedSwingDto {
+  @ApiProperty({ example: 1800640, required: false }) timestampMs?: number;
+  @ApiProperty({ example: 1740616, required: false })
+  beforeTimestampMs?: number;
   @ApiProperty({
     example: 18,
     description: 'Minuto posterior da primeira variação observada > 3000 ouro.',
@@ -109,11 +125,12 @@ export class GoldTeamEvidenceDto {
 export class GoldEvidenceDto {
   @ApiProperty({ example: 'MatchTeam.win' }) winnerSource: string;
   @ApiProperty({ type: [GoldTeamEvidenceDto] }) teams: GoldTeamEvidenceDto[];
-  @ApiProperty({ example: 'MatchParticipant.goldGraph' }) goldSource: string;
+  @ApiProperty({ example: 'MatchTimelineProjection.frames' })
+  goldSource: string;
   @ApiProperty({ example: '16.2.741.8224' }) gameVersion: string;
   @ApiProperty({ example: 11 }) mapId: number;
   @ApiProperty({ example: 5 }) expectedParticipantsPerTeam: number;
-  @ApiProperty({ example: 'legacy_minute_index' }) timeBasis: string;
+  @ApiProperty({ example: 'observed_timestamp_ms' }) timeBasis: string;
   @ApiProperty({ example: 3000 }) swingThresholdGold: number;
   @ApiProperty({
     example: 39,
@@ -126,7 +143,7 @@ export class GoldEvidenceDto {
 export class MatchGoldTimelineDto {
   @ApiProperty({ example: 'BR1_3216549870' }) matchId: string;
   @ApiProperty({ example: 'O08' }) metricId: string;
-  @ApiProperty({ example: 1 }) metricVersion: number;
+  @ApiProperty({ example: 2 }) metricVersion: number;
   @ApiProperty({
     type: [GoldDifferenceEntryDto],
     description:

@@ -85,7 +85,7 @@ describe('H01/H02 common cohort calculation', () => {
     );
     const r = calculateCohort([comparisonFixture()], new Map());
     expect(r.stats.avgCspm).toBe(10);
-    expect(r.laningPhase.evidence[0].reason).toBe('missing_timeline');
+    expect(r.laningPhase.evidence[0].reason).toBe('missing_projection');
     expect(r.goldGraph[15].validN).toBe(0);
   });
   it('zero duration and empty cohort yield no fabricated zeros or winner inputs', () => {

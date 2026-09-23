@@ -64,6 +64,18 @@ export class PlayerStatsAggregationService {
       const valid = !!(
         own &&
         opponent &&
+        [
+          own.totalGold,
+          own.xp,
+          own.minionsKilled,
+          own.jungleMinionsKilled,
+          opponent.totalGold,
+          opponent.xp,
+          opponent.minionsKilled,
+          opponent.jungleMinionsKilled,
+        ].every(
+          (value) => typeof value === 'number' && Number.isFinite(value),
+        ) &&
         ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'].includes(p.role)
       );
       const sums = {

@@ -1,3 +1,4 @@
+import { projectTimelineSnapshots } from '../../core/riot/timeline-snapshots';
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import request from 'supertest';
@@ -18,11 +19,39 @@ describe('Gold timeline HTTP contract (real service and calculator)', () => {
       { teamId: 200, win: false },
     ],
     participants: [100, 200].flatMap((teamId) =>
-      Array.from({ length: 5 }, () => ({
+      Array.from({ length: 5 }, (_, index) => ({
+        puuid: `${teamId}-${index}`,
         teamId,
         goldGraph: teamId === 100 ? [500, 1000] : [500, 2000],
       })),
     ),
+    get timelineProjection() {
+      return projectTimelineSnapshots(
+        {
+          info: {
+            frames: Array.from(
+              {
+                length: Math.max(
+                  0,
+                  ...this.participants.map((p) => p.goldGraph.length),
+                ),
+              },
+              (_, minute) => ({
+                timestamp: minute * 60000,
+                events: [],
+                participantFrames: Object.fromEntries(
+                  this.participants.map((p, i) => [
+                    String(i + 1),
+                    { participantId: i + 1, totalGold: p.goldGraph[minute] },
+                  ]),
+                ),
+              }),
+            ),
+          },
+        },
+        new Map(this.participants.map((p, i) => [i + 1, p.puuid])),
+      );
+    },
   });
 
   beforeAll(async () => {
@@ -63,13 +92,17 @@ describe('Gold timeline HTTP contract (real service and calculator)', () => {
   });
 
   it('returns an empty state for an existing match and 404 for an unknown match', async () => {
-    prisma.match.findUnique.mockResolvedValue({ ...match(), participants: [] });
+    prisma.match.findUnique.mockResolvedValue({
+      ...match(),
+      participants: [],
+      timelineProjection: null,
+    });
     const { body } = await request(app.getHttpServer()).get(path).expect(200);
     expect(body).toMatchObject({
       winner: 'blueTeam',
       goldDifference: [],
       maxAdvantage: null,
-      reason: 'missing_frame',
+      reason: 'missing_projection',
     });
     prisma.match.findUnique.mockResolvedValue(null);
     await request(app.getHttpServer()).get(path).expect(404);

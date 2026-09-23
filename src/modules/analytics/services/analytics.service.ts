@@ -1,4 +1,4 @@
-import { decodeComparisonTimeline } from '../pure/comparison-timeline.adapter';
+import { projectionComparisonTimeline } from '../pure/comparison-timeline.adapter';
 import {
   BadRequestException,
   Injectable,
@@ -58,9 +58,9 @@ export class AnalyticsService {
       calculateCohort(
         rows.matches,
         new Map(
-          rows.raw.map((r) => [
+          rows.projections.map((r) => [
             r.matchId,
-            decodeComparisonTimeline(r.timeline),
+            projectionComparisonTimeline(r),
           ]),
         ),
       );
@@ -72,8 +72,8 @@ export class AnalyticsService {
       limit: rows.limit,
       truncated: rows.truncated,
       order: 'gameCreation DESC, matchId ASC',
-      timelineSource: 'bounded_raw_fallback',
-      timelineReadN: rows.raw.filter((r) => r.timeline !== null).length,
+      timelineSource: 'MatchTimelineProjection',
+      timelineReadN: rows.projections.length,
       summarySource: 'MatchParticipant',
       filters: {
         ...effectiveFilters,

@@ -1,3 +1,5 @@
+import { gunzipSync } from 'node:zlib';
+import { projectTimelineSnapshots } from '../../core/riot/timeline-snapshots';
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import request from 'supertest';
@@ -15,7 +17,18 @@ describe('MET-08 comparison HTTP contract', () => {
     repo.findUserByPuuid.mockResolvedValue({ gameName: 'Synthetic' });
     repo.findComparisonCohort.mockResolvedValue({
       matches: [comparisonFixture()],
-      raw: [{ matchId: 'm1', timeline: timelineFixture() }],
+      projections: [
+        {
+          matchId: 'm1',
+          ...projectTimelineSnapshots(
+            JSON.parse(gunzipSync(timelineFixture()).toString()),
+            new Map([
+              [1, 'hero'],
+              [6, 'enemy'],
+            ]),
+          ),
+        },
+      ],
       eligibleN: 3,
       returnedN: 1,
       limit: 1,
@@ -61,7 +74,7 @@ describe('MET-08 comparison HTTP contract', () => {
         eligibleN: 3,
         returnedN: 1,
         truncated: true,
-        timelineSource: 'bounded_raw_fallback',
+        timelineSource: 'MatchTimelineProjection',
       },
       laningPhase: {
         soloKills15: null,

@@ -1,6 +1,6 @@
 # Comparações H01/H02 — MET-08
 
-As rotas existentes `GET /api/v1/analytics/compare`, `/api/v1/matches/:matchId/performance/:puuid` e os históricos de partidas deixam de preencher dados ausentes com zeros. `metricVersion: 1` identifica as duas comparações corrigidas. Não há alteração persistida, migration, incremento de processingVersion ou rebuild: o cálculo é feito sobre dados já armazenados.
+As rotas existentes `GET /api/v1/analytics/compare`, `/api/v1/matches/:matchId/performance/:puuid` e os históricos de partidas deixam de preencher dados ausentes com zeros. `metricVersion: 1` identifica as duas comparações corrigidas. MET-08 não alterou persistência; a evolução posterior MET-03 adicionou as projeções e o rebuild necessários para a fonte temporal atual, sem mudar a fórmula das comparações.
 
 ## Coorte única
 
@@ -17,9 +17,9 @@ A consulta filtra antes de limitar e ordena `gameCreation DESC, matchId ASC`. A 
 - Solo kills/deaths @15 permanecem null com `soloKills15Reason` e `soloDeaths15Reason` = `not_calculated`, até MET-13.
 - Performance: diferenças absolutas jogador menos adversário. Percentual = 100 × (jogador − adversário)/adversário, com null + zero_denominator se adversário=0. Zero calculado com denominador válido continua zero. `damageTakenPerMinDifference` é uma diferença descritiva de dano recebido/min, sem inferência de sobrevivência. `survivability` foi descontinuado, permanece null com `survivabilityReason=not_a_survivability_measure`.
 
-## Origem transitória e custo limitado
+## Fonte temporal e custo limitado
 
-Resumo e adversários vêm de MatchParticipant. Até a projeção de snapshots de MET-03 estar integrada a esta consulta, `comparison-timeline.adapter.ts` decodifica exclusivamente as timelines gzip dos IDs selecionados, nunca o histórico inteiro. O limite é validado também no repositório: no máximo 100 registros por jogador (200 leituras no par, inclusive possíveis repetições). `cohort.timelineSource=bounded_raw_fallback` e timelineReadN explicitam essa origem/custo. Bruto inexistente/corrompido produz missing_timeline/invalid_timeline, com cobertura zero; a API não reconstrói checkpoints pelos índices legados. O adaptador deve ser substituído pelas projeções; o relatório MET-17 deve ler exclusivamente projeções. Nenhuma promessa de latência foi medida nesta task.
+Resumo e adversários vêm de MatchParticipant. MET-03 substituiu o adaptador transitório de bruto por MatchTimelineProjection, para os mesmos IDs selecionados; nenhum GET descomprime MatchRaw. O limite continua de 100 partidas por jogador. `cohort.timelineSource=MatchTimelineProjection` e timelineReadN explicitam origem/custo. Projeção inexistente produz missing_projection com cobertura temporal zero; a API não reconstrói checkpoints pelos índices legados. Ver [compatibilidade e rebuild de snapshots](SNAPSHOTS-TIMELINE.md). O decodificador de bruto permanece apenas como utilitário offline/teste, fora do caminho HTTP.
 
 ## Compatibilidade e exemplo sintético
 

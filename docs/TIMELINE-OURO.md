@@ -1,5 +1,7 @@
 # Timeline de ouro — MET-07 / O08
 
+**Atualização MET-03:** a implementação atual usa O08 metricVersion=2 e MatchTimelineProjection, com timestampMs/frameIndex e preservação de todos os frames. A fonte temporal, limites de pares e política para dados antigos estão em [Snapshots de timeline](SNAPSHOTS-TIMELINE.md). As descrições de arrays/minutos abaixo documentam a implementação v1 histórica; a API atual não usa esses arrays nem reconstrói ausência a partir deles.
+
 `GET /api/v1/matches/:matchId/timeline/gold` mantém a rota e os campos existentes. A correção altera `winner` para o resultado observado em `MatchTeam.win`; quantidade de ouro não determina vitória. Exige um registro para cada teamId 100/200, exatamente um vencedor e um perdedor. Resumo ausente retorna `winner=null, winnerReason=missing_field`; resumo contraditório/identidade inválida retorna `invalid_value`. Empate de ouro não desempata resultado. Match inexistente retorna 404; Match existente sem participantes/timeline retorna 200 com série vazia e motivos de ausência.
 
 ## Cálculo e população

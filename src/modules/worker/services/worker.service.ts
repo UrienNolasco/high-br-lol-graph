@@ -176,7 +176,7 @@ export class WorkerService {
                 pf.minionsKilled,
                 pf.jungleMinionsKilled,
                 pf.damageStats?.totalDamageDoneToChampions,
-              ].every(nonnegative),
+              ].every((value) => value == null || nonnegative(value)),
           ),
       )
     ) {

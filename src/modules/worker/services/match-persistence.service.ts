@@ -60,6 +60,16 @@ export class MatchPersistenceService {
             };
           }),
         });
+        await tx.matchTimelineProjection.create({
+          data: {
+            matchId: lease.matchId,
+            projectionVersion: timeline.snapshotProjection.projectionVersion,
+            frameIntervalMs: timeline.snapshotProjection.frameIntervalMs,
+            observedEndMs: timeline.snapshotProjection.observedEndMs,
+            frames: timeline.snapshotProjection
+              .frames as unknown as Prisma.InputJsonValue,
+          },
+        });
         await this.aggregates.update(tx, matchData, raw);
         await tx.matchProcessing.update({
           where: { matchId: lease.matchId },

@@ -50,7 +50,8 @@ describe('MatchRepository', () => {
           mapId: true,
           gameVersion: true,
           teams: { select: { teamId: true, win: true } },
-          participants: { select: { teamId: true, goldGraph: true } },
+          participants: { select: { teamId: true, puuid: true } },
+          timelineProjection: true,
         },
       });
     });

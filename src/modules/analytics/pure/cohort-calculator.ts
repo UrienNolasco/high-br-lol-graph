@@ -2,7 +2,7 @@ import {
   ComparisonTimeline,
   Frame,
   FrameParticipant,
-  decodeComparisonTimeline,
+  projectionComparisonTimeline,
 } from './comparison-timeline.adapter';
 import { selectCheckpoint, selectUniqueOpponent } from '../../../core/metrics';
 
@@ -88,7 +88,8 @@ export function calculateCohort(
     ),
   };
   const laneEvidence = matches.map((p) => {
-    const timeline = timelines.get(p.matchId) ?? decodeComparisonTimeline(null);
+    const timeline =
+      timelines.get(p.matchId) ?? projectionComparisonTimeline(null);
     const opponent = selectUniqueOpponent(p, p.match.participants);
     const endMs = timeline.endMs ?? Math.max(0, p.match.gameDuration * 1000);
     const checkpoint = selectCheckpoint(timeline.frames, 900_000, endMs);

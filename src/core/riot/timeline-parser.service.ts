@@ -1,5 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import {
+  projectTimelineSnapshots,
+  legacyMinuteGraphs,
+  TimelineSnapshotProjection,
+} from './timeline-snapshots';
+import {
   TimelineDto,
   TimelineFrame,
   ChampionKillEvent,
@@ -59,6 +64,7 @@ export interface ParticipantTimelineData {
 }
 
 export interface ParsedTimelineData {
+  snapshotProjection: TimelineSnapshotProjection;
   participants: Map<string, ParticipantTimelineData>; // Indexado por PUUID
   objectivesTimeline: ObjectiveEvent[];
 }
@@ -97,6 +103,10 @@ export class TimelineParserService {
     participantMap: Map<number, string>,
   ): ParsedTimelineData {
     const frames = timelineDto.info.frames;
+    const snapshotProjection = projectTimelineSnapshots(
+      timelineDto,
+      participantMap,
+    );
     const totalMinutes = Math.ceil(
       frames[frames.length - 1]?.timestamp / 60000 || 40,
     );
@@ -125,7 +135,10 @@ export class TimelineParserService {
       );
     }
 
+    for (const [puuid, participant] of participantData)
+      Object.assign(participant, legacyMinuteGraphs(snapshotProjection, puuid));
     return {
+      snapshotProjection,
       participants: participantData,
       objectivesTimeline,
     };
@@ -186,7 +199,7 @@ export class TimelineParserService {
       participant.xpGraph[minute] = pf.xp;
       participant.csGraph[minute] = pf.minionsKilled + pf.jungleMinionsKilled;
       participant.damageGraph[minute] =
-        pf.damageStats.totalDamageDoneToChampions;
+        pf.damageStats?.totalDamageDoneToChampions ?? 0;
 
       // Amostragem de posição (pathing)
       participant.pathingSample.push({

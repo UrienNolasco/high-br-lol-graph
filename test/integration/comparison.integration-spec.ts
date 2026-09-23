@@ -105,7 +105,7 @@ describe('MET-08 filtered cohort SQL', () => {
       eligibleN: 3,
       returnedN: 2,
       truncated: true,
-      raw: [],
+      projections: [],
     });
     const canonical = await repo.findComparisonCohort(puuid, {
       ...filters,

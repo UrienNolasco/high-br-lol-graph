@@ -1,16 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { MatchRepository } from '../repositories/match.repository';
 import {
-  computeGoldTimeline,
+  computeSnapshotGoldTimeline,
   determineWinner,
   findMaxAdvantage,
   findObservedSwing,
 } from '../pure/gold-calculator';
 import { MatchGoldTimelineDto } from '../dto/match-deep-dive.dto';
-import {
-  METRIC_VERSION,
-  metricQuality,
-} from '../../../core/metrics/metric-contract';
+import { metricQuality } from '../../../core/metrics/metric-contract';
+import { readSnapshotProjection } from '../../../core/riot/timeline-snapshots';
 
 @Injectable()
 export class MatchGoldTimelineService {
@@ -22,9 +20,11 @@ export class MatchGoldTimelineService {
 
     // Only the validated Summoner's Rift 5v5 representation has defined totals.
     const supported = match.mapId === 11;
-    const goldDifference = supported
-      ? computeGoldTimeline(match.participants)
-      : [];
+    const projection = readSnapshotProjection(match.timelineProjection);
+    const goldDifference =
+      supported && projection
+        ? computeSnapshotGoldTimeline(projection, match.participants)
+        : [];
     const valid = goldDifference.filter((entry) => entry.difference !== null);
     const winner = determineWinner(match.teams);
     const observedSwing = findObservedSwing(goldDifference);
@@ -32,18 +32,23 @@ export class MatchGoldTimelineService {
       .slice(1)
       .filter(
         (entry, i) =>
-          entry.difference !== null && goldDifference[i].difference !== null,
+          entry.difference !== null &&
+          goldDifference[i].difference !== null &&
+          entry.timestampMs > goldDifference[i].timestampMs &&
+          entry.timestampMs - goldDifference[i].timestampMs <= 120_000,
       ).length;
     const reason = !supported
       ? 'unsupported_version'
-      : goldDifference.some((entry) => entry.reason === 'invalid_value')
-        ? 'invalid_value'
-        : 'missing_frame';
+      : !projection
+        ? 'missing_projection'
+        : goldDifference.some((entry) => entry.reason === 'invalid_value')
+          ? 'invalid_value'
+          : 'missing_frame';
 
     return {
       matchId,
       metricId: 'O08',
-      metricVersion: METRIC_VERSION,
+      metricVersion: 2,
       goldDifference,
       winner,
       winnerReason: winner
@@ -65,11 +70,11 @@ export class MatchGoldTimelineService {
       evidence: {
         winnerSource: 'MatchTeam.win',
         teams: match.teams,
-        goldSource: 'MatchParticipant.goldGraph',
+        goldSource: 'MatchTimelineProjection.frames',
         gameVersion: match.gameVersion,
         mapId: match.mapId,
         expectedParticipantsPerTeam: 5,
-        timeBasis: 'legacy_minute_index',
+        timeBasis: 'observed_timestamp_ms',
         swingThresholdGold: 3000,
         validAdjacentPairs: validPairs,
       },

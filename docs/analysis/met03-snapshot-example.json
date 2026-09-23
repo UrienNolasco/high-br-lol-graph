@@ -1,0 +1,140 @@
+{
+  "source": "BR1_3200579475 real fixture; excerpt with participant1 and final two frames",
+  "projectionVersion": 1,
+  "frameIntervalMs": 60000,
+  "observedEndMs": 2368922,
+  "frames": [
+    {
+      "frameIndex": 39,
+      "timestamp": 2340765,
+      "participantFrames": {
+        "1": {
+          "participantId": 1,
+          "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+          "totalGold": 24563,
+          "currentGold": 3431,
+          "xp": 25677,
+          "level": 20,
+          "minionsKilled": 326,
+          "jungleMinionsKilled": 8,
+          "position": {
+            "x": 7303,
+            "y": 9719
+          },
+          "damageStats": {
+            "magicDamageDone": 5220,
+            "magicDamageDoneToChampions": 3170,
+            "magicDamageTaken": 35252,
+            "physicalDamageDone": 328956,
+            "physicalDamageDoneToChampions": 42899,
+            "physicalDamageTaken": 23338,
+            "totalDamageDone": 375416,
+            "totalDamageDoneToChampions": 81226,
+            "totalDamageTaken": 73956,
+            "trueDamageDone": 41239,
+            "trueDamageDoneToChampions": 35155,
+            "trueDamageTaken": 15366
+          },
+          "championStats": {
+            "abilityHaste": 0,
+            "abilityPower": 0,
+            "armor": 175,
+            "armorPen": 0,
+            "armorPenPercent": 0,
+            "attackDamage": 543,
+            "attackSpeed": 300,
+            "bonusArmorPenPercent": 0,
+            "bonusMagicPenPercent": 0,
+            "ccReduction": 44,
+            "cooldownReduction": 0,
+            "health": 2960,
+            "healthMax": 2964,
+            "healthRegen": 23,
+            "lifesteal": 12,
+            "magicPen": 0,
+            "magicPenPercent": 0,
+            "magicResist": 132,
+            "movementSpeed": 486,
+            "omnivamp": 20,
+            "physicalVamp": 0,
+            "power": 1061,
+            "powerMax": 1479,
+            "powerRegen": 43,
+            "spellVamp": 0
+          },
+          "additionalFields": {
+            "goldPerSecond": 0,
+            "timeEnemySpentControlled": 254089
+          },
+          "missingFields": []
+        }
+      }
+    },
+    {
+      "frameIndex": 40,
+      "timestamp": 2368922,
+      "participantFrames": {
+        "1": {
+          "participantId": 1,
+          "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+          "totalGold": 24864,
+          "currentGold": 3733,
+          "xp": 26182,
+          "level": 20,
+          "minionsKilled": 332,
+          "jungleMinionsKilled": 8,
+          "position": {
+            "x": 12069,
+            "y": 11266
+          },
+          "damageStats": {
+            "magicDamageDone": 5220,
+            "magicDamageDoneToChampions": 3170,
+            "magicDamageTaken": 35252,
+            "physicalDamageDone": 340005,
+            "physicalDamageDoneToChampions": 42899,
+            "physicalDamageTaken": 23563,
+            "totalDamageDone": 386625,
+            "totalDamageDoneToChampions": 81226,
+            "totalDamageTaken": 74287,
+            "trueDamageDone": 41399,
+            "trueDamageDoneToChampions": 35155,
+            "trueDamageTaken": 15472
+          },
+          "championStats": {
+            "abilityHaste": 0,
+            "abilityPower": 0,
+            "armor": 175,
+            "armorPen": 0,
+            "armorPenPercent": 0,
+            "attackDamage": 509,
+            "attackSpeed": 210,
+            "bonusArmorPenPercent": 0,
+            "bonusMagicPenPercent": 0,
+            "ccReduction": 44,
+            "cooldownReduction": 0,
+            "health": 2964,
+            "healthMax": 2964,
+            "healthRegen": 216,
+            "lifesteal": 12,
+            "magicPen": 0,
+            "magicPenPercent": 0,
+            "magicResist": 132,
+            "movementSpeed": 390,
+            "omnivamp": 5,
+            "physicalVamp": 0,
+            "power": 943,
+            "powerMax": 1479,
+            "powerRegen": 43,
+            "spellVamp": 0
+          },
+          "additionalFields": {
+            "goldPerSecond": 0,
+            "timeEnemySpentControlled": 259847
+          },
+          "missingFields": []
+        }
+      }
+    }
+  ]
+}

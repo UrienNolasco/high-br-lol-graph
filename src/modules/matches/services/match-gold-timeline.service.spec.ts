@@ -1,3 +1,4 @@
+import { projectTimelineSnapshots } from '../../../core/riot/timeline-snapshots';
 import { MatchGoldTimelineService } from './match-gold-timeline.service';
 
 const losingGoldWinner = () => ({
@@ -8,11 +9,39 @@ const losingGoldWinner = () => ({
     { teamId: 200, win: false },
   ],
   participants: [100, 200].flatMap((teamId) =>
-    Array.from({ length: 5 }, () => ({
+    Array.from({ length: 5 }, (_, index) => ({
+      puuid: `${teamId}-${index}`,
       teamId,
       goldGraph: teamId === 100 ? [500, 1000] : [500, 2000],
     })),
   ),
+  get timelineProjection() {
+    return projectTimelineSnapshots(
+      {
+        info: {
+          frames: Array.from(
+            {
+              length: Math.max(
+                0,
+                ...this.participants.map((p) => p.goldGraph.length),
+              ),
+            },
+            (_, minute) => ({
+              timestamp: minute * 60000,
+              events: [],
+              participantFrames: Object.fromEntries(
+                this.participants.map((p, i) => [
+                  String(i + 1),
+                  { participantId: i + 1, totalGold: p.goldGraph[minute] },
+                ]),
+              ),
+            }),
+          ),
+        },
+      },
+      new Map(this.participants.map((p, i) => [i + 1, p.puuid])),
+    );
+  },
 });
 
 describe('MatchGoldTimelineService', () => {
@@ -96,5 +125,15 @@ describe('MatchGoldTimelineService', () => {
   it('returns 404 only when match itself does not exist', async () => {
     repo.findGoldTimeline.mockResolvedValue(null);
     await expect(service.getGoldTimeline('BR1_1')).rejects.toThrow('not found');
+  });
+  it('never reconstructs a missing projection from ambiguous legacy zero arrays', async () => {
+    const match = { ...losingGoldWinner(), timelineProjection: null };
+    repo.findGoldTimeline.mockResolvedValue(match);
+    expect(await service.getGoldTimeline('old-match')).toMatchObject({
+      goldDifference: [],
+      winner: 'blueTeam',
+      reason: 'missing_projection',
+      metricVersion: 2,
+    });
   });
 });

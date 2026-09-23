@@ -11,6 +11,10 @@ import { TraceIdMiddleware, SERVICE_NAMES } from './core/logger';
 import { getErrorMessage } from './core/logger/get-error-message';
 import { MetricResultDto } from './core/metrics/metric-result.dto';
 import { METRIC_OPENAPI_EXAMPLES } from './core/metrics/metric-result.dto';
+import {
+  ParticipantSnapshotDto,
+  TimelineSnapshotProjectionDto,
+} from './core/riot/timeline-snapshots.dto';
 
 const bootLogger = pino({
   transport:
@@ -62,7 +66,11 @@ async function bootstrap() {
       .build();
 
     const document = SwaggerModule.createDocument(app, config, {
-      extraModels: [MetricResultDto],
+      extraModels: [
+        MetricResultDto,
+        ParticipantSnapshotDto,
+        TimelineSnapshotProjectionDto,
+      ],
     });
     document.components ??= {};
     document.components.examples = {

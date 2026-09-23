@@ -1,0 +1,20 @@
+{
+  "scope": "isolated local DB, one synthetic fixture with 410 snapshots; 10 warm reads",
+  "snapshotN": 410,
+  "frameN": 41,
+  "jsonBytes": 462809,
+  "postgresFramesBytes": 109613,
+  "writeTransactionMs": 422.87428799999907,
+  "readMs": [
+    52.81146000000081,
+    54.88817800000106,
+    48.2576659999977,
+    44.32240599999932,
+    48.3238629999978,
+    40.568569999999454,
+    43.01717099999951,
+    43.59542100000181,
+    43.15501300000324,
+    44.60920299999998
+  ]
+}

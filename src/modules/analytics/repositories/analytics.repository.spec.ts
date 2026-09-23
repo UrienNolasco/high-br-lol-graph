@@ -3,7 +3,7 @@ import { AnalyticsRepository } from './analytics.repository';
 describe('comparison cohort query', () => {
   const tx = {
     matchParticipant: { count: jest.fn(), findMany: jest.fn() },
-    matchRaw: { findMany: jest.fn() },
+    matchTimelineProjection: { findMany: jest.fn() },
   };
   const prisma = {
     $transaction: jest.fn((callback) => callback(tx)),
@@ -17,7 +17,7 @@ describe('comparison cohort query', () => {
       { matchId: 'BR1_2' },
       { matchId: 'BR1_1' },
     ]);
-    tx.matchRaw.findMany.mockResolvedValue([]);
+    tx.matchTimelineProjection.findMany.mockResolvedValue([]);
   });
   it.each(['MID', 'MIDDLE'])(
     'uses all filters and stable ordering with alias %s for one cohort',
@@ -61,9 +61,8 @@ describe('comparison cohort query', () => {
         limit: 2,
         truncated: true,
       });
-      expect(tx.matchRaw.findMany).toHaveBeenCalledWith({
+      expect(tx.matchTimelineProjection.findMany).toHaveBeenCalledWith({
         where: { matchId: { in: ['BR1_2', 'BR1_1'] } },
-        select: { matchId: true, timeline: true },
       });
     },
   );

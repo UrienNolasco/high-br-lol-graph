@@ -22,10 +22,22 @@ model Match {
 
   teams        MatchTeam[]
   participants MatchParticipant[]
+  timelineProjection MatchTimelineProjection?
 
   @@index([queueId])
   @@index([queueId, gameCreation(sort: Desc)])
   @@map("matches")
+}
+
+model MatchTimelineProjection {
+  matchId String @id
+  match Match @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  projectionVersion Int
+  frameIntervalMs Int?
+  observedEndMs Int?
+  frames Json
+
+  @@map("match_timeline_projections")
 }
 
 model MatchParticipant {

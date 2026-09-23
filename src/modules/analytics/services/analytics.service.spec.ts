@@ -1,3 +1,5 @@
+import { gunzipSync } from 'node:zlib';
+import { projectTimelineSnapshots } from '../../../core/riot/timeline-snapshots';
 import { AnalyticsService } from './analytics.service';
 import { comparisonFixture, timelineFixture } from '../pure/cohort.fixture';
 
@@ -9,7 +11,18 @@ describe('AnalyticsService unified cohort', () => {
     repo.findUserByPuuid.mockResolvedValue({ gameName: 'Player' });
     repo.findComparisonCohort.mockResolvedValue({
       matches: [comparisonFixture()],
-      raw: [{ matchId: 'm1', timeline: timelineFixture() }],
+      projections: [
+        {
+          matchId: 'm1',
+          ...projectTimelineSnapshots(
+            JSON.parse(gunzipSync(timelineFixture()).toString()),
+            new Map([
+              [1, 'hero'],
+              [6, 'enemy'],
+            ]),
+          ),
+        },
+      ],
       eligibleN: 30,
       returnedN: 1,
       limit: 1,
@@ -52,7 +65,7 @@ describe('AnalyticsService unified cohort', () => {
   it('keeps known player with empty filters result available without fabricated winrate', async () => {
     repo.findComparisonCohort.mockResolvedValue({
       matches: [],
-      raw: [],
+      projections: [],
       eligibleN: 0,
       returnedN: 0,
       limit: 100,

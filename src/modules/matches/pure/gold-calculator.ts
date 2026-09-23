@@ -1,4 +1,5 @@
 import { metricQuality } from '../../../core/metrics/metric-contract';
+import { TimelineSnapshotProjection } from '../../../core/riot/timeline-snapshots';
 
 export interface GoldParticipant {
   teamId: number;
@@ -6,6 +7,8 @@ export interface GoldParticipant {
 }
 
 export interface GoldDifferenceEntry {
+  timestampMs?: number;
+  frameIndex?: number;
   minute: number;
   blueTeam: number | null;
   redTeam: number | null;
@@ -13,12 +16,16 @@ export interface GoldDifferenceEntry {
 }
 
 export interface MaxAdvantageEntry {
+  timestampMs?: number;
+  frameIndex?: number;
   minute: number;
   team: 'blueTeam' | 'redTeam' | null;
   difference: number;
 }
 
 export interface ObservedSwingEntry {
+  timestampMs?: number;
+  beforeTimestampMs?: number;
   minute: number;
   beforeMinute: number;
   beforeDifference: number;
@@ -32,12 +39,44 @@ export type ThrowPointEntry = ObservedSwingEntry;
 const validGold = (value: unknown): value is number =>
   typeof value === 'number' && Number.isFinite(value) && value >= 0;
 
-export function computeGoldTimeline(participants: GoldParticipant[]) {
+export function computeSnapshotGoldTimeline(
+  projection: TimelineSnapshotProjection,
+  participants: { puuid: string; teamId: number }[],
+) {
+  return [...projection.frames]
+    .filter((frame) => frame.timestamp !== null)
+    .sort((a, b) => a.timestamp! - b.timestamp! || a.frameIndex - b.frameIndex)
+    .map((frame) => {
+      const row = computeGoldTimeline(
+        participants.map((p) => {
+          const snapshots = Object.values(frame.participantFrames).filter(
+            (s) => s.puuid === p.puuid,
+          );
+          return {
+            teamId: p.teamId,
+            goldGraph: [snapshots.length === 1 ? snapshots[0].totalGold : null],
+          };
+        }),
+        1,
+      )[0];
+      return {
+        ...row,
+        minute: Math.floor(frame.timestamp! / 60000),
+        timestampMs: frame.timestamp!,
+        frameIndex: frame.frameIndex,
+      };
+    });
+}
+
+export function computeGoldTimeline(
+  participants: GoldParticipant[],
+  minimumPoints = 0,
+) {
   const teams = [100, 200].map((teamId) =>
     participants.filter((p) => p.teamId === teamId),
   );
   const maxMinutes = Math.max(
-    0,
+    minimumPoints,
     ...teams.flat().map((p) => p.goldGraph.length),
   );
   return Array.from({ length: maxMinutes }, (_, minute) => {
@@ -106,6 +145,9 @@ export function findMaxAdvantage(
   }
   if (!best) return null;
   return {
+    ...(best.timestampMs !== undefined
+      ? { timestampMs: best.timestampMs, frameIndex: best.frameIndex }
+      : {}),
     minute: best.minute,
     team:
       best.difference === 0
@@ -129,12 +171,21 @@ export function findObservedSwing(
       after.difference == null ||
       !Number.isFinite(before.difference) ||
       !Number.isFinite(after.difference) ||
-      after.minute !== before.minute + 1
+      (after.timestampMs !== undefined && before.timestampMs !== undefined
+        ? after.timestampMs <= before.timestampMs ||
+          after.timestampMs - before.timestampMs > 120_000
+        : after.minute !== before.minute + 1)
     )
       continue;
     const swing = Math.abs(after.difference - before.difference);
     if (swing > threshold) {
       return {
+        ...(after.timestampMs !== undefined
+          ? {
+              timestampMs: after.timestampMs,
+              beforeTimestampMs: before.timestampMs,
+            }
+          : {}),
         minute: after.minute,
         beforeMinute: before.minute,
         beforeDifference: before.difference,

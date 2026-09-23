@@ -1,11 +1,15 @@
 import { gunzipSync } from 'node:zlib';
+import {
+  readSnapshotProjection,
+  SnapshotFrame,
+} from '../../../core/riot/timeline-snapshots';
 const finite = (v: unknown): v is number =>
   typeof v === 'number' && Number.isFinite(v);
 export interface FrameParticipant {
-  totalGold?: number;
-  xp?: number;
-  minionsKilled?: number;
-  jungleMinionsKilled?: number;
+  totalGold?: number | null;
+  xp?: number | null;
+  minionsKilled?: number | null;
+  jungleMinionsKilled?: number | null;
 }
 export interface Frame {
   timestamp: number;
@@ -17,6 +21,40 @@ export interface ComparisonTimeline {
   participants: { participantId: number; puuid: string }[];
   endMs: number | null;
   reason: string | null;
+}
+
+/** API path: persisted snapshots only; no decompression of MatchRaw during GET. */
+export function projectionComparisonTimeline(
+  value: unknown,
+): ComparisonTimeline {
+  const projection = readSnapshotProjection(value);
+  if (!projection)
+    return {
+      frames: [],
+      participants: [],
+      endMs: null,
+      reason: 'missing_projection',
+    };
+  const participants = new Map<
+    string,
+    { participantId: number; puuid: string }
+  >();
+  for (const frame of projection.frames)
+    for (const p of Object.values(frame.participantFrames)) {
+      if (p.puuid !== null)
+        participants.set(`${p.participantId}:${p.puuid}`, {
+          participantId: p.participantId,
+          puuid: p.puuid,
+        });
+    }
+  return {
+    frames: projection.frames.filter(
+      (f): f is SnapshotFrame & { timestamp: number } => finite(f.timestamp),
+    ),
+    participants: [...participants.values()],
+    endMs: projection.observedEndMs,
+    reason: null,
+  };
 }
 
 /** Raw timestamps are required: compact legacy arrays cannot prove a checkpoint time. */

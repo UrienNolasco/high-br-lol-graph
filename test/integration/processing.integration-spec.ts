@@ -393,10 +393,10 @@ const invalidPayloads: Array<
     },
   ],
   [
-    'missing frame counters',
+    'negative frame counters',
     (_summary, timeline) => {
       Object.assign(timeline.info.frames[0].participantFrames[1], {
-        totalGold: null,
+        totalGold: -1,
       });
     },
   ],
@@ -407,6 +407,32 @@ const invalidPayloads: Array<
     },
   ],
 ];
+
+test('optional frame counters persist as null without corrupting lane aggregates', async () => {
+  const { summary, timeline } = fixture();
+  Object.assign(timeline.info.frames[15].participantFrames[1], {
+    totalGold: null,
+  });
+  await seed(summary, timeline);
+  await worker.processMatch({ matchId: summary.metadata.matchId });
+  const projection = await prisma.matchTimelineProjection.findUniqueOrThrow({
+    where: { matchId: summary.metadata.matchId },
+  });
+  expect(
+    (projection.frames as any)[15].participantFrames['1'].totalGold,
+  ).toBeNull();
+  expect(
+    await prisma.matchProcessing.findUnique({
+      where: { matchId: summary.metadata.matchId },
+    }),
+  ).toMatchObject({ status: 'COMPLETED' });
+  const stats = await prisma.playerChampionStats.findMany({
+    where: { puuid: summary.info.participants[0].puuid },
+  });
+  expect(stats.every((s) => s.laningSamples === 0 && s.sumGd15 === 0)).toBe(
+    true,
+  );
+});
 
 test.each(invalidPayloads)(
   'invalid payload (%s) fails permanently without partial statistics',

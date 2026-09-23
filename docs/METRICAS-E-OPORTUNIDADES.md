@@ -395,6 +395,8 @@ MET-01 implementada: [contratos executáveis, matriz de elegibilidade e compatib
 
 MET-02 implementada: [corpus, auditoria reproduzível e limites de cobertura](CORPUS-METRICAS.md), com manifesto e relatório em `docs/analysis/corpus-*.json`.
 
+MET-03 implementada: [snapshots completos, compatibilidade e persistência](SNAPSHOTS-TIMELINE.md), com fonte temporal normalizada para comparações e ouro.
+
 | Elemento | Regra proposta |
 |---|---|
 | Identidade | `metricId`, `metricVersion`, sujeito (`participant`, `team`, `match`), `matchId` e horizonte/janela |

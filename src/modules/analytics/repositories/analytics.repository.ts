@@ -71,13 +71,12 @@ export class AnalyticsRepository {
           take: limit,
           include: { match: { include: { participants: true } } },
         });
-        const raw = await tx.matchRaw.findMany({
+        const projections = await tx.matchTimelineProjection.findMany({
           where: { matchId: { in: matches.map((m) => m.matchId) } },
-          select: { matchId: true, timeline: true },
         });
         return {
           matches,
-          raw,
+          projections,
           eligibleN,
           returnedN: matches.length,
           limit,
