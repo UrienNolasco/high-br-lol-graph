@@ -1,0 +1,860 @@
+{
+  "task": "MET-22",
+  "metricId": "H03",
+  "researchVersion": 1,
+  "conclusion": "insufficient_sample_or_coverage",
+  "independentMatches": 1,
+  "cohortMatches": 1,
+  "duplicateOrSyntheticExclusions": [],
+  "cohortExclusions": [],
+  "populationExclusions": [],
+  "missingOutcomes": 0,
+  "tables": [
+    {
+      "horizonMs": 600000,
+      "window": "cumulative",
+      "consideredMatches": 1,
+      "missingExposure": {
+        "recognizedPlacementDiff": 0,
+        "recognizedRemovalDiff": 0,
+        "controlPlacementDiff": 0
+      },
+      "bands": [
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "negative",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "tie",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        }
+      ],
+      "modelGate": {
+        "allowed": false,
+        "reasons": [
+          "insufficient_independent_matches",
+          "insufficient_train_matches",
+          "insufficient_train_outcome_variation",
+          "insufficient_validation_matches",
+          "insufficient_validation_outcome_variation",
+          "insufficient_test_matches",
+          "insufficient_test_outcome_variation",
+          "insufficient_ward_type_coverage"
+        ],
+        "independentMatches": 1,
+        "eligibleMatches": 1,
+        "completeFeatureMatches": 1,
+        "featureCoverage": 1,
+        "recognizedWardFraction": 0.2827586206896552,
+        "splitCounts": {
+          "train": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "validation": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "test": {
+            "matches": 1,
+            "team100Wins": 1,
+            "team100Losses": 0
+          }
+        },
+        "recurrentPlayerSensitivity": {
+          "policy": "Drop validation matches sharing any train player; drop test matches sharing any train or validation player. Whole matches only.",
+          "validationRetained": 0,
+          "validationDropped": 0,
+          "testRetained": 1,
+          "testDropped": 0,
+          "evaluable": false
+        }
+      }
+    },
+    {
+      "horizonMs": 600000,
+      "window": "last5minutes",
+      "consideredMatches": 1,
+      "missingExposure": {
+        "recognizedPlacementDiff": 0,
+        "recognizedRemovalDiff": 0,
+        "controlPlacementDiff": 0
+      },
+      "bands": [
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "negative",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "tie",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        }
+      ],
+      "modelGate": {
+        "allowed": false,
+        "reasons": [
+          "insufficient_independent_matches",
+          "insufficient_train_matches",
+          "insufficient_train_outcome_variation",
+          "insufficient_validation_matches",
+          "insufficient_validation_outcome_variation",
+          "insufficient_test_matches",
+          "insufficient_test_outcome_variation",
+          "insufficient_ward_type_coverage"
+        ],
+        "independentMatches": 1,
+        "eligibleMatches": 1,
+        "completeFeatureMatches": 1,
+        "featureCoverage": 1,
+        "recognizedWardFraction": 0.25301204819277107,
+        "splitCounts": {
+          "train": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "validation": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "test": {
+            "matches": 1,
+            "team100Wins": 1,
+            "team100Losses": 0
+          }
+        },
+        "recurrentPlayerSensitivity": {
+          "policy": "Drop validation matches sharing any train player; drop test matches sharing any train or validation player. Whole matches only.",
+          "validationRetained": 0,
+          "validationDropped": 0,
+          "testRetained": 1,
+          "testDropped": 0,
+          "evaluable": false
+        }
+      }
+    },
+    {
+      "horizonMs": 900000,
+      "window": "cumulative",
+      "consideredMatches": 1,
+      "missingExposure": {
+        "recognizedPlacementDiff": 0,
+        "recognizedRemovalDiff": 0,
+        "controlPlacementDiff": 0
+      },
+      "bands": [
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "negative",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "positive",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        }
+      ],
+      "modelGate": {
+        "allowed": false,
+        "reasons": [
+          "insufficient_independent_matches",
+          "insufficient_train_matches",
+          "insufficient_train_outcome_variation",
+          "insufficient_validation_matches",
+          "insufficient_validation_outcome_variation",
+          "insufficient_test_matches",
+          "insufficient_test_outcome_variation",
+          "insufficient_ward_type_coverage"
+        ],
+        "independentMatches": 1,
+        "eligibleMatches": 1,
+        "completeFeatureMatches": 1,
+        "featureCoverage": 1,
+        "recognizedWardFraction": 0.30327868852459017,
+        "splitCounts": {
+          "train": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "validation": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "test": {
+            "matches": 1,
+            "team100Wins": 1,
+            "team100Losses": 0
+          }
+        },
+        "recurrentPlayerSensitivity": {
+          "policy": "Drop validation matches sharing any train player; drop test matches sharing any train or validation player. Whole matches only.",
+          "validationRetained": 0,
+          "validationDropped": 0,
+          "testRetained": 1,
+          "testDropped": 0,
+          "evaluable": false
+        }
+      }
+    },
+    {
+      "horizonMs": 900000,
+      "window": "last5minutes",
+      "consideredMatches": 1,
+      "missingExposure": {
+        "recognizedPlacementDiff": 0,
+        "recognizedRemovalDiff": 0,
+        "controlPlacementDiff": 0
+      },
+      "bands": [
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "negative",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "positive",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        }
+      ],
+      "modelGate": {
+        "allowed": false,
+        "reasons": [
+          "insufficient_independent_matches",
+          "insufficient_train_matches",
+          "insufficient_train_outcome_variation",
+          "insufficient_validation_matches",
+          "insufficient_validation_outcome_variation",
+          "insufficient_test_matches",
+          "insufficient_test_outcome_variation",
+          "insufficient_ward_type_coverage"
+        ],
+        "independentMatches": 1,
+        "eligibleMatches": 1,
+        "completeFeatureMatches": 1,
+        "featureCoverage": 1,
+        "recognizedWardFraction": 0.3333333333333333,
+        "splitCounts": {
+          "train": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "validation": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "test": {
+            "matches": 1,
+            "team100Wins": 1,
+            "team100Losses": 0
+          }
+        },
+        "recurrentPlayerSensitivity": {
+          "policy": "Drop validation matches sharing any train player; drop test matches sharing any train or validation player. Whole matches only.",
+          "validationRetained": 0,
+          "validationDropped": 0,
+          "testRetained": 1,
+          "testDropped": 0,
+          "evaluable": false
+        }
+      }
+    },
+    {
+      "horizonMs": 1200000,
+      "window": "cumulative",
+      "consideredMatches": 1,
+      "missingExposure": {
+        "recognizedPlacementDiff": 0,
+        "recognizedRemovalDiff": 0,
+        "controlPlacementDiff": 0
+      },
+      "bands": [
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "negative",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "positive",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        }
+      ],
+      "modelGate": {
+        "allowed": false,
+        "reasons": [
+          "insufficient_independent_matches",
+          "insufficient_train_matches",
+          "insufficient_train_outcome_variation",
+          "insufficient_validation_matches",
+          "insufficient_validation_outcome_variation",
+          "insufficient_test_matches",
+          "insufficient_test_outcome_variation",
+          "insufficient_ward_type_coverage"
+        ],
+        "independentMatches": 1,
+        "eligibleMatches": 1,
+        "completeFeatureMatches": 1,
+        "featureCoverage": 1,
+        "recognizedWardFraction": 0.30606860158311344,
+        "splitCounts": {
+          "train": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "validation": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "test": {
+            "matches": 1,
+            "team100Wins": 1,
+            "team100Losses": 0
+          }
+        },
+        "recurrentPlayerSensitivity": {
+          "policy": "Drop validation matches sharing any train player; drop test matches sharing any train or validation player. Whole matches only.",
+          "validationRetained": 0,
+          "validationDropped": 0,
+          "testRetained": 1,
+          "testDropped": 0,
+          "evaluable": false
+        }
+      }
+    },
+    {
+      "horizonMs": 1200000,
+      "window": "last5minutes",
+      "consideredMatches": 1,
+      "missingExposure": {
+        "recognizedPlacementDiff": 0,
+        "recognizedRemovalDiff": 0,
+        "controlPlacementDiff": 0
+      },
+      "bands": [
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "negative",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedPlacementDiff",
+          "band": "positive",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "negative",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "tie",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "recognizedRemovalDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "negative",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "tie",
+          "matches": 1,
+          "team100Wins": 1,
+          "team100WinRate": 1,
+          "wilson95": [
+            0.20654931437723745,
+            1
+          ]
+        },
+        {
+          "exposure": "controlPlacementDiff",
+          "band": "positive",
+          "matches": 0,
+          "team100Wins": 0,
+          "team100WinRate": null,
+          "wilson95": null
+        }
+      ],
+      "modelGate": {
+        "allowed": false,
+        "reasons": [
+          "insufficient_independent_matches",
+          "insufficient_train_matches",
+          "insufficient_train_outcome_variation",
+          "insufficient_validation_matches",
+          "insufficient_validation_outcome_variation",
+          "insufficient_test_matches",
+          "insufficient_test_outcome_variation",
+          "insufficient_ward_type_coverage"
+        ],
+        "independentMatches": 1,
+        "eligibleMatches": 1,
+        "completeFeatureMatches": 1,
+        "featureCoverage": 1,
+        "recognizedWardFraction": 0.3111111111111111,
+        "splitCounts": {
+          "train": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "validation": {
+            "matches": 0,
+            "team100Wins": 0,
+            "team100Losses": 0
+          },
+          "test": {
+            "matches": 1,
+            "team100Wins": 1,
+            "team100Losses": 0
+          }
+        },
+        "recurrentPlayerSensitivity": {
+          "policy": "Drop validation matches sharing any train player; drop test matches sharing any train or validation player. Whole matches only.",
+          "validationRetained": 0,
+          "validationDropped": 0,
+          "testRetained": 1,
+          "testDropped": 0,
+          "evaluable": false
+        }
+      }
+    }
+  ],
+  "modelEvaluation": {
+    "fitted": false,
+    "auc": null,
+    "brier": null,
+    "logLoss": null,
+    "calibration": null,
+    "reason": "No automatic fit. Gates are necessary operational checks, not a power calculation; sufficient data requires a separately reviewed evaluation run.",
+    "baseline": [
+      "goldDiff",
+      "killDiff",
+      "towerDiff"
+    ],
+    "augmented": [
+      "goldDiff",
+      "killDiff",
+      "towerDiff",
+      "recognizedPlacementDiff",
+      "recognizedRemovalDiff",
+      "controlPlacementDiff"
+    ],
+    "withheld": [
+      "finalVisionScore",
+      "finalDuration",
+      "finalRole",
+      "discoveryRank",
+      "outcome",
+      "finalReconciliation"
+    ]
+  },
+  "interpretation": "Descriptive corpus frequencies only. Wilson intervals assume independent matches and ignore recurring-player dependence; player-disjoint sensitivity is separate. No causal ward target, significance, population win probability or optimal horizon is estimated."
+}

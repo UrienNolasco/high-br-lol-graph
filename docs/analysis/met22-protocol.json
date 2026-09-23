@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "metricId": "H03",
+  "hypothesis": "Within Solo/Duo patch16.2 map11, timestamped recognized ward activity through15min may be associated with team100 outcome conditional on gold, kills and tower captures observed by that horizon. Predictive, not causal.",
+  "patch": "16.2",
+  "queueId": 420,
+  "mapId": 11,
+  "primaryHorizonMs": 900000,
+  "primaryWindow": "cumulative",
+  "sensitivityHorizonsMs": [600000, 900000, 1200000],
+  "sensitivityWindows": ["cumulative", "last5minutes"],
+  "split": {
+    "trainBeforeMs": 1767225600000,
+    "validationBeforeMs": 1769904000000
+  },
+  "thresholds": {
+    "minimumMatches": 500,
+    "minimumTrain": 300,
+    "minimumValidation": 100,
+    "minimumTest": 100,
+    "minimumClassPerSplit": 20,
+    "minimumFeatureCoverage": 0.9,
+    "minimumRecognizedWardFraction": 0.8
+  },
+  "thresholdInterpretation": "Conservative operational gates fixed before any model evaluation, not universal power requirements. Recognized fraction counts registered ward events, not spatial visibility coverage. Changing gates requires a new protocol version.",
+  "modelPlanIfSupported": {
+    "baseline": "Regularized logistic regression on standardized goldDiff, killDiff, towerDiff; transformations learned in train only, fixed candidate regularization grid0.01/0.1/1/10 selected on chronological validation log loss.",
+    "augmented": "Same procedure plus recognizedPlacementDiff, recognizedRemovalDiff, controlPlacementDiff. Unknown types are audited separately; literal MET19 counts never renamed recognized wards.",
+    "evaluation": "Locked temporal test: log loss, Brier, ROC AUC, calibration intercept/slope and fixed probability-bin reliability with counts; compare baseline and augmented on identical match IDs. Paired match bootstrap intervals, disclose recurring-player dependence and player-disjoint sensitivity. No coefficient or AUC is produced in the present study.",
+    "stability": "Repeat all prespecified horizons/windows and report every result; do not select best test horizon. Patch16.2 only: cross-patch stability cannot be assessed here. A future multi-patch protocol must separate or hold out patches.",
+    "contextLimits": "Roster champions are in raw source but not used in this small study; role inferred from final summary and discovery-time rank are not known-at15. Baseline is limited context, not full confounder adjustment. No individual participant rows as independent outcomes."
+  }
+}

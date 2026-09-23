@@ -1,0 +1,115 @@
+{
+  "task": "MET-22",
+  "metricId": "H03",
+  "researchVersion": 1,
+  "datasetFoundationVersion": 1,
+  "protocol": {
+    "version": 1,
+    "metricId": "H03",
+    "hypothesis": "Within Solo/Duo patch16.2 map11, timestamped recognized ward activity through15min may be associated with team100 outcome conditional on gold, kills and tower captures observed by that horizon. Predictive, not causal.",
+    "patch": "16.2",
+    "queueId": 420,
+    "mapId": 11,
+    "primaryHorizonMs": 900000,
+    "primaryWindow": "cumulative",
+    "sensitivityHorizonsMs": [
+      600000,
+      900000,
+      1200000
+    ],
+    "sensitivityWindows": [
+      "cumulative",
+      "last5minutes"
+    ],
+    "split": {
+      "trainBeforeMs": 1767225600000,
+      "validationBeforeMs": 1769904000000
+    },
+    "thresholds": {
+      "minimumMatches": 500,
+      "minimumTrain": 300,
+      "minimumValidation": 100,
+      "minimumTest": 100,
+      "minimumClassPerSplit": 20,
+      "minimumFeatureCoverage": 0.9,
+      "minimumRecognizedWardFraction": 0.8
+    },
+    "thresholdInterpretation": "Conservative operational gates fixed before any model evaluation, not universal power requirements. Recognized fraction counts registered ward events, not spatial visibility coverage. Changing gates requires a new protocol version.",
+    "modelPlanIfSupported": {
+      "baseline": "Regularized logistic regression on standardized goldDiff, killDiff, towerDiff; transformations learned in train only, fixed candidate regularization grid0.01/0.1/1/10 selected on chronological validation log loss.",
+      "augmented": "Same procedure plus recognizedPlacementDiff, recognizedRemovalDiff, controlPlacementDiff. Unknown types are audited separately; literal MET19 counts never renamed recognized wards.",
+      "evaluation": "Locked temporal test: log loss, Brier, ROC AUC, calibration intercept/slope and fixed probability-bin reliability with counts; compare baseline and augmented on identical match IDs. Paired match bootstrap intervals, disclose recurring-player dependence and player-disjoint sensitivity. No coefficient or AUC is produced in the present study.",
+      "stability": "Repeat all prespecified horizons/windows and report every result; do not select best test horizon. Patch16.2 only: cross-patch stability cannot be assessed here. A future multi-patch protocol must separate or hold out patches.",
+      "contextLimits": "Roster champions are in raw source but not used in this small study; role inferred from final summary and discovery-time rank are not known-at15. Baseline is limited context, not full confounder adjustment. No individual participant rows as independent outcomes."
+    }
+  },
+  "protocolSha256": "7009a4c5fc35dea10fc81d685232a3cf3f7955a0debf8476af9195992167dfe5",
+  "corpusManifestSha256": "0bab13e5b11db52765b5fe66b4e4db7e024dcf8121e65aefb283e464674eec81",
+  "sourceScope": "Explicit repository corpus only. No database, benchmark replicas, network or production data queried.",
+  "sourceFiles": [
+    {
+      "matchId": "BR1_3200579475",
+      "fingerprint": "cd1585b17f68cb0861fef6c4777e0c78d6fffdc18aec2faecbcb150accf7cd90",
+      "summary": {
+        "path": "exemplo_partida_BR1_3200579475.json",
+        "sha256": "84f4a95ab6be4c3e9ee264a4b2ca421d76b180e47d39bdd8eb9a4a6163dc79ef"
+      },
+      "timeline": {
+        "path": "exemplo_partida_timeline_BR1_3200579475.json",
+        "sha256": "47b305de799e4e737d43dc3eeedf41c5d9f84a8bdd4f43b608ca0466a2728626"
+      }
+    }
+  ],
+  "implementationSha256": {
+    "src/core/research/vision-study.ts": "a0381272ace1061b1e3aabacc4669f2d808ce09a930bfea563d047f40bb7b5fb",
+    "src/vision-study-cli.ts": "b8ba91376291d01aca18570d9c89547243a995daed6605c4ce5c7392e17ac238",
+    "src/core/riot/normalized-events.ts": "a1d702206b39c82746d58de77565ecc551c481e5972f4ad74ba83fb18a454999",
+    "src/core/riot/timeline-snapshots.ts": "1e15fc0af58057db15fe5a135e94597d7b95eb0d36f20dc99ed804e79d88509e",
+    "src/core/metrics/temporal.ts": "bc3c412adc04b4e2411cac9d99b2022c792bf847055fdb13a8b328cb28689c98",
+    "src/modules/matches/pure/vision-calculator.ts": "3e4bf19ec7386c27e137e8d38e3c14429b13c449c923bd738b843a452dc56cb2",
+    "src/modules/worker/pure/match.parser.ts": "5b4da6246f61fc3a5832c797f44d208734f967b85bf20543840ea967c93cf466",
+    "src/core/metrics/champion-population.ts": "8d17b7a1bb9be11a0846bd0c10a59a7e228cfce0fac40c87bb100f5bdf15e795",
+    "src/core/metrics/eligibility.ts": "199dcebf2dd32f425414a0f4069ba2a9ad28f19f6af91abeb9ca01c410abcf36",
+    "src/core/processing/processing.constants.ts": "c6906cc877e6905d23b98640898ed3bb666760e9b7cae133264c093010633465",
+    "src/core/dataset/dataset-export.ts": "d51cfe5a2e6c6c4149075328a3d6beba5b9c58bfd5e8f4094207340c33480f64"
+  },
+  "provenance": "Offline transformations using processing generation4 code, not a completed persisted generation; processedAt and discovery lineage are unknown.",
+  "featurePolicy": "Only timestamped observations <= horizon; identifiers/window/split are metadata, not model covariates. Explicit numeric baseline/augmented allowlists in results. Outcome only in labels; final checks only in reconciliation.",
+  "featureDefinitions": {
+    "direction": "team100 minus team200",
+    "goldDiff": "sum of five participant totalGold per team in same pastOnly frame, tolerance60000ms",
+    "killDiff": "attributed CHAMPION_KILL events; explicit environmental killer0 contributes no team kill",
+    "towerDiff": "TOWER_BUILDING captures by beneficiary team, never destroyed owner",
+    "recognizedPlacementDiff": "WARD_PLACED with MET11 recognized wardType",
+    "recognizedRemovalDiff": "WARD_KILL with MET11 recognized wardType",
+    "controlPlacementDiff": "WARD_PLACED literal CONTROL_WARD; subset of recognized placements",
+    "unknownPlacementDiff": "WARD_PLACED with missing/future/unknown type, separately observed",
+    "unknownRemovalDiff": "WARD_KILL with missing/future/unknown type, separately observed",
+    "zeroAndMissing": "Complete timestamp/actor/frame source with zero events is zero. Unsupported projection, missing source, ambiguous identity or attribution is null with reason."
+  },
+  "independentMatches": 1,
+  "featureRows": 6,
+  "labelRows": 1,
+  "files": {
+    "features.jsonl": {
+      "bytes": 3358,
+      "sha256": "0efc962789c45003edffc6cae6c2138a76bda2c776b8ede5d2f6fa0cafe85b0e"
+    },
+    "labels.jsonl": {
+      "bytes": 59,
+      "sha256": "8cbb776c234e7b2a7b6945eb706d1bea7ac8274be3aedb10ab3b65d1028c46a4"
+    },
+    "metadata.jsonl": {
+      "bytes": 30327,
+      "sha256": "58fbe18c875f76f61d3f91e44f72628e14ab2c1f21bc8d9ee6d927c7134a4a26"
+    },
+    "results.json": {
+      "bytes": 23578,
+      "sha256": "b2281590b1df3ba230073c8ab1cde60224099621f248fa10b125b3f27a3ebdce"
+    },
+    "reconciliation.json": {
+      "bytes": 3820,
+      "sha256": "e1eeb1f713c7b41df8b61a8d60e952a19a970c950b0de4ecbb3953b01d7f66f4"
+    }
+  }
+}
