@@ -320,6 +320,8 @@ Com **uma partida**, este levantamento valida extração e produz hipóteses. N�
 
 ### Primeira entrega: explicar a contribuição
 
+A especificação de consumo MET-34 está em [EXPERIENCIA-REVISAO.md](EXPERIENCIA-REVISAO.md), com [wireframe navegável](review/prototype.html), exemplos reconciliados de Fiora/Milio e roteiro de validação ainda sem participantes.
+
 Um painel por jogador com quatro dimensões separadas: recursos, combate, visão e estruturas. Mostrar valores, posição relativa dentro do time e referência histórica quando existir. Não condensar tudo em uma nota única antes de validar os pesos.
 
 Exemplo de cartão factual: “Fiora: 28% do ouro, 35% do dano a campeões e 79% do dano a torres do time”. Para Milio, o destaque muda para cura, escudo, KP e visão. Comparações devem respeitar o papel de cada campeão.

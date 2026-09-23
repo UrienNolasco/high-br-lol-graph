@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revisão de partida — wireframe MET-34</title>
+<style>
+body{font:16px system-ui;margin:0;background:#f5f5f3;color:#222}main{max-width:1000px;margin:auto;padding:24px}h1{font-size:1.8rem}h2{font-size:1.25rem}label{display:inline-block;margin:8px 16px 12px 0}select,button{font:inherit;padding:10px;border:1px solid #666;border-radius:4px;background:white;color:#222;cursor:pointer}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid #234ac6;outline-offset:3px}.notice{padding:12px;border-left:4px solid #777;background:#eee}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{border:1px solid #999;background:#fff;padding:16px}.card button{display:block;text-align:left;width:100%;margin:8px 0}.card strong{display:block;font-size:1.15rem}.muted{color:#555;font-size:.9rem}#details{padding:16px;border:2px solid #555;background:#fff;margin-top:16px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.9rem}li{margin:12px 0}.episode{margin-top:20px}a{color:#234ac6}@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){main{padding:12px}.cards{grid-template-columns:1fr}}
+</style>
+<main>
+<p class="muted">Wireframe navegável · MET-34 · <a href="../EXPERIENCIA-REVISAO.md">Especificação</a></p>
+<h1>Revisar minha partida</h1>
+<p>Escolha um jogador e explore suas contribuições. Cada número abre a fonte e a forma de cálculo.</p>
+<label>Jogador <select id="player"><option>Fiora</option><option>Milio</option></select></label>
+<label>Estado de demonstração <select id="state"><option value="ready">Dados disponíveis</option><option value="loading">Carregando</option><option value="partial">Cobertura parcial (sintético)</option><option value="missing">Campo ausente (sintético)</option><option value="error">Falha de leitura (sintético)</option><option value="notfound">Partida não encontrada (sintético)</option></select></label>
+<p id="context"></p><p id="status" class="notice" role="status" aria-live="polite"></p>
+<section class="cards" id="cards" aria-label="Dimensões de contribuição"></section>
+<section class="episode" id="episodes"></section>
+<section id="details" tabindex="-1" aria-label="Detalhes da evidência" hidden></section>
+<p class="muted">Uma partida, sem referência histórica suficiente. Não há nota geral. Cura e escudos não medem mortes evitadas; wards não demonstram área exata de visão.</p>
+</main>
+<script src="examples.js"></script>
+<script>
+const byId=id=>document.getElementById(id);
+const format=n=>new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2}).format(n);
+const time=ms=>`${Math.floor(ms/60000)}:${String(Math.floor(ms/1000)%60).padStart(2,'0')}`;
+function text(parent,tag,value){const el=document.createElement(tag);el.textContent=value;parent.append(el);return el}
+function details(title,body){const el=byId('details');el.replaceChildren();text(el,'h2',title);text(el,'pre',body);const back=text(el,'button','Voltar às contribuições');back.onclick=()=>{el.hidden=true;byId('player').focus()};el.hidden=false;el.focus()}
+function render(){
+ const report=window.REVIEW_EXAMPLES.reports.find(r=>r.participant.champion===byId('player').value);
+ const state=byId('state').value;
+ byId('details').hidden=true;byId('cards').replaceChildren();byId('episodes').replaceChildren();
+ byId('context').textContent=`${report.participant.champion} · ${report.participant.role} · ${report.context.win?'Vitória':'Derrota'} · ${time(report.context.gameDurationSeconds*1000)} · versão ${report.context.gameVersion} · fila ${report.context.queueId}`;
+ const messages={ready:'Valores da partida de exemplo. Abra uma contribuição para conferir a evidência.',loading:'Carregando análise da partida…',partial:'Exemplo sintético: faltam eventos da timeline. Totais do resumo continuam disponíveis; episódios não podem ser enumerados.',missing:'Exemplo sintético: o campo de wards colocadas está ausente. Ausência aparece como indisponível, sem alterar os demais valores.',error:'Não foi possível ler a análise. Tente novamente.',notfound:'Partida não encontrada. Confira a identificação ou volte ao histórico.'};
+ byId('status').textContent=messages[state];
+ if(['loading','error','notfound'].includes(state)){if(state==='error'){const retry=text(byId('cards'),'button','Tentar novamente');retry.onclick=()=>{byId('state').value='ready';render()}}return}
+ for(const dimension of report.dimensions){
+  const card=text(byId('cards'),'article','');card.className='card';text(card,'h2',dimension.label);
+  for(const original of dimension.metrics){const metric=structuredClone(original);
+   if(state==='missing'&&metric.metricId==='V03.placed'){metric.value=null;metric.origin='unavailable';metric.reason='missing_field';metric.quality.validSamples=0;metric.quality.coverage=0;metric.evidence[0].value=null}
+   const button=text(card,'button',metric.label);text(button,'strong',metric.value===null?'Indisponível':format(metric.value)+(metric.unit==='percent'?'%':''));
+   button.onclick=()=>details(metric.label,`${metric.value===null?'Campo ausente; não significa zero.':metric.origin==='observed'?'Valor registrado no resumo.':'Cálculo determinístico sobre valores registrados.'}\nCobertura deste campo: ${metric.quality.validSamples}/${metric.quality.totalSamples}.\n${metric.denominator?'Base: '+format(metric.denominator.value)+' '+metric.denominator.unit+' do time.':''}\n\n${JSON.stringify(metric,null,2)}`);
+  }
+ }
+ text(byId('episodes'),'h2','Momentos para revisar');
+ if(state==='partial'){text(byId('episodes'),'p','Episódios indisponíveis: dados parciais. Não interpretar a lista vazia como ausência de acontecimentos.');return}
+ for(const episode of report.episodes){
+  const button=text(byId('episodes'),'button',`${time(episode.window.startMs)} — ${episode.label}`);
+  button.onclick=()=>{const panel=byId('details');panel.replaceChildren();text(panel,'h2',episode.label);text(panel,'p',episode.limitation);text(panel,'p','Uma morte, duas capturas registradas. Janela (morte, morte + 60 s], sem censura neste exemplo.');for(const id of episode.evidenceIds){const evidence=report.evidence.find(e=>e.id===id);const link=text(panel,'button',`${time(evidence.timestampMs)} · ${evidence.type}`);link.onclick=()=>details('Registro da timeline',JSON.stringify(evidence,null,2))}panel.hidden=false;panel.focus()};
+ }
+}
+byId('player').onchange=render;byId('state').onchange=render;render();
+</script>
+</html>
