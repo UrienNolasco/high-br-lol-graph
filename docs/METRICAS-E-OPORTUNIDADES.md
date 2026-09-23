@@ -391,6 +391,8 @@ Cada métrica precisa responder: qual pergunta atende, em qual população, a pa
 
 MET-01 implementada: [contratos executáveis, matriz de elegibilidade e compatibilidade](CONTRATOS-METRICAS.md), com exemplos dos quatro estados em `src/core/metrics/metric-examples.ts` e schema compartilhado no OpenAPI.
 
+MET-02 implementada: [corpus, auditoria reproduzível e limites de cobertura](CORPUS-METRICAS.md), com manifesto e relatório em `docs/analysis/corpus-*.json`.
+
 | Elemento | Regra proposta |
 |---|---|
 | Identidade | `metricId`, `metricVersion`, sujeito (`participant`, `team`, `match`), `matchId` e horizonte/janela |

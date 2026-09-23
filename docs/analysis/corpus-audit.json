@@ -1,0 +1,5011 @@
+{
+  "auditVersion": 1,
+  "manifest": "docs/analysis/corpus-manifest.json",
+  "sourceSha256": {
+    "exemplo_partida_BR1_3200579475.json": "84f4a95ab6be4c3e9ee264a4b2ca421d76b180e47d39bdd8eb9a4a6163dc79ef",
+    "exemplo_partida_timeline_BR1_3200579475.json": "47b305de799e4e737d43dc3eeedf41c5d9f84a8bdd4f43b608ca0466a2728626"
+  },
+  "realSampleN": 1,
+  "syntheticSampleN": 9,
+  "coverageByVersionQueueMap": [
+    {
+      "gameVersion": "16.2.741.3171",
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "realN": 1
+    }
+  ],
+  "supportMatrix": [
+    {
+      "gameVersion": "16.2.741.3171",
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "realN": 1,
+      "status": "fixture_validated",
+      "scope": "100 participant and 12 objective summary/timeline reconciliations; observed field and event shapes only",
+      "limitation": "One match cannot validate every match or optional field in this patch."
+    },
+    {
+      "gameVersion": "16.20.999.1",
+      "patch": "16.20",
+      "queueId": 420,
+      "mapId": 11,
+      "realN": 0,
+      "status": "synthetic_only_unsupported",
+      "scope": "Controlled version-label mutation; no real evidence of semantics"
+    },
+    {
+      "gameVersion": null,
+      "patch": null,
+      "queueId": null,
+      "mapId": null,
+      "realN": 0,
+      "status": "unvalidated",
+      "scope": "All other versions, queues and maps lack real samples in the current corpus"
+    }
+  ],
+  "matchRawAvailability": {
+    "status": "measured",
+    "measuredAt": "2026-09-23T11:23:41.202287+00:00",
+    "scope": "local isolated integration database",
+    "database": "high_br_integration",
+    "container": "high-br-reliability-postgres",
+    "query": "SELECT json_build_object(\n 'rows', count(*),\n 'summaryAvailable', count(summary),\n 'timelineAvailable', count(timeline),\n 'bothAvailable', count(*) FILTER (WHERE summary IS NOT NULL AND timeline IS NOT NULL),\n 'summaryBytes', coalesce(sum(octet_length(summary)),0),\n 'timelineBytes', coalesce(sum(octet_length(timeline)),0),\n 'matchIds', coalesce(json_agg(\"matchId\" ORDER BY \"matchId\"), '[]'::json)\n) FROM match_raw;",
+    "rows": 8,
+    "summaryAvailable": 8,
+    "timelineAvailable": 8,
+    "bothAvailable": 8,
+    "summaryBytes": 93686,
+    "timelineBytes": 703416,
+    "matchIds": [
+      "BR1_200",
+      "BR1_201",
+      "BR1_202",
+      "BR1_203",
+      "BR1_204",
+      "BR1_205",
+      "BR1_206",
+      "BR1_207"
+    ],
+    "dataOrigin": "Integration test residue. Fixture copies use synthetic match IDs; not independent real games.",
+    "source": "test/integration/processing.integration-spec.ts: fixture() and concurrent eight-match test",
+    "limitation": "Compressed payload byte counts establish presence only, not decompression validity or production volume. Database state changes after integration tests."
+  },
+  "limitations": [
+    "Only one real patch currently checked in; synthetic variants do not establish cross-patch support.",
+    "No population representativeness or full BR server coverage is claimed.",
+    "Truncated synthetic timelines intentionally produce reconciliation failures; expectationPassed tests that they are detected."
+  ],
+  "real": [
+    {
+      "sampleId": "BR1_3200579475",
+      "kind": "real",
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [
+          {
+            "subject": 1,
+            "metric": "kills",
+            "expectedSummary": 19,
+            "observedTimeline": 19,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "deaths",
+            "expectedSummary": 5,
+            "observedTimeline": 5,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "assists",
+            "expectedSummary": 7,
+            "observedTimeline": 7,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "wardsPlaced",
+            "expectedSummary": 13,
+            "observedTimeline": 13,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "wardsKilled",
+            "expectedSummary": 4,
+            "observedTimeline": 4,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "controlWards",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "soloKills",
+            "expectedSummary": 7,
+            "observedTimeline": 7,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "finalGold",
+            "expectedSummary": 24864,
+            "observedTimeline": 24864,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "finalCS",
+            "expectedSummary": 340,
+            "observedTimeline": 340,
+            "status": "pass"
+          },
+          {
+            "subject": 1,
+            "metric": "finalDamage",
+            "expectedSummary": 81226,
+            "observedTimeline": 81226,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "kills",
+            "expectedSummary": 4,
+            "observedTimeline": 4,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "deaths",
+            "expectedSummary": 9,
+            "observedTimeline": 9,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "assists",
+            "expectedSummary": 16,
+            "observedTimeline": 16,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "wardsPlaced",
+            "expectedSummary": 16,
+            "observedTimeline": 16,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "wardsKilled",
+            "expectedSummary": 1,
+            "observedTimeline": 1,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "controlWards",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "soloKills",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "finalGold",
+            "expectedSummary": 17162,
+            "observedTimeline": 17162,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "finalCS",
+            "expectedSummary": 272,
+            "observedTimeline": 272,
+            "status": "pass"
+          },
+          {
+            "subject": 2,
+            "metric": "finalDamage",
+            "expectedSummary": 50016,
+            "observedTimeline": 50016,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "kills",
+            "expectedSummary": 13,
+            "observedTimeline": 13,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "deaths",
+            "expectedSummary": 18,
+            "observedTimeline": 18,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "assists",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "wardsPlaced",
+            "expectedSummary": 14,
+            "observedTimeline": 14,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "wardsKilled",
+            "expectedSummary": 4,
+            "observedTimeline": 4,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "controlWards",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "finalGold",
+            "expectedSummary": 18929,
+            "observedTimeline": 18929,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "finalCS",
+            "expectedSummary": 280,
+            "observedTimeline": 280,
+            "status": "pass"
+          },
+          {
+            "subject": 3,
+            "metric": "finalDamage",
+            "expectedSummary": 40814,
+            "observedTimeline": 40814,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "kills",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 8,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "assists",
+            "expectedSummary": 17,
+            "observedTimeline": 17,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "wardsPlaced",
+            "expectedSummary": 20,
+            "observedTimeline": 20,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "wardsKilled",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "controlWards",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "soloKills",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "finalGold",
+            "expectedSummary": 17153,
+            "observedTimeline": 17153,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "finalCS",
+            "expectedSummary": 301,
+            "observedTimeline": 301,
+            "status": "pass"
+          },
+          {
+            "subject": 4,
+            "metric": "finalDamage",
+            "expectedSummary": 54341,
+            "observedTimeline": 54341,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "kills",
+            "expectedSummary": 1,
+            "observedTimeline": 1,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "deaths",
+            "expectedSummary": 12,
+            "observedTimeline": 12,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "assists",
+            "expectedSummary": 20,
+            "observedTimeline": 20,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "wardsPlaced",
+            "expectedSummary": 46,
+            "observedTimeline": 46,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "wardsKilled",
+            "expectedSummary": 6,
+            "observedTimeline": 6,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "controlWards",
+            "expectedSummary": 6,
+            "observedTimeline": 6,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "soloKills",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "finalGold",
+            "expectedSummary": 10498,
+            "observedTimeline": 10498,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "finalCS",
+            "expectedSummary": 34,
+            "observedTimeline": 34,
+            "status": "pass"
+          },
+          {
+            "subject": 5,
+            "metric": "finalDamage",
+            "expectedSummary": 5830,
+            "observedTimeline": 5830,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "kills",
+            "expectedSummary": 9,
+            "observedTimeline": 9,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "deaths",
+            "expectedSummary": 9,
+            "observedTimeline": 9,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "assists",
+            "expectedSummary": 6,
+            "observedTimeline": 6,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "wardsPlaced",
+            "expectedSummary": 16,
+            "observedTimeline": 16,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "wardsKilled",
+            "expectedSummary": 4,
+            "observedTimeline": 4,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "controlWards",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "soloKills",
+            "expectedSummary": 4,
+            "observedTimeline": 4,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "finalGold",
+            "expectedSummary": 15063,
+            "observedTimeline": 15063,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "finalCS",
+            "expectedSummary": 268,
+            "observedTimeline": 268,
+            "status": "pass"
+          },
+          {
+            "subject": 6,
+            "metric": "finalDamage",
+            "expectedSummary": 24541,
+            "observedTimeline": 24541,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "kills",
+            "expectedSummary": 12,
+            "observedTimeline": 12,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 8,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "assists",
+            "expectedSummary": 7,
+            "observedTimeline": 7,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "wardsPlaced",
+            "expectedSummary": 10,
+            "observedTimeline": 10,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "wardsKilled",
+            "expectedSummary": 8,
+            "observedTimeline": 8,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "controlWards",
+            "expectedSummary": 5,
+            "observedTimeline": 5,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "finalGold",
+            "expectedSummary": 17039,
+            "observedTimeline": 17039,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "finalCS",
+            "expectedSummary": 278,
+            "observedTimeline": 278,
+            "status": "pass"
+          },
+          {
+            "subject": 7,
+            "metric": "finalDamage",
+            "expectedSummary": 39571,
+            "observedTimeline": 39571,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "kills",
+            "expectedSummary": 16,
+            "observedTimeline": 16,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 8,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "assists",
+            "expectedSummary": 15,
+            "observedTimeline": 15,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "wardsPlaced",
+            "expectedSummary": 9,
+            "observedTimeline": 9,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "wardsKilled",
+            "expectedSummary": 8,
+            "observedTimeline": 8,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "controlWards",
+            "expectedSummary": 6,
+            "observedTimeline": 6,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "soloKills",
+            "expectedSummary": 6,
+            "observedTimeline": 6,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "finalGold",
+            "expectedSummary": 16188,
+            "observedTimeline": 16188,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "finalCS",
+            "expectedSummary": 206,
+            "observedTimeline": 206,
+            "status": "pass"
+          },
+          {
+            "subject": 8,
+            "metric": "finalDamage",
+            "expectedSummary": 48349,
+            "observedTimeline": 48349,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "kills",
+            "expectedSummary": 15,
+            "observedTimeline": 15,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "deaths",
+            "expectedSummary": 7,
+            "observedTimeline": 7,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "assists",
+            "expectedSummary": 14,
+            "observedTimeline": 14,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "wardsPlaced",
+            "expectedSummary": 9,
+            "observedTimeline": 9,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "wardsKilled",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "controlWards",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "finalGold",
+            "expectedSummary": 18680,
+            "observedTimeline": 18680,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "finalCS",
+            "expectedSummary": 278,
+            "observedTimeline": 278,
+            "status": "pass"
+          },
+          {
+            "subject": 9,
+            "metric": "finalDamage",
+            "expectedSummary": 69525,
+            "observedTimeline": 69525,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "kills",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 8,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "assists",
+            "expectedSummary": 30,
+            "observedTimeline": 30,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "wardsPlaced",
+            "expectedSummary": 43,
+            "observedTimeline": 43,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "wardsKilled",
+            "expectedSummary": 10,
+            "observedTimeline": 10,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "controlWards",
+            "expectedSummary": 1,
+            "observedTimeline": 1,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "soloKills",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "finalGold",
+            "expectedSummary": 11643,
+            "observedTimeline": 11643,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "finalCS",
+            "expectedSummary": 46,
+            "observedTimeline": 46,
+            "status": "pass"
+          },
+          {
+            "subject": 10,
+            "metric": "finalDamage",
+            "expectedSummary": 7543,
+            "observedTimeline": 7543,
+            "status": "pass"
+          }
+        ],
+        "objectiveChecks": [
+          {
+            "subject": 100,
+            "metric": "DRAGON",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 100,
+            "metric": "BARON_NASHOR",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 100,
+            "metric": "HORDE",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 100,
+            "metric": "RIFTHERALD",
+            "expectedSummary": 0,
+            "observedTimeline": 0,
+            "status": "pass"
+          },
+          {
+            "subject": 100,
+            "metric": "TOWER_BUILDING",
+            "expectedSummary": 7,
+            "observedTimeline": 7,
+            "status": "pass"
+          },
+          {
+            "subject": 100,
+            "metric": "INHIBITOR_BUILDING",
+            "expectedSummary": 1,
+            "observedTimeline": 1,
+            "status": "pass"
+          },
+          {
+            "subject": 200,
+            "metric": "DRAGON",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 200,
+            "metric": "BARON_NASHOR",
+            "expectedSummary": 2,
+            "observedTimeline": 2,
+            "status": "pass"
+          },
+          {
+            "subject": 200,
+            "metric": "HORDE",
+            "expectedSummary": 3,
+            "observedTimeline": 3,
+            "status": "pass"
+          },
+          {
+            "subject": 200,
+            "metric": "RIFTHERALD",
+            "expectedSummary": 1,
+            "observedTimeline": 1,
+            "status": "pass"
+          },
+          {
+            "subject": 200,
+            "metric": "TOWER_BUILDING",
+            "expectedSummary": 6,
+            "observedTimeline": 6,
+            "status": "pass"
+          },
+          {
+            "subject": 200,
+            "metric": "INHIBITOR_BUILDING",
+            "expectedSummary": 1,
+            "observedTimeline": 1,
+            "status": "pass"
+          }
+        ],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 112,
+          "fail": 0,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 41,
+          "snapshots": 410,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 752
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 19,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    }
+  ],
+  "synthetic": [
+    {
+      "sampleId": "BR1_3200579475:missing_frames",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "missing_frames",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [
+          {
+            "subject": 1,
+            "metric": "kills",
+            "expectedSummary": 19,
+            "observedTimeline": 17,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "wardsPlaced",
+            "expectedSummary": 13,
+            "observedTimeline": 12,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "wardsKilled",
+            "expectedSummary": 4,
+            "observedTimeline": 3,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "soloKills",
+            "expectedSummary": 7,
+            "observedTimeline": 6,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "assists",
+            "expectedSummary": 16,
+            "observedTimeline": 15,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "wardsPlaced",
+            "expectedSummary": 16,
+            "observedTimeline": 15,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "kills",
+            "expectedSummary": 13,
+            "observedTimeline": 12,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "deaths",
+            "expectedSummary": 18,
+            "observedTimeline": 15,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "wardsPlaced",
+            "expectedSummary": 14,
+            "observedTimeline": 12,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 2,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "kills",
+            "expectedSummary": 3,
+            "observedTimeline": 2,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "wardsPlaced",
+            "expectedSummary": 20,
+            "observedTimeline": 17,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "controlWards",
+            "expectedSummary": 3,
+            "observedTimeline": 2,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "assists",
+            "expectedSummary": 20,
+            "observedTimeline": 19,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "wardsPlaced",
+            "expectedSummary": 46,
+            "observedTimeline": 42,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "wardsKilled",
+            "expectedSummary": 6,
+            "observedTimeline": 4,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "kills",
+            "expectedSummary": 9,
+            "observedTimeline": 8,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "deaths",
+            "expectedSummary": 9,
+            "observedTimeline": 8,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "wardsPlaced",
+            "expectedSummary": 16,
+            "observedTimeline": 14,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "soloKills",
+            "expectedSummary": 4,
+            "observedTimeline": 3,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "kills",
+            "expectedSummary": 12,
+            "observedTimeline": 11,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "wardsPlaced",
+            "expectedSummary": 10,
+            "observedTimeline": 8,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "controlWards",
+            "expectedSummary": 5,
+            "observedTimeline": 3,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 2,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "kills",
+            "expectedSummary": 16,
+            "observedTimeline": 15,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 6,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "soloKills",
+            "expectedSummary": 6,
+            "observedTimeline": 5,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "deaths",
+            "expectedSummary": 7,
+            "observedTimeline": 6,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "wardsPlaced",
+            "expectedSummary": 43,
+            "observedTimeline": 39,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "wardsKilled",
+            "expectedSummary": 10,
+            "observedTimeline": 6,
+            "status": "fail"
+          }
+        ],
+        "objectiveChecks": [
+          {
+            "subject": 100,
+            "metric": "TOWER_BUILDING",
+            "expectedSummary": 7,
+            "observedTimeline": 6,
+            "status": "fail"
+          },
+          {
+            "subject": 200,
+            "metric": "DRAGON",
+            "expectedSummary": 3,
+            "observedTimeline": 2,
+            "status": "fail"
+          }
+        ],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 80,
+          "fail": 32,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 37,
+          "snapshots": 370,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [
+            [
+              720309,
+              1020408
+            ]
+          ],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 14,
+            "CHAMPION_KILL": 85,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "ELITE_MONSTER_KILL": 11,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 234,
+            "ITEM_PURCHASED": 256,
+            "ITEM_SOLD": 15,
+            "ITEM_UNDO": 12,
+            "LEVEL_UP": 152,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 156,
+            "TURRET_PLATE_DESTROYED": 65,
+            "WARD_KILL": 44,
+            "WARD_PLACED": 671
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 177,
+          "unknownWardTypes": {
+            "UNDEFINED": 494
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "missing_frame"
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "missing_frame"
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 16,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:duplicate_timestamp",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "duplicate_timestamp",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [],
+        "objectiveChecks": [],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 112,
+          "fail": 0,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 42,
+          "snapshots": 420,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "15": 2,
+            "39": 2
+          },
+          "duplicateTimestamps": {
+            "900358": 2
+          },
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 752
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 21,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:unknown_types",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "unknown_types",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [],
+        "objectiveChecks": [],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 112,
+          "fail": 0,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 41,
+          "snapshots": 410,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "FUTURE_EVENT": 1,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 753
+          },
+          "unknownEventTypes": {
+            "FUTURE_EVENT": 1
+          },
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "FUTURE_WARD": 1,
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 19,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:ambiguous_role",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "ambiguous_role",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [],
+        "objectiveChecks": [],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 112,
+          "fail": 0,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 41,
+          "snapshots": 410,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 752
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 19,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": null,
+            "reason": "ambiguous_role"
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": null,
+            "reason": "missing_opponent"
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:short_match",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "short_match",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 120
+        },
+        "playerChecks": [
+          {
+            "subject": 1,
+            "metric": "kills",
+            "expectedSummary": 19,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "deaths",
+            "expectedSummary": 5,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "assists",
+            "expectedSummary": 7,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "wardsPlaced",
+            "expectedSummary": 13,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "wardsKilled",
+            "expectedSummary": 4,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "soloKills",
+            "expectedSummary": 7,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "finalGold",
+            "expectedSummary": 24864,
+            "observedTimeline": 500,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "finalCS",
+            "expectedSummary": 340,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 1,
+            "metric": "finalDamage",
+            "expectedSummary": 81226,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "kills",
+            "expectedSummary": 4,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "deaths",
+            "expectedSummary": 9,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "assists",
+            "expectedSummary": 16,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "wardsPlaced",
+            "expectedSummary": 16,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "wardsKilled",
+            "expectedSummary": 1,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "finalGold",
+            "expectedSummary": 17162,
+            "observedTimeline": 512,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "finalCS",
+            "expectedSummary": 272,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 2,
+            "metric": "finalDamage",
+            "expectedSummary": 50016,
+            "observedTimeline": 188,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "kills",
+            "expectedSummary": 13,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "deaths",
+            "expectedSummary": 18,
+            "observedTimeline": 1,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "assists",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "wardsPlaced",
+            "expectedSummary": 14,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "wardsKilled",
+            "expectedSummary": 4,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "finalGold",
+            "expectedSummary": 18929,
+            "observedTimeline": 500,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "finalCS",
+            "expectedSummary": 280,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 3,
+            "metric": "finalDamage",
+            "expectedSummary": 40814,
+            "observedTimeline": 340,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "kills",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "assists",
+            "expectedSummary": 17,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "wardsPlaced",
+            "expectedSummary": 20,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "wardsKilled",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "controlWards",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "finalGold",
+            "expectedSummary": 17153,
+            "observedTimeline": 500,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "finalCS",
+            "expectedSummary": 301,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 4,
+            "metric": "finalDamage",
+            "expectedSummary": 54341,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "kills",
+            "expectedSummary": 1,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "deaths",
+            "expectedSummary": 12,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "assists",
+            "expectedSummary": 20,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "wardsPlaced",
+            "expectedSummary": 46,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "wardsKilled",
+            "expectedSummary": 6,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "controlWards",
+            "expectedSummary": 6,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "finalGold",
+            "expectedSummary": 10498,
+            "observedTimeline": 500,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "finalCS",
+            "expectedSummary": 34,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 5,
+            "metric": "finalDamage",
+            "expectedSummary": 5830,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "kills",
+            "expectedSummary": 9,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "deaths",
+            "expectedSummary": 9,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "assists",
+            "expectedSummary": 6,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "wardsPlaced",
+            "expectedSummary": 16,
+            "observedTimeline": 1,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "wardsKilled",
+            "expectedSummary": 4,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "soloKills",
+            "expectedSummary": 4,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "finalGold",
+            "expectedSummary": 15063,
+            "observedTimeline": 500,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "finalCS",
+            "expectedSummary": 268,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 6,
+            "metric": "finalDamage",
+            "expectedSummary": 24541,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "kills",
+            "expectedSummary": 12,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "assists",
+            "expectedSummary": 7,
+            "observedTimeline": 1,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "wardsPlaced",
+            "expectedSummary": 10,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "wardsKilled",
+            "expectedSummary": 8,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "controlWards",
+            "expectedSummary": 5,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "finalGold",
+            "expectedSummary": 17039,
+            "observedTimeline": 620,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "finalCS",
+            "expectedSummary": 278,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 7,
+            "metric": "finalDamage",
+            "expectedSummary": 39571,
+            "observedTimeline": 284,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "kills",
+            "expectedSummary": 16,
+            "observedTimeline": 1,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "assists",
+            "expectedSummary": 15,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "wardsPlaced",
+            "expectedSummary": 9,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "wardsKilled",
+            "expectedSummary": 8,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "controlWards",
+            "expectedSummary": 6,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "soloKills",
+            "expectedSummary": 6,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "finalGold",
+            "expectedSummary": 16188,
+            "observedTimeline": 920,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "finalCS",
+            "expectedSummary": 206,
+            "observedTimeline": 1,
+            "status": "fail"
+          },
+          {
+            "subject": 8,
+            "metric": "finalDamage",
+            "expectedSummary": 48349,
+            "observedTimeline": 481,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "kills",
+            "expectedSummary": 15,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "deaths",
+            "expectedSummary": 7,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "assists",
+            "expectedSummary": 14,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "wardsPlaced",
+            "expectedSummary": 9,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "wardsKilled",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "soloKills",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "finalGold",
+            "expectedSummary": 18680,
+            "observedTimeline": 500,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "finalCS",
+            "expectedSummary": 278,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 9,
+            "metric": "finalDamage",
+            "expectedSummary": 69525,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "deaths",
+            "expectedSummary": 8,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "assists",
+            "expectedSummary": 30,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "wardsPlaced",
+            "expectedSummary": 43,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "wardsKilled",
+            "expectedSummary": 10,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "controlWards",
+            "expectedSummary": 1,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "finalGold",
+            "expectedSummary": 11643,
+            "observedTimeline": 500,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "finalCS",
+            "expectedSummary": 46,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 10,
+            "metric": "finalDamage",
+            "expectedSummary": 7543,
+            "observedTimeline": 0,
+            "status": "fail"
+          }
+        ],
+        "objectiveChecks": [
+          {
+            "subject": 100,
+            "metric": "DRAGON",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 100,
+            "metric": "TOWER_BUILDING",
+            "expectedSummary": 7,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 100,
+            "metric": "INHIBITOR_BUILDING",
+            "expectedSummary": 1,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 200,
+            "metric": "DRAGON",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 200,
+            "metric": "BARON_NASHOR",
+            "expectedSummary": 2,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 200,
+            "metric": "HORDE",
+            "expectedSummary": 3,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 200,
+            "metric": "RIFTHERALD",
+            "expectedSummary": 1,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 200,
+            "metric": "TOWER_BUILDING",
+            "expectedSummary": 6,
+            "observedTimeline": 0,
+            "status": "fail"
+          },
+          {
+            "subject": 200,
+            "metric": "INHIBITOR_BUILDING",
+            "expectedSummary": 1,
+            "observedTimeline": 0,
+            "status": "fail"
+          }
+        ],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 13,
+          "fail": 99,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 2,
+          "snapshots": 20,
+          "frameTimestampMs": [
+            0,
+            60020
+          ],
+          "duplicateMinutes": {},
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "CHAMPION_KILL": 1,
+            "CHAMPION_SPECIAL_KILL": 1,
+            "ITEM_DESTROYED": 2,
+            "ITEM_PURCHASED": 27,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 9,
+            "WARD_PLACED": 4
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 1,
+          "unknownWardTypes": {
+            "UNDEFINED": 3
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": null,
+            "timestampMs": null,
+            "offsetMs": null,
+            "reason": "short_match"
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:surrender_false",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "surrender_false",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [],
+        "objectiveChecks": [],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 112,
+          "fail": 0,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 41,
+          "snapshots": 410,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 752
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 19,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:early_surrender",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "early_surrender",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [],
+        "objectiveChecks": [],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 112,
+          "fail": 0,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 41,
+          "snapshots": 410,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 752
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 19,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:missing_optional",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "missing_optional",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.2.741.3171",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [
+          {
+            "subject": 1,
+            "metric": "wardsPlaced",
+            "expectedSummary": null,
+            "observedTimeline": 13,
+            "status": "unavailable"
+          },
+          {
+            "subject": 1,
+            "metric": "wardsKilled",
+            "expectedSummary": null,
+            "observedTimeline": 4,
+            "status": "unavailable"
+          },
+          {
+            "subject": 1,
+            "metric": "controlWards",
+            "expectedSummary": null,
+            "observedTimeline": 0,
+            "status": "unavailable"
+          },
+          {
+            "subject": 1,
+            "metric": "soloKills",
+            "expectedSummary": null,
+            "observedTimeline": 7,
+            "status": "unavailable"
+          },
+          {
+            "subject": 1,
+            "metric": "finalGold",
+            "expectedSummary": 24864,
+            "observedTimeline": null,
+            "status": "unavailable"
+          }
+        ],
+        "objectiveChecks": [],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 107,
+          "fail": 0,
+          "unavailable": 5
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 41,
+          "snapshots": 410,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 9,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 9,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 9,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 9,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 9,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 9,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 9,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 9,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 9,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 9,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 9,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 752
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 19,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            null,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            null,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    },
+    {
+      "sampleId": "BR1_3200579475:unsupported_patch",
+      "kind": "synthetic",
+      "derivedFrom": "BR1_3200579475",
+      "mutation": "unsupported_patch",
+      "expectationPassed": true,
+      "audit": {
+        "matchId": "BR1_3200579475",
+        "context": {
+          "gameVersion": "16.20.999.1",
+          "queueId": 420,
+          "mapId": 11,
+          "gameDuration": 2368
+        },
+        "playerChecks": [],
+        "objectiveChecks": [],
+        "summary": {
+          "playerChecks": 100,
+          "objectiveChecks": 12,
+          "pass": 112,
+          "fail": 0,
+          "unavailable": 0
+        },
+        "integrityIssues": [],
+        "coverage": {
+          "frames": 41,
+          "snapshots": 410,
+          "frameTimestampMs": [
+            0,
+            60020,
+            120020,
+            180041,
+            240049,
+            300154,
+            360183,
+            420207,
+            480226,
+            540234,
+            600264,
+            660291,
+            720309,
+            780326,
+            840357,
+            900358,
+            960386,
+            1020408,
+            1080427,
+            1140438,
+            1200462,
+            1260481,
+            1320496,
+            1380506,
+            1440528,
+            1500558,
+            1560573,
+            1620577,
+            1680598,
+            1740616,
+            1800640,
+            1860669,
+            1920696,
+            1980724,
+            2040730,
+            2100735,
+            2160740,
+            2220745,
+            2280754,
+            2340765,
+            2368922
+          ],
+          "duplicateMinutes": {
+            "39": 2
+          },
+          "duplicateTimestamps": {},
+          "gapsOverToleranceMs": [],
+          "optionalFields": {
+            "wardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "wardsKilled": {
+              "present": 10,
+              "total": 10
+            },
+            "detectorWardsPlaced": {
+              "present": 10,
+              "total": 10
+            },
+            "visionWardsBoughtInGame": {
+              "present": 10,
+              "total": 10
+            },
+            "totalHealsOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "totalDamageShieldedOnTeammates": {
+              "present": 10,
+              "total": 10
+            },
+            "timePlayed": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInSurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "gameEndedInEarlySurrender": {
+              "present": 10,
+              "total": 10
+            },
+            "roleBoundItem": {
+              "present": 10,
+              "total": 10
+            },
+            "challenges.soloKills": {
+              "present": 10,
+              "total": 10
+            }
+          },
+          "eventTypes": {
+            "BUILDING_KILL": 15,
+            "CHAMPION_KILL": 92,
+            "CHAMPION_SPECIAL_KILL": 12,
+            "DRAGON_SOUL_GIVEN": 1,
+            "ELITE_MONSTER_KILL": 12,
+            "GAME_END": 1,
+            "ITEM_DESTROYED": 277,
+            "ITEM_PURCHASED": 292,
+            "ITEM_SOLD": 19,
+            "ITEM_UNDO": 18,
+            "LEVEL_UP": 170,
+            "OBJECTIVE_BOUNTY_FINISH": 1,
+            "OBJECTIVE_BOUNTY_PRESTART": 1,
+            "PAUSE_END": 1,
+            "SKILL_LEVEL_UP": 177,
+            "TURRET_PLATE_DESTROYED": 74,
+            "WARD_KILL": 51,
+            "WARD_PLACED": 752
+          },
+          "unknownEventTypes": {},
+          "recognizedWardPlacements": 196,
+          "unknownWardTypes": {
+            "UNDEFINED": 556
+          },
+          "unknownObjectiveTeamEvidence": []
+        },
+        "checkpoints": [
+          {
+            "targetMs": 300000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 5,
+            "timestampMs": 300154,
+            "offsetMs": 154,
+            "reason": null
+          },
+          {
+            "targetMs": 300000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 4,
+            "timestampMs": 240049,
+            "offsetMs": -59951,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 10,
+            "timestampMs": 600264,
+            "offsetMs": 264,
+            "reason": null
+          },
+          {
+            "targetMs": 600000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 9,
+            "timestampMs": 540234,
+            "offsetMs": -59766,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 15,
+            "timestampMs": 900358,
+            "offsetMs": 358,
+            "reason": null
+          },
+          {
+            "targetMs": 900000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 14,
+            "timestampMs": 840357,
+            "offsetMs": -59643,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "nearest",
+            "toleranceMs": 60000,
+            "frameIndex": 20,
+            "timestampMs": 1200462,
+            "offsetMs": 462,
+            "reason": null
+          },
+          {
+            "targetMs": 1200000,
+            "mode": "pastOnly",
+            "toleranceMs": 60000,
+            "frameIndex": 19,
+            "timestampMs": 1140438,
+            "offsetMs": -59562,
+            "reason": null
+          }
+        ],
+        "opponents": [
+          {
+            "participantId": 1,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 6,
+            "reason": null
+          },
+          {
+            "participantId": 2,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 7,
+            "reason": null
+          },
+          {
+            "participantId": 3,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 8,
+            "reason": null
+          },
+          {
+            "participantId": 4,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 9,
+            "reason": null
+          },
+          {
+            "participantId": 5,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 10,
+            "reason": null
+          },
+          {
+            "participantId": 6,
+            "originalRole": "TOP",
+            "canonicalRole": "TOP",
+            "opponentId": 1,
+            "reason": null
+          },
+          {
+            "participantId": 7,
+            "originalRole": "JUNGLE",
+            "canonicalRole": "JUNGLE",
+            "opponentId": 2,
+            "reason": null
+          },
+          {
+            "participantId": 8,
+            "originalRole": "MIDDLE",
+            "canonicalRole": "MIDDLE",
+            "opponentId": 3,
+            "reason": null
+          },
+          {
+            "participantId": 9,
+            "originalRole": "BOTTOM",
+            "canonicalRole": "BOTTOM",
+            "opponentId": 4,
+            "reason": null
+          },
+          {
+            "participantId": 10,
+            "originalRole": "UTILITY",
+            "canonicalRole": "UTILITY",
+            "opponentId": 5,
+            "reason": null
+          }
+        ],
+        "surrender": {
+          "flags": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "earlyFlags": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "caution": "Surrender is not remake; positive remake rules require separate patch validation."
+        }
+      }
+    }
+  ]
+}

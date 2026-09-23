@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "realSamples": [
+    {
+      "id": "BR1_3200579475",
+      "summary": "exemplo_partida_BR1_3200579475.json",
+      "timeline": "exemplo_partida_timeline_BR1_3200579475.json",
+      "generateSynthetic": true
+    }
+  ],
+  "supportMatrix": [
+    {
+      "gameVersion": "16.2.741.3171",
+      "patch": "16.2",
+      "queueId": 420,
+      "mapId": 11,
+      "realN": 1,
+      "status": "fixture_validated",
+      "scope": "100 participant and 12 objective summary/timeline reconciliations; observed field and event shapes only",
+      "limitation": "One match cannot validate every match or optional field in this patch."
+    },
+    {
+      "gameVersion": "16.20.999.1",
+      "patch": "16.20",
+      "queueId": 420,
+      "mapId": 11,
+      "realN": 0,
+      "status": "synthetic_only_unsupported",
+      "scope": "Controlled version-label mutation; no real evidence of semantics"
+    },
+    {
+      "gameVersion": null,
+      "patch": null,
+      "queueId": null,
+      "mapId": null,
+      "realN": 0,
+      "status": "unvalidated",
+      "scope": "All other versions, queues and maps lack real samples in the current corpus"
+    }
+  ]
+}
