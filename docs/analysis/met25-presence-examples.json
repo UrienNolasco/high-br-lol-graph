@@ -1,0 +1,3130 @@
+{
+  "provenance": "Real patch16.2 positions; processing timestamp is synthetic and explicitly supplied for reproducible offline examples. Missing-position case is a labeled controlled variation, not production evidence.",
+  "fullResponseBytes": 44241,
+  "observedFixture": {
+    "metricId": "B08",
+    "metricVersion": 1,
+    "matchId": "BR1_3200579475",
+    "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+    "mapId": 11,
+    "gameVersion": "16.2.741.3171",
+    "teamId": 100,
+    "processingVersion": 2,
+    "processedAt": "2026-09-23T00:00:00.000Z",
+    "definition": {
+      "id": "experimental-sr-grid",
+      "version": 1,
+      "mapId": 11,
+      "validatedPatches": [
+        "16.2"
+      ],
+      "domain": {
+        "minX": 0,
+        "maxX": 15000,
+        "minY": 0,
+        "maxY": 15000
+      },
+      "regions": [
+        {
+          "id": "southwest",
+          "label": "southwest",
+          "column": 0,
+          "row": 0,
+          "polygon": [
+            {
+              "x": 0,
+              "y": 0
+            },
+            {
+              "x": 5000,
+              "y": 0
+            },
+            {
+              "x": 5000,
+              "y": 5000
+            },
+            {
+              "x": 0,
+              "y": 5000
+            }
+          ]
+        },
+        {
+          "id": "south",
+          "label": "south",
+          "column": 1,
+          "row": 0,
+          "polygon": [
+            {
+              "x": 5000,
+              "y": 0
+            },
+            {
+              "x": 10000,
+              "y": 0
+            },
+            {
+              "x": 10000,
+              "y": 5000
+            },
+            {
+              "x": 5000,
+              "y": 5000
+            }
+          ]
+        },
+        {
+          "id": "southeast",
+          "label": "southeast",
+          "column": 2,
+          "row": 0,
+          "polygon": [
+            {
+              "x": 10000,
+              "y": 0
+            },
+            {
+              "x": 15000,
+              "y": 0
+            },
+            {
+              "x": 15000,
+              "y": 5000
+            },
+            {
+              "x": 10000,
+              "y": 5000
+            }
+          ]
+        },
+        {
+          "id": "west",
+          "label": "west",
+          "column": 0,
+          "row": 1,
+          "polygon": [
+            {
+              "x": 0,
+              "y": 5000
+            },
+            {
+              "x": 5000,
+              "y": 5000
+            },
+            {
+              "x": 5000,
+              "y": 10000
+            },
+            {
+              "x": 0,
+              "y": 10000
+            }
+          ]
+        },
+        {
+          "id": "center",
+          "label": "center",
+          "column": 1,
+          "row": 1,
+          "polygon": [
+            {
+              "x": 5000,
+              "y": 5000
+            },
+            {
+              "x": 10000,
+              "y": 5000
+            },
+            {
+              "x": 10000,
+              "y": 10000
+            },
+            {
+              "x": 5000,
+              "y": 10000
+            }
+          ]
+        },
+        {
+          "id": "east",
+          "label": "east",
+          "column": 2,
+          "row": 1,
+          "polygon": [
+            {
+              "x": 10000,
+              "y": 5000
+            },
+            {
+              "x": 15000,
+              "y": 5000
+            },
+            {
+              "x": 15000,
+              "y": 10000
+            },
+            {
+              "x": 10000,
+              "y": 10000
+            }
+          ]
+        },
+        {
+          "id": "northwest",
+          "label": "northwest",
+          "column": 0,
+          "row": 2,
+          "polygon": [
+            {
+              "x": 0,
+              "y": 10000
+            },
+            {
+              "x": 5000,
+              "y": 10000
+            },
+            {
+              "x": 5000,
+              "y": 15000
+            },
+            {
+              "x": 0,
+              "y": 15000
+            }
+          ]
+        },
+        {
+          "id": "north",
+          "label": "north",
+          "column": 1,
+          "row": 2,
+          "polygon": [
+            {
+              "x": 5000,
+              "y": 10000
+            },
+            {
+              "x": 10000,
+              "y": 10000
+            },
+            {
+              "x": 10000,
+              "y": 15000
+            },
+            {
+              "x": 5000,
+              "y": 15000
+            }
+          ]
+        },
+        {
+          "id": "northeast",
+          "label": "northeast",
+          "column": 2,
+          "row": 2,
+          "polygon": [
+            {
+              "x": 10000,
+              "y": 10000
+            },
+            {
+              "x": 15000,
+              "y": 10000
+            },
+            {
+              "x": 15000,
+              "y": 15000
+            },
+            {
+              "x": 10000,
+              "y": 15000
+            }
+          ]
+        }
+      ],
+      "boundaryRule": "Closed polygon edges. Shared edges/vertices belong to the first region in declared row-major order (south to north, west to east). Exact arithmetic, no boundary tolerance.",
+      "teamPerspective": "Classify absolute region first. Team100 keeps its cell; team200 rotates the cell index 180 degrees (column,row)->(2-column,2-row). Coordinates remain observed, never altered. Other team ids have no oriented distribution.",
+      "limitation": "Experimental geometric grid on analyst-chosen [0,15000]^2, not proven official map boundaries, lanes, jungle or bases. Only coordinate coverage on one real patch16.2 fixture was validated; no semantic-region validation."
+    },
+    "observedEndMs": 2368922,
+    "effectiveEndMs": 2368922,
+    "endSource": "GAME_END",
+    "quality": {
+      "validSamples": 41,
+      "totalSamples": 41,
+      "coverage": 1,
+      "unknownEvents": 0,
+      "reconciliationIssues": []
+    },
+    "excludedReasons": {},
+    "absolute": [
+      {
+        "regionId": "southwest",
+        "sampleCount": 10,
+        "fraction": 0.24390243902439024,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          0,
+          3,
+          17,
+          24,
+          26,
+          27,
+          28,
+          31,
+          35,
+          38
+        ]
+      },
+      {
+        "regionId": "south",
+        "sampleCount": 2,
+        "fraction": 0.04878048780487805,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          18,
+          23
+        ]
+      },
+      {
+        "regionId": "southeast",
+        "sampleCount": 0,
+        "fraction": 0,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": []
+      },
+      {
+        "regionId": "west",
+        "sampleCount": 6,
+        "fraction": 0.14634146341463414,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          9,
+          11,
+          21,
+          25,
+          32,
+          33
+        ]
+      },
+      {
+        "regionId": "center",
+        "sampleCount": 5,
+        "fraction": 0.12195121951219512,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          13,
+          14,
+          34,
+          36,
+          39
+        ]
+      },
+      {
+        "regionId": "east",
+        "sampleCount": 2,
+        "fraction": 0.04878048780487805,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          29,
+          30
+        ]
+      },
+      {
+        "regionId": "northwest",
+        "sampleCount": 10,
+        "fraction": 0.24390243902439024,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          1,
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10,
+          15,
+          22
+        ]
+      },
+      {
+        "regionId": "north",
+        "sampleCount": 5,
+        "fraction": 0.12195121951219512,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          12,
+          16,
+          19,
+          20,
+          37
+        ]
+      },
+      {
+        "regionId": "northeast",
+        "sampleCount": 1,
+        "fraction": 0.024390243902439025,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          40
+        ]
+      }
+    ],
+    "teamRelative": [
+      {
+        "regionId": "southwest",
+        "sampleCount": 10,
+        "fraction": 0.24390243902439024,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          0,
+          3,
+          17,
+          24,
+          26,
+          27,
+          28,
+          31,
+          35,
+          38
+        ]
+      },
+      {
+        "regionId": "south",
+        "sampleCount": 2,
+        "fraction": 0.04878048780487805,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          18,
+          23
+        ]
+      },
+      {
+        "regionId": "southeast",
+        "sampleCount": 0,
+        "fraction": 0,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": []
+      },
+      {
+        "regionId": "west",
+        "sampleCount": 6,
+        "fraction": 0.14634146341463414,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          9,
+          11,
+          21,
+          25,
+          32,
+          33
+        ]
+      },
+      {
+        "regionId": "center",
+        "sampleCount": 5,
+        "fraction": 0.12195121951219512,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          13,
+          14,
+          34,
+          36,
+          39
+        ]
+      },
+      {
+        "regionId": "east",
+        "sampleCount": 2,
+        "fraction": 0.04878048780487805,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          29,
+          30
+        ]
+      },
+      {
+        "regionId": "northwest",
+        "sampleCount": 10,
+        "fraction": 0.24390243902439024,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          1,
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10,
+          15,
+          22
+        ]
+      },
+      {
+        "regionId": "north",
+        "sampleCount": 5,
+        "fraction": 0.12195121951219512,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          12,
+          16,
+          19,
+          20,
+          37
+        ]
+      },
+      {
+        "regionId": "northeast",
+        "sampleCount": 1,
+        "fraction": 0.024390243902439025,
+        "denominator": {
+          "value": 41,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          40
+        ]
+      }
+    ],
+    "teamRelativeReason": null,
+    "reason": null,
+    "phases": [
+      {
+        "id": "early",
+        "targetStartMs": 0,
+        "targetEndMs": 600000,
+        "observedStartMs": 0,
+        "observedEndMs": 600000,
+        "bounds": "[)",
+        "censored": false,
+        "quality": {
+          "validSamples": 10,
+          "totalSamples": 10,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "excludedReasons": {},
+        "absolute": [
+          {
+            "regionId": "southwest",
+            "sampleCount": 2,
+            "fraction": 0.2,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              0,
+              3
+            ]
+          },
+          {
+            "regionId": "south",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "southeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "west",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              9
+            ]
+          },
+          {
+            "regionId": "center",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "east",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "northwest",
+            "sampleCount": 7,
+            "fraction": 0.7,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              1,
+              2,
+              4,
+              5,
+              6,
+              7,
+              8
+            ]
+          },
+          {
+            "regionId": "north",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "northeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          }
+        ],
+        "teamRelative": [
+          {
+            "regionId": "southwest",
+            "sampleCount": 2,
+            "fraction": 0.2,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              0,
+              3
+            ]
+          },
+          {
+            "regionId": "south",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "southeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "west",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              9
+            ]
+          },
+          {
+            "regionId": "center",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "east",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "northwest",
+            "sampleCount": 7,
+            "fraction": 0.7,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              1,
+              2,
+              4,
+              5,
+              6,
+              7,
+              8
+            ]
+          },
+          {
+            "regionId": "north",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "northeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          }
+        ],
+        "teamRelativeReason": null,
+        "reason": null,
+        "sampling": {
+          "sampleN": 10,
+          "uniqueTimestampN": 10,
+          "firstMs": 0,
+          "lastMs": 540234,
+          "frequencyHz": 0.016659447572718488,
+          "frequencyMethod": "(unique observed timestamps - 1) / observed timestamp span seconds; not residence duration",
+          "zeroIntervalN": 0,
+          "positiveIntervalMs": {
+            "min": 60000,
+            "max": 60105,
+            "median": 60020
+          },
+          "intervals": [
+            {
+              "fromFrameIndex": 0,
+              "toFrameIndex": 1,
+              "fromMs": 0,
+              "toMs": 60020,
+              "elapsedMs": 60020
+            },
+            {
+              "fromFrameIndex": 1,
+              "toFrameIndex": 2,
+              "fromMs": 60020,
+              "toMs": 120020,
+              "elapsedMs": 60000
+            },
+            {
+              "fromFrameIndex": 2,
+              "toFrameIndex": 3,
+              "fromMs": 120020,
+              "toMs": 180041,
+              "elapsedMs": 60021
+            },
+            {
+              "fromFrameIndex": 3,
+              "toFrameIndex": 4,
+              "fromMs": 180041,
+              "toMs": 240049,
+              "elapsedMs": 60008
+            },
+            {
+              "fromFrameIndex": 4,
+              "toFrameIndex": 5,
+              "fromMs": 240049,
+              "toMs": 300154,
+              "elapsedMs": 60105
+            },
+            {
+              "fromFrameIndex": 5,
+              "toFrameIndex": 6,
+              "fromMs": 300154,
+              "toMs": 360183,
+              "elapsedMs": 60029
+            },
+            {
+              "fromFrameIndex": 6,
+              "toFrameIndex": 7,
+              "fromMs": 360183,
+              "toMs": 420207,
+              "elapsedMs": 60024
+            },
+            {
+              "fromFrameIndex": 7,
+              "toFrameIndex": 8,
+              "fromMs": 420207,
+              "toMs": 480226,
+              "elapsedMs": 60019
+            },
+            {
+              "fromFrameIndex": 8,
+              "toFrameIndex": 9,
+              "fromMs": 480226,
+              "toMs": 540234,
+              "elapsedMs": 60008
+            }
+          ]
+        }
+      },
+      {
+        "id": "middle",
+        "targetStartMs": 600000,
+        "targetEndMs": 1200000,
+        "observedStartMs": 600000,
+        "observedEndMs": 1200000,
+        "bounds": "[)",
+        "censored": false,
+        "quality": {
+          "validSamples": 10,
+          "totalSamples": 10,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "excludedReasons": {},
+        "absolute": [
+          {
+            "regionId": "southwest",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              17
+            ]
+          },
+          {
+            "regionId": "south",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              18
+            ]
+          },
+          {
+            "regionId": "southeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "west",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              11
+            ]
+          },
+          {
+            "regionId": "center",
+            "sampleCount": 2,
+            "fraction": 0.2,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              13,
+              14
+            ]
+          },
+          {
+            "regionId": "east",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "northwest",
+            "sampleCount": 2,
+            "fraction": 0.2,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              10,
+              15
+            ]
+          },
+          {
+            "regionId": "north",
+            "sampleCount": 3,
+            "fraction": 0.3,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              12,
+              16,
+              19
+            ]
+          },
+          {
+            "regionId": "northeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          }
+        ],
+        "teamRelative": [
+          {
+            "regionId": "southwest",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              17
+            ]
+          },
+          {
+            "regionId": "south",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              18
+            ]
+          },
+          {
+            "regionId": "southeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "west",
+            "sampleCount": 1,
+            "fraction": 0.1,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              11
+            ]
+          },
+          {
+            "regionId": "center",
+            "sampleCount": 2,
+            "fraction": 0.2,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              13,
+              14
+            ]
+          },
+          {
+            "regionId": "east",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "northwest",
+            "sampleCount": 2,
+            "fraction": 0.2,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              10,
+              15
+            ]
+          },
+          {
+            "regionId": "north",
+            "sampleCount": 3,
+            "fraction": 0.3,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              12,
+              16,
+              19
+            ]
+          },
+          {
+            "regionId": "northeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 10,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          }
+        ],
+        "teamRelativeReason": null,
+        "reason": null,
+        "sampling": {
+          "sampleN": 10,
+          "uniqueTimestampN": 10,
+          "firstMs": 600264,
+          "lastMs": 1140438,
+          "frequencyHz": 0.01666129802619156,
+          "frequencyMethod": "(unique observed timestamps - 1) / observed timestamp span seconds; not residence duration",
+          "zeroIntervalN": 0,
+          "positiveIntervalMs": {
+            "min": 60001,
+            "max": 60031,
+            "median": 60019
+          },
+          "intervals": [
+            {
+              "fromFrameIndex": 10,
+              "toFrameIndex": 11,
+              "fromMs": 600264,
+              "toMs": 660291,
+              "elapsedMs": 60027
+            },
+            {
+              "fromFrameIndex": 11,
+              "toFrameIndex": 12,
+              "fromMs": 660291,
+              "toMs": 720309,
+              "elapsedMs": 60018
+            },
+            {
+              "fromFrameIndex": 12,
+              "toFrameIndex": 13,
+              "fromMs": 720309,
+              "toMs": 780326,
+              "elapsedMs": 60017
+            },
+            {
+              "fromFrameIndex": 13,
+              "toFrameIndex": 14,
+              "fromMs": 780326,
+              "toMs": 840357,
+              "elapsedMs": 60031
+            },
+            {
+              "fromFrameIndex": 14,
+              "toFrameIndex": 15,
+              "fromMs": 840357,
+              "toMs": 900358,
+              "elapsedMs": 60001
+            },
+            {
+              "fromFrameIndex": 15,
+              "toFrameIndex": 16,
+              "fromMs": 900358,
+              "toMs": 960386,
+              "elapsedMs": 60028
+            },
+            {
+              "fromFrameIndex": 16,
+              "toFrameIndex": 17,
+              "fromMs": 960386,
+              "toMs": 1020408,
+              "elapsedMs": 60022
+            },
+            {
+              "fromFrameIndex": 17,
+              "toFrameIndex": 18,
+              "fromMs": 1020408,
+              "toMs": 1080427,
+              "elapsedMs": 60019
+            },
+            {
+              "fromFrameIndex": 18,
+              "toFrameIndex": 19,
+              "fromMs": 1080427,
+              "toMs": 1140438,
+              "elapsedMs": 60011
+            }
+          ]
+        }
+      },
+      {
+        "id": "late",
+        "targetStartMs": 1200000,
+        "targetEndMs": 2368922,
+        "observedStartMs": 1200000,
+        "observedEndMs": 2368922,
+        "bounds": "[]",
+        "censored": false,
+        "quality": {
+          "validSamples": 21,
+          "totalSamples": 21,
+          "coverage": 1,
+          "unknownEvents": 0,
+          "reconciliationIssues": []
+        },
+        "excludedReasons": {},
+        "absolute": [
+          {
+            "regionId": "southwest",
+            "sampleCount": 7,
+            "fraction": 0.3333333333333333,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              24,
+              26,
+              27,
+              28,
+              31,
+              35,
+              38
+            ]
+          },
+          {
+            "regionId": "south",
+            "sampleCount": 1,
+            "fraction": 0.047619047619047616,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              23
+            ]
+          },
+          {
+            "regionId": "southeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "west",
+            "sampleCount": 4,
+            "fraction": 0.19047619047619047,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              21,
+              25,
+              32,
+              33
+            ]
+          },
+          {
+            "regionId": "center",
+            "sampleCount": 3,
+            "fraction": 0.14285714285714285,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              34,
+              36,
+              39
+            ]
+          },
+          {
+            "regionId": "east",
+            "sampleCount": 2,
+            "fraction": 0.09523809523809523,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              29,
+              30
+            ]
+          },
+          {
+            "regionId": "northwest",
+            "sampleCount": 1,
+            "fraction": 0.047619047619047616,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              22
+            ]
+          },
+          {
+            "regionId": "north",
+            "sampleCount": 2,
+            "fraction": 0.09523809523809523,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              20,
+              37
+            ]
+          },
+          {
+            "regionId": "northeast",
+            "sampleCount": 1,
+            "fraction": 0.047619047619047616,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              40
+            ]
+          }
+        ],
+        "teamRelative": [
+          {
+            "regionId": "southwest",
+            "sampleCount": 7,
+            "fraction": 0.3333333333333333,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              24,
+              26,
+              27,
+              28,
+              31,
+              35,
+              38
+            ]
+          },
+          {
+            "regionId": "south",
+            "sampleCount": 1,
+            "fraction": 0.047619047619047616,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              23
+            ]
+          },
+          {
+            "regionId": "southeast",
+            "sampleCount": 0,
+            "fraction": 0,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": []
+          },
+          {
+            "regionId": "west",
+            "sampleCount": 4,
+            "fraction": 0.19047619047619047,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              21,
+              25,
+              32,
+              33
+            ]
+          },
+          {
+            "regionId": "center",
+            "sampleCount": 3,
+            "fraction": 0.14285714285714285,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              34,
+              36,
+              39
+            ]
+          },
+          {
+            "regionId": "east",
+            "sampleCount": 2,
+            "fraction": 0.09523809523809523,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              29,
+              30
+            ]
+          },
+          {
+            "regionId": "northwest",
+            "sampleCount": 1,
+            "fraction": 0.047619047619047616,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              22
+            ]
+          },
+          {
+            "regionId": "north",
+            "sampleCount": 2,
+            "fraction": 0.09523809523809523,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              20,
+              37
+            ]
+          },
+          {
+            "regionId": "northeast",
+            "sampleCount": 1,
+            "fraction": 0.047619047619047616,
+            "denominator": {
+              "value": 21,
+              "unit": "valid_position_samples",
+              "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+            },
+            "origin": "derived",
+            "reason": null,
+            "frameIndices": [
+              40
+            ]
+          }
+        ],
+        "teamRelativeReason": null,
+        "reason": null,
+        "sampling": {
+          "sampleN": 21,
+          "uniqueTimestampN": 21,
+          "firstMs": 1200462,
+          "lastMs": 2368922,
+          "frequencyHz": 0.01711654656556493,
+          "frequencyMethod": "(unique observed timestamps - 1) / observed timestamp span seconds; not residence duration",
+          "zeroIntervalN": 0,
+          "positiveIntervalMs": {
+            "min": 28157,
+            "max": 60030,
+            "median": 60015
+          },
+          "intervals": [
+            {
+              "fromFrameIndex": 20,
+              "toFrameIndex": 21,
+              "fromMs": 1200462,
+              "toMs": 1260481,
+              "elapsedMs": 60019
+            },
+            {
+              "fromFrameIndex": 21,
+              "toFrameIndex": 22,
+              "fromMs": 1260481,
+              "toMs": 1320496,
+              "elapsedMs": 60015
+            },
+            {
+              "fromFrameIndex": 22,
+              "toFrameIndex": 23,
+              "fromMs": 1320496,
+              "toMs": 1380506,
+              "elapsedMs": 60010
+            },
+            {
+              "fromFrameIndex": 23,
+              "toFrameIndex": 24,
+              "fromMs": 1380506,
+              "toMs": 1440528,
+              "elapsedMs": 60022
+            },
+            {
+              "fromFrameIndex": 24,
+              "toFrameIndex": 25,
+              "fromMs": 1440528,
+              "toMs": 1500558,
+              "elapsedMs": 60030
+            },
+            {
+              "fromFrameIndex": 25,
+              "toFrameIndex": 26,
+              "fromMs": 1500558,
+              "toMs": 1560573,
+              "elapsedMs": 60015
+            },
+            {
+              "fromFrameIndex": 26,
+              "toFrameIndex": 27,
+              "fromMs": 1560573,
+              "toMs": 1620577,
+              "elapsedMs": 60004
+            },
+            {
+              "fromFrameIndex": 27,
+              "toFrameIndex": 28,
+              "fromMs": 1620577,
+              "toMs": 1680598,
+              "elapsedMs": 60021
+            },
+            {
+              "fromFrameIndex": 28,
+              "toFrameIndex": 29,
+              "fromMs": 1680598,
+              "toMs": 1740616,
+              "elapsedMs": 60018
+            },
+            {
+              "fromFrameIndex": 29,
+              "toFrameIndex": 30,
+              "fromMs": 1740616,
+              "toMs": 1800640,
+              "elapsedMs": 60024
+            },
+            {
+              "fromFrameIndex": 30,
+              "toFrameIndex": 31,
+              "fromMs": 1800640,
+              "toMs": 1860669,
+              "elapsedMs": 60029
+            },
+            {
+              "fromFrameIndex": 31,
+              "toFrameIndex": 32,
+              "fromMs": 1860669,
+              "toMs": 1920696,
+              "elapsedMs": 60027
+            },
+            {
+              "fromFrameIndex": 32,
+              "toFrameIndex": 33,
+              "fromMs": 1920696,
+              "toMs": 1980724,
+              "elapsedMs": 60028
+            },
+            {
+              "fromFrameIndex": 33,
+              "toFrameIndex": 34,
+              "fromMs": 1980724,
+              "toMs": 2040730,
+              "elapsedMs": 60006
+            },
+            {
+              "fromFrameIndex": 34,
+              "toFrameIndex": 35,
+              "fromMs": 2040730,
+              "toMs": 2100735,
+              "elapsedMs": 60005
+            },
+            {
+              "fromFrameIndex": 35,
+              "toFrameIndex": 36,
+              "fromMs": 2100735,
+              "toMs": 2160740,
+              "elapsedMs": 60005
+            },
+            {
+              "fromFrameIndex": 36,
+              "toFrameIndex": 37,
+              "fromMs": 2160740,
+              "toMs": 2220745,
+              "elapsedMs": 60005
+            },
+            {
+              "fromFrameIndex": 37,
+              "toFrameIndex": 38,
+              "fromMs": 2220745,
+              "toMs": 2280754,
+              "elapsedMs": 60009
+            },
+            {
+              "fromFrameIndex": 38,
+              "toFrameIndex": 39,
+              "fromMs": 2280754,
+              "toMs": 2340765,
+              "elapsedMs": 60011
+            },
+            {
+              "fromFrameIndex": 39,
+              "toFrameIndex": 40,
+              "fromMs": 2340765,
+              "toMs": 2368922,
+              "elapsedMs": 28157
+            }
+          ]
+        }
+      }
+    ],
+    "samples": [
+      {
+        "frameIndex": 0,
+        "timestampMs": 0,
+        "participantId": 1,
+        "position": {
+          "x": 603,
+          "y": 611
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 1,
+        "timestampMs": 60020,
+        "participantId": 1,
+        "position": {
+          "x": 2332,
+          "y": 13099
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 2,
+        "timestampMs": 120020,
+        "participantId": 1,
+        "position": {
+          "x": 1797,
+          "y": 11877
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 3,
+        "timestampMs": 180041,
+        "participantId": 1,
+        "position": {
+          "x": 491,
+          "y": 633
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 4,
+        "timestampMs": 240049,
+        "participantId": 1,
+        "position": {
+          "x": 2249,
+          "y": 12811
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 5,
+        "timestampMs": 300154,
+        "participantId": 1,
+        "position": {
+          "x": 2584,
+          "y": 13138
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 6,
+        "timestampMs": 360183,
+        "participantId": 1,
+        "position": {
+          "x": 2053,
+          "y": 11546
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 7,
+        "timestampMs": 420207,
+        "participantId": 1,
+        "position": {
+          "x": 3098,
+          "y": 13363
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 8,
+        "timestampMs": 480226,
+        "participantId": 1,
+        "position": {
+          "x": 3353,
+          "y": 13603
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 9,
+        "timestampMs": 540234,
+        "participantId": 1,
+        "position": {
+          "x": 927,
+          "y": 5458
+        },
+        "regionId": "west",
+        "teamRelativeRegionId": "west",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 10,
+        "timestampMs": 600264,
+        "participantId": 1,
+        "position": {
+          "x": 2806,
+          "y": 12734
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 11,
+        "timestampMs": 660291,
+        "participantId": 1,
+        "position": {
+          "x": 1326,
+          "y": 8353
+        },
+        "regionId": "west",
+        "teamRelativeRegionId": "west",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 12,
+        "timestampMs": 720309,
+        "participantId": 1,
+        "position": {
+          "x": 5422,
+          "y": 13084
+        },
+        "regionId": "north",
+        "teamRelativeRegionId": "north",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 13,
+        "timestampMs": 780326,
+        "participantId": 1,
+        "position": {
+          "x": 5249,
+          "y": 5514
+        },
+        "regionId": "center",
+        "teamRelativeRegionId": "center",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 14,
+        "timestampMs": 840357,
+        "participantId": 1,
+        "position": {
+          "x": 7279,
+          "y": 9065
+        },
+        "regionId": "center",
+        "teamRelativeRegionId": "center",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 15,
+        "timestampMs": 900358,
+        "participantId": 1,
+        "position": {
+          "x": 4868,
+          "y": 13135
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 16,
+        "timestampMs": 960386,
+        "participantId": 1,
+        "position": {
+          "x": 6209,
+          "y": 13338
+        },
+        "regionId": "north",
+        "teamRelativeRegionId": "north",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 17,
+        "timestampMs": 1020408,
+        "participantId": 1,
+        "position": {
+          "x": 1091,
+          "y": 647
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 18,
+        "timestampMs": 1080427,
+        "participantId": 1,
+        "position": {
+          "x": 8555,
+          "y": 3571
+        },
+        "regionId": "south",
+        "teamRelativeRegionId": "south",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 19,
+        "timestampMs": 1140438,
+        "participantId": 1,
+        "position": {
+          "x": 5833,
+          "y": 10813
+        },
+        "regionId": "north",
+        "teamRelativeRegionId": "north",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 20,
+        "timestampMs": 1200462,
+        "participantId": 1,
+        "position": {
+          "x": 6372,
+          "y": 12643
+        },
+        "regionId": "north",
+        "teamRelativeRegionId": "north",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 21,
+        "timestampMs": 1260481,
+        "participantId": 1,
+        "position": {
+          "x": 935,
+          "y": 8095
+        },
+        "regionId": "west",
+        "teamRelativeRegionId": "west",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 22,
+        "timestampMs": 1320496,
+        "participantId": 1,
+        "position": {
+          "x": 2761,
+          "y": 12298
+        },
+        "regionId": "northwest",
+        "teamRelativeRegionId": "northwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 23,
+        "timestampMs": 1380506,
+        "participantId": 1,
+        "position": {
+          "x": 9089,
+          "y": 2227
+        },
+        "regionId": "south",
+        "teamRelativeRegionId": "south",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 24,
+        "timestampMs": 1440528,
+        "participantId": 1,
+        "position": {
+          "x": 2019,
+          "y": 2314
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 25,
+        "timestampMs": 1500558,
+        "participantId": 1,
+        "position": {
+          "x": 4903,
+          "y": 5588
+        },
+        "regionId": "west",
+        "teamRelativeRegionId": "west",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 26,
+        "timestampMs": 1560573,
+        "participantId": 1,
+        "position": {
+          "x": 3755,
+          "y": 3393
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 27,
+        "timestampMs": 1620577,
+        "participantId": 1,
+        "position": {
+          "x": 622,
+          "y": 461
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 28,
+        "timestampMs": 1680598,
+        "participantId": 1,
+        "position": {
+          "x": 4219,
+          "y": 2335
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 29,
+        "timestampMs": 1740616,
+        "participantId": 1,
+        "position": {
+          "x": 10432,
+          "y": 7986
+        },
+        "regionId": "east",
+        "teamRelativeRegionId": "east",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 30,
+        "timestampMs": 1800640,
+        "participantId": 1,
+        "position": {
+          "x": 13235,
+          "y": 8718
+        },
+        "regionId": "east",
+        "teamRelativeRegionId": "east",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 31,
+        "timestampMs": 1860669,
+        "participantId": 1,
+        "position": {
+          "x": 4073,
+          "y": 4711
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 32,
+        "timestampMs": 1920696,
+        "participantId": 1,
+        "position": {
+          "x": 4385,
+          "y": 6077
+        },
+        "regionId": "west",
+        "teamRelativeRegionId": "west",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 33,
+        "timestampMs": 1980724,
+        "participantId": 1,
+        "position": {
+          "x": 1417,
+          "y": 5465
+        },
+        "regionId": "west",
+        "teamRelativeRegionId": "west",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 34,
+        "timestampMs": 2040730,
+        "participantId": 1,
+        "position": {
+          "x": 8177,
+          "y": 8068
+        },
+        "regionId": "center",
+        "teamRelativeRegionId": "center",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 35,
+        "timestampMs": 2100735,
+        "participantId": 1,
+        "position": {
+          "x": 394,
+          "y": 461
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 36,
+        "timestampMs": 2160740,
+        "participantId": 1,
+        "position": {
+          "x": 8423,
+          "y": 8374
+        },
+        "regionId": "center",
+        "teamRelativeRegionId": "center",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 37,
+        "timestampMs": 2220745,
+        "participantId": 1,
+        "position": {
+          "x": 8669,
+          "y": 10390
+        },
+        "regionId": "north",
+        "teamRelativeRegionId": "north",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 38,
+        "timestampMs": 2280754,
+        "participantId": 1,
+        "position": {
+          "x": 4451,
+          "y": 2782
+        },
+        "regionId": "southwest",
+        "teamRelativeRegionId": "southwest",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 39,
+        "timestampMs": 2340765,
+        "participantId": 1,
+        "position": {
+          "x": 7303,
+          "y": 9719
+        },
+        "regionId": "center",
+        "teamRelativeRegionId": "center",
+        "origin": "derived",
+        "reason": null
+      },
+      {
+        "frameIndex": 40,
+        "timestampMs": 2368922,
+        "participantId": 1,
+        "position": {
+          "x": 12069,
+          "y": 11266
+        },
+        "regionId": "northeast",
+        "teamRelativeRegionId": "northeast",
+        "origin": "derived",
+        "reason": null
+      }
+    ],
+    "sampling": {
+      "declaredFrameIntervalMs": 60000,
+      "frames": {
+        "sampleN": 41,
+        "uniqueTimestampN": 41,
+        "firstMs": 0,
+        "lastMs": 2368922,
+        "frequencyHz": 0.016885317456632173,
+        "frequencyMethod": "(unique observed timestamps - 1) / observed timestamp span seconds; not residence duration",
+        "zeroIntervalN": 0,
+        "positiveIntervalMs": {
+          "min": 28157,
+          "max": 60105,
+          "median": 60019
+        },
+        "intervals": [
+          {
+            "fromFrameIndex": 0,
+            "toFrameIndex": 1,
+            "fromMs": 0,
+            "toMs": 60020,
+            "elapsedMs": 60020
+          },
+          {
+            "fromFrameIndex": 1,
+            "toFrameIndex": 2,
+            "fromMs": 60020,
+            "toMs": 120020,
+            "elapsedMs": 60000
+          },
+          {
+            "fromFrameIndex": 2,
+            "toFrameIndex": 3,
+            "fromMs": 120020,
+            "toMs": 180041,
+            "elapsedMs": 60021
+          },
+          {
+            "fromFrameIndex": 3,
+            "toFrameIndex": 4,
+            "fromMs": 180041,
+            "toMs": 240049,
+            "elapsedMs": 60008
+          },
+          {
+            "fromFrameIndex": 4,
+            "toFrameIndex": 5,
+            "fromMs": 240049,
+            "toMs": 300154,
+            "elapsedMs": 60105
+          },
+          {
+            "fromFrameIndex": 5,
+            "toFrameIndex": 6,
+            "fromMs": 300154,
+            "toMs": 360183,
+            "elapsedMs": 60029
+          },
+          {
+            "fromFrameIndex": 6,
+            "toFrameIndex": 7,
+            "fromMs": 360183,
+            "toMs": 420207,
+            "elapsedMs": 60024
+          },
+          {
+            "fromFrameIndex": 7,
+            "toFrameIndex": 8,
+            "fromMs": 420207,
+            "toMs": 480226,
+            "elapsedMs": 60019
+          },
+          {
+            "fromFrameIndex": 8,
+            "toFrameIndex": 9,
+            "fromMs": 480226,
+            "toMs": 540234,
+            "elapsedMs": 60008
+          },
+          {
+            "fromFrameIndex": 9,
+            "toFrameIndex": 10,
+            "fromMs": 540234,
+            "toMs": 600264,
+            "elapsedMs": 60030
+          },
+          {
+            "fromFrameIndex": 10,
+            "toFrameIndex": 11,
+            "fromMs": 600264,
+            "toMs": 660291,
+            "elapsedMs": 60027
+          },
+          {
+            "fromFrameIndex": 11,
+            "toFrameIndex": 12,
+            "fromMs": 660291,
+            "toMs": 720309,
+            "elapsedMs": 60018
+          },
+          {
+            "fromFrameIndex": 12,
+            "toFrameIndex": 13,
+            "fromMs": 720309,
+            "toMs": 780326,
+            "elapsedMs": 60017
+          },
+          {
+            "fromFrameIndex": 13,
+            "toFrameIndex": 14,
+            "fromMs": 780326,
+            "toMs": 840357,
+            "elapsedMs": 60031
+          },
+          {
+            "fromFrameIndex": 14,
+            "toFrameIndex": 15,
+            "fromMs": 840357,
+            "toMs": 900358,
+            "elapsedMs": 60001
+          },
+          {
+            "fromFrameIndex": 15,
+            "toFrameIndex": 16,
+            "fromMs": 900358,
+            "toMs": 960386,
+            "elapsedMs": 60028
+          },
+          {
+            "fromFrameIndex": 16,
+            "toFrameIndex": 17,
+            "fromMs": 960386,
+            "toMs": 1020408,
+            "elapsedMs": 60022
+          },
+          {
+            "fromFrameIndex": 17,
+            "toFrameIndex": 18,
+            "fromMs": 1020408,
+            "toMs": 1080427,
+            "elapsedMs": 60019
+          },
+          {
+            "fromFrameIndex": 18,
+            "toFrameIndex": 19,
+            "fromMs": 1080427,
+            "toMs": 1140438,
+            "elapsedMs": 60011
+          },
+          {
+            "fromFrameIndex": 19,
+            "toFrameIndex": 20,
+            "fromMs": 1140438,
+            "toMs": 1200462,
+            "elapsedMs": 60024
+          },
+          {
+            "fromFrameIndex": 20,
+            "toFrameIndex": 21,
+            "fromMs": 1200462,
+            "toMs": 1260481,
+            "elapsedMs": 60019
+          },
+          {
+            "fromFrameIndex": 21,
+            "toFrameIndex": 22,
+            "fromMs": 1260481,
+            "toMs": 1320496,
+            "elapsedMs": 60015
+          },
+          {
+            "fromFrameIndex": 22,
+            "toFrameIndex": 23,
+            "fromMs": 1320496,
+            "toMs": 1380506,
+            "elapsedMs": 60010
+          },
+          {
+            "fromFrameIndex": 23,
+            "toFrameIndex": 24,
+            "fromMs": 1380506,
+            "toMs": 1440528,
+            "elapsedMs": 60022
+          },
+          {
+            "fromFrameIndex": 24,
+            "toFrameIndex": 25,
+            "fromMs": 1440528,
+            "toMs": 1500558,
+            "elapsedMs": 60030
+          },
+          {
+            "fromFrameIndex": 25,
+            "toFrameIndex": 26,
+            "fromMs": 1500558,
+            "toMs": 1560573,
+            "elapsedMs": 60015
+          },
+          {
+            "fromFrameIndex": 26,
+            "toFrameIndex": 27,
+            "fromMs": 1560573,
+            "toMs": 1620577,
+            "elapsedMs": 60004
+          },
+          {
+            "fromFrameIndex": 27,
+            "toFrameIndex": 28,
+            "fromMs": 1620577,
+            "toMs": 1680598,
+            "elapsedMs": 60021
+          },
+          {
+            "fromFrameIndex": 28,
+            "toFrameIndex": 29,
+            "fromMs": 1680598,
+            "toMs": 1740616,
+            "elapsedMs": 60018
+          },
+          {
+            "fromFrameIndex": 29,
+            "toFrameIndex": 30,
+            "fromMs": 1740616,
+            "toMs": 1800640,
+            "elapsedMs": 60024
+          },
+          {
+            "fromFrameIndex": 30,
+            "toFrameIndex": 31,
+            "fromMs": 1800640,
+            "toMs": 1860669,
+            "elapsedMs": 60029
+          },
+          {
+            "fromFrameIndex": 31,
+            "toFrameIndex": 32,
+            "fromMs": 1860669,
+            "toMs": 1920696,
+            "elapsedMs": 60027
+          },
+          {
+            "fromFrameIndex": 32,
+            "toFrameIndex": 33,
+            "fromMs": 1920696,
+            "toMs": 1980724,
+            "elapsedMs": 60028
+          },
+          {
+            "fromFrameIndex": 33,
+            "toFrameIndex": 34,
+            "fromMs": 1980724,
+            "toMs": 2040730,
+            "elapsedMs": 60006
+          },
+          {
+            "fromFrameIndex": 34,
+            "toFrameIndex": 35,
+            "fromMs": 2040730,
+            "toMs": 2100735,
+            "elapsedMs": 60005
+          },
+          {
+            "fromFrameIndex": 35,
+            "toFrameIndex": 36,
+            "fromMs": 2100735,
+            "toMs": 2160740,
+            "elapsedMs": 60005
+          },
+          {
+            "fromFrameIndex": 36,
+            "toFrameIndex": 37,
+            "fromMs": 2160740,
+            "toMs": 2220745,
+            "elapsedMs": 60005
+          },
+          {
+            "fromFrameIndex": 37,
+            "toFrameIndex": 38,
+            "fromMs": 2220745,
+            "toMs": 2280754,
+            "elapsedMs": 60009
+          },
+          {
+            "fromFrameIndex": 38,
+            "toFrameIndex": 39,
+            "fromMs": 2280754,
+            "toMs": 2340765,
+            "elapsedMs": 60011
+          },
+          {
+            "fromFrameIndex": 39,
+            "toFrameIndex": 40,
+            "fromMs": 2340765,
+            "toMs": 2368922,
+            "elapsedMs": 28157
+          }
+        ]
+      },
+      "validPositions": {
+        "sampleN": 41,
+        "uniqueTimestampN": 41,
+        "firstMs": 0,
+        "lastMs": 2368922,
+        "frequencyHz": 0.016885317456632173,
+        "frequencyMethod": "(unique observed timestamps - 1) / observed timestamp span seconds; not residence duration",
+        "zeroIntervalN": 0,
+        "positiveIntervalMs": {
+          "min": 28157,
+          "max": 60105,
+          "median": 60019
+        },
+        "intervals": [
+          {
+            "fromFrameIndex": 0,
+            "toFrameIndex": 1,
+            "fromMs": 0,
+            "toMs": 60020,
+            "elapsedMs": 60020
+          },
+          {
+            "fromFrameIndex": 1,
+            "toFrameIndex": 2,
+            "fromMs": 60020,
+            "toMs": 120020,
+            "elapsedMs": 60000
+          },
+          {
+            "fromFrameIndex": 2,
+            "toFrameIndex": 3,
+            "fromMs": 120020,
+            "toMs": 180041,
+            "elapsedMs": 60021
+          },
+          {
+            "fromFrameIndex": 3,
+            "toFrameIndex": 4,
+            "fromMs": 180041,
+            "toMs": 240049,
+            "elapsedMs": 60008
+          },
+          {
+            "fromFrameIndex": 4,
+            "toFrameIndex": 5,
+            "fromMs": 240049,
+            "toMs": 300154,
+            "elapsedMs": 60105
+          },
+          {
+            "fromFrameIndex": 5,
+            "toFrameIndex": 6,
+            "fromMs": 300154,
+            "toMs": 360183,
+            "elapsedMs": 60029
+          },
+          {
+            "fromFrameIndex": 6,
+            "toFrameIndex": 7,
+            "fromMs": 360183,
+            "toMs": 420207,
+            "elapsedMs": 60024
+          },
+          {
+            "fromFrameIndex": 7,
+            "toFrameIndex": 8,
+            "fromMs": 420207,
+            "toMs": 480226,
+            "elapsedMs": 60019
+          },
+          {
+            "fromFrameIndex": 8,
+            "toFrameIndex": 9,
+            "fromMs": 480226,
+            "toMs": 540234,
+            "elapsedMs": 60008
+          },
+          {
+            "fromFrameIndex": 9,
+            "toFrameIndex": 10,
+            "fromMs": 540234,
+            "toMs": 600264,
+            "elapsedMs": 60030
+          },
+          {
+            "fromFrameIndex": 10,
+            "toFrameIndex": 11,
+            "fromMs": 600264,
+            "toMs": 660291,
+            "elapsedMs": 60027
+          },
+          {
+            "fromFrameIndex": 11,
+            "toFrameIndex": 12,
+            "fromMs": 660291,
+            "toMs": 720309,
+            "elapsedMs": 60018
+          },
+          {
+            "fromFrameIndex": 12,
+            "toFrameIndex": 13,
+            "fromMs": 720309,
+            "toMs": 780326,
+            "elapsedMs": 60017
+          },
+          {
+            "fromFrameIndex": 13,
+            "toFrameIndex": 14,
+            "fromMs": 780326,
+            "toMs": 840357,
+            "elapsedMs": 60031
+          },
+          {
+            "fromFrameIndex": 14,
+            "toFrameIndex": 15,
+            "fromMs": 840357,
+            "toMs": 900358,
+            "elapsedMs": 60001
+          },
+          {
+            "fromFrameIndex": 15,
+            "toFrameIndex": 16,
+            "fromMs": 900358,
+            "toMs": 960386,
+            "elapsedMs": 60028
+          },
+          {
+            "fromFrameIndex": 16,
+            "toFrameIndex": 17,
+            "fromMs": 960386,
+            "toMs": 1020408,
+            "elapsedMs": 60022
+          },
+          {
+            "fromFrameIndex": 17,
+            "toFrameIndex": 18,
+            "fromMs": 1020408,
+            "toMs": 1080427,
+            "elapsedMs": 60019
+          },
+          {
+            "fromFrameIndex": 18,
+            "toFrameIndex": 19,
+            "fromMs": 1080427,
+            "toMs": 1140438,
+            "elapsedMs": 60011
+          },
+          {
+            "fromFrameIndex": 19,
+            "toFrameIndex": 20,
+            "fromMs": 1140438,
+            "toMs": 1200462,
+            "elapsedMs": 60024
+          },
+          {
+            "fromFrameIndex": 20,
+            "toFrameIndex": 21,
+            "fromMs": 1200462,
+            "toMs": 1260481,
+            "elapsedMs": 60019
+          },
+          {
+            "fromFrameIndex": 21,
+            "toFrameIndex": 22,
+            "fromMs": 1260481,
+            "toMs": 1320496,
+            "elapsedMs": 60015
+          },
+          {
+            "fromFrameIndex": 22,
+            "toFrameIndex": 23,
+            "fromMs": 1320496,
+            "toMs": 1380506,
+            "elapsedMs": 60010
+          },
+          {
+            "fromFrameIndex": 23,
+            "toFrameIndex": 24,
+            "fromMs": 1380506,
+            "toMs": 1440528,
+            "elapsedMs": 60022
+          },
+          {
+            "fromFrameIndex": 24,
+            "toFrameIndex": 25,
+            "fromMs": 1440528,
+            "toMs": 1500558,
+            "elapsedMs": 60030
+          },
+          {
+            "fromFrameIndex": 25,
+            "toFrameIndex": 26,
+            "fromMs": 1500558,
+            "toMs": 1560573,
+            "elapsedMs": 60015
+          },
+          {
+            "fromFrameIndex": 26,
+            "toFrameIndex": 27,
+            "fromMs": 1560573,
+            "toMs": 1620577,
+            "elapsedMs": 60004
+          },
+          {
+            "fromFrameIndex": 27,
+            "toFrameIndex": 28,
+            "fromMs": 1620577,
+            "toMs": 1680598,
+            "elapsedMs": 60021
+          },
+          {
+            "fromFrameIndex": 28,
+            "toFrameIndex": 29,
+            "fromMs": 1680598,
+            "toMs": 1740616,
+            "elapsedMs": 60018
+          },
+          {
+            "fromFrameIndex": 29,
+            "toFrameIndex": 30,
+            "fromMs": 1740616,
+            "toMs": 1800640,
+            "elapsedMs": 60024
+          },
+          {
+            "fromFrameIndex": 30,
+            "toFrameIndex": 31,
+            "fromMs": 1800640,
+            "toMs": 1860669,
+            "elapsedMs": 60029
+          },
+          {
+            "fromFrameIndex": 31,
+            "toFrameIndex": 32,
+            "fromMs": 1860669,
+            "toMs": 1920696,
+            "elapsedMs": 60027
+          },
+          {
+            "fromFrameIndex": 32,
+            "toFrameIndex": 33,
+            "fromMs": 1920696,
+            "toMs": 1980724,
+            "elapsedMs": 60028
+          },
+          {
+            "fromFrameIndex": 33,
+            "toFrameIndex": 34,
+            "fromMs": 1980724,
+            "toMs": 2040730,
+            "elapsedMs": 60006
+          },
+          {
+            "fromFrameIndex": 34,
+            "toFrameIndex": 35,
+            "fromMs": 2040730,
+            "toMs": 2100735,
+            "elapsedMs": 60005
+          },
+          {
+            "fromFrameIndex": 35,
+            "toFrameIndex": 36,
+            "fromMs": 2100735,
+            "toMs": 2160740,
+            "elapsedMs": 60005
+          },
+          {
+            "fromFrameIndex": 36,
+            "toFrameIndex": 37,
+            "fromMs": 2160740,
+            "toMs": 2220745,
+            "elapsedMs": 60005
+          },
+          {
+            "fromFrameIndex": 37,
+            "toFrameIndex": 38,
+            "fromMs": 2220745,
+            "toMs": 2280754,
+            "elapsedMs": 60009
+          },
+          {
+            "fromFrameIndex": 38,
+            "toFrameIndex": 39,
+            "fromMs": 2280754,
+            "toMs": 2340765,
+            "elapsedMs": 60011
+          },
+          {
+            "fromFrameIndex": 39,
+            "toFrameIndex": 40,
+            "fromMs": 2340765,
+            "toMs": 2368922,
+            "elapsedMs": 28157
+          }
+        ]
+      },
+      "interpretation": "Equal weight per valid position snapshot. Fractions are not fractions of time; no interpolation between snapshots."
+    },
+    "evidence": {
+      "source": "MatchTimelineProjection.frames.participantFrames.position",
+      "subjectKind": "player",
+      "wardPositionsUsed": false,
+      "totalFrames": 41,
+      "unassignedTimestampN": 0,
+      "outsideDurationN": 0
+    }
+  },
+  "syntheticMissingPositionExcerpt": {
+    "quality": {
+      "validSamples": 40,
+      "totalSamples": 41,
+      "coverage": 0.975609756097561,
+      "unknownEvents": 0,
+      "reconciliationIssues": []
+    },
+    "excludedReasons": {
+      "missing_position": 1
+    },
+    "firstSample": {
+      "frameIndex": 0,
+      "timestampMs": 0,
+      "participantId": 1,
+      "position": null,
+      "regionId": null,
+      "teamRelativeRegionId": null,
+      "origin": "unavailable",
+      "reason": "missing_position"
+    },
+    "absolute": [
+      {
+        "regionId": "southwest",
+        "sampleCount": 9,
+        "fraction": 0.225,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          3,
+          17,
+          24,
+          26,
+          27,
+          28,
+          31,
+          35,
+          38
+        ]
+      },
+      {
+        "regionId": "south",
+        "sampleCount": 2,
+        "fraction": 0.05,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          18,
+          23
+        ]
+      },
+      {
+        "regionId": "southeast",
+        "sampleCount": 0,
+        "fraction": 0,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": []
+      },
+      {
+        "regionId": "west",
+        "sampleCount": 6,
+        "fraction": 0.15,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          9,
+          11,
+          21,
+          25,
+          32,
+          33
+        ]
+      },
+      {
+        "regionId": "center",
+        "sampleCount": 5,
+        "fraction": 0.125,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          13,
+          14,
+          34,
+          36,
+          39
+        ]
+      },
+      {
+        "regionId": "east",
+        "sampleCount": 2,
+        "fraction": 0.05,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          29,
+          30
+        ]
+      },
+      {
+        "regionId": "northwest",
+        "sampleCount": 10,
+        "fraction": 0.25,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          1,
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10,
+          15,
+          22
+        ]
+      },
+      {
+        "regionId": "north",
+        "sampleCount": 5,
+        "fraction": 0.125,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          12,
+          16,
+          19,
+          20,
+          37
+        ]
+      },
+      {
+        "regionId": "northeast",
+        "sampleCount": 1,
+        "fraction": 0.025,
+        "denominator": {
+          "value": 40,
+          "unit": "valid_position_samples",
+          "population": "positions with timestamp, participant and finite coordinates inside definition domain in this phase"
+        },
+        "origin": "derived",
+        "reason": null,
+        "frameIndices": [
+          40
+        ]
+      }
+    ]
+  }
+}

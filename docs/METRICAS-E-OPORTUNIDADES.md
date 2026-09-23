@@ -497,6 +497,8 @@ MET-24 explora episódios de abates, respostas rápidas e recursos anteriores co
 
 MET-15 entrega episódios temporais e viradas observadas; janelas, denominadores e evidências em [SEQUENCIAS-E-VIRADAS.md](SEQUENCIAS-E-VIRADAS.md).
 
+MET-25 descreve B08 como presença amostrada em uma grade geométrica experimental versionada; fórmulas, limites de validação e exemplos em [PRESENCA-AMOSTRADA.md](PRESENCA-AMOSTRADA.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 MET-12 publica checkpoints e curvas temporais com denominadores reais e ausência explícita; contrato e exemplos em [ECONOMIA-E-PROGRESSAO.md](ECONOMIA-E-PROGRESSAO.md).

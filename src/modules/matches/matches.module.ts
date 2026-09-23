@@ -1,3 +1,5 @@
+import { MatchMapPresenceController } from './match-map-presence.controller';
+import { MatchMapPresenceService } from './services/match-map-presence.service';
 import { MatchSequencesController } from './match-sequences.controller';
 import { MatchSequencesService } from './services/match-sequences.service';
 import { MatchKillEpisodesController } from './match-kill-episodes.controller';
@@ -29,6 +31,7 @@ import { MatchEconomyService } from './services/match-economy.service';
   controllers: [
     MatchKillEpisodesController,
     MatchSequencesController,
+    MatchMapPresenceController,
     MatchesController,
     MatchVisionController,
     MatchCombatController,
@@ -36,6 +39,7 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchObjectivesController,
   ],
   providers: [
+    MatchMapPresenceService,
     MatchSequencesService,
     KillEpisodesRepository,
     MatchKillEpisodesService,
