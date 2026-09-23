@@ -1,3 +1,9 @@
+import {
+  SkillCatalog,
+  unavailableSkillCatalog,
+  parseSkillCatalog,
+  catalogRecord,
+} from './skill-catalog';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
@@ -5,6 +11,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
   compatibleItemVersion,
+  itemProgressionMetadata,
   ItemCatalog,
   unavailableItemCatalog,
 } from './item-catalog';
@@ -51,6 +58,110 @@ export class DataDragonService implements OnModuleInit {
   private pendingItemCatalogs = new Map<string, Promise<ItemCatalog>>();
 
   constructor(private readonly httpService: HttpService) {}
+  private readonly skillCatalogs = new Map<
+    string,
+    { expiresAt: number; catalog: SkillCatalog }
+  >();
+  private readonly pendingSkillCatalogs = new Map<
+    string,
+    Promise<SkillCatalog>
+  >();
+  /** Strictly network-free; report reads never warm the catalog. */
+  getCachedSkillCatalog(gameVersion: string, championId: number): SkillCatalog {
+    const entry = this.skillCatalogs.get(`${gameVersion}:${championId}`);
+    return entry && entry.expiresAt > Date.now()
+      ? entry.catalog
+      : unavailableSkillCatalog(gameVersion, championId);
+  }
+  /** Explicit preloading API for callers outside report GET paths. */
+  async getSkillCatalogForGameVersion(
+    gameVersion: string,
+    championId: number,
+  ): Promise<SkillCatalog> {
+    const key = `${gameVersion}:${championId}`,
+      cached = this.skillCatalogs.get(key);
+    if (cached && cached.expiresAt > Date.now()) return cached.catalog;
+    const pending = this.pendingSkillCatalogs.get(key);
+    if (pending) return pending;
+    const request = this.loadSkillCatalog(gameVersion, championId)
+      .then((catalog) => {
+        this.skillCatalogs.set(key, {
+          catalog,
+          expiresAt: Date.now() + (catalog.reason ? 60000 : 3600000),
+        });
+        return catalog;
+      })
+      .finally(() => this.pendingSkillCatalogs.delete(key));
+    this.pendingSkillCatalogs.set(key, request);
+    return request;
+  }
+  private async loadSkillCatalog(
+    gameVersion: string,
+    championId: number,
+  ): Promise<SkillCatalog> {
+    try {
+      const options = { timeout: 5000, maxContentLength: 5000000 };
+      const versions = (
+        await firstValueFrom(
+          this.httpService.get<unknown>(this.VERSIONS_URL, options),
+        )
+      ).data;
+      if (
+        !Array.isArray(versions) ||
+        !versions.every((v) => typeof v === 'string')
+      )
+        return unavailableSkillCatalog(
+          gameVersion,
+          championId,
+          'invalid_catalog',
+        );
+      const version = compatibleItemVersion(gameVersion, versions);
+      if (!version)
+        return unavailableSkillCatalog(
+          gameVersion,
+          championId,
+          'unsupported_version',
+        );
+      const base = `https://ddragon.leagueoflegends.com/cdn/${version}/data/pt_BR`;
+      const index = catalogRecord(
+        (
+          await firstValueFrom(
+            this.httpService.get<unknown>(`${base}/champion.json`, options),
+          )
+        ).data,
+      );
+      if (index.version !== version)
+        return unavailableSkillCatalog(
+          gameVersion,
+          championId,
+          'invalid_catalog',
+        );
+      const champion = Object.values(catalogRecord(index.data))
+        .map(catalogRecord)
+        .find((p) => p.key === String(championId));
+      if (
+        !champion ||
+        typeof champion.id !== 'string' ||
+        !/^[A-Za-z0-9]+$/.test(champion.id)
+      )
+        return unavailableSkillCatalog(
+          gameVersion,
+          championId,
+          'unknown_champion_id',
+        );
+      const raw = (
+        await firstValueFrom(
+          this.httpService.get<unknown>(
+            `${base}/champion/${champion.id}.json`,
+            options,
+          ),
+        )
+      ).data;
+      return parseSkillCatalog(gameVersion, version, championId, raw);
+    } catch {
+      return unavailableSkillCatalog(gameVersion, championId);
+    }
+  }
 
   /** Network-free read for reports. Missing metadata must not block inventory. */
   getCachedItemCatalog(gameVersion: string): ItemCatalog {
@@ -115,6 +226,7 @@ export class DataDragonService implements OnModuleInit {
               id,
               {
                 name: value.name,
+                ...itemProgressionMetadata(value),
                 imageUrl:
                   typeof filename === 'string' &&
                   /^[\w.-]+\.png$/.test(filename)

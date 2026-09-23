@@ -35,3 +35,5 @@ Migration `20260923040000_met06_final_inventory` apenas adiciona coluna nullable
 Os exemplos de nomes no teste de catálogo são sintéticos; nenhuma amostra real extra é alegada. O conjunto real validado é a fixture BR1_3200579475; IDs de patches futuros continuam presentes com metadado indisponível quando necessário.
 
 Ensaio local em 2026-09-23: migration aditiva aplicada ao PostgreSQL isolado; 2 testes de integração aprovados em 5,428s, com 70 slots e 10 campos de quest reconciliados e dois rebuilds. Build, 277 unitários e 2 testes HTTP passaram. Consulta pública de catálogo para a versão real 16.2.741.3171 resolveu 16.2.1: 697 itens, todos os 54 IDs distintos não vazios da fixture encontrados. Esses números descrevem apenas o ensaio local.
+
+MET-16 acrescenta a rota de [progressão observada](PROGRESSAO-ITENS-HABILIDADES-MET16.md), com undo completo, receitas, compras efetivas e timing de habilidades. O inventário final continua separado e autoritativo. Metadados opcionais `from`, `into`, `tags`, `consumed` e `consumeOnFull` foram adicionados ao catálogo; ausência não é convertida em receita vazia.

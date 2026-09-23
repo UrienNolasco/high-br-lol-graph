@@ -3,6 +3,11 @@ import { gameVersionPatch } from '../metrics';
 export interface ItemMetadata {
   name: string;
   imageUrl: string | null;
+  from?: number[] | null;
+  into?: number[] | null;
+  tags?: string[] | null;
+  consumed?: boolean | null;
+  consumeOnFull?: boolean | null;
 }
 export interface ItemCatalog {
   gameVersion: string;
@@ -47,5 +52,32 @@ export function unavailableItemCatalog(
     policy: 'latest_revision_of_exact_patch',
     reason,
     items: {},
+  };
+}
+
+/** Missing recipe is unknown, not an empty recipe or proof of a completed item. */
+export function itemProgressionMetadata(
+  raw: Record<string, unknown>,
+): Pick<ItemMetadata, 'from' | 'into' | 'tags' | 'consumed' | 'consumeOnFull'> {
+  const ids = (v: unknown): number[] | null =>
+    Array.isArray(v) &&
+    v.every(
+      (id) =>
+        typeof id === 'string' &&
+        /^[1-9]\d*$/.test(id) &&
+        Number.isSafeInteger(Number(id)),
+    )
+      ? v.map(Number)
+      : null;
+  return {
+    from: ids(raw.from),
+    into: ids(raw.into),
+    tags:
+      Array.isArray(raw.tags) && raw.tags.every((t) => typeof t === 'string')
+        ? raw.tags
+        : null,
+    consumed: typeof raw.consumed === 'boolean' ? raw.consumed : null,
+    consumeOnFull:
+      typeof raw.consumeOnFull === 'boolean' ? raw.consumeOnFull : null,
   };
 }

@@ -356,6 +356,20 @@ export class ItemEventDto {
 }
 
 export class ItemMetadataDto {
+  @ApiProperty({ type: [Number], nullable: true, required: false }) from?:
+    | number[]
+    | null;
+  @ApiProperty({ type: [Number], nullable: true, required: false }) into?:
+    | number[]
+    | null;
+  @ApiProperty({ type: [String], nullable: true, required: false }) tags?:
+    | string[]
+    | null;
+  @ApiProperty({ type: Boolean, nullable: true, required: false }) consumed?:
+    | boolean
+    | null;
+  @ApiProperty({ type: Boolean, nullable: true, required: false })
+  consumeOnFull?: boolean | null;
   @ApiProperty() name: string;
   @ApiProperty({ type: String, nullable: true }) imageUrl: string | null;
 }

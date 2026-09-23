@@ -1,3 +1,6 @@
+import { ProgressionRepository } from './repositories/progression.repository';
+import { MatchProgressionService } from './services/match-progression.service';
+import { MatchProgressionController } from './match-progression.controller';
 import { MatchMapPresenceController } from './match-map-presence.controller';
 import { MatchMapPresenceService } from './services/match-map-presence.service';
 import { MatchSequencesController } from './match-sequences.controller';
@@ -32,6 +35,7 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchKillEpisodesController,
     MatchSequencesController,
     MatchMapPresenceController,
+    MatchProgressionController,
     MatchesController,
     MatchVisionController,
     MatchCombatController,
@@ -39,6 +43,8 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchObjectivesController,
   ],
   providers: [
+    ProgressionRepository,
+    MatchProgressionService,
     MatchMapPresenceService,
     MatchSequencesService,
     KillEpisodesRepository,

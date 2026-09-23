@@ -51,3 +51,6 @@ O @15 legado é explicitamente `LEGACY_LANE_CHECKPOINT` metricVersion=0: primeir
 ## MET-13: combate e solo histórico
 
 [Contrato completo de combate](COMBATE-MET13.md): `GET /api/v1/matches/:matchId/combat`, envelopes E08/C01/C08/C09 v1, relações com cobertura e identidade de evento, contagens solo por partida e médias históricas com N válido. Campos novos de ausência: `missing_projection`, `unknown_assistance`, `incomplete_events`. `bounty` e `shutdownBounty` permanecem separados. Consultas exclusivamente em projeções MET-04; assistência omitida não equivale a array vazio.
+## MET-16: itens e habilidades
+
+[Contrato da progressão observada](PROGRESSAO-ITENS-HABILIDADES-MET16.md): B02/B04 v1 em `GET /api/v1/matches/:matchId/progression/:puuid`, transições completas com undo preservado, aquisições efetivas observadas e alocações de habilidade. Inventário final permanece autoritativo; receitas/skills usam apenas cache do patch compatível no GET. Ambiguidade e ausência de proveniência são explícitas, sem eficácia inferida.

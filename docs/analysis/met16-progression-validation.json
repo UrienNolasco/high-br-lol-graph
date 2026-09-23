@@ -1,0 +1,201 @@
+{
+  "fixture": "BR1_3200579475",
+  "frames": 41,
+  "definitionVersion": 1,
+  "catalogValidation": "Unavailable in offline fixture audit; positive catalog validation uses explicitly synthetic metadata in unit tests",
+  "projectedEventCounts": {
+    "ITEM_PURCHASED": 292,
+    "ITEM_SOLD": 19,
+    "ITEM_DESTROYED": 277,
+    "ITEM_UNDO": 18,
+    "SKILL_LEVEL_UP": 177,
+    "GAME_END": 1
+  },
+  "unattributedPurchases": 2,
+  "participants": [
+    {
+      "participantId": 1,
+      "itemEvents": 75,
+      "skillEvents": 18,
+      "undoEvents": 6,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "unvalidated_component_restoration"
+      ],
+      "effectiveAcquisitions": 33,
+      "undoneAcquisitions": 3,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 2,
+      "itemEvents": 44,
+      "skillEvents": 18,
+      "undoEvents": 3,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 20,
+      "undoneAcquisitions": 3,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 3,
+      "itemEvents": 74,
+      "skillEvents": 18,
+      "undoEvents": 5,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "unvalidated_component_restoration",
+        "unmatched_or_unsupported_undo",
+        "unvalidated_component_restoration"
+      ],
+      "effectiveAcquisitions": 26,
+      "undoneAcquisitions": 4,
+      "ambiguousAcquisitions": 1,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 4,
+      "itemEvents": 71,
+      "skillEvents": 18,
+      "undoEvents": 0,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 36,
+      "undoneAcquisitions": 0,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 5,
+      "itemEvents": 53,
+      "skillEvents": 16,
+      "undoEvents": 0,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 27,
+      "undoneAcquisitions": 0,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 6,
+      "itemEvents": 50,
+      "skillEvents": 18,
+      "undoEvents": 0,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 25,
+      "undoneAcquisitions": 0,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 7,
+      "itemEvents": 55,
+      "skillEvents": 18,
+      "undoEvents": 0,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 26,
+      "undoneAcquisitions": 0,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 8,
+      "itemEvents": 71,
+      "skillEvents": 18,
+      "undoEvents": 0,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 31,
+      "undoneAcquisitions": 0,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 9,
+      "itemEvents": 55,
+      "skillEvents": 18,
+      "undoEvents": 2,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 26,
+      "undoneAcquisitions": 2,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    },
+    {
+      "participantId": 10,
+      "itemEvents": 56,
+      "skillEvents": 17,
+      "undoEvents": 2,
+      "validFinalSlots": 7,
+      "trajectoryStateComplete": false,
+      "issues": [
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition",
+        "removal_without_observed_acquisition"
+      ],
+      "effectiveAcquisitions": 25,
+      "undoneAcquisitions": 2,
+      "ambiguousAcquisitions": 0,
+      "skillValidation": "catalog_unavailable"
+    }
+  ]
+}
