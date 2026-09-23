@@ -1,3 +1,4 @@
+import { NormalizedTimelineEventDto } from './core/riot/dto/normalized-event.dto';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -70,6 +71,7 @@ async function bootstrap() {
         MetricResultDto,
         ParticipantSnapshotDto,
         TimelineSnapshotProjectionDto,
+        NormalizedTimelineEventDto,
       ],
     });
     document.components ??= {};

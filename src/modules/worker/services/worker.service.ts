@@ -70,7 +70,13 @@ export class WorkerService {
       await this.persistence.save(
         lease,
         parseMatchData(summary),
-        this.timelineParser.parseTimeline(timeline, participantMap),
+        this.timelineParser.parseTimeline(
+          timeline,
+          participantMap,
+          new Map(
+            summary.info.participants.map((p) => [p.participantId, p.teamId]),
+          ),
+        ),
         timeline,
         offline,
       );

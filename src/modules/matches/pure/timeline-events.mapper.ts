@@ -6,17 +6,21 @@ export interface KillPositionJson {
 
 export interface WardPositionJson {
   wardType: string;
-  x: number;
-  y: number;
+  x: number | null;
+  y: number | null;
   timestamp: number;
 }
 
 export interface ObjectiveJson {
   type: string;
   subType: string;
-  teamId: number;
+  teamId: number | null;
   timestamp: number;
-  killerId: number;
+  killerId?: number;
+  ownerTeamId?: number | null;
+  lane?: string | null;
+  tier?: string | null;
+  assistingParticipantIds?: number[] | null;
 }
 
 export interface KillEvent {
@@ -40,8 +44,8 @@ export interface DeathEvent {
 export interface WardEvent {
   puuid: string;
   wardType: string;
-  x: number;
-  y: number;
+  x: number | null;
+  y: number | null;
   timestamp: number;
   minute: number;
 }
@@ -49,10 +53,14 @@ export interface WardEvent {
 export interface ObjectiveEvent {
   type: string;
   subType: string;
-  teamId: number;
+  teamId: number | null;
   timestamp: number;
   minute: number;
-  killerId: number;
+  killerId?: number;
+  ownerTeamId?: number | null;
+  lane?: string | null;
+  tier?: string | null;
+  assistingParticipantIds?: number[] | null;
 }
 
 export interface EventParticipant {
@@ -116,7 +124,11 @@ export function flattenObjectives(teams: EventTeam[]): ObjectiveEvent[] {
     (team.objectivesTimeline || []).map((obj) => ({
       type: obj.type,
       subType: obj.subType,
-      teamId: obj.teamId ?? team.teamId,
+      teamId: obj.teamId === 100 || obj.teamId === 200 ? obj.teamId : null,
+      ownerTeamId: obj.ownerTeamId ?? null,
+      lane: obj.lane ?? null,
+      tier: obj.tier ?? null,
+      assistingParticipantIds: obj.assistingParticipantIds ?? null,
       timestamp: obj.timestamp,
       minute: toMinute(obj.timestamp),
       killerId: obj.killerId,

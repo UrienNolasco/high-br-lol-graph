@@ -23,6 +23,7 @@ model Match {
   teams        MatchTeam[]
   participants MatchParticipant[]
   timelineProjection MatchTimelineProjection?
+  events       MatchEventProjection[]
 
   @@index([queueId])
   @@index([queueId, gameCreation(sort: Desc)])
@@ -308,4 +309,38 @@ model MatchDiscovery {
   @@id([observationId, matchId])
   @@index([matchId])
   @@map("match_discoveries")
+}
+
+// Lossless event source identity. Null actor/team/position never means numeric zero.
+model MatchEventProjection {
+  matchId                 String
+  frameIndex              Int
+  eventIndex              Int
+  match                   Match    @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  type                    String?
+  timestampMs             Int?
+  frameTimestampMs        Int?
+  actorParticipantId      Int?
+  actorPuuid              String?
+  victimParticipantId     Int?
+  victimPuuid             String?
+  assistingParticipantIds Json?
+  assistingPuuids         Json?
+  sourceTeamId            Int?
+  ownerTeamId             Int?
+  beneficiaryTeamId       Int?
+  positionX               Float?
+  positionY               Float?
+  lane                    String?
+  tier                    String?
+  payload                 Json
+  quality                 Json
+  metricVersion           Int
+  processingVersion       Int
+  processedAt             DateTime @default(now())
+
+  @@id([matchId, frameIndex, eventIndex])
+  @@index([matchId, type, timestampMs])
+  @@index([actorPuuid, type])
+  @@map("match_event_projections")
 }

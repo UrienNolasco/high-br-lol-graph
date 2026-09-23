@@ -70,6 +70,16 @@ export class MatchPersistenceService {
               .frames as unknown as Prisma.InputJsonValue,
           },
         });
+        await tx.matchEventProjection.createMany({
+          data: timeline.normalizedEvents.map((event) => ({
+            ...event,
+            assistingParticipantIds:
+              event.assistingParticipantIds ?? Prisma.DbNull,
+            assistingPuuids: event.assistingPuuids ?? Prisma.DbNull,
+            payload: event.payload as Prisma.InputJsonObject,
+            quality: event.quality as unknown as Prisma.InputJsonObject,
+          })),
+        });
         await this.aggregates.update(tx, matchData, raw);
         await tx.matchProcessing.update({
           where: { matchId: lease.matchId },

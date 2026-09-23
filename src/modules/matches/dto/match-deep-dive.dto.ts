@@ -246,11 +246,16 @@ export class WardEventDto {
   @ApiProperty({ example: 'CONTROL_WARD' })
   wardType: string;
 
-  @ApiProperty({ example: 6000 })
-  x: number;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    example: null,
+    description: 'Coordenada observada da ward; null se ausente',
+  })
+  x: number | null;
 
-  @ApiProperty({ example: 9000 })
-  y: number;
+  @ApiProperty({ type: Number, nullable: true, example: null })
+  y: number | null;
 
   @ApiProperty({ example: 60000 })
   timestamp: number;
@@ -275,9 +280,28 @@ export class ObjectiveEventDto {
 
   @ApiProperty({
     example: 100,
+    nullable: true,
+    type: Number,
     description: 'Time que capturou (100=Blue, 200=Red)',
   })
-  teamId: number;
+  teamId: number | null;
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    description:
+      'Time dono da estrutura destruída; distinto do beneficiário teamId',
+  })
+  ownerTeamId?: number | null;
+  @ApiProperty({ type: String, nullable: true })
+  lane?: string | null;
+  @ApiProperty({ type: String, nullable: true })
+  tier?: string | null;
+  @ApiProperty({
+    type: [Number],
+    nullable: true,
+    description: 'null significa campo não fornecido; [] é observado vazio',
+  })
+  assistingParticipantIds?: number[] | null;
 
   @ApiProperty({ example: 900000 })
   timestamp: number;

@@ -103,7 +103,7 @@ export interface DamageStats {
 // EVENTOS (18 tipos)
 // ============================================================================
 
-export type TimelineEvent =
+export type KnownTimelineEvent =
   | WardPlacedEvent
   | WardKillEvent
   | ChampionKillEvent
@@ -123,6 +123,14 @@ export type TimelineEvent =
   | ObjectiveBountyPrestartEvent
   | ObjectiveBountyFinishEvent;
 
+/** Future event kinds remain representable and retained in the normalized payload. */
+export interface UnknownTimelineEvent {
+  type: string;
+  timestamp: number;
+  [field: string]: unknown;
+}
+export type TimelineEvent = KnownTimelineEvent | UnknownTimelineEvent;
+
 // Base event
 interface BaseEvent {
   type: string;
@@ -133,6 +141,7 @@ interface BaseEvent {
 // WARD_PLACED
 export interface WardPlacedEvent extends BaseEvent {
   type: 'WARD_PLACED';
+  position?: Position;
   creatorId: number;
   wardType:
     | 'YELLOW_TRINKET'
@@ -146,6 +155,7 @@ export interface WardPlacedEvent extends BaseEvent {
 // WARD_KILL
 export interface WardKillEvent extends BaseEvent {
   type: 'WARD_KILL';
+  position?: Position;
   killerId: number;
   wardType:
     | 'YELLOW_TRINKET'
@@ -161,28 +171,30 @@ export interface ChampionKillEvent extends BaseEvent {
   type: 'CHAMPION_KILL';
   killerId: number;
   victimId: number;
-  assistingParticipantIds: number[];
-  position: Position;
+  assistingParticipantIds?: number[];
+  position?: Position;
   bounty: number;
   killStreakLength: number;
   shutdownBounty?: number;
-  victimDamageDealt: VictimDamage[];
-  victimDamageReceived: VictimDamageReceived[];
+  victimDamageDealt?: VictimDamage[];
+  victimDamageReceived?: VictimDamageReceived[];
 }
 
+/** Recap is a list of source entries, not a computed total. Missing fields stay absent. */
 export interface VictimDamage {
-  participantId: number;
-  physicalDamage: number;
-  magicalDamage: number;
-  trueDamage: number;
+  participantId?: number;
+  physicalDamage?: number;
+  magicDamage?: number;
+  trueDamage?: number;
+  basic?: boolean;
+  name?: string;
+  spellName?: string;
+  spellSlot?: number;
+  type?: string;
 }
 
-export interface VictimDamageReceived {
-  participantId: number;
-  totalDamage: number;
-  physicalDamage: number;
-  magicalDamage: number;
-  trueDamage: number;
+export interface VictimDamageReceived extends VictimDamage {
+  totalDamage?: number;
 }
 
 // CHAMPION_SPECIAL_KILL
@@ -191,14 +203,14 @@ export interface ChampionSpecialKillEvent extends BaseEvent {
   killerId: number;
   position?: Position;
   killType: 'KILL_FIRST_BLOOD' | 'KILL_ACES_ACE' | 'KILL_SOLO' | 'KILL_TEAM';
-  multiKillLength: number;
+  multiKillLength?: number;
 }
 
 // BUILDING_KILL
 export interface BuildingKillEvent extends BaseEvent {
   type: 'BUILDING_KILL';
   killerId: number;
-  assistingParticipantIds: number[];
+  assistingParticipantIds?: number[];
   buildingType: 'TOWER_BUILDING' | 'INHIBITOR_BUILDING';
   towerType:
     | 'OUTER_TURRET'
@@ -270,11 +282,11 @@ export interface LevelUpEvent extends BaseEvent {
 export interface EliteMonsterKillEvent extends BaseEvent {
   type: 'ELITE_MONSTER_KILL';
   killerId: number;
-  assistingParticipantIds: number[];
+  assistingParticipantIds?: number[];
   bounty: number;
   killerTeamId: number;
   monsterType: 'DRAGON' | 'BARON_NASHOR' | 'RIFTHERALD' | 'HORDE';
-  monsterSubType:
+  monsterSubType?:
     | 'EARTH'
     | 'WATER'
     | 'FIRE'
@@ -285,7 +297,13 @@ export interface EliteMonsterKillEvent extends BaseEvent {
     | 'RUINED_KING'
     | 'ELDER_DRAGON'
     | ''
-    | 'ORDNANCE';
+    | 'ORDNANCE'
+    | 'WATER_DRAGON'
+    | 'FIRE_DRAGON'
+    | 'EARTH_DRAGON'
+    | 'AIR_DRAGON'
+    | 'HEXTECH_DRAGON'
+    | 'CHEMTECH_DRAGON';
   position: Position;
 }
 

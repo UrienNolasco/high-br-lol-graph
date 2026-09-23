@@ -1,0 +1,87 @@
+{
+  "task": "MET-04",
+  "validatedAt": "2026-09-23T11:57:24.236885+00:00",
+  "scope": "Local worktree and disposable PostgreSQL/RabbitMQ integration services; no production deployment",
+  "sourceSha256": {
+    "exemplo_partida_BR1_3200579475.json": "84f4a95ab6be4c3e9ee264a4b2ca421d76b180e47d39bdd8eb9a4a6163dc79ef",
+    "exemplo_partida_timeline_BR1_3200579475.json": "47b305de799e4e737d43dc3eeedf41c5d9f84a8bdd4f43b608ca0466a2728626",
+    "prisma/migrations/20260923020000_met04_normalized_events/migration.sql": "cdead8e3691ac9770729d36904eff30c134f05cfa0feb0d7eecc99f56c1f0a0b"
+  },
+  "versions": {
+    "metricVersion": 1,
+    "processingVersion": 2
+  },
+  "realFixture": {
+    "matchId": "BR1_3200579475",
+    "frames": 41,
+    "events": 1966,
+    "knownEventTypes": 18,
+    "unknownEventTypes": 0,
+    "wardPlacementsWithoutCoordinates": 752,
+    "buildingKills": 15,
+    "buildingEnvironmentalKillers": 1,
+    "plates": 74,
+    "plateEnvironmentalKillers": 28,
+    "unresolvedParticipants": 0,
+    "teamContextConflicts": 0
+  },
+  "checks": [
+    {
+      "command": "npm run build",
+      "status": "passed"
+    },
+    {
+      "command": "npm test -- --runInBand",
+      "status": "passed",
+      "suites": 56,
+      "tests": 280
+    },
+    {
+      "command": "npm run test:e2e -- --runInBand --testPathPatterns='matches|analytics|players'",
+      "status": "passed",
+      "suites": 5,
+      "tests": 33
+    },
+    {
+      "command": "npm run test:integration (TEST_DATABASE_URL and TEST_RABBITMQ_URL set to disposable services)",
+      "status": "passed",
+      "suites": 3,
+      "tests": 26,
+      "durationSeconds": 62.541,
+      "includes": [
+        "normalized-events.integration-spec.ts",
+        "processing.integration-spec.ts",
+        "comparison.integration-spec.ts"
+      ]
+    },
+    {
+      "command": "npx prisma migrate deploy (disposable integration database)",
+      "status": "passed",
+      "migration": "20260923020000_met04_normalized_events"
+    },
+    {
+      "command": "npx prisma validate",
+      "status": "passed"
+    },
+    {
+      "command": "npx eslint (new normalizer, DTO, tests and event integration suite)",
+      "status": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed"
+    }
+  ],
+  "persistenceEvidence": [
+    "1966 payloads round-trip exactly by source identity",
+    "COMPLETED redelivery keeps event count1966",
+    "Two offline rebuilds preserve projections except processedAt and keep per-player aggregate gamesPlayed1",
+    "Duplicate identity aborts match/participant/event/aggregate writes and never publishes COMPLETED",
+    "Two unknown-type events with timestamp0 remain distinct without invented actors/teams"
+  ],
+  "limitations": [
+    "Real semantic fixture N=1, patch16.2 queue420 map11; future types preserved but not declared validated",
+    "Combined migrations and projections still require the MET-09 gate",
+    "Absent/invalid/sentinel/unresolved assistance must not be interpreted as observed solo kill in MET-13"
+  ]
+}

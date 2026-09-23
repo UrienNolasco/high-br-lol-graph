@@ -123,6 +123,63 @@ describe('timeline-events.mapper', () => {
     });
   });
 
+  it('preserves absent ward coordinates and objective ownership without fabricating a team', () => {
+    expect(
+      flattenWards([
+        {
+          puuid: 'p',
+          championId: 1,
+          killPositions: [],
+          deathPositions: [],
+          wardPositions: [
+            { wardType: 'UNDEFINED', timestamp: 1, x: null, y: null },
+          ],
+        },
+      ])[0],
+    ).toMatchObject({ x: null, y: null });
+    expect(
+      flattenObjectives([
+        {
+          teamId: 100,
+          objectivesTimeline: [
+            {
+              type: 'TOWER',
+              subType: 'TOP_LANE',
+              teamId: null,
+              timestamp: 1,
+              ownerTeamId: null,
+            },
+          ],
+        },
+      ])[0].teamId,
+    ).toBeNull();
+    expect(
+      flattenObjectives([
+        {
+          teamId: 100,
+          objectivesTimeline: [
+            {
+              type: 'TOWER',
+              subType: 'TOP_LANE',
+              teamId: 100,
+              timestamp: 1,
+              ownerTeamId: 200,
+              tier: 'OUTER_TURRET',
+              lane: 'TOP_LANE',
+              assistingParticipantIds: [],
+            },
+          ],
+        },
+      ])[0],
+    ).toMatchObject({
+      ownerTeamId: 200,
+      teamId: 100,
+      tier: 'OUTER_TURRET',
+      lane: 'TOP_LANE',
+      assistingParticipantIds: [],
+    });
+  });
+
   describe('flattenObjectives', () => {
     it('should flatten objectives from teams', () => {
       const teams: EventTeam[] = [

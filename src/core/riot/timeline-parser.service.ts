@@ -1,3 +1,9 @@
+import {
+  normalizeTimelineEvents,
+  NormalizedTimelineEvent,
+  KNOWN_EVENT_TYPES,
+} from './normalized-events';
+import { KnownTimelineEvent } from './dto/timeline.dto';
 import { Injectable, Logger } from '@nestjs/common';
 import {
   projectTimelineSnapshots,
@@ -29,7 +35,10 @@ export interface PositionEvent {
   timestamp: number;
 }
 
-export interface WardEvent extends PositionEvent {
+export interface WardEvent {
+  x: number | null;
+  y: number | null;
+  timestamp: number;
   wardType: string;
 }
 
@@ -67,6 +76,7 @@ export interface ParsedTimelineData {
   snapshotProjection: TimelineSnapshotProjection;
   participants: Map<string, ParticipantTimelineData>; // Indexado por PUUID
   objectivesTimeline: ObjectiveEvent[];
+  normalizedEvents: NormalizedTimelineEvent[];
 }
 
 export interface ObjectiveEvent {
@@ -78,7 +88,11 @@ export interface ObjectiveEvent {
     | 'TOWER'
     | 'INHIBITOR';
   subType?: string;
-  teamId: number;
+  teamId: number | null;
+  ownerTeamId?: number | null;
+  lane?: string | null;
+  tier?: string | null;
+  assistingParticipantIds?: number[] | null;
   timestamp: number;
   killerId?: number;
 }
@@ -101,6 +115,7 @@ export class TimelineParserService {
   parseTimeline(
     timelineDto: TimelineDto,
     participantMap: Map<number, string>,
+    participantTeams: ReadonlyMap<number, number> = new Map(),
   ): ParsedTimelineData {
     const frames = timelineDto.info.frames;
     const snapshotProjection = projectTimelineSnapshots(
@@ -141,6 +156,11 @@ export class TimelineParserService {
       snapshotProjection,
       participants: participantData,
       objectivesTimeline,
+      normalizedEvents: normalizeTimelineEvents(
+        timelineDto,
+        participantMap,
+        participantTeams,
+      ),
     };
   }
 
@@ -219,7 +239,9 @@ export class TimelineParserService {
     participantMap: Map<number, string>,
     objectivesTimeline: ObjectiveEvent[],
   ): void {
-    for (const event of frame.events) {
+    for (const sourceEvent of frame.events) {
+      if (!KNOWN_EVENT_TYPES.has(sourceEvent.type)) continue;
+      const event = sourceEvent as KnownTimelineEvent;
       switch (event.type) {
         case 'CHAMPION_KILL':
           this.processChampionKill(event, data, participantMap);
@@ -284,6 +306,14 @@ export class TimelineParserService {
     const killerPuuid = participantMap.get(event.killerId);
     const victimPuuid = participantMap.get(event.victimId);
 
+    // A kill without observed coordinates still exists in normalizedEvents, but has no heatmap point.
+    if (
+      !event.position ||
+      !Number.isFinite(event.position.x) ||
+      !Number.isFinite(event.position.y)
+    )
+      return;
+
     // Registrar kill (se não for minion/torre)
     if (killerPuuid && event.killerId !== 0) {
       data.get(killerPuuid)?.killPositions.push({
@@ -314,16 +344,21 @@ export class TimelineParserService {
     const puuid = participantMap.get(event.creatorId);
     if (!puuid) return;
 
-    // Ward event não tem posição no evento, precisaria buscar no participantFrame
-    // Por enquanto, registramos sem posição
     const participant = data.get(puuid);
     if (!participant) return;
 
-    // Nota: WardPlacedEvent não tem position, apenas timestamp
-    // Para posição exata, seria necessário buscar no participantFrame do mesmo timestamp
+    // Only event coordinates are observed ward locations; never use the actor frame.
     participant.wardPositions.push({
-      x: 0,
-      y: 0,
+      x:
+        typeof event.position?.x === 'number' &&
+        Number.isFinite(event.position.x)
+          ? event.position.x
+          : null,
+      y:
+        typeof event.position?.y === 'number' &&
+        Number.isFinite(event.position.y)
+          ? event.position.y
+          : null,
       timestamp: event.timestamp,
       wardType: event.wardType,
     });
@@ -451,9 +486,15 @@ export class TimelineParserService {
     objectivesTimeline.push({
       type: event.monsterType,
       subType: event.monsterSubType || undefined,
-      teamId: event.killerTeamId,
+      teamId: [100, 200].includes(event.killerTeamId)
+        ? event.killerTeamId
+        : null,
+      assistingParticipantIds: event.assistingParticipantIds ?? null,
       timestamp: event.timestamp,
-      killerId: event.killerId,
+      killerId:
+        event.killerId > 0 && participantMap.has(event.killerId)
+          ? event.killerId
+          : undefined,
     });
   }
 
@@ -469,9 +510,16 @@ export class TimelineParserService {
     objectivesTimeline.push({
       type: event.buildingType === 'INHIBITOR_BUILDING' ? 'INHIBITOR' : 'TOWER',
       subType: event.laneType,
-      teamId: event.teamId === 100 ? 200 : 100,
+      teamId: event.teamId === 100 ? 200 : event.teamId === 200 ? 100 : null,
+      ownerTeamId: [100, 200].includes(event.teamId) ? event.teamId : null,
+      lane: event.laneType ?? null,
+      tier: event.towerType ?? null,
+      assistingParticipantIds: event.assistingParticipantIds ?? null,
       timestamp: event.timestamp,
-      killerId: event.killerId,
+      killerId:
+        event.killerId > 0 && participantMap.has(event.killerId)
+          ? event.killerId
+          : undefined,
     });
   }
 }
