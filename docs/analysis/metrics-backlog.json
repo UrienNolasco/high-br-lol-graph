@@ -1,0 +1,1101 @@
+{
+  "reviewedAt": "2026-09-22",
+  "referenceCommit": "fc7abf5",
+  "board": {
+    "id": 3,
+    "name": "high-br-lol",
+    "columnId": 9,
+    "columnName": "Ready"
+  },
+  "status": "created_and_verified",
+  "tasks": [
+    {
+      "code": "MET-01",
+      "title": "Definir contratos de métricas, elegibilidade e versionamento",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "M",
+      "dependsOn": [],
+      "metrics": [],
+      "scope": "Formalizar definições executáveis comuns para valores, unidades, denominadores, ausência, qualidade, timestamps e filtros. Estender o processamento confiável existente.",
+      "acceptance": [
+        "Contrato distingue observed, derived, estimated e unavailable; null inclui motivo e zero é reservado a observação válida.",
+        "Definir checkpoint descritivo próximo versus past-only, tolerância, bordas de janelas, coorte, papel canônico MIDDLE e critérios de remake por patch.",
+        "Registrar como metricVersion e processingVersion se relacionam, compatibilidade das rotas atuais e fixtures de resposta para cada estado."
+      ],
+      "codeReferences": [
+        "src/core/processing/processing.constants.ts",
+        "src/core/stats/player-stats-aggregation.service.ts",
+        "src/modules/matches/dto/match-deep-dive.dto.ts"
+      ],
+      "kanbanTaskId": 4,
+      "kanbanDependencyIds": []
+    },
+    {
+      "code": "MET-02",
+      "title": "Auditar cobertura e criar corpus de validação multiversão",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "M",
+      "dependsOn": [
+        "MET-01"
+      ],
+      "metrics": [],
+      "scope": "Expandir a auditoria offline de uma partida para corpus representativo disponível, com relatório de ausências e divergências. Medir disponibilidade de MatchRaw sem presumir volume.",
+      "acceptance": [
+        "Reproduzir 100 conferências individuais e 12 de objetivos da fixture BR1_3200579475 sem falhas.",
+        "Cobrir frames ausentes/duplicados no minuto, tipos desconhecidos, role ambígua, jogo curto, surrender e campos opcionais com variações controladas identificadas como sintéticas.",
+        "Relatar cobertura por patch/fila/mapa e a ausência de amostras reais de outros patches; definir matriz de versões suportadas sem alegar generalização."
+      ],
+      "codeReferences": [
+        "scripts/analyze-example-match.py",
+        "test/integration/processing.integration-spec.ts",
+        "src/modules/worker/services/worker.service.ts"
+      ],
+      "kanbanTaskId": 5,
+      "kanbanDependencyIds": [
+        4
+      ]
+    },
+    {
+      "code": "MET-03",
+      "title": "Preservar frames completos com timestamps e ausência explícita",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "L",
+      "dependsOn": [
+        "MET-01",
+        "MET-02"
+      ],
+      "metrics": [
+        "E01",
+        "E02",
+        "E03",
+        "E05",
+        "E07"
+      ],
+      "scope": "Promover snapshots do bruto para leitura analítica sem colisão por minuto: timestamp, ouro total/atual, XP, nível, CS lane/jungle, dano e posição. Manter adaptador de séries legadas.",
+      "acceptance": [
+        "Os 41 frames e 410 snapshots da fixture permanecem identificáveis, inclusive os dois frames no minuto 39.",
+        "Campos ausentes não viram zero; checkpoints registram timestamp e offset e modo past-only nunca consulta frame futuro.",
+        "Round-trip pelo banco preserva precisão e ordem; consultas legadas têm política de compatibilidade documentada."
+      ],
+      "codeReferences": [
+        "src/core/riot/timeline-parser.service.ts",
+        "prisma/schema.prisma",
+        "src/modules/worker/services/match-persistence.service.ts"
+      ],
+      "kanbanTaskId": 6,
+      "kanbanDependencyIds": [
+        4,
+        5
+      ]
+    },
+    {
+      "code": "MET-04",
+      "title": "Normalizar eventos com identidade, participantes e contexto",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "L",
+      "dependsOn": [
+        "MET-01",
+        "MET-02"
+      ],
+      "metrics": [
+        "O01",
+        "V01",
+        "V02",
+        "E08",
+        "C08",
+        "C09",
+        "O02",
+        "O04",
+        "B04"
+      ],
+      "scope": "Estender o parser e a persistência existentes com chave matchId/frameIndex/eventIndex, tipo, timestamp, autor/vítima/assistentes, times de origem e beneficiário, payload e metadados de qualidade.",
+      "acceptance": [
+        "Preservar eventos distintos com timestamps iguais; cobrir kill, ward placement/removal, objetivos, placas, skills, level, item, bounty, soul e game end, além de tipos desconhecidos.",
+        "WARD_PLACED sem coordenadas retorna posição ausente; killerId=0 e teamId=0 não são atribuídos a jogador/time inventado.",
+        "Objetivos continuam atribuídos ao beneficiário; ownerTeamId, tier/lane e assistentes ficam disponíveis; DTOs de recap refletem magicDamage e opcionalidade real."
+      ],
+      "codeReferences": [
+        "src/core/riot/timeline-parser.service.ts",
+        "src/core/riot/dto/timeline.dto.ts",
+        "src/modules/worker/services/match-persistence.service.ts"
+      ],
+      "kanbanTaskId": 7,
+      "kanbanDependencyIds": [
+        4,
+        5
+      ]
+    },
+    {
+      "code": "MET-05",
+      "title": "Projetar estatísticas finais e contexto da partida",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "L",
+      "dependsOn": [
+        "MET-01",
+        "MET-02"
+      ],
+      "metrics": [
+        "V03",
+        "C03",
+        "C04",
+        "C05",
+        "C06",
+        "O03",
+        "E02",
+        "E10",
+        "B06"
+      ],
+      "scope": "Promover wards, dano por alvo/tipo, cura/escudo aliado, CC, tempo morto/timePlayed, CS separado, jungle aliada/inimiga, casts, Riot ID, surrender e totais de objetivos do MatchRaw.",
+      "acceptance": [
+        "Campos opcionais são nullable e distinguem desconhecido de zero; JSON original continua preservado.",
+        "MatchTeam mantém totais finais separados da sequência de eventos; métricas finais reconciliam os dez participantes da fixture.",
+        "Exibição usa Riot ID quando disponível com PUUID estável; não usa goldEarned menos goldSpent como saldo."
+      ],
+      "codeReferences": [
+        "src/modules/worker/pure/match.parser.ts",
+        "prisma/schema.prisma",
+        "src/core/riot/dto/match.dto.ts"
+      ],
+      "kanbanTaskId": 8,
+      "kanbanDependencyIds": [
+        4,
+        5
+      ]
+    },
+    {
+      "code": "MET-06",
+      "title": "Corrigir inventário final com slots e catálogo por versão",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "M",
+      "dependsOn": [
+        "MET-01",
+        "MET-02"
+      ],
+      "metrics": [
+        "B01"
+      ],
+      "scope": "Usar item0..item6 e roleBoundItem do resumo como inventário final; resolver catálogo compatível com gameVersion sem inferir seis compras únicas.",
+      "acceptance": [
+        "Preservar slot vazio, duplicatas válidas, trinket e roleBoundItem; resultado coincide com resumo dos dez jogadores.",
+        "ID desconhecido mantém ID e slot com metadado indisponível; não troca silenciosamente pelo catálogo atual.",
+        "Contrato de builds diferencia inventário final de histórico de transações; testes incluem venda, undo e item de quest."
+      ],
+      "codeReferences": [
+        "src/modules/matches/pure/builds.mapper.ts",
+        "src/core/data-dragon/data-dragon.service.ts",
+        "src/modules/worker/pure/match.parser.ts"
+      ],
+      "kanbanTaskId": 9,
+      "kanbanDependencyIds": [
+        4,
+        5
+      ]
+    },
+    {
+      "code": "MET-07",
+      "title": "Usar vencedor real e corrigir semântica da timeline de ouro",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "M",
+      "dependsOn": [
+        "MET-01"
+      ],
+      "metrics": [
+        "O08"
+      ],
+      "scope": "Corrigir a resposta existente que deduz vencedor do ouro. Usar MatchTeam.win e apresentar swing como variação observada, com estados vazios consistentes.",
+      "acceptance": [
+        "Uma fixture cujo vencedor termina com menos ouro retorna o vencedor do resumo; empate de ouro também não escolhe time arbitrário.",
+        "Série vazia/incompleta não quebra a rota nem soma ausências como ouro zero; registrar cobertura.",
+        "Documentar migração do rótulo throwPoint para swing observado sem sugerir culpa ou causalidade."
+      ],
+      "codeReferences": [
+        "src/modules/matches/pure/gold-calculator.ts",
+        "src/modules/matches/services/match-gold-timeline.service.ts",
+        "src/modules/matches/repositories/match.repository.ts"
+      ],
+      "kanbanTaskId": 10,
+      "kanbanDependencyIds": [
+        4
+      ]
+    },
+    {
+      "code": "MET-08",
+      "title": "Alinhar filtros e medidas das comparações existentes",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "L",
+      "dependsOn": [
+        "MET-01"
+      ],
+      "metrics": [
+        "H01",
+        "H02"
+      ],
+      "scope": "Garantir que resumo, lane e timeline comparem o mesmo conjunto. Corrigir MID/MIDDLE, seleção não ordenada, CSPM divergente, zeros fictícios e rótulo survivability.",
+      "acceptance": [
+        "Filtros de campeão, posição, patch, fila e período geram coorte única e ordenação por gameCreation/matchId; truncamento e N são explícitos.",
+        "CSPM final usa totalCs como agregados; percentuais com denominador zero retornam ausência; dano recebido não é nota de sobrevivência.",
+        "Solo kills ainda não calculados retornam null com motivo até MET-13; N por checkpoint e adversário ausente/ambíguo têm contrato testado."
+      ],
+      "codeReferences": [
+        "src/modules/analytics/services/analytics.service.ts",
+        "src/modules/analytics/repositories/analytics.repository.ts",
+        "src/modules/matches/pure/performance-calculator.ts",
+        "src/modules/players/dto/player-match.dto.ts"
+      ],
+      "kanbanTaskId": 11,
+      "kanbanDependencyIds": [
+        4
+      ]
+    },
+    {
+      "code": "MET-09",
+      "title": "Validar migrations e reconstrução das novas projeções",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "M",
+      "dependsOn": [
+        "MET-03",
+        "MET-04",
+        "MET-05",
+        "MET-06"
+      ],
+      "metrics": [],
+      "scope": "Integrar as projeções ao commit transacional e rebuild já existentes, incrementando PROCESSING_VERSION. Preparar ensaio em banco isolado e runbook de migração.",
+      "acceptance": [
+        "Reprocessar a mesma partida duas vezes produz resultados idênticos sem duplicar eventos, features ou contribuições.",
+        "Interrupção e resume preservam commits válidos; falha parcial não publica métricas incompletas.",
+        "Migration de extensão é compatível com dados existentes; ensaio registra tempo/espaço e reconciliação antes/depois. Execução em produção fica fora desta task."
+      ],
+      "codeReferences": [
+        "src/core/processing/rebuild.service.ts",
+        "src/core/processing/processing.constants.ts",
+        "test/integration/processing.integration-spec.ts",
+        "docs/PROCESSAMENTO-CONFIAVEL.md"
+      ],
+      "kanbanTaskId": 12,
+      "kanbanDependencyIds": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "code": "MET-10",
+      "title": "Calcular contribuição individual em dimensões separadas",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "M",
+      "dependsOn": [
+        "MET-05",
+        "MET-08"
+      ],
+      "metrics": [
+        "E04",
+        "C01",
+        "C02",
+        "C03",
+        "C04",
+        "C05",
+        "C06",
+        "V04",
+        "O03"
+      ],
+      "scope": "Criar funções puras de recursos, combate, visão e estruturas com valores absolutos, por minuto e participações no time. Preservar explicações por papel.",
+      "acceptance": [
+        "KP, damage share, gold share e razão entre shares retornam null quando denominador não existe; cura própria não entra em cura aliada.",
+        "Fixture reproduz Fiora com cerca de 79,14% do dano a torres e Milio com 19.049 de escudos aliados.",
+        "Tempo morto usa timePlayed e jogador-segundos ao somar time; não gerar score universal nem equiparar dano recebido a mau desempenho."
+      ],
+      "codeReferences": [
+        "src/modules/matches/pure/performance-calculator.ts",
+        "src/modules/matches/services/match-performance.service.ts"
+      ],
+      "kanbanTaskId": 13,
+      "kanbanDependencyIds": [
+        8,
+        11
+      ]
+    },
+    {
+      "code": "MET-11",
+      "title": "Entregar visão por tipo, fase e janela pré-objetivo",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "M",
+      "dependsOn": [
+        "MET-04",
+        "MET-05"
+      ],
+      "metrics": [
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "V06",
+        "V07"
+      ],
+      "scope": "Calcular colocações/remoções, control wards, participações, diferenças por fase e intervalos sem colocação. Associar atividade global às janelas anteriores às capturas.",
+      "acceptance": [
+        "Fixture separa 196 colocações reconhecidas e 556 desconhecidas e reconcilia por jogador; tipos futuros permanecem na categoria desconhecida até validação.",
+        "Compras de control ward, colocações, remoções e vision score aparecem separadamente; maior gap explicita se inclui bordas do jogo.",
+        "Janelas 60/90s mostram intervalo e eventos de origem; ausência de coordenadas não produz heatmap exato nem alegação de visão no rio."
+      ],
+      "codeReferences": [
+        "src/core/riot/timeline-parser.service.ts",
+        "src/modules/matches/pure/timeline-events.mapper.ts"
+      ],
+      "kanbanTaskId": 14,
+      "kanbanDependencyIds": [
+        7,
+        8
+      ]
+    },
+    {
+      "code": "MET-12",
+      "title": "Entregar checkpoints e curvas de economia e progressão",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "M",
+      "dependsOn": [
+        "MET-03",
+        "MET-05"
+      ],
+      "metrics": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E07",
+        "E10"
+      ],
+      "scope": "Calcular ouro/XP/nível/CS lane-jungle aos 5/10/15/20, diferenças versus adversário único, ganhos por fase e ouro não gasto amostrado.",
+      "acceptance": [
+        "Cada checkpoint expõe target, actual, offset, mode e elegibilidade; partida curta ou role ambígua produz null.",
+        "Deltas usam tempo real, incluindo último intervalo parcial; currentGold vem do frame.",
+        "Modo legado @15 e contrato novo não são misturados sem versionamento/rebuild; ouro não gasto não é rotulado como desperdício."
+      ],
+      "codeReferences": [
+        "src/core/stats/player-stats-aggregation.service.ts",
+        "src/modules/matches/pure/performance-calculator.ts"
+      ],
+      "kanbanTaskId": 15,
+      "kanbanDependencyIds": [
+        6,
+        8
+      ]
+    },
+    {
+      "code": "MET-13",
+      "title": "Calcular relações de abates, assistências e shutdowns",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "M",
+      "dependsOn": [
+        "MET-04"
+      ],
+      "metrics": [
+        "E08",
+        "C01",
+        "C08",
+        "C09"
+      ],
+      "scope": "Entregar matriz killer-victim, coparticipação, KP por fase, abates/mortes sem assistentes aos 10/15 e recompensas registradas.",
+      "acceptance": [
+        "Kills/deaths/assists conciliam com resumo da fixture e evento é contado uma vez; autor não jogador e assistente ausente têm tratamento explícito.",
+        "Solo significa sem assistentes registrados; preencher campos soloKills15/soloDeaths15 antes fictícios e distinguir contagem da partida de média histórica.",
+        "Bounty e shutdownBounty preservam semânticas separadas; não somar campos não validados."
+      ],
+      "codeReferences": [
+        "src/modules/analytics/services/analytics.service.ts",
+        "src/core/riot/timeline-parser.service.ts"
+      ],
+      "kanbanTaskId": 16,
+      "kanbanDependencyIds": [
+        7
+      ]
+    },
+    {
+      "code": "MET-14",
+      "title": "Entregar objetivos, placas e contribuição em estruturas",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "M",
+      "dependsOn": [
+        "MET-04",
+        "MET-05"
+      ],
+      "metrics": [
+        "O01",
+        "O02",
+        "O03",
+        "O04"
+      ],
+      "scope": "Expor cronologia enriquecida, totais finais, autores/assistentes e pressão em torres por lane/fase com evidência.",
+      "acceptance": [
+        "Reconciliar 12 conferências de objetivos por time e mostrar 13 torres e 2 inibidores na fixture.",
+        "74 eventos de placas preservados, incluindo 28 com killerId=0; não aplicar corte universal aos 14 minutos.",
+        "Alma com teamId=0 permanece sem time atribuído; last hit, participação e dano são medidas distintas."
+      ],
+      "codeReferences": [
+        "src/modules/matches/services/match-timeline-events.service.ts",
+        "src/modules/matches/pure/timeline-events.mapper.ts"
+      ],
+      "kanbanTaskId": 17,
+      "kanbanDependencyIds": [
+        7,
+        8
+      ]
+    },
+    {
+      "code": "MET-15",
+      "title": "Explicar sequências de mortes, objetivos e viradas",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "L",
+      "dependsOn": [
+        "MET-07",
+        "MET-11",
+        "MET-12",
+        "MET-13",
+        "MET-14"
+      ],
+      "metrics": [
+        "C07",
+        "O05",
+        "O06",
+        "O07",
+        "O08"
+      ],
+      "scope": "Produzir episódios rastreáveis de morte antes de objetivo, abate seguido de captura, trocas temporais, variação de ouro e déficit superado.",
+      "acceptance": [
+        "Janelas, denominadores, censura no fim e deduplicação estão explícitos; uma morte com vários objetivos retorna um episódio com lista de objetivos.",
+        "Fixture reproduz 5 abates do time 200 nos 60s antes do primeiro Barão e primeiro snapshot de vantagem persistente do time 100 aos 28 min.",
+        "Cada anotação referencia eventos/frames e evita causalidade, buff gold ou culpar jogador; parâmetros são versionados."
+      ],
+      "codeReferences": [
+        "src/modules/matches/pure/gold-calculator.ts",
+        "src/modules/matches/services/match-timeline-events.service.ts"
+      ],
+      "kanbanTaskId": 18,
+      "kanbanDependencyIds": [
+        10,
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "code": "MET-16",
+      "title": "Reconstruir compras relevantes e timing de habilidades",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "L",
+      "dependsOn": [
+        "MET-03",
+        "MET-04",
+        "MET-06"
+      ],
+      "metrics": [
+        "B02",
+        "B04"
+      ],
+      "scope": "Interpretar compras/vendas/destroyed/undo usando catálogo por patch e expor aquisição efetiva de itens e sequência temporal de habilidades.",
+      "acceptance": [
+        "Eventos originais não são apagados por undo; transições preservam beforeId/afterId/goldGain.",
+        "Item consumido, componente transformado e venda não permanecem artificialmente no inventário; estado ambíguo sinaliza insuficiência.",
+        "Ordem de skills tem timestamp, slot, tipo e validação por patch; timing não promete eficácia de uso."
+      ],
+      "codeReferences": [
+        "src/core/riot/timeline-parser.service.ts",
+        "src/modules/matches/pure/builds.mapper.ts",
+        "src/core/data-dragon/data-dragon.service.ts"
+      ],
+      "kanbanTaskId": 19,
+      "kanbanDependencyIds": [
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "code": "MET-17",
+      "title": "Publicar relatório analítico da partida com evidências",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "L",
+      "dependsOn": [
+        "MET-09",
+        "MET-10",
+        "MET-11",
+        "MET-12",
+        "MET-13",
+        "MET-14",
+        "MET-15",
+        "MET-16",
+        "MET-34"
+      ],
+      "metrics": [],
+      "scope": "Integrar serviços puros em contrato REST de relatório por jogador/partida, com sumário de contribuição, episódios e detalhes navegáveis por identificador.",
+      "acceptance": [
+        "OpenAPI, exemplos e testes HTTP cobrem partida válida, não encontrada, cobertura parcial e métrica indisponível; rotas existentes têm compatibilidade declarada.",
+        "Cada afirmação traz valor/unidade, versão, evidências e motivo de ausência quando aplicável; consumidor consegue renderizar quatro dimensões sem conhecer tabelas internas.",
+        "Resposta não consulta Riot nem descomprime todos os brutos em tempo de leitura; filtros e limites do payload são validados."
+      ],
+      "codeReferences": [
+        "src/modules/matches/matches.controller.ts",
+        "src/modules/matches/dto/match-deep-dive.dto.ts",
+        "src/modules/matches/matches.controller.e2e-spec.ts"
+      ],
+      "kanbanTaskId": 36,
+      "kanbanDependencyIds": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        35
+      ]
+    },
+    {
+      "code": "MET-18",
+      "title": "Registrar origem da amostra e cobertura da coleta",
+      "priority": "P1",
+      "delivery": "Histórico",
+      "size": "M",
+      "dependsOn": [
+        "MET-01"
+      ],
+      "metrics": [
+        "H01",
+        "H03",
+        "H07"
+      ],
+      "scope": "Registrar observações de descoberta por collector/search/sync, momento, região, fila e rank observado do jogador consultado quando disponível. Deduplicar partidas mantendo múltiplas origens.",
+      "acceptance": [
+        "Partida descoberta por dois caminhos continua sendo uma observação analítica; linhagem preserva as duas descobertas.",
+        "Histórico anterior sem origem fica unknown, nunca inferido de prioridade da fila ou rank atual.",
+        "Relatório mostra completude do par bruto, período importado e população observada; rank da conta consultada não vira rank histórico dos dez participantes."
+      ],
+      "codeReferences": [
+        "src/modules/collector/services/collector-pipeline.service.ts",
+        "src/modules/players/services/player-search.service.ts",
+        "src/modules/players/services/sync-orchestrator.service.ts",
+        "src/core/processing/processing.service.ts"
+      ],
+      "kanbanTaskId": 20,
+      "kanbanDependencyIds": [
+        4
+      ]
+    },
+    {
+      "code": "MET-19",
+      "title": "Construir dataset histórico versionado e reproduzível",
+      "priority": "P1",
+      "delivery": "Histórico",
+      "size": "L",
+      "dependsOn": [
+        "MET-09",
+        "MET-10",
+        "MET-11",
+        "MET-12",
+        "MET-13",
+        "MET-14",
+        "MET-15",
+        "MET-18"
+      ],
+      "metrics": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06"
+      ],
+      "scope": "Materializar features por participante/time/partida e horizonte com somas, contagens válidas, coorte e linhagem; suportar consultas e exportação para pesquisa.",
+      "acceptance": [
+        "Chave de contribuição inclui partida, sujeito, definição e horizonte; replay não duplica observações.",
+        "Filtros de patch/fila/mapa/champion/role/período são comuns; N de partidas e jogadores é distinto de N de linhas.",
+        "Features preditivas usam exclusivamente dados até t; manifest de exportação registra versões, exclusões e partição temporal reproduzível."
+      ],
+      "codeReferences": [
+        "src/core/stats/player-stats-aggregation.service.ts",
+        "src/core/processing/rebuild.service.ts",
+        "prisma/schema.prisma"
+      ],
+      "kanbanTaskId": 21,
+      "kanbanDependencyIds": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20
+      ]
+    },
+    {
+      "code": "MET-20",
+      "title": "Entregar referências por campeão e posição com incerteza",
+      "priority": "P1",
+      "delivery": "Histórico",
+      "size": "L",
+      "dependsOn": [
+        "MET-19"
+      ],
+      "metrics": [
+        "H01",
+        "V08"
+      ],
+      "scope": "Expor distribuições, mediana, quantis e percentis em coortes comparáveis, incluindo visão/investimento por posição e custo conforme catálogo/regra validada.",
+      "acceptance": [
+        "Resposta mostra N elegível, cobertura, período e filtros; regra de mínimo de amostra é configurável e justificada por precisão.",
+        "Sem amostra suficiente exibir dados individuais e insuficiência, sem percentil ou rank inventado.",
+        "Não misturar posições/patches silenciosamente; estatísticas e intervalos têm método publicado, com dependência entre partidas considerada."
+      ],
+      "codeReferences": [
+        "src/modules/analytics/analytics.controller.ts",
+        "src/modules/analytics/repositories/analytics.repository.ts"
+      ],
+      "kanbanTaskId": 22,
+      "kanbanDependencyIds": [
+        21
+      ]
+    },
+    {
+      "code": "MET-21",
+      "title": "Entregar evolução pessoal e padrões recorrentes",
+      "priority": "P1",
+      "delivery": "Histórico",
+      "size": "M",
+      "dependsOn": [
+        "MET-19",
+        "MET-20"
+      ],
+      "metrics": [
+        "H02",
+        "H05"
+      ],
+      "scope": "Comparar janelas sem sobreposição do jogador por campeão/posição, incluindo frequência de mortes próximas a objetivos, valores absolutos, deltas e episódios.",
+      "acceptance": [
+        "Deltas expõem N, datas, cobertura e composição de cada janela; mudanças de patch/posição não são omitidas.",
+        "Frequência usa mortes elegíveis com horizonte completo e informa censura; mesmas ocorrências não são somadas duas vezes.",
+        "Com amostra pequena não afirmar tendência; apresentar exemplos e ausência de precisão suficiente."
+      ],
+      "codeReferences": [
+        "src/modules/analytics/services/analytics.service.ts",
+        "src/modules/players/services/player-stats.service.ts"
+      ],
+      "kanbanTaskId": 23,
+      "kanbanDependencyIds": [
+        21,
+        22
+      ]
+    },
+    {
+      "code": "MET-22",
+      "title": "Investigar associação entre visão antecipada e vitória",
+      "priority": "P1",
+      "delivery": "Histórico",
+      "size": "L",
+      "dependsOn": [
+        "MET-19"
+      ],
+      "metrics": [
+        "H03"
+      ],
+      "scope": "Executar protocolo da seção 7: primeiro tabelas descritivas com incerteza; modelos incrementais apenas se cobertura e tamanho da amostra sustentarem avaliação.",
+      "acceptance": [
+        "Uma partida por unidade independente, sem vazamento entre treino/teste; separação temporal e sensibilidade a jogadores recorrentes documentadas.",
+        "Não usar vision score final ou duração final como feature até15; comparar baseline de contexto versus contexto+visão, com calibração e estabilidade.",
+        "Relatar resultado positivo, nulo ou inviabilidade por amostra; disponibilizar código/manifest reproduzível e não recomendar número causal de wards."
+      ],
+      "codeReferences": [
+        "docs/METRICAS-E-OPORTUNIDADES.md",
+        "scripts/analyze-example-match.py"
+      ],
+      "kanbanTaskId": 24,
+      "kanbanDependencyIds": [
+        21
+      ]
+    },
+    {
+      "code": "MET-23",
+      "title": "Corrigir pick rate, ban rate e insumos do tier de campeões",
+      "priority": "P0",
+      "delivery": "Fundação",
+      "size": "M",
+      "dependsOn": [
+        "MET-01",
+        "MET-02"
+      ],
+      "metrics": [
+        "H07"
+      ],
+      "scope": "Calcular popularidade com partidas distintas da fila/patch elegíveis e corrigir exposição de zeros não calculados no tier atual.",
+      "acceptance": [
+        "pickRate=partidas com campeão escolhido/N elegível e banRate=partidas com campeão banido/N elegível, ambas em porcentagem; bans duplicados no mesmo jogo contam uma vez.",
+        "Campeão banido sem picks aparece com ban rate e estatísticas de desempenho indisponíveis; indisponibilidade de catálogo/ban não entra como zero.",
+        "Reconstrução é idempotente; tier informa fórmula heurística e dados insuficientes. Patch anterior vem de versões observadas/catalogadas, sem decremento/padding inválido."
+      ],
+      "codeReferences": [
+        "src/core/stats/player-stats-aggregation.service.ts",
+        "src/modules/stats/services/tier-rank.service.ts",
+        "src/modules/stats/repositories/champion-stats.repository.ts"
+      ],
+      "kanbanTaskId": 25,
+      "kanbanDependencyIds": [
+        4,
+        5
+      ]
+    },
+    {
+      "code": "MET-24",
+      "title": "Explorar episódios de combate e trocas rápidas",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "L",
+      "dependsOn": [
+        "MET-03",
+        "MET-13"
+      ],
+      "metrics": [
+        "C10",
+        "C11",
+        "E06"
+      ],
+      "scope": "Agrupar abates por distância e tempo; identificar resposta rápida e ligar último snapshot anterior de recursos ao episódio.",
+      "acceptance": [
+        "Algoritmo determinístico tem limiares versionados e teste de eventos simultâneos/distantes e prevenção de dupla atribuição.",
+        "Recurso pré-episódio usa frame anterior e expõe idade; nenhuma leitura futura.",
+        "Resultado chama-se episódio de abates, inclui análise de sensibilidade e não afirma detectar toda teamfight ou luta sem mortes."
+      ],
+      "codeReferences": [
+        "src/core/riot/timeline-parser.service.ts",
+        "src/modules/matches/pure/timeline-events.mapper.ts"
+      ],
+      "kanbanTaskId": 26,
+      "kanbanDependencyIds": [
+        6,
+        16
+      ]
+    },
+    {
+      "code": "MET-25",
+      "title": "Explorar presença amostrada em regiões do mapa",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "M",
+      "dependsOn": [
+        "MET-03"
+      ],
+      "metrics": [
+        "B08"
+      ],
+      "scope": "Definir regiões por mapa/versão e descrever distribuição das posições amostradas do jogador por fase.",
+      "acceptance": [
+        "Polígonos, bordas, lado e coordenadas ausentes têm regras testadas; contagens usam apenas amostras válidas.",
+        "Resposta expõe frequência e intervalo de amostragem, sem apresentar segundos exatos ou rota contínua.",
+        "Wards sem posição não são projetadas para coordenadas do jogador como posição exata."
+      ],
+      "codeReferences": [
+        "src/core/riot/timeline-parser.service.ts"
+      ],
+      "kanbanTaskId": 27,
+      "kanbanDependencyIds": [
+        6
+      ]
+    },
+    {
+      "code": "MET-26",
+      "title": "Comparar builds, runas e feitiços por contexto",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "L",
+      "dependsOn": [
+        "MET-16",
+        "MET-19",
+        "MET-20"
+      ],
+      "metrics": [
+        "B03",
+        "B05"
+      ],
+      "scope": "Analisar escolhas observadas por campeão/posição/matchup com momento de aquisição, recursos e duração elegível. Mostrar alternativas contextuais.",
+      "acceptance": [
+        "Transações desfeitas não definem escolha efetiva; runas/feitiços usam IDs e catálogo da versão.",
+        "Comparações de item em marco temporal incluem apenas partidas ainda elegíveis e contexto conhecido no marco; viés de quem conseguiu comprar é explícito.",
+        "Expor N e incerteza, sem chamar associação de build ótima ou garantia de vitória."
+      ],
+      "codeReferences": [
+        "src/modules/matches/pure/builds.mapper.ts",
+        "src/modules/analytics/repositories/analytics.repository.ts"
+      ],
+      "kanbanTaskId": 28,
+      "kanbanDependencyIds": [
+        19,
+        21,
+        22
+      ]
+    },
+    {
+      "code": "MET-27",
+      "title": "Analisar confrontos de lane e coocorrência de campeões",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "L",
+      "dependsOn": [
+        "MET-19",
+        "MET-20"
+      ],
+      "metrics": [
+        "H06"
+      ],
+      "scope": "Criar consultas de matchup contra adversário único da mesma posição e pares aliados com ganho descritivo versus baseline de coorte.",
+      "acceptance": [
+        "Contagens por partida deduplicadas, posição ambígua excluída e denominadores publicados.",
+        "Controlar fragmentação por patch/role e mostrar insuficiência para pares raros; não inferir premade.",
+        "Sinergia observada inclui composição e seleção como limites; não criar ranking causal com resultados correlacionados."
+      ],
+      "codeReferences": [
+        "src/modules/stats/dto/matchup-stats.dto.ts",
+        "src/modules/analytics/repositories/analytics.repository.ts"
+      ],
+      "kanbanTaskId": 29,
+      "kanbanDependencyIds": [
+        21,
+        22
+      ]
+    },
+    {
+      "code": "MET-28",
+      "title": "Analisar conversão de vantagem e recuperação por posição",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "L",
+      "dependsOn": [
+        "MET-19",
+        "MET-20"
+      ],
+      "metrics": [
+        "E09",
+        "O09",
+        "O12",
+        "H04"
+      ],
+      "scope": "Relacionar lead/deficit nos checkpoints a recursos/estruturas posteriores e resultado; incluir área sob curva de vantagem.",
+      "acceptance": [
+        "Partidas sem checkpoint válido não entram em denominador; bins e janelas são versionados.",
+        "Integral declara interpolação e unidade ouro-minuto, usa timestamps reais e não produz probabilidade de vitória por si só.",
+        "Resultados estratificam campeão/posição/patch e exibem incerteza, sem classificar universalmente quem carregou."
+      ],
+      "codeReferences": [
+        "src/modules/matches/pure/gold-calculator.ts",
+        "src/modules/analytics/repositories/analytics.repository.ts"
+      ],
+      "kanbanTaskId": 30,
+      "kanbanDependencyIds": [
+        21,
+        22
+      ]
+    },
+    {
+      "code": "MET-29",
+      "title": "Expor indicadores opcionais de execução, casts e pings",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "M",
+      "dependsOn": [
+        "MET-05",
+        "MET-19"
+      ],
+      "metrics": [
+        "C12",
+        "B06",
+        "B07"
+      ],
+      "scope": "Promover catálogo validado de challenges de execução e contagens de casts/pings para descrições por partida e histórico.",
+      "acceptance": [
+        "Campos opcionais, nome, unidade e cobertura por versão documentados; distinguir contador ausente de zero.",
+        "Casts totais não geram timestamps/cooldowns; skillshotsHit não vira taxa sem tentativas.",
+        "Pings não viram rótulos de toxicidade, intenção ou qualidade de comunicação; referências respeitam campeão/posição."
+      ],
+      "codeReferences": [
+        "src/modules/worker/pure/match.parser.ts",
+        "src/core/riot/dto/match.dto.ts"
+      ],
+      "kanbanTaskId": 31,
+      "kanbanDependencyIds": [
+        8,
+        21
+      ]
+    },
+    {
+      "code": "MET-30",
+      "title": "Analisar janelas de bounty e roubos de objetivos registrados",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "M",
+      "dependsOn": [
+        "MET-04",
+        "MET-05",
+        "MET-14"
+      ],
+      "metrics": [
+        "O10",
+        "O11"
+      ],
+      "scope": "Interpretar anúncio/início/fim de objective bounty e roubos registrados no resumo/challenges, com contratos por versão.",
+      "acceptance": [
+        "actualStartTime prevalece sobre timestamp do anúncio quando fornecido; fim ausente gera janela censurada.",
+        "Time desconhecido não é inferido; steals, assists e proximidade são apresentados como registros distintos.",
+        "Não calcular taxa de sucesso de tentativas ou todas as contestações sem denominador observável."
+      ],
+      "codeReferences": [
+        "src/core/riot/dto/timeline.dto.ts",
+        "src/core/riot/dto/match.dto.ts"
+      ],
+      "kanbanTaskId": 32,
+      "kanbanDependencyIds": [
+        7,
+        8,
+        17
+      ]
+    },
+    {
+      "code": "MET-31",
+      "title": "Analisar pool de campeões, consistência e sessões",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "M",
+      "dependsOn": [
+        "MET-19",
+        "MET-20"
+      ],
+      "metrics": [
+        "H08",
+        "H10"
+      ],
+      "scope": "Adicionar distribuição do pool, concentração top3, dispersão por contexto e sessões inferidas por intervalo entre partidas observadas.",
+      "acceptance": [
+        "Concentração e dispersão têm fórmula/N; empate e campeão pouco observado têm tratamento documentado.",
+        "Sessões ordenam gameCreation e fim estimado, têm limiar explícito e teste de sensibilidade; gaps de importação aparecem como cobertura incompleta.",
+        "Posição na sessão não é interpretada como tilt/fadiga; não recomendar mudança de rotina baseada apenas em associação."
+      ],
+      "codeReferences": [
+        "src/modules/players/repositories/match.repository.ts",
+        "src/modules/players/services/player-stats.service.ts"
+      ],
+      "kanbanTaskId": 33,
+      "kanbanDependencyIds": [
+        21,
+        22
+      ]
+    },
+    {
+      "code": "MET-32",
+      "title": "Analisar mudanças de métricas e escolhas entre patches",
+      "priority": "P2",
+      "delivery": "Exploração",
+      "size": "M",
+      "dependsOn": [
+        "MET-19",
+        "MET-20",
+        "MET-23"
+      ],
+      "metrics": [
+        "H09"
+      ],
+      "scope": "Comparar distribuições e popularidade entre patches observados, com composição e cobertura explícitas.",
+      "acceptance": [
+        "Resolver sequência de patches por catálogo/dados, sem supor numeração pública igual a gameVersion.",
+        "Publicar tamanho de amostra, escolhas e posições de cada período; evitar mistura silenciosa em ALL.",
+        "Delta não é rotulado como efeito causal do balanceamento; campos incompatíveis por versão ficam indisponíveis."
+      ],
+      "codeReferences": [
+        "src/modules/champions/services/current-patch.service.ts",
+        "src/modules/stats/services/tier-rank.service.ts"
+      ],
+      "kanbanTaskId": 34,
+      "kanbanDependencyIds": [
+        21,
+        22,
+        25
+      ]
+    },
+    {
+      "code": "MET-33",
+      "title": "Validar desempenho, cobertura e liberação da entrega por partida",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "M",
+      "dependsOn": [
+        "MET-17",
+        "MET-23"
+      ],
+      "metrics": [],
+      "scope": "Medir custo das novas projeções e respostas, concluir ensaio de liberação e documentar observabilidade e retenção proporcional ao volume medido.",
+      "acceptance": [
+        "Registrar p50/p95 de latência, bytes por partida, vazão de processamento, duração de rebuild e N do benchmark; orçamento nasce da medição, não de estimativa inventada.",
+        "Sem divergências inexplicadas no corpus suportado; métricas de cobertura, unknown events e featureVersion permitem detectar regressão.",
+        "Runbook contempla migração, compatibilidade e retorno à versão anterior com payloads preservados; não remover bruto nem executar deploy como parte do planejamento."
+      ],
+      "codeReferences": [
+        "docs/PROCESSAMENTO-CONFIAVEL.md",
+        "src/core/processing/processing.service.ts",
+        "src/modules/matches/matches.controller.e2e-spec.ts"
+      ],
+      "kanbanTaskId": 37,
+      "kanbanDependencyIds": [
+        36,
+        25
+      ]
+    },
+    {
+      "code": "MET-34",
+      "title": "Especificar experiência de revisão da partida e validar utilidade",
+      "priority": "P1",
+      "delivery": "Partida",
+      "size": "M",
+      "dependsOn": [
+        "MET-01"
+      ],
+      "metrics": [],
+      "scope": "Desenhar fluxo de contribuição, episódios e evidências para consumidor mobile/web, com wireframes e exemplos de payload. Não há frontend neste checkout.",
+      "acceptance": [
+        "Especificação cobre entrada, quatro dimensões, navegação até evidências, carregamento, ausência e baixa cobertura.",
+        "Usar Fiora/Milio para verificar que papéis diferentes têm contribuições compreensíveis sem nota única.",
+        "Preparar roteiro de validação com jogadores e critérios de compreensão; registrar feedback real quando houver participantes, sem inventá-lo ou presumir framework de UI."
+      ],
+      "codeReferences": [
+        "docs/METRICAS-E-OPORTUNIDADES.md",
+        "src/modules/matches/dto/match-deep-dive.dto.ts"
+      ],
+      "kanbanTaskId": 35,
+      "kanbanDependencyIds": [
+        4
+      ]
+    }
+  ],
+  "verification": {
+    "date": "2026-09-22",
+    "tasks": 34,
+    "dependencyEdges": 79,
+    "method": "MCP task list --board 3 --json; matched title, column, criteria and blocked_by"
+  }
+}

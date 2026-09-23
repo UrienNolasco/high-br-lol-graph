@@ -1,6 +1,10 @@
-# Métricas que os dois JSONs permitem construir
+# Métricas e oportunidades — produto, arquitetura e plano de execução
 
-Análise do par `exemplo_partida_BR1_3200579475.json` e `exemplo_partida_timeline_BR1_3200579475.json`, cruzada com a implementação atual do backend. Data do levantamento: 18/09/2026. O objetivo é identificar oportunidades e demonstrá-las com dados reais dos arquivos; não implementar endpoints ou alterar o banco neste levantamento.
+Análise do par `exemplo_partida_BR1_3200579475.json` e `exemplo_partida_timeline_BR1_3200579475.json`, cruzada com a implementação do backend. Levantamento inicial: 18/09/2026. **Revisão de arquitetura, produto e planejamento: 22/09/2026, código-base `fc7abf5`.** As seções 1–7 registram evidências, oportunidades e limites; as seções 8–10 definem produto e arquitetura; as seções seguintes detalham contratos, entregas e tarefas no kanban-tui.
+
+O projeto já oferece perfis, histórico, agregados e comparações. A próxima etapa proposta é explicar **como o jogador contribuiu, quais momentos merecem revisão e como seu desempenho evolui em contextos comparáveis**. São 60 oportunidades: 56 do levantamento original e quatro extensões históricas identificadas nesta revisão. O MVP prioriza explicações por partida; análises históricas dependem de cobertura mensurada.
+
+Este trabalho altera documentação e artefatos de auditoria offline. Não implementa as funcionalidades planejadas nem comprova o estado de implantação ou o volume do banco em produção. O checkout contém somente o backend; entregas de interface abaixo são contratos e especificações para o consumidor, sem presumir um frontend existente.
 
 ## 1. O que foi efetivamente analisado
 
@@ -15,7 +19,7 @@ Artefatos reproduzíveis:
 - [Inventário completo de campos e retenção no backend](analysis/BR1_3200579475.fields.csv).
 - [Série temporal de ouro, abates e wards](analysis/BR1_3200579475.timeline.csv).
 
-Reprodução: `python3 scripts/analyze-example-match.py`, a partir da raiz do repositório. O script também funciona quando chamado por caminho absoluto. A auditoria de retenção é estática, baseada nos parsers ativos; precisa ser revisada quando esses parsers mudarem.
+Reprodução: `python3 scripts/analyze-example-match.py`, a partir da raiz do repositório. O script também funciona quando chamado por caminho absoluto. A auditoria de retenção é estática, baseada nos parsers e na persistência ativos; precisa ser revisada quando esses componentes mudarem. Desde o processamento confiável, os dois payloads completos são guardados em `MatchRaw`. “Descartado”, “ignorado” ou “não retido” nas descrições de parsers significa **ausente da projeção analítica**, não perdido no armazenamento bruto. Isso permite reconstrução sem nova chamada à Riot quando o par bruto da partida estiver disponível.
 
 ## 2. A partida já revela um produto mais interessante que o placar
 
@@ -108,16 +112,23 @@ Há ainda um cuidado com métricas de sobrevivência: Karthus recebe um abate re
 |---|---|
 | K/D/A, resultado, ouro, dano a campeões, dano recebido e vision score | Persistidos; KDA e métricas por minuto são calculados |
 | Gráficos de ouro, XP, CS e dano | Persistidos por participante; API usa ouro por time e médias de ouro/CS na comparação |
-| CSD/GD/XPD aos 15 | Já calculados em agregados por jogador/campeão; merecem tratamento de ausência e acesso por partida |
+| CSD/GD/XPD aos 15 | Agregados já usam `laningSamples` e retornam `null` sem amostra válida; usam primeiro frame em `[900000,960000)`. Faltam exposição por partida e contrato comum de checkpoints |
 | Win rate, desempenho por campeão, posições e atividade | Já existem; não são propostas novas |
 | Abates e mortes no mapa | Coordenadas/timestamps retidos; vínculo explícito killer–victim, assistentes e contexto de recompensa descartados |
 | Wards | Colocações retidas com `wardType`, incluindo indefinidos; coordenadas inventadas como `(0,0)`; remoções não são persistidas pelo handler |
-| Objetivos | Parser extrai eventos, mas persistência salva os totais de `team.objectives` no lugar da lista de eventos |
+| Objetivos | Persistência já grava eventos em `MatchTeam.objectivesTimeline` com o beneficiário correto; totais finais permanecem somente no bruto. Faltam identidade de origem, assistentes, tier da estrutura e análises dedicadas |
 | Itens | Compras/vendas e undo parcialmente retidos; slots finais não são salvos, e build calculada a partir de compras não reconstrói inventário |
 | Habilidades | Sequência Q/W/E/R retida, sem timestamp; evolução do nível do campeão descartada |
 | `challenges` | JSON inteiro é salvo e pode aparecer no detalhe bruto; não há análises dedicadas para a maioria dos seus campos |
 | Runas e pings | Retidos como JSON; não há análises de desempenho por escolha de runa ou comportamento de comunicação |
 | Solo kills/deaths aos 15 na comparação | Campos retornam zero fixo, apesar de eventos suficientes para uma contagem explícita |
+| Processamento e reconstrução | `MatchRaw` comprimido, posse com token, retries, commit transacional de partida/agregados e rebuild offline versionado já implementados; devem ser reutilizados |
+| Vencedor na timeline de ouro | `determineWinner` infere pelo saldo de ouro final; deve usar resultado de `MatchTeam.win` |
+| Comparação entre jogadores | `role` filtra timelines, mas não os agregados gerais/lane; timelines têm `take: 100` sem ordenação. Falta garantir o mesmo recorte e mostrar N por ponto |
+| Performance por partida | CSPM usa último elemento de `csGraph`, enquanto agregados usam `totalCs`; `survivability` é apenas diferença de dano recebido por minuto |
+| Popularidade de campeões | `pickRate`/`banRate` existem no schema e entram no tier, mas o writer atual não os incrementa; defaults zero não medem ausência real de picks/bans |
+
+Os fundamentos concluídos acima **não geram tarefas de reimplementação**. As novas tasks tratam extensão, correção de contrato e validação. O scheduler do collector também já foi corrigido para seis campos e verifica `APP_MODE=COLLECTOR`. O [onboarding](ONBOARDING.md) contém descrições históricas; para processamento, prevalecem o [guia atualizado](PROCESSAMENTO-CONFIAVEL.md) e o código inspecionado.
 
 Referências de código: [parser de partida](../src/modules/worker/pure/match.parser.ts), [parser de timeline](../src/core/riot/timeline-parser.service.ts), [persistência](../src/modules/worker/services/match-persistence.service.ts), [agregações](../src/core/stats/player-stats-aggregation.service.ts), [analytics](../src/modules/analytics/services/analytics.service.ts), [performance](../src/modules/matches/pure/performance-calculator.ts).
 
@@ -125,9 +136,9 @@ Referências de código: [parser de partida](../src/modules/worker/pure/match.pa
 
 Legenda de disponibilidade:
 
-- **Banco:** derivável dos campos atualmente persistidos, após conferir qualidade e modalidade.
-- **JSON bruto:** valor já salvo em `challenges`/runas/pings, sem análise dedicada.
-- **Ingestão:** disponível nos arquivos, mas precisa passar a ser preservado ou corrigido no pipeline.
+- **Banco:** derivável das projeções atualmente persistidas, após conferir qualidade e modalidade.
+- **JSON bruto:** campo já salvo em `challenges`/runas/pings, sem análise dedicada; o par completo também existe em `MatchRaw` no novo pipeline.
+- **Ingestão:** exige promover campos do bruto, ampliar o parser ou corrigir projeções; não implica nova chamada à Riot para partidas com `MatchRaw` completo.
 - **Estimativa:** precisa de convenção explícita, limiar ou informação adicional; não equivale a uma observação direta.
 
 P0 = corrigir/viabilizar fundamentos; P1 = alto valor para primeira versão analítica; P2 = expansão após validar a base. “P” indica jogador; “T”, time; “H”, análise histórica. As prioridades são propostas de produto, não medições de impacto.
@@ -183,7 +194,7 @@ O número de wards removidas pelo time dividido pelas wards colocadas pelo adver
 
 | ID / prioridade | Métrica e nível | Fonte / cálculo | Disponibilidade e limite |
 |---|---|---|---|
-| O01 / P0 | Cronologia correta de objetivos — T | `ELITE_MONSTER_KILL` usa `killerTeamId`; `BUILDING_KILL.teamId` é dono da estrutura destruída | Ingestão corrigida; separar totais finais de eventos |
+| O01 / P0 | Cronologia auditável de objetivos — T | `ELITE_MONSTER_KILL` usa `killerTeamId`; `BUILDING_KILL.teamId` é dono da estrutura destruída | Persistência e beneficiário já corrigidos; estender identidade, totais separados e metadados |
 | O02 / P1 | Participação em objetivos — P | Autor + `assistingParticipantIds`; dano final em épicos/estruturas como dimensão separada | Ingestão; assistente registrado não equivale a todos os presentes |
 | O03 / P1 | Pressão em estruturas — P/T | Dano a torres, participação no time, `turretKills` e `turretTakedowns` | Ingestão; não confundir último golpe com participação |
 | O04 / P1 | Eventos de placas por lane/fase/time — P/T | `TURRET_PLATE_DESTROYED`, posição, lane e dono da torre | Ingestão; 28/74 eventos têm killerId=0; não atribuir ouro inteiro ao último golpe |
@@ -219,10 +230,14 @@ O número de wards removidas pelo time dividido pelas wards colocadas pelo adver
 | H04 / P2 | Conversão de vantagem de lane em vitória | Vitória condicional ao diferencial@15 por role/champion | Histórico; excluir partidas encerradas antes do checkpoint |
 | H05 / P2 | Frequência de mortes antes de objetivos | C07 por morte/jogo, com oportunidades observadas e intervalos de incerteza | Histórico; evitar culpar um jogador pelo efeito do estado do time |
 | H06 / P2 | Sinergias e confrontos observados | Coocorrência de campeões, lane opponent, resultados e contexto | Histórico; contagem de observações não prova sinergia causal e fragmenta amostra |
+| H07 / P0 | Pick rate e ban rate observados, por patch/fila | Partidas distintas contendo pick/ban do campeão / partidas elegíveis | Banco: participantes e bans; corrigir taxas hoje não alimentadas e publicar denominador. Tier continua heurístico |
+| H08 / P2 | Pool de campeões e consistência por contexto | Frequência, concentração no top 3, mediana e dispersão das métricas por campeão/posição | Banco + histórico; experiência observada não prova maestria, diversificação não é automaticamente melhor |
+| H09 / P2 | Mudanças entre patches | Diferenças de distribuições, pick/ban e resultados em coortes comparáveis | Histórico; registrar composição e cobertura; antes/depois não identifica efeito causal do patch |
+| H10 / P2 | Sessões e sequência de partidas | Ordenar por início/fim, separar sessões por intervalo parametrizado e comparar posição na sessão | Banco + histórico; importação parcial pode fragmentar sessões. Não inferir tilt, fadiga ou saúde |
 
-São **56 oportunidades catalogadas**: 8 de visão, 10 de economia, 12 de combate, 12 de objetivos, 8 de escolhas e 6 históricas. Algumas são novas formas de expor dados já disponíveis; outras exigem retenção adicional. O valor maior está em conectar famílias, por exemplo visão antes de objetivo + mortes na janela + troca de estruturas.
+São **60 oportunidades catalogadas**: 8 de visão, 10 de economia, 12 de combate, 12 de objetivos, 8 de escolhas e 10 históricas. Algumas são novas formas de expor dados já disponíveis; outras exigem projeções adicionais. O valor maior está em conectar famílias, por exemplo visão antes de objetivo + mortes na janela + troca de estruturas.
 
-## 5. Campos/eventos que não devem continuar sendo perdidos
+## 5. Campos/eventos a promover do bruto para análises
 
 | Evento na amostra | Quantidade | Tratamento atual / informação adicional aproveitável |
 |---|---:|---|
@@ -230,8 +245,8 @@ São **56 oportunidades catalogadas**: 8 de visão, 10 de economia, 12 de combat
 | `WARD_KILL` | 51 | Handler não persiste; perder isso apaga remoção de visão por fase |
 | `CHAMPION_KILL` | 92 | Retém posições, perde vínculo explícito, assistentes, recompensa e recap de dano |
 | `CHAMPION_SPECIAL_KILL` | 12 | Ignorado; contexto de multikill e first blood |
-| `ELITE_MONSTER_KILL` | 12 | Parseado, mas eventos não chegam ao banco |
-| `BUILDING_KILL` | 15 | Mesmo problema; inclui 13 torres e 2 inibidores |
+| `ELITE_MONSTER_KILL` | 12 | Eventos já persistidos; promover assistentes, posição e identidade de origem |
+| `BUILDING_KILL` | 15 | Eventos já persistidos; inclui 13 torres e 2 inibidores; promover tier, proprietário original e assistentes |
 | `TURRET_PLATE_DESTROYED` | 74 | Ignorado; potencial de pressão por lane/tempo |
 | `DRAGON_SOUL_GIVEN` | 1 | Ignorado; neste arquivo `teamId=0`, logo não atribuir uma alma a um time |
 | `ITEM_PURCHASED` | 292 | Retido parcialmente; compras removidas durante processamento de undo |
@@ -325,7 +340,7 @@ Identificar padrões recorrentes com amostra suficiente: “Nas suas partidas re
 
 ## 9. Retenção e schema que sustentam essas análises
 
-Este é um desenho proposto, não uma migration aplicada:
+Este é um desenho de extensão, não uma migration aplicada. `MatchRaw`, `MatchProcessing`, `ProcessingMaintenance`, `PROCESSING_VERSION` e o rebuild offline já existem. Reutilizar essa base; não criar outro mecanismo de fila, posse ou commit para entregar métricas:
 
 ```text
 Match
@@ -355,17 +370,164 @@ Frames podem continuar em arrays/JSON separados, se esse for o padrão de leitur
 
 Separar `teamObjectives` (totais finais) de `objectiveEvents` (sequência temporal). Guardar o time dono da estrutura e o time beneficiário de sua queda elimina a ambiguidade atual. A normalização deve preservar o valor original para auditoria.
 
-Os payloads brutos, comprimidos e com retenção definida, permitem reprocessar métricas novas sem consumir novamente cota da Riot. Os dois arquivos formatados somam 2.601.625 bytes; esse é o tamanho desta amostra, não uma previsão de armazenamento de produção. Para retenção em escala, medir compressão/tamanho real e considerar armazenamento de objetos separado das tabelas de consulta.
+Os payloads brutos já são comprimidos com gzip em `MatchRaw.summary/timeline` (`bytea`) e mantidos integralmente nesta fase de desenvolvimento. Os dois arquivos formatados somam 2.601.625 bytes; esse é o tamanho desta amostra, não uma previsão de armazenamento de produção. Para retenção em escala, medir compressão, crescimento e custo real antes de decidir por armazenamento de objetos. Não remover payloads necessários ao rebuild existente.
 
 Toda agregação histórica deve acumular somas e denominadores de observações válidas. Se uma partida termina antes dos 15, CSD@15 deve ficar ausente e não entrar no denominador. Mudança de definição deve gerar nova `metricVersion` e um caminho de reconstrução, sem somar a mesma partida duas vezes.
 
 ## 10. Ordem recomendada e critério de conclusão
 
-1. **Qualidade e retenção:** corrigir wards indefinidas, persistência dos objetivos, timestamp/identidade dos eventos e inventário final. Preservar campos necessários antes de ampliar a ingestão.
+1. **Qualidade e projeções:** corrigir wards indefinidas, contratos de vencedor/comparação/taxas, timestamp/identidade dos eventos e inventário final. Ampliar as projeções aproveitando o bruto existente.
 2. **Métricas explicáveis:** visão colocada/removida por fase, KP, damage/gold share, estruturas, cura/escudo, tempo morto e checkpoints. Reconciliar cada família com o resumo.
 3. **Contexto temporal:** objetivos após abates, mortes próximas a objetivos, trocas de estruturas, curvas de vantagem e economia antes/depois. Expor parâmetros e limites dos proxies.
 4. **Histórico:** referências por posição/campeão e estudo de visão/vitória com deduplicação, elegibilidade, incerteza e avaliação temporal.
 
 O script passou 100 conferências jogador a jogador entre resumo e timeline (kills, deaths, assists, wards colocadas/removidas/control, solo kills, ouro final, CS final e dano final) e 12 conferências de objetivos por time. Também verificou correspondência de IDs, participantes e vencedor. Isso valida os exemplos numéricos desta amostra; não valida generalização para outros patches ou todas as hipóteses do catálogo.
 
-Os cálculos numéricos do relatório são rastreáveis ao JSON gerado. A aplicação de produção e seus testes não foram executados nem alterados. Os artefatos adicionados são uma análise offline, um inventário, resultados reproduzíveis e esta proposta de métricas.
+Os cálculos numéricos do relatório são rastreáveis ao JSON gerado. Nesta revisão, o script e os artefatos de retenção foram atualizados para o código atual; a validação offline foi repetida. A aplicação de produção não foi consultada ou alterada, e as suítes do backend não foram reexecutadas para esta mudança documental. Os resultados de testes relatados no guia de processamento pertencem à entrega anterior.
+
+## 11. Contrato analítico comum
+
+Cada métrica precisa responder: qual pergunta atende, em qual população, a partir de quais campos, com qual unidade, regra temporal, denominador e limitação. O catálogo da seção 4 identifica as fontes; MET-01 deve transformar as convenções abaixo em contratos executáveis e exemplos OpenAPI.
+
+| Elemento | Regra proposta |
+|---|---|
+| Identidade | `metricId`, `metricVersion`, sujeito (`participant`, `team`, `match`), `matchId` e horizonte/janela |
+| Valor | Número ou `null`, unidade explícita; arredondar somente na apresentação |
+| Origem | `observed` para campo direto, `derived` para cálculo determinístico, `estimated` para convenção/proxy e `unavailable` para ausência |
+| Denominador | Expor base real: abates do time, minutos observados, mortes elegíveis, partidas distintas ou snapshots válidos; não reutilizar gamesPlayed em todas as métricas |
+| Ausência | Motivos como `missing_field`, `missing_frame`, `ambiguous_role`, `short_match`, `unsupported_version`, `zero_denominator`, `insufficient_sample`; não preencher com zero |
+| Qualidade | Cobertura temporal e por campo, desconhecidos, divergências de reconciliação, timestamp de processamento e versão |
+| Evidência | IDs de eventos, IDs/índices dos frames, campos fonte e valores usados; não expor o payload bruto inteiro para explicar uma frase |
+| Coorte | Região, queueId, mapId, gameVersion/patch, período, campeão, posição e origem da coleta; valores não conhecidos permanecem explícitos |
+| Agregação | Soma e contagem válida por métrica; explicitar média de razões por partida versus razão de somas. DPM atual é média por partida, com mesmo peso por jogo |
+
+### Tempo, unidade e checkpoints
+
+Eventos e frames usam milissegundos desde início; duração e `timePlayed` vêm em segundos. Uma taxa por minuto usa segundos/60, nunca índice de array como tempo decorrido. Percentuais são apresentados em 0–100; shares internos podem usar 0–1 desde que o contrato declare isso. Ouro/XP/CS são contagens; área sob curva usa ouro-minuto. Soma de tempo morto do time usa jogador-segundos.
+
+Para descrição de uma partida, propor `nearest`: frame mais próximo do alvo, desempate pelo anterior, com tolerância inicial máxima de 60 s e `offsetMs` explícito. Para modelos “até t”, usar `pastOnly`: último frame com timestamp ≤ t, também com idade máxima de 60 s. A tolerância é uma escolha inicial a validar no corpus, não garantia da Riot. Nunca interpolar sem indicar método e resultado estimado. Partidas encerradas antes do alvo não são elegíveis, mesmo que tenham frame final próximo.
+
+O agregado @15 existente usa o primeiro frame entre 15 e 16 minutos. Não substituir silenciosamente pela convenção nova. O exemplo offline usa nearest e encontra 15:00,358; esse frame **não** é feature disponível exatamente às 15:00 no modo pastOnly. Publicar versões distintas e reconstruir ao alterar a definição.
+
+Fases seguem intervalos `[início,fim)` e a última inclui o evento de encerramento pelo timestamp de `GAME_END`, quando validado. Janelas anteriores a uma captura usam `[t−w,t)`; posteriores usam `(t,t+w]`. Frames de contexto devem respeitar o modo escolhido. Janela que ultrapassa o fim observado fica censurada: mostrar duração efetiva e não colocá-la no denominador de oportunidades com horizonte completo.
+
+Para C07, a unidade inicial é a morte do participante: uma morte seguida por três objetivos adversários é uma ocorrência com três evidências. Para O05, a unidade inicial é o evento de abate do time, não um agrupamento de luta; múltiplos abates antes da mesma captura permanecem abates distintos, com aviso de dependência. Se mudar para episódios, criar versão/denominador próprio. Para V05, separar intervalos internos entre colocações dos intervalos nas bordas início/fim.
+
+### Comparabilidade e incerteza
+
+O recorte inicial proposto é servidor BR, fila 420 e mapa 11. Flex e outras modalidades ficam em coortes independentes. Canonizar `MID` como alias de `MIDDLE` na entrada e preservar a posição original para auditoria. Um oponente de lane só existe quando há exatamente um adversário elegível na mesma posição. Posição desconhecida não impede métricas de time, mas impede a comparação individual de lane.
+
+Não confundir surrender com remake nem excluir toda derrota rápida. A definição de elegibilidade deve usar flags e regras verificadas para as versões suportadas. Catálogo de patches observados evita misturar `16.2` com `16.20`, comparar com patch inexistente ou deduzir automaticamente a versão pública do jogo.
+
+Não fixar um N universal que transforme toda análise em confiável. Exibir N e precisão: taxas podem usar intervalo binomial como resumo descritivo inicial; dependência entre partidas dos mesmos jogadores exige avaliação específica e sensibilidade. Quantis e modelos precisam de critérios próprios. Limiares de publicação serão versionados em MET-20; até lá, exemplos de uma partida não viram benchmark. O estudo de visão deve poder concluir “amostra insuficiente”, sem obrigação de treinar um modelo.
+
+## 12. Decisões de arquitetura e fronteiras
+
+Manter NestJS, PostgreSQL, Prisma e funções puras já utilizados. Não há evidência de volume ou latência que justifique outra base analítica ou microserviços neste levantamento. A necessidade de índices/materialização deve ser demonstrada por consultas e benchmark.
+
+```mermaid
+flowchart LR
+    R[Resumo e timeline] --> B[MatchRaw comprimido existente]
+    B --> P[Parser e validação versionados]
+    P --> N[Projeções de participantes, frames e eventos]
+    N --> F[Funções puras de métricas]
+    F --> M[Relatório por partida]
+    F --> H[Features e agregações históricas]
+    H --> A[Referências e evolução]
+    H --> E[Exportação para estudos]
+    M --> API[Contratos REST]
+    A --> API
+```
+
+O desenho é lógico: frames/eventos podem começar em JSON estruturado se o padrão de consulta favorecer leitura por partida. MET-03/04 devem registrar a escolha física e medir tamanho/leitura. Campos necessários a filtros históricos pedem índices ou projeções próprias. Não descomprimir o histórico bruto inteiro em cada GET, nem calcular percentis sobre toda a base sem limite.
+
+Reaproveitar a transação de `MatchPersistenceService` e o rebuild existente. Features persistidas devem ter identidade estável por partida/sujeito/horizonte/versão, sem contribuição duplicada. Uma mudança de fórmula que altere agregados exige incremento de `PROCESSING_VERSION` e rebuild offline conforme o runbook; reentrega de trabalho `COMPLETED` não é reprocessamento. Evolução para rebuild incremental pode ser avaliada se o tempo offline medido impedir operação, mas não é pré-requisito inventado para esta fase.
+
+Contratos REST novos devem expor recurso, janela e evidência, não a organização interna das tabelas. Preferir extensão compatível ou rota versionada quando mudar significado/nulabilidade. O formato exato de rota será fechado em MET-17 junto da especificação de consumo MET-34. A implementação de app mobile/web depende de repositório e stack ainda não presentes, por isso não há tarefa de tela atribuída a um frontend imaginário.
+
+A dimensão de rank exige cuidado: `User.tier` é estado atual. Registrar origem da coleta e rank observado no instante da descoberta, quando disponível, ajuda a descrever a amostra, mas não reconstrói elo histórico nem o rank de todos os participantes. O modelo de dados deve permitir mais de uma origem por partida sem duplicá-la. Dados anteriores sem origem ficam `unknown`.
+
+Itens, campeões e regras são resolvidos pela versão compatível. Catálogo indisponível retorna ID/metadado ausente. As referências oficiais consultadas em 22/09/2026 foram a [documentação de League of Legends e Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) e as [notas 26.1](https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/); as inferências específicas dos campos foram confrontadas com os JSONs locais. Isso não garante que futuras versões mantenham a mesma semântica.
+
+### Perguntas que exigem outras fontes ou não são respondíveis
+
+| Pergunta | Falta e decisão de escopo |
+|---|---|
+| Como evoluiu o LP/rank do jogador? | Requer snapshots externos prospectivos com horário e fila; não reconstruível a partir do rank atual. Não faz parte das 60 análises dos dados presentes |
+| Qual a área exata de visão ou ward removida? | Faltam identidade/posição/tempo de vida das wards; não gerar mapa exato com posições inventadas |
+| Qual rota de jungle, recall ou disponibilidade de Flash a cada segundo? | Snapshots esparsos e totais de casts não bastam; manter fora do backlog implementável com estas fontes |
+| Houve tilt, toxicidade, intenção de morrer ou premade? | Pings, mortes e coocorrência não demonstram esses atributos; apresentar apenas comportamento registrado |
+| Uma ação causou a vitória ou esta é a build ótima? | Dados observacionais têm seleção e confundimento; apresentar associação/contexto e não promessa causal |
+| Quais são todos os jogos e jogadores do servidor BR? | Importações por contas/collector não constituem censo; medir cobertura e declarar amostra observada |
+
+## 13. Roadmap e gestão da execução
+
+Prioridades expressam risco e valor propostos por arquitetura/PO; tamanhos são relativos (`M`: vários componentes ou regras; `L`: mudança transversal ou pesquisa). Não são dias, compromissos de prazo ou capacidade contratada. Sem velocidade/time informados, não há datas artificiais nem atribuição de responsáveis. MET-02 e MET-34 permitem refinar o plano com evidências antes de ampliar escopo.
+
+| Entrega | Resultado e fronteira de aceite | Tasks |
+|---|---|---|
+| Fundação | Contratos coerentes, projeções completas, inventário e vencedor corretos, taxas explicadas e rebuild ensaiado | MET-01–09, MET-23 |
+| Análise por partida — MVP | Consumidor pode explicar contribuição e inspecionar episódios com evidência, qualidade e ausência; desempenho medido | MET-10–17, MET-33–34 |
+| Histórico comparável | Linhagem, dataset, referências, evolução e estudo reproduzível de visão; resultados condicionados à amostra | MET-18–22 |
+| Exploração | Proxies temporais/espaciais, escolhas, matchups, recuperação, comportamento descritivo e patches | MET-24–32 |
+
+O caminho inicial é MET-01 → MET-02 → MET-03/04/05/06 → MET-09. MET-07/08/23 corrigem respostas existentes; MET-34 especifica consumo. Depois entram as famílias analíticas e MET-17 integra a entrega; MET-33 fecha medição e liberação. MET-18 pode iniciar após os contratos para começar a registrar origem, sem aguardar o histórico inteiro. Dependências exatas estão nas tasks; ordem de numeração não substitui o grafo.
+
+Todos os cartões começam em `Ready`, a primeira coluna disponível no board. Aqui isso significa backlog planejado; uma task com dependências abertas não está pronta para execução. Usar a visão `--actionable` do kanban-tui e mover para `Doing` somente após as dependências. Sugestão inicial de gestão: manter uma entrega principal em andamento, revisar prioridades ao concluir cada entrega e refinar tarefas L antes de iniciá-las. Isso é recomendação de fluxo, não limite técnico do board.
+
+### Critério comum de conclusão das futuras tasks
+
+1. Fórmula, unidade, fonte, denominador, filtro, janela e ausência documentados; referência ao ID da oportunidade preservada.
+2. Testes do cálculo e contrato cobrem comportamento significativo: falta de campo/frame, denominador zero, fim de jogo, tipo desconhecido e patch suportado conforme a família.
+3. Alterações persistidas têm migration, versão e ensaio de rebuild idempotente; partidas não contribuem duas vezes e falhas não publicam estado parcial.
+4. Resposta tem cobertura e evidência; não apresenta proxy como fato observado ou associação como causalidade.
+5. OpenAPI/exemplos e documento atualizados; revisão e evidências de validação anexadas ao cartão. Pesquisa pode concluir inviabilidade por amostra, desde que demonstre isso.
+
+O MVP é aceito quando os exemplos reconciliam, os estados de ausência funcionam, um consumidor consegue percorrer contribuição → episódio → evidência e os custos medidos cabem no orçamento acordado. Como ainda não há baseline de uso, MET-34 prepara avaliação de compreensão com jogadores e MET-33 mede latência/custo; não se declara aumento de retenção ou melhoria de desempenho do jogador sem observação.
+
+## 14. Backlog rastreável no kanban-tui
+
+Board `high-br-lol` (ID 3), coluna `Ready` (ID 9). O [manifesto do backlog](analysis/metrics-backlog.json) registra os 34 cartões, escopo, tamanho, critérios de aceite, arquivos de referência, dependências e IDs reais retornados pelo MCP. Os critérios completos também estão na descrição de cada cartão. Todas as 60 oportunidades da seção 4 estão cobertas; uma oportunidade pode envolver uma task de dados e outra de produto.
+
+As tasks são trabalho futuro. O objetivo desta retomada termina com análise, documentação e criação/verificação do backlog, não com desenvolvimento dessas funcionalidades.
+
+| Código / cartão | Prioridade / tamanho | Entrega e task | Depende de | Oportunidades |
+|---|---|---|---|---|
+| MET-01 / #4 | P0 / M | Fundação: Definir contratos de métricas, elegibilidade e versionamento | — | Transversal |
+| MET-02 / #5 | P0 / M | Fundação: Auditar cobertura e criar corpus de validação multiversão | MET-01 | Transversal |
+| MET-03 / #6 | P0 / L | Fundação: Preservar frames completos com timestamps e ausência explícita | MET-01, MET-02 | E01, E02, E03, E05, E07 |
+| MET-04 / #7 | P0 / L | Fundação: Normalizar eventos com identidade, participantes e contexto | MET-01, MET-02 | O01, V01, V02, E08, C08, C09, O02, O04, B04 |
+| MET-05 / #8 | P0 / L | Fundação: Projetar estatísticas finais e contexto da partida | MET-01, MET-02 | V03, C03, C04, C05, C06, O03, E02, E10, B06 |
+| MET-06 / #9 | P0 / M | Fundação: Corrigir inventário final com slots e catálogo por versão | MET-01, MET-02 | B01 |
+| MET-07 / #10 | P0 / M | Fundação: Usar vencedor real e corrigir semântica da timeline de ouro | MET-01 | O08 |
+| MET-08 / #11 | P0 / L | Fundação: Alinhar filtros e medidas das comparações existentes | MET-01 | H01, H02 |
+| MET-09 / #12 | P0 / M | Fundação: Validar migrations e reconstrução das novas projeções | MET-03, MET-04, MET-05, MET-06 | Transversal |
+| MET-10 / #13 | P1 / M | Partida: Calcular contribuição individual em dimensões separadas | MET-05, MET-08 | E04, C01, C02, C03, C04, C05, C06, V04, O03 |
+| MET-11 / #14 | P1 / M | Partida: Entregar visão por tipo, fase e janela pré-objetivo | MET-04, MET-05 | V01, V02, V03, V04, V05, V06, V07 |
+| MET-12 / #15 | P1 / M | Partida: Entregar checkpoints e curvas de economia e progressão | MET-03, MET-05 | E01, E02, E03, E04, E05, E07, E10 |
+| MET-13 / #16 | P1 / M | Partida: Calcular relações de abates, assistências e shutdowns | MET-04 | E08, C01, C08, C09 |
+| MET-14 / #17 | P1 / M | Partida: Entregar objetivos, placas e contribuição em estruturas | MET-04, MET-05 | O01, O02, O03, O04 |
+| MET-15 / #18 | P1 / L | Partida: Explicar sequências de mortes, objetivos e viradas | MET-07, MET-11, MET-12, MET-13, MET-14 | C07, O05, O06, O07, O08 |
+| MET-16 / #19 | P1 / L | Partida: Reconstruir compras relevantes e timing de habilidades | MET-03, MET-04, MET-06 | B02, B04 |
+| MET-17 / #36 | P1 / L | Partida: Publicar relatório analítico da partida com evidências | MET-09, MET-10, MET-11, MET-12, MET-13, MET-14, MET-15, MET-16, MET-34 | Transversal |
+| MET-18 / #20 | P1 / M | Histórico: Registrar origem da amostra e cobertura da coleta | MET-01 | H01, H03, H07 |
+| MET-19 / #21 | P1 / L | Histórico: Construir dataset histórico versionado e reproduzível | MET-09, MET-10, MET-11, MET-12, MET-13, MET-14, MET-15, MET-18 | H01, H02, H03, H04, H05, H06 |
+| MET-20 / #22 | P1 / L | Histórico: Entregar referências por campeão e posição com incerteza | MET-19 | H01, V08 |
+| MET-21 / #23 | P1 / M | Histórico: Entregar evolução pessoal e padrões recorrentes | MET-19, MET-20 | H02, H05 |
+| MET-22 / #24 | P1 / L | Histórico: Investigar associação entre visão antecipada e vitória | MET-19 | H03 |
+| MET-23 / #25 | P0 / M | Fundação: Corrigir pick rate, ban rate e insumos do tier de campeões | MET-01, MET-02 | H07 |
+| MET-24 / #26 | P2 / L | Exploração: Explorar episódios de combate e trocas rápidas | MET-03, MET-13 | C10, C11, E06 |
+| MET-25 / #27 | P2 / M | Exploração: Explorar presença amostrada em regiões do mapa | MET-03 | B08 |
+| MET-26 / #28 | P2 / L | Exploração: Comparar builds, runas e feitiços por contexto | MET-16, MET-19, MET-20 | B03, B05 |
+| MET-27 / #29 | P2 / L | Exploração: Analisar confrontos de lane e coocorrência de campeões | MET-19, MET-20 | H06 |
+| MET-28 / #30 | P2 / L | Exploração: Analisar conversão de vantagem e recuperação por posição | MET-19, MET-20 | E09, O09, O12, H04 |
+| MET-29 / #31 | P2 / M | Exploração: Expor indicadores opcionais de execução, casts e pings | MET-05, MET-19 | C12, B06, B07 |
+| MET-30 / #32 | P2 / M | Exploração: Analisar janelas de bounty e roubos de objetivos registrados | MET-04, MET-05, MET-14 | O10, O11 |
+| MET-31 / #33 | P2 / M | Exploração: Analisar pool de campeões, consistência e sessões | MET-19, MET-20 | H08, H10 |
+| MET-32 / #34 | P2 / M | Exploração: Analisar mudanças de métricas e escolhas entre patches | MET-19, MET-20, MET-23 | H09 |
+| MET-33 / #37 | P1 / M | Partida: Validar desempenho, cobertura e liberação da entrega por partida | MET-17, MET-23 | Transversal |
+| MET-34 / #35 | P1 / M | Partida: Especificar experiência de revisão da partida e validar utilidade | MET-01 | Transversal |
+
+Verificação em 22/09/2026: **34 tasks, 79 dependências nativas, 60 oportunidades cobertas**; IDs #4 a #37, todos na coluna Ready. Títulos, critérios de aceite e dependências foram lidos de volta pelo MCP e comparados com o manifesto. Não foram criadas tarefas duplicando os fundamentos já concluídos.
+
+Primeiro cartão acionável: **#4 — MET-01, contratos de métricas, elegibilidade e versionamento**. As prioridades estão no título porque o MCP do kanban-tui não oferece campo nativo de prioridade. Nenhuma data limite foi inventada.

@@ -24,13 +24,13 @@ EVENT_RETENTION = {
     'ITEM_SOLD': 'Item ID/timestamp/type stored; final build mapper ignores sale effects.',
     'ITEM_UNDO': 'Partial: beforeId/time stored and preceding buy removed; afterId/goldGain discarded.',
     'SKILL_LEVEL_UP': 'Partial: Q/W/E/R sequence stored; timestamps and levelUpType discarded.',
-    'ELITE_MONSTER_KILL': 'Parsed into objective timeline, but event timeline is not saved by persistence.',
-    'BUILDING_KILL': 'Parsed into objective timeline, but event timeline is not saved by persistence.',
+    'ELITE_MONSTER_KILL': 'Partial: type/subtype, beneficiary team, timestamp and killer persisted in MatchTeam.objectivesTimeline; assistants and other fields remain in MatchRaw.',
+    'BUILDING_KILL': 'Partial: type/lane, beneficiary team, timestamp and killer persisted in MatchTeam.objectivesTimeline; original owner, tower tier and other fields remain in MatchRaw.',
 }
 
 
 def retention(source, path):
-    """Static audit of the active parser; declarations in DTOs are not usage."""
+    """Audit of analytical projections; both complete payloads also live in MatchRaw."""
     if source == 'match':
         prefix = 'info.participants[].'
         if path.startswith(prefix):
@@ -42,9 +42,11 @@ def retention(source, path):
                          'assists', 'goldEarned', 'totalDamageDealtToChampions', 'totalDamageTaken',
                          'visionScore', 'summoner1Id', 'summoner2Id'}:
                 return 'Used by active match parser / mapped to persisted participant'
+            if field in {'totalMinionsKilled', 'neutralMinionsKilled'}:
+                return 'Merged into persisted totalCs and used for aggregate CSPM; separate components remain in MatchRaw'
             return 'Not retained from this match field by active parser; some equivalents may exist in timeline/challenges'
         if path.startswith('info.teams[].objectives.'):
-            return 'Stored as totals object in objectivesTimeline; incompatible with event-array reader'
+            return 'Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array'
         if path in {'info.teams[].teamId', 'info.teams[].win', 'info.teams[].bans[].championId'}:
             return 'Stored (positive champion IDs only for bans)'
         if path in {'metadata.matchId', 'info.gameCreation', 'info.gameDuration', 'info.gameMode',
@@ -331,6 +333,12 @@ def main():
         'matchId': m['metadata']['matchId'], 'gameVersion': m['info']['gameVersion'],
         'queueId': m['info']['queueId'], 'durationSeconds': duration, 'winnerTeamId': winner,
         'sources': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (MATCH_FILE, TIMELINE_FILE)},
+        'backendAudit': {
+            'reviewedAt': '2026-09-22',
+            'referenceCommit': 'fc7abf5',
+            'scope': 'Static audit of analytical projections, not a production database inspection.',
+            'rawRetention': 'Worker stores complete summary and timeline as gzip in MatchRaw. Ignored/discarded/not retained in projection notes does not mean absent from raw storage. Availability for a historical match must be checked.',
+        },
         'definitions': {
             'knownWardTypes': sorted(WARD_TYPES),
             'unknownWards': 'Retained as a separate count; not presumed to be ordinary vision wards.',
@@ -368,10 +376,11 @@ def main():
     (OUT / 'BR1_3200579475.metrics.json').write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n')
     with (OUT / 'BR1_3200579475.fields.csv').open('w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['source', 'path', 'value_types_and_observations', 'backend_retention_audit'])
+        writer.writerow(['source', 'path', 'value_types_and_observations', 'backend_retention_audit', 'raw_retention'])
         for source, paths in inventory.items():
             for path, counts in paths.items():
-                writer.writerow([source, path, json.dumps(counts, sort_keys=True), retention(source, path)])
+                writer.writerow([source, path, json.dumps(counts, sort_keys=True), retention(source, path),
+                                 'Complete payload retained in MatchRaw by current worker; historical availability not inspected'])
     with (OUT / 'BR1_3200579475.timeline.csv').open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=list(gold_series[0]))
         writer.writeheader()

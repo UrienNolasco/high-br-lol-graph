@@ -1,452 +1,452 @@
-source,path,value_types_and_observations,backend_retention_audit
-match,info.endOfGameResult,"{""str"": 1}",Not retained as a dedicated field by active match parser
-match,info.gameCreation,"{""int"": 1}",Stored in Match
-match,info.gameDuration,"{""int"": 1}",Stored in Match
-match,info.gameEndTimestamp,"{""int"": 1}",Not retained as a dedicated field by active match parser
-match,info.gameId,"{""int"": 1}",Not retained as a dedicated field by active match parser
-match,info.gameMode,"{""str"": 1}",Stored in Match
-match,info.gameName,"{""str"": 1}",Not retained as a dedicated field by active match parser
-match,info.gameStartTimestamp,"{""int"": 1}",Not retained as a dedicated field by active match parser
-match,info.gameType,"{""str"": 1}",Not retained as a dedicated field by active match parser
-match,info.gameVersion,"{""str"": 1}",Stored in Match
-match,info.mapId,"{""int"": 1}",Stored in Match
-match,info.participants[].PlayerScore0,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore10,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore11,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore7,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore8,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].PlayerScore9,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].allInPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].assistMePings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].assists,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].baronKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].basicPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.12AssistStreakCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.HealFromMapSources,"{""float"": 1, ""int"": 9}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.InfernalScalePickup,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_DefeatAatrox,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_DefeatBriar,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_DefeatMiniBosses,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_EvolveWeapon,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_Have3Passives,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_KillEnemy,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_PickupGold,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_ReachLevel50,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_Survive15Min,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.SWARM_WinWith5EvolvedWeapons,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.abilityUses,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.acesBefore15Minutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.alliedJungleMonsterKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.baronTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.blastConeOppositeOpponentCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.bountyGold,"{""float"": 3, ""int"": 7}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.buffsStolen,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.completeSupportQuestInTime,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.controlWardTimeCoverageInRiverOrEnemyHalf,"{""float"": 4}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.controlWardsPlaced,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.damagePerMinute,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.damageTakenOnTeamPercentage,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.dancedWithRiftHerald,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.deathsByEnemyChamps,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.dodgeSkillShotsSmallWindow,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.doubleAces,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.dragonTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.earliestBaron,"{""float"": 5}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.earliestDragonTakedown,"{""float"": 5}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.earlyLaningPhaseGoldExpAdvantage,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.effectiveHealAndShielding,"{""float"": 4, ""int"": 6}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.elderDragonKillsWithOpposingSoul,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.elderDragonMultikills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.enemyChampionImmobilizations,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.enemyJungleMonsterKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.epicMonsterKillsNearEnemyJungler,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.epicMonsterKillsWithin30SecondsOfSpawn,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.epicMonsterSteals,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.epicMonsterStolenWithoutSmite,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.fasterSupportQuestCompletion,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.fastestLegendary,"{""float"": 2}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.firstTurretKilled,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.firstTurretKilledTime,"{""float"": 5}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.fistBumpParticipation,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.flawlessAces,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.fullTeamTakedown,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.gameLength,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.getTakedownsInAllLanesEarlyJungleAsLaner,"{""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.goldPerMinute,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.hadOpenNexus,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.highestChampionDamage,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.highestCrowdControlScore,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.highestWardKills,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.immobilizeAndKillWithAlly,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.initialBuffCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.initialCrabCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.jungleCsBefore10Minutes,"{""float"": 2, ""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.junglerKillsEarlyJungle,"{""int"": 2}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.junglerTakedownsNearDamagedEpicMonster,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.kTurretsDestroyedBeforePlatesFall,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.kda,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killAfterHiddenWithAlly,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killParticipation,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killedChampTookFullTeamDamageSurvived,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killingSprees,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killsNearEnemyTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killsOnLanersEarlyJungleAsJungler,"{""int"": 2}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killsOnOtherLanesEarlyJungleAsLaner,"{""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killsOnRecentlyHealedByAramPack,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killsUnderOwnTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.killsWithHelpFromEpicMonster,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.knockEnemyIntoTeamAndKill,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.landSkillShotsEarlyGame,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.laneMinionsFirst10Minutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.laningPhaseGoldExpAdvantage,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.legendaryCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.legendaryItemUsed[],"{""int"": 45}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.lostAnInhibitor,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.maxCsAdvantageOnLaneOpponent,"{""float"": 5, ""int"": 5}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.maxKillDeficit,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.maxLevelLeadLaneOpponent,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.mejaisFullStackInTime,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.moreEnemyJungleThanOpponent,"{""float"": 2, ""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.multiKillOneSpell,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.multiTurretRiftHeraldCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.multikills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.multikillsAfterAggressiveFlash,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.outerTurretExecutesBefore10Minutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.outnumberedKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.outnumberedNexusKill,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.perfectDragonSoulsTaken,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.perfectGame,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.pickKillWithAlly,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.playedChampSelectPosition,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.poroExplosions,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.quickCleanse,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.quickFirstTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.quickSoloKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.riftHeraldTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.saveAllyFromDeath,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.scuttleCrabKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.shortestTimeToAceFromFirstTakedown,"{""float"": 4}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.skillshotsDodged,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.skillshotsHit,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.snowballsHit,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.soloBaronKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.soloKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.soloTurretsLategame,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.stealthWardsPlaced,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.survivedSingleDigitHpCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.survivedThreeImmobilizesInFight,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.takedownOnFirstTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.takedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.takedownsAfterGainingLevelAdvantage,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.takedownsBeforeJungleMinionSpawn,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.takedownsFirstXMinutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.takedownsInAlcove,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.takedownsInEnemyFountain,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.teamBaronKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.teamDamagePercentage,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.teamElderDragonKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.teamRiftHeraldKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.tookLargeDamageSurvived,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.turretPlatesTaken,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.turretTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.turretsTakenWithRiftHerald,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.twentyMinionsIn3SecondsCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.twoWardsOneSweeperCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.unseenRecalls,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.visionScoreAdvantageLaneOpponent,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.visionScorePerMinute,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.voidMonsterKill,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.wardTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.wardTakedownsBefore20M,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].challenges.wardsGuarded,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].champExperience,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].champLevel,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].championId,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].championName,"{""str"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].championTransform,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].commandPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].consumablesPurchased,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].damageDealtToBuildings,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].damageDealtToEpicMonsters,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].damageDealtToObjectives,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].damageDealtToTurrets,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].damageSelfMitigated,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].dangerPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].deaths,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].detectorWardsPlaced,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].doubleKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].dragonKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].eligibleForProgression,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].enemyMissingPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].enemyVisionPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].firstBloodAssist,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].firstBloodKill,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].firstTowerAssist,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].firstTowerKill,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].gameEndedInEarlySurrender,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].gameEndedInSurrender,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].getBackPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].goldEarned,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].goldSpent,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].holdPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].individualPosition,"{""str"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].inhibitorKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].inhibitorTakedowns,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].inhibitorsLost,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].item0,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].item1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].item2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].item3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].item4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].item5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].item6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].itemsPurchased,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].killingSprees,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].kills,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].lane,"{""str"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].largestCriticalStrike,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].largestKillingSpree,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].largestMultiKill,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].longestTimeSpentLiving,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].magicDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].magicDamageDealtToChampions,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].magicDamageTaken,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore0,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore10,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore11,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore7,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore8,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].missions.playerScore9,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].needVisionPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].neutralMinionsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].nexusKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].nexusLost,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].nexusTakedowns,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].objectivesStolen,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].objectivesStolenAssists,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].onMyWayPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].participantId,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].pentaKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].perks.statPerks.defense,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.statPerks.flex,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.statPerks.offense,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.styles[].description,"{""str"": 20}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.styles[].selections[].perk,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.styles[].selections[].var1,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.styles[].selections[].var2,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.styles[].selections[].var3,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].perks.styles[].style,"{""int"": 20}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].physicalDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].physicalDamageDealtToChampions,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].physicalDamageTaken,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].placement,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].playerAugment1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].playerAugment2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].playerAugment3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].playerAugment4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].playerAugment5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].playerAugment6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].playerSubteamId,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].profileIcon,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].pushPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].puuid,"{""str"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].quadraKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].retreatPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].riotIdGameName,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].riotIdTagline,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].role,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].roleBoundItem,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].sightWardsBoughtInGame,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].spell1Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].spell2Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].spell3Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].spell4Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].subteamPlacement,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].summoner1Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].summoner1Id,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].summoner2Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].summoner2Id,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].summonerId,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].summonerLevel,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].summonerName,"{""str"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].teamEarlySurrendered,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].teamId,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].teamPosition,"{""str"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].timeCCingOthers,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].timePlayed,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalAllyJungleMinionsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalDamageDealtToChampions,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].totalDamageShieldedOnTeammates,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalDamageTaken,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].totalEnemyJungleMinionsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalHeal,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalHealsOnTeammates,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalMinionsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalTimeCCDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalTimeSpentDead,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].totalUnitsHealed,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].tripleKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].trueDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].trueDamageDealtToChampions,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].trueDamageTaken,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].turretKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].turretTakedowns,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].turretsLost,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].unrealKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].visionClearedPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified
-match,info.participants[].visionScore,"{""int"": 10}",Used by active match parser / mapped to persisted participant
-match,info.participants[].visionWardsBoughtInGame,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].wardsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].wardsPlaced,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges
-match,info.participants[].win,"{""bool"": 10}",Used by active match parser / mapped to persisted participant
-match,info.platformId,"{""str"": 1}",Not retained as a dedicated field by active match parser
-match,info.queueId,"{""int"": 1}",Stored in Match
-match,info.teams[].bans[].championId,"{""int"": 10}",Stored (positive champion IDs only for bans)
-match,info.teams[].bans[].pickTurn,"{""int"": 10}",Not retained as a dedicated field by active match parser
-match,info.teams[].feats.EPIC_MONSTER_KILL.featState,"{""int"": 2}",Not retained as a dedicated field by active match parser
-match,info.teams[].feats.FIRST_BLOOD.featState,"{""int"": 2}",Not retained as a dedicated field by active match parser
-match,info.teams[].feats.FIRST_TURRET.featState,"{""int"": 2}",Not retained as a dedicated field by active match parser
-match,info.teams[].objectives.atakhan.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.atakhan.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.baron.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.baron.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.champion.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.champion.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.dragon.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.dragon.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.horde.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.horde.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.inhibitor.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.inhibitor.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.riftHerald.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.riftHerald.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.tower.first,"{""bool"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].objectives.tower.kills,"{""int"": 2}",Stored as totals object in objectivesTimeline; incompatible with event-array reader
-match,info.teams[].teamId,"{""int"": 2}",Stored (positive champion IDs only for bans)
-match,info.teams[].win,"{""bool"": 2}",Stored (positive champion IDs only for bans)
-match,info.tournamentCode,"{""str"": 1}",Not retained as a dedicated field by active match parser
-match,metadata.dataVersion,"{""str"": 1}",Not retained as a dedicated field by active match parser
-match,metadata.matchId,"{""str"": 1}",Stored in Match
-match,metadata.participants[],"{""str"": 10}",Not retained as a dedicated field by active match parser
-timeline,info.endOfGameResult,"{""str"": 1}",Metadata/association or unretained; not a dedicated analytical metric
-timeline,info.frameInterval,"{""int"": 1}",Metadata/association or unretained; not a dedicated analytical metric
-timeline,info.frames[].events[].actualStartTime,"{""int"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].afterId,"{""int"": 18}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].assistingParticipantIds[],"{""int"": 157}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].beforeId,"{""int"": 18}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].bounty,"{""int"": 119}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].buildingType,"{""str"": 15}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].creatorId,"{""int"": 752}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].gameId,"{""int"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].goldGain,"{""int"": 18}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].itemId,"{""int"": 588}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].killStreakLength,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].killType,"{""str"": 12}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].killerId,"{""int"": 256}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].killerTeamId,"{""int"": 12}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].laneType,"{""str"": 89}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].level,"{""int"": 170}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].levelUpType,"{""str"": 177}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].monsterSubType,"{""str"": 6}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].monsterType,"{""str"": 12}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].multiKillLength,"{""int"": 10}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].name,"{""str"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].participantId,"{""int"": 953}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].position.x,"{""int"": 205}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].position.y,"{""int"": 205}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].realTimestamp,"{""int"": 2}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].shutdownBounty,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].skillSlot,"{""int"": 177}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].teamId,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].timestamp,"{""int"": 1966}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].towerType,"{""str"": 13}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].type,"{""str"": 1966}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].basic,"{""bool"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].magicDamage,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].name,"{""str"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].participantId,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].physicalDamage,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].spellName,"{""str"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].spellSlot,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].trueDamage,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageDealt[].type,"{""str"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].basic,"{""bool"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].magicDamage,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].name,"{""str"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].participantId,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].physicalDamage,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].spellName,"{""str"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].spellSlot,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].trueDamage,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimDamageReceived[].type,"{""str"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].victimId,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].wardType,"{""str"": 803}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].events[].winningTeam,"{""int"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON
-timeline,info.frames[].participantFrames.*.championStats.abilityHaste,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.abilityPower,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.armor,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.armorPen,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.armorPenPercent,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.attackDamage,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.attackSpeed,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.bonusArmorPenPercent,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.bonusMagicPenPercent,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.ccReduction,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.cooldownReduction,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.health,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.healthMax,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.healthRegen,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.lifesteal,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.magicPen,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.magicPenPercent,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.magicResist,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.movementSpeed,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.omnivamp,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.physicalVamp,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.power,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.powerMax,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.powerRegen,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.championStats.spellVamp,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.currentGold,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.magicDamageDone,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.magicDamageDoneToChampions,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.magicDamageTaken,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.physicalDamageDone,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.physicalDamageDoneToChampions,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.physicalDamageTaken,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.totalDamageDone,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.totalDamageDoneToChampions,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged
-timeline,info.frames[].participantFrames.*.damageStats.totalDamageTaken,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.trueDamageDone,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.trueDamageDoneToChampions,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.damageStats.trueDamageTaken,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.goldPerSecond,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.jungleMinionsKilled,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged
-timeline,info.frames[].participantFrames.*.level,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.minionsKilled,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged
-timeline,info.frames[].participantFrames.*.participantId,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.position.x,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged
-timeline,info.frames[].participantFrames.*.position.y,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged
-timeline,info.frames[].participantFrames.*.timeEnemySpentControlled,"{""int"": 410}",Not retained by active timeline parser
-timeline,info.frames[].participantFrames.*.totalGold,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged
-timeline,info.frames[].participantFrames.*.xp,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged
-timeline,info.frames[].timestamp,"{""int"": 41}",Stored in path samples; floored as minute-array index
-timeline,info.gameId,"{""int"": 1}",Metadata/association or unretained; not a dedicated analytical metric
-timeline,info.participants[].participantId,"{""int"": 10}",Metadata/association or unretained; not a dedicated analytical metric
-timeline,info.participants[].puuid,"{""str"": 10}",Metadata/association or unretained; not a dedicated analytical metric
-timeline,metadata.dataVersion,"{""str"": 1}",Metadata/association or unretained; not a dedicated analytical metric
-timeline,metadata.matchId,"{""str"": 1}",Metadata/association or unretained; not a dedicated analytical metric
-timeline,metadata.participants[],"{""str"": 10}",Metadata/association or unretained; not a dedicated analytical metric
+source,path,value_types_and_observations,backend_retention_audit,raw_retention
+match,info.endOfGameResult,"{""str"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameCreation,"{""int"": 1}",Stored in Match,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameDuration,"{""int"": 1}",Stored in Match,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameEndTimestamp,"{""int"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameId,"{""int"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameMode,"{""str"": 1}",Stored in Match,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameName,"{""str"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameStartTimestamp,"{""int"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameType,"{""str"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.gameVersion,"{""str"": 1}",Stored in Match,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.mapId,"{""int"": 1}",Stored in Match,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore0,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore10,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore11,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore7,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore8,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].PlayerScore9,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].allInPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].assistMePings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].assists,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].baronKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].basicPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.12AssistStreakCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.HealFromMapSources,"{""float"": 1, ""int"": 9}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.InfernalScalePickup,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_DefeatAatrox,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_DefeatBriar,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_DefeatMiniBosses,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_EvolveWeapon,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_Have3Passives,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_KillEnemy,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_PickupGold,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_ReachLevel50,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_Survive15Min,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.SWARM_WinWith5EvolvedWeapons,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.abilityUses,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.acesBefore15Minutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.alliedJungleMonsterKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.baronTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.blastConeOppositeOpponentCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.bountyGold,"{""float"": 3, ""int"": 7}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.buffsStolen,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.completeSupportQuestInTime,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.controlWardTimeCoverageInRiverOrEnemyHalf,"{""float"": 4}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.controlWardsPlaced,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.damagePerMinute,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.damageTakenOnTeamPercentage,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.dancedWithRiftHerald,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.deathsByEnemyChamps,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.dodgeSkillShotsSmallWindow,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.doubleAces,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.dragonTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.earliestBaron,"{""float"": 5}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.earliestDragonTakedown,"{""float"": 5}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.earlyLaningPhaseGoldExpAdvantage,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.effectiveHealAndShielding,"{""float"": 4, ""int"": 6}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.elderDragonKillsWithOpposingSoul,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.elderDragonMultikills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.enemyChampionImmobilizations,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.enemyJungleMonsterKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.epicMonsterKillsNearEnemyJungler,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.epicMonsterKillsWithin30SecondsOfSpawn,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.epicMonsterSteals,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.epicMonsterStolenWithoutSmite,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.fasterSupportQuestCompletion,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.fastestLegendary,"{""float"": 2}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.firstTurretKilled,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.firstTurretKilledTime,"{""float"": 5}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.fistBumpParticipation,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.flawlessAces,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.fullTeamTakedown,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.gameLength,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.getTakedownsInAllLanesEarlyJungleAsLaner,"{""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.goldPerMinute,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.hadOpenNexus,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.highestChampionDamage,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.highestCrowdControlScore,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.highestWardKills,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.immobilizeAndKillWithAlly,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.initialBuffCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.initialCrabCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.jungleCsBefore10Minutes,"{""float"": 2, ""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.junglerKillsEarlyJungle,"{""int"": 2}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.junglerTakedownsNearDamagedEpicMonster,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.kTurretsDestroyedBeforePlatesFall,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.kda,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killAfterHiddenWithAlly,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killParticipation,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killedChampTookFullTeamDamageSurvived,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killingSprees,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killsNearEnemyTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killsOnLanersEarlyJungleAsJungler,"{""int"": 2}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killsOnOtherLanesEarlyJungleAsLaner,"{""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killsOnRecentlyHealedByAramPack,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killsUnderOwnTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.killsWithHelpFromEpicMonster,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.knockEnemyIntoTeamAndKill,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.landSkillShotsEarlyGame,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.laneMinionsFirst10Minutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.laningPhaseGoldExpAdvantage,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.legendaryCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.legendaryItemUsed[],"{""int"": 45}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.lostAnInhibitor,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.maxCsAdvantageOnLaneOpponent,"{""float"": 5, ""int"": 5}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.maxKillDeficit,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.maxLevelLeadLaneOpponent,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.mejaisFullStackInTime,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.moreEnemyJungleThanOpponent,"{""float"": 2, ""int"": 8}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.multiKillOneSpell,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.multiTurretRiftHeraldCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.multikills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.multikillsAfterAggressiveFlash,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.outerTurretExecutesBefore10Minutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.outnumberedKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.outnumberedNexusKill,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.perfectDragonSoulsTaken,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.perfectGame,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.pickKillWithAlly,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.playedChampSelectPosition,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.poroExplosions,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.quickCleanse,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.quickFirstTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.quickSoloKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.riftHeraldTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.saveAllyFromDeath,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.scuttleCrabKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.shortestTimeToAceFromFirstTakedown,"{""float"": 4}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.skillshotsDodged,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.skillshotsHit,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.snowballsHit,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.soloBaronKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.soloKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.soloTurretsLategame,"{""int"": 1}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.stealthWardsPlaced,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.survivedSingleDigitHpCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.survivedThreeImmobilizesInFight,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.takedownOnFirstTurret,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.takedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.takedownsAfterGainingLevelAdvantage,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.takedownsBeforeJungleMinionSpawn,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.takedownsFirstXMinutes,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.takedownsInAlcove,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.takedownsInEnemyFountain,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.teamBaronKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.teamDamagePercentage,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.teamElderDragonKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.teamRiftHeraldKills,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.tookLargeDamageSurvived,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.turretPlatesTaken,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.turretTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.turretsTakenWithRiftHerald,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.twentyMinionsIn3SecondsCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.twoWardsOneSweeperCount,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.unseenRecalls,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.visionScoreAdvantageLaneOpponent,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.visionScorePerMinute,"{""float"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.voidMonsterKill,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.wardTakedowns,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.wardTakedownsBefore20M,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].challenges.wardsGuarded,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].champExperience,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].champLevel,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].championId,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].championName,"{""str"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].championTransform,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].commandPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].consumablesPurchased,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].damageDealtToBuildings,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].damageDealtToEpicMonsters,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].damageDealtToObjectives,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].damageDealtToTurrets,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].damageSelfMitigated,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].dangerPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].deaths,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].detectorWardsPlaced,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].doubleKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].dragonKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].eligibleForProgression,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].enemyMissingPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].enemyVisionPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].firstBloodAssist,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].firstBloodKill,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].firstTowerAssist,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].firstTowerKill,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].gameEndedInEarlySurrender,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].gameEndedInSurrender,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].getBackPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].goldEarned,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].goldSpent,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].holdPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].individualPosition,"{""str"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].inhibitorKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].inhibitorTakedowns,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].inhibitorsLost,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].item0,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].item1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].item2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].item3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].item4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].item5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].item6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].itemsPurchased,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].killingSprees,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].kills,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].lane,"{""str"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].largestCriticalStrike,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].largestKillingSpree,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].largestMultiKill,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].longestTimeSpentLiving,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].magicDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].magicDamageDealtToChampions,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].magicDamageTaken,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore0,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore10,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore11,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore7,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore8,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].missions.playerScore9,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].needVisionPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].neutralMinionsKilled,"{""int"": 10}",Merged into persisted totalCs and used for aggregate CSPM; separate components remain in MatchRaw,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].nexusKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].nexusLost,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].nexusTakedowns,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].objectivesStolen,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].objectivesStolenAssists,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].onMyWayPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].participantId,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].pentaKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.statPerks.defense,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.statPerks.flex,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.statPerks.offense,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.styles[].description,"{""str"": 20}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.styles[].selections[].perk,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.styles[].selections[].var1,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.styles[].selections[].var2,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.styles[].selections[].var3,"{""int"": 60}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].perks.styles[].style,"{""int"": 20}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].physicalDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].physicalDamageDealtToChampions,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].physicalDamageTaken,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].placement,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].playerAugment1,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].playerAugment2,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].playerAugment3,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].playerAugment4,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].playerAugment5,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].playerAugment6,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].playerSubteamId,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].profileIcon,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].pushPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].puuid,"{""str"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].quadraKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].retreatPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].riotIdGameName,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].riotIdTagline,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].role,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].roleBoundItem,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].sightWardsBoughtInGame,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].spell1Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].spell2Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].spell3Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].spell4Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].subteamPlacement,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].summoner1Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].summoner1Id,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].summoner2Casts,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].summoner2Id,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].summonerId,"{""str"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].summonerLevel,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].summonerName,"{""str"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].teamEarlySurrendered,"{""bool"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].teamId,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].teamPosition,"{""str"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].timeCCingOthers,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].timePlayed,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalAllyJungleMinionsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalDamageDealtToChampions,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalDamageShieldedOnTeammates,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalDamageTaken,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalEnemyJungleMinionsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalHeal,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalHealsOnTeammates,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalMinionsKilled,"{""int"": 10}",Merged into persisted totalCs and used for aggregate CSPM; separate components remain in MatchRaw,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalTimeCCDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalTimeSpentDead,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].totalUnitsHealed,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].tripleKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].trueDamageDealt,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].trueDamageDealtToChampions,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].trueDamageTaken,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].turretKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].turretTakedowns,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].turretsLost,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].unrealKills,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].visionClearedPings,"{""int"": 10}",Stored as JSON; no dedicated analytical use of this field identified,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].visionScore,"{""int"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].visionWardsBoughtInGame,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].wardsKilled,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].wardsPlaced,"{""int"": 10}",Not retained from this match field by active parser; some equivalents may exist in timeline/challenges,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.participants[].win,"{""bool"": 10}",Used by active match parser / mapped to persisted participant,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.platformId,"{""str"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.queueId,"{""int"": 1}",Stored in Match,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].bans[].championId,"{""int"": 10}",Stored (positive champion IDs only for bans),Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].bans[].pickTurn,"{""int"": 10}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].feats.EPIC_MONSTER_KILL.featState,"{""int"": 2}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].feats.FIRST_BLOOD.featState,"{""int"": 2}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].feats.FIRST_TURRET.featState,"{""int"": 2}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.atakhan.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.atakhan.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.baron.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.baron.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.champion.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.champion.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.dragon.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.dragon.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.horde.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.horde.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.inhibitor.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.inhibitor.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.riftHerald.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.riftHerald.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.tower.first,"{""bool"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].objectives.tower.kills,"{""int"": 2}",Complete totals retained in MatchRaw.summary only; persistence replaces parser totals with objective event array,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].teamId,"{""int"": 2}",Stored (positive champion IDs only for bans),Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.teams[].win,"{""bool"": 2}",Stored (positive champion IDs only for bans),Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,info.tournamentCode,"{""str"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,metadata.dataVersion,"{""str"": 1}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,metadata.matchId,"{""str"": 1}",Stored in Match,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+match,metadata.participants[],"{""str"": 10}",Not retained as a dedicated field by active match parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.endOfGameResult,"{""str"": 1}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frameInterval,"{""int"": 1}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].actualStartTime,"{""int"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].afterId,"{""int"": 18}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].assistingParticipantIds[],"{""int"": 157}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].beforeId,"{""int"": 18}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].bounty,"{""int"": 119}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].buildingType,"{""str"": 15}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].creatorId,"{""int"": 752}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].gameId,"{""int"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].goldGain,"{""int"": 18}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].itemId,"{""int"": 588}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].killStreakLength,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].killType,"{""str"": 12}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].killerId,"{""int"": 256}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].killerTeamId,"{""int"": 12}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].laneType,"{""str"": 89}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].level,"{""int"": 170}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].levelUpType,"{""str"": 177}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].monsterSubType,"{""str"": 6}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].monsterType,"{""str"": 12}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].multiKillLength,"{""int"": 10}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].name,"{""str"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].participantId,"{""int"": 953}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].position.x,"{""int"": 205}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].position.y,"{""int"": 205}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].realTimestamp,"{""int"": 2}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].shutdownBounty,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].skillSlot,"{""int"": 177}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].teamId,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].timestamp,"{""int"": 1966}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].towerType,"{""str"": 13}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].type,"{""str"": 1966}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].basic,"{""bool"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].magicDamage,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].name,"{""str"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].participantId,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].physicalDamage,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].spellName,"{""str"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].spellSlot,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].trueDamage,"{""int"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageDealt[].type,"{""str"": 592}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].basic,"{""bool"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].magicDamage,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].name,"{""str"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].participantId,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].physicalDamage,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].spellName,"{""str"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].spellSlot,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].trueDamage,"{""int"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimDamageReceived[].type,"{""str"": 1045}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].victimId,"{""int"": 92}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].wardType,"{""str"": 803}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].events[].winningTeam,"{""int"": 1}",Depends on event type; see eventsByType.backendRetention in metrics JSON,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.abilityHaste,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.abilityPower,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.armor,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.armorPen,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.armorPenPercent,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.attackDamage,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.attackSpeed,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.bonusArmorPenPercent,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.bonusMagicPenPercent,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.ccReduction,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.cooldownReduction,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.health,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.healthMax,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.healthRegen,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.lifesteal,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.magicPen,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.magicPenPercent,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.magicResist,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.movementSpeed,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.omnivamp,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.physicalVamp,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.power,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.powerMax,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.powerRegen,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.championStats.spellVamp,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.currentGold,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.magicDamageDone,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.magicDamageDoneToChampions,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.magicDamageTaken,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.physicalDamageDone,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.physicalDamageDoneToChampions,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.physicalDamageTaken,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.totalDamageDone,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.totalDamageDoneToChampions,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.totalDamageTaken,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.trueDamageDone,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.trueDamageDoneToChampions,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.damageStats.trueDamageTaken,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.goldPerSecond,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.jungleMinionsKilled,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.level,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.minionsKilled,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.participantId,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.position.x,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.position.y,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.timeEnemySpentControlled,"{""int"": 410}",Not retained by active timeline parser,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.totalGold,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].participantFrames.*.xp,"{""int"": 410}",Used for persisted minute arrays / sampled path; CS components merged,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.frames[].timestamp,"{""int"": 41}",Stored in path samples; floored as minute-array index,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.gameId,"{""int"": 1}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.participants[].participantId,"{""int"": 10}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,info.participants[].puuid,"{""str"": 10}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,metadata.dataVersion,"{""str"": 1}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,metadata.matchId,"{""str"": 1}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected
+timeline,metadata.participants[],"{""str"": 10}",Metadata/association or unretained; not a dedicated analytical metric,Complete payload retained in MatchRaw by current worker; historical availability not inspected

@@ -8,6 +8,12 @@
     "exemplo_partida_BR1_3200579475.json": "84f4a95ab6be4c3e9ee264a4b2ca421d76b180e47d39bdd8eb9a4a6163dc79ef",
     "exemplo_partida_timeline_BR1_3200579475.json": "47b305de799e4e737d43dc3eeedf41c5d9f84a8bdd4f43b608ca0466a2728626"
   },
+  "backendAudit": {
+    "reviewedAt": "2026-09-22",
+    "referenceCommit": "fc7abf5",
+    "scope": "Static audit of analytical projections, not a production database inspection.",
+    "rawRetention": "Worker stores complete summary and timeline as gzip in MatchRaw. Ignored/discarded/not retained in projection notes does not mean absent from raw storage. Availability for a historical match must be checked."
+  },
   "definitions": {
     "knownWardTypes": [
       "BLUE_TRINKET",
@@ -1568,7 +1574,7 @@
           "[].towerType",
           "[].type"
         ],
-        "backendRetention": "Parsed into objective timeline, but event timeline is not saved by persistence."
+        "backendRetention": "Partial: type/lane, beneficiary team, timestamp and killer persisted in MatchTeam.objectivesTimeline; original owner, tower tier and other fields remain in MatchRaw."
       },
       "CHAMPION_KILL": {
         "count": 92,
@@ -1641,7 +1647,7 @@
           "[].timestamp",
           "[].type"
         ],
-        "backendRetention": "Parsed into objective timeline, but event timeline is not saved by persistence."
+        "backendRetention": "Partial: type/subtype, beneficiary team, timestamp and killer persisted in MatchTeam.objectivesTimeline; assistants and other fields remain in MatchRaw."
       },
       "GAME_END": {
         "count": 1,
