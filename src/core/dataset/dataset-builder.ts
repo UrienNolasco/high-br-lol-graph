@@ -1,11 +1,14 @@
 import { createHash } from 'node:crypto';
 import {
   gameVersionPatch,
-  metricQuality,
   normalizeRole,
-  selectCheckpoint,
-} from '../metrics';
-import { MetricEvidence, MetricResult } from '../metrics/metric-contract';
+} from '../../modules/matches/contracts/eligibility';
+import { metricQuality } from '../../modules/matches/contracts/metric-contract';
+import { selectCheckpoint } from '../../modules/matches/contracts/temporal';
+import {
+  MetricEvidence,
+  MetricResult,
+} from '../../modules/matches/contracts/metric-contract';
 import type { NormalizedTimelineEvent } from '../../modules/matches/contracts/normalized-events';
 import type {
   TimelineSnapshotProjection,

@@ -1,4 +1,4 @@
-import { selectUniqueOpponent } from '../../../core/metrics';
+import { selectUniqueOpponent } from '../contracts/eligibility';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { MatchRepository } from '../repositories/match.repository';
 import {

@@ -1,6 +1,6 @@
 import { ApiExtraModels, ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import { IsIn, IsOptional } from 'class-validator';
-import type { CheckpointMode } from '../../../core/metrics';
+import type { CheckpointMode } from '../contracts/temporal';
 import type {
   EconomyValue,
   EconomyValues,

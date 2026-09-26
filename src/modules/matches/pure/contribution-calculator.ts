@@ -8,8 +8,8 @@ import {
   MetricUnit,
   MissingReason,
   MetricQuality,
-} from '../../../core/metrics/metric-contract';
-import { normalizeRole } from '../../../core/metrics';
+} from '../contracts/metric-contract';
+import { normalizeRole } from '../contracts/eligibility';
 
 export interface ContributionParticipant {
   puuid: string;

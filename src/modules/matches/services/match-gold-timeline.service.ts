@@ -7,7 +7,7 @@ import {
   findObservedSwing,
 } from '../pure/gold-calculator';
 import { MatchGoldTimelineDto } from '../dto/match-deep-dive.dto';
-import { metricQuality } from '../../../core/metrics/metric-contract';
+import { metricQuality } from '../contracts/metric-contract';
 import { readSnapshotProjection } from '../../../core/riot/timeline-snapshots';
 
 @Injectable()

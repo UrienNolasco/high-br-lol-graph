@@ -1,4 +1,4 @@
-import { metricQuality } from '../../../core/metrics';
+import { metricQuality } from '../../matches/contracts/metric-contract';
 import { INDICATOR_VERSION, INDICATOR_LIMITATIONS } from './indicator-catalog';
 import { calculateIndicators, IndicatorReport } from './indicator-calculator';
 import {

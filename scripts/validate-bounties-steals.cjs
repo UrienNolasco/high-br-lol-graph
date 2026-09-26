@@ -9,6 +9,7 @@ const {
   calculateBountiesSteals,
   STEAL_CHALLENGES,
 } = require('../dist/modules/matches/pure/bounties-steals-calculator');
+const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(
     path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),
@@ -25,6 +26,7 @@ const events = normalizeTimelineEvents(
   timeline,
   new Map(summary.info.participants.map((p) => [p.participantId, p.puuid])),
   new Map(summary.info.participants.map((p) => [p.participantId, p.teamId])),
+  { processingVersion: PROCESSING_VERSION },
 );
 const input = {
   matchId: summary.metadata.matchId,

@@ -29,6 +29,7 @@ export function reportFixture(): ReportInput {
     timeline,
     map,
     new Map(summary.info.participants.map((p) => [p.participantId, p.teamId])),
+    { processingVersion: 2 },
   ).map((e) => ({
     ...e,
     processingVersion: 2,

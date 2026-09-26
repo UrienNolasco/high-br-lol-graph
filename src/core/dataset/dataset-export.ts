@@ -6,7 +6,7 @@ import {
   Prisma,
   PrismaClient,
 } from '@prisma/client';
-import { PROCESSING_VERSION } from '../processing/processing.constants';
+import { DATASET_PROCESSING_VERSION } from '../../modules/dataset/contracts/processing';
 import { DATASET_DEFINITIONS, DATASET_VERSION } from './dataset-registry';
 import {
   DatasetFilters,
@@ -214,7 +214,7 @@ export async function exportHistoricalDataset(
   );
   const manifest = {
     datasetVersion: DATASET_VERSION,
-    processingVersion: PROCESSING_VERSION,
+    processingVersion: DATASET_PROCESSING_VERSION,
     definitions: DATASET_DEFINITIONS,
     registrySha256: datasetDigest(stableJson(DATASET_DEFINITIONS)),
     filters: options.filters,

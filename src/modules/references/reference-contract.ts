@@ -7,10 +7,8 @@ import {
   DatasetFilters,
   normalizeDatasetFilters,
 } from '../../core/dataset/dataset-query';
-import {
-  precisionPolicy,
-  PrecisionPolicy,
-} from '../../core/statistics/empirical-reference';
+import { precisionPolicy } from './contracts/statistics';
+import type { PrecisionPolicy } from './contracts/statistics';
 export interface ReferenceDefinition extends DatasetDefinition {
   anchorDefinitionId: string;
   finalField?: string;

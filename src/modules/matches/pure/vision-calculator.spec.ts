@@ -39,6 +39,7 @@ function realInput(): VisionInput {
       new Map(
         summary.info.participants.map((p) => [p.participantId, p.teamId]),
       ),
+      { processingVersion: PROCESSING_VERSION },
     ),
     processing: {
       status: 'COMPLETED',

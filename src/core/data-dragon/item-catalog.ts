@@ -1,4 +1,4 @@
-import { gameVersionPatch } from '../metrics';
+import { gameVersionPatch } from '../../modules/matches/contracts/eligibility';
 
 export interface ItemMetadata {
   name: string;

@@ -150,6 +150,8 @@ describe('complete timestamped snapshots', () => {
     const parsed = new TimelineParserService().parseTimeline(
       timeline,
       participants,
+      new Map(),
+      4,
     );
     expect(parsed.snapshotProjection).toEqual(projection);
     expect(parsed.participants.get(puuid)?.goldGraph).toEqual(legacy.goldGraph);

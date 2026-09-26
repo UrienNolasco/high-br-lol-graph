@@ -212,6 +212,8 @@ describe('B08 sampled player presence', () => {
     const parsed = new TimelineParserService().parseTimeline(
       raw,
       participantMap,
+      new Map(),
+      4,
     );
     const placement = parsed.participants
       .get(participantMap.get(ward.creatorId)!)!

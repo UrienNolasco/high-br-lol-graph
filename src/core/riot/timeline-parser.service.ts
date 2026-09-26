@@ -59,6 +59,7 @@ export class TimelineParserService {
     timelineDto: TimelineDto,
     participantMap: Map<number, string>,
     participantTeams: ReadonlyMap<number, number> = new Map(),
+    processingVersion: number,
   ): ParsedTimelineData {
     const frames = timelineDto.info.frames;
     const snapshotProjection = projectTimelineSnapshots(
@@ -103,6 +104,7 @@ export class TimelineParserService {
         timelineDto,
         participantMap,
         participantTeams,
+        { processingVersion },
       ),
     };
   }

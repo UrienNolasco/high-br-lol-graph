@@ -86,7 +86,26 @@ function fixture(t) {
       },
     ],
   };
-  return { root, write, ledger, oldPath, newPath, consumer };
+  return { root, write, git, ledger, oldPath, newPath, consumer };
+}
+
+function amendOrigin(f, files) {
+  f.git('reset', '--hard', 'HEAD');
+  for (const [file, source] of Object.entries(files)) f.write(file, source);
+  f.git('add', '.');
+  f.git(
+    '-c',
+    'user.name=Architecture test',
+    '-c',
+    'user.email=architecture@example.invalid',
+    '-c',
+    'core.hooksPath=/dev/null',
+    'commit',
+    '--amend',
+    '-qm',
+    'original declarations',
+  );
+  f.ledger.originSha = f.git('rev-parse', 'HEAD');
 }
 
 test('verified extraction preserves logical boundary identity and reports its bridges', (t) => {
@@ -144,6 +163,19 @@ test('the new contract must export every declared transferred symbol', (t) => {
   assert.ok(validateRelocations(f.root, f.ledger).errors.length > 0);
 });
 
+test('the new public contract may use a proven named reexport', (t) => {
+  const f = fixture(t);
+  f.write(
+    'src/modules/matches/domain/normalized-event.ts',
+    'export interface Event { timestampMs: number | null }',
+  );
+  f.write(
+    f.newPath,
+    "export type { Event } from '../domain/normalized-event';",
+  );
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+});
+
 test('a relocation must prove its origin in Git', (t) => {
   const f = fixture(t);
   f.ledger.originSha = '0000000000000000000000000000000000000000';
@@ -154,6 +186,33 @@ test('listing a symbol absent from the original declaration fails', (t) => {
   const f = fixture(t);
   f.ledger.entries[0].symbols.push('NewSymbol');
   assert.ok(validateRelocations(f.root, f.ledger).errors.length > 0);
+});
+
+test('a renamed declaration requires an explicit proven origin symbol', (t) => {
+  const f = fixture(t);
+  f.write(
+    f.newPath,
+    'export interface RenamedEvent { timestampMs: number | null }',
+  );
+  f.write(
+    f.oldPath,
+    "export type { RenamedEvent } from '../../modules/matches/contracts/normalized-events';",
+  );
+  f.write(
+    f.consumer,
+    "import type { RenamedEvent } from '../../modules/matches/contracts/normalized-events'; export type UsedEvent = RenamedEvent;",
+  );
+  const entry = f.ledger.entries[0];
+  entry.symbols = ['RenamedEvent'];
+  entry.originSymbols = { RenamedEvent: 'Event' };
+  for (const consumer of entry.consumers) consumer.symbols = ['RenamedEvent'];
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+  entry.originSymbols.RenamedEvent = 'UnprovenEvent';
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'origin-symbol-not-declared',
+    ),
+  );
 });
 
 test('strict mode rejects even valid transitional bridges', (t) => {
@@ -176,4 +235,106 @@ test('an unlisted edge cannot hide inside a reciprocal pair covered by other bri
   );
   const result = analyzeViolations(f.root, { relocations: f.ledger });
   assert.ok(result.violations.some((v) => v.rule === 'area-reciprocity'));
+});
+
+test('one origin file may be split into disjoint declaration relocations', (t) => {
+  const f = fixture(t);
+  const secondPath = 'src/modules/matches/contracts/other.ts';
+  const secondConsumer = 'src/core/dataset/other.ts';
+  amendOrigin(f, {
+    [f.oldPath]:
+      'export interface Event { timestampMs: number | null } export interface Other { value: number }',
+    [secondConsumer]:
+      "import type { Other } from '../riot/example'; export type UsedOther = Other;",
+  });
+  f.write(f.newPath, 'export interface Event { timestampMs: number | null }');
+  f.write(secondPath, 'export interface Other { value: number }');
+  f.write(
+    f.oldPath,
+    "export type { Event } from '../../modules/matches/contracts/normalized-events'; export type { Other } from '../../modules/matches/contracts/other';",
+  );
+  f.write(
+    f.consumer,
+    "import type { Event } from '../../modules/matches/contracts/normalized-events'; export type UsedEvent = Event;",
+  );
+  f.write(
+    secondConsumer,
+    "import type { Other } from '../../modules/matches/contracts/other'; export type UsedOther = Other;",
+  );
+  f.ledger.entries.push({
+    oldPath: f.oldPath,
+    newPath: secondPath,
+    symbols: ['Other'],
+    consumers: [
+      {
+        from: secondConsumer,
+        kinds: ['type'],
+        symbols: ['Other'],
+        owner: 'dataset',
+        removalCard: 'ARQ-07',
+      },
+    ],
+  });
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+});
+
+test('relocations sharing an endpoint cannot overlap symbols', (t) => {
+  const f = fixture(t);
+  f.ledger.entries.push({
+    ...f.ledger.entries[0],
+    consumers: f.ledger.entries[0].consumers.map((consumer) => ({
+      ...consumer,
+    })),
+  });
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'overlapping-relocation',
+    ),
+  );
+});
+
+test('an origin consumer may reach a declaration through a proven reexport barrel', (t) => {
+  const f = fixture(t);
+  const barrel = 'src/core/riot/index.ts';
+  amendOrigin(f, {
+    [barrel]: "export * from './example';",
+    [f.consumer]:
+      "import type { Event } from '../riot'; export type UsedEvent = Event;",
+  });
+  f.write(f.newPath, 'export interface Event { timestampMs: number | null }');
+  f.write(
+    f.oldPath,
+    "export type { Event } from '../../modules/matches/contracts/normalized-events';",
+  );
+  f.write(
+    f.consumer,
+    "import type { Event } from '../../modules/matches/contracts/normalized-events'; export type UsedEvent = Event;",
+  );
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+});
+
+test('an unrelated origin barrel cannot prove a declaration relocation', (t) => {
+  const f = fixture(t);
+  const barrel = 'src/core/riot/index.ts';
+  const unrelated = 'src/core/riot/unrelated.ts';
+  amendOrigin(f, {
+    [unrelated]: 'export interface Event { other: boolean }',
+    [barrel]: "export * from './unrelated';",
+    [f.consumer]:
+      "import type { Event } from '../riot'; export type UsedEvent = Event;",
+  });
+  f.write(f.newPath, 'export interface Event { timestampMs: number | null }');
+  f.write(
+    f.oldPath,
+    "export type { Event } from '../../modules/matches/contracts/normalized-events';",
+  );
+  f.write(
+    f.consumer,
+    "import type { Event } from '../../modules/matches/contracts/normalized-events'; export type UsedEvent = Event;",
+  );
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'origin-consumer-kind-mismatch',
+    ),
+  );
 });

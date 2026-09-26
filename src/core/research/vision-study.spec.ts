@@ -59,6 +59,7 @@ function projection(): StudyProjection {
       timeline,
       players,
       new Map(participants.map((p) => [p.participantId, p.teamId])),
+      { processingVersion: PROCESSING_VERSION },
     ),
     projection: projectTimelineSnapshots(timeline, players),
     processingVersion: PROCESSING_VERSION,

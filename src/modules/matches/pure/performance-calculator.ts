@@ -1,5 +1,5 @@
-import { selectUniqueOpponent } from '../../../core/metrics';
-import { perMinute } from '../../analytics/pure/cohort-calculator';
+import { selectUniqueOpponent } from '../contracts/eligibility';
+import { perMinute } from '../../../lib/math/per-minute';
 
 export interface MatchParticipant {
   puuid: string;

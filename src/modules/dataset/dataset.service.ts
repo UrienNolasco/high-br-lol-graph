@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../core/prisma/prisma.service';
-import { PROCESSING_VERSION } from '../../core/processing/processing.constants';
+import { DATASET_PROCESSING_VERSION } from './contracts/processing';
 import { DATASET_VERSION } from '../../core/dataset/dataset-registry';
 import {
   DatasetFilters,
@@ -32,7 +32,7 @@ export class DatasetService {
         }));
         return {
           datasetVersion: DATASET_VERSION,
-          processingVersion: PROCESSING_VERSION,
+          processingVersion: DATASET_PROCESSING_VERSION,
           filters,
           summary,
           rows,

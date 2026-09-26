@@ -4,6 +4,7 @@ import { objectivesFixture } from './objectives';
 import { normalizeTimelineEvents } from '../../src/core/riot/normalized-events';
 import { projectTimelineSnapshots } from '../../src/core/riot/timeline-snapshots';
 import { SequencesInput } from '../../src/modules/matches/pure/sequences-calculator';
+import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 export function sequencesFixture(): SequencesInput {
   const summary = JSON.parse(
     readFileSync(
@@ -32,6 +33,7 @@ export function sequencesFixture(): SequencesInput {
       new Map(
         summary.info.participants.map((p) => [p.participantId, p.teamId]),
       ),
+      { processingVersion: PROCESSING_VERSION },
     ),
     projection: projectTimelineSnapshots(
       timeline,

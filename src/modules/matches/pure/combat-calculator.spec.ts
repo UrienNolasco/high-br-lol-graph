@@ -44,6 +44,7 @@ describe('MET13 combat projections', () => {
         new Map(
           summary.info.participants.map((p) => [p.participantId, p.teamId]),
         ),
+        { processingVersion: 2 },
       ).map((e) => ({ ...e, processingVersion: 2 })),
     };
     const result = calculateCombat(input);

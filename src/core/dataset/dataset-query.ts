@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
-import { normalizeRole } from '../metrics';
-import { PROCESSING_VERSION } from '../processing/processing.constants';
+import { normalizeRole } from '../../modules/matches/contracts/eligibility';
+import { DATASET_PROCESSING_VERSION } from '../../modules/dataset/contracts/processing';
 import {
   DATASET_DEFINITION_MAP,
   DATASET_HORIZONS,
@@ -123,7 +123,7 @@ export function datasetWhere(
 ): Prisma.HistoricalMetricContributionWhereInput {
   return {
     datasetVersion: DATASET_VERSION,
-    processingVersion: PROCESSING_VERSION,
+    processingVersion: DATASET_PROCESSING_VERSION,
     ...(f.eligibleOnly && !includeExcluded ? { eligible: true } : {}),
     ...Object.fromEntries(
       (
@@ -160,7 +160,7 @@ export function datasetSqlWhere(
 ): Prisma.Sql {
   const clauses = [
     Prisma.sql`"datasetVersion"=${DATASET_VERSION}`,
-    Prisma.sql`"processingVersion"=${PROCESSING_VERSION}`,
+    Prisma.sql`"processingVersion"=${DATASET_PROCESSING_VERSION}`,
   ];
   if (f.eligibleOnly && !includeExcluded)
     clauses.push(Prisma.sql`eligible=true`);
@@ -192,7 +192,7 @@ export function unmaterializedMatchWhere(
     historicalMetrics: {
       none: {
         datasetVersion: DATASET_VERSION,
-        processingVersion: PROCESSING_VERSION,
+        processingVersion: DATASET_PROCESSING_VERSION,
       },
     },
     ...(f.patch

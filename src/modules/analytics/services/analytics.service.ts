@@ -12,7 +12,7 @@ import {
 import { generateInsights } from '../pure/insights-generator';
 import { PlayerComparisonDto } from '../dto/compare-evolve.dto';
 import { calculateCohort } from '../pure/cohort-calculator';
-import { normalizeRole } from '../../../core/metrics';
+import { normalizeRole } from '../../matches/contracts/eligibility';
 
 @Injectable()
 export class AnalyticsService {

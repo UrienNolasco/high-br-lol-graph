@@ -8,7 +8,7 @@ import {
   metricValue,
   ratioMetric,
   unavailableMetric,
-} from '../../../core/metrics';
+} from '../contracts/metric-contract';
 
 export const OBJECTIVE_EVENT_TYPES = [
   'ELITE_MONSTER_KILL',

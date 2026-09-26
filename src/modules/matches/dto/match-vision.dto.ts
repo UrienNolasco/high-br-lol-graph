@@ -1,5 +1,5 @@
 import { ApiExtraModels, ApiProperty, getSchemaPath } from '@nestjs/swagger';
-import { MetricResultDto } from '../../../core/metrics/metric-result.dto';
+import { MetricResultDto } from './metric-result.dto';
 export class VisionWindowDto {
   @ApiProperty() startMs: number;
   @ApiProperty() endMs: number;

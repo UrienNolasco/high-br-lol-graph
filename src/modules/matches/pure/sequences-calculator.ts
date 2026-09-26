@@ -7,7 +7,7 @@ import {
   metricValue,
   ratioMetric,
   unavailableMetric,
-} from '../../../core/metrics';
+} from '../contracts/metric-contract';
 import type { TimelineSnapshotProjection } from '../contracts/normalized-snapshots';
 import {
   computeSnapshotGoldTimeline,

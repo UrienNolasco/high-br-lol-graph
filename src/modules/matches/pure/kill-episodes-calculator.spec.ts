@@ -122,6 +122,7 @@ describe('C10/C11/E06 episode report', () => {
       new Map(
         summary.info.participants.map((p) => [p.participantId, p.teamId]),
       ),
+      { processingVersion: 4 },
     );
     const input = {
       ...killEpisodesFixture(),

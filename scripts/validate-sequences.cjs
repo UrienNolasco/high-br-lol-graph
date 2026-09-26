@@ -10,6 +10,7 @@ const {
 const {
   calculateSequences,
 } = require('../dist/modules/matches/pure/sequences-calculator');
+const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(
     path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),
@@ -28,7 +29,9 @@ const puuids = new Map(
 const teams = new Map(
   summary.info.participants.map((p) => [p.participantId, p.teamId]),
 );
-const events = normalizeTimelineEvents(timeline, puuids, teams);
+const events = normalizeTimelineEvents(timeline, puuids, teams, {
+  processingVersion: PROCESSING_VERSION,
+});
 const result = calculateSequences({
   matchId: summary.metadata.matchId,
   gameVersion: summary.info.gameVersion,

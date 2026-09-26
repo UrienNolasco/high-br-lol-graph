@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 import { extractPatch } from '../../modules/worker/pure/match.parser';
 import type { ProcessedMatchData } from '../../modules/matches/contracts/normalized-match';
 import { TimelineDto } from '../riot/dto/timeline.dto';
-import { LEGACY_LANE_CHECKPOINT } from '../metrics/temporal';
+import { LEGACY_LANE_CHECKPOINT } from '../../modules/matches/contracts/temporal';
 // Identifiers come exclusively from this module, never from a request.
 const identifier = (name: string) => Prisma.raw(`"${name}"`);
 @Injectable()

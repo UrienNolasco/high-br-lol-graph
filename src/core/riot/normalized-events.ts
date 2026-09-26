@@ -1,4 +1,3 @@
-import { PROCESSING_VERSION } from '../processing/processing.constants';
 import type { TimelineDto } from './dto/timeline.dto';
 import type {
   EventQuality,
@@ -12,6 +11,9 @@ export type {
 } from '../../modules/matches/contracts/normalized-events';
 
 export const EVENT_METRIC_VERSION = 1;
+export interface EventNormalizationMetadata {
+  processingVersion: number;
+}
 export const KNOWN_EVENT_TYPES = new Set([
   'CHAMPION_KILL',
   'CHAMPION_SPECIAL_KILL',
@@ -47,6 +49,7 @@ export function normalizeTimelineEvents(
   timeline: TimelineDto,
   participantMap: ReadonlyMap<number, string>,
   participantTeams: ReadonlyMap<number, number> = new Map(),
+  metadata: EventNormalizationMetadata,
 ): NormalizedTimelineEvent[] {
   return timeline.info.frames.flatMap((frame, frameIndex) =>
     frame.events.map((raw, eventIndex) => {
@@ -248,7 +251,7 @@ export function normalizeTimelineEvents(
         payload,
         quality,
         metricVersion: EVENT_METRIC_VERSION,
-        processingVersion: PROCESSING_VERSION,
+        processingVersion: metadata.processingVersion,
       };
     }),
   );

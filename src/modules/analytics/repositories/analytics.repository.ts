@@ -2,7 +2,7 @@ import { COMBAT_EVENT_FILTER } from '../../matches/repositories/combat.repositor
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
-import { normalizeRole } from '../../../core/metrics';
+import { normalizeRole } from '../../matches/contracts/eligibility';
 
 export interface TimelineFilters {
   role?: string;

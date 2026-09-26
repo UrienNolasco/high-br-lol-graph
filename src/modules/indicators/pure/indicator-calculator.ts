@@ -1,8 +1,8 @@
 import {
   gameVersionPatch,
   normalizeRole,
-  metricQuality,
-} from '../../../core/metrics';
+} from '../../matches/contracts/eligibility';
+import { metricQuality } from '../../matches/contracts/metric-contract';
 import {
   INDICATOR_CATALOG,
   INDICATOR_LIMITATIONS,

@@ -1,10 +1,13 @@
+import { perMinute } from '../../../lib/math/per-minute';
+export { perMinute } from '../../../lib/math/per-minute';
 import {
   ComparisonTimeline,
   Frame,
   FrameParticipant,
   projectionComparisonTimeline,
 } from './comparison-timeline.adapter';
-import { selectCheckpoint, selectUniqueOpponent } from '../../../core/metrics';
+import { selectCheckpoint } from '../../matches/contracts/temporal';
+import { selectUniqueOpponent } from '../../matches/contracts/eligibility';
 
 export interface ComparisonParticipant {
   matchId: string;
@@ -24,14 +27,6 @@ export interface ComparisonParticipant {
 }
 export const finite = (v: unknown): v is number =>
   typeof v === 'number' && Number.isFinite(v);
-export function perMinute(
-  value: unknown,
-  durationSeconds: number,
-): number | null {
-  return finite(value) && finite(durationSeconds) && durationSeconds > 0
-    ? value / (durationSeconds / 60)
-    : null;
-}
 export function observation(values: (number | null)[], totalN = values.length) {
   const valid = values.filter(finite);
   return {

@@ -6,8 +6,8 @@ import {
   metricQuality,
   metricValue,
   unavailableMetric,
-  gameVersionPatch,
-} from '../../../../core/metrics';
+} from '../../contracts/metric-contract';
+import { gameVersionPatch } from '../../contracts/eligibility';
 import {
   ItemCatalog,
   unavailableItemCatalog,

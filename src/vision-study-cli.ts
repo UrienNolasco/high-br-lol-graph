@@ -13,8 +13,8 @@ import { TimelineDto } from './core/riot/dto/timeline.dto';
 import { normalizeTimelineEvents } from './core/riot/normalized-events';
 import { projectTimelineSnapshots } from './core/riot/timeline-snapshots';
 import { parseMatchData } from './modules/worker/pure/match.parser';
-import { PROCESSING_VERSION } from './core/processing/processing.constants';
 import { DATASET_VERSION } from './core/dataset/dataset-registry';
+import { PROCESSING_VERSION } from './core/processing/processing.constants';
 import {
   datasetDigest,
   splitForMatch,
@@ -95,7 +95,9 @@ export function studySource(
     summary.info.gameCreation < 0
   )
     throw new Error('Invalid chronological match identity');
-  const events = normalizeTimelineEvents(timeline, puuids, teams);
+  const events = normalizeTimelineEvents(timeline, puuids, teams, {
+    processingVersion: PROCESSING_VERSION,
+  });
   const projection = projectTimelineSnapshots(timeline, puuids);
   const input = {
     matchId: summary.metadata.matchId,
@@ -300,11 +302,11 @@ export function runVisionStudy(
     'src/vision-study-cli.ts',
     'src/core/riot/normalized-events.ts',
     'src/core/riot/timeline-snapshots.ts',
-    'src/core/metrics/temporal.ts',
+    'src/modules/matches/contracts/temporal.ts',
     'src/modules/matches/pure/vision-calculator.ts',
     'src/modules/worker/pure/match.parser.ts',
-    'src/core/metrics/champion-population.ts',
-    'src/core/metrics/eligibility.ts',
+    'src/modules/matches/contracts/champion-population.ts',
+    'src/modules/matches/contracts/eligibility.ts',
     'src/core/processing/processing.constants.ts',
     'src/core/dataset/dataset-export.ts',
   ];

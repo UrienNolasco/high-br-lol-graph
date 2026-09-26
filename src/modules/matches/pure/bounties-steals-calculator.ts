@@ -6,7 +6,7 @@ import {
   metricQuality,
   metricValue,
   unavailableMetric,
-} from '../../../core/metrics';
+} from '../contracts/metric-contract';
 import { BountyBoundary, interpretBountyWindows } from './bounty-windows';
 export const BOUNTY_STEALS_VERSION = 1;
 export const BOUNTY_EVENT_TYPES = [

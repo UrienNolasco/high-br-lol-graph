@@ -1,5 +1,5 @@
 import { ApiExtraModels, ApiProperty, getSchemaPath } from '@nestjs/swagger';
-import { MetricResultDto } from '../../../core/metrics/metric-result.dto';
+import { MetricResultDto } from './metric-result.dto';
 export class BountyWindowDto {
   @ApiProperty() windowId: string;
   @ApiProperty({ type: Number, nullable: true }) teamId: number | null;

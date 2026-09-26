@@ -7,8 +7,12 @@ const ts = require('typescript');
 
 const DEFAULT_RELATIVE_PATH = 'docs/architecture/declaration-relocations.json';
 const VALID_KINDS = new Set(['runtime', 'type']);
+const gitShowCache = new Map();
+const originPathCache = new Map();
+const originFilesCache = new Map();
 
 const uniqueSorted = (values) => [...new Set(values)].sort();
+const originSymbol = (entry, symbol) => entry.originSymbols?.[symbol] || symbol;
 const asEntries = (value) =>
   Array.isArray(value)
     ? value
@@ -34,9 +38,11 @@ function loadRelocations(value, root = process.cwd()) {
 
 const normalizeBinding = (binding) => binding.split(/\s+as\s+/)[0];
 const edgeBindings = (edge, kind) =>
-  (kind === 'runtime' ? edge.runtimeBindings : edge.typeBindings).map(
-    normalizeBinding,
-  );
+  (kind === 'runtime'
+    ? edge.relocationRuntimeBindings || edge.runtimeBindings
+    : edge.relocationTypeBindings || edge.typeBindings
+  ).map(normalizeBinding);
+const edgeKinds = (edge) => edge.relocationKinds || edge.kinds;
 
 function sourceFile(file, source) {
   return ts.createSourceFile(
@@ -46,6 +52,75 @@ function sourceFile(file, source) {
     true,
     /\.[cm]?tsx$/.test(file) ? ts.ScriptKind.TSX : ts.ScriptKind.TS,
   );
+}
+
+function emittedSpecifiers(source, file) {
+  const emitted = ts.transpileModule(source, {
+    fileName: file,
+    compilerOptions: {
+      module: ts.ModuleKind.NodeNext,
+      moduleResolution: ts.ModuleResolutionKind.NodeNext,
+      target: ts.ScriptTarget.ES2023,
+      experimentalDecorators: true,
+      emitDecoratorMetadata: true,
+    },
+  }).outputText;
+  const result = new Set();
+  for (const match of emitted.matchAll(/\brequire\(["']([^"']+)["']\)/g))
+    result.add(match[1]);
+  for (const match of emitted.matchAll(/\bfrom\s+["']([^"']+)["']/g))
+    result.add(match[1]);
+  return result;
+}
+
+function isolateImport(source, file, selected) {
+  const parsed = sourceFile(file, source);
+  const removals = parsed.statements.filter(
+    (statement) =>
+      statement.pos !== selected.pos &&
+      ts.isImportDeclaration(statement) &&
+      ts.isStringLiteralLike(statement.moduleSpecifier) &&
+      statement.moduleSpecifier.text === selected.moduleSpecifier.text,
+  );
+  let isolated = source;
+  for (const statement of removals.sort((a, b) => b.pos - a.pos))
+    isolated = `${isolated.slice(0, statement.pos)}${isolated.slice(statement.end)}`;
+  return isolated;
+}
+
+function refineCurrentImportEdges(root, imports) {
+  const sources = new Map();
+  for (const edge of imports) {
+    if (edge.syntax !== 'import' || !edge.kinds.includes('runtime')) continue;
+    const absolute = path.join(root, edge.from);
+    if (!fs.existsSync(absolute)) continue;
+    if (!sources.has(edge.from))
+      sources.set(edge.from, fs.readFileSync(absolute, 'utf8'));
+    const source = sources.get(edge.from);
+    const parsed = sourceFile(edge.from, source);
+    const statement = parsed.statements.find(
+      (candidate) =>
+        ts.isImportDeclaration(candidate) &&
+        ts.isStringLiteralLike(candidate.moduleSpecifier) &&
+        candidate.moduleSpecifier.text === edge.specifier &&
+        parsed.getLineAndCharacterOfPosition(candidate.getStart()).line + 1 ===
+          edge.line,
+    );
+    if (!statement) continue;
+    if (
+      emittedSpecifiers(
+        isolateImport(source, edge.from, statement),
+        edge.from,
+      ).has(edge.specifier)
+    )
+      continue;
+    edge.relocationRuntimeBindings = [];
+    edge.relocationTypeBindings = uniqueSorted([
+      ...edge.typeBindings,
+      ...edge.runtimeBindings,
+    ]);
+    edge.relocationKinds = edge.relocationTypeBindings.length ? ['type'] : [];
+  }
 }
 
 const exported = (node) =>
@@ -119,22 +194,8 @@ function wildcardReexports(source, file) {
 
 function importedBindings(source, file) {
   const result = [];
-  const emitted = ts.transpileModule(source, {
-    fileName: file,
-    compilerOptions: {
-      module: ts.ModuleKind.NodeNext,
-      moduleResolution: ts.ModuleResolutionKind.NodeNext,
-      target: ts.ScriptTarget.ES2023,
-      experimentalDecorators: true,
-      emitDecoratorMetadata: true,
-    },
-  }).outputText;
-  const emittedSpecifiers = new Set();
-  for (const match of emitted.matchAll(/\brequire\(["']([^"']+)["']\)/g))
-    emittedSpecifiers.add(match[1]);
-  for (const match of emitted.matchAll(/\bfrom\s+["']([^"']+)["']/g))
-    emittedSpecifiers.add(match[1]);
-  for (const statement of sourceFile(file, source).statements) {
+  const parsed = sourceFile(file, source);
+  for (const statement of parsed.statements) {
     if (
       !ts.isImportDeclaration(statement) ||
       !ts.isStringLiteralLike(statement.moduleSpecifier)
@@ -154,7 +215,11 @@ function importedBindings(source, file) {
           ? typeBindings
           : runtimeBindings
         ).push(element.propertyName?.text || element.name.text);
-    if (!emittedSpecifiers.has(statement.moduleSpecifier.text))
+    if (
+      !emittedSpecifiers(isolateImport(source, file, statement), file).has(
+        statement.moduleSpecifier.text,
+      )
+    )
       typeBindings.push(...runtimeBindings.splice(0));
     result.push({
       specifier: statement.moduleSpecifier.text,
@@ -179,12 +244,171 @@ function resolvesTo(from, specifier, expected) {
   ].includes(expected);
 }
 
-function gitShow(root, revision, file) {
-  return childProcess.execFileSync('git', ['show', `${revision}:${file}`], {
-    cwd: root,
-    encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'pipe'],
+function originPath(root, revision, from, specifier) {
+  if (!specifier.startsWith('.')) return null;
+  const cacheKey = `${root}\n${revision}\n${from}\n${specifier}`;
+  if (originPathCache.has(cacheKey)) return originPathCache.get(cacheKey);
+  const base = path.posix.normalize(
+    path.posix.join(path.posix.dirname(from), specifier),
+  );
+  const treeKey = `${root}\n${revision}`;
+  if (!originFilesCache.has(treeKey))
+    originFilesCache.set(
+      treeKey,
+      new Set(
+        childProcess
+          .execFileSync('git', ['ls-tree', '-r', '--name-only', revision], {
+            cwd: root,
+            encoding: 'utf8',
+            stdio: ['ignore', 'pipe', 'pipe'],
+          })
+          .split(/\r?\n/)
+          .filter(Boolean),
+      ),
+    );
+  const files = originFilesCache.get(treeKey);
+  for (const candidate of [
+    `${base}.ts`,
+    `${base}.tsx`,
+    `${base}/index.ts`,
+    `${base}/index.tsx`,
+    base,
+  ])
+    if (files.has(candidate)) {
+      originPathCache.set(cacheKey, candidate);
+      return candidate;
+    }
+  originPathCache.set(cacheKey, null);
+  return null;
+}
+
+function currentPath(root, from, specifier) {
+  if (!specifier.startsWith('.')) return null;
+  const base = path.posix.normalize(
+    path.posix.join(path.posix.dirname(from), specifier),
+  );
+  return (
+    [
+      `${base}.ts`,
+      `${base}.tsx`,
+      `${base}/index.ts`,
+      `${base}/index.tsx`,
+      base,
+    ].find((candidate) => fs.existsSync(path.join(root, candidate))) || null
+  );
+}
+
+function originReexports(source, file) {
+  const result = [];
+  for (const statement of sourceFile(file, source).statements) {
+    if (
+      !ts.isExportDeclaration(statement) ||
+      !statement.moduleSpecifier ||
+      !ts.isStringLiteralLike(statement.moduleSpecifier)
+    )
+      continue;
+    if (!statement.exportClause) {
+      result.push({
+        specifier: statement.moduleSpecifier.text,
+        exported: '*',
+        imported: '*',
+        kind: statement.isTypeOnly ? 'type' : 'runtime',
+      });
+      continue;
+    }
+    if (!ts.isNamedExports(statement.exportClause)) continue;
+    for (const element of statement.exportClause.elements)
+      result.push({
+        specifier: statement.moduleSpecifier.text,
+        exported: element.name.text,
+        imported: element.propertyName?.text || element.name.text,
+        kind: statement.isTypeOnly || element.isTypeOnly ? 'type' : 'runtime',
+      });
+  }
+  return result;
+}
+
+function originReexportsSymbol(
+  root,
+  revision,
+  file,
+  target,
+  symbol,
+  kind,
+  visited = new Set(),
+) {
+  const key = `${file}\n${symbol}\n${kind}`;
+  if (visited.has(key)) return false;
+  visited.add(key);
+  let source;
+  try {
+    source = gitShow(root, revision, file);
+  } catch {
+    return false;
+  }
+  if (file === target) {
+    const declarationKind = declarations(source, file).get(symbol);
+    return Boolean(
+      declarationKind && (kind === 'type' || declarationKind === 'runtime'),
+    );
+  }
+  return originReexports(source, file).some((item) => {
+    if (item.exported !== '*' && item.exported !== symbol) return false;
+    if (kind === 'runtime' && item.kind !== 'runtime') return false;
+    const resolved = originPath(root, revision, file, item.specifier);
+    return Boolean(
+      resolved &&
+        originReexportsSymbol(
+          root,
+          revision,
+          resolved,
+          target,
+          item.imported === '*' ? symbol : item.imported,
+          kind,
+          new Set(visited),
+        ),
+    );
   });
+}
+
+function currentExportKind(root, file, symbol, visited = new Set()) {
+  const key = `${file}\n${symbol}`;
+  if (visited.has(key)) return null;
+  visited.add(key);
+  const absolute = path.join(root, file);
+  if (!fs.existsSync(absolute)) return null;
+  const source = fs.readFileSync(absolute, 'utf8');
+  const direct = declarations(source, file).get(symbol);
+  if (direct) return direct;
+  for (const item of originReexports(source, file)) {
+    if (item.exported !== '*' && item.exported !== symbol) continue;
+    const resolved = currentPath(root, file, item.specifier);
+    if (!resolved) continue;
+    const targetKind = currentExportKind(
+      root,
+      resolved,
+      item.imported === '*' ? symbol : item.imported,
+      new Set(visited),
+    );
+    if (targetKind) return item.kind === 'type' ? 'type' : targetKind;
+  }
+  return null;
+}
+
+function gitShow(root, revision, file) {
+  const cacheKey = `${root}\n${revision}\n${file}`;
+  if (gitShowCache.has(cacheKey)) return gitShowCache.get(cacheKey);
+  const source = childProcess.execFileSync(
+    'git',
+    ['show', `${revision}:${file}`],
+    {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    },
+  );
+  gitShowCache.set(cacheKey, source);
+  return source;
 }
 
 function validateRelocations(root, value, inventory) {
@@ -229,10 +453,13 @@ function validateRelocations(root, value, inventory) {
     return { ledger, entries, validEntries: [], errors };
   }
 
-  const relocationByNew = new Map();
+  const relocationsByNew = new Map();
   for (const [index, entry] of entries.entries()) {
-    if (typeof entry?.newPath === 'string')
-      relocationByNew.set(entry.newPath, entry);
+    if (typeof entry?.newPath === 'string') {
+      if (!relocationsByNew.has(entry.newPath))
+        relocationsByNew.set(entry.newPath, []);
+      relocationsByNew.get(entry.newPath).push(entry);
+    }
     if (!entry || typeof entry !== 'object') {
       error('invalid-entry', 'Relocation entry must be an object', index);
       continue;
@@ -264,6 +491,27 @@ function validateRelocations(root, value, inventory) {
         'symbols must contain unique explicit identifiers',
         index,
       );
+    if (entry.originSymbols !== undefined) {
+      const aliases = entry.originSymbols;
+      if (
+        !aliases ||
+        typeof aliases !== 'object' ||
+        Array.isArray(aliases) ||
+        Object.entries(aliases).some(
+          ([current, origin]) =>
+            !entry.symbols.includes(current) ||
+            typeof origin !== 'string' ||
+            !/^[A-Za-z_$][\w$]*$/.test(origin),
+        ) ||
+        new Set(entry.symbols.map((symbol) => originSymbol(entry, symbol)))
+          .size !== entry.symbols.length
+      )
+        error(
+          'invalid-origin-symbols',
+          'originSymbols must map current symbols to unique origin identifiers',
+          index,
+        );
+    }
     if (!Array.isArray(entry.consumers) || !entry.consumers.length)
       error(
         'missing-consumers',
@@ -272,20 +520,35 @@ function validateRelocations(root, value, inventory) {
       );
   }
 
-  const duplicatePaths = new Set();
-  for (const entry of entries) {
-    for (const candidate of entries)
-      if (
-        candidate !== entry &&
-        (candidate.oldPath === entry.oldPath ||
-          candidate.newPath === entry.newPath)
-      )
-        duplicatePaths.add(entry.oldPath || entry.newPath);
-  }
-  for (const duplicate of duplicatePaths)
-    error('duplicate-relocation', `Duplicate relocation path: ${duplicate}`);
+  for (let left = 0; left < entries.length; left++)
+    for (let right = left + 1; right < entries.length; right++) {
+      const a = entries[left],
+        b = entries[right];
+      if (a.oldPath !== b.oldPath && a.newPath !== b.newPath) continue;
+      const aSymbols =
+        a.oldPath === b.oldPath
+          ? (a.symbols || []).map((symbol) => originSymbol(a, symbol))
+          : a.symbols || [];
+      const bSymbols =
+        a.oldPath === b.oldPath
+          ? (b.symbols || []).map((symbol) => originSymbol(b, symbol))
+          : b.symbols || [];
+      const overlap = aSymbols.filter((symbol) => bSymbols.includes(symbol));
+      if (!overlap.length) continue;
+      for (const index of [left, right])
+        error(
+          'overlapping-relocation',
+          `Relocations sharing an endpoint overlap symbols: ${overlap.join(', ')}`,
+          index,
+        );
+    }
 
   const imports = inventory?.imports || [];
+  const relocationTargets = new Set(entries.map((entry) => entry.newPath));
+  refineCurrentImportEdges(
+    root,
+    imports.filter((edge) => relocationTargets.has(edge.resolved)),
+  );
   for (const [entryIndex, entry] of entries.entries()) {
     if (!entry?.oldPath || !entry?.newPath || !Array.isArray(entry.symbols))
       continue;
@@ -301,13 +564,15 @@ function validateRelocations(root, value, inventory) {
       continue;
     }
     const originDeclarations = declarations(originSource, entry.oldPath);
-    for (const symbol of entry.symbols)
-      if (!originDeclarations.has(symbol))
+    for (const symbol of entry.symbols) {
+      const original = originSymbol(entry, symbol);
+      if (!originDeclarations.has(original))
         error(
           'origin-symbol-not-declared',
-          `${entry.oldPath} did not export ${symbol} at originSha`,
+          `${entry.oldPath} did not export ${original} at originSha`,
           entryIndex,
         );
+    }
 
     const newAbsolute = path.join(root, entry.newPath);
     const oldAbsolute = path.join(root, entry.oldPath);
@@ -319,17 +584,15 @@ function validateRelocations(root, value, inventory) {
       );
       continue;
     }
-    const currentNew = fs.readFileSync(newAbsolute, 'utf8');
-    const currentDeclarations = declarations(currentNew, entry.newPath);
     for (const symbol of entry.symbols) {
-      if (!currentDeclarations.has(symbol))
+      const currentKind = currentExportKind(root, entry.newPath, symbol);
+      if (!currentKind)
         error(
           'new-symbol-not-exported',
           `${entry.newPath} does not export ${symbol}`,
           entryIndex,
         );
-      const originKind = originDeclarations.get(symbol);
-      const currentKind = currentDeclarations.get(symbol);
+      const originKind = originDeclarations.get(originSymbol(entry, symbol));
       if (originKind && currentKind && originKind !== currentKind)
         error(
           'declaration-kind-changed',
@@ -448,14 +711,14 @@ function validateRelocations(root, value, inventory) {
           edge.from === consumer.from &&
           edge.resolved === entry.newPath &&
           (!consumer.syntax || edge.syntax === consumer.syntax) &&
-          edge.kinds.some((kind) => (consumer.kinds || []).includes(kind)),
+          edgeKinds(edge).some((kind) => (consumer.kinds || []).includes(kind)),
       );
       const actualKinds = uniqueSorted(
-        currentEdges.flatMap((edge) => edge.kinds),
+        currentEdges.flatMap((edge) => edgeKinds(edge)),
       );
       const actualSymbols = uniqueSorted(
         currentEdges.flatMap((edge) =>
-          edge.kinds.flatMap((kind) => edgeBindings(edge, kind)),
+          edgeKinds(edge).flatMap((kind) => edgeBindings(edge, kind)),
         ),
       );
       if (
@@ -471,15 +734,24 @@ function validateRelocations(root, value, inventory) {
           consumerIndex,
         );
 
+      const possibleOrigins = [
+        ...new Set(
+          (relocationsByNew.get(consumer.from) || []).map(
+            (item) => item.oldPath,
+          ),
+        ),
+      ];
       const originFrom =
-        relocationByNew.get(consumer.from)?.oldPath || consumer.from;
+        possibleOrigins.length === 1 ? possibleOrigins[0] : consumer.from;
       if (originFrom === entry.oldPath) {
         if ((consumer.kinds || []).includes('runtime'))
           for (const symbol of consumer.symbols || [])
-            if (originDeclarations.get(symbol) !== 'runtime')
+            if (
+              originDeclarations.get(originSymbol(entry, symbol)) !== 'runtime'
+            )
               error(
                 'origin-symbol-not-runtime',
-                `${entry.oldPath} did not expose ${symbol} as a runtime declaration`,
+                `${entry.oldPath} did not expose ${originSymbol(entry, symbol)} as a runtime declaration`,
                 entryIndex,
                 consumerIndex,
               );
@@ -496,20 +768,40 @@ function validateRelocations(root, value, inventory) {
           );
           continue;
         }
-        const imported = importedBindings(originConsumer, originFrom).filter(
-          (item) => resolvesTo(originFrom, item.specifier, entry.oldPath),
-        );
+        const imported = importedBindings(originConsumer, originFrom);
         for (const kind of consumer.kinds || []) {
-          const bindings = imported.flatMap((item) =>
-            kind === 'runtime'
-              ? item.runtimeBindings
-              : [...item.typeBindings, ...item.runtimeBindings],
-          );
           for (const symbol of consumer.symbols || [])
-            if (!bindings.includes(symbol) && !bindings.includes('*'))
+            if (
+              !imported.some((item) => {
+                const original = originSymbol(entry, symbol);
+                const bindings =
+                  kind === 'runtime'
+                    ? item.runtimeBindings
+                    : [...item.typeBindings, ...item.runtimeBindings];
+                if (!bindings.includes(original) && !bindings.includes('*'))
+                  return false;
+                const resolved = originPath(
+                  root,
+                  ledger.originSha,
+                  originFrom,
+                  item.specifier,
+                );
+                return Boolean(
+                  resolved &&
+                    originReexportsSymbol(
+                      root,
+                      ledger.originSha,
+                      resolved,
+                      entry.oldPath,
+                      original,
+                      kind,
+                    ),
+                );
+              })
+            )
               error(
                 'origin-consumer-kind-mismatch',
-                `${originFrom} did not import ${symbol} as ${kind} from ${entry.oldPath}`,
+                `${originFrom} did not import ${originSymbol(entry, symbol)} as ${kind} from ${entry.oldPath}`,
                 entryIndex,
                 consumerIndex,
               );
@@ -543,7 +835,7 @@ function applyRelocations(inventory, entries) {
   const debtKeys = new Set();
   const imports = inventory.imports.map((edge) => {
     const candidates = consumers.get(`${edge.from}\n${edge.resolved}`) || [];
-    const actualKinds = edge.kinds;
+    const actualKinds = edgeKinds(edge);
     const actualSymbols = uniqueSorted(
       actualKinds.flatMap((kind) => edgeBindings(edge, kind)),
     );

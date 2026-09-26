@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { METRIC_VERSION, normalizeRole } from '../../../core/metrics';
+import { METRIC_VERSION } from '../contracts/metric-contract';
+import { normalizeRole } from '../contracts/eligibility';
 import { MatchRepository } from '../repositories/match.repository';
 import { computeContribution } from '../pure/contribution-calculator';
 import { MatchContributionDto } from '../dto/match-contribution.dto';

@@ -31,6 +31,7 @@ export function historicalDatasetFixture(): DatasetInput {
     timeline,
     participantMap,
     participantTeams,
+    PROCESSING_VERSION,
   );
   return {
     ...parseMatchData(summary),

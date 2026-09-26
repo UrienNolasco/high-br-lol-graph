@@ -8,7 +8,7 @@ import {
   metricValue,
   ratioMetric,
   unavailableMetric,
-} from '../../../core/metrics';
+} from '../contracts/metric-contract';
 
 export const COMBAT_METRIC_VERSION = 1;
 export interface CombatParticipant {

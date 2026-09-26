@@ -1,5 +1,5 @@
 import { ApiExtraModels, ApiProperty } from '@nestjs/swagger';
-import { MetricResultDto } from '../../../core/metrics/metric-result.dto';
+import { MetricResultDto } from './metric-result.dto';
 export class ProgressionEventDto {
   @ApiProperty() eventId: string;
   @ApiProperty() frameIndex: number;

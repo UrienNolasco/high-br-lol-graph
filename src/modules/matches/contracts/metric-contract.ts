@@ -1,5 +1,3 @@
-import { PROCESSING_VERSION } from '../processing/processing.constants';
-
 /** Definition version, independent from the persisted projection version. */
 export const METRIC_VERSION = 1;
 export const METRIC_ORIGINS = [
@@ -117,8 +115,8 @@ export function metricQuality(
 }
 
 export function metricContext(
-  input: Omit<MetricContext, 'metricVersion' | 'processingVersion'> &
-    Partial<Pick<MetricContext, 'metricVersion' | 'processingVersion'>>,
+  input: Omit<MetricContext, 'metricVersion'> &
+    Partial<Pick<MetricContext, 'metricVersion'>>,
 ): MetricContext {
   if (!Number.isFinite(Date.parse(input.processedAt)))
     throw new RangeError('Invalid processing timestamp');
@@ -130,7 +128,6 @@ export function metricContext(
   return {
     ...input,
     metricVersion: input.metricVersion ?? METRIC_VERSION,
-    processingVersion: input.processingVersion ?? PROCESSING_VERSION,
   };
 }
 

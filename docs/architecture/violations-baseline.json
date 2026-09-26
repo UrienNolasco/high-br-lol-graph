@@ -4,14 +4,6 @@
   "description": "Temporary violations present when ARQ-02 was introduced. Entries may only be removed; ARQ-13 requires zero.",
   "entries": [
     {
-      "id": "area-reciprocity:181c8364d8ee2b0b385a",
-      "rule": "area-reciprocity",
-      "from": "analytics",
-      "to": "matches",
-      "owner": "architecture",
-      "removalCard": "ARQ-06"
-    },
-    {
       "id": "area-reciprocity:3d6442ae4197b182e250",
       "rule": "area-reciprocity",
       "from": "core/stats",
@@ -42,22 +34,6 @@
       "to": "external:@prisma/client",
       "owner": "references",
       "removalCard": "ARQ-12"
-    },
-    {
-      "id": "contract-transitive-purity:1cdc229f7928e119de25",
-      "rule": "contract-transitive-purity",
-      "from": "src/modules/references/reference-contract.ts",
-      "to": "src/core/processing/processing.constants.ts",
-      "owner": "references",
-      "removalCard": "ARQ-12"
-    },
-    {
-      "id": "contract-transitive-purity:d63de41fbae4e651b0c0",
-      "rule": "contract-transitive-purity",
-      "from": "src/core/metrics/metric-contract.ts",
-      "to": "src/core/processing/processing.constants.ts",
-      "owner": "core/metrics",
-      "removalCard": "ARQ-04"
     },
     {
       "id": "core-no-modules:2879bc4ed2e31ca3e69f",
@@ -260,14 +236,6 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "cross-module-internal-import:6e9cfcb60244803fd2ec",
-      "rule": "cross-module-internal-import",
-      "from": "src/modules/matches/pure/performance-calculator.ts",
-      "to": "src/modules/analytics/pure/cohort-calculator.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-06"
-    },
-    {
       "id": "cross-module-internal-import:70e7a3aeeef1cb41b1dd",
       "rule": "cross-module-internal-import",
       "from": "scripts/example-references.ts",
@@ -412,52 +380,12 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "domain-no-framework-or-adapter:00c51ac67e91ddd29a17",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/contribution-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:011f4a53de8923ba1920",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/episode-resources.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:0725a796b1049969f293",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/economy-calculator.ts",
-      "to": "src/core/metrics/metric-contract.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:09842c3db0e1d232bf70",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/map-region-definition.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
       "id": "domain-no-framework-or-adapter:0de0aa9b40e9acfbcc6b",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/matches/pure/report/report-families.ts",
       "to": "src/core/riot/timeline-snapshots.ts",
       "owner": "matches",
       "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:10b262bf69c99399d744",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/report/report-summary.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
     },
     {
       "id": "domain-no-framework-or-adapter:1e644fb409c58852df9d",
@@ -474,38 +402,6 @@
       "to": "src/core/data-dragon/item-catalog.ts",
       "owner": "matches",
       "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:26bc5a3cbb2e3b3f4e95",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/indicators/pure/indicator-history.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "indicators",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:2fdd5e405bd9f3a0bc09",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/analytics/pure/historical-solo.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:38632328679f48205b63",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/progression/progression-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:3d649a25b30a01cff97a",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/bounties-steals-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
     },
     {
       "id": "domain-no-framework-or-adapter:4075501940ef69b3aa4d",
@@ -554,38 +450,6 @@
       "to": "src/modules/players/dto/player-activity.dto.ts",
       "owner": "players",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:64906de156df46d43b2e",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/gold-calculator.ts",
-      "to": "src/core/metrics/metric-contract.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:67373d84bc838748e8d1",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/bounty-windows.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:731938db6120b08c0d04",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/objectives-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:768dcb1c319a80cbbe51",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/economy-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
     },
     {
       "id": "domain-no-framework-or-adapter:79646bb3be503484936f",
@@ -652,22 +516,6 @@
       "removalCard": "ARQ-13"
     },
     {
-      "id": "domain-no-framework-or-adapter:acee081d0eb79196caa2",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/report/report-episodes.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:af5563284467f1fd4299",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/sequences-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
       "id": "domain-no-framework-or-adapter:b4945a592049ca62756a",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/worker/pure/match.parser.ts",
@@ -708,52 +556,12 @@
       "removalCard": "ARQ-13"
     },
     {
-      "id": "domain-no-framework-or-adapter:bef1d4b65737d986b51f",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/vision-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:d22fc1c940970dfb40c8",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/kill-episodes-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:d438c3e82313ff3ac4d9",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/worker/pure/match.parser.ts",
-      "to": "src/core/metrics/champion-population.ts",
-      "owner": "worker",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:d6207f4016205aa4cd71",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/performance-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
       "id": "domain-no-framework-or-adapter:d86da6fe9a5ff36dd947",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/matches/pure/report/report-navigation.ts",
       "to": "external:@nestjs/common",
       "owner": "matches",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:dabbd6a69b7f44746200",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/analytics/pure/cohort-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-04"
     },
     {
       "id": "domain-no-framework-or-adapter:dd11256933266863e5c3",
@@ -764,44 +572,12 @@
       "removalCard": "ARQ-13"
     },
     {
-      "id": "domain-no-framework-or-adapter:e6b9f1830a11d1924a7b",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/contribution-calculator.ts",
-      "to": "src/core/metrics/metric-contract.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:f04b16d489653215d56e",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/indicators/pure/indicator-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "indicators",
-      "removalCard": "ARQ-04"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:f253c7334903f7b48c34",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/map-presence-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
-    },
-    {
       "id": "domain-no-framework-or-adapter:fa74b5fa8e81d4ac9e2b",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/matches/pure/builds.mapper.ts",
       "to": "src/core/data-dragon/item-catalog.ts",
       "owner": "matches",
       "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:fd14cda2284ee6571c5c",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/combat-calculator.ts",
-      "to": "src/core/metrics/index.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-04"
     },
     {
       "id": "domain-no-framework-or-adapter:fe48565a4b9b4c30acd9",

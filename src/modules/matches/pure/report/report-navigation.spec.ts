@@ -3,7 +3,7 @@ import {
   metricContext,
   metricQuality,
   ratioMetric,
-} from '../../../../core/metrics';
+} from '../../contracts/metric-contract';
 import {
   collectEvidence,
   compactSection,

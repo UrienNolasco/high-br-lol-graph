@@ -41,9 +41,25 @@ const synthetic = (events: object[], duplicateFrame = false): TimelineDto =>
   }) as TimelineDto;
 
 describe('MET04 source event normalization', () => {
+  it('preserves the supplied processing generation independently of metric version', () => {
+    const raw = synthetic([{ type: 'FUTURE_EVENT', timestamp: 5 }]);
+    const rows = normalizeTimelineEvents(raw, new Map(), new Map(), {
+      processingVersion: 79,
+    });
+    expect(rows[0]).toMatchObject({ processingVersion: 79, metricVersion: 1 });
+    const parsed = new TimelineParserService().parseTimeline(
+      raw,
+      new Map(),
+      new Map(),
+      79,
+    );
+    expect(parsed.normalizedEvents[0].processingVersion).toBe(79);
+  });
   it('round-trips every payload of the real 41-frame/1966-event fixture with source identity', () => {
     const before = JSON.stringify(fixture);
-    const rows = normalizeTimelineEvents(fixture, puuids, teams);
+    const rows = normalizeTimelineEvents(fixture, puuids, teams, {
+      processingVersion: 4,
+    });
     expect(fixture.info.frames).toHaveLength(41);
     expect(rows).toHaveLength(1966);
     expect(
@@ -86,7 +102,14 @@ describe('MET04 source event normalization', () => {
       ],
       true,
     );
-    const result = normalizeTimelineEvents(raw, new Map([[1, 'a']]));
+    const result = normalizeTimelineEvents(
+      raw,
+      new Map([[1, 'a']]),
+      new Map(),
+      {
+        processingVersion: 4,
+      },
+    );
     expect(result).toHaveLength(4);
     expect(result.map((e) => [e.frameIndex, e.eventIndex])).toEqual([
       [0, 0],
@@ -135,6 +158,8 @@ describe('MET04 source event normalization', () => {
         [0, 'must-not-be-used'],
         [1, 'a'],
       ]),
+      new Map(),
+      { processingVersion: 4 },
     );
     expect(rows[0]).toMatchObject({
       actorParticipantId: null,
@@ -179,6 +204,7 @@ describe('MET04 source event normalization', () => {
         [1, 100],
         [2, 200],
       ]),
+      { processingVersion: 4 },
     );
     expect(rows[0]).toMatchObject({
       actorParticipantId: 99,
@@ -223,6 +249,7 @@ describe('MET04 source event normalization', () => {
       ]),
       new Map([[1, 'a']]),
       new Map([[1, 100]]),
+      { processingVersion: 4 },
     );
     expect(rows[0]).toMatchObject({
       positionX: null,
@@ -245,6 +272,8 @@ describe('MET04 source event normalization', () => {
         [1, 'a'],
         [2, 'b'],
       ]),
+      new Map(),
+      4,
     );
     expect(parsed.normalizedEvents).toHaveLength(1);
     expect(parsed.normalizedEvents[0]).toMatchObject({
@@ -262,6 +291,7 @@ describe('MET04 source event normalization', () => {
       fixture,
       puuids,
       teams,
+      4,
     );
     expect(parsed.normalizedEvents).toHaveLength(1966);
     expect(

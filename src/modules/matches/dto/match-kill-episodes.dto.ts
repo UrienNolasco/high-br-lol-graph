@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { MetricResultDto } from '../../../core/metrics/metric-result.dto';
+import { MetricResultDto } from './metric-result.dto';
 export class EpisodeThresholdsDto {
   @ApiProperty({ enum: ['tight', 'default', 'loose'] }) profile: string;
   @ApiProperty({ example: 15000 }) gapMs: number;

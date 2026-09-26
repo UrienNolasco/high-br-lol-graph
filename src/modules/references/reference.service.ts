@@ -9,13 +9,14 @@ import {
   datasetWhere,
   unmaterializedMatchWhere,
 } from '../../core/dataset/dataset-query';
-import { PROCESSING_VERSION } from '../../core/processing/processing.constants';
+import { DATASET_PROCESSING_VERSION } from '../dataset/contracts/processing';
 import {
   finalVisionField,
   visionInvestmentContext,
-} from '../../core/statistics/vision-investment';
-import { calculateReference, ReferenceRow } from './reference-calculator';
-import { ReferenceQuery } from './reference-contract';
+} from './contracts/statistics';
+import { calculateReference } from './reference-calculator';
+import type { ReferenceRow } from './reference-calculator';
+import type { ReferenceQuery } from './reference-contract';
 export const REFERENCE_MAX_CANDIDATES = 10000;
 @Injectable()
 export class ReferenceService {
@@ -158,7 +159,7 @@ export class ReferenceService {
         );
         return {
           datasetVersion: DATASET_VERSION,
-          processingVersion: PROCESSING_VERSION,
+          processingVersion: DATASET_PROCESSING_VERSION,
           maximumCandidateRows: REFERENCE_MAX_CANDIDATES,
           ...result,
           visionInvestmentPolicy: query.definition.metricId.startsWith('V')

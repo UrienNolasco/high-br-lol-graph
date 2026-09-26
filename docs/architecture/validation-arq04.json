@@ -1,0 +1,50 @@
+{
+  "baseSha": "94ac3c1",
+  "branch": "task/arq-04",
+  "checks": [
+    {
+      "command": "npm run build",
+      "passed": true
+    },
+    {
+      "command": "isolated tsc --noEmit for metric, eligibility, temporal, cohort, reference and math contracts",
+      "passed": true
+    },
+    {
+      "command": "npm test -- --runInBand",
+      "passed": true,
+      "tests": 618,
+      "suites": 100,
+      "seconds": 30.61
+    },
+    {
+      "command": "npm run test:e2e -- --runInBand",
+      "passed": true,
+      "tests": 160,
+      "suites": 27,
+      "seconds": 18.356
+    },
+    {
+      "command": "npm run test:architecture",
+      "passed": true,
+      "tests": 41
+    },
+    {
+      "command": "ARCHITECTURE_BASE_REF=94ac3c1 npm run architecture:check",
+      "passed": true,
+      "existingViolations": 84,
+      "newViolations": 0,
+      "staleEntries": 0,
+      "baselineGrowth": 0,
+      "transitionalBridges": 34,
+      "relocationErrors": 0
+    }
+  ],
+  "notes": [
+    "Baseline reduced from112 to84; analytics/matches reciprocity removed by extracting perMinute.",
+    "Metric and event calculations receive processing metadata explicitly. Dataset query support remains exact generation4, independent of job execution.",
+    "Existing >=4 feature policies, formulas, schemas, routes and versions preserved.",
+    "Study implementation hashes now name moved files; data protocol/features unchanged; study tests passed.",
+    "Whole-project tsc --noEmit includes preexisting test/mock typing diagnostics; production build and isolated contracts compile."
+  ]
+}

@@ -9,6 +9,7 @@ import { ProcessingService } from '../../../core/processing/processing.service';
 import {
   InvalidMatchError,
   MissingTimelineError,
+  PROCESSING_VERSION,
 } from '../../../core/processing/processing.constants';
 import { MatchDto } from '../../../core/riot/dto/match.dto';
 import { TimelineDto } from '../../../core/riot/dto/timeline.dto';
@@ -76,6 +77,7 @@ export class WorkerService {
           new Map(
             summary.info.participants.map((p) => [p.participantId, p.teamId]),
           ),
+          PROCESSING_VERSION,
         ),
         timeline,
         offline,

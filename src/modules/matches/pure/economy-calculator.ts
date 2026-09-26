@@ -1,16 +1,15 @@
 import {
   assessRemake,
+  normalizeRole,
+  selectUniqueOpponent,
+} from '../contracts/eligibility';
+import {
   CHECKPOINT_TOLERANCE_MS,
   CheckpointMode,
-  metricQuality,
-  normalizeRole,
   selectCheckpoint,
-  selectUniqueOpponent,
-} from '../../../core/metrics';
-import {
-  MetricEvidence,
-  MetricQuality,
-} from '../../../core/metrics/metric-contract';
+} from '../contracts/temporal';
+import { metricQuality } from '../contracts/metric-contract';
+import { MetricEvidence, MetricQuality } from '../contracts/metric-contract';
 import type {
   ParticipantSnapshot,
   SnapshotFrame,

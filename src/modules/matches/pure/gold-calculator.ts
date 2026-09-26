@@ -1,4 +1,4 @@
-import { metricQuality } from '../../../core/metrics/metric-contract';
+import { metricQuality } from '../contracts/metric-contract';
 import type { TimelineSnapshotProjection } from '../contracts/normalized-snapshots';
 
 export interface GoldParticipant {

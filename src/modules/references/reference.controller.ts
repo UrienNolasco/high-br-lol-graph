@@ -11,7 +11,7 @@ import {
   DEFAULT_PRECISION,
   REFERENCE_METHOD_VERSION,
   requiredReferenceUnits,
-} from '../../core/statistics/empirical-reference';
+} from './contracts/statistics';
 @ApiTags('Historical references')
 @Controller('api/v1/references')
 export class ReferenceController {

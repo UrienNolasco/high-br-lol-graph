@@ -40,7 +40,12 @@ describe('MET03 snapshot transactional round-trip', () => {
     return {
       summary,
       timeline,
-      parsed: new TimelineParserService().parseTimeline(timeline, participants),
+      parsed: new TimelineParserService().parseTimeline(
+        timeline,
+        participants,
+        new Map(),
+        4,
+      ),
     };
   };
   beforeAll(async () => {

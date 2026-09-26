@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { METRIC_ORIGINS } from './metric-contract';
+import { METRIC_ORIGINS } from '../contracts/metric-contract';
 import { METRIC_RESPONSE_EXAMPLES } from './metric-examples';
 import type {
   MetricContext,
   MetricOrigin,
   MissingReason,
   MetricUnit,
-} from './metric-contract';
+} from '../contracts/metric-contract';
 
 /** Shared documented envelope; legacy response DTOs keep their original shapes. */
 export class MetricResultDto implements MetricContext {

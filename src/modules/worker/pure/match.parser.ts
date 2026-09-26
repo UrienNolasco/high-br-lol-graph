@@ -10,7 +10,7 @@ import { projectFinalInventory } from '../../../core/riot/final-inventory';
 import {
   championPopulationEligibility,
   bansAvailable,
-} from '../../../core/metrics/champion-population';
+} from '../../matches/contracts/champion-population';
 
 export function buildParticipantMap(
   timelinePuuids: string[],

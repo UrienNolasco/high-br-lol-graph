@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { ChampionStatsRepository } from '../repositories/champion-stats.repository';
-import { gameVersionPatch } from '../../../core/metrics';
+import { gameVersionPatch } from '../../matches/contracts/eligibility';
 
 export interface ChampionMetrics {
   winRate: number | null;

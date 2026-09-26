@@ -5,7 +5,7 @@ import {
   ratioMetric,
   unavailableMetric,
 } from './metric-contract';
-import { METRIC_RESPONSE_EXAMPLES } from './metric-examples';
+import { METRIC_RESPONSE_EXAMPLES } from '../dto/metric-examples';
 import {
   selectCheckpoint,
   temporalWindow,
@@ -16,7 +16,6 @@ import {
   assessRemake,
   gameVersionPatch,
   normalizeRole,
-  selectCohort,
   selectUniqueOpponent,
 } from './eligibility';
 
@@ -138,7 +137,7 @@ describe('temporal eligibility', () => {
   });
 });
 
-describe('cohort and remake eligibility', () => {
+describe('role and remake eligibility', () => {
   const middle = { teamId: 100, role: 'MID' };
   it('canonicalizes aliases without inventing roles or opponents', () => {
     expect(normalizeRole('mid')).toBe('MIDDLE');
@@ -156,43 +155,6 @@ describe('cohort and remake eligibility', () => {
     expect(
       selectUniqueOpponent({ teamId: 0, role: 'MID' }, [middle]).reason,
     ).toBe('ambiguous_role');
-  });
-  it('selects one deterministic distinct-match cohort with exact patch and half-open period', () => {
-    const base = {
-      region: 'BR',
-      queueId: 420,
-      mapId: 11,
-      gameVersion: null,
-      patch: '16.2',
-      championId: 1,
-      role: 'MIDDLE' as const,
-      collectionSource: null,
-      gameCreation: 50,
-    };
-    const filter = {
-      dimensions: { patch: '16.2', collectionSource: null },
-      fromMs: 0,
-      toMs: 100,
-    };
-    const selected = selectCohort(
-      [
-        { ...base, matchId: 'b' },
-        { ...base, matchId: 'a' },
-        { ...base, matchId: 'a' },
-        { ...base, matchId: 'c', patch: '16.20' },
-        { ...base, matchId: 'd', gameCreation: 100 },
-      ],
-      filter,
-      1,
-    );
-    expect(selected).toMatchObject({
-      eligibleN: 2,
-      returnedN: 1,
-      truncated: true,
-      matches: [{ matchId: 'a' }],
-    });
-    expect(gameVersionPatch('16.20.123')).toBe('16.20');
-    expect(gameVersionPatch('26.x')).toBeNull();
   });
   it('keeps surrender and short games distinct from remake and leaves unsupported rules explicit', () => {
     const input = {

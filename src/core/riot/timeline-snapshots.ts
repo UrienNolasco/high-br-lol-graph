@@ -1,5 +1,5 @@
-import { selectCheckpoint } from '../metrics';
-import type { CheckpointMode } from '../metrics';
+import { selectCheckpoint } from '../../modules/matches/contracts/temporal';
+import type { CheckpointMode } from '../../modules/matches/contracts/temporal';
 import type {
   ParticipantSnapshot,
   SnapshotFrame,

@@ -41,6 +41,7 @@ describe('MET16 progression calculations', () => {
       new Map(
         summary.info.participants.map((p) => [p.participantId, p.teamId]),
       ),
+      { processingVersion: 2 },
     )
       .filter((e) => PROGRESSION_EVENT_TYPES.includes(e.type ?? ''))
       .map((e) => ({ ...e, processingVersion: 2 }));

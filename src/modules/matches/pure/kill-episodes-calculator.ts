@@ -5,7 +5,7 @@ import {
   metricQuality,
   metricValue,
   unavailableMetric,
-} from '../../../core/metrics';
+} from '../contracts/metric-contract';
 import {
   CombatEvent,
   CombatInput,

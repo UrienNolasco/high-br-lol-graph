@@ -1,4 +1,5 @@
-import { normalizeRole, metricQuality } from '../../../../core/metrics';
+import { normalizeRole } from '../../contracts/eligibility';
+import { metricQuality } from '../../contracts/metric-contract';
 import {
   ReportInput,
   ReportOptions,

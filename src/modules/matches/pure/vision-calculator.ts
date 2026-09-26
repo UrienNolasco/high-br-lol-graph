@@ -5,7 +5,7 @@ import {
   metricValue,
   unavailableMetric,
   ratioMetric,
-} from '../../../core/metrics';
+} from '../contracts/metric-contract';
 export const VISION_DEFINITION_VERSION = 1;
 export const VISION_WARD_TYPES = [
   'SIGHT_WARD',

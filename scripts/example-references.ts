@@ -12,7 +12,7 @@ import {
   referenceQueryFixture,
   referenceRowFixture,
 } from '../test/fixtures/references';
-import { visionInvestmentContext } from '../src/core/statistics/vision-investment';
+import { visionInvestmentContext } from '../src/modules/references/contracts/statistics';
 const fixture = historicalDatasetFixture();
 const source = buildHistoricalDataset(fixture).find(
   (r) =>

@@ -5,7 +5,7 @@ import {
 } from '../../matches/pure/combat-calculator';
 import { CombatSource, combatInput } from '../../matches/pure/combat-source';
 import { observation } from './cohort-calculator';
-import { metricQuality } from '../../../core/metrics';
+import { metricQuality } from '../../matches/contracts/metric-contract';
 export interface SoloCohortRow {
   matchId: string;
   puuid: string;

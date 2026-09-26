@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { normalizeTimelineEvents } from '../../src/core/riot/normalized-events';
 import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
 import { BountiesStealsInput } from '../../src/modules/matches/pure/bounties-steals-calculator';
+import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 export function bountiesFixture(): BountiesStealsInput {
   const summary = JSON.parse(
     readFileSync(
@@ -20,6 +21,7 @@ export function bountiesFixture(): BountiesStealsInput {
     timeline,
     new Map(summary.info.participants.map((p) => [p.participantId, p.puuid])),
     new Map(summary.info.participants.map((p) => [p.participantId, p.teamId])),
+    { processingVersion: PROCESSING_VERSION },
   );
   return {
     matchId: summary.metadata.matchId,

@@ -1,4 +1,4 @@
-import { metricQuality } from '../../../../core/metrics';
+import { metricQuality } from '../../contracts/metric-contract';
 import {
   ReportInput,
   ReportOptions,

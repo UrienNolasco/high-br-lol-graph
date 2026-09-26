@@ -4,10 +4,11 @@ import {
   metricValue,
   ratioMetric,
   unavailableMetric,
-} from './metric-contract';
+} from '../contracts/metric-contract';
 
 const context = metricContext({
   metricId: 'V03',
+  processingVersion: 4,
   matchId: 'synthetic-contract-fixture',
   subject: { kind: 'participant', id: 'fixture-player' },
   unit: 'count',

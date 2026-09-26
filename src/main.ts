@@ -10,8 +10,8 @@ import { Logger, PinoLogger } from 'nestjs-pino';
 import pino from 'pino';
 import { TraceIdMiddleware, SERVICE_NAMES } from './core/logger';
 import { getErrorMessage } from './core/logger/get-error-message';
-import { MetricResultDto } from './core/metrics/metric-result.dto';
-import { METRIC_OPENAPI_EXAMPLES } from './core/metrics/metric-result.dto';
+import { MetricResultDto } from './modules/matches/dto/metric-result.dto';
+import { METRIC_OPENAPI_EXAMPLES } from './modules/matches/dto/metric-result.dto';
 import {
   ParticipantSnapshotDto,
   TimelineSnapshotProjectionDto,

@@ -1,11 +1,11 @@
 import { createHash } from 'node:crypto';
 import {
-  ReferenceObservation,
   referenceStatistics,
   selectRosterDisjoint,
   REFERENCE_METHOD_VERSION,
-} from '../../core/statistics/empirical-reference';
-import { ReferenceQuery } from './reference-contract';
+} from './contracts/statistics';
+import type { ReferenceObservation } from './contracts/statistics';
+import type { ReferenceQuery } from './reference-contract';
 import { DATASET_DEFINITION_MAP } from '../../core/dataset/dataset-registry';
 export interface ReferenceRow extends ReferenceObservation {
   processedAt: Date;

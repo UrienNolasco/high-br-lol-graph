@@ -1,4 +1,4 @@
-import { gameVersionPatch } from '../../../core/metrics';
+import { gameVersionPatch } from '../contracts/eligibility';
 
 export type Point = { x: number; y: number };
 export interface MapRegion {

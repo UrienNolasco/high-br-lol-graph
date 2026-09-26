@@ -1,4 +1,4 @@
-import { MissingReason } from '../../../core/metrics';
+import { MissingReason } from '../contracts/metric-contract';
 export interface BountyBoundary {
   eventId: string;
   type: 'OBJECTIVE_BOUNTY_PRESTART' | 'OBJECTIVE_BOUNTY_FINISH';
