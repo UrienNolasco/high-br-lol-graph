@@ -41,6 +41,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -53,6 +55,13 @@ jobs:
 
       - name: Generate Prisma client
         run: npx prisma generate
+
+      - name: Enforce architecture boundaries
+        env:
+          ARCHITECTURE_BASE_REF: ${{ github.event.before }}
+        run: |
+          npm run test:architecture
+          npm run architecture:check
 
       - name: Verify production build entrypoints
         run: |

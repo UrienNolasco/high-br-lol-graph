@@ -57,8 +57,8 @@ function posix(value) {
   return value.split(path.sep).join('/');
 }
 
-function relative(file) {
-  return posix(path.relative(ROOT, file));
+function relative(file, root = ROOT) {
+  return posix(path.relative(root, file));
 }
 
 function walk(directory) {
@@ -125,23 +125,38 @@ function scriptKind(file) {
   return ts.ScriptKind.TS;
 }
 
-function resolveLocal(fromAbsolute, specifier, knownFiles) {
-  if (!specifier.startsWith('.')) return null;
+function resolveLocal(
+  fromAbsolute,
+  specifier,
+  knownFiles,
+  root = ROOT,
+  compilerOptions = {},
+) {
   const compiled = /^\.\.\/dist\/(.+)$/.exec(specifier);
-  const base = compiled
-    ? path.join(ROOT, 'src', compiled[1])
-    : path.resolve(path.dirname(fromAbsolute), specifier);
-  const candidates = [
-    base,
-    ...['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'].map(
-      (extension) => base + extension,
-    ),
-    ...['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'].map((extension) =>
-      path.join(base, `index${extension}`),
-    ),
-  ];
+  const candidates = [];
+  if (compiled || specifier.startsWith('.')) {
+    const base = compiled
+      ? path.join(root, 'src', compiled[1])
+      : path.resolve(path.dirname(fromAbsolute), specifier);
+    candidates.push(
+      base,
+      ...['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'].map(
+        (extension) => base + extension,
+      ),
+      ...['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'].map((extension) =>
+        path.join(base, `index${extension}`),
+      ),
+    );
+  }
+  const resolved = ts.resolveModuleName(
+    specifier,
+    fromAbsolute,
+    compilerOptions,
+    ts.sys,
+  ).resolvedModule?.resolvedFileName;
+  if (resolved) candidates.push(resolved.replace(/\.d\.ts$/, '.ts'));
   for (const candidate of candidates) {
-    const candidateRelative = relative(candidate);
+    const candidateRelative = relative(candidate, root);
     if (knownFiles.has(candidateRelative)) return candidateRelative;
   }
   return null;
@@ -207,9 +222,9 @@ function literalDecoratorArgument(decorator) {
   return argument.getText();
 }
 
-function moduleMetadata(sourceFile, classNode, decorator) {
+function moduleMetadata(sourceFile, classNode, decorator, root = ROOT) {
   const result = {
-    file: relative(sourceFile.fileName),
+    file: relative(sourceFile.fileName, root),
     className: classNode.name?.text || '<anonymous>',
   };
   if (!ts.isCallExpression(decorator.expression)) return result;
@@ -272,8 +287,9 @@ function emittedRuntimeSpecifiers(source, file) {
   return specifiers;
 }
 
-function parsePrismaSchema() {
-  const schemaPath = path.join(ROOT, 'prisma/schema.prisma');
+function parsePrismaSchema(root = ROOT) {
+  const schemaPath = path.join(root, 'prisma/schema.prisma');
+  if (!fs.existsSync(schemaPath)) return [];
   const source = fs.readFileSync(schemaPath, 'utf8');
   const models = [];
   const pattern = /model\s+(\w+)\s*\{([\s\S]*?)\n\}/g;
@@ -290,14 +306,15 @@ function parsePrismaSchema() {
   return models.sort((a, b) => a.model.localeCompare(b.model));
 }
 
-function gitRevision() {
-  let gitDirectory = path.join(ROOT, '.git');
+function gitRevision(root = ROOT) {
+  let gitDirectory = path.join(root, '.git');
+  if (!fs.existsSync(gitDirectory)) return '<unavailable>';
   if (fs.statSync(gitDirectory).isFile()) {
     const pointer = fs
       .readFileSync(gitDirectory, 'utf8')
       .match(/^gitdir:\s*(.+)$/m);
     if (!pointer) return '<unavailable>';
-    gitDirectory = path.resolve(ROOT, pointer[1].trim());
+    gitDirectory = path.resolve(root, pointer[1].trim());
   }
   const head = fs.readFileSync(path.join(gitDirectory, 'HEAD'), 'utf8').trim();
   if (/^[0-9a-f]{40}$/i.test(head)) return head;
@@ -361,14 +378,29 @@ function stronglyConnectedComponents(nodes, edges) {
   return components.sort((a, b) => a[0].localeCompare(b[0]));
 }
 
-function analyze() {
+function readCompilerOptions(root) {
+  const configPath = path.join(root, 'tsconfig.json');
+  if (!fs.existsSync(configPath))
+    return {
+      module: ts.ModuleKind.NodeNext,
+      moduleResolution: ts.ModuleResolutionKind.NodeNext,
+      baseUrl: root,
+    };
+  const loaded = ts.readConfigFile(configPath, ts.sys.readFile);
+  if (loaded.error) return { baseUrl: root };
+  return ts.parseJsonConfigFileContent(loaded.config, ts.sys, root).options;
+}
+
+function analyze(root = ROOT, options = {}) {
+  root = path.resolve(root);
+  const compilerOptions = readCompilerOptions(root);
   const absoluteFiles = [
-    ...CODE_ROOTS.flatMap((directory) => walk(path.join(ROOT, directory))),
-    ...ROOT_FILES.map((file) => path.join(ROOT, file)).filter((file) =>
+    ...CODE_ROOTS.flatMap((directory) => walk(path.join(root, directory))),
+    ...ROOT_FILES.map((file) => path.join(root, file)).filter((file) =>
       fs.existsSync(file),
     ),
   ].sort();
-  const files = absoluteFiles.map(relative);
+  const files = absoluteFiles.map((file) => relative(file, root));
   const knownFiles = new Set(files);
   const fileRecords = [];
   const imports = [];
@@ -378,11 +410,11 @@ function analyze() {
   const schedules = [];
   const prismaAccesses = [];
   const transactions = [];
-  const models = parsePrismaSchema();
+  const models = parsePrismaSchema(root);
   const delegates = new Map(models.map((model) => [model.delegate, model]));
 
   for (const absoluteFile of absoluteFiles) {
-    const file = relative(absoluteFile);
+    const file = relative(absoluteFile, root);
     const source = fs.readFileSync(absoluteFile, 'utf8');
     const record = {
       file,
@@ -416,6 +448,7 @@ function analyze() {
       typeBindings,
       dynamic = false,
       resolvedOverride = undefined,
+      syntax = 'import',
     ) {
       if (
         !dynamic &&
@@ -427,7 +460,13 @@ function analyze() {
       }
       const resolved =
         resolvedOverride === undefined
-          ? resolveLocal(absoluteFile, specifier, knownFiles)
+          ? resolveLocal(
+              absoluteFile,
+              specifier,
+              knownFiles,
+              root,
+              compilerOptions,
+            )
           : resolvedOverride;
       const kinds = [];
       if (runtimeBindings.length) kinds.push('runtime');
@@ -442,6 +481,7 @@ function analyze() {
         runtimeBindings: [...runtimeBindings].sort(),
         typeBindings: [...typeBindings].sort(),
         dynamic,
+        syntax,
         ...point,
       });
     }
@@ -453,7 +493,13 @@ function analyze() {
       ) {
         const specifier = statement.moduleSpecifier.text;
         const bindings = importKinds(statement);
-        const resolved = resolveLocal(absoluteFile, specifier, knownFiles);
+        const resolved = resolveLocal(
+          absoluteFile,
+          specifier,
+          knownFiles,
+          root,
+          compilerOptions,
+        );
         if (statement.importClause?.name)
           registerImport(statement.importClause.name.text, resolved);
         const named = statement.importClause?.namedBindings;
@@ -487,7 +533,15 @@ function analyze() {
               : runtimeBindings
             ).push(label);
           }
-        addImport(specifier, statement, runtimeBindings, typeBindings);
+        addImport(
+          specifier,
+          statement,
+          runtimeBindings,
+          typeBindings,
+          false,
+          undefined,
+          'reexport',
+        );
       } else if (
         ts.isImportEqualsDeclaration(statement) &&
         ts.isExternalModuleReference(statement.moduleReference) &&
@@ -495,7 +549,13 @@ function analyze() {
         ts.isStringLiteralLike(statement.moduleReference.expression)
       ) {
         const specifier = statement.moduleReference.expression.text;
-        const resolved = resolveLocal(absoluteFile, specifier, knownFiles);
+        const resolved = resolveLocal(
+          absoluteFile,
+          specifier,
+          knownFiles,
+          root,
+          compilerOptions,
+        );
         registerImport(statement.name.text, resolved);
         addImport(
           specifier,
@@ -513,14 +573,30 @@ function analyze() {
           node.arguments[0] &&
           ts.isStringLiteralLike(node.arguments[0])
         ) {
-          addImport(node.arguments[0].text, node, ['<dynamic>'], [], true);
+          addImport(
+            node.arguments[0].text,
+            node,
+            ['<dynamic>'],
+            [],
+            true,
+            undefined,
+            'dynamic-import',
+          );
         } else if (
           ts.isIdentifier(node.expression) &&
           node.expression.text === 'require' &&
           node.arguments[0] &&
           ts.isStringLiteralLike(node.arguments[0])
         ) {
-          addImport(node.arguments[0].text, node, ['<require>'], []);
+          addImport(
+            node.arguments[0].text,
+            node,
+            ['<require>'],
+            [],
+            false,
+            undefined,
+            'require',
+          );
         } else if (
           ts.isIdentifier(node.expression) &&
           node.expression.text === 'from' &&
@@ -544,6 +620,7 @@ function analyze() {
             [],
             true,
             resolved,
+            'compiled-loader',
           );
         }
 
@@ -649,7 +726,7 @@ function analyze() {
         for (const decorator of decoratorsOf(node)) {
           const name = decoratorName(decorator);
           if (name === 'Module') {
-            const metadata = moduleMetadata(sourceFile, node, decorator);
+            const metadata = moduleMetadata(sourceFile, node, decorator, root);
             nestModules.push({
               ...metadata,
               area: record.area,
@@ -834,10 +911,14 @@ function analyze() {
 
   return {
     schemaVersion: 1,
-    sourceRevision: process.argv.includes('--live')
-      ? gitRevision()
-      : ARQ01_BASELINE_REVISION,
-    analysisMode: process.argv.includes('--live') ? 'live' : 'arq01-snapshot',
+    sourceRevision:
+      options.live || root !== ROOT || process.argv.includes('--live')
+        ? gitRevision(root)
+        : ARQ01_BASELINE_REVISION,
+    analysisMode:
+      options.live || root !== ROOT || process.argv.includes('--live')
+        ? 'live'
+        : 'arq01-snapshot',
     analyzer: 'scripts/architecture-inventory.cjs',
     coverage: {
       roots: CODE_ROOTS,
@@ -1000,6 +1081,34 @@ function renderReport(inventory) {
 }
 
 function main() {
+  const live = process.argv.includes('--live');
+  if (!live) {
+    if (!fs.existsSync(JSON_PATH) || !fs.existsSync(REPORT_PATH)) {
+      process.stderr.write('ARQ-01 snapshot artifacts are missing\n');
+      process.exitCode = 1;
+      return;
+    }
+    const snapshot = JSON.parse(fs.readFileSync(JSON_PATH, 'utf8'));
+    if (
+      snapshot.sourceRevision !== ARQ01_BASELINE_REVISION ||
+      snapshot.analysisMode !== 'arq01-snapshot'
+    ) {
+      process.stderr.write('ARQ-01 snapshot metadata is invalid\n');
+      process.exitCode = 1;
+      return;
+    }
+    if (process.argv.includes('--stdout'))
+      process.stdout.write(fs.readFileSync(JSON_PATH, 'utf8'));
+    else if (process.argv.includes('--check'))
+      process.stdout.write('ARQ-01 snapshot metadata is valid\n');
+    else {
+      process.stderr.write(
+        'ARQ-01 snapshot is immutable; use --live --stdout for the current tree\n',
+      );
+      process.exitCode = 1;
+    }
+    return;
+  }
   const inventory = analyze();
   const json = JSON.stringify(inventory, null, 2) + '\n';
   const report = renderReport(inventory);
@@ -1007,28 +1116,14 @@ function main() {
     process.stdout.write(json);
     return;
   }
-  if (process.argv.includes('--check')) {
-    let stale = false;
-    for (const [file, expected] of [
-      [JSON_PATH, json],
-      [REPORT_PATH, report],
-    ]) {
-      if (!fs.existsSync(file) || fs.readFileSync(file, 'utf8') !== expected) {
-        process.stderr.write(
-          `${relative(file)} is stale; run node scripts/architecture-inventory.cjs\n`,
-        );
-        stale = true;
-      }
-    }
-    process.exitCode = stale ? 1 : 0;
-    return;
-  }
-  fs.mkdirSync(path.dirname(JSON_PATH), { recursive: true });
-  fs.writeFileSync(JSON_PATH, json);
-  fs.writeFileSync(REPORT_PATH, report);
-  process.stdout.write(
-    `wrote ${relative(JSON_PATH)} and ${relative(REPORT_PATH)}\n`,
-  );
+  process.stdout.write(json);
 }
 
-main();
+module.exports = {
+  analyze,
+  stronglyConnectedComponents,
+  areaOf,
+  scopeOf,
+};
+
+if (require.main === module) main();

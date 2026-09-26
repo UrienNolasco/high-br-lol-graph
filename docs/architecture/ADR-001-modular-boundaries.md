@@ -78,6 +78,8 @@ Os nomes são alvos para a migração; ARQ-03–ARQ-12 podem introduzi-los incre
 
 `collector` persiste a observação sob sua propriedade e converte seu resultado para `processing/contracts/request-ingestion`; `processing` não importa `collector`. Quando processing precisa consultar lineage no momento da publicação, consome `processing/ports/observation-reader.ts`, porta definida pelo consumidor e implementada por um adapter de collector. A composition root injeta essa implementação. Assim, o código de processing não referencia arquivos de collector e não surge ciclo runtime; o contexto de origem continua explícito no comando e no lineage.
 
+A porta de leitura de observações recebe o contexto transacional opaco do coordenador. O adapter de collector usa esse mesmo contexto para ler lineage durante a publicação; não abre uma conexão ou transação independente para essa leitura.
+
 ## Persistência e unidade transacional
 
 Cada tabela tem um único proprietário lógico, descrito em `data-ownership.md`. Outros módulos leem por portas públicas. Escrita direta fora do proprietário só existe durante a migração e deve desaparecer no card indicado.

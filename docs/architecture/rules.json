@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "description": "Executable boundaries decided by ADR-001. Patterns use repository-relative POSIX paths.",
+  "publicApiPatterns": [
+    "^src/modules/[^/]+/(?:contracts|ports)/",
+    "^src/modules/[^/]+/[^/]+\\.module\\.ts$",
+    "^src/modules/[^/]+/[^/]+-contract\\.ts$",
+    "^src/modules/[^/]+/[^/]+\\.contract\\.ts$"
+  ],
+  "contractPatterns": [
+    "^src/modules/[^/]+/(?:contracts|ports)/",
+    "^src/modules/[^/]+/[^/]+-contract\\.ts$",
+    "^src/modules/[^/]+/[^/]+\\.contract\\.ts$",
+    "(?:^|/)[^/]+-contract\\.ts$"
+  ],
+  "domainPatterns": ["^src/modules/[^/]+/(?:domain|pure)/"],
+  "testIntegrationPatterns": ["^test/integration/"],
+  "forbiddenDomainPackages": [
+    "^@nestjs(?:/|$)",
+    "^@prisma/client$",
+    "^axios$",
+    "^@scalar(?:/|$)",
+    "^swagger-ui-express$"
+  ],
+  "forbiddenDomainPaths": [
+    "^src/core/(?:riot|data-dragon|processing|metrics|statistics|dataset|stats|research)/",
+    "^src/modules/processing/",
+    "/(?:adapters|repositories|dto)/",
+    "(?:controller|module)\\.ts$"
+  ],
+  "forbiddenContractPaths": [
+    "^src/core/(?:riot|data-dragon|processing)/",
+    "/(?:adapters|repositories|services|dto)/",
+    "(?:controller|module)\\.ts$"
+  ],
+  "fixturePatterns": [
+    "(?:^|/)(?:__fixtures__|fixtures)(?:/|$)",
+    "\\.(?:spec|e2e-spec|fixture)\\.[cm]?[jt]sx?$"
+  ],
+  "allowedModuleDependencies": {
+    "admin": ["collector", "processing"],
+    "analytics": ["dataset", "matches", "stats"],
+    "champions": [],
+    "collector": ["processing"],
+    "dataset": ["matches"],
+    "indicators": ["dataset", "matches", "stats"],
+    "matches": [],
+    "players": ["matches", "processing", "stats"],
+    "processing": ["dataset", "matches", "stats"],
+    "references": ["dataset", "matches", "stats"],
+    "stats": ["matches"],
+    "worker": ["processing"]
+  },
+  "rules": [
+    {
+      "id": "core-no-modules",
+      "description": "Core infrastructure cannot depend on feature modules.",
+      "owner": "architecture",
+      "card": "ARQ-03..ARQ-12"
+    },
+    {
+      "id": "domain-no-framework-or-adapter",
+      "description": "Domain and pure rules cannot import frameworks, ORM, external clients, DTOs, adapters or processing.",
+      "owner": "domain-owner",
+      "card": "ARQ-03..ARQ-12"
+    },
+    {
+      "id": "contract-transitive-purity",
+      "description": "Public contracts and ports must remain transitively independent from frameworks and adapters.",
+      "owner": "contract-owner",
+      "card": "ARQ-03..ARQ-12"
+    },
+    {
+      "id": "public-contract-reexports-internal",
+      "description": "A public contract cannot use a blanket reexport or expose persistence/adapters.",
+      "owner": "contract-owner",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "module-dependency-direction",
+      "description": "A public name does not permit dependencies opposite to the responsibility matrix.",
+      "owner": "consumer-module",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "module-entrypoint-outside-composition",
+      "description": "Nest module entrypoints may only be imported by composition modules.",
+      "owner": "consumer-module",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "math-no-domain",
+      "description": "The generic math library cannot depend on feature modules.",
+      "owner": "architecture",
+      "card": "ARQ-04"
+    },
+    {
+      "id": "cross-module-internal-import",
+      "description": "Feature modules can consume another module only through a selective public contract or module entrypoint.",
+      "owner": "consumer-module",
+      "card": "ARQ-06..ARQ-13"
+    },
+    {
+      "id": "production-imports-test",
+      "description": "Production and tools cannot import specs or fixtures.",
+      "owner": "importing-area",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "test-cross-context-internal-import",
+      "description": "Module-local tests may access only their own internals; integration tests are the explicit cross-context exception.",
+      "owner": "test-owner",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "runtime-cycle",
+      "description": "Runtime file dependency cycles are forbidden.",
+      "owner": "architecture",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "type-cycle",
+      "description": "Cycles that appear only when type edges are included are tracked separately and forbidden.",
+      "owner": "architecture",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "nest-module-cycle",
+      "description": "Nest module import cycles are forbidden.",
+      "owner": "composition",
+      "card": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity",
+      "description": "Bidirectional area dependencies are tracked independently from executable cycles.",
+      "owner": "architecture",
+      "card": "ARQ-03..ARQ-13"
+    }
+  ]
+}
