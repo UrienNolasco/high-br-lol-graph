@@ -1,16 +1,32 @@
 import {
   normalizeTimelineEvents,
-  NormalizedTimelineEvent,
   KNOWN_EVENT_TYPES,
 } from './normalized-events';
-import { KnownTimelineEvent } from './dto/timeline.dto';
+import type { KnownTimelineEvent } from './dto/timeline.dto';
 import { Injectable, Logger } from '@nestjs/common';
 import {
   projectTimelineSnapshots,
   legacyMinuteGraphs,
-  TimelineSnapshotProjection,
 } from './timeline-snapshots';
-import {
+import type {
+  ItemEvent,
+  ObjectiveEvent,
+  ParsedTimelineData,
+  ParticipantTimelineData,
+} from '../../modules/matches/contracts/normalized-timeline';
+
+/** @deprecated Import canonical types from modules/matches/contracts. */
+export type {
+  ItemEvent,
+  ObjectiveEvent,
+  ParsedTimelineData,
+  ParticipantTimelineData,
+  PathPoint,
+  PositionEvent,
+  WardEvent,
+} from '../../modules/matches/contracts/normalized-timeline';
+import { skillSlotToLetter } from './dto/timeline.dto';
+import type {
   TimelineDto,
   TimelineFrame,
   ChampionKillEvent,
@@ -22,80 +38,7 @@ import {
   SkillLevelUpEvent,
   EliteMonsterKillEvent,
   BuildingKillEvent,
-  skillSlotToLetter,
 } from './dto/timeline.dto';
-
-// ============================================================================
-// INTERFACES DE RETORNO (dados processados)
-// ============================================================================
-
-export interface PositionEvent {
-  x: number;
-  y: number;
-  timestamp: number;
-}
-
-export interface WardEvent {
-  x: number | null;
-  y: number | null;
-  timestamp: number;
-  wardType: string;
-}
-
-export interface ItemEvent {
-  itemId: number;
-  timestamp: number;
-  type: 'BUY' | 'SELL' | 'UNDO';
-}
-
-export interface PathPoint {
-  x?: number;
-  y?: number;
-  time: number;
-}
-
-export interface ParticipantTimelineData {
-  // Séries temporais - índice = minuto da partida
-  goldGraph: number[];
-  xpGraph: number[];
-  csGraph: number[];
-  damageGraph: number[];
-
-  // Eventos espaciais
-  deathPositions: PositionEvent[];
-  killPositions: PositionEvent[];
-  wardPositions: WardEvent[];
-  pathingSample: PathPoint[];
-
-  // Comportamento detalhado
-  skillOrder: string[];
-  itemTimeline: ItemEvent[];
-}
-
-export interface ParsedTimelineData {
-  snapshotProjection: TimelineSnapshotProjection;
-  participants: Map<string, ParticipantTimelineData>; // Indexado por PUUID
-  objectivesTimeline: ObjectiveEvent[];
-  normalizedEvents: NormalizedTimelineEvent[];
-}
-
-export interface ObjectiveEvent {
-  type:
-    | 'DRAGON'
-    | 'BARON_NASHOR'
-    | 'RIFTHERALD'
-    | 'HORDE'
-    | 'TOWER'
-    | 'INHIBITOR';
-  subType?: string;
-  teamId: number | null;
-  ownerTeamId?: number | null;
-  lane?: string | null;
-  tier?: string | null;
-  assistingParticipantIds?: number[] | null;
-  timestamp: number;
-  killerId?: number;
-}
 
 // ============================================================================
 // TIMELINE PARSER SERVICE

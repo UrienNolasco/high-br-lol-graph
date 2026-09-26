@@ -11,11 +11,11 @@ import {
   MetricEvidence,
   MetricQuality,
 } from '../../../core/metrics/metric-contract';
-import {
+import type {
   ParticipantSnapshot,
   SnapshotFrame,
   TimelineSnapshotProjection,
-} from '../../../core/riot/timeline-snapshots';
+} from '../contracts/normalized-snapshots';
 
 export const ECONOMY_VERSION = 1;
 export const ECONOMY_CHECKPOINTS = [

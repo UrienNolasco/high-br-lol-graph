@@ -3,9 +3,8 @@ import {
   FINAL_STAT_UNITS,
   FINAL_FLAG_FIELDS,
   FINAL_OBJECTIVE_TYPES,
-  FinalStatField,
-  FinalFlagField,
-} from '../../../core/riot/final-stats';
+} from '../contracts/final-stats';
+import type { FinalStatField, FinalFlagField } from '../contracts/final-stats';
 
 export class FinalProjectionQualityDto {
   @ApiProperty({ example: 58 }) validFields: number;

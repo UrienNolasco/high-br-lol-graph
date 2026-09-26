@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../core/prisma/prisma.service';
+import { jsonObject } from '../../../core/prisma/json-value';
 import {
   ProcessingService,
   ProcessingLease,
 } from '../../../core/processing/processing.service';
 import { PROCESSING_VERSION } from '../../../core/processing/processing.constants';
 import { PlayerStatsAggregationService } from '../../../core/stats/player-stats-aggregation.service';
-import { ProcessedMatchData } from '../pure/match.parser';
-import { ParsedTimelineData } from '../../../core/riot/timeline-parser.service';
+import type { ProcessedMatchData } from '../../matches/contracts/normalized-match';
+import type { ParsedTimelineData } from '../../matches/contracts/normalized-timeline';
 import { TimelineDto } from '../../../core/riot/dto/timeline.dto';
 import {
   replaceHistoricalDataset,
@@ -42,13 +43,19 @@ export class MatchPersistenceService {
           throw new Error('Rebuild in progress');
         await this.processing.lockLease(tx, lease);
         const completedAt = new Date();
-        await tx.match.create({ data: matchData.match });
+        await tx.match.create({
+          data: {
+            ...matchData.match,
+            finalContext: jsonObject(matchData.match.finalContext),
+          },
+        });
         await tx.matchTeam.createMany({
           data: matchData.teams.map((team) => ({
             ...team,
-            objectivesTimeline: timeline.objectivesTimeline.filter(
-              (event) => event.teamId === team.teamId,
-            ) as unknown as Prisma.InputJsonValue,
+            finalObjectives: jsonObject(team.finalObjectives),
+            objectivesTimeline: timeline.objectivesTimeline
+              .filter((event) => event.teamId === team.teamId)
+              .map(jsonObject),
           })),
         });
         await tx.matchParticipant.createMany({
@@ -56,20 +63,21 @@ export class MatchPersistenceService {
             const tp = timeline.participants.get(participant.puuid)!;
             return {
               ...participant,
+              finalStats: jsonObject(participant.finalStats),
+              finalInventory: jsonObject(participant.finalInventory),
+              runes: jsonObject(participant.runes),
+              challenges: jsonObject(participant.challenges),
+              pings: jsonObject(participant.pings),
               goldGraph: tp.goldGraph,
               xpGraph: tp.xpGraph,
               csGraph: tp.csGraph,
               damageGraph: tp.damageGraph,
-              deathPositions:
-                tp.deathPositions as unknown as Prisma.InputJsonValue,
-              killPositions:
-                tp.killPositions as unknown as Prisma.InputJsonValue,
-              wardPositions:
-                tp.wardPositions as unknown as Prisma.InputJsonValue,
-              pathingSample:
-                tp.pathingSample as unknown as Prisma.InputJsonValue,
+              deathPositions: tp.deathPositions.map(jsonObject),
+              killPositions: tp.killPositions.map(jsonObject),
+              wardPositions: tp.wardPositions.map(jsonObject),
+              pathingSample: tp.pathingSample.map(jsonObject),
               skillOrder: tp.skillOrder,
-              itemTimeline: tp.itemTimeline as unknown as Prisma.InputJsonValue,
+              itemTimeline: tp.itemTimeline.map(jsonObject),
             };
           }),
         });
@@ -79,8 +87,7 @@ export class MatchPersistenceService {
             projectionVersion: timeline.snapshotProjection.projectionVersion,
             frameIntervalMs: timeline.snapshotProjection.frameIntervalMs,
             observedEndMs: timeline.snapshotProjection.observedEndMs,
-            frames: timeline.snapshotProjection
-              .frames as unknown as Prisma.InputJsonValue,
+            frames: timeline.snapshotProjection.frames.map(jsonObject),
           },
         });
         await tx.matchEventProjection.createMany({
@@ -90,8 +97,8 @@ export class MatchPersistenceService {
             assistingParticipantIds:
               event.assistingParticipantIds ?? Prisma.DbNull,
             assistingPuuids: event.assistingPuuids ?? Prisma.DbNull,
-            payload: event.payload as Prisma.InputJsonObject,
-            quality: event.quality as unknown as Prisma.InputJsonObject,
+            payload: jsonObject(event.payload),
+            quality: jsonObject(event.quality),
           })),
         });
         await replaceHistoricalDataset(

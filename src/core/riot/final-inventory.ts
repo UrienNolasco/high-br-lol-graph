@@ -1,12 +1,13 @@
-export interface InventoryItem {
-  itemId: number | null;
-  reason: 'missing_field' | 'invalid_value' | null;
-}
-export interface FinalInventory {
-  version: 1;
-  slots: (InventoryItem & { slot: number })[];
-  roleBoundItem: InventoryItem;
-}
+import type {
+  FinalInventory,
+  InventoryItem,
+} from '../../modules/matches/contracts/final-inventory';
+
+/** @deprecated Import canonical types from modules/matches/contracts. */
+export type {
+  FinalInventory,
+  InventoryItem,
+} from '../../modules/matches/contracts/final-inventory';
 
 function item(value: unknown): InventoryItem {
   if (value == null) return { itemId: null, reason: 'missing_field' };

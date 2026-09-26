@@ -1,32 +1,19 @@
-import { CheckpointMode, selectCheckpoint } from '../metrics';
+import { selectCheckpoint } from '../metrics';
+import type { CheckpointMode } from '../metrics';
+import type {
+  ParticipantSnapshot,
+  SnapshotFrame,
+  TimelineSnapshotProjection,
+} from '../../modules/matches/contracts/normalized-snapshots';
+
+/** @deprecated Import canonical types from modules/matches/contracts. */
+export type {
+  ParticipantSnapshot,
+  SnapshotFrame,
+  TimelineSnapshotProjection,
+} from '../../modules/matches/contracts/normalized-snapshots';
 
 export const SNAPSHOT_PROJECTION_VERSION = 1;
-export interface ParticipantSnapshot {
-  participantId: number;
-  puuid: string | null;
-  totalGold: number | null;
-  currentGold: number | null;
-  xp: number | null;
-  level: number | null;
-  minionsKilled: number | null;
-  jungleMinionsKilled: number | null;
-  position: { x: number | null; y: number | null } | null;
-  damageStats: Record<string, number | null> | null;
-  championStats: Record<string, number | null> | null;
-  additionalFields: Record<string, unknown>;
-  missingFields: string[];
-}
-export interface SnapshotFrame {
-  frameIndex: number;
-  timestamp: number | null;
-  participantFrames: Record<string, ParticipantSnapshot>;
-}
-export interface TimelineSnapshotProjection {
-  projectionVersion: number;
-  frameIntervalMs: number | null;
-  observedEndMs: number | null;
-  frames: SnapshotFrame[];
-}
 const finite = (value: unknown): value is number =>
   typeof value === 'number' && Number.isFinite(value);
 const nullable = (value: unknown): number | null =>

@@ -8,7 +8,7 @@ import {
   ratioMetric,
   unavailableMetric,
 } from '../../../core/metrics';
-import { TimelineSnapshotProjection } from '../../../core/riot/timeline-snapshots';
+import type { TimelineSnapshotProjection } from '../contracts/normalized-snapshots';
 import {
   computeSnapshotGoldTimeline,
   determineWinner,

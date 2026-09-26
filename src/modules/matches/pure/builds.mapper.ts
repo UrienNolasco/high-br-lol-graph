@@ -1,8 +1,8 @@
 import {
   readFinalInventory,
   projectFinalInventory,
-  InventoryItem,
 } from '../../../core/riot/final-inventory';
+import type { InventoryItem } from '../contracts/final-inventory';
 import {
   ItemCatalog,
   ItemMetadata,

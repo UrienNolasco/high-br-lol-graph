@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "architecture:check": "node scripts/architecture-check.cjs",
-    "test:architecture": "node scripts/architecture-check.spec.cjs",
+    "test:architecture": "node scripts/architecture-check.spec.cjs && node scripts/architecture-relocations.spec.cjs",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

@@ -1,81 +1,26 @@
-/** Literal Match-V5 counters. Units are public contract; no ratios or balances. */
-export const FINAL_STAT_UNITS = {
-  wardsPlaced: 'count',
-  wardsKilled: 'count',
-  detectorWardsPlaced: 'count',
-  visionWardsBoughtInGame: 'count',
-  sightWardsBoughtInGame: 'count',
-  visionScore: 'score',
-  totalDamageDealt: 'damage',
-  physicalDamageDealt: 'damage',
-  magicDamageDealt: 'damage',
-  trueDamageDealt: 'damage',
-  totalDamageDealtToChampions: 'damage',
-  physicalDamageDealtToChampions: 'damage',
-  magicDamageDealtToChampions: 'damage',
-  trueDamageDealtToChampions: 'damage',
-  totalDamageTaken: 'damage',
-  physicalDamageTaken: 'damage',
-  magicDamageTaken: 'damage',
-  trueDamageTaken: 'damage',
-  damageSelfMitigated: 'damage',
-  damageDealtToBuildings: 'damage',
-  damageDealtToObjectives: 'damage',
-  damageDealtToTurrets: 'damage',
-  damageDealtToEpicMonsters: 'damage',
-  totalHeal: 'health',
-  totalHealsOnTeammates: 'health',
-  totalDamageShieldedOnTeammates: 'damage',
-  totalUnitsHealed: 'count',
-  timeCCingOthers: 'seconds',
-  totalTimeCCDealt: 'seconds',
-  totalTimeSpentDead: 'seconds',
-  timePlayed: 'seconds',
-  longestTimeSpentLiving: 'seconds',
-  totalMinionsKilled: 'cs',
-  neutralMinionsKilled: 'cs',
-  totalAllyJungleMinionsKilled: 'cs',
-  totalEnemyJungleMinionsKilled: 'cs',
-  spell1Casts: 'count',
-  spell2Casts: 'count',
-  spell3Casts: 'count',
-  spell4Casts: 'count',
-  summoner1Casts: 'count',
-  summoner2Casts: 'count',
-  goldEarned: 'gold',
-  goldSpent: 'gold',
-  champExperience: 'xp',
-  champLevel: 'level',
-  baronKills: 'count',
-  dragonKills: 'count',
-  turretKills: 'count',
-  turretTakedowns: 'count',
-  inhibitorKills: 'count',
-  inhibitorTakedowns: 'count',
-  nexusKills: 'count',
-  nexusTakedowns: 'count',
-  objectivesStolen: 'count',
-  objectivesStolenAssists: 'count',
-} as const;
-export const FINAL_FLAG_FIELDS = [
-  'gameEndedInSurrender',
-  'gameEndedInEarlySurrender',
-  'teamEarlySurrendered',
-] as const;
-export const FINAL_OBJECTIVE_TYPES = [
-  'atakhan',
-  'baron',
-  'champion',
-  'dragon',
-  'horde',
-  'inhibitor',
-  'riftHerald',
-  'tower',
-] as const;
-export type FinalStatField = keyof typeof FINAL_STAT_UNITS;
-export type FinalFlagField = (typeof FINAL_FLAG_FIELDS)[number];
-type MissingReason = 'missing_field' | 'invalid_value';
+import {
+  FINAL_FLAG_FIELDS,
+  FINAL_OBJECTIVE_TYPES,
+  FINAL_STAT_UNITS,
+} from '../../modules/matches/contracts/final-stats';
+import type {
+  FinalFlagField,
+  FinalStatField,
+} from '../../modules/matches/contracts/final-stats';
 
+/** @deprecated Import canonical contracts from modules/matches/contracts. */
+export {
+  FINAL_FLAG_FIELDS,
+  FINAL_OBJECTIVE_TYPES,
+  FINAL_STAT_UNITS,
+} from '../../modules/matches/contracts/final-stats';
+/** @deprecated Import canonical contracts from modules/matches/contracts. */
+export type {
+  FinalFlagField,
+  FinalStatField,
+} from '../../modules/matches/contracts/final-stats';
+
+type MissingReason = 'missing_field' | 'invalid_value';
 type Fields = Record<string, unknown>;
 function record(value: unknown): Fields {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -127,9 +72,9 @@ export function projectFinalStats(participant: unknown) {
   ]) as Record<string, 'number' | 'boolean'>;
   const projection = project(source, fields);
   return {
-    projectionVersion: 1,
-    source: 'MatchRaw.summary.info.participants',
-    origin: 'observed',
+    projectionVersion: 1 as const,
+    source: 'MatchRaw.summary.info.participants' as const,
+    origin: 'observed' as const,
     ...projection,
     values: projection.values as Record<FinalStatField, number | null> &
       Record<FinalFlagField, boolean | null>,
@@ -137,19 +82,29 @@ export function projectFinalStats(participant: unknown) {
 }
 
 export function projectFinalContext(info: unknown) {
+  const projection = project(record(info), {
+    gameStartTimestamp: 'number',
+    gameEndTimestamp: 'number',
+    gameId: 'number',
+    platformId: 'string',
+    gameType: 'string',
+    endOfGameResult: 'string',
+    tournamentCode: 'string',
+  });
   return {
-    projectionVersion: 1,
-    source: 'MatchRaw.summary.info',
-    origin: 'observed',
-    ...project(record(info), {
-      gameStartTimestamp: 'number',
-      gameEndTimestamp: 'number',
-      gameId: 'number',
-      platformId: 'string',
-      gameType: 'string',
-      endOfGameResult: 'string',
-      tournamentCode: 'string',
-    }),
+    projectionVersion: 1 as const,
+    source: 'MatchRaw.summary.info' as const,
+    origin: 'observed' as const,
+    ...projection,
+    values: projection.values as {
+      gameStartTimestamp: number | null;
+      gameEndTimestamp: number | null;
+      gameId: number | null;
+      platformId: string | null;
+      gameType: string | null;
+      endOfGameResult: string | null;
+      tournamentCode: string | null;
+    },
   };
 }
 
@@ -187,9 +142,9 @@ export function projectFinalObjectives(objectives: unknown) {
     validFields += result.quality.validFields;
   }
   return {
-    projectionVersion: 1,
-    source: 'MatchRaw.summary.info.teams.objectives',
-    origin: 'observed',
+    projectionVersion: 1 as const,
+    source: 'MatchRaw.summary.info.teams.objectives' as const,
+    origin: 'observed' as const,
     values,
     missingReasons,
     unknownTypes: types.filter(

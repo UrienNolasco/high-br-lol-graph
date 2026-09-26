@@ -476,14 +476,6 @@
       "removalCard": "ARQ-05"
     },
     {
-      "id": "domain-no-framework-or-adapter:2557ca266b3aad1ef47d",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/map-presence-calculator.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
       "id": "domain-no-framework-or-adapter:26bc5a3cbb2e3b3f4e95",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/indicators/pure/indicator-history.ts",
@@ -538,22 +530,6 @@
       "to": "src/core/riot/timeline-snapshots.ts",
       "owner": "matches",
       "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:4d7500f9aeaac42d7131",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/economy-calculator.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:520d743b7b9516dfb91d",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/worker/pure/match.parser.ts",
-      "to": "external:@prisma/client",
-      "owner": "worker",
-      "removalCard": "ARQ-03"
     },
     {
       "id": "domain-no-framework-or-adapter:56dfcc13e995968fab23",
@@ -612,26 +588,10 @@
       "removalCard": "ARQ-04"
     },
     {
-      "id": "domain-no-framework-or-adapter:76af9117d1b1d7e9aee5",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/sequences-calculator.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
       "id": "domain-no-framework-or-adapter:79646bb3be503484936f",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/matches/pure/report/report-families.ts",
       "to": "src/core/data-dragon/skill-catalog.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:7a11b04e30f7353e255f",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/gold-calculator.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
       "owner": "matches",
       "removalCard": "ARQ-05"
     },

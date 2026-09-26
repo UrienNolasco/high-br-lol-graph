@@ -6,6 +6,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const childProcess = require('node:child_process');
 const { analyze } = require('./architecture-inventory.cjs');
+const {
+  applyRelocations,
+  validateRelocations,
+} = require('./architecture-relocations.cjs');
 
 const REPOSITORY_ROOT = path.resolve(__dirname, '..');
 const DEFAULT_RULES_PATH = path.join(
@@ -23,6 +27,73 @@ const matchesAny = (value, regexes) =>
   regexes.some((regex) => regex.test(value));
 const moduleName = (file) => /^src\/modules\/([^/]+)\//.exec(file)?.[1] || null;
 const identityTarget = (edge) => edge.resolved || `external:${edge.specifier}`;
+const logicalTarget = (edge) => edge.logicalResolved || identityTarget(edge);
+
+function areaOf(file) {
+  const parts = file.split('/');
+  if (parts[0] === 'src' && parts[1] === 'modules' && parts[2]) return parts[2];
+  if (parts[0] === 'src' && parts[1] === 'core' && parts[2])
+    return `core/${parts[2]}`;
+  if (parts[0] === 'src') {
+    if (
+      file === 'src/main.ts' ||
+      file === 'src/app.module.ts' ||
+      file === 'src/app.controller.ts'
+    )
+      return 'composition/http';
+    if (file.endsWith('-cli.ts')) return 'composition/cli';
+    return 'composition';
+  }
+  if (parts[0] === 'scripts') return 'studies/tools';
+  if (parts[0] === 'test') return 'test/integration';
+  return 'other';
+}
+
+function relocatedReciprocalAreas(imports, files) {
+  const directions = new Map();
+  for (const edge of imports) {
+    const target = edge.logicalResolved;
+    if (!target || !edge.resolved) continue;
+    const sourceRecord = files.get(edge.from);
+    const targetRecord = files.get(edge.resolved);
+    if (sourceRecord?.scope === 'test' || targetRecord?.scope === 'test')
+      continue;
+    const fromArea = areaOf(edge.from);
+    const toArea = areaOf(target);
+    if (fromArea === toArea) continue;
+    const key = `${fromArea}\n${toArea}`;
+    if (!directions.has(key))
+      directions.set(key, {
+        from: fromArea,
+        to: toArea,
+        runtime: 0,
+        type: 0,
+        examples: [],
+      });
+    const direction = directions.get(key);
+    if (edge.kinds.includes('runtime')) direction.runtime += 1;
+    if (edge.kinds.includes('type')) direction.type += 1;
+    if (direction.examples.length < 5)
+      direction.examples.push(
+        `${edge.from}:${edge.line} -> ${target}` +
+          (target === edge.resolved ? '' : ` (physical: ${edge.resolved})`),
+      );
+  }
+  const reciprocal = [];
+  for (const direction of directions.values()) {
+    if (direction.from.localeCompare(direction.to) >= 0) continue;
+    const reverse = directions.get(`${direction.to}\n${direction.from}`);
+    if (reverse)
+      reciprocal.push({
+        areas: [direction.from, direction.to],
+        forward: direction,
+        reverse,
+      });
+  }
+  return reciprocal.sort((a, b) =>
+    a.areas.join(':').localeCompare(b.areas.join(':')),
+  );
+}
 
 function loadRules(value) {
   if (!value) return readJson(DEFAULT_RULES_PATH);
@@ -123,6 +194,26 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
   root = path.resolve(root);
   const rules = loadRules(options.rules);
   const inventory = options.inventory || analyze(root, { live: true });
+  const relocationValidation = validateRelocations(
+    root,
+    options.relocations,
+    inventory,
+  );
+  const relocationErrors = [...relocationValidation.errors];
+  if (options.strict && relocationValidation.entries.length)
+    relocationErrors.push({
+      code: 'strict-relocations-present',
+      message: 'Strict architecture mode requires an empty relocation ledger',
+      entryIndex: null,
+      consumerIndex: null,
+    });
+  const relocationResult = applyRelocations(
+    inventory,
+    !options.strict && relocationErrors.length === 0
+      ? relocationValidation.validEntries
+      : [],
+  );
+  const imports = relocationResult.imports;
   const make = violationFactory(rules);
   const publicApis = patterns(rules.publicApiPatterns);
   const contracts = patterns(rules.contractPatterns);
@@ -135,29 +226,35 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
   const allowedModuleDependencies = rules.allowedModuleDependencies || {};
   const files = new Map(inventory.files.map((file) => [file.file, file]));
   const outgoing = new Map();
-  for (const edge of inventory.imports) {
+  for (const edge of imports) {
     if (!outgoing.has(edge.from)) outgoing.set(edge.from, []);
     outgoing.get(edge.from).push(edge);
   }
   const violations = [];
 
-  for (const edge of inventory.imports) {
+  for (const edge of imports) {
     const source = files.get(edge.from);
     if (!source) continue;
     const target = edge.resolved;
     const targetRecord = target ? files.get(target) : null;
     const to = identityTarget(edge);
+    const logicalTo = logicalTarget(edge);
 
     if (
       source.scope === 'production' &&
       edge.from.startsWith('src/core/') &&
-      target?.startsWith('src/modules/')
+      logicalTo.startsWith('src/modules/')
     ) {
       violations.push(
         make(
           'core-no-modules',
-          { from: edge.from, to, line: edge.line, kinds: edge.kinds },
-          [edge.from, to],
+          {
+            from: edge.from,
+            to: logicalTo,
+            line: edge.line,
+            kinds: edge.kinds,
+          },
+          [edge.from, logicalTo],
         ),
       );
     }
@@ -178,24 +275,13 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
 
     const sourceModule = moduleName(edge.from);
     const targetModule = target ? moduleName(target) : null;
+    const logicalTargetModule = moduleName(logicalTo);
     if (sourceModule && targetModule && sourceModule !== targetModule) {
       const isPublic = matchesAny(target, publicApis);
       if (!isPublic && source.scope === 'production')
         violations.push(
           make(
             'cross-module-internal-import',
-            { from: edge.from, to, line: edge.line, kinds: edge.kinds },
-            [edge.from, to],
-          ),
-        );
-      if (
-        isPublic &&
-        source.scope === 'production' &&
-        !(allowedModuleDependencies[sourceModule] || []).includes(targetModule)
-      )
-        violations.push(
-          make(
-            'module-dependency-direction',
             { from: edge.from, to, line: edge.line, kinds: edge.kinds },
             [edge.from, to],
           ),
@@ -237,6 +323,29 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
         ),
       );
     }
+
+    if (
+      sourceModule &&
+      logicalTargetModule &&
+      sourceModule !== logicalTargetModule &&
+      source.scope === 'production' &&
+      matchesAny(target || '', publicApis) &&
+      !(allowedModuleDependencies[sourceModule] || []).includes(
+        logicalTargetModule,
+      )
+    )
+      violations.push(
+        make(
+          'module-dependency-direction',
+          {
+            from: edge.from,
+            to: logicalTo,
+            line: edge.line,
+            kinds: edge.kinds,
+          },
+          [edge.from, logicalTo],
+        ),
+      );
 
     if (
       edge.from.startsWith('src/lib/math/') &&
@@ -349,7 +458,10 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
         members,
       ),
     );
-  for (const pair of inventory.graph.reciprocalAreas) {
+  const reciprocalAreas = options.strict
+    ? inventory.graph.reciprocalAreas
+    : relocatedReciprocalAreas(imports, files);
+  for (const pair of reciprocalAreas) {
     const [from, to] = pair.areas;
     violations.push(
       make(
@@ -366,7 +478,31 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
   }
 
   const unique = new Map();
-  for (const violation of violations) unique.set(violation.id, violation);
+  for (const violation of violations) {
+    const previous = unique.get(violation.id);
+    if (!previous) {
+      unique.set(violation.id, violation);
+      continue;
+    }
+    unique.set(violation.id, {
+      ...previous,
+      kinds:
+        previous.kinds || violation.kinds
+          ? [
+              ...new Set([
+                ...(previous.kinds || []),
+                ...(violation.kinds || []),
+              ]),
+            ].sort()
+          : undefined,
+      line:
+        previous.line == null
+          ? violation.line
+          : violation.line == null
+            ? previous.line
+            : Math.min(previous.line, violation.line),
+    });
+  }
   return {
     inventory,
     violations: [...unique.values()].sort((a, b) => a.id.localeCompare(b.id)),
@@ -375,7 +511,11 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
       type: inventory.graph.typeOnlyCycles,
       nest: inventory.nest.moduleCycles,
     },
-    reciprocalAreas: inventory.graph.reciprocalAreas,
+    reciprocalAreas,
+    rawReciprocalAreas: inventory.graph.reciprocalAreas,
+    transitionalDebt: relocationResult.transitionalDebt,
+    relocationErrors,
+    relocationLedger: relocationValidation.ledger,
   };
 }
 
@@ -436,6 +576,7 @@ function check(root = REPOSITORY_ROOT, options = {}) {
       comparison.newViolations.length === 0 &&
       comparison.staleEntries.length === 0 &&
       comparison.invalidEntries.length === 0 &&
+      analysis.relocationErrors.length === 0 &&
       baselineGrowth.length === 0,
   };
 }
@@ -501,10 +642,15 @@ function main() {
     baseline,
     historicalBaseline: historical,
     strict: process.argv.includes('--strict'),
+    relocations: option('--relocations') || undefined,
   });
 
   if (process.argv.includes('--prune')) {
-    if (result.newViolations.length || result.baselineGrowth.length) {
+    if (
+      result.newViolations.length ||
+      result.baselineGrowth.length ||
+      result.relocationErrors.length
+    ) {
       process.stderr.write('--prune refuses to add or legitimize violations\n');
       process.exitCode = 1;
       return;
@@ -524,6 +670,8 @@ function main() {
     staleEntries: result.staleEntries.length,
     baselineGrowth: result.baselineGrowth.length,
     invalidEntries: result.invalidEntries.length,
+    transitionalDebt: result.transitionalDebt.length,
+    relocationErrors: result.relocationErrors.length,
     strict: process.argv.includes('--strict'),
   };
   if (process.argv.includes('--json')) {
@@ -544,6 +692,10 @@ function main() {
       process.stderr.write(`BASELINE_GROWTH ${entry.id}\n`);
     for (const entry of result.invalidEntries)
       process.stderr.write(`INVALID_BASELINE ${entry.id || '<missing-id>'}\n`);
+    for (const error of result.relocationErrors)
+      process.stderr.write(
+        `INVALID_RELOCATION ${error.code} ${error.message}\n`,
+      );
   }
   if (!result.ok) process.exitCode = 1;
 }

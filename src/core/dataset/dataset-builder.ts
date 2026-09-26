@@ -6,12 +6,12 @@ import {
   selectCheckpoint,
 } from '../metrics';
 import { MetricEvidence, MetricResult } from '../metrics/metric-contract';
-import { NormalizedTimelineEvent } from '../riot/normalized-events';
-import {
+import type { NormalizedTimelineEvent } from '../../modules/matches/contracts/normalized-events';
+import type {
   TimelineSnapshotProjection,
   ParticipantSnapshot,
-} from '../riot/timeline-snapshots';
-import { ProcessedMatchData } from '../../modules/worker/pure/match.parser';
+} from '../../modules/matches/contracts/normalized-snapshots';
+import type { ProcessedMatchData } from '../../modules/matches/contracts/normalized-match';
 import { computeContribution } from '../../modules/matches/pure/contribution-calculator';
 import { calculateVisionTotals } from '../../modules/matches/pure/vision-calculator';
 import { calculateCombat } from '../../modules/matches/pure/combat-calculator';

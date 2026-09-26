@@ -1,5 +1,5 @@
 import { metricQuality } from '../../../core/metrics/metric-contract';
-import { TimelineSnapshotProjection } from '../../../core/riot/timeline-snapshots';
+import type { TimelineSnapshotProjection } from '../contracts/normalized-snapshots';
 
 export interface GoldParticipant {
   teamId: number;
