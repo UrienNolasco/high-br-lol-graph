@@ -1,7 +1,7 @@
 import {
   FINAL_STAT_UNITS,
   FINAL_FLAG_FIELDS,
-} from '../../src/core/riot/final-stats';
+} from '../../src/modules/matches/contracts/final-stats';
 import { DiscoveryReportService } from '../../src/core/processing/discovery-report.service';
 import { DiscoveryContext } from '../../src/core/processing/discovery';
 import { readFileSync } from 'node:fs';
@@ -19,7 +19,7 @@ import { PlayerStatsAggregationService } from '../../src/core/stats/player-stats
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { WorkerController } from '../../src/modules/worker/worker.controller';
-import { TimelineParserService } from '../../src/core/riot/timeline-parser.service';
+import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { RiotService } from '../../src/core/riot/riot.service';
 import { QueueService } from '../../src/core/queue/queue.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';

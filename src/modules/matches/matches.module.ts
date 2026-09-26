@@ -33,6 +33,8 @@ import { PrismaModule } from '../../core/prisma/prisma.module';
 import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
 import { MatchEconomyController } from './match-economy.controller';
 import { MatchEconomyService } from './services/match-economy.service';
+import { DataDragonCatalogAdapter } from './adapters/data-dragon/catalog.adapter';
+import { MATCH_CATALOGS } from './ports/catalog-reader';
 
 @Module({
   imports: [PrismaModule, DataDragonModule],
@@ -50,6 +52,8 @@ import { MatchEconomyService } from './services/match-economy.service';
     MatchObjectivesController,
   ],
   providers: [
+    DataDragonCatalogAdapter,
+    { provide: MATCH_CATALOGS, useExisting: DataDragonCatalogAdapter },
     MatchBountiesStealsService,
     ReportRepository,
     MatchReportService,

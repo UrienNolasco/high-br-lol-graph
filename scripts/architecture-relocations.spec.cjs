@@ -108,6 +108,114 @@ function amendOrigin(f, files) {
   f.ledger.originSha = f.git('rev-parse', 'HEAD');
 }
 
+function addInternalAdapterRelocation(f, extraConsumers = []) {
+  const oldAdapter = 'src/modules/worker/pure/parser.ts';
+  const newAdapter = 'src/modules/matches/adapters/riot/parser.ts';
+  const workerConsumer = 'src/modules/worker/services/use.ts';
+  amendOrigin(f, {
+    [oldAdapter]: 'export function parse() { return 1; }',
+    [workerConsumer]:
+      "import { parse } from '../pure/parser'; export const value = parse();",
+    ...Object.fromEntries(
+      extraConsumers.map(({ from, originSource }) => [from, originSource]),
+    ),
+  });
+  f.write(f.newPath, 'export interface Event { timestampMs: number | null }');
+  f.write(
+    f.oldPath,
+    "export type { Event } from '../../modules/matches/contracts/normalized-events';",
+  );
+  f.write(
+    f.consumer,
+    "import type { Event } from '../../modules/matches/contracts/normalized-events'; export type UsedEvent = Event;",
+  );
+  fs.rmSync(path.join(f.root, oldAdapter));
+  f.write(newAdapter, 'export function parse() { return 1; }');
+  f.write(
+    workerConsumer,
+    "import { parse } from '../../matches/adapters/riot/parser'; export const value = parse();",
+  );
+  for (const consumer of extraConsumers)
+    f.write(consumer.from, consumer.source);
+  f.ledger.entries.push({
+    oldPath: oldAdapter,
+    newPath: newAdapter,
+    symbols: ['parse'],
+    consumers: [
+      {
+        from: workerConsumer,
+        kinds: ['runtime'],
+        symbols: ['parse'],
+        owner: 'worker',
+        removalCard: 'ARQ-10',
+      },
+      ...extraConsumers.map(({ from }) => ({
+        from,
+        kinds: ['runtime'],
+        symbols: ['parse'],
+        owner: 'matches',
+        removalCard: 'ARQ-10',
+      })),
+    ],
+  });
+  return { newAdapter, workerConsumer };
+}
+
+function addProviderCompositionRelocation(f) {
+  const oldProvider = 'src/core/riot/parser.service.ts';
+  const newProvider = 'src/modules/matches/adapters/riot/parser.service.ts';
+  const oldModule = 'src/core/riot/riot.module.ts';
+  const newModule = 'src/modules/matches/match-normalization.module.ts';
+  const consumer = 'src/modules/worker/worker.module.ts';
+  amendOrigin(f, {
+    [oldProvider]: 'export class ParserService {}',
+    [oldModule]:
+      "import { Module } from '@nestjs/common'; import { ParserService } from './parser.service'; @Module({ providers: [ParserService], exports: [ParserService] }) export class RiotModule {}",
+    [consumer]:
+      "import { Module } from '@nestjs/common'; import { RiotModule } from '../../core/riot/riot.module'; @Module({ imports: [RiotModule] }) export class WorkerModule {}",
+  });
+  f.write(f.newPath, 'export interface Event { timestampMs: number | null }');
+  f.write(
+    f.oldPath,
+    "export type { Event } from '../../modules/matches/contracts/normalized-events';",
+  );
+  f.write(
+    f.consumer,
+    "import type { Event } from '../../modules/matches/contracts/normalized-events'; export type UsedEvent = Event;",
+  );
+  f.write(newProvider, 'export class ParserService {}');
+  f.write(
+    newModule,
+    "import { Module } from '@nestjs/common'; import { ParserService } from './adapters/riot/parser.service'; @Module({ providers: [ParserService], exports: [ParserService] }) export class MatchNormalizationModule {}",
+  );
+  f.write(
+    consumer,
+    "import { Module } from '@nestjs/common'; import { MatchNormalizationModule } from '../matches/match-normalization.module'; @Module({ imports: [MatchNormalizationModule] }) export class WorkerModule {}",
+  );
+  f.ledger.entries.push({
+    kind: 'provider-composition',
+    oldPath: oldModule,
+    newPath: newModule,
+    symbols: ['MatchNormalizationModule'],
+    originSymbols: { MatchNormalizationModule: 'RiotModule' },
+    provider: {
+      symbol: 'ParserService',
+      oldPath: oldProvider,
+      newPath: newProvider,
+    },
+    consumers: [
+      {
+        from: consumer,
+        kinds: ['runtime'],
+        symbols: ['MatchNormalizationModule'],
+        owner: 'worker',
+        removalCard: 'ARQ-10',
+      },
+    ],
+  });
+  return { consumer, newModule };
+}
+
 test('verified extraction preserves logical boundary identity and reports its bridges', (t) => {
   const f = fixture(t);
   assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
@@ -336,5 +444,143 @@ test('an unrelated origin barrel cannot prove a declaration relocation', (t) => 
     validateRelocations(f.root, f.ledger).errors.some(
       (error) => error.code === 'origin-consumer-kind-mismatch',
     ),
+  );
+});
+
+test('a proven internal adapter move preserves ownership only for its original consumer', (t) => {
+  const f = fixture(t);
+  const { newAdapter } = addInternalAdapterRelocation(f);
+  let result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.equal(
+    result.violations.some(
+      (violation) =>
+        violation.rule === 'cross-module-internal-import' &&
+        violation.to === newAdapter,
+    ),
+    false,
+  );
+  f.write(
+    'src/modules/worker/services/unlisted.ts',
+    "import { parse } from '../../matches/adapters/riot/parser'; export const extra = parse();",
+  );
+  result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.ok(
+    result.violations.some(
+      (violation) =>
+        violation.rule === 'cross-module-internal-import' &&
+        violation.from === 'src/modules/worker/services/unlisted.ts' &&
+        violation.to === newAdapter,
+    ),
+  );
+});
+
+test('an adapter relocation never relaxes domain purity against its physical target', (t) => {
+  const f = fixture(t);
+  const domainConsumer = 'src/modules/matches/pure/use.ts';
+  const { newAdapter } = addInternalAdapterRelocation(f, [
+    {
+      from: domainConsumer,
+      originSource:
+        "import { parse } from '../../worker/pure/parser'; export const value = parse();",
+      source:
+        "import { parse } from '../adapters/riot/parser'; export const value = parse();",
+    },
+  ]);
+  const result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.ok(
+    result.violations.some(
+      (violation) =>
+        violation.rule === 'domain-no-framework-or-adapter' &&
+        violation.from === domainConsumer &&
+        violation.to === newAdapter,
+    ),
+  );
+});
+
+test('a CommonJS tool bridge proves its exact destructured runtime binding', (t) => {
+  const f = fixture(t);
+  const tool = 'scripts/use.cjs';
+  const { newAdapter } = addInternalAdapterRelocation(f, [
+    {
+      from: tool,
+      originSource:
+        "const { parse } = require('../src/modules/worker/pure/parser'); module.exports = parse();",
+      source:
+        "const { parse } = require('../src/modules/matches/adapters/riot/parser'); module.exports = parse();",
+    },
+  ]);
+  const validation = validateRelocations(f.root, f.ledger);
+  assert.deepEqual(validation.errors, []);
+  const result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.equal(
+    result.violations.some(
+      (violation) => violation.from === tool && violation.to === newAdapter,
+    ),
+    false,
+  );
+  f.write(
+    tool,
+    "const { unexpected } = require('../src/modules/matches/adapters/riot/parser'); module.exports = unexpected();",
+  );
+  assert.ok(validateRelocations(f.root, f.ledger).errors.length > 0);
+});
+
+test('a provider composition move proves both Nest module registrations', (t) => {
+  const f = fixture(t);
+  addProviderCompositionRelocation(f);
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+});
+
+test('a provider composition move rejects a missing provider registration', (t) => {
+  const f = fixture(t);
+  const { newModule } = addProviderCompositionRelocation(f);
+  f.write(
+    newModule,
+    "import { Module } from '@nestjs/common'; import { ParserService } from './adapters/riot/parser.service'; @Module({ providers: [], exports: [ParserService] }) export class MatchNormalizationModule {}",
+  );
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'provider-composition-mismatch',
+    ),
+  );
+});
+
+test('a provider composition move rejects an extra provider', (t) => {
+  const f = fixture(t);
+  const { newModule } = addProviderCompositionRelocation(f);
+  f.write(
+    newModule,
+    "import { Module } from '@nestjs/common'; import { ParserService } from './adapters/riot/parser.service'; class ExtraProvider {} @Module({ providers: [ParserService, ExtraProvider], exports: [ParserService] }) export class MatchNormalizationModule {}",
+  );
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'provider-composition-expanded',
+    ),
+  );
+});
+
+test('a provider composition move does not authorize an extra module consumer', (t) => {
+  const f = fixture(t);
+  const { newModule } = addProviderCompositionRelocation(f);
+  const extra = 'src/modules/worker/extra.module.ts';
+  f.write(
+    extra,
+    "import { Module } from '@nestjs/common'; import { MatchNormalizationModule } from '../matches/match-normalization.module'; @Module({ imports: [MatchNormalizationModule] }) export class ExtraModule {}",
+  );
+  const result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.ok(
+    result.violations.some(
+      (violation) => violation.from === extra && violation.to === newModule,
+    ),
+  );
+});
+
+test('strict mode rejects a provider composition bridge', (t) => {
+  const f = fixture(t);
+  addProviderCompositionRelocation(f);
+  f.ledger.entries = [f.ledger.entries.at(-1)];
+  assert.equal(
+    check(f.root, { relocations: f.ledger, baseline: [], strict: true }).ok,
+    false,
   );
 });

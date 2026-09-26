@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { projectTimelineSnapshots } from '../../src/core/riot/timeline-snapshots';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
+import { projectTimelineSnapshots } from '../../src/modules/matches/adapters/riot/timeline-snapshots';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 import { EconomyInput } from '../../src/modules/matches/pure/economy-calculator';
 
 export const economySummary = JSON.parse(

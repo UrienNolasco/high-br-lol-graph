@@ -3,7 +3,7 @@ import {
   mapPresenceFixture,
   mapPresenceTimeline,
 } from '../../../../test/fixtures/map-presence';
-import { TimelineParserService } from '../../../core/riot/timeline-parser.service';
+import { TimelineParserService } from '../adapters/riot/timeline-parser.service';
 function synthetic() {
   const input = mapPresenceFixture(),
     template = input.projection!.frames[0];

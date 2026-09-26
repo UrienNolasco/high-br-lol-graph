@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../core/prisma/prisma.service';
-import { readSnapshotProjection } from '../../../core/riot/timeline-snapshots';
+import { readSnapshotProjection } from '../contracts/snapshot-readers';
 import { calculateMapPresence } from '../pure/map-presence-calculator';
 
 @Injectable()

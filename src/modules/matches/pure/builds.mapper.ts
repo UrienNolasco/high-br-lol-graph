@@ -1,13 +1,13 @@
 import {
   readFinalInventory,
-  projectFinalInventory,
-} from '../../../core/riot/final-inventory';
+  unavailableFinalInventory,
+} from '../contracts/final-inventory';
 import type { InventoryItem } from '../contracts/final-inventory';
 import {
   ItemCatalog,
   ItemMetadata,
   unavailableItemCatalog,
-} from '../../../core/data-dragon/item-catalog';
+} from '../contracts/catalogs';
 export interface ItemTimelineJson {
   itemId: number;
   timestamp: number;
@@ -51,7 +51,7 @@ export function mapParticipantBuild(
   catalog: ItemCatalog = unavailableItemCatalog('unknown'),
 ): ParticipantBuild {
   const projection = readFinalInventory(p.finalInventory);
-  const source = projection ?? projectFinalInventory({});
+  const source = projection ?? unavailableFinalInventory();
   const inventoryReason = projection
     ? null
     : p.finalInventory == null

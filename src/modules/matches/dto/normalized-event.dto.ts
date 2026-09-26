@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import type {
   EventQuality,
   NormalizedTimelineEvent,
-} from '../../../modules/matches/contracts/normalized-events';
+} from '../contracts/normalized-events';
 
 export class NormalizedTimelineEventDto implements NormalizedTimelineEvent {
   @ApiProperty({

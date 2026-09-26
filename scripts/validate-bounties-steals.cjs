@@ -3,8 +3,8 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const {
   normalizeTimelineEvents,
-} = require('../dist/core/riot/normalized-events');
-const { parseMatchData } = require('../dist/modules/worker/pure/match.parser');
+} = require('../dist/modules/matches/adapters/riot/normalized-events');
+const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
 const {
   calculateBountiesSteals,
   STEAL_CHALLENGES,

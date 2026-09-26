@@ -8,7 +8,7 @@ import {
 } from '../pure/gold-calculator';
 import { MatchGoldTimelineDto } from '../dto/match-deep-dive.dto';
 import { metricQuality } from '../contracts/metric-contract';
-import { readSnapshotProjection } from '../../../core/riot/timeline-snapshots';
+import { readSnapshotProjection } from '../contracts/snapshot-readers';
 
 @Injectable()
 export class MatchGoldTimelineService {

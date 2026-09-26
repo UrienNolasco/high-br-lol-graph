@@ -18,7 +18,7 @@ const { PROCESSING_VERSION } = from('core/processing/processing.constants');
 const { PlayerStatsAggregationService } = from(
   'core/stats/player-stats-aggregation.service',
 );
-const { TimelineParserService } = from('core/riot/timeline-parser.service');
+const { TimelineParserService } = from('modules/matches/adapters/riot/timeline-parser.service');
 const { MatchPersistenceService } = from(
   'modules/worker/services/match-persistence.service',
 );
@@ -32,8 +32,8 @@ const { MatchReportService } = from(
 const { MatchReportController } = from(
   'modules/matches/match-report.controller',
 );
-const { unavailableItemCatalog } = from('core/data-dragon/item-catalog');
-const { unavailableSkillCatalog } = from('core/data-dragon/skill-catalog');
+const { unavailableItemCatalog } = from('modules/matches/contracts/catalogs');
+const { unavailableSkillCatalog } = from('modules/matches/contracts/catalogs');
 const { VISION_WARD_TYPES } = from('modules/matches/pure/vision-calculator');
 const root = path.resolve(__dirname, '..');
 const option = (key) => {

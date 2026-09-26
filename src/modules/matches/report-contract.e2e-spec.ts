@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import request from 'supertest';
 import { MatchesModule } from './matches.module';
 import { PrismaService } from '../../core/prisma/prisma.service';
-import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
+import { MATCH_CATALOGS } from './ports/catalog-reader';
 import { mockPrismaService } from '../../../test/helpers/shared-mocks';
 import { ReportRepository } from './repositories/report.repository';
 import { reportFixture, reportCatalogs } from '../../../test/fixtures/report';
@@ -25,7 +25,7 @@ describe('MET17 report REST contract', () => {
     const module = await Test.createTestingModule({ imports: [MatchesModule] })
       .overrideProvider(ReportRepository)
       .useValue(repository)
-      .overrideProvider(DataDragonService)
+      .overrideProvider(MATCH_CATALOGS)
       .useValue(catalogs)
       .overrideProvider(PrismaService)
       .useValue(mockPrismaService())

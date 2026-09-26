@@ -1,7 +1,4 @@
-import {
-  ItemCatalog,
-  ItemMetadata,
-} from '../../../../core/data-dragon/item-catalog';
+import { ItemCatalog, ItemMetadata } from '../../contracts/catalogs';
 import {
   ProgressionEvent,
   eventId,

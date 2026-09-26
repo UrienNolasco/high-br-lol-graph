@@ -1,4 +1,4 @@
-import { NormalizedTimelineEventDto } from './core/riot/dto/normalized-event.dto';
+import { NormalizedTimelineEventDto } from './modules/matches/dto/normalized-event.dto';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -15,7 +15,7 @@ import { METRIC_OPENAPI_EXAMPLES } from './modules/matches/dto/metric-result.dto
 import {
   ParticipantSnapshotDto,
   TimelineSnapshotProjectionDto,
-} from './core/riot/timeline-snapshots.dto';
+} from './modules/matches/dto/timeline-snapshots.dto';
 
 const bootLogger = pino({
   transport:

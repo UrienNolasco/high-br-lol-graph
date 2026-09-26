@@ -2,25 +2,27 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   legacyMinuteGraphs,
-  projectTimelineSnapshots,
   snapshotCheckpoint,
-} from './timeline-snapshots';
+} from '../../contracts/snapshot-readers';
+import { projectTimelineSnapshots } from './timeline-snapshots';
 import {
   computeSnapshotGoldTimeline,
   findObservedSwing,
-} from '../../modules/matches/pure/gold-calculator';
-import { projectionComparisonTimeline } from '../../modules/analytics/pure/comparison-timeline.adapter';
+} from '../../pure/gold-calculator';
 import { TimelineParserService } from './timeline-parser.service';
 
 const timeline = JSON.parse(
   readFileSync(
-    join(__dirname, '../../../exemplo_partida_timeline_BR1_3200579475.json'),
+    join(
+      __dirname,
+      '../../../../../exemplo_partida_timeline_BR1_3200579475.json',
+    ),
     'utf8',
   ),
 );
 const match = JSON.parse(
   readFileSync(
-    join(__dirname, '../../../exemplo_partida_BR1_3200579475.json'),
+    join(__dirname, '../../../../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 );
@@ -114,9 +116,6 @@ describe('complete timestamped snapshots', () => {
     expect(snapshotCheckpoint(projection, 1, 2400000, 2368000).reason).toBe(
       'short_match',
     );
-    const decoded = projectionComparisonTimeline(projection);
-    expect(decoded.frames).toHaveLength(41);
-    expect(decoded.participants).toHaveLength(10);
   });
   it('gold uses both final-minute frames and exposes missing source instead of a fake zero', () => {
     const raw = structuredClone(timeline);

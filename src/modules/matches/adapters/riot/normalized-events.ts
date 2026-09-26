@@ -1,14 +1,8 @@
-import type { TimelineDto } from './dto/timeline.dto';
+import type { TimelineDto } from '../../../../core/riot/dto/timeline.dto';
 import type {
   EventQuality,
   NormalizedTimelineEvent,
-} from '../../modules/matches/contracts/normalized-events';
-
-/** @deprecated Import canonical types from modules/matches/contracts. */
-export type {
-  EventQuality,
-  NormalizedTimelineEvent,
-} from '../../modules/matches/contracts/normalized-events';
+} from '../../contracts/normalized-events';
 
 export const EVENT_METRIC_VERSION = 1;
 export interface EventNormalizationMetadata {

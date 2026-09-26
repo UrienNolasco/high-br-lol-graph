@@ -3,9 +3,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import request from 'supertest';
 import { MatchesModule } from './matches.module';
 import { PrismaService } from '../../core/prisma/prisma.service';
-import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
-import { projectFinalInventory } from '../../core/riot/final-inventory';
-import { unavailableItemCatalog } from '../../core/data-dragon/item-catalog';
+import { MATCH_CATALOGS } from './ports/catalog-reader';
+import { projectFinalInventory } from './adapters/riot/final-inventory';
+import { unavailableItemCatalog } from './contracts/catalogs';
 import { createTestingApp } from '../../../test/helpers/app.builder';
 import { mockPrismaService } from '../../../test/helpers/shared-mocks';
 describe('builds inventory HTTP and OpenAPI', () => {
@@ -17,7 +17,7 @@ describe('builds inventory HTTP and OpenAPI', () => {
     app = await createTestingApp(MatchesModule, {
       overrides: [
         { provide: PrismaService, useValue: prisma },
-        { provide: DataDragonService, useValue: dragon },
+        { provide: MATCH_CATALOGS, useValue: dragon },
       ],
     });
   });

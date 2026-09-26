@@ -8,15 +8,12 @@ import {
   unavailableMetric,
 } from '../../contracts/metric-contract';
 import { gameVersionPatch } from '../../contracts/eligibility';
-import {
-  ItemCatalog,
-  unavailableItemCatalog,
-} from '../../../../core/data-dragon/item-catalog';
+import { ItemCatalog, unavailableItemCatalog } from '../../contracts/catalogs';
 import {
   SkillCatalog,
   unavailableSkillCatalog,
-} from '../../../../core/data-dragon/skill-catalog';
-import { readSnapshotProjection } from '../../../../core/riot/timeline-snapshots';
+} from '../../contracts/catalogs';
+import { readSnapshotProjection } from '../../contracts/snapshot-readers';
 import { mapParticipantBuild, BuildParticipant } from '../builds.mapper';
 import { buildItemLedger } from './item-ledger';
 import {

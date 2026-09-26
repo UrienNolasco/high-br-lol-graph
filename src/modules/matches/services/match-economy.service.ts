@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { CheckpointMode } from '../contracts/temporal';
-import { readSnapshotProjection } from '../../../core/riot/timeline-snapshots';
+import { readSnapshotProjection } from '../contracts/snapshot-readers';
 import { calculateEconomy } from '../pure/economy-calculator';
 
 @Injectable()

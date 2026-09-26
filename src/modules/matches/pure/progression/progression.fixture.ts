@@ -1,6 +1,5 @@
-import { projectFinalInventory } from '../../../../core/riot/final-inventory';
-import { ItemCatalog } from '../../../../core/data-dragon/item-catalog';
-import { SkillCatalog } from '../../../../core/data-dragon/skill-catalog';
+import { projectFinalInventory } from '../../adapters/riot/final-inventory';
+import { ItemCatalog, SkillCatalog } from '../../contracts/catalogs';
 import { ProgressionInput } from './progression-calculator';
 import { ProgressionEvent } from './types';
 export const event = (

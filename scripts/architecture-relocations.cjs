@@ -88,15 +88,68 @@ function isolateImport(source, file, selected) {
   return isolated;
 }
 
+function bindingNames(name) {
+  if (ts.isObjectBindingPattern(name))
+    return name.elements.flatMap((element) =>
+      ts.isIdentifier(element.name)
+        ? [element.propertyName?.text || element.name.text]
+        : [],
+    );
+  return ts.isIdentifier(name) ? ['*'] : [];
+}
+
+function commonJsBindings(source, file) {
+  const parsed = sourceFile(file, source);
+  const result = [];
+  for (const statement of parsed.statements) {
+    if (!ts.isVariableStatement(statement)) continue;
+    for (const declaration of statement.declarationList.declarations) {
+      const call = declaration.initializer;
+      if (
+        !call ||
+        !ts.isCallExpression(call) ||
+        !ts.isIdentifier(call.expression) ||
+        !['require', 'from'].includes(call.expression.text) ||
+        call.arguments.length !== 1 ||
+        !ts.isStringLiteralLike(call.arguments[0])
+      )
+        continue;
+      result.push({
+        specifier: call.arguments[0].text,
+        runtimeBindings: bindingNames(declaration.name),
+        typeBindings: [],
+        syntax: call.expression.text === 'from' ? 'compiled-loader' : 'require',
+        line:
+          parsed.getLineAndCharacterOfPosition(statement.getStart()).line + 1,
+      });
+    }
+  }
+  return result;
+}
+
+const sameSpecifier = (left, right) =>
+  left === right || left === `dist:${right}` || `dist:${left}` === right;
+
 function refineCurrentImportEdges(root, imports) {
   const sources = new Map();
   for (const edge of imports) {
-    if (edge.syntax !== 'import' || !edge.kinds.includes('runtime')) continue;
+    if (!edge.kinds.includes('runtime')) continue;
     const absolute = path.join(root, edge.from);
     if (!fs.existsSync(absolute)) continue;
     if (!sources.has(edge.from))
       sources.set(edge.from, fs.readFileSync(absolute, 'utf8'));
     const source = sources.get(edge.from);
+    if (edge.syntax === 'require' || edge.syntax === 'compiled-loader') {
+      const binding = commonJsBindings(source, edge.from).find(
+        (candidate) =>
+          candidate.syntax === edge.syntax &&
+          sameSpecifier(candidate.specifier, edge.specifier) &&
+          candidate.line <= edge.line,
+      );
+      if (binding) edge.relocationRuntimeBindings = binding.runtimeBindings;
+      continue;
+    }
+    if (edge.syntax !== 'import') continue;
     const parsed = sourceFile(edge.from, source);
     const statement = parsed.statements.find(
       (candidate) =>
@@ -157,6 +210,48 @@ function declarations(source, file) {
     for (const name of names) result.set(name, kind);
   }
   return result;
+}
+
+function nestModuleMetadata(source, file, className) {
+  const parsed = sourceFile(file, source);
+  const declaration = parsed.statements.find(
+    (statement) =>
+      ts.isClassDeclaration(statement) && statement.name?.text === className,
+  );
+  if (!declaration || !ts.canHaveDecorators(declaration)) return null;
+  const decorator = (ts.getDecorators(declaration) || []).find(
+    (candidate) =>
+      ts.isCallExpression(candidate.expression) &&
+      ts.isIdentifier(candidate.expression.expression) &&
+      candidate.expression.expression.text === 'Module',
+  );
+  const argument = decorator?.expression.arguments[0];
+  if (!argument || !ts.isObjectLiteralExpression(argument)) return null;
+  const result = {
+    imports: new Set(),
+    providers: new Set(),
+    exports: new Set(),
+  };
+  for (const property of argument.properties) {
+    if (
+      !ts.isPropertyAssignment(property) ||
+      !ts.isIdentifier(property.name) ||
+      !['imports', 'providers', 'exports'].includes(property.name.text) ||
+      !ts.isArrayLiteralExpression(property.initializer)
+    )
+      continue;
+    for (const element of property.initializer.elements)
+      if (ts.isIdentifier(element))
+        result[property.name.text].add(element.text);
+  }
+  return result;
+}
+
+function directlyImports(source, file, target, symbol, resolver) {
+  return importedBindings(source, file).some((item) => {
+    if (!item.runtimeBindings.includes(symbol)) return false;
+    return resolver(file, item.specifier) === target;
+  });
 }
 
 function namedReexports(source, file) {
@@ -227,7 +322,7 @@ function importedBindings(source, file) {
       typeBindings,
     });
   }
-  return result;
+  return [...result, ...commonJsBindings(source, file)];
 }
 
 function resolvesTo(from, specifier, expected) {
@@ -245,12 +340,17 @@ function resolvesTo(from, specifier, expected) {
 }
 
 function originPath(root, revision, from, specifier) {
-  if (!specifier.startsWith('.')) return null;
+  const internalBase = specifier.startsWith('.')
+    ? path.posix.normalize(path.posix.join(path.posix.dirname(from), specifier))
+    : from.startsWith('scripts/') && /^[A-Za-z0-9_-]+\//.test(specifier)
+      ? `src/${specifier}`
+      : null;
+  if (!internalBase) return null;
   const cacheKey = `${root}\n${revision}\n${from}\n${specifier}`;
   if (originPathCache.has(cacheKey)) return originPathCache.get(cacheKey);
-  const base = path.posix.normalize(
-    path.posix.join(path.posix.dirname(from), specifier),
-  );
+  const base = internalBase.startsWith('dist/')
+    ? `src/${internalBase.slice('dist/'.length)}`
+    : internalBase;
   const treeKey = `${root}\n${revision}`;
   if (!originFilesCache.has(treeKey))
     originFilesCache.set(
@@ -512,6 +612,27 @@ function validateRelocations(root, value, inventory) {
           index,
         );
     }
+    if (entry.kind !== undefined && entry.kind !== 'provider-composition')
+      error(
+        'invalid-relocation-kind',
+        'Relocation kind must be provider-composition when specified',
+        index,
+      );
+    if (entry.kind === 'provider-composition') {
+      const provider = entry.provider;
+      if (
+        entry.symbols?.length !== 1 ||
+        !provider ||
+        typeof provider.symbol !== 'string' ||
+        typeof provider.oldPath !== 'string' ||
+        typeof provider.newPath !== 'string'
+      )
+        error(
+          'invalid-provider-composition',
+          'A provider composition relocation requires one module symbol and explicit provider symbol/paths',
+          index,
+        );
+    }
     if (!Array.isArray(entry.consumers) || !entry.consumers.length)
       error(
         'missing-consumers',
@@ -584,6 +705,7 @@ function validateRelocations(root, value, inventory) {
       );
       continue;
     }
+    const currentNew = fs.readFileSync(newAbsolute, 'utf8');
     for (const symbol of entry.symbols) {
       const currentKind = currentExportKind(root, entry.newPath, symbol);
       if (!currentKind)
@@ -597,6 +719,93 @@ function validateRelocations(root, value, inventory) {
         error(
           'declaration-kind-changed',
           `${symbol} changed from ${originKind} to ${currentKind}`,
+          entryIndex,
+        );
+    }
+
+    if (entry.kind === 'provider-composition' && entry.provider) {
+      const provider = entry.provider;
+      let originProviderSource = null;
+      try {
+        originProviderSource = gitShow(
+          root,
+          ledger.originSha,
+          provider.oldPath,
+        );
+      } catch {
+        error(
+          'missing-origin-provider',
+          `Origin does not contain provider ${provider.oldPath}`,
+          entryIndex,
+        );
+      }
+      const currentProviderKind = currentExportKind(
+        root,
+        provider.newPath,
+        provider.symbol,
+      );
+      if (
+        !originProviderSource ||
+        declarations(originProviderSource, provider.oldPath).get(
+          provider.symbol,
+        ) !== 'runtime' ||
+        currentProviderKind !== 'runtime'
+      )
+        error(
+          'provider-declaration-mismatch',
+          `${provider.symbol} must be a runtime declaration at both provider endpoints`,
+          entryIndex,
+        );
+      const oldModuleClass = originSymbol(entry, entry.symbols[0]);
+      const newModuleClass = entry.symbols[0];
+      const oldMetadata = nestModuleMetadata(
+        originSource,
+        entry.oldPath,
+        oldModuleClass,
+      );
+      const newMetadata = nestModuleMetadata(
+        currentNew,
+        entry.newPath,
+        newModuleClass,
+      );
+      const oldImportsProvider = directlyImports(
+        originSource,
+        entry.oldPath,
+        provider.oldPath,
+        provider.symbol,
+        (from, specifier) =>
+          originPath(root, ledger.originSha, from, specifier),
+      );
+      const newImportsProvider = directlyImports(
+        currentNew,
+        entry.newPath,
+        provider.newPath,
+        provider.symbol,
+        (from, specifier) => currentPath(root, from, specifier),
+      );
+      for (const [side, metadata, importsProvider] of [
+        ['origin', oldMetadata, oldImportsProvider],
+        ['current', newMetadata, newImportsProvider],
+      ])
+        if (
+          !importsProvider ||
+          !metadata?.providers.has(provider.symbol) ||
+          !metadata?.exports.has(provider.symbol)
+        )
+          error(
+            'provider-composition-mismatch',
+            `${side} module must import, provide and export ${provider.symbol}`,
+            entryIndex,
+          );
+      if (
+        newMetadata &&
+        (newMetadata.imports.size !== 0 ||
+          newMetadata.providers.size !== 1 ||
+          newMetadata.exports.size !== 1)
+      )
+        error(
+          'provider-composition-expanded',
+          `Current composition module may contain only ${provider.symbol} in providers/exports and no module imports`,
           entryIndex,
         );
     }
@@ -660,10 +869,15 @@ function validateRelocations(root, value, inventory) {
           entryIndex,
           consumerIndex,
         );
-      if (consumer.syntax && !['import', 'reexport'].includes(consumer.syntax))
+      if (
+        consumer.syntax &&
+        !['import', 'reexport', 'require', 'compiled-loader'].includes(
+          consumer.syntax,
+        )
+      )
         error(
           'invalid-consumer-syntax',
-          'Consumer syntax must be import or reexport when specified',
+          'Consumer syntax must be import, reexport, require or compiled-loader when specified',
           entryIndex,
           consumerIndex,
         );

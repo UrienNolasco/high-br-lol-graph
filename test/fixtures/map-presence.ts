@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { projectTimelineSnapshots } from '../../src/core/riot/timeline-snapshots';
+import { projectTimelineSnapshots } from '../../src/modules/matches/adapters/riot/timeline-snapshots';
 import { MapPresenceInput } from '../../src/modules/matches/pure/map-presence-calculator';
 export const mapPresenceSummary = JSON.parse(
   readFileSync(

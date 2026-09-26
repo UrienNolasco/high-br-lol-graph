@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import request from 'supertest';
 import { PrismaService } from '../../core/prisma/prisma.service';
-import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
+import { MATCH_CATALOGS } from './ports/catalog-reader';
 import { MatchesModule } from './matches.module';
 import { createTestingApp } from '../../../test/helpers/app.builder';
 import { mockPrismaService } from '../../../test/helpers/shared-mocks';
@@ -20,7 +20,7 @@ describe('MET15 projected sequences HTTP/OpenAPI', () => {
     app = await createTestingApp(MatchesModule, {
       overrides: [
         { provide: PrismaService, useValue: prisma },
-        { provide: DataDragonService, useValue: dragon },
+        { provide: MATCH_CATALOGS, useValue: dragon },
       ],
     });
   });

@@ -1,20 +1,15 @@
-import {
-  SkillCatalog,
-  unavailableSkillCatalog,
-  parseSkillCatalog,
-  catalogRecord,
-} from './skill-catalog';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import * as fs from 'fs';
 import * as path from 'path';
+import { compatibleItemVersion } from './catalog-version';
 import {
-  compatibleItemVersion,
-  itemProgressionMetadata,
-  ItemCatalog,
-  unavailableItemCatalog,
-} from './item-catalog';
+  DataDragonItemCatalogSource,
+  DataDragonItemRecord,
+  DataDragonSkillCatalogSource,
+  DataDragonSkillRecord,
+} from './catalog-source';
 const record = (value: unknown): Record<string, unknown> | null =>
   value !== null && typeof value === 'object' && !Array.isArray(value)
     ? (value as Record<string, unknown>)
@@ -37,6 +32,32 @@ interface ChampionsFile {
   };
 }
 
+const unavailableItemCatalogSource = (
+  gameVersion: string,
+  status: DataDragonItemCatalogSource['status'] = 'catalog_unavailable',
+): DataDragonItemCatalogSource => ({
+  gameVersion,
+  version: null,
+  locale: 'pt_BR',
+  policy: 'latest_revision_of_exact_patch',
+  status,
+  items: {},
+});
+
+const unavailableSkillCatalogSource = (
+  gameVersion: string,
+  championId: number,
+  status: DataDragonSkillCatalogSource['status'] = 'catalog_unavailable',
+): DataDragonSkillCatalogSource => ({
+  gameVersion,
+  championId,
+  version: null,
+  locale: 'pt_BR',
+  policy: 'latest_revision_of_exact_patch',
+  status,
+  spells: [],
+});
+
 @Injectable()
 export class DataDragonService implements OnModuleInit {
   private readonly logger = new Logger(DataDragonService.name);
@@ -53,31 +74,37 @@ export class DataDragonService implements OnModuleInit {
   private fullVersionCachePromise: Promise<string> | null = null;
   private itemCatalogs = new Map<
     string,
-    { expiresAt: number; catalog: ItemCatalog }
+    { expiresAt: number; catalog: DataDragonItemCatalogSource }
   >();
-  private pendingItemCatalogs = new Map<string, Promise<ItemCatalog>>();
+  private pendingItemCatalogs = new Map<
+    string,
+    Promise<DataDragonItemCatalogSource>
+  >();
 
   constructor(private readonly httpService: HttpService) {}
   private readonly skillCatalogs = new Map<
     string,
-    { expiresAt: number; catalog: SkillCatalog }
+    { expiresAt: number; catalog: DataDragonSkillCatalogSource }
   >();
   private readonly pendingSkillCatalogs = new Map<
     string,
-    Promise<SkillCatalog>
+    Promise<DataDragonSkillCatalogSource>
   >();
   /** Strictly network-free; report reads never warm the catalog. */
-  getCachedSkillCatalog(gameVersion: string, championId: number): SkillCatalog {
+  getCachedSkillCatalogSource(
+    gameVersion: string,
+    championId: number,
+  ): DataDragonSkillCatalogSource {
     const entry = this.skillCatalogs.get(`${gameVersion}:${championId}`);
     return entry && entry.expiresAt > Date.now()
       ? entry.catalog
-      : unavailableSkillCatalog(gameVersion, championId);
+      : unavailableSkillCatalogSource(gameVersion, championId);
   }
   /** Explicit preloading API for callers outside report GET paths. */
-  async getSkillCatalogForGameVersion(
+  async getSkillCatalogSourceForGameVersion(
     gameVersion: string,
     championId: number,
-  ): Promise<SkillCatalog> {
+  ): Promise<DataDragonSkillCatalogSource> {
     const key = `${gameVersion}:${championId}`,
       cached = this.skillCatalogs.get(key);
     if (cached && cached.expiresAt > Date.now()) return cached.catalog;
@@ -87,7 +114,8 @@ export class DataDragonService implements OnModuleInit {
       .then((catalog) => {
         this.skillCatalogs.set(key, {
           catalog,
-          expiresAt: Date.now() + (catalog.reason ? 60000 : 3600000),
+          expiresAt:
+            Date.now() + (catalog.status === 'ok' ? 3_600_000 : 60_000),
         });
         return catalog;
       })
@@ -98,7 +126,7 @@ export class DataDragonService implements OnModuleInit {
   private async loadSkillCatalog(
     gameVersion: string,
     championId: number,
-  ): Promise<SkillCatalog> {
+  ): Promise<DataDragonSkillCatalogSource> {
     try {
       const options = { timeout: 5000, maxContentLength: 5000000 };
       const versions = (
@@ -110,41 +138,45 @@ export class DataDragonService implements OnModuleInit {
         !Array.isArray(versions) ||
         !versions.every((v) => typeof v === 'string')
       )
-        return unavailableSkillCatalog(
+        return unavailableSkillCatalogSource(
           gameVersion,
           championId,
           'invalid_catalog',
         );
       const version = compatibleItemVersion(gameVersion, versions);
       if (!version)
-        return unavailableSkillCatalog(
+        return unavailableSkillCatalogSource(
           gameVersion,
           championId,
           'unsupported_version',
         );
       const base = `https://ddragon.leagueoflegends.com/cdn/${version}/data/pt_BR`;
-      const index = catalogRecord(
-        (
-          await firstValueFrom(
-            this.httpService.get<unknown>(`${base}/champion.json`, options),
-          )
-        ).data,
-      );
+      const index =
+        record(
+          (
+            await firstValueFrom(
+              this.httpService.get<unknown>(`${base}/champion.json`, options),
+            )
+          ).data,
+        ) ?? {};
       if (index.version !== version)
-        return unavailableSkillCatalog(
+        return unavailableSkillCatalogSource(
           gameVersion,
           championId,
           'invalid_catalog',
         );
-      const champion = Object.values(catalogRecord(index.data))
-        .map(catalogRecord)
-        .find((p) => p.key === String(championId));
+      const champion = Object.values(record(index?.data) ?? {})
+        .map(record)
+        .find(
+          (p): p is Record<string, unknown> =>
+            p !== null && p.key === String(championId),
+        );
       if (
         !champion ||
         typeof champion.id !== 'string' ||
         !/^[A-Za-z0-9]+$/.test(champion.id)
       )
-        return unavailableSkillCatalog(
+        return unavailableSkillCatalogSource(
           gameVersion,
           championId,
           'unknown_champion_id',
@@ -157,24 +189,74 @@ export class DataDragonService implements OnModuleInit {
           ),
         )
       ).data;
-      return parseSkillCatalog(gameVersion, version, championId, raw);
+      const file = record(raw);
+      const data = record(file?.data);
+      if (file?.version !== version)
+        return unavailableSkillCatalogSource(
+          gameVersion,
+          championId,
+          'invalid_catalog',
+        );
+      const championDetail = Object.values(data ?? {})
+        .map(record)
+        .find(
+          (entry): entry is Record<string, unknown> =>
+            entry !== null && entry.key === String(championId),
+        );
+      if (!championDetail)
+        return unavailableSkillCatalogSource(
+          gameVersion,
+          championId,
+          'unknown_champion_id',
+        );
+      const spells = Array.isArray(championDetail?.spells)
+        ? championDetail.spells.map((spell): DataDragonSkillRecord => {
+            const value = record(spell);
+            return {
+              id: value?.id,
+              name: value?.name,
+              maxrank: value?.maxrank,
+            };
+          })
+        : [];
+      if (
+        spells.length !== 4 ||
+        spells.some(
+          (spell) =>
+            typeof spell.id !== 'string' || typeof spell.name !== 'string',
+        )
+      )
+        return unavailableSkillCatalogSource(
+          gameVersion,
+          championId,
+          'invalid_catalog',
+        );
+      return {
+        gameVersion,
+        version,
+        championId,
+        locale: 'pt_BR',
+        policy: 'latest_revision_of_exact_patch',
+        status: 'ok',
+        spells,
+      };
     } catch {
-      return unavailableSkillCatalog(gameVersion, championId);
+      return unavailableSkillCatalogSource(gameVersion, championId);
     }
   }
 
   /** Network-free read for reports. Missing metadata must not block inventory. */
-  getCachedItemCatalog(gameVersion: string): ItemCatalog {
+  getCachedItemCatalogSource(gameVersion: string): DataDragonItemCatalogSource {
     const entry = this.itemCatalogs.get(gameVersion);
     return entry && entry.expiresAt > Date.now()
       ? entry.catalog
-      : unavailableItemCatalog(gameVersion);
+      : unavailableItemCatalogSource(gameVersion);
   }
 
   /** Resolve within the match patch; never fall back to current/latest patch. */
-  async getItemCatalogForGameVersion(
+  async getItemCatalogSourceForGameVersion(
     gameVersion: string,
-  ): Promise<ItemCatalog> {
+  ): Promise<DataDragonItemCatalogSource> {
     const cached = this.itemCatalogs.get(gameVersion);
     if (cached && cached.expiresAt > Date.now()) return cached.catalog;
     const pending = this.pendingItemCatalogs.get(gameVersion);
@@ -183,7 +265,8 @@ export class DataDragonService implements OnModuleInit {
       .then((catalog) => {
         this.itemCatalogs.set(gameVersion, {
           catalog,
-          expiresAt: Date.now() + (catalog.reason ? 60_000 : 3_600_000),
+          expiresAt:
+            Date.now() + (catalog.status === 'ok' ? 3_600_000 : 60_000),
         });
         return catalog;
       })
@@ -192,7 +275,9 @@ export class DataDragonService implements OnModuleInit {
     return request;
   }
 
-  private async loadItemCatalog(gameVersion: string): Promise<ItemCatalog> {
+  private async loadItemCatalog(
+    gameVersion: string,
+  ): Promise<DataDragonItemCatalogSource> {
     try {
       const options = { timeout: 5000, maxContentLength: 5_000_000 };
       const versions = (
@@ -204,10 +289,10 @@ export class DataDragonService implements OnModuleInit {
         !Array.isArray(versions) ||
         !versions.every((v) => typeof v === 'string')
       )
-        return unavailableItemCatalog(gameVersion, 'invalid_catalog');
+        return unavailableItemCatalogSource(gameVersion, 'invalid_catalog');
       const version = compatibleItemVersion(gameVersion, versions);
       if (!version)
-        return unavailableItemCatalog(gameVersion, 'unsupported_version');
+        return unavailableItemCatalogSource(gameVersion, 'unsupported_version');
       const url = `https://ddragon.leagueoflegends.com/cdn/${version}/data/pt_BR/item.json`;
       const rawFile = (
         await firstValueFrom(this.httpService.get<unknown>(url, options))
@@ -215,26 +300,21 @@ export class DataDragonService implements OnModuleInit {
       const file = record(rawFile);
       const data = record(file?.data);
       if (file?.version !== version || !data)
-        return unavailableItemCatalog(gameVersion, 'invalid_catalog');
+        return unavailableItemCatalogSource(gameVersion, 'invalid_catalog');
       const items = Object.fromEntries(
         Object.entries(data).flatMap(([id, rawValue]) => {
           const value = record(rawValue);
           if (!/^\d+$/.test(id) || typeof value?.name !== 'string') return [];
-          const filename = record(value.image)?.full;
-          return [
-            [
-              id,
-              {
-                name: value.name,
-                ...itemProgressionMetadata(value),
-                imageUrl:
-                  typeof filename === 'string' &&
-                  /^[\w.-]+\.png$/.test(filename)
-                    ? `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${filename}`
-                    : null,
-              },
-            ],
-          ];
+          const item: DataDragonItemRecord = {
+            name: value.name,
+            image: value.image,
+            from: value.from,
+            into: value.into,
+            tags: value.tags,
+            consumed: value.consumed,
+            consumeOnFull: value.consumeOnFull,
+          };
+          return [[id, item] as const];
         }),
       );
       return {
@@ -242,11 +322,11 @@ export class DataDragonService implements OnModuleInit {
         version,
         locale: 'pt_BR',
         policy: 'latest_revision_of_exact_patch',
-        reason: null,
+        status: 'ok',
         items,
       };
     } catch {
-      return unavailableItemCatalog(gameVersion);
+      return unavailableItemCatalogSource(gameVersion);
     }
   }
 

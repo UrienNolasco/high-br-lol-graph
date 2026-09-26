@@ -2,15 +2,15 @@ import {
   projectFinalStats,
   projectFinalContext,
   projectFinalObjectives,
-  optionalText,
-} from '../../../core/riot/final-stats';
-import { MatchDto, ParticipantDto } from '../../../core/riot/dto/match.dto';
-import type { ProcessedMatchData } from '../../matches/contracts/normalized-match';
-import { projectFinalInventory } from '../../../core/riot/final-inventory';
+} from './final-stats';
+import { optionalText } from '../../contracts/participant-display';
+import { MatchDto, ParticipantDto } from '../../../../core/riot/dto/match.dto';
+import type { ProcessedMatchData } from '../../contracts/normalized-match';
+import { projectFinalInventory } from './final-inventory';
 import {
   championPopulationEligibility,
   bansAvailable,
-} from '../../matches/contracts/champion-population';
+} from '../../contracts/champion-population';
 
 export function buildParticipantMap(
   timelinePuuids: string[],

@@ -2,30 +2,18 @@ import {
   normalizeTimelineEvents,
   KNOWN_EVENT_TYPES,
 } from './normalized-events';
-import type { KnownTimelineEvent } from './dto/timeline.dto';
+import type { KnownTimelineEvent } from '../../../../core/riot/dto/timeline.dto';
 import { Injectable, Logger } from '@nestjs/common';
-import {
-  projectTimelineSnapshots,
-  legacyMinuteGraphs,
-} from './timeline-snapshots';
+import { projectTimelineSnapshots } from './timeline-snapshots';
+import { legacyMinuteGraphs } from '../../contracts/snapshot-readers';
 import type {
   ItemEvent,
   ObjectiveEvent,
   ParsedTimelineData,
   ParticipantTimelineData,
-} from '../../modules/matches/contracts/normalized-timeline';
+} from '../../contracts/normalized-timeline';
 
-/** @deprecated Import canonical types from modules/matches/contracts. */
-export type {
-  ItemEvent,
-  ObjectiveEvent,
-  ParsedTimelineData,
-  ParticipantTimelineData,
-  PathPoint,
-  PositionEvent,
-  WardEvent,
-} from '../../modules/matches/contracts/normalized-timeline';
-import { skillSlotToLetter } from './dto/timeline.dto';
+import { skillSlotToLetter } from '../../contracts/skill-slot';
 import type {
   TimelineDto,
   TimelineFrame,
@@ -38,7 +26,7 @@ import type {
   SkillLevelUpEvent,
   EliteMonsterKillEvent,
   BuildingKillEvent,
-} from './dto/timeline.dto';
+} from '../../../../core/riot/dto/timeline.dto';
 
 // ============================================================================
 // TIMELINE PARSER SERVICE

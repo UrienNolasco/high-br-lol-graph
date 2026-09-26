@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { RiotService } from '../../../core/riot/riot.service';
-import { TimelineParserService } from '../../../core/riot/timeline-parser.service';
+import { TimelineParserService } from '../../matches/adapters/riot/timeline-parser.service';
 import { ProcessMatchDto } from '../dto/process-match.dto';
 import { MatchPersistenceService } from './match-persistence.service';
-import { buildParticipantMap, parseMatchData } from '../pure/match.parser';
+import {
+  buildParticipantMap,
+  parseMatchData,
+} from '../../matches/adapters/riot/match.parser';
 import { ProcessingService } from '../../../core/processing/processing.service';
 import {
   InvalidMatchError,

@@ -1,5 +1,5 @@
 import { gunzipSync } from 'node:zlib';
-import { readSnapshotProjection } from '../../../core/riot/timeline-snapshots';
+import { readSnapshotProjection } from '../../matches/contracts/snapshot-readers';
 import type { SnapshotFrame } from '../../matches/contracts/normalized-snapshots';
 const finite = (v: unknown): v is number =>
   typeof v === 'number' && Number.isFinite(v);

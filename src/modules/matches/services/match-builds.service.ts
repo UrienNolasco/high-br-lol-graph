@@ -1,14 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { MatchRepository } from '../repositories/match.repository';
 import { mapParticipantBuild, BuildParticipant } from '../pure/builds.mapper';
 import { MatchBuildsDto } from '../dto/match-deep-dive.dto';
-import { DataDragonService } from '../../../core/data-dragon/data-dragon.service';
+import type { ItemCatalogLoader } from '../ports/catalog-reader';
+import { MATCH_CATALOGS } from '../ports/catalog-reader';
 
 @Injectable()
 export class MatchBuildsService {
   constructor(
     private readonly matchRepo: MatchRepository,
-    private readonly dataDragon: DataDragonService,
+    @Inject(MATCH_CATALOGS) private readonly catalogs: ItemCatalogLoader,
   ) {}
 
   async getBuilds(matchId: string): Promise<MatchBuildsDto> {
@@ -18,7 +19,7 @@ export class MatchBuildsService {
       throw new NotFoundException(`Match ${matchId} not found`);
     }
 
-    const catalog = await this.dataDragon.getItemCatalogForGameVersion(
+    const catalog = await this.catalogs.getItemCatalogForGameVersion(
       match.gameVersion,
     );
     const builds = (match.participants as unknown as BuildParticipant[]).map(

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 import { ChampionStatsRepository } from '../../src/modules/stats/repositories/champion-stats.repository';
 
 describe('MET23 distinct match popularity SQL', () => {

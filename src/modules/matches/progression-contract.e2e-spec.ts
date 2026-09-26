@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import request from 'supertest';
-import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
+import { MATCH_CATALOGS } from './ports/catalog-reader';
 import { MatchesModule } from './matches.module';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { mockPrismaService } from '../../../test/helpers/shared-mocks';
@@ -30,7 +30,7 @@ describe('MET16 progression HTTP', () => {
     const module = await Test.createTestingModule({ imports: [MatchesModule] })
       .overrideProvider(ProgressionRepository)
       .useValue(repository)
-      .overrideProvider(DataDragonService)
+      .overrideProvider(MATCH_CATALOGS)
       .useValue(catalogs)
       .overrideProvider(PrismaService)
       .useValue(mockPrismaService())

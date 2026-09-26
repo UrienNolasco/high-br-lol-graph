@@ -10,7 +10,7 @@ import { AnalyticsRepository } from '../../src/modules/analytics/repositories/an
 import { historicalSolo } from '../../src/modules/analytics/pure/historical-solo';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 import { PlayerStatsAggregationService } from '../../src/core/stats/player-stats-aggregation.service';
-import { TimelineParserService } from '../../src/core/riot/timeline-parser.service';
+import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { RiotService } from '../../src/core/riot/riot.service';

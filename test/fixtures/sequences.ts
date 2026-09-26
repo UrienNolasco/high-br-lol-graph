@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { objectivesFixture } from './objectives';
-import { normalizeTimelineEvents } from '../../src/core/riot/normalized-events';
-import { projectTimelineSnapshots } from '../../src/core/riot/timeline-snapshots';
+import { normalizeTimelineEvents } from '../../src/modules/matches/adapters/riot/normalized-events';
+import { projectTimelineSnapshots } from '../../src/modules/matches/adapters/riot/timeline-snapshots';
 import { SequencesInput } from '../../src/modules/matches/pure/sequences-calculator';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 export function sequencesFixture(): SequencesInput {

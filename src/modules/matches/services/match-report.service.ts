@@ -1,9 +1,9 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { DataDragonService } from '../../../core/data-dragon/data-dragon.service';
 import { ReportRepository } from '../repositories/report.repository';
 import { MatchReportQueryDto } from '../dto/match-report-query.dto';
 import {
@@ -40,11 +40,13 @@ import {
   evidenceId,
   collectEvidence,
 } from '../pure/report/report-navigation';
+import type { CatalogReader } from '../ports/catalog-reader';
+import { MATCH_CATALOGS } from '../ports/catalog-reader';
 @Injectable()
 export class MatchReportService {
   constructor(
     private readonly repository: ReportRepository,
-    private readonly catalogs: DataDragonService,
+    @Inject(MATCH_CATALOGS) private readonly catalogs: CatalogReader,
   ) {}
   private options(query: MatchReportQueryDto): ReportOptions {
     const options = { ...DEFAULT_REPORT_OPTIONS, ...query };

@@ -2,8 +2,8 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {performance}=require('node:perf_hooks');
 const {calculateVision}=require('../dist/modules/matches/pure/vision-calculator');
-const {normalizeTimelineEvents}=require('../dist/core/riot/normalized-events');
-const {projectFinalStats}=require('../dist/core/riot/final-stats');
+const {normalizeTimelineEvents}=require('../dist/modules/matches/adapters/riot/normalized-events');
+const {projectFinalStats}=require('../dist/modules/matches/adapters/riot/final-stats');
 const {PROCESSING_VERSION}=require('../dist/core/processing/processing.constants');
 const summary=JSON.parse(fs.readFileSync(path.join(__dirname,'../exemplo_partida_BR1_3200579475.json'),'utf8'));
 const timeline=JSON.parse(fs.readFileSync(path.join(__dirname,'../exemplo_partida_timeline_BR1_3200579475.json'),'utf8'));

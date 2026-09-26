@@ -7,8 +7,8 @@ import {
   VisionInput,
   VisionEvent,
 } from './vision-calculator';
-import { normalizeTimelineEvents } from '../../../core/riot/normalized-events';
-import { projectFinalStats } from '../../../core/riot/final-stats';
+import { normalizeTimelineEvents } from '../adapters/riot/normalized-events';
+import { projectFinalStats } from '../adapters/riot/final-stats';
 import { MatchDto } from '../../../core/riot/dto/match.dto';
 import { TimelineDto } from '../../../core/riot/dto/timeline.dto';
 const summary = JSON.parse(

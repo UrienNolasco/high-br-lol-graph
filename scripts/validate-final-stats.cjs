@@ -1,9 +1,10 @@
+const { FINAL_STAT_UNITS, FINAL_FLAG_FIELDS } = require('../dist/modules/matches/contracts/final-stats');
 // Offline validation of literal final projections against the single real fixture.
 // Run npm run build first; this script never opens network/database connections.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { projectFinalStats, projectFinalObjectives, FINAL_STAT_UNITS, FINAL_FLAG_FIELDS } = require('../dist/core/riot/final-stats');
+const { projectFinalStats, projectFinalObjectives } = require('../dist/modules/matches/adapters/riot/final-stats');
 const input = JSON.parse(fs.readFileSync(path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'), 'utf8'));
 const fields = [...Object.keys(FINAL_STAT_UNITS), ...FINAL_FLAG_FIELDS];
 let checks = 0;

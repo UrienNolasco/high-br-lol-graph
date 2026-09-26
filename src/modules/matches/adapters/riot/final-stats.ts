@@ -1,24 +1,13 @@
+import { optionalText } from '../../contracts/participant-display';
 import {
   FINAL_FLAG_FIELDS,
   FINAL_OBJECTIVE_TYPES,
   FINAL_STAT_UNITS,
-} from '../../modules/matches/contracts/final-stats';
+} from '../../contracts/final-stats';
 import type {
   FinalFlagField,
   FinalStatField,
-} from '../../modules/matches/contracts/final-stats';
-
-/** @deprecated Import canonical contracts from modules/matches/contracts. */
-export {
-  FINAL_FLAG_FIELDS,
-  FINAL_OBJECTIVE_TYPES,
-  FINAL_STAT_UNITS,
-} from '../../modules/matches/contracts/final-stats';
-/** @deprecated Import canonical contracts from modules/matches/contracts. */
-export type {
-  FinalFlagField,
-  FinalStatField,
-} from '../../modules/matches/contracts/final-stats';
+} from '../../contracts/final-stats';
 
 type MissingReason = 'missing_field' | 'invalid_value';
 type Fields = Record<string, unknown>;
@@ -26,9 +15,6 @@ function record(value: unknown): Fields {
   return value && typeof value === 'object' && !Array.isArray(value)
     ? (value as Fields)
     : {};
-}
-export function optionalText(value: unknown): string | null {
-  return typeof value === 'string' && value.trim() ? value : null;
 }
 function observed(value: unknown, kind: 'number' | 'boolean' | 'string') {
   if (kind === 'number')
@@ -155,26 +141,5 @@ export function projectFinalObjectives(objectives: unknown) {
       totalFields,
       coverage: totalFields ? validFields / totalFields : null,
     },
-  };
-}
-
-export function participantDisplayName(participant: {
-  puuid: string;
-  summonerName?: string | null;
-  riotIdGameName?: string | null;
-  riotIdTagline?: string | null;
-}) {
-  const gameName = optionalText(participant.riotIdGameName);
-  const tag = optionalText(participant.riotIdTagline);
-  const legacyName = optionalText(participant.summonerName);
-  return {
-    displayName: gameName
-      ? `${gameName}${tag ? `#${tag}` : ''}`
-      : (legacyName ?? participant.puuid),
-    displayNameSource: gameName
-      ? 'riot_id'
-      : legacyName
-        ? 'summoner_name'
-        : 'puuid',
   };
 }

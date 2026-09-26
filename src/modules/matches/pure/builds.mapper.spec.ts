@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { mapParticipantBuild } from './builds.mapper';
-import { projectFinalInventory } from '../../../core/riot/final-inventory';
-import { unavailableItemCatalog } from '../../../core/data-dragon/item-catalog';
+import { projectFinalInventory } from '../adapters/riot/final-inventory';
+import { unavailableItemCatalog } from '../contracts/catalogs';
 const fixture = JSON.parse(
   readFileSync(
     join(__dirname, '../../../../exemplo_partida_BR1_3200579475.json'),

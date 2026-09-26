@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { calculateKillEpisodes } from './kill-episodes-calculator';
 import { episodeEvent, killEpisodesFixture } from './kill-episodes.fixture';
-import { normalizeTimelineEvents } from '../../../core/riot/normalized-events';
-import { projectTimelineSnapshots } from '../../../core/riot/timeline-snapshots';
+import { normalizeTimelineEvents } from '../adapters/riot/normalized-events';
+import { projectTimelineSnapshots } from '../adapters/riot/timeline-snapshots';
 import { PROCESSING_VERSION } from '../../../core/processing/processing.constants';
 describe('C10/C11/E06 episode report', () => {
   it('reports estimated episode membership, known team balance, past snapshot and distinct sensitivity results', () => {

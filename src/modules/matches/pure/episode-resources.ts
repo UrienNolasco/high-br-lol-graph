@@ -7,7 +7,7 @@ import {
   ratioMetric,
   unavailableMetric,
 } from '../contracts/metric-contract';
-import { readSnapshotProjection } from '../../../core/riot/timeline-snapshots';
+import { readSnapshotProjection } from '../contracts/snapshot-readers';
 const record = (v: unknown): Record<string, unknown> =>
   v && typeof v === 'object' && !Array.isArray(v)
     ? (v as Record<string, unknown>)

@@ -1,5 +1,5 @@
 import { gunzipSync } from 'node:zlib';
-import { projectTimelineSnapshots } from '../../../core/riot/timeline-snapshots';
+import { projectTimelineSnapshots } from '../../matches/adapters/riot/timeline-snapshots';
 import { AnalyticsService } from './analytics.service';
 import { comparisonFixture, timelineFixture } from '../pure/cohort.fixture';
 

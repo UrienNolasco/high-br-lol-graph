@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "originSha": "92a34197dcff642ba4ef85136e70eb5a70e705b2",
-  "description": "Finite ARQ-03 and ARQ-04 declaration moves. Each bridge is tied to its original consumer and must be removed by its named card.",
+  "description": "Finite ARQ-03 through ARQ-05 declaration moves. Each bridge is tied to its original consumer and must be removed by its named card.",
   "entries": [
     {
       "oldPath": "src/modules/worker/pure/match.parser.ts",
@@ -33,17 +33,6 @@
           "removalCard": "ARQ-08"
         },
         {
-          "from": "src/modules/worker/pure/match.parser.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ProcessedMatchData"
-          ],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        },
-        {
           "from": "src/modules/worker/services/match-persistence.service.ts",
           "kinds": [
             "type"
@@ -64,44 +53,6 @@
         "NormalizedTimelineEvent"
       ],
       "consumers": [
-        {
-          "from": "src/core/riot/normalized-events.ts",
-          "syntax": "import",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "EventQuality",
-            "NormalizedTimelineEvent"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
-        {
-          "from": "src/core/riot/normalized-events.ts",
-          "syntax": "reexport",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "EventQuality",
-            "NormalizedTimelineEvent"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-13"
-        },
-        {
-          "from": "src/core/riot/dto/normalized-event.dto.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "EventQuality",
-            "NormalizedTimelineEvent"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
         {
           "from": "src/core/dataset/dataset-builder.ts",
           "kinds": [
@@ -135,34 +86,6 @@
         "TimelineSnapshotProjection"
       ],
       "consumers": [
-        {
-          "from": "src/core/riot/timeline-snapshots.ts",
-          "syntax": "import",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ParticipantSnapshot",
-            "SnapshotFrame",
-            "TimelineSnapshotProjection"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
-        {
-          "from": "src/core/riot/timeline-snapshots.ts",
-          "syntax": "reexport",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ParticipantSnapshot",
-            "SnapshotFrame",
-            "TimelineSnapshotProjection"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-13"
-        },
         {
           "from": "src/core/dataset/dataset-builder.ts",
           "kinds": [
@@ -202,170 +125,12 @@
       ],
       "consumers": [
         {
-          "from": "src/core/riot/timeline-parser.service.ts",
-          "syntax": "import",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ItemEvent",
-            "ObjectiveEvent",
-            "ParsedTimelineData",
-            "ParticipantTimelineData"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
-        {
-          "from": "src/core/riot/timeline-parser.service.ts",
-          "syntax": "reexport",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ItemEvent",
-            "ObjectiveEvent",
-            "ParsedTimelineData",
-            "ParticipantTimelineData",
-            "PathPoint",
-            "PositionEvent",
-            "WardEvent"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-13"
-        },
-        {
           "from": "src/modules/worker/services/match-persistence.service.ts",
           "kinds": [
             "type"
           ],
           "symbols": [
             "ParsedTimelineData"
-          ],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/riot/final-inventory.ts",
-      "newPath": "src/modules/matches/contracts/final-inventory.ts",
-      "symbols": [
-        "FinalInventory",
-        "InventoryItem"
-      ],
-      "consumers": [
-        {
-          "from": "src/core/riot/final-inventory.ts",
-          "syntax": "import",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "FinalInventory",
-            "InventoryItem"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
-        {
-          "from": "src/core/riot/final-inventory.ts",
-          "syntax": "reexport",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "FinalInventory",
-            "InventoryItem"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-13"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/riot/final-stats.ts",
-      "newPath": "src/modules/matches/contracts/final-stats.ts",
-      "symbols": [
-        "FINAL_FLAG_FIELDS",
-        "FINAL_OBJECTIVE_TYPES",
-        "FINAL_STAT_UNITS",
-        "FinalFlagField",
-        "FinalStatField"
-      ],
-      "consumers": [
-        {
-          "from": "src/core/riot/final-stats.ts",
-          "syntax": "import",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "FINAL_FLAG_FIELDS",
-            "FINAL_OBJECTIVE_TYPES",
-            "FINAL_STAT_UNITS"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
-        {
-          "from": "src/core/riot/final-stats.ts",
-          "syntax": "reexport",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "FINAL_FLAG_FIELDS",
-            "FINAL_OBJECTIVE_TYPES",
-            "FINAL_STAT_UNITS"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-13"
-        },
-        {
-          "from": "src/core/riot/final-stats.ts",
-          "syntax": "import",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "FinalFlagField",
-            "FinalStatField"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
-        {
-          "from": "src/core/riot/final-stats.ts",
-          "syntax": "reexport",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "FinalFlagField",
-            "FinalStatField"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-13"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/metrics/champion-population.ts",
-      "newPath": "src/modules/matches/contracts/champion-population.ts",
-      "symbols": [
-        "bansAvailable",
-        "championPopulationEligibility"
-      ],
-      "consumers": [
-        {
-          "from": "src/modules/worker/pure/match.parser.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "bansAvailable",
-            "championPopulationEligibility"
           ],
           "owner": "worker",
           "removalCard": "ARQ-10"
@@ -387,17 +152,6 @@
         "assessRemake"
       ],
       "consumers": [
-        {
-          "from": "src/core/data-dragon/item-catalog.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "gameVersionPatch"
-          ],
-          "owner": "core/data-dragon",
-          "removalCard": "ARQ-05"
-        },
         {
           "from": "src/core/dataset/dataset-builder.ts",
           "kinds": [
@@ -504,28 +258,6 @@
           ],
           "owner": "core/research",
           "removalCard": "ARQ-12"
-        },
-        {
-          "from": "src/core/riot/timeline-snapshots.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "selectCheckpoint"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
-        },
-        {
-          "from": "src/core/riot/timeline-snapshots.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "CheckpointMode"
-          ],
-          "owner": "core/riot",
-          "removalCard": "ARQ-05"
         },
         {
           "from": "src/core/stats/player-stats-aggregation.service.ts",
@@ -669,6 +401,346 @@
           ],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/modules/worker/pure/match.parser.ts",
+      "newPath": "src/modules/matches/adapters/riot/match.parser.ts",
+      "symbols": [
+        "buildParticipantMap",
+        "parseMatchData",
+        "extractPatch"
+      ],
+      "consumers": [
+        {
+          "from": "src/core/stats/player-stats-aggregation.service.ts",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "extractPatch"
+          ],
+          "owner": "core/stats",
+          "removalCard": "ARQ-08"
+        },
+        {
+          "from": "src/modules/worker/services/worker.service.ts",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "buildParticipantMap",
+            "parseMatchData"
+          ],
+          "owner": "worker",
+          "removalCard": "ARQ-10"
+        },
+        {
+          "from": "scripts/build-economy-examples.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "parseMatchData"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-bounties-steals.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "parseMatchData"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-contribution.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "parseMatchData"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-objectives.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "parseMatchData"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/riot/timeline-parser.service.ts",
+      "newPath": "src/modules/matches/adapters/riot/timeline-parser.service.ts",
+      "symbols": [
+        "TimelineParserService"
+      ],
+      "consumers": [
+        {
+          "from": "src/modules/worker/services/worker.service.ts",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "TimelineParserService"
+          ],
+          "owner": "worker",
+          "removalCard": "ARQ-10"
+        },
+        {
+          "from": "src/modules/worker/services/worker.service.spec.ts",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "TimelineParserService"
+          ],
+          "owner": "worker",
+          "removalCard": "ARQ-10"
+        },
+        {
+          "from": "scripts/benchmark-release.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "TimelineParserService"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "compiled-loader"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/riot/normalized-events.ts",
+      "newPath": "src/modules/matches/adapters/riot/normalized-events.ts",
+      "symbols": [
+        "EVENT_METRIC_VERSION",
+        "KNOWN_EVENT_TYPES",
+        "normalizeTimelineEvents"
+      ],
+      "consumers": [
+        {
+          "from": "scripts/validate-bounties-steals.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "normalizeTimelineEvents"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-kill-episodes.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "normalizeTimelineEvents"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-objectives.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "normalizeTimelineEvents"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-sequences.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "normalizeTimelineEvents"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-vision.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "normalizeTimelineEvents"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/riot/timeline-snapshots.ts",
+      "newPath": "src/modules/matches/adapters/riot/timeline-snapshots.ts",
+      "symbols": [
+        "projectTimelineSnapshots"
+      ],
+      "consumers": [
+        {
+          "from": "scripts/build-economy-examples.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectTimelineSnapshots"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/build-map-presence-examples.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectTimelineSnapshots"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-kill-episodes.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectTimelineSnapshots"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-sequences.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectTimelineSnapshots"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "src/modules/analytics/comparison-contract.e2e-spec.ts",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectTimelineSnapshots"
+          ],
+          "owner": "analytics",
+          "removalCard": "ARQ-06"
+        },
+        {
+          "from": "src/modules/analytics/services/analytics.service.spec.ts",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectTimelineSnapshots"
+          ],
+          "owner": "analytics",
+          "removalCard": "ARQ-06"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/riot/final-stats.ts",
+      "newPath": "src/modules/matches/adapters/riot/final-stats.ts",
+      "symbols": [
+        "projectFinalStats",
+        "projectFinalContext",
+        "projectFinalObjectives"
+      ],
+      "consumers": [
+        {
+          "from": "scripts/validate-final-stats.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectFinalStats",
+            "projectFinalObjectives"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        },
+        {
+          "from": "scripts/validate-vision.cjs",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "projectFinalStats"
+          ],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "require"
+        }
+      ]
+    },
+    {
+      "kind": "provider-composition",
+      "oldPath": "src/core/riot/riot.module.ts",
+      "newPath": "src/modules/matches/match-normalization.module.ts",
+      "symbols": [
+        "MatchNormalizationModule"
+      ],
+      "originSymbols": {
+        "MatchNormalizationModule": "RiotModule"
+      },
+      "provider": {
+        "symbol": "TimelineParserService",
+        "oldPath": "src/core/riot/timeline-parser.service.ts",
+        "newPath": "src/modules/matches/adapters/riot/timeline-parser.service.ts"
+      },
+      "consumers": [
+        {
+          "from": "src/modules/worker/worker.module.ts",
+          "kinds": [
+            "runtime"
+          ],
+          "symbols": [
+            "MatchNormalizationModule"
+          ],
+          "owner": "worker",
+          "removalCard": "ARQ-10"
         }
       ]
     }

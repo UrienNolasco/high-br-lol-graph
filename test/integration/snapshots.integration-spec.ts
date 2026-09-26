@@ -1,3 +1,4 @@
+import { projectionComparisonTimeline } from '../../src/modules/analytics/pure/comparison-timeline.adapter';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { performance } from 'node:perf_hooks';
@@ -5,9 +6,9 @@ import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { ProcessingService } from '../../src/core/processing/processing.service';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
-import { TimelineParserService } from '../../src/core/riot/timeline-parser.service';
-import { readSnapshotProjection } from '../../src/core/riot/timeline-snapshots';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
+import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
+import { readSnapshotProjection } from '../../src/modules/matches/contracts/snapshot-readers';
 import { MatchRepository } from '../../src/modules/matches/repositories/match.repository';
 import { MatchGoldTimelineService } from '../../src/modules/matches/services/match-gold-timeline.service';
 
@@ -90,6 +91,10 @@ describe('MET03 snapshot transactional round-trip', () => {
     const projection = readSnapshotProjection(loaded)!;
     expect(projection.frames).toEqual(parsed.snapshotProjection.frames);
     expect(projection.frames).toHaveLength(41);
+    const decoded = projectionComparisonTimeline(projection);
+    expect(decoded.frames).toHaveLength(41);
+    expect(decoded.participants).toHaveLength(10);
+
     expect(
       projection.frames.flatMap((f) => Object.values(f.participantFrames)),
     ).toHaveLength(410);

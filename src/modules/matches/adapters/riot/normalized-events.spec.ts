@@ -4,19 +4,22 @@ import {
   normalizeTimelineEvents,
   KNOWN_EVENT_TYPES,
 } from './normalized-events';
-import { TimelineDto } from './dto/timeline.dto';
+import { TimelineDto } from '../../../../core/riot/dto/timeline.dto';
 import { TimelineParserService } from './timeline-parser.service';
-import { MatchDto } from './dto/match.dto';
+import { MatchDto } from '../../../../core/riot/dto/match.dto';
 
 const fixture = JSON.parse(
   readFileSync(
-    join(__dirname, '../../../exemplo_partida_timeline_BR1_3200579475.json'),
+    join(
+      __dirname,
+      '../../../../../exemplo_partida_timeline_BR1_3200579475.json',
+    ),
     'utf8',
   ),
 ) as TimelineDto;
 const summary = JSON.parse(
   readFileSync(
-    join(__dirname, '../../../exemplo_partida_BR1_3200579475.json'),
+    join(__dirname, '../../../../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 ) as MatchDto;

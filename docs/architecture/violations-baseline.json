@@ -380,52 +380,12 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "domain-no-framework-or-adapter:0de0aa9b40e9acfbcc6b",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/report/report-families.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
       "id": "domain-no-framework-or-adapter:1e644fb409c58852df9d",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/analytics/pure/timeline-calculator.ts",
       "to": "src/modules/analytics/dto/compare-evolve.dto.ts",
       "owner": "analytics",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:21ad0430e1823aa1de00",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/progression/item-ledger.ts",
-      "to": "src/core/data-dragon/item-catalog.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:4075501940ef69b3aa4d",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/progression/progression-calculator.ts",
-      "to": "src/core/data-dragon/item-catalog.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:495fb0d2ed1f88938fae",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/worker/pure/match.parser.ts",
-      "to": "src/core/riot/final-stats.ts",
-      "owner": "worker",
-      "removalCard": "ARQ-03"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:499cd15a3193532db119",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/progression/progression-calculator.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
     },
     {
       "id": "domain-no-framework-or-adapter:56dfcc13e995968fab23",
@@ -452,36 +412,12 @@
       "removalCard": "ARQ-13"
     },
     {
-      "id": "domain-no-framework-or-adapter:79646bb3be503484936f",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/report/report-families.ts",
-      "to": "src/core/data-dragon/skill-catalog.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:7d3f649af2090e7e573e",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/analytics/pure/comparison-timeline.adapter.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-05"
-    },
-    {
       "id": "domain-no-framework-or-adapter:817abbc87708c0b9d945",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/players/pure/match.mapper.ts",
       "to": "external:@prisma/client",
       "owner": "players",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:8b98a1516ee79da5d975",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/progression/progression-calculator.ts",
-      "to": "src/core/data-dragon/skill-catalog.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
     },
     {
       "id": "domain-no-framework-or-adapter:9aaa680ffca21354ab9c",
@@ -516,30 +452,6 @@
       "removalCard": "ARQ-13"
     },
     {
-      "id": "domain-no-framework-or-adapter:b4945a592049ca62756a",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/worker/pure/match.parser.ts",
-      "to": "src/core/riot/dto/match.dto.ts",
-      "owner": "worker",
-      "removalCard": "ARQ-03"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:b853801ba7e4c2c14f38",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/builds.mapper.ts",
-      "to": "src/core/riot/final-inventory.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:ba8ed222e5720a192851",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/report/report-families.ts",
-      "to": "src/core/data-dragon/item-catalog.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
       "id": "domain-no-framework-or-adapter:bc9b0e84bc1d0b66c8f1",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/indicators/pure/indicator-cursor.ts",
@@ -570,30 +482,6 @@
       "to": "src/modules/stats/repositories/champion-stats.repository.ts",
       "owner": "stats",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:fa74b5fa8e81d4ac9e2b",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/builds.mapper.ts",
-      "to": "src/core/data-dragon/item-catalog.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:fe48565a4b9b4c30acd9",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/matches/pure/episode-resources.ts",
-      "to": "src/core/riot/timeline-snapshots.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-05"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:feb4fe62f4ddb0da05e3",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/worker/pure/match.parser.ts",
-      "to": "src/core/riot/final-inventory.ts",
-      "owner": "worker",
-      "removalCard": "ARQ-03"
     },
     {
       "id": "production-imports-test:03cf50ec15fffa5a278b",
@@ -666,14 +554,6 @@
       "to": "src/modules/matches/pure/combat-source.ts",
       "owner": "analytics",
       "removalCard": "ARQ-06"
-    },
-    {
-      "id": "test-cross-context-internal-import:b4aa32ff5f9635ec40cc",
-      "rule": "test-cross-context-internal-import",
-      "from": "src/modules/matches/final-stats.e2e-spec.ts",
-      "to": "src/modules/worker/pure/match.parser.ts",
-      "owner": "matches",
-      "removalCard": "ARQ-03"
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 
 const source = JSON.parse(
   readFileSync(

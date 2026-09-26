@@ -7,12 +7,12 @@ import { ProcessingService } from '../../src/core/processing/processing.service'
 import { ReportRepository } from '../../src/modules/matches/repositories/report.repository';
 import { MatchReportService } from '../../src/modules/matches/services/match-report.service';
 import { MatchReportQueryDto } from '../../src/modules/matches/dto/match-report-query.dto';
-import { DataDragonService } from '../../src/core/data-dragon/data-dragon.service';
-import { unavailableItemCatalog } from '../../src/core/data-dragon/item-catalog';
-import { unavailableSkillCatalog } from '../../src/core/data-dragon/skill-catalog';
+import type { CatalogReader } from '../../src/modules/matches/ports/catalog-reader';
+import { unavailableItemCatalog } from '../../src/modules/matches/contracts/catalogs';
+import { unavailableSkillCatalog } from '../../src/modules/matches/contracts/catalogs';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 import { PlayerStatsAggregationService } from '../../src/core/stats/player-stats-aggregation.service';
-import { TimelineParserService } from '../../src/core/riot/timeline-parser.service';
+import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { RiotService } from '../../src/core/riot/riot.service';
@@ -93,13 +93,13 @@ afterAll(async () => {
 test('one report snapshot uses persisted projections after raw deletion and retains final observations without timeline/provenance', async () => {
   await worker.processMatch({ matchId });
   await prisma.matchRaw.deleteMany({ where: { matchId } });
-  const catalogs = {
+  const catalogs: CatalogReader = {
     getCachedItemCatalog: jest.fn(unavailableItemCatalog),
     getCachedSkillCatalog: jest.fn(unavailableSkillCatalog),
   };
   const service = new MatchReportService(
     new ReportRepository(prisma),
-    catalogs as unknown as DataDragonService,
+    catalogs,
   );
   const puuid = summary.info.participants.find(
     (p) => p.championName === 'Fiora',

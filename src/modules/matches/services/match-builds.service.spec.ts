@@ -1,6 +1,6 @@
 import { MatchBuildsService } from './match-builds.service';
-import { projectFinalInventory } from '../../../core/riot/final-inventory';
-import { unavailableItemCatalog } from '../../../core/data-dragon/item-catalog';
+import { projectFinalInventory } from '../adapters/riot/final-inventory';
+import { unavailableItemCatalog } from '../contracts/catalogs';
 describe('MatchBuildsService', () => {
   const repo = { findBuilds: jest.fn() };
   const dragon = { getItemCatalogForGameVersion: jest.fn() };

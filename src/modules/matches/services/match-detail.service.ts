@@ -1,4 +1,4 @@
-import { participantDisplayName } from '../../../core/riot/final-stats';
+import { participantDisplayName } from '../contracts/participant-display';
 import { Injectable } from '@nestjs/common';
 import { MatchRepository } from '../repositories/match.repository';
 import { MatchDetailDto } from '../dto/match-detail.dto';

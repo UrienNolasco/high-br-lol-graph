@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { normalizeTimelineEvents } from '../../../core/riot/normalized-events';
+import { normalizeTimelineEvents } from '../adapters/riot/normalized-events';
 import { TimelineDto } from '../../../core/riot/dto/timeline.dto';
 import { MatchDto } from '../../../core/riot/dto/match.dto';
 import {

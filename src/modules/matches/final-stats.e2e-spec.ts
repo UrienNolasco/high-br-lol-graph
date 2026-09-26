@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import request from 'supertest';
 import { MatchesModule } from './matches.module';
 import { PrismaService } from '../../core/prisma/prisma.service';
-import { parseMatchData } from '../worker/pure/match.parser';
+import { parseMatchData } from './adapters/riot/match.parser';
 import { createTestingApp } from '../../../test/helpers/app.builder';
 import { mockPrismaService } from '../../../test/helpers/shared-mocks';
 

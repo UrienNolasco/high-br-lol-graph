@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { MatchMapPresenceService } from '../../src/modules/matches/services/match-map-presence.service';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 import {
   mapPresenceFixture,
   mapPresenceSummary,

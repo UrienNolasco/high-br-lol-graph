@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { parseMatchData } = require('../dist/modules/worker/pure/match.parser');
+const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
 const {
   computeContribution,
 } = require('../dist/modules/matches/pure/contribution-calculator');

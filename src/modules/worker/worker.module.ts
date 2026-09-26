@@ -1,3 +1,4 @@
+import { MatchNormalizationModule } from '../matches/match-normalization.module';
 import { Module } from '@nestjs/common';
 import { WorkerService } from './services/worker.service';
 import { WorkerController } from './worker.controller';
@@ -8,7 +9,13 @@ import { MatchPersistenceService } from './services/match-persistence.service';
 import { ProcessingModule } from '../../core/processing/processing.module';
 
 @Module({
-  imports: [RiotModule, PrismaModule, StatsModule, ProcessingModule],
+  imports: [
+    RiotModule,
+    MatchNormalizationModule,
+    PrismaModule,
+    StatsModule,
+    ProcessingModule,
+  ],
   controllers: [WorkerController],
   providers: [WorkerService, MatchPersistenceService],
   exports: [WorkerService],

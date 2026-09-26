@@ -276,14 +276,27 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
     const sourceModule = moduleName(edge.from);
     const targetModule = target ? moduleName(target) : null;
     const logicalTargetModule = moduleName(logicalTo);
-    if (sourceModule && targetModule && sourceModule !== targetModule) {
-      const isPublic = matchesAny(target, publicApis);
+    const ownershipTarget = edge.declarationRelocation ? logicalTo : target;
+    const ownershipTargetModule = ownershipTarget
+      ? moduleName(ownershipTarget)
+      : null;
+    if (
+      sourceModule &&
+      ownershipTargetModule &&
+      sourceModule !== ownershipTargetModule
+    ) {
+      const isPublic = matchesAny(ownershipTarget, publicApis);
       if (!isPublic && source.scope === 'production')
         violations.push(
           make(
             'cross-module-internal-import',
-            { from: edge.from, to, line: edge.line, kinds: edge.kinds },
-            [edge.from, to],
+            {
+              from: edge.from,
+              to: ownershipTarget,
+              line: edge.line,
+              kinds: edge.kinds,
+            },
+            [edge.from, ownershipTarget],
           ),
         );
       if (
@@ -306,20 +319,30 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
         violations.push(
           make(
             'test-cross-context-internal-import',
-            { from: edge.from, to, line: edge.line, kinds: edge.kinds },
-            [edge.from, to],
+            {
+              from: edge.from,
+              to: ownershipTarget,
+              line: edge.line,
+              kinds: edge.kinds,
+            },
+            [edge.from, ownershipTarget],
           ),
         );
     } else if (
       source.scope === 'tool' &&
-      targetModule &&
-      !matchesAny(target, publicApis)
+      ownershipTargetModule &&
+      !matchesAny(ownershipTarget, publicApis)
     ) {
       violations.push(
         make(
           'cross-module-internal-import',
-          { from: edge.from, to, line: edge.line, kinds: edge.kinds },
-          [edge.from, to],
+          {
+            from: edge.from,
+            to: ownershipTarget,
+            line: edge.line,
+            kinds: edge.kinds,
+          },
+          [edge.from, ownershipTarget],
         ),
       );
     }

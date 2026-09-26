@@ -6,9 +6,8 @@ import { calculateCombat } from '../combat-calculator';
 import { combatInput } from '../combat-source';
 import { calculateSequences } from '../sequences-calculator';
 import { calculateProgression } from '../progression/progression-calculator';
-import { readSnapshotProjection } from '../../../../core/riot/timeline-snapshots';
-import { ItemCatalog } from '../../../../core/data-dragon/item-catalog';
-import { SkillCatalog } from '../../../../core/data-dragon/skill-catalog';
+import { readSnapshotProjection } from '../../contracts/snapshot-readers';
+import { ItemCatalog, SkillCatalog } from '../../contracts/catalogs';
 import {
   ReportFamily,
   ReportInput,

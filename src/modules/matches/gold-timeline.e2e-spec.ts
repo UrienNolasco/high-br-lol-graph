@@ -1,4 +1,4 @@
-import { projectTimelineSnapshots } from '../../core/riot/timeline-snapshots';
+import { projectTimelineSnapshots } from './adapters/riot/timeline-snapshots';
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import request from 'supertest';

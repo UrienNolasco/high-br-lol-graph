@@ -1,12 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { normalizeTimelineEvents } from '../../../../core/riot/normalized-events';
-import { projectTimelineSnapshots } from '../../../../core/riot/timeline-snapshots';
-import { projectFinalInventory } from '../../../../core/riot/final-inventory';
+import { normalizeTimelineEvents } from '../../adapters/riot/normalized-events';
+import { projectTimelineSnapshots } from '../../adapters/riot/timeline-snapshots';
+import { projectFinalInventory } from '../../adapters/riot/final-inventory';
 import { TimelineDto } from '../../../../core/riot/dto/timeline.dto';
 import { MatchDto } from '../../../../core/riot/dto/match.dto';
-import { unavailableItemCatalog } from '../../../../core/data-dragon/item-catalog';
-import { unavailableSkillCatalog } from '../../../../core/data-dragon/skill-catalog';
+import {
+  unavailableItemCatalog,
+  unavailableSkillCatalog,
+} from '../../contracts/catalogs';
 import { calculateProgression } from './progression-calculator';
 import {
   fixture,

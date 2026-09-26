@@ -4,15 +4,17 @@ import {
   projectFinalStats,
   projectFinalContext,
   projectFinalObjectives,
-  participantDisplayName,
+} from './final-stats';
+import { participantDisplayName } from '../../contracts/participant-display';
+import {
   FINAL_STAT_UNITS,
   FINAL_FLAG_FIELDS,
-} from './final-stats';
-import { parseMatchData } from '../../modules/worker/pure/match.parser';
+} from '../../contracts/final-stats';
+import { parseMatchData } from './match.parser';
 
 const fixture = JSON.parse(
   readFileSync(
-    join(__dirname, '../../../exemplo_partida_BR1_3200579475.json'),
+    join(__dirname, '../../../../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 );

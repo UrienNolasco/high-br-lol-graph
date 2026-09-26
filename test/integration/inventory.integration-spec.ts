@@ -6,10 +6,10 @@ import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { ProcessingService } from '../../src/core/processing/processing.service';
 import { RebuildService } from '../../src/core/processing/rebuild.service';
 import { PlayerStatsAggregationService } from '../../src/core/stats/player-stats-aggregation.service';
-import { TimelineParserService } from '../../src/core/riot/timeline-parser.service';
+import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
-import { readFinalInventory } from '../../src/core/riot/final-inventory';
+import { readFinalInventory } from '../../src/modules/matches/contracts/final-inventory';
 const source = JSON.parse(
   readFileSync(
     join(__dirname, '../../exemplo_partida_BR1_3200579475.json'),

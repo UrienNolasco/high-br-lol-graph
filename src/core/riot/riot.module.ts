@@ -2,8 +2,6 @@ import { Module, Logger } from '@nestjs/common';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { RiotService } from './riot.service';
-import { MatchParserService } from './match-parser.service';
-import { TimelineParserService } from './timeline-parser.service';
 import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
 import { AxiosError } from 'axios';
@@ -36,21 +34,8 @@ import { RedisModule } from '../redis/redis.module';
       }),
     }),
   ],
-  providers: [
-    RiotService,
-    MatchParserService,
-    TimelineParserService,
-    RateLimiterService,
-    RetryService,
-    Logger,
-  ],
-  exports: [
-    RiotService,
-    MatchParserService,
-    TimelineParserService,
-    RateLimiterService,
-    RetryService,
-  ],
+  providers: [RiotService, RateLimiterService, RetryService, Logger],
+  exports: [RiotService, RateLimiterService, RetryService],
 })
 export class RiotModule {
   constructor(

@@ -4,8 +4,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DatasetInput } from '../../src/core/dataset/dataset-builder';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
-import { TimelineParserService } from '../../src/core/riot/timeline-parser.service';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
+import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 
 /** Real source observations with explicitly synthetic completed-job/lineage metadata. */
 export function historicalDatasetFixture(): DatasetInput {

@@ -3,10 +3,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import request from 'supertest';
 import { MatchesModule } from './matches.module';
 import { PrismaService } from '../../core/prisma/prisma.service';
-import { DataDragonService } from '../../core/data-dragon/data-dragon.service';
+import { MATCH_CATALOGS } from './ports/catalog-reader';
 import { createTestingApp } from '../../../test/helpers/app.builder';
 import { mockPrismaService } from '../../../test/helpers/shared-mocks';
-import { projectFinalStats } from '../../core/riot/final-stats';
+import { projectFinalStats } from './adapters/riot/final-stats';
 const match = {
   matchId: 'M',
   gameVersion: '16.2.1',
@@ -44,7 +44,7 @@ describe('MET11 vision HTTP and OpenAPI', () => {
     app = await createTestingApp(MatchesModule, {
       overrides: [
         { provide: PrismaService, useValue: prisma },
-        { provide: DataDragonService, useValue: dragon },
+        { provide: MATCH_CATALOGS, useValue: dragon },
       ],
     });
   });

@@ -52,6 +52,34 @@ for (const external of ['@nestjs/common', '@prisma/client', 'axios']) {
   });
 }
 
+test('domain cannot import a Data Dragon transport shape', t => {
+  const result = inspect(t, {
+    'src/core/data-dragon/catalog-source.ts':
+      'export interface RawCatalog { data: unknown }',
+    'src/modules/matches/domain/catalog.ts':
+      "import type { RawCatalog } from '../../../core/data-dragon/catalog-source'; export type Catalog = RawCatalog;",
+  });
+  assert.ok(
+    result.violations.some(
+      violation => violation.rule === 'domain-no-framework-or-adapter',
+    ),
+  );
+});
+
+test('a public contract cannot expose a Data Dragon transport shape', t => {
+  const result = inspect(t, {
+    'src/core/data-dragon/catalog-source.ts':
+      'export interface RawCatalog { data: unknown }',
+    'src/modules/matches/contracts/catalog.ts':
+      "export type { RawCatalog } from '../../../core/data-dragon/catalog-source';",
+  });
+  assert.ok(
+    result.violations.some(
+      violation => violation.rule === 'contract-transitive-purity',
+    ),
+  );
+});
+
 test('private cross-module dependencies are rejected', t => {
   const result = inspect(t, {
     'src/modules/matches/repositories/private.ts': 'export const value = 1;',

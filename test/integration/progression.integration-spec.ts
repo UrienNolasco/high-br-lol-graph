@@ -6,12 +6,12 @@ import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { ProcessingService } from '../../src/core/processing/processing.service';
 import { ProgressionRepository } from '../../src/modules/matches/repositories/progression.repository';
 import { MatchProgressionService } from '../../src/modules/matches/services/match-progression.service';
-import { DataDragonService } from '../../src/core/data-dragon/data-dragon.service';
-import { unavailableItemCatalog } from '../../src/core/data-dragon/item-catalog';
-import { unavailableSkillCatalog } from '../../src/core/data-dragon/skill-catalog';
+import type { CatalogReader } from '../../src/modules/matches/ports/catalog-reader';
+import { unavailableItemCatalog } from '../../src/modules/matches/contracts/catalogs';
+import { unavailableSkillCatalog } from '../../src/modules/matches/contracts/catalogs';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 import { PlayerStatsAggregationService } from '../../src/core/stats/player-stats-aggregation.service';
-import { TimelineParserService } from '../../src/core/riot/timeline-parser.service';
+import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { RiotService } from '../../src/core/riot/riot.service';
@@ -92,13 +92,13 @@ afterAll(async () => {
 test('real purchase/skill projections remain queryable after deleting raw bytes and do not need network catalogs', async () => {
   await worker.processMatch({ matchId });
   await prisma.matchRaw.deleteMany({ where: { matchId } });
-  const catalogs = {
+  const catalogs: CatalogReader = {
     getCachedItemCatalog: jest.fn(unavailableItemCatalog),
     getCachedSkillCatalog: jest.fn(unavailableSkillCatalog),
   };
   const service = new MatchProgressionService(
     new ProgressionRepository(prisma),
-    catalogs as unknown as DataDragonService,
+    catalogs,
   );
   let purchases = 0,
     skills = 0,

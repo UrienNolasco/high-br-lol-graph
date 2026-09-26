@@ -1,6 +1,6 @@
 import { buildItemLedger } from './item-ledger';
 import { event, itemCatalog } from './progression.fixture';
-import { unavailableItemCatalog } from '../../../../core/data-dragon/item-catalog';
+import { unavailableItemCatalog } from '../../contracts/catalogs';
 describe('MET16 observed item ledger', () => {
   it('does not keep consumed items even when destruction precedes purchase at the same timestamp', () => {
     const result = buildItemLedger(

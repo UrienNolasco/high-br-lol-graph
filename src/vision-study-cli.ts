@@ -10,9 +10,9 @@ import {
 import { resolve, dirname, basename } from 'node:path';
 import { MatchDto } from './core/riot/dto/match.dto';
 import { TimelineDto } from './core/riot/dto/timeline.dto';
-import { normalizeTimelineEvents } from './core/riot/normalized-events';
-import { projectTimelineSnapshots } from './core/riot/timeline-snapshots';
-import { parseMatchData } from './modules/worker/pure/match.parser';
+import { normalizeTimelineEvents } from './modules/matches/adapters/riot/normalized-events';
+import { projectTimelineSnapshots } from './modules/matches/adapters/riot/timeline-snapshots';
+import { parseMatchData } from './modules/matches/adapters/riot/match.parser';
 import { DATASET_VERSION } from './core/dataset/dataset-registry';
 import { PROCESSING_VERSION } from './core/processing/processing.constants';
 import {
@@ -300,11 +300,12 @@ export function runVisionStudy(
   const sourceFiles = [
     'src/core/research/vision-study.ts',
     'src/vision-study-cli.ts',
-    'src/core/riot/normalized-events.ts',
-    'src/core/riot/timeline-snapshots.ts',
+    'src/modules/matches/adapters/riot/normalized-events.ts',
+    'src/modules/matches/adapters/riot/timeline-snapshots.ts',
+    'src/modules/matches/contracts/snapshot-readers.ts',
     'src/modules/matches/contracts/temporal.ts',
     'src/modules/matches/pure/vision-calculator.ts',
-    'src/modules/worker/pure/match.parser.ts',
+    'src/modules/matches/adapters/riot/match.parser.ts',
     'src/modules/matches/contracts/champion-population.ts',
     'src/modules/matches/contracts/eligibility.ts',
     'src/core/processing/processing.constants.ts',

@@ -6,7 +6,7 @@ import { RebuildService } from './core/processing/rebuild.service';
 import { PlayerStatsAggregationService } from './core/stats/player-stats-aggregation.service';
 import { MatchPersistenceService } from './modules/worker/services/match-persistence.service';
 import { WorkerService } from './modules/worker/services/worker.service';
-import { TimelineParserService } from './core/riot/timeline-parser.service';
+import { TimelineParserService } from './modules/matches/adapters/riot/timeline-parser.service';
 import { RiotService } from './core/riot/riot.service';
 import { PinoLogger } from 'nestjs-pino';
 

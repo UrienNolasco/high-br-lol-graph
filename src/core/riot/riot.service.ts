@@ -1,5 +1,3 @@
-import type { ObservedAccountRank } from '../processing/discovery';
-import { httpStatus } from '../processing/failure-policy';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -11,8 +9,10 @@ import { TimelineDto } from './dto/timeline.dto';
 import { AccountDto } from './dto/account.dto';
 import { SummonerDto } from './dto/summoner.dto';
 import { LeagueEntryDto } from './dto/league-entry.dto';
+import type { RiotRankObservation } from './dto/rank-observation.dto';
 import { RateLimiterService } from './rate-limiter.service';
 import { RetryService } from './retry.service';
+import { httpStatus } from '../../lib/technical-error';
 import { getErrorMessage } from '../logger/get-error-message';
 
 @Injectable()
@@ -130,7 +130,7 @@ export class RiotService {
   }
 
   async getHighEloAccounts(): Promise<
-    { puuid: string; rank: ObservedAccountRank | null }[]
+    { puuid: string; rank: RiotRankObservation | null }[]
   > {
     this.ensureApiKey();
     const startTime = Date.now();
@@ -157,7 +157,7 @@ export class RiotService {
 
     const accounts = new Map<
       string,
-      { puuid: string; rank: ObservedAccountRank | null }
+      { puuid: string; rank: RiotRankObservation | null }
     >();
     for (const { league, observedAt } of [
       challengerLeague,

@@ -1,11 +1,8 @@
 import { HttpException } from '@nestjs/common';
 import { isAxiosError } from 'axios';
 import { InvalidMatchError } from './processing.constants';
-
-export function httpStatus(error: unknown): number | undefined {
-  if (error instanceof HttpException) return error.getStatus();
-  if (isAxiosError(error)) return error.response?.status;
-}
+import { httpStatus } from '../../lib/technical-error';
+export { httpStatus } from '../../lib/technical-error';
 
 export function retryAfterMs(error: unknown, now = Date.now()): number {
   let value: unknown;

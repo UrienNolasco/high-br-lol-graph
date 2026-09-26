@@ -2,8 +2,8 @@ const { readFileSync, writeFileSync } = require('node:fs');
 const { join } = require('node:path');
 const {
   projectTimelineSnapshots,
-} = require('../dist/core/riot/timeline-snapshots');
-const { parseMatchData } = require('../dist/modules/worker/pure/match.parser');
+} = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
+const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
 const {
   calculateEconomy,
 } = require('../dist/modules/matches/pure/economy-calculator');

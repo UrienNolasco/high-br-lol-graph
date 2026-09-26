@@ -1,4 +1,4 @@
-import { projectTimelineSnapshots } from '../../../core/riot/timeline-snapshots';
+import { projectTimelineSnapshots } from '../adapters/riot/timeline-snapshots';
 import { MatchGoldTimelineService } from './match-gold-timeline.service';
 
 const losingGoldWinner = () => ({

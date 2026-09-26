@@ -3,10 +3,10 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const {
   normalizeTimelineEvents,
-} = require('../dist/core/riot/normalized-events');
+} = require('../dist/modules/matches/adapters/riot/normalized-events');
 const {
   projectTimelineSnapshots,
-} = require('../dist/core/riot/timeline-snapshots');
+} = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
 const {
   calculateKillEpisodes,
 } = require('../dist/modules/matches/pure/kill-episodes-calculator');

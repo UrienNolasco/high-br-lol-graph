@@ -3,10 +3,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {
   normalizeTimelineEvents,
-} = require('../dist/core/riot/normalized-events');
+} = require('../dist/modules/matches/adapters/riot/normalized-events');
 const {
   projectTimelineSnapshots,
-} = require('../dist/core/riot/timeline-snapshots');
+} = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
 const {
   calculateSequences,
 } = require('../dist/modules/matches/pure/sequences-calculator');

@@ -1,10 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
-import { normalizeTimelineEvents } from '../../src/core/riot/normalized-events';
-import { projectTimelineSnapshots } from '../../src/core/riot/timeline-snapshots';
-import { unavailableItemCatalog } from '../../src/core/data-dragon/item-catalog';
-import { unavailableSkillCatalog } from '../../src/core/data-dragon/skill-catalog';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
+import { normalizeTimelineEvents } from '../../src/modules/matches/adapters/riot/normalized-events';
+import { projectTimelineSnapshots } from '../../src/modules/matches/adapters/riot/timeline-snapshots';
+import {
+  unavailableItemCatalog,
+  unavailableSkillCatalog,
+} from '../../src/modules/matches/contracts/catalogs';
 import { ReportInput } from '../../src/modules/matches/pure/report/report.types';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';

@@ -2,7 +2,7 @@ import { WorkerService } from './worker.service';
 import { ProcessingService } from '../../../core/processing/processing.service';
 import { MatchPersistenceService } from './match-persistence.service';
 import { RiotService } from '../../../core/riot/riot.service';
-import { TimelineParserService } from '../../../core/riot/timeline-parser.service';
+import { TimelineParserService } from '../../matches/adapters/riot/timeline-parser.service';
 import { PinoLogger } from 'nestjs-pino';
 import { MissingTimelineError } from '../../../core/processing/processing.constants';
 
@@ -66,9 +66,11 @@ describe('WorkerService durable recovery', () => {
     expect(save).not.toHaveBeenCalled();
   });
   it('reuses stored summary on a later attempt', async () => {
-    jobs.readRaw.mockImplementation((_id, field) => Promise.resolve(
-      field === 'summary' ? { metadata: { matchId: 'BR1_1' } } : null,
-    ));
+    jobs.readRaw.mockImplementation((_id, field) =>
+      Promise.resolve(
+        field === 'summary' ? { metadata: { matchId: 'BR1_1' } } : null,
+      ),
+    );
     await service.processMatch({ matchId: 'BR1_1' });
     expect(riot.getMatchById).not.toHaveBeenCalled();
     expect(riot.getTimeline).toHaveBeenCalledWith('BR1_1');

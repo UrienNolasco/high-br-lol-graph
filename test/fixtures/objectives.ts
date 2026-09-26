@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { normalizeTimelineEvents } from '../../src/core/riot/normalized-events';
-import { parseMatchData } from '../../src/modules/worker/pure/match.parser';
+import { normalizeTimelineEvents } from '../../src/modules/matches/adapters/riot/normalized-events';
+import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 import { ObjectivesInput } from '../../src/modules/matches/pure/objectives-calculator';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 export function objectivesFixture(): ObjectivesInput {

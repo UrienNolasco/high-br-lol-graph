@@ -3,8 +3,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {
   normalizeTimelineEvents,
-} = require('../dist/core/riot/normalized-events');
-const { parseMatchData } = require('../dist/modules/worker/pure/match.parser');
+} = require('../dist/modules/matches/adapters/riot/normalized-events');
+const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
 const {
   calculateObjectives,
 } = require('../dist/modules/matches/pure/objectives-calculator');

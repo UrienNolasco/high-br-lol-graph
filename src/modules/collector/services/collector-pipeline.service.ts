@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { RiotService } from '../../../core/riot/riot.service';
+import type { RiotRankObservation } from '../../../core/riot/dto/rank-observation.dto';
+import type { ObservedAccountRank } from '../../../core/processing/discovery';
 import { getErrorMessage } from '../../../core/logger/get-error-message';
 import { QueueService } from '../../../core/queue/queue.service';
 import { CollectorRepository } from '../repositories/collector.repository';
@@ -9,6 +11,12 @@ import { CollectorRepository } from '../repositories/collector.repository';
 interface CollectionWindow {
   startHour: number;
   endHour: number;
+}
+
+function toObservedRank(
+  rank: RiotRankObservation | null,
+): ObservedAccountRank | null {
+  return rank ? { ...rank } : null;
 }
 
 @Injectable()
@@ -49,7 +57,7 @@ export class CollectorPipelineService {
             queueFilter: null,
             requestedCount: 20,
             startIndex: 0,
-            rank,
+            rank: toObservedRank(rank),
           });
           totalMatchesFound += matchIds.length;
 
