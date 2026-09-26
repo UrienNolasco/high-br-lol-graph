@@ -6,7 +6,7 @@ const {
 const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
 const {
   calculateEconomy,
-} = require('../dist/modules/matches/pure/economy-calculator');
+} = require('../dist/modules/matches/contracts/calculations/economy');
 const summary = JSON.parse(
   readFileSync(
     join(__dirname, '../exemplo_partida_BR1_3200579475.json'),

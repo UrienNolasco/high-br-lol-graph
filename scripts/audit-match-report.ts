@@ -9,7 +9,7 @@ import { MatchReportQueryDto } from '../src/modules/matches/dto/match-report-que
 import {
   REPORT_FAMILIES,
   REPORT_SECTIONS,
-} from '../src/modules/matches/pure/report/report.types';
+} from '../src/modules/matches/contracts/calculations/report';
 async function main() {
   const input = reportFixture(),
     query = new MatchReportQueryDto();

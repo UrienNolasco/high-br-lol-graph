@@ -5,7 +5,7 @@ const {
 } = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
 const {
   calculateMapPresence,
-} = require('../dist/modules/matches/pure/map-presence-calculator');
+} = require('../dist/modules/matches/contracts/calculations/map-presence');
 const summary = JSON.parse(
   readFileSync(
     join(__dirname, '../exemplo_partida_BR1_3200579475.json'),

@@ -1,13 +1,11 @@
 import { createHash } from 'node:crypto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { ReportOptions, record, isFiniteNumber } from './report.types';
 import {
   ReportFamily,
-  ReportOptions,
-  record,
-  isFiniteNumber,
   REPORT_FAMILIES,
   REPORT_SECTIONS,
-} from './report.types';
+} from '../../contracts/calculations/report';
 import { ReportFamilyData } from './report-families';
 export const reportBase = (matchId: string, puuid: string) =>
   `/api/v1/matches/${encodeURIComponent(matchId)}/report/${encodeURIComponent(puuid)}`;

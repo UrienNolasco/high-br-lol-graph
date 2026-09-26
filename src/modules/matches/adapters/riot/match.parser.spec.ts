@@ -1,8 +1,5 @@
-import {
-  buildParticipantMap,
-  parseMatchData,
-  extractPatch,
-} from './match.parser';
+import { buildParticipantMap, parseMatchData } from './match.parser';
+import { extractPatch } from '../../contracts/calculations/patch';
 
 describe('match.parser', () => {
   describe('buildParticipantMap', () => {

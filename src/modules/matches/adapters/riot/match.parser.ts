@@ -111,8 +111,3 @@ export function parseMatchData(matchDto: MatchDto): ProcessedMatchData {
 
   return { match, teams, participants };
 }
-
-export function extractPatch(gameVersion: string): string {
-  const parts = gameVersion.split('.');
-  return `${parts[0]}.${parts[1]}`;
-}

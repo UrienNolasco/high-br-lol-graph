@@ -4,8 +4,10 @@ import { AnalyticsService } from './services/analytics.service';
 import { AnalyticsRepository } from './repositories/analytics.repository';
 import { PrismaModule } from '../../core/prisma/prisma.module';
 
+import { MatchQueriesModule } from '../matches/match-queries.module';
+
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, MatchQueriesModule],
   controllers: [AnalyticsController],
   providers: [AnalyticsRepository, AnalyticsService],
 })

@@ -116,22 +116,6 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "cross-module-internal-import:09f667cdff735ad98421",
-      "rule": "cross-module-internal-import",
-      "from": "src/modules/analytics/repositories/analytics.repository.ts",
-      "to": "src/modules/matches/repositories/combat.repository.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-06"
-    },
-    {
-      "id": "cross-module-internal-import:0a6236c688a09930c559",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/build-map-presence-examples.cjs",
-      "to": "src/modules/matches/pure/map-presence-calculator.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
       "id": "cross-module-internal-import:0fed353a368c5f004dce",
       "rule": "cross-module-internal-import",
       "from": "scripts/build-champion-popularity-examples.cjs",
@@ -172,28 +156,12 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "cross-module-internal-import:32f0036ba0dbd76a9b03",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/validate-objectives.cjs",
-      "to": "src/modules/matches/pure/objectives-calculator.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
       "id": "cross-module-internal-import:37e06d609e0d0d3c22dc",
       "rule": "cross-module-internal-import",
       "from": "src/modules/stats/dto/matchup-stats.dto.ts",
       "to": "src/modules/champions/dto/champion-images.dto.ts",
       "owner": "stats",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "cross-module-internal-import:3ebe5a80606ba429e8b8",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/validate-bounties-steals.cjs",
-      "to": "src/modules/matches/pure/bounties-steals-calculator.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
     },
     {
       "id": "cross-module-internal-import:529c8f654f4c0d9ae8e5",
@@ -204,26 +172,10 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "cross-module-internal-import:554f2474d7a3f553671e",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/validate-sequences.cjs",
-      "to": "src/modules/matches/pure/sequences-calculator.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
       "id": "cross-module-internal-import:58be3343b52067884491",
       "rule": "cross-module-internal-import",
       "from": "scripts/validate-objectives.cjs",
       "to": "src/modules/worker/pure/match.parser.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
-      "id": "cross-module-internal-import:60593e2ce663024b4038",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/validate-kill-episodes.cjs",
-      "to": "src/modules/matches/pure/kill-episodes-calculator.ts",
       "owner": "studies/tools",
       "removalCard": "ARQ-12"
     },
@@ -268,14 +220,6 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "cross-module-internal-import:866abd80b07061c3fd79",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/build-economy-examples.cjs",
-      "to": "src/modules/matches/pure/economy-calculator.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
       "id": "cross-module-internal-import:be23b027c9bce2183fa9",
       "rule": "cross-module-internal-import",
       "from": "src/modules/stats/dto/champion-stats.dto.ts",
@@ -284,50 +228,10 @@
       "removalCard": "ARQ-13"
     },
     {
-      "id": "cross-module-internal-import:c82f3d33c1693a58d6ca",
-      "rule": "cross-module-internal-import",
-      "from": "src/modules/analytics/pure/historical-solo.ts",
-      "to": "src/modules/matches/pure/combat-calculator.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-06"
-    },
-    {
-      "id": "cross-module-internal-import:cdc0cdafbe3dd0ee1b32",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/validate-vision.cjs",
-      "to": "src/modules/matches/pure/vision-calculator.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
-      "id": "cross-module-internal-import:d387cab4c55d097026d3",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/benchmark-release.cjs",
-      "to": "src/modules/matches/pure/vision-calculator.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
       "id": "cross-module-internal-import:d42969a9960847c41a2b",
       "rule": "cross-module-internal-import",
       "from": "scripts/audit-optional-indicators.ts",
       "to": "src/modules/indicators/pure/indicator-history.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
-      "id": "cross-module-internal-import:d493c0f153bf8b99751a",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/audit-match-report.ts",
-      "to": "src/modules/matches/pure/report/report.types.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
-      "id": "cross-module-internal-import:d9ad0a171347a6a271a6",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/validate-contribution.cjs",
-      "to": "src/modules/matches/pure/contribution-calculator.ts",
       "owner": "studies/tools",
       "removalCard": "ARQ-12"
     },
@@ -354,14 +258,6 @@
       "to": "src/modules/matches/repositories/report.repository.ts",
       "owner": "studies/tools",
       "removalCard": "ARQ-12"
-    },
-    {
-      "id": "cross-module-internal-import:f213bdccddb11ce3ae7e",
-      "rule": "cross-module-internal-import",
-      "from": "src/modules/analytics/pure/historical-solo.ts",
-      "to": "src/modules/matches/pure/combat-source.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-06"
     },
     {
       "id": "cross-module-internal-import:f823b4ea3b4ecd7de299",
@@ -532,28 +428,12 @@
       "removalCard": "ARQ-06"
     },
     {
-      "id": "test-cross-context-internal-import:4028910c0df9d72df536",
-      "rule": "test-cross-context-internal-import",
-      "from": "src/modules/analytics/repositories/analytics.repository.spec.ts",
-      "to": "src/modules/matches/repositories/combat.repository.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-06"
-    },
-    {
       "id": "test-cross-context-internal-import:4fc1a650e4ebecdd59b1",
       "rule": "test-cross-context-internal-import",
       "from": "src/modules/admin/admin.controller.e2e-spec.ts",
       "to": "src/modules/collector/services/collector.service.ts",
       "owner": "admin",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "test-cross-context-internal-import:71a3e5913fe850041138",
-      "rule": "test-cross-context-internal-import",
-      "from": "src/modules/analytics/pure/historical-solo.spec.ts",
-      "to": "src/modules/matches/pure/combat-source.ts",
-      "owner": "analytics",
-      "removalCard": "ARQ-06"
     }
   ]
 }

@@ -1,5 +1,5 @@
-import { AnalyticsRepository } from './analytics.repository';
-import { COMBAT_EVENT_FILTER } from '../../matches/repositories/combat.repository';
+import { ComparisonCohortRepository } from './comparison-cohort.repository';
+import { COMBAT_EVENT_FILTER } from './combat.repository';
 
 describe('comparison cohort query', () => {
   const tx = {
@@ -14,7 +14,7 @@ describe('comparison cohort query', () => {
     ),
     user: { findUnique: jest.fn() },
   };
-  const repo = new AnalyticsRepository(prisma as any);
+  const repo = new ComparisonCohortRepository(prisma as any);
   beforeEach(() => {
     jest.clearAllMocks();
     tx.matchParticipant.count.mockResolvedValue(102);

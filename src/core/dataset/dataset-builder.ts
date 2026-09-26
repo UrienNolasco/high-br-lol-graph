@@ -15,11 +15,11 @@ import type {
   ParticipantSnapshot,
 } from '../../modules/matches/contracts/normalized-snapshots';
 import type { ProcessedMatchData } from '../../modules/matches/contracts/normalized-match';
-import { computeContribution } from '../../modules/matches/pure/contribution-calculator';
-import { calculateVisionTotals } from '../../modules/matches/pure/vision-calculator';
-import { calculateCombat } from '../../modules/matches/pure/combat-calculator';
-import { calculateObjectives } from '../../modules/matches/pure/objectives-calculator';
-import { calculateSequences } from '../../modules/matches/pure/sequences-calculator';
+import { computeContribution } from '../../modules/matches/contracts/calculations/contribution';
+import { calculateVisionTotals } from '../../modules/matches/contracts/calculations/vision';
+import { calculateCombat } from '../../modules/matches/contracts/calculations/combat';
+import { calculateObjectives } from '../../modules/matches/contracts/calculations/objectives';
+import { calculateSequences } from '../../modules/matches/contracts/calculations/sequences';
 import {
   DATASET_DEFINITIONS,
   DATASET_DEFINITION_MAP,

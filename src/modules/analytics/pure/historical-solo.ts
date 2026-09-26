@@ -1,9 +1,10 @@
-import {
+import { calculateSoloCheckpoints } from '../../matches/contracts/calculations/combat';
+import type {
   CombatEvent,
   CombatParticipant,
-  calculateSoloCheckpoints,
-} from '../../matches/pure/combat-calculator';
-import { CombatSource, combatInput } from '../../matches/pure/combat-source';
+} from '../../matches/contracts/calculations/combat';
+import { combatInput } from '../../matches/contracts/calculations/combat-source';
+import type { CombatSource } from '../../matches/contracts/calculations/combat-source';
 import { observation } from './cohort-calculator';
 import { metricQuality } from '../../matches/contracts/metric-contract';
 export interface SoloCohortRow {

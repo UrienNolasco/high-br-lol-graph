@@ -9,7 +9,7 @@ const {
 } = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
 const {
   calculateKillEpisodes,
-} = require('../dist/modules/matches/pure/kill-episodes-calculator');
+} = require('../dist/modules/matches/contracts/calculations/kill-episodes');
 const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(

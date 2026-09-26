@@ -216,6 +216,41 @@ function addProviderCompositionRelocation(f) {
   return { consumer, newModule };
 }
 
+function addPublicEntrypointRelocation(f) {
+  const oldPath = 'src/modules/matches/pure/calculator.ts';
+  const newPath = 'src/modules/matches/contracts/calculation.ts';
+  const consumer = 'src/core/dataset/use-calculator.ts';
+  amendOrigin(f, {
+    [oldPath]:
+      'export function calculate(value: number) { return value + 1; } export function helper() { return 0; }',
+    [consumer]:
+      "import { calculate } from '../../modules/matches/pure/calculator'; export const value = calculate(1);",
+  });
+  f.write(newPath, "export { calculate } from '../pure/calculator';");
+  f.write(
+    consumer,
+    "import { calculate } from '../../modules/matches/contracts/calculation'; export const value = calculate(1);",
+  );
+  f.ledger.entries = [
+    {
+      kind: 'public-entrypoint',
+      oldPath,
+      newPath,
+      symbols: ['calculate'],
+      consumers: [
+        {
+          from: consumer,
+          kinds: ['runtime'],
+          symbols: ['calculate'],
+          owner: 'core/dataset',
+          removalCard: 'ARQ-07',
+        },
+      ],
+    },
+  ];
+  return { oldPath, newPath, consumer };
+}
+
 test('verified extraction preserves logical boundary identity and reports its bridges', (t) => {
   const f = fixture(t);
   assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
@@ -582,5 +617,169 @@ test('strict mode rejects a provider composition bridge', (t) => {
   assert.equal(
     check(f.root, { relocations: f.ledger, baseline: [], strict: true }).ok,
     false,
+  );
+});
+
+test('a public entrypoint keeps one canonical declaration and stable logical identity', (t) => {
+  const f = fixture(t);
+  const { oldPath, newPath, consumer } = addPublicEntrypointRelocation(f);
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+  const result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.ok(
+    result.violations.some(
+      (violation) =>
+        violation.rule === 'core-no-modules' &&
+        violation.from === consumer &&
+        violation.to === oldPath,
+    ),
+  );
+  assert.equal(
+    result.violations.some(
+      (violation) => violation.from === consumer && violation.to === newPath,
+    ),
+    false,
+  );
+  assert.ok(
+    result.transitionalDebt.some(
+      (debt) =>
+        debt.kind === 'public-entrypoint' &&
+        debt.oldPath === oldPath &&
+        debt.newPath === newPath,
+    ),
+  );
+});
+
+test('a public entrypoint cannot redeclare the canonical symbol', (t) => {
+  const f = fixture(t);
+  const { newPath } = addPublicEntrypointRelocation(f);
+  f.write(
+    newPath,
+    'export function calculate(value: number) { return value; }',
+  );
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'duplicate-public-entrypoint-declaration',
+    ),
+  );
+});
+
+test('a public entrypoint must reexport from the exact canonical file', (t) => {
+  const f = fixture(t);
+  const { newPath } = addPublicEntrypointRelocation(f);
+  f.write(
+    'src/modules/matches/pure/other-calculator.ts',
+    'export function calculate(value: number) { return value; }',
+  );
+  f.write(newPath, "export { calculate } from '../pure/other-calculator';");
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'public-entrypoint-target-mismatch',
+    ),
+  );
+});
+
+test('a public entrypoint rejects blanket reexports', (t) => {
+  const f = fixture(t);
+  const { newPath } = addPublicEntrypointRelocation(f);
+  f.write(newPath, "export * from '../pure/calculator';");
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'blanket-public-entrypoint-reexport',
+    ),
+  );
+});
+
+test('a public entrypoint rejects canonical symbols absent from its finite ledger', (t) => {
+  const f = fixture(t);
+  const { newPath } = addPublicEntrypointRelocation(f);
+  f.write(newPath, "export { calculate, helper } from '../pure/calculator';");
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'public-entrypoint-unlisted-reexport',
+    ),
+  );
+});
+
+test('a public entrypoint does not authorize an unlisted consumer', (t) => {
+  const f = fixture(t);
+  const { newPath } = addPublicEntrypointRelocation(f);
+  const extra = 'src/core/dataset/extra-calculator.ts';
+  f.write(
+    extra,
+    "import { calculate } from '../../modules/matches/contracts/calculation'; export const value = calculate(2);",
+  );
+  const result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.ok(
+    result.violations.some(
+      (violation) =>
+        violation.rule === 'core-no-modules' &&
+        violation.from === extra &&
+        violation.to === newPath,
+    ),
+  );
+});
+
+test('a public entrypoint keeps transitive purity checks on the canonical implementation', (t) => {
+  const f = fixture(t);
+  const { oldPath, newPath } = addPublicEntrypointRelocation(f);
+  f.write(
+    oldPath,
+    "import type { PrismaClient } from '@prisma/client'; export function calculate(value: number, _db?: PrismaClient) { return value + 1; } export function helper() { return 0; }",
+  );
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+  const result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.ok(
+    result.violations.some(
+      (violation) =>
+        violation.rule === 'contract-transitive-purity' &&
+        violation.from === newPath &&
+        violation.to === 'external:@prisma/client',
+    ),
+  );
+});
+
+test('a public entrypoint keeps runtime cycles on physical files visible', (t) => {
+  const f = fixture(t);
+  const { oldPath, newPath } = addPublicEntrypointRelocation(f);
+  f.write(
+    oldPath,
+    "import { calculate as publicCalculate } from '../contracts/calculation'; export function calculate(value: number) { return value ? publicCalculate(0) : 1; } export function helper() { return 0; }",
+  );
+  assert.deepEqual(validateRelocations(f.root, f.ledger).errors, []);
+  const result = analyzeViolations(f.root, { relocations: f.ledger });
+  assert.ok(
+    result.violations.some(
+      (violation) =>
+        violation.rule === 'runtime-cycle' &&
+        violation.members.includes(oldPath) &&
+        violation.members.includes(newPath),
+    ),
+  );
+});
+
+test('a public entrypoint cannot downgrade a runtime API to a type export', (t) => {
+  const f = fixture(t);
+  const { newPath } = addPublicEntrypointRelocation(f);
+  f.write(newPath, "export type { calculate } from '../pure/calculator';");
+  assert.ok(
+    validateRelocations(f.root, f.ledger).errors.some(
+      (error) => error.code === 'declaration-kind-changed',
+    ),
+  );
+});
+
+test('strict mode rejects a public entrypoint bridge', (t) => {
+  const f = fixture(t);
+  addPublicEntrypointRelocation(f);
+  const result = check(f.root, {
+    relocations: f.ledger,
+    baseline: [],
+    strict: true,
+  });
+  assert.equal(result.ok, false);
+  assert.ok(
+    result.relocationErrors.some(
+      (error) => error.code === 'strict-relocations-present',
+    ),
   );
 });

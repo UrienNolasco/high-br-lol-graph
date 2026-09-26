@@ -8,7 +8,7 @@ const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.
 const {
   calculateBountiesSteals,
   STEAL_CHALLENGES,
-} = require('../dist/modules/matches/pure/bounties-steals-calculator');
+} = require('../dist/modules/matches/contracts/calculations/bounties-steals');
 const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(

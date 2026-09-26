@@ -7,7 +7,7 @@ const {
 const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
 const {
   calculateObjectives,
-} = require('../dist/modules/matches/pure/objectives-calculator');
+} = require('../dist/modules/matches/contracts/calculations/objectives');
 const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(

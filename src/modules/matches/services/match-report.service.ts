@@ -7,9 +7,6 @@ import {
 import { ReportRepository } from '../repositories/report.repository';
 import { MatchReportQueryDto } from '../dto/match-report-query.dto';
 import {
-  ReportFamily,
-  REPORT_FAMILIES,
-  REPORT_SECTIONS,
   ReportOptions,
   DEFAULT_REPORT_OPTIONS,
   record,
@@ -17,6 +14,11 @@ import {
   sourceKnown,
   sourceTime,
 } from '../pure/report/report.types';
+import {
+  ReportFamily,
+  REPORT_FAMILIES,
+  REPORT_SECTIONS,
+} from '../contracts/calculations/report';
 import { reportFamilies } from '../pure/report/report-families';
 import {
   buildReportSummary,

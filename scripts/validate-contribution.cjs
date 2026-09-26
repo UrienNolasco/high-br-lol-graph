@@ -5,7 +5,7 @@ const path = require('node:path');
 const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
 const {
   computeContribution,
-} = require('../dist/modules/matches/pure/contribution-calculator');
+} = require('../dist/modules/matches/contracts/calculations/contribution');
 const raw = JSON.parse(
   fs.readFileSync(
     path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),

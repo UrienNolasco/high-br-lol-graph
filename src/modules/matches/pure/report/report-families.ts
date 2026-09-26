@@ -9,12 +9,12 @@ import { calculateProgression } from '../progression/progression-calculator';
 import { readSnapshotProjection } from '../../contracts/snapshot-readers';
 import { ItemCatalog, SkillCatalog } from '../../contracts/catalogs';
 import {
-  ReportFamily,
   ReportInput,
   ReportOptions,
   sourceKnown,
   sourceTime,
 } from './report.types';
+import { ReportFamily } from '../../contracts/calculations/report';
 export interface ReportCatalogs {
   items: ItemCatalog;
   skills: SkillCatalog;

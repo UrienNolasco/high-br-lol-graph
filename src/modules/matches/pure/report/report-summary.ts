@@ -3,13 +3,15 @@ import { metricQuality } from '../../contracts/metric-contract';
 import {
   ReportInput,
   ReportOptions,
-  REPORT_FAMILIES,
-  REPORT_SECTIONS,
   record,
   sourceKnown,
   sourceTime,
   isFiniteNumber,
 } from './report.types';
+import {
+  REPORT_FAMILIES,
+  REPORT_SECTIONS,
+} from '../../contracts/calculations/report';
 import { ReportCatalogs, reportFamilies } from './report-families';
 import { reportBase, reportMetric, selectPath } from './report-navigation';
 const DIMENSIONS: readonly {

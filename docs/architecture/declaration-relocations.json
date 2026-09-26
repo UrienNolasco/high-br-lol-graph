@@ -1,45 +1,31 @@
 {
   "schemaVersion": 1,
   "originSha": "92a34197dcff642ba4ef85136e70eb5a70e705b2",
-  "description": "Finite ARQ-03 through ARQ-05 declaration moves. Each bridge is tied to its original consumer and must be removed by its named card.",
+  "description": "Finite ARQ-03 through ARQ-06 declaration moves and public entrypoint bridges. Each bridge is tied to its original consumer and must be removed by its named card.",
   "entries": [
     {
       "oldPath": "src/modules/worker/pure/match.parser.ts",
       "newPath": "src/modules/matches/contracts/normalized-match.ts",
-      "symbols": [
-        "ProcessedMatchData"
-      ],
+      "symbols": ["ProcessedMatchData"],
       "consumers": [
         {
           "from": "src/core/dataset/dataset-builder.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ProcessedMatchData"
-          ],
+          "kinds": ["type"],
+          "symbols": ["ProcessedMatchData"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         },
         {
           "from": "src/core/stats/player-stats-aggregation.service.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ProcessedMatchData"
-          ],
+          "kinds": ["type"],
+          "symbols": ["ProcessedMatchData"],
           "owner": "core/stats",
           "removalCard": "ARQ-08"
         },
         {
           "from": "src/modules/worker/services/match-persistence.service.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ProcessedMatchData"
-          ],
+          "kinds": ["type"],
+          "symbols": ["ProcessedMatchData"],
           "owner": "worker",
           "removalCard": "ARQ-10"
         }
@@ -48,30 +34,19 @@
     {
       "oldPath": "src/core/riot/normalized-events.ts",
       "newPath": "src/modules/matches/contracts/normalized-events.ts",
-      "symbols": [
-        "EventQuality",
-        "NormalizedTimelineEvent"
-      ],
+      "symbols": ["EventQuality", "NormalizedTimelineEvent"],
       "consumers": [
         {
           "from": "src/core/dataset/dataset-builder.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "NormalizedTimelineEvent"
-          ],
+          "kinds": ["type"],
+          "symbols": ["NormalizedTimelineEvent"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         },
         {
           "from": "src/core/research/vision-study.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "NormalizedTimelineEvent"
-          ],
+          "kinds": ["type"],
+          "symbols": ["NormalizedTimelineEvent"],
           "owner": "core/research",
           "removalCard": "ARQ-12"
         }
@@ -88,24 +63,15 @@
       "consumers": [
         {
           "from": "src/core/dataset/dataset-builder.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ParticipantSnapshot",
-            "TimelineSnapshotProjection"
-          ],
+          "kinds": ["type"],
+          "symbols": ["ParticipantSnapshot", "TimelineSnapshotProjection"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         },
         {
           "from": "src/core/research/vision-study.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "TimelineSnapshotProjection"
-          ],
+          "kinds": ["type"],
+          "symbols": ["TimelineSnapshotProjection"],
           "owner": "core/research",
           "removalCard": "ARQ-12"
         }
@@ -126,12 +92,8 @@
       "consumers": [
         {
           "from": "src/modules/worker/services/match-persistence.service.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "ParsedTimelineData"
-          ],
+          "kinds": ["type"],
+          "symbols": ["ParsedTimelineData"],
           "owner": "worker",
           "removalCard": "ARQ-10"
         }
@@ -154,24 +116,15 @@
       "consumers": [
         {
           "from": "src/core/dataset/dataset-builder.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "gameVersionPatch",
-            "normalizeRole"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["gameVersionPatch", "normalizeRole"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         },
         {
           "from": "src/core/dataset/dataset-query.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "normalizeRole"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["normalizeRole"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         }
@@ -199,24 +152,15 @@
       "consumers": [
         {
           "from": "src/core/dataset/dataset-builder.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "metricQuality"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["metricQuality"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         },
         {
           "from": "src/core/dataset/dataset-builder.ts",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "MetricEvidence",
-            "MetricResult"
-          ],
+          "kinds": ["type"],
+          "symbols": ["MetricEvidence", "MetricResult"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         }
@@ -239,34 +183,22 @@
       "consumers": [
         {
           "from": "src/core/dataset/dataset-builder.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "selectCheckpoint"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["selectCheckpoint"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         },
         {
           "from": "src/core/research/vision-study.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "selectCheckpoint"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["selectCheckpoint"],
           "owner": "core/research",
           "removalCard": "ARQ-12"
         },
         {
           "from": "src/core/stats/player-stats-aggregation.service.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "LEGACY_LANE_CHECKPOINT"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["LEGACY_LANE_CHECKPOINT"],
           "owner": "core/stats",
           "removalCard": "ARQ-08"
         }
@@ -275,18 +207,12 @@
     {
       "oldPath": "src/core/statistics/empirical-reference.ts",
       "newPath": "src/lib/math/empirical-distribution.ts",
-      "symbols": [
-        "dkwHalfWidth",
-        "empiricalDistribution",
-        "empiricalQuantile"
-      ],
+      "symbols": ["dkwHalfWidth", "empiricalDistribution", "empiricalQuantile"],
       "consumers": [
         {
           "from": "src/core/statistics/empirical-reference.ts",
           "syntax": "reexport",
-          "kinds": [
-            "runtime"
-          ],
+          "kinds": ["runtime"],
           "symbols": [
             "dkwHalfWidth",
             "empiricalDistribution",
@@ -314,9 +240,7 @@
         {
           "from": "src/core/statistics/empirical-reference.ts",
           "syntax": "reexport",
-          "kinds": [
-            "runtime"
-          ],
+          "kinds": ["runtime"],
           "symbols": [
             "REFERENCE_METHOD_VERSION",
             "DEFAULT_PRECISION",
@@ -331,13 +255,8 @@
         {
           "from": "src/core/statistics/empirical-reference.ts",
           "syntax": "reexport",
-          "kinds": [
-            "type"
-          ],
-          "symbols": [
-            "PrecisionPolicy",
-            "ReferenceObservation"
-          ],
+          "kinds": ["type"],
+          "symbols": ["PrecisionPolicy", "ReferenceObservation"],
           "owner": "core/statistics",
           "removalCard": "ARQ-13"
         }
@@ -356,9 +275,7 @@
         {
           "from": "src/core/statistics/vision-investment.ts",
           "syntax": "reexport",
-          "kinds": [
-            "runtime"
-          ],
+          "kinds": ["runtime"],
           "symbols": [
             "CONTROL_WARD_CATALOG_EVIDENCE",
             "SUPPORT_QUEST_COST_EVIDENCE",
@@ -373,32 +290,22 @@
     {
       "oldPath": "src/core/processing/processing.constants.ts",
       "newPath": "src/modules/dataset/contracts/processing.ts",
-      "symbols": [
-        "DATASET_PROCESSING_VERSION"
-      ],
+      "symbols": ["DATASET_PROCESSING_VERSION"],
       "originSymbols": {
         "DATASET_PROCESSING_VERSION": "PROCESSING_VERSION"
       },
       "consumers": [
         {
           "from": "src/core/dataset/dataset-export.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "DATASET_PROCESSING_VERSION"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["DATASET_PROCESSING_VERSION"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         },
         {
           "from": "src/core/dataset/dataset-query.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "DATASET_PROCESSING_VERSION"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["DATASET_PROCESSING_VERSION"],
           "owner": "core/dataset",
           "removalCard": "ARQ-07"
         }
@@ -407,79 +314,43 @@
     {
       "oldPath": "src/modules/worker/pure/match.parser.ts",
       "newPath": "src/modules/matches/adapters/riot/match.parser.ts",
-      "symbols": [
-        "buildParticipantMap",
-        "parseMatchData",
-        "extractPatch"
-      ],
+      "symbols": ["buildParticipantMap", "parseMatchData"],
       "consumers": [
         {
-          "from": "src/core/stats/player-stats-aggregation.service.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "extractPatch"
-          ],
-          "owner": "core/stats",
-          "removalCard": "ARQ-08"
-        },
-        {
           "from": "src/modules/worker/services/worker.service.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "buildParticipantMap",
-            "parseMatchData"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["buildParticipantMap", "parseMatchData"],
           "owner": "worker",
           "removalCard": "ARQ-10"
         },
         {
           "from": "scripts/build-economy-examples.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "parseMatchData"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["parseMatchData"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-bounties-steals.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "parseMatchData"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["parseMatchData"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-contribution.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "parseMatchData"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["parseMatchData"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-objectives.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "parseMatchData"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["parseMatchData"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
@@ -489,40 +360,26 @@
     {
       "oldPath": "src/core/riot/timeline-parser.service.ts",
       "newPath": "src/modules/matches/adapters/riot/timeline-parser.service.ts",
-      "symbols": [
-        "TimelineParserService"
-      ],
+      "symbols": ["TimelineParserService"],
       "consumers": [
         {
           "from": "src/modules/worker/services/worker.service.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "TimelineParserService"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["TimelineParserService"],
           "owner": "worker",
           "removalCard": "ARQ-10"
         },
         {
           "from": "src/modules/worker/services/worker.service.spec.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "TimelineParserService"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["TimelineParserService"],
           "owner": "worker",
           "removalCard": "ARQ-10"
         },
         {
           "from": "scripts/benchmark-release.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "TimelineParserService"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["TimelineParserService"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "compiled-loader"
@@ -540,60 +397,40 @@
       "consumers": [
         {
           "from": "scripts/validate-bounties-steals.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "normalizeTimelineEvents"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["normalizeTimelineEvents"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-kill-episodes.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "normalizeTimelineEvents"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["normalizeTimelineEvents"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-objectives.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "normalizeTimelineEvents"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["normalizeTimelineEvents"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-sequences.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "normalizeTimelineEvents"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["normalizeTimelineEvents"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-vision.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "normalizeTimelineEvents"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["normalizeTimelineEvents"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
@@ -603,77 +440,51 @@
     {
       "oldPath": "src/core/riot/timeline-snapshots.ts",
       "newPath": "src/modules/matches/adapters/riot/timeline-snapshots.ts",
-      "symbols": [
-        "projectTimelineSnapshots"
-      ],
+      "symbols": ["projectTimelineSnapshots"],
       "consumers": [
         {
           "from": "scripts/build-economy-examples.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectTimelineSnapshots"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectTimelineSnapshots"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/build-map-presence-examples.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectTimelineSnapshots"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectTimelineSnapshots"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-kill-episodes.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectTimelineSnapshots"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectTimelineSnapshots"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-sequences.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectTimelineSnapshots"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectTimelineSnapshots"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "src/modules/analytics/comparison-contract.e2e-spec.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectTimelineSnapshots"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectTimelineSnapshots"],
           "owner": "analytics",
           "removalCard": "ARQ-06"
         },
         {
           "from": "src/modules/analytics/services/analytics.service.spec.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectTimelineSnapshots"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectTimelineSnapshots"],
           "owner": "analytics",
           "removalCard": "ARQ-06"
         }
@@ -690,25 +501,16 @@
       "consumers": [
         {
           "from": "scripts/validate-final-stats.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectFinalStats",
-            "projectFinalObjectives"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectFinalStats", "projectFinalObjectives"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
         },
         {
           "from": "scripts/validate-vision.cjs",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "projectFinalStats"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["projectFinalStats"],
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
@@ -719,9 +521,7 @@
       "kind": "provider-composition",
       "oldPath": "src/core/riot/riot.module.ts",
       "newPath": "src/modules/matches/match-normalization.module.ts",
-      "symbols": [
-        "MatchNormalizationModule"
-      ],
+      "symbols": ["MatchNormalizationModule"],
       "originSymbols": {
         "MatchNormalizationModule": "RiotModule"
       },
@@ -733,14 +533,115 @@
       "consumers": [
         {
           "from": "src/modules/worker/worker.module.ts",
-          "kinds": [
-            "runtime"
-          ],
-          "symbols": [
-            "MatchNormalizationModule"
-          ],
+          "kinds": ["runtime"],
+          "symbols": ["MatchNormalizationModule"],
           "owner": "worker",
           "removalCard": "ARQ-10"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/modules/worker/pure/match.parser.ts",
+      "newPath": "src/modules/matches/contracts/calculations/patch.ts",
+      "symbols": ["extractPatch"],
+      "consumers": [
+        {
+          "from": "src/core/stats/player-stats-aggregation.service.ts",
+          "kinds": ["runtime"],
+          "symbols": ["extractPatch"],
+          "owner": "core/stats",
+          "removalCard": "ARQ-08"
+        }
+      ]
+    },
+    {
+      "kind": "public-entrypoint",
+      "oldPath": "src/modules/matches/pure/contribution-calculator.ts",
+      "newPath": "src/modules/matches/contracts/calculations/contribution.ts",
+      "symbols": ["computeContribution"],
+      "consumers": [
+        {
+          "from": "src/core/dataset/dataset-builder.ts",
+          "kinds": ["runtime"],
+          "symbols": ["computeContribution"],
+          "owner": "core/dataset",
+          "removalCard": "ARQ-07"
+        }
+      ]
+    },
+    {
+      "kind": "public-entrypoint",
+      "oldPath": "src/modules/matches/pure/vision-calculator.ts",
+      "newPath": "src/modules/matches/contracts/calculations/vision.ts",
+      "symbols": [
+        "VISION_WARD_TYPES",
+        "calculateVisionTotals",
+        "calculateVision"
+      ],
+      "consumers": [
+        {
+          "from": "src/core/dataset/dataset-builder.ts",
+          "kinds": ["runtime"],
+          "symbols": ["calculateVisionTotals"],
+          "owner": "core/dataset",
+          "removalCard": "ARQ-07"
+        },
+        {
+          "from": "src/core/research/vision-study.ts",
+          "kinds": ["runtime"],
+          "symbols": ["VISION_WARD_TYPES"],
+          "owner": "core/research",
+          "removalCard": "ARQ-12"
+        }
+      ]
+    },
+    {
+      "kind": "public-entrypoint",
+      "oldPath": "src/modules/matches/pure/combat-calculator.ts",
+      "newPath": "src/modules/matches/contracts/calculations/combat.ts",
+      "symbols": [
+        "CombatEvent",
+        "CombatParticipant",
+        "calculateSoloCheckpoints",
+        "calculateCombat"
+      ],
+      "consumers": [
+        {
+          "from": "src/core/dataset/dataset-builder.ts",
+          "kinds": ["runtime"],
+          "symbols": ["calculateCombat"],
+          "owner": "core/dataset",
+          "removalCard": "ARQ-07"
+        }
+      ]
+    },
+    {
+      "kind": "public-entrypoint",
+      "oldPath": "src/modules/matches/pure/objectives-calculator.ts",
+      "newPath": "src/modules/matches/contracts/calculations/objectives.ts",
+      "symbols": ["calculateObjectives"],
+      "consumers": [
+        {
+          "from": "src/core/dataset/dataset-builder.ts",
+          "kinds": ["runtime"],
+          "symbols": ["calculateObjectives"],
+          "owner": "core/dataset",
+          "removalCard": "ARQ-07"
+        }
+      ]
+    },
+    {
+      "kind": "public-entrypoint",
+      "oldPath": "src/modules/matches/pure/sequences-calculator.ts",
+      "newPath": "src/modules/matches/contracts/calculations/sequences.ts",
+      "symbols": ["calculateSequences"],
+      "consumers": [
+        {
+          "from": "src/core/dataset/dataset-builder.ts",
+          "kinds": ["runtime"],
+          "symbols": ["calculateSequences"],
+          "owner": "core/dataset",
+          "removalCard": "ARQ-07"
         }
       ]
     }

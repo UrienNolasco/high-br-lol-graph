@@ -7,6 +7,10 @@ const ts = require('typescript');
 
 const DEFAULT_RELATIVE_PATH = 'docs/architecture/declaration-relocations.json';
 const VALID_KINDS = new Set(['runtime', 'type']);
+const VALID_RELOCATION_KINDS = new Set([
+  'provider-composition',
+  'public-entrypoint',
+]);
 const gitShowCache = new Map();
 const originPathCache = new Map();
 const originFilesCache = new Map();
@@ -612,10 +616,16 @@ function validateRelocations(root, value, inventory) {
           index,
         );
     }
-    if (entry.kind !== undefined && entry.kind !== 'provider-composition')
+    if (entry.kind !== undefined && !VALID_RELOCATION_KINDS.has(entry.kind))
       error(
         'invalid-relocation-kind',
-        'Relocation kind must be provider-composition when specified',
+        'Relocation kind must be provider-composition or public-entrypoint when specified',
+        index,
+      );
+    if (entry.kind === 'public-entrypoint' && entry.originSymbols !== undefined)
+      error(
+        'public-entrypoint-renames-symbol',
+        'A public entrypoint must reexport each canonical symbol without renaming it',
         index,
       );
     if (entry.kind === 'provider-composition') {
@@ -666,6 +676,16 @@ function validateRelocations(root, value, inventory) {
 
   const imports = inventory?.imports || [];
   const relocationTargets = new Set(entries.map((entry) => entry.newPath));
+  const publicEntrypointSymbols = new Map();
+  for (const entry of entries.filter(
+    (candidate) => candidate?.kind === 'public-entrypoint',
+  )) {
+    const key = `${entry.oldPath}\n${entry.newPath}`;
+    if (!publicEntrypointSymbols.has(key))
+      publicEntrypointSymbols.set(key, new Set());
+    for (const symbol of entry.symbols || [])
+      publicEntrypointSymbols.get(key).add(symbol);
+  }
   refineCurrentImportEdges(
     root,
     imports.filter((edge) => relocationTargets.has(edge.resolved)),
@@ -719,6 +739,81 @@ function validateRelocations(root, value, inventory) {
         error(
           'declaration-kind-changed',
           `${symbol} changed from ${originKind} to ${currentKind}`,
+          entryIndex,
+        );
+    }
+
+    if (entry.kind === 'public-entrypoint') {
+      let currentOld = null;
+      if (!fs.existsSync(oldAbsolute))
+        error(
+          'missing-current-canonical-file',
+          `Current tree does not contain canonical implementation ${entry.oldPath}`,
+          entryIndex,
+        );
+      else currentOld = fs.readFileSync(oldAbsolute, 'utf8');
+      const currentOldDeclarations = currentOld
+        ? declarations(currentOld, entry.oldPath)
+        : new Map();
+      const currentNewDeclarations = declarations(currentNew, entry.newPath);
+      const currentNewReexports = originReexports(currentNew, entry.newPath);
+      if (wildcardReexports(currentNew, entry.newPath).length)
+        error(
+          'blanket-public-entrypoint-reexport',
+          `${entry.newPath} must expose the canonical implementation with named reexports only`,
+          entryIndex,
+        );
+      for (const symbol of entry.symbols) {
+        const originKind = originDeclarations.get(symbol);
+        const canonicalKind = currentOldDeclarations.get(symbol);
+        if (!canonicalKind)
+          error(
+            'canonical-symbol-not-declared',
+            `${entry.oldPath} no longer directly exports canonical symbol ${symbol}`,
+            entryIndex,
+          );
+        else if (originKind && canonicalKind !== originKind)
+          error(
+            'canonical-declaration-kind-changed',
+            `${entry.oldPath} changed ${symbol} from ${originKind} to ${canonicalKind}`,
+            entryIndex,
+          );
+        if (currentNewDeclarations.has(symbol))
+          error(
+            'duplicate-public-entrypoint-declaration',
+            `${entry.newPath} redeclares canonical symbol ${symbol}`,
+            entryIndex,
+          );
+        const exactReexports = currentNewReexports.filter(
+          (item) =>
+            item.exported === symbol &&
+            item.imported === symbol &&
+            currentPath(root, entry.newPath, item.specifier) === entry.oldPath,
+        );
+        if (exactReexports.length !== 1)
+          error(
+            'public-entrypoint-target-mismatch',
+            `${entry.newPath} must named-reexport ${symbol} exactly once from ${entry.oldPath}`,
+            entryIndex,
+          );
+      }
+      const allowed =
+        publicEntrypointSymbols.get(`${entry.oldPath}\n${entry.newPath}`) ||
+        new Set();
+      const unexpected = uniqueSorted(
+        currentNewReexports
+          .filter(
+            (item) =>
+              currentPath(root, entry.newPath, item.specifier) ===
+                entry.oldPath &&
+              (!allowed.has(item.exported) || item.imported !== item.exported),
+          )
+          .map((item) => `${item.imported} as ${item.exported}`),
+      );
+      if (unexpected.length)
+        error(
+          'public-entrypoint-unlisted-reexport',
+          `${entry.newPath} reexports unlisted canonical symbols: ${unexpected.join(', ')}`,
           entryIndex,
         );
     }
@@ -810,7 +905,7 @@ function validateRelocations(root, value, inventory) {
         );
     }
 
-    if (fs.existsSync(oldAbsolute)) {
+    if (entry.kind !== 'public-entrypoint' && fs.existsSync(oldAbsolute)) {
       const oldSource = fs.readFileSync(oldAbsolute, 'utf8');
       const oldDeclarations = declarations(oldSource, entry.oldPath);
       const reexports = namedReexports(oldSource, entry.oldPath);
@@ -1067,6 +1162,7 @@ function applyRelocations(inventory, entries) {
     if (!debtKeys.has(debtKey)) {
       debtKeys.add(debtKey);
       transitionalDebt.push({
+        kind: bridge.entry.kind || 'declaration-move',
         from: bridge.consumer.from,
         syntax: bridge.consumer.syntax || edge.syntax,
         oldPath: bridge.entry.oldPath,

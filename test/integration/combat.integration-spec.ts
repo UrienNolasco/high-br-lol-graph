@@ -1,3 +1,4 @@
+import { ComparisonCohortRepository } from '../../src/modules/matches/repositories/comparison-cohort.repository';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
@@ -124,10 +125,14 @@ test('reads real persisted combat and historical solo projections without MatchR
     ),
   ).toBe(2917);
   const subject = summary.info.participants[0];
-  const cohort = await new AnalyticsRepository(prisma).findComparisonCohort(
-    subject.puuid,
-    { queueId: summary.info.queueId, championId: subject.championId, limit: 1 },
-  );
+  const cohort = await new AnalyticsRepository(
+    prisma,
+    new ComparisonCohortRepository(prisma),
+  ).findComparisonCohort(subject.puuid, {
+    queueId: summary.info.queueId,
+    championId: subject.championId,
+    limit: 1,
+  });
   expect(cohort.matches).toHaveLength(1);
   const solo = historicalSolo(
     cohort.matches,

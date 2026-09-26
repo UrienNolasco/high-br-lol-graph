@@ -5,10 +5,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  AnalyticsRepository,
-  TimelineFilters,
-} from '../repositories/analytics.repository';
+import { AnalyticsRepository } from '../repositories/analytics.repository';
+import type { TimelineFilters } from '../../matches/ports/comparison-cohort-reader';
 import { generateInsights } from '../pure/insights-generator';
 import { PlayerComparisonDto } from '../dto/compare-evolve.dto';
 import { calculateCohort } from '../pure/cohort-calculator';

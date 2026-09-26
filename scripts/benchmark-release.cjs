@@ -34,7 +34,7 @@ const { MatchReportController } = from(
 );
 const { unavailableItemCatalog } = from('modules/matches/contracts/catalogs');
 const { unavailableSkillCatalog } = from('modules/matches/contracts/catalogs');
-const { VISION_WARD_TYPES } = from('modules/matches/pure/vision-calculator');
+const { VISION_WARD_TYPES } = from('modules/matches/contracts/calculations/vision');
 const root = path.resolve(__dirname, '..');
 const option = (key) => {
   const i = process.argv.indexOf(key);

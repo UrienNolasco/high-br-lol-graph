@@ -1,7 +1,7 @@
 import { selectCheckpoint } from '../../modules/matches/contracts/temporal';
 import type { NormalizedTimelineEvent } from '../../modules/matches/contracts/normalized-events';
 import type { TimelineSnapshotProjection } from '../../modules/matches/contracts/normalized-snapshots';
-import { VISION_WARD_TYPES } from '../../modules/matches/pure/vision-calculator';
+import { VISION_WARD_TYPES } from '../../modules/matches/contracts/calculations/vision';
 import { splitForMatch, TemporalSplit } from '../dataset/dataset-export';
 
 export const VISION_STUDY_VERSION = 1;

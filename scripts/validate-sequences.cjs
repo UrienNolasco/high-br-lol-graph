@@ -9,7 +9,7 @@ const {
 } = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
 const {
   calculateSequences,
-} = require('../dist/modules/matches/pure/sequences-calculator');
+} = require('../dist/modules/matches/contracts/calculations/sequences');
 const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(

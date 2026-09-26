@@ -1,0 +1,55 @@
+export const REPORT_FAMILIES = [
+  'contribution',
+  'economy',
+  'vision',
+  'objectives',
+  'combat',
+  'sequences',
+  'progression',
+] as const;
+export type ReportFamily = (typeof REPORT_FAMILIES)[number];
+export const REPORT_SECTIONS: Record<ReportFamily, readonly string[]> = {
+  contribution: ['resources', 'combat', 'vision', 'structures'],
+  economy: [
+    'checkpoints',
+    'samples',
+    'intervals',
+    'phases',
+    'unspentGold',
+    'finalResources',
+  ],
+  vision: [
+    'metrics',
+    'byType',
+    'phases',
+    'gaps',
+    'objectiveWindows',
+    'reconciliation',
+  ],
+  objectives: [
+    'chronology',
+    'finalTotals',
+    'reconciliation',
+    'participantContributions',
+    'structures',
+    'plates',
+  ],
+  combat: ['participant', 'killerVictimMatrix', 'coParticipation'],
+  sequences: [
+    'deathEpisodes',
+    'deathRates',
+    'killEpisodes',
+    'killRates',
+    'goldChanges',
+    'temporalTrades',
+    'comeback',
+  ],
+  progression: [
+    'inventory',
+    'acquisitions',
+    'transitions',
+    'itemTimings',
+    'skills',
+    'reconciliation',
+  ],
+};

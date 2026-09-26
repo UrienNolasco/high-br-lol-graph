@@ -5,11 +5,11 @@ import {
 import { buildReportSummary } from './report-summary';
 import { reportFamilies } from './report-families';
 import { buildReportEpisodes } from './report-episodes';
+import { DEFAULT_REPORT_OPTIONS } from './report.types';
 import {
-  DEFAULT_REPORT_OPTIONS,
   REPORT_FAMILIES,
   REPORT_SECTIONS,
-} from './report.types';
+} from '../../contracts/calculations/report';
 import { compactSection } from './report-navigation';
 function context() {
   const input = reportFixture(),

@@ -1,7 +1,7 @@
 // Offline reconciliation against the single repository fixture. Build first.
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {performance}=require('node:perf_hooks');
-const {calculateVision}=require('../dist/modules/matches/pure/vision-calculator');
+const {calculateVision}=require('../dist/modules/matches/contracts/calculations/vision');
 const {normalizeTimelineEvents}=require('../dist/modules/matches/adapters/riot/normalized-events');
 const {projectFinalStats}=require('../dist/modules/matches/adapters/riot/final-stats');
 const {PROCESSING_VERSION}=require('../dist/core/processing/processing.constants');

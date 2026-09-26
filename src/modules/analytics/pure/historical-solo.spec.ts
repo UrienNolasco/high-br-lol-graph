@@ -1,6 +1,6 @@
 import { historicalSolo } from './historical-solo';
 import { combatFixture, killEvent } from '../../matches/pure/combat.fixture';
-import { CombatSource } from '../../matches/pure/combat-source';
+import { CombatSource } from '../../matches/contracts/calculations/combat-source';
 const source = (matchId: string): CombatSource => ({
   matchId,
   status: 'COMPLETED',

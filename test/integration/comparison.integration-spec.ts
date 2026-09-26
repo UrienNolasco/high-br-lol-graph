@@ -1,3 +1,4 @@
+import { ComparisonCohortRepository } from '../../src/modules/matches/repositories/comparison-cohort.repository';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { AnalyticsRepository } from '../../src/modules/analytics/repositories/analytics.repository';
 
@@ -17,7 +18,10 @@ describe('MET-08 filtered cohort SQL', () => {
     }
     prisma = new PrismaService({ datasourceUrl });
     await prisma.$connect();
-    repo = new AnalyticsRepository(prisma);
+    repo = new AnalyticsRepository(
+      prisma,
+      new ComparisonCohortRepository(prisma),
+    );
     const fixtures = [
       { id: 'b', date: 20, role: 'MID' },
       { id: 'a', date: 20, role: 'MIDDLE' },
