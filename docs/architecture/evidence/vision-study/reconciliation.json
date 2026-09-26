@@ -1,0 +1,155 @@
+[
+  {
+    "matchId": "BR1_3200579475",
+    "labelReason": null,
+    "registeredPlacements": 752,
+    "recognizedPlacements": 196,
+    "unknownPlacements": 556,
+    "registeredRemovals": 51,
+    "recognizedRemovals": 51,
+    "unknownRemovals": 0,
+    "reconciliation": [
+      {
+        "participantId": 1,
+        "type": "WARD_PLACED",
+        "expectedSummary": 13,
+        "observedRecognizedTimeline": 13,
+        "status": "pass"
+      },
+      {
+        "participantId": 1,
+        "type": "WARD_KILL",
+        "expectedSummary": 4,
+        "observedRecognizedTimeline": 4,
+        "status": "pass"
+      },
+      {
+        "participantId": 2,
+        "type": "WARD_PLACED",
+        "expectedSummary": 16,
+        "observedRecognizedTimeline": 16,
+        "status": "pass"
+      },
+      {
+        "participantId": 2,
+        "type": "WARD_KILL",
+        "expectedSummary": 1,
+        "observedRecognizedTimeline": 1,
+        "status": "pass"
+      },
+      {
+        "participantId": 3,
+        "type": "WARD_PLACED",
+        "expectedSummary": 14,
+        "observedRecognizedTimeline": 14,
+        "status": "pass"
+      },
+      {
+        "participantId": 3,
+        "type": "WARD_KILL",
+        "expectedSummary": 4,
+        "observedRecognizedTimeline": 4,
+        "status": "pass"
+      },
+      {
+        "participantId": 4,
+        "type": "WARD_PLACED",
+        "expectedSummary": 20,
+        "observedRecognizedTimeline": 20,
+        "status": "pass"
+      },
+      {
+        "participantId": 4,
+        "type": "WARD_KILL",
+        "expectedSummary": 3,
+        "observedRecognizedTimeline": 3,
+        "status": "pass"
+      },
+      {
+        "participantId": 5,
+        "type": "WARD_PLACED",
+        "expectedSummary": 46,
+        "observedRecognizedTimeline": 46,
+        "status": "pass"
+      },
+      {
+        "participantId": 5,
+        "type": "WARD_KILL",
+        "expectedSummary": 6,
+        "observedRecognizedTimeline": 6,
+        "status": "pass"
+      },
+      {
+        "participantId": 6,
+        "type": "WARD_PLACED",
+        "expectedSummary": 16,
+        "observedRecognizedTimeline": 16,
+        "status": "pass"
+      },
+      {
+        "participantId": 6,
+        "type": "WARD_KILL",
+        "expectedSummary": 4,
+        "observedRecognizedTimeline": 4,
+        "status": "pass"
+      },
+      {
+        "participantId": 7,
+        "type": "WARD_PLACED",
+        "expectedSummary": 10,
+        "observedRecognizedTimeline": 10,
+        "status": "pass"
+      },
+      {
+        "participantId": 7,
+        "type": "WARD_KILL",
+        "expectedSummary": 8,
+        "observedRecognizedTimeline": 8,
+        "status": "pass"
+      },
+      {
+        "participantId": 8,
+        "type": "WARD_PLACED",
+        "expectedSummary": 9,
+        "observedRecognizedTimeline": 9,
+        "status": "pass"
+      },
+      {
+        "participantId": 8,
+        "type": "WARD_KILL",
+        "expectedSummary": 8,
+        "observedRecognizedTimeline": 8,
+        "status": "pass"
+      },
+      {
+        "participantId": 9,
+        "type": "WARD_PLACED",
+        "expectedSummary": 9,
+        "observedRecognizedTimeline": 9,
+        "status": "pass"
+      },
+      {
+        "participantId": 9,
+        "type": "WARD_KILL",
+        "expectedSummary": 3,
+        "observedRecognizedTimeline": 3,
+        "status": "pass"
+      },
+      {
+        "participantId": 10,
+        "type": "WARD_PLACED",
+        "expectedSummary": 43,
+        "observedRecognizedTimeline": 43,
+        "status": "pass"
+      },
+      {
+        "participantId": 10,
+        "type": "WARD_KILL",
+        "expectedSummary": 10,
+        "observedRecognizedTimeline": 10,
+        "status": "pass"
+      }
+    ],
+    "policy": "Final-source diagnostic only; never used to create or gate prefix feature values."
+  }
+]

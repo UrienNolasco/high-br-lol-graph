@@ -1,0 +1,90 @@
+{
+  "sourceSha": "217331a675974fe6531da5bfff63a06c5324fde9",
+  "environment": {
+    "node": "v26.8.2",
+    "npm": "12.0.2",
+    "platform": "Linux-7.2.4-arch1-2-x86_64-with-glibc2.44",
+    "database": "PostgreSQL 15 disposable high_br_integration",
+    "rabbitmq": "3.13 disposable local"
+  },
+  "preparation": [
+    "npx prisma generate",
+    "DATABASE_URL=<local disposable integration database> npx prisma migrate deploy (17 migrations, none pending)"
+  ],
+  "environmentFailures": [
+    "Initial build used stale generated Prisma client; regeneration fixed all 13 errors without source changes.",
+    "Sandbox denied localhost database/socket access; HTTP and integration suites rerun outside sandbox."
+  ],
+  "checks": [
+    {
+      "command": "npm run build",
+      "passed": true
+    },
+    {
+      "command": "npm test -- --runInBand",
+      "passed": true,
+      "tests": 615,
+      "suites": 98,
+      "seconds": 31.711
+    },
+    {
+      "command": "npm run test:e2e -- --runInBand",
+      "passed": true,
+      "tests": 160,
+      "suites": 27,
+      "seconds": 14.294
+    },
+    {
+      "command": "TEST_DATABASE_URL=<local disposable integration database> TEST_RABBITMQ_URL=<local disposable rabbitmq> npm run test:integration",
+      "passed": true,
+      "tests": 54,
+      "suites": 16,
+      "seconds": 194.195
+    },
+    {
+      "command": "python3 -m unittest discover -s scripts -p 'test_*.py'",
+      "passed": true,
+      "tests": 8
+    },
+    {
+      "command": "python3 scripts/audit-metrics-corpus.py --output /tmp/arq-baseline-corpus.json",
+      "passed": true,
+      "realMatches": 1,
+      "syntheticVariants": 9,
+      "unexpectedFailures": 0
+    },
+    {
+      "command": "node dist/vision-study-cli.js --out /tmp/arq-baseline-study",
+      "passed": true,
+      "independentMatches": 1,
+      "conclusion": "insufficient_sample_or_coverage"
+    },
+    {
+      "command": "TEST_DATABASE_URL=<local disposable integration database> node scripts/benchmark-release.cjs --reset-disposable --output /tmp/arq-baseline-benchmark.json",
+      "passed": true,
+      "result": "evidence/benchmark.json"
+    }
+  ],
+  "limitations": [
+    "Single real fixture, no empirical generalization to other patches.",
+    "Local test infrastructure only; no production operation."
+  ],
+  "evidenceDirectory": "docs/architecture/evidence",
+  "artifactSha256": {
+    "evidence/benchmark.json": "bacf9dfa89121ddfbe8ccb7ab23451f931017d9a26bad182e4accdd24336f9da",
+    "evidence/benchmark.txt": "8fb6d7895825396ff851d0583430e8932020b8315ad8ae8e99c5a70b8ef51a6f",
+    "evidence/build.txt": "9887708fd99dcda0558cb1b238165856e3d9dbddc961eea7dfed0e55f5ab6cd9",
+    "evidence/corpus.json": "fffa8c977aabf0d6aabb0451a028cc2e2b8aa8c694d41aa4afd557489106e56e",
+    "evidence/http.txt": "da1e8058990262154f824182128ff4a2679da26fe3816278422479df28a575d1",
+    "evidence/integration.txt": "bd6c4441fe559404c12cecfff1a6274c0aa75980210dd4ce01885b3be944c69f",
+    "evidence/python.txt": "c94f88ae55abd762836b63ddffb3df0f62f19f28134aad16a1d293d8ea9789a5",
+    "evidence/study.txt": "80100c0d2060f94dc78e9e5b020e157bb4d25a107262240d9cbfbc02ed0fad53",
+    "evidence/unit.txt": "f73c50dfa1c330306eef03e191edb1b42782cac6697dce5c187a0a5ddc74be18",
+    "evidence/vision-study/features.jsonl": "0efc962789c45003edffc6cae6c2138a76bda2c776b8ede5d2f6fa0cafe85b0e",
+    "evidence/vision-study/labels.jsonl": "8cbb776c234e7b2a7b6945eb706d1bea7ac8274be3aedb10ab3b65d1028c46a4",
+    "evidence/vision-study/manifest.json": "e95b66b92d6dbe259b1ec3c4decc35222bfafcbf3784560e70d5f6ad126ed304",
+    "evidence/vision-study/metadata.jsonl": "58fbe18c875f76f61d3f91e44f72628e14ab2c1f21bc8d9ee6d927c7134a4a26",
+    "evidence/vision-study/reconciliation.json": "e1eeb1f713c7b41df8b61a8d60e952a19a970c950b0de4ecbb3953b01d7f66f4",
+    "evidence/vision-study/results.json": "b2281590b1df3ba230073c8ab1cde60224099621f248fa10b125b3f27a3ebdce"
+  }
+}

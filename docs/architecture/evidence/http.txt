@@ -1,0 +1,8 @@
+npm notice run high-br-lol-graph@0.0.1 test:e2e
+npm notice run jest --config ./test/jest-e2e.json --runInBand
+
+Test Suites: 27 passed, 27 total
+Tests:       160 passed, 160 total
+Snapshots:   0 total
+Time:        14.294 s, estimated 17 s
+Ran all test suites.

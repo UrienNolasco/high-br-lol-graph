@@ -1,0 +1,8 @@
+npm notice run high-br-lol-graph@0.0.1 test:integration
+npm notice run jest --config test/jest-integration.json --runInBand
+
+Test Suites: 16 passed, 16 total
+Tests:       54 passed, 54 total
+Snapshots:   0 total
+Time:        194.195 s
+Ran all test suites.

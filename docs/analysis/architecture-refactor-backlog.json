@@ -1,0 +1,879 @@
+{
+  "schema_version": 1,
+  "board_id": 3,
+  "board_name": "high-br-lol",
+  "date": "2026-09-23",
+  "baseline_sha": "217331a675974fe6531da5bfff63a06c5324fde9",
+  "status": "in_progress",
+  "release_gate": "ARQ-14",
+  "common": {
+    "scope": "Implementação autorizada em 2026-09-26, conforme dependências. Desenvolvimento local, sem deploy ou alterações em produção.",
+    "completion": [
+      "Respeitar dependências e manter a dev compilável a cada integração.",
+      "Uma branch isolada e um commit por card; sem Co-authored-by.",
+      "Registrar SHA, arquivos/contratos alterados, verificações executadas e resultados no card.",
+      "Não alterar fórmulas, rotas, schema, versões ou políticas de negócio por conveniência da movimentação; diferenças necessárias exigem justificativa explícita e revisão do plano.",
+      "Preservar a transação e a ordem de locks; testes de banco com reset são serializados em ambiente descartável.",
+      "Aliases temporários só com responsável/remoção em ARQ-13; nenhuma nova violação arquitetural.",
+      "Não retomar cards MET antes da conclusão integral da refatoração."
+    ]
+  },
+  "cards": [
+    {
+      "code": "ARQ-01",
+      "title": "Registrar fronteiras, dependências e baseline da arquitetura",
+      "priority": "P0",
+      "relative_size": "M",
+      "depends_on": [],
+      "objective": "Transformar o diagnóstico em uma decisão arquitetural verificável antes de mover código.",
+      "scope": [
+        "Inventariar imports de produção, tipos, dependências Nest, entrypoints HTTP/worker/CLI e escritores/leitores das tabelas.",
+        "Registrar matriz de propriedade por responsabilidade e matriz de dependências permitidas, incluindo collector, players, champions, admin, indicators e analytics.",
+        "Definir contratos públicos e mapa origem/destino dos arquivos; distinguir regras de domínio, adapters externos e persistência.",
+        "Reproduzir o baseline no HEAD registrado, com corpus, contratos HTTP/OpenAPI, processamento/rebuild, dataset e benchmark local existentes."
+      ],
+      "acceptance": [
+        "ADR e grafo reproduzível distinguem dependência recíproca entre áreas de ciclo real de arquivos/DI.",
+        "Cada tabela/projeção tem responsável pela escrita e contratos de leitura; fronteira transacional está documentada.",
+        "Cada dependência proibida tem card de remoção; nenhuma obrigação fica em um genérico arrumar depois.",
+        "Resultados do baseline têm SHA, ambiente e comandos; falhas preexistentes estão identificadas antes da refatoração."
+      ],
+      "validation": [
+        "Build, suites existentes relevantes e reconciliações/benchmark do baseline em ambiente descartável.",
+        "Revisão da cobertura do inventário contra todos os módulos e scripts versionados."
+      ],
+      "risk": "Não confundir imports apenas de tipos com ciclos de execução, nem atribuir à refatoração uma falha preexistente.",
+      "board_task_id": 39
+    },
+    {
+      "code": "ARQ-02",
+      "title": "Implantar verificação incremental das fronteiras arquiteturais",
+      "priority": "P0",
+      "relative_size": "M",
+      "depends_on": [
+        "ARQ-01"
+      ],
+      "objective": "Impedir que a migração aumente o acoplamento e tornar a arquitetura verificável no CI.",
+      "scope": [
+        "Adicionar comando reproduzível de análise de dependências, com caminhos relativos/aliases/reexports resolvidos.",
+        "Aplicar regras de core, domínio, contratos públicos, código de teste e ciclos entre módulos; separar análise de tipos e runtime.",
+        "Registrar somente violações atuais em baseline com responsável e card de remoção; proibir novas violações e baseline crescente.",
+        "Integrar a verificação ao fluxo de validação/CI existente ou criar o job mínimo se não existir."
+      ],
+      "acceptance": [
+        "Casos de violação intencional provam que core→modules, domínio→Prisma/HTTP/Nest e acesso a internos são detectados.",
+        "Import type e reexport não permitem contornar a regra de propriedade; não geram falsos ciclos de runtime.",
+        "Código de produção não importa fixtures/specs; testes têm exceções limitadas ao seu contexto.",
+        "Comando executa no CI e falha para novas violações; baseline provisório é explícito e removido em ARQ-13."
+      ],
+      "validation": [
+        "Exercitar exemplos mínimos válidos/inválidos do verificador e executar sobre todo src e entrypoints.",
+        "Build e validação do workflow alterado."
+      ],
+      "risk": "Um barrel não constitui encapsulamento se o verificador continua permitindo importar implementações internas.",
+      "board_task_id": 40
+    },
+    {
+      "code": "ARQ-03",
+      "title": "Dar ao módulo de partidas a propriedade do modelo normalizado",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-02"
+      ],
+      "objective": "Desacoplar os contratos de partida do worker, dos DTOs Riot e do Prisma.",
+      "scope": [
+        "Extrair de modules/worker/pure/match.parser.ts o modelo de partida, participantes e times para o domínio público de matches.",
+        "Definir contratos normalizados de frames/eventos, inventário e estatísticas finais no módulo responsável.",
+        "Separar tipos de domínio de tipos JSON/linhas Prisma e DTOs de transporte; preservar bigint, ausência, unidades e timestamps.",
+        "Atualizar consumidores ou usar compatibilidade temporária enumerada no baseline, com remoção obrigatória em ARQ-13."
+      ],
+      "acceptance": [
+        "Domínio de partida compila e executa sem importar worker, Prisma, HTTP, DTOs Swagger ou clientes Riot.",
+        "Há uma definição canônica dos contratos; aliases temporários não duplicam modelos ou regras.",
+        "Persistência e contrato HTTP mantêm representação e semântica anteriores, inclusive null/zero e precisão numérica.",
+        "Consumidores usam entradas públicas de tipos, sem importar o arquivo do parser."
+      ],
+      "validation": [
+        "Corpus de parser/projeções/inventário/finais e build.",
+        "Contratos HTTP afetados e round-trip da persistência normalizada."
+      ],
+      "risk": "Remover Prisma.InputJsonValue de um tipo exige mapeamento explícito; casts não podem esconder perda de dados.",
+      "board_task_id": 41
+    },
+    {
+      "code": "ARQ-04",
+      "title": "Redistribuir contratos de métricas, versões e matemática genérica",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-03"
+      ],
+      "objective": "Eliminar o vínculo entre regras analíticas e a implementação do processamento.",
+      "scope": [
+        "Classificar core/metrics e core/statistics por proprietário: regras de partida em matches; regras de coorte/referência em seus módulos.",
+        "Manter somente matemática independente do jogo em biblioteca pequena, incluindo quantis/taxas quando aplicável.",
+        "Separar versões dos contratos/projeções da versão de execução; passar metadados de processamento explicitamente aos cálculos.",
+        "Mover DTOs OpenAPI para adapters HTTP e definir um contrato de compatibilidade de dados para consultas sem importar o serviço de processamento."
+      ],
+      "acceptance": [
+        "Contratos e cálculos não importam core/processing nem modules/processing.",
+        "Regras de elegibilidade, remake, população, seleção de jogadores e investimento em visão têm responsável explícito.",
+        "Biblioteca matemática não conhece matchId, campeão, role, jogadores, Riot, Nest ou Prisma.",
+        "Valores de versões, políticas, resultados e interpretação dos registros existentes são preservados; mudanças semânticas não entram disfarçadas nesta tarefa."
+      ],
+      "validation": [
+        "Testes existentes de métricas, elegibilidade, temporalidade, população, quantis e bandas.",
+        "Contratos OpenAPI e exemplos materializados não sofrem mudança semântica."
+      ],
+      "risk": "Mover uma constante para outra pasta não resolve o acoplamento se ela ainda impõe política de execução ao domínio.",
+      "board_task_id": 42
+    },
+    {
+      "code": "ARQ-05",
+      "title": "Separar clientes externos de parsing e regras de partida",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-03",
+        "ARQ-04"
+      ],
+      "objective": "Fazer core/riot e core/data-dragon atuarem como integrações externas, sem importar funcionalidades.",
+      "scope": [
+        "Manter transporte HTTP, rate limit, retry técnico, cache e DTOs externos nos adapters de integração.",
+        "Mover parsing/normalização/projeções de core/riot para adapters de entrada do domínio de partidas, com regras puras no domínio.",
+        "Retirar de RiotService dependências de discovery/failure-policy do processamento; separar falha de transporte de decisão de retry de negócio.",
+        "Auditar catálogos Data Dragon: metadados/cache permanecem integração; interpretação de inventário, custo e habilidades pertence ao domínio."
+      ],
+      "acceptance": [
+        "Clientes externos não importam modules nem regras de métricas/processamento.",
+        "Conversão DTO externo→modelo normalizado é explícita; domínio usa seu modelo e não DTO Riot.",
+        "Consultas existentes preservam leitura sem rede quando exigida e fallback explícito de catálogo ausente.",
+        "Parser conserva identidade de eventos, timestamps, unknowns, inventário e fidelidade do corpus."
+      ],
+      "validation": [
+        "Testes de clientes, rate limiting, descoberta, cache e catálogos.",
+        "Reconciliadores de eventos/frames/finais/inventário e contratos HTTP afetados."
+      ],
+      "risk": "Retry HTTP e retry de um job têm responsabilidades diferentes e não devem compartilhar uma política de negócio por conveniência.",
+      "board_task_id": 43
+    },
+    {
+      "code": "ARQ-06",
+      "title": "Encapsular partidas e eliminar dependências recíprocas com analytics",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-04",
+        "ARQ-05"
+      ],
+      "objective": "Publicar as capacidades de partidas e corrigir importações cruzadas de cálculos e repositórios.",
+      "scope": [
+        "Definir entradas públicas enxutas para cálculos/modelos e para serviços de leitura/escrita de matches, sem inicializar o módulo HTTP para usar funções puras.",
+        "Resolver matches/performance→analytics/perMinute e analytics→matches/combat/repository conforme propriedade das regras.",
+        "Substituir consumo de COMBAT_EVENT_FILTER e outros detalhes de repositório por contratos de consulta suportados.",
+        "Auditar consumidores de matches, incluindo relatório, comparações, dataset, referências e scripts."
+      ],
+      "acceptance": [
+        "Não há dependência recíproca entre matches e analytics nem acesso de consumidores a repositórios/calculadores internos.",
+        "Cálculos por partida têm uma implementação canônica reutilizável, independente do adapter HTTP.",
+        "Queries preservam filtros, limites, paginação, consistência e evidências; relatório não passa a ler MatchRaw.",
+        "Matriz de imports permite apenas contratos publicados e documentados."
+      ],
+      "validation": [
+        "Suites de cálculos e HTTP de matches/analytics.",
+        "Verificador arquitetural e testes de consultas/relatório com limites e ausência de leitura bruta."
+      ],
+      "risk": "Exportar todos os arquivos em um index apenas esconderia o acesso a detalhes internos.",
+      "board_task_id": 44
+    },
+    {
+      "code": "ARQ-07",
+      "title": "Consolidar o dataset histórico no seu módulo",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-06"
+      ],
+      "objective": "Reunir construção, materialização e consumo do dataset em modules/dataset.",
+      "scope": [
+        "Migrar core/dataset e unir com o módulo HTTP existente, separando definições/cálculos, casos de uso e adapters de persistência/exportação.",
+        "Builder consome contratos públicos de matches e métricas; não importa worker nem cálculos internos.",
+        "Publicar preparação pura e gravação na transação fornecida pelo coordenador, além de consultas/exportação versionadas.",
+        "Preservar lineage, limites de consulta/exportação, separação de features/labels e prevenção de vazamento temporal."
+      ],
+      "acceptance": [
+        "core/dataset deixa de ser necessário e todos os consumidores usam a API pública de dataset.",
+        "Identidade, versões, numeradores/denominadores e contribuições materializadas são equivalentes ao baseline.",
+        "Persistência não abre transação independente quando chamada pelo processamento; preparação pesada permanece fora da seção crítica.",
+        "Exportação conserva snapshot consistente, ordenação, limites e reprodutibilidade."
+      ],
+      "validation": [
+        "Suites dataset de builder/query/export e contratos HTTP.",
+        "Integração de persistência/rollback e comparação das contribuições/exportações com baseline."
+      ],
+      "risk": "A modularização não pode separar o commit do dataset do commit da partida ou ampliar o tempo de locks.",
+      "board_task_id": 45
+    },
+    {
+      "code": "ARQ-08",
+      "title": "Unificar agregação e consulta de estatísticas em stats",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-04",
+        "ARQ-05",
+        "ARQ-06"
+      ],
+      "objective": "Remover a divisão de responsabilidade entre core/stats e modules/stats.",
+      "scope": [
+        "Migrar agregação e mapeamentos para stats e publicar operações de atualização transacional e consultas.",
+        "Trocar dependência do parser/worker e TimelineDto por contratos normalizados de partida.",
+        "Atualizar consumidores players, champions e analytics; resolver dependências recíprocas e exposição de repositórios.",
+        "Explicitar propriedade de agregados, contagens de partidas elegíveis, rank/tier e política de ALL."
+      ],
+      "acceptance": [
+        "Não existe segundo StatsModule em core e nenhum agregado importa worker ou parser de transporte.",
+        "Agregação usa a transação do processamento e mantém a ordem de aquisição dos locks.",
+        "Totais por patch/ALL, denominadores de pick/ban, filtros e respostas existentes são preservados.",
+        "Leituras entre módulos atravessam contratos definidos, sem novo acesso disperso às tabelas de agregados."
+      ],
+      "validation": [
+        "Testes de população, stats, players e champions afetados.",
+        "Integração de processamento concorrente/idempotência e reconciliação dos agregados."
+      ],
+      "risk": "Mover o serviço sem revisar direção de dependências pode criar um ciclo stats↔champions ou stats↔processing.",
+      "board_task_id": 46
+    },
+    {
+      "code": "ARQ-09",
+      "title": "Separar descoberta e política de coleta dos clientes externos",
+      "priority": "P0",
+      "relative_size": "M",
+      "depends_on": [
+        "ARQ-05"
+      ],
+      "objective": "Dar à coleta a propriedade da descoberta e cobertura da amostra, mantendo integração Riot independente.",
+      "scope": [
+        "Mover regras/relatórios de discovery de core/processing para a responsabilidade de coleta definida na ADR.",
+        "Definir contratos de observação, lineage e solicitações de ingestão entre collector, players/sync, admin e processing.",
+        "Separar cron/adapters de casos de uso, para que status/coverage/lineage offline não inicializem agendamentos ou rede.",
+        "Garantir que collector solicite ingestão e que processamento use dados de lineage por contrato, sem imports recíprocos de implementações."
+      ],
+      "acceptance": [
+        "Observações imutáveis, múltiplas origens, idempotência e unknown histórico são preservados.",
+        "Clientes Riot não conhecem tipos de discovery/processamento e consultas de cobertura não dependem do worker.",
+        "Repositório/leitura de lineage tem proprietário e contrato; não há ciclo collector↔processing.",
+        "Endpoints administrativos e sincronização usam os novos contratos sem mudar política de coleta."
+      ],
+      "validation": [
+        "Testes de discovery/coverage, collector, sync e admin afetados.",
+        "Integração de múltiplas observações e comandos offline sem chamadas de rede."
+      ],
+      "risk": "O local do contrato de origem deve impedir que processamento importe cron ou que RiotService importe tipos do caso de uso.",
+      "board_task_id": 47
+    },
+    {
+      "code": "ARQ-10",
+      "title": "Extrair processamento e preservar a unidade transacional",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-07",
+        "ARQ-08",
+        "ARQ-09"
+      ],
+      "objective": "Concentrar o ciclo de processamento em modules/processing sem depender do worker.",
+      "scope": [
+        "Migrar core/processing restante e extrair de WorkerService os casos de uso de processar partida e reprocessar/rebuild.",
+        "Separar gestão de jobs/leases/falhas, acesso ao bruto, fonte online/offline e coordenação dos módulos participantes.",
+        "Transferir responsabilidade de persistência de MatchPersistenceService para coordenação que usa operações públicas de matches, dataset e stats.",
+        "Manter uma única transação para projeções/partida, lineage e dataset, agregados e COMPLETED; não introduzir eventos assíncronos nesse commit."
+      ],
+      "acceptance": [
+        "Processing não importa worker/controller e rebuild aciona o caso de uso de processamento.",
+        "Falha em qualquer escrita reverte todo o conjunto; nenhuma conclusão parcial de job é possível.",
+        "Lease token, renovação, retries, trava de manutenção, retomada e ordenação de locks preservam as garantias atuais.",
+        "Redelivery não duplica contribuições/agregados; rebuild offline reproduz resultados sem rede.",
+        "Leitores obtêm estado/compatibilidade por contrato explícito; domínios e integrações não passam a depender do orquestrador."
+      ],
+      "validation": [
+        "Integração PostgreSQL serial para rollback injetado em cada fronteira, concorrência, lease expirado e manutenção.",
+        "Suites existentes de processamento/dataset e rebuild retomável com reconciliação.",
+        "Build e grafo sem ciclos de arquivos, módulos ou DI."
+      ],
+      "risk": "É a etapa de maior risco: encurtar ou dividir a transação pode quebrar a consistência mesmo que os testes unitários passem.",
+      "board_task_id": 48
+    },
+    {
+      "code": "ARQ-11",
+      "title": "Tornar worker e CLIs adapters dos casos de uso",
+      "priority": "P0",
+      "relative_size": "M",
+      "depends_on": [
+        "ARQ-10"
+      ],
+      "objective": "Remover a montagem manual e o acoplamento ao worker dos entrypoints.",
+      "scope": [
+        "Worker mantém recepção/validação de mensagem, trace e ack/nack, delegando o caso de uso.",
+        "Reorganizar processing-cli, dataset-cli e factories de composição com dependências online/offline explícitas.",
+        "Substituir offlineRiot como cast/falso cliente por fonte offline compatível com o contrato de entrada.",
+        "Ajustar AppModule, providers/exports Nest, scripts npm e inicialização/encerramento de recursos."
+      ],
+      "acceptance": [
+        "CLI offline inicializa somente recursos necessários, sem HTTP server, cron, Redis, RabbitMQ ou chamadas Riot.",
+        "Consumer preserva política de ack/nack/reentrega e propagação de trace.",
+        "Não existe construção duplicada e divergente do fluxo de processamento em CLI, worker e benchmark.",
+        "Comandos públicos e endpoints permanecem compatíveis; handles/conexões encerram corretamente."
+      ],
+      "validation": [
+        "Smoke tests dos entrypoints compilados e testes de worker controller.",
+        "Processamento/rebuild offline com clientes externos que falham se acionados.",
+        "Inicialização Nest sem ciclos e encerramento sem processos pendentes."
+      ],
+      "risk": "Importar um módulo com cron para obter um serviço pode ativar efeitos colaterais no comando offline.",
+      "board_task_id": 49
+    },
+    {
+      "code": "ARQ-12",
+      "title": "Migrar referências, indicadores e estudos para contratos públicos",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-07",
+        "ARQ-08",
+        "ARQ-09"
+      ],
+      "objective": "Concluir a separação dos consumidores históricos e do código de pesquisa.",
+      "scope": [
+        "Mover core/research para área de estudos com entrypoint próprio, sem dependência da aplicação de produção para pesquisa.",
+        "Manter política de amostragem/rosters, precisão e interpretação de visão nos módulos de domínio responsáveis.",
+        "Atualizar references, indicators, analytics e scripts de estudo/reconciliação para APIs públicas de dataset/matches/stats.",
+        "Revisar contratos de consulta/compatibilidade para não importar versão ou serviços internos de processing."
+      ],
+      "acceptance": [
+        "Nenhum consumidor importa core/dataset, core/statistics com regra de jogo, core/research ou arquivos internos de outro módulo.",
+        "Regras de N, amostra insuficiente, rosters disjuntos, censura, limites e ausência permanecem idênticas.",
+        "Estudo reproduz features/labels/resultados; hashes de código alterados por movimentação são identificados como proveniência, sem atualizar silenciosamente resultados.",
+        "Dependências de pesquisa não entram no grafo de inicialização da API/worker."
+      ],
+      "validation": [
+        "Suites unitárias/HTTP/integração de referências e indicadores.",
+        "Reprodução do estudo e exportação com comparação semântica e proveniência explícita.",
+        "Análise de imports e build dos entrypoints de pesquisa."
+      ],
+      "risk": "Funções puras específicas de LoL não se tornam matemática genérica apenas por não acessarem banco.",
+      "board_task_id": 50
+    },
+    {
+      "code": "ARQ-13",
+      "title": "Remover compatibilidade temporária e tornar as fronteiras obrigatórias",
+      "priority": "P0",
+      "relative_size": "M",
+      "depends_on": [
+        "ARQ-11",
+        "ARQ-12"
+      ],
+      "objective": "Concluir a migração sem deixar aliases, exceções ou documentação sustentando a arquitetura anterior.",
+      "scope": [
+        "Remover reexports/aliases provisórios, caminhos antigos e providers duplicados; conferir todo src, testes, scripts e configuração.",
+        "Zerar baseline de violações transitórias e bloquear imports internos, dependências proibidas e ciclos no CI.",
+        "Atualizar README, ADR, runbooks de processamento/dataset, documentação de métricas, exemplos e instruções de contribuição.",
+        "Auditar APIs públicas para impedir exportação acidental de repositórios/DTOs de transporte e detalhes de persistência."
+      ],
+      "acceptance": [
+        "core contém somente as responsabilidades técnicas definidas na ADR, sem imports de modules.",
+        "Não restam dependências proibidas, ciclos entre módulos ou exceções transitórias do baseline.",
+        "Domínio é independente de Nest, Prisma, transporte e adapters; biblioteca genérica não importa domínio.",
+        "Documentação e comandos apontam para arquivos reais; exemplos inválidos provam que o CI rejeita regressões.",
+        "Cada responsabilidade e tabela tem proprietário consistente com o código final."
+      ],
+      "validation": [
+        "Build, verificação arquitetural completa e casos negativos do verificador.",
+        "Checagem de referências a caminhos removidos e smoke dos comandos documentados."
+      ],
+      "risk": "Aceitar aliases permanentes ou exceções amplas preservaria o acoplamento sob novos nomes.",
+      "board_task_id": 51
+    },
+    {
+      "code": "ARQ-14",
+      "title": "Validar a refatoração integrada e liberar o backlog MET",
+      "priority": "P0",
+      "relative_size": "L",
+      "depends_on": [
+        "ARQ-01",
+        "ARQ-02",
+        "ARQ-03",
+        "ARQ-04",
+        "ARQ-05",
+        "ARQ-06",
+        "ARQ-07",
+        "ARQ-08",
+        "ARQ-09",
+        "ARQ-10",
+        "ARQ-11",
+        "ARQ-12",
+        "ARQ-13"
+      ],
+      "objective": "Atestar equivalência funcional e novas fronteiras antes de permitir qualquer retomada dos cards atuais.",
+      "scope": [
+        "Revisar a integração de ARQ-01 a ARQ-13 na dev; a conclusão deste card depende de todos eles.",
+        "Executar validação final no mesmo SHA: arquitetura/build, suites unitárias/HTTP/integração, corpus e reconciliações.",
+        "Reexecutar ingestão, redelivery, falha/rollback, concorrência, rebuild retomável e exportação/estudo offline.",
+        "Comparar benchmark de processamento, payload, latência e armazenamento com baseline, distinguindo ruído de regressão.",
+        "Registrar resultado, commits por card e caminhos novos; orientar a adaptação das branches MET pausadas somente após esta conclusão."
+      ],
+      "acceptance": [
+        "Todos os outros 13 cards ARQ estão concluídos e integrados, com evidências e um commit por card.",
+        "Grafo final atende às regras sem baseline de exceções; APIs, dados e resultados preservam o comportamento documentado.",
+        "Projeções/dataset/agregados e COMPLETED continuam atômicos; testes negativos e concorrência passam.",
+        "Diferenças de desempenho/dados têm investigação e resolução, sem rebaixar limites para ocultar regressões.",
+        "Relatório final vincula SHA, ambiente, comandos, resultados e limitações; nenhuma operação em produção foi executada.",
+        "Somente depois do aceite este card vai para Done: a dependência nativa libera os MET sem remover seus vínculos originais."
+      ],
+      "validation": [
+        "Suites completas adequadas ao código integrado; PostgreSQL/RabbitMQ descartáveis com testes que alteram estado executados serialmente.",
+        "Benchmark/reconciliação existentes adaptados apenas aos contratos públicos, sem reduzir cobertura.",
+        "Auditoria do board: 13 predecessores concluídos, 34 cards originais preservados e trabalhos parciais disponíveis."
+      ],
+      "risk": "Este card não pode ser concluído apenas porque os arquivos foram movidos ou porque a implementação passou em testes unitários.",
+      "board_task_id": 52
+    }
+  ],
+  "original_cards": [
+    {
+      "task_id": 30,
+      "title": "[P2][MET-28] Analisar conversão de vantagem e recuperação por posição",
+      "column": 9,
+      "start_date": null,
+      "finish_date": null,
+      "finished": false,
+      "blocked_by": [
+        21,
+        22
+      ]
+    },
+    {
+      "task_id": 34,
+      "title": "[P2][MET-32] Analisar mudanças de métricas e escolhas entre patches",
+      "column": 9,
+      "start_date": null,
+      "finish_date": null,
+      "finished": false,
+      "blocked_by": [
+        21,
+        22,
+        25
+      ]
+    },
+    {
+      "task_id": 33,
+      "title": "[P2][MET-31] Analisar pool de campeões, consistência e sessões",
+      "column": 10,
+      "start_date": "2026-09-23T11:48:50",
+      "finish_date": null,
+      "finished": false,
+      "blocked_by": [
+        21,
+        22
+      ]
+    },
+    {
+      "task_id": 29,
+      "title": "[P2][MET-27] Analisar confrontos de lane e coocorrência de campeões",
+      "column": 10,
+      "start_date": "2026-09-23T11:48:48",
+      "finish_date": null,
+      "finished": false,
+      "blocked_by": [
+        21,
+        22
+      ]
+    },
+    {
+      "task_id": 28,
+      "title": "[P2][MET-26] Comparar builds, runas e feitiços por contexto",
+      "column": 10,
+      "start_date": "2026-09-23T11:48:47",
+      "finish_date": null,
+      "finished": false,
+      "blocked_by": [
+        19,
+        21,
+        22
+      ]
+    },
+    {
+      "task_id": 23,
+      "title": "[P1][MET-21] Entregar evolução pessoal e padrões recorrentes",
+      "column": 10,
+      "start_date": "2026-09-23T11:48:45",
+      "finish_date": null,
+      "finished": false,
+      "blocked_by": [
+        21,
+        22
+      ]
+    },
+    {
+      "task_id": 22,
+      "title": "[P1][MET-20] Entregar referências por campeão e posição com incerteza",
+      "column": 11,
+      "start_date": "2026-09-23T11:10:57",
+      "finish_date": "2026-09-23T11:48:44",
+      "finished": true,
+      "blocked_by": [
+        21
+      ]
+    },
+    {
+      "task_id": 31,
+      "title": "[P2][MET-29] Expor indicadores opcionais de execução, casts e pings",
+      "column": 11,
+      "start_date": "2026-09-23T11:11:00",
+      "finish_date": "2026-09-23T11:47:07",
+      "finished": true,
+      "blocked_by": [
+        8,
+        21
+      ]
+    },
+    {
+      "task_id": 24,
+      "title": "[P1][MET-22] Investigar associação entre visão antecipada e vitória",
+      "column": 11,
+      "start_date": "2026-09-23T11:10:58",
+      "finish_date": "2026-09-23T11:40:59",
+      "finished": true,
+      "blocked_by": [
+        21
+      ]
+    },
+    {
+      "task_id": 37,
+      "title": "[P1][MET-33] Validar desempenho, cobertura e liberação da entrega por partida",
+      "column": 11,
+      "start_date": "2026-09-23T10:45:55",
+      "finish_date": "2026-09-23T11:40:56",
+      "finished": true,
+      "blocked_by": [
+        25,
+        36
+      ]
+    },
+    {
+      "task_id": 21,
+      "title": "[P1][MET-19] Construir dataset histórico versionado e reproduzível",
+      "column": 11,
+      "start_date": "2026-09-23T10:21:27",
+      "finish_date": "2026-09-23T11:10:55",
+      "finished": true,
+      "blocked_by": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20
+      ]
+    },
+    {
+      "task_id": 36,
+      "title": "[P1][MET-17] Publicar relatório analítico da partida com evidências",
+      "column": 11,
+      "start_date": "2026-09-23T10:09:52",
+      "finish_date": "2026-09-23T10:45:53",
+      "finished": true,
+      "blocked_by": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        35
+      ]
+    },
+    {
+      "task_id": 32,
+      "title": "[P2][MET-30] Analisar janelas de bounty e roubos de objetivos registrados",
+      "column": 11,
+      "start_date": "2026-09-23T10:03:58",
+      "finish_date": "2026-09-23T10:20:42",
+      "finished": true,
+      "blocked_by": [
+        7,
+        8,
+        17
+      ]
+    },
+    {
+      "task_id": 19,
+      "title": "[P1][MET-16] Reconstruir compras relevantes e timing de habilidades",
+      "column": 11,
+      "start_date": "2026-09-23T09:47:16",
+      "finish_date": "2026-09-23T10:09:49",
+      "finished": true,
+      "blocked_by": [
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "task_id": 27,
+      "title": "[P2][MET-25] Explorar presença amostrada em regiões do mapa",
+      "column": 11,
+      "start_date": "2026-09-23T09:47:19",
+      "finish_date": "2026-09-23T10:08:03",
+      "finished": true,
+      "blocked_by": [
+        6
+      ]
+    },
+    {
+      "task_id": 18,
+      "title": "[P1][MET-15] Explicar sequências de mortes, objetivos e viradas",
+      "column": 11,
+      "start_date": "2026-09-23T09:52:07",
+      "finish_date": "2026-09-23T10:06:12",
+      "finished": true,
+      "blocked_by": [
+        10,
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "task_id": 26,
+      "title": "[P2][MET-24] Explorar episódios de combate e trocas rápidas",
+      "column": 11,
+      "start_date": "2026-09-23T09:47:18",
+      "finish_date": "2026-09-23T10:05:35",
+      "finished": true,
+      "blocked_by": [
+        6,
+        16
+      ]
+    },
+    {
+      "task_id": 15,
+      "title": "[P1][MET-12] Entregar checkpoints e curvas de economia e progressão",
+      "column": 11,
+      "start_date": "2026-09-23T09:26:11",
+      "finish_date": "2026-09-23T09:51:51",
+      "finished": true,
+      "blocked_by": [
+        6,
+        8
+      ]
+    },
+    {
+      "task_id": 17,
+      "title": "[P1][MET-14] Entregar objetivos, placas e contribuição em estruturas",
+      "column": 11,
+      "start_date": "2026-09-23T09:33:01",
+      "finish_date": "2026-09-23T09:51:48",
+      "finished": true,
+      "blocked_by": [
+        7,
+        8
+      ]
+    },
+    {
+      "task_id": 16,
+      "title": "[P1][MET-13] Calcular relações de abates, assistências e shutdowns",
+      "column": 11,
+      "start_date": "2026-09-23T09:01:58",
+      "finish_date": "2026-09-23T09:47:14",
+      "finished": true,
+      "blocked_by": [
+        7
+      ]
+    },
+    {
+      "task_id": 13,
+      "title": "[P1][MET-10] Calcular contribuição individual em dimensões separadas",
+      "column": 11,
+      "start_date": "2026-09-23T09:10:51",
+      "finish_date": "2026-09-23T09:34:40",
+      "finished": true,
+      "blocked_by": [
+        8,
+        11
+      ]
+    },
+    {
+      "task_id": 14,
+      "title": "[P1][MET-11] Entregar visão por tipo, fase e janela pré-objetivo",
+      "column": 11,
+      "start_date": "2026-09-23T09:19:48",
+      "finish_date": "2026-09-23T09:27:56",
+      "finished": true,
+      "blocked_by": [
+        7,
+        8
+      ]
+    },
+    {
+      "task_id": 25,
+      "title": "[P0][MET-23] Corrigir pick rate, ban rate e insumos do tier de campeões",
+      "column": 11,
+      "start_date": "2026-09-23T09:01:57",
+      "finish_date": "2026-09-23T09:26:09",
+      "finished": true,
+      "blocked_by": [
+        4,
+        5
+      ]
+    },
+    {
+      "task_id": 12,
+      "title": "[P0][MET-09] Validar migrations e reconstrução das novas projeções",
+      "column": 11,
+      "start_date": "2026-09-23T09:10:49",
+      "finish_date": "2026-09-23T09:19:46",
+      "finished": true,
+      "blocked_by": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "task_id": 8,
+      "title": "[P0][MET-05] Projetar estatísticas finais e contexto da partida",
+      "column": 11,
+      "start_date": "2026-09-23T08:47:53",
+      "finish_date": "2026-09-23T09:10:47",
+      "finished": true,
+      "blocked_by": [
+        4,
+        5
+      ]
+    },
+    {
+      "task_id": 9,
+      "title": "[P0][MET-06] Corrigir inventário final com slots e catálogo por versão",
+      "column": 11,
+      "start_date": "2026-09-23T08:43:18",
+      "finish_date": "2026-09-23T09:01:56",
+      "finished": true,
+      "blocked_by": [
+        4,
+        5
+      ]
+    },
+    {
+      "task_id": 7,
+      "title": "[P0][MET-04] Normalizar eventos com identidade, participantes e contexto",
+      "column": 11,
+      "start_date": "2026-09-23T08:39:05",
+      "finish_date": "2026-09-23T09:01:53",
+      "finished": true,
+      "blocked_by": [
+        4,
+        5
+      ]
+    },
+    {
+      "task_id": 6,
+      "title": "[P0][MET-03] Preservar frames completos com timestamps e ausência explícita",
+      "column": 11,
+      "start_date": "2026-09-23T08:39:04",
+      "finish_date": "2026-09-23T09:01:50",
+      "finished": true,
+      "blocked_by": [
+        4,
+        5
+      ]
+    },
+    {
+      "task_id": 20,
+      "title": "[P1][MET-18] Registrar origem da amostra e cobertura da coleta",
+      "column": 11,
+      "start_date": "2026-09-23T08:39:06",
+      "finish_date": "2026-09-23T08:47:52",
+      "finished": true,
+      "blocked_by": [
+        4
+      ]
+    },
+    {
+      "task_id": 35,
+      "title": "[P1][MET-34] Especificar experiência de revisão da partida e validar utilidade",
+      "column": 11,
+      "start_date": "2026-09-23T08:23:43",
+      "finish_date": "2026-09-23T08:39:02",
+      "finished": true,
+      "blocked_by": [
+        4
+      ]
+    },
+    {
+      "task_id": 11,
+      "title": "[P0][MET-08] Alinhar filtros e medidas das comparações existentes",
+      "column": 11,
+      "start_date": "2026-09-22T17:46:29",
+      "finish_date": "2026-09-23T08:39:00",
+      "finished": true,
+      "blocked_by": [
+        4
+      ]
+    },
+    {
+      "task_id": 10,
+      "title": "[P0][MET-07] Usar vencedor real e corrigir semântica da timeline de ouro",
+      "column": 11,
+      "start_date": "2026-09-23T08:17:38",
+      "finish_date": "2026-09-23T08:38:57",
+      "finished": true,
+      "blocked_by": [
+        4
+      ]
+    },
+    {
+      "task_id": 5,
+      "title": "[P0][MET-02] Auditar cobertura e criar corpus de validação multiversão",
+      "column": 11,
+      "start_date": "2026-09-22T17:46:22",
+      "finish_date": "2026-09-23T08:38:55",
+      "finished": true,
+      "blocked_by": [
+        4
+      ]
+    },
+    {
+      "task_id": 4,
+      "title": "[P0][MET-01] Definir contratos de métricas, elegibilidade e versionamento",
+      "column": 11,
+      "start_date": "2026-09-23T08:04:45",
+      "finish_date": "2026-09-23T08:12:36",
+      "finished": true,
+      "blocked_by": null
+    }
+  ],
+  "release_gate_task_id": 52,
+  "board_registration": {
+    "verified": true,
+    "total_cards": 48,
+    "refactor_cards": 14,
+    "blocked_original_cards": 34,
+    "original_done_preserved": 28,
+    "original_pending_in_ready": 6,
+    "doing_count": 0,
+    "actionable_task_ids": [
+      39
+    ],
+    "original_dependencies_preserved": true,
+    "acyclic": true,
+    "note": "is_blocked alone is insufficient; verified unfinished gate and native --actionable filter."
+  }
+}
