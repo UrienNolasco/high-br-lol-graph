@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../core/prisma/prisma.service';
+import type {
+  MatchParticipantCursor,
+  MatchParticipantHistoryPage,
+  MatchParticipantInput,
+  MatchParticipantQuery,
+  MatchParticipantReader,
+} from '../matches/contracts/participant-reader';
 import { DatasetFilters } from '../dataset/contracts/query';
 import { IndicatorCursor } from './pure/indicator-cursor';
 import { IndicatorInput } from './pure/indicator.types';
@@ -67,9 +74,12 @@ export function indicatorWhere(
   };
 }
 @Injectable()
-export class IndicatorRepository {
+export class IndicatorRepository implements MatchParticipantReader {
   constructor(private readonly prisma: PrismaService) {}
-  async match(matchId: string, puuid: string): Promise<IndicatorInput | null> {
+  async read(
+    matchId: string,
+    puuid: string,
+  ): Promise<MatchParticipantInput | null> {
     return this.prisma.$transaction(
       async (tx) => {
         const row = await tx.matchParticipant.findUnique({
@@ -87,6 +97,18 @@ export class IndicatorRepository {
       { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead },
     );
   }
+  async readHistory(
+    filters: MatchParticipantQuery,
+    limit: number,
+    after?: MatchParticipantCursor,
+  ): Promise<MatchParticipantHistoryPage> {
+    return this.history(filters as DatasetFilters, limit, after);
+  }
+
+  async match(matchId: string, puuid: string): Promise<IndicatorInput | null> {
+    return this.read(matchId, puuid);
+  }
+
   async history(
     filters: DatasetFilters,
     limit: number,

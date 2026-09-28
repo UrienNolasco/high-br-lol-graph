@@ -1,0 +1,61 @@
+{
+  "card": "ARQ-12",
+  "base": "02ad37d",
+  "scope": "Moved the offline research implementation to studies/vision, added a study entrypoint, and made references and indicators depend on public dataset and matches contracts.",
+  "build": {
+    "command": "npm run build",
+    "result": "passed"
+  },
+  "unit": {
+    "command": "npm test -- --runInBand",
+    "suites": 105,
+    "tests": 634,
+    "result": "passed"
+  },
+  "focused": {
+    "command": "npm test -- --runInBand modules/indicators modules/references studies/vision",
+    "suites": 5,
+    "tests": 84,
+    "result": "passed"
+  },
+  "study": {
+    "command": "npm run vision-study -- --out /tmp/arq12-study",
+    "result": "passed",
+    "independentMatches": 1,
+    "conclusion": "insufficient_sample_or_coverage",
+    "byteEquivalentTo": [
+      "docs/analysis/met22-study",
+      "docs/architecture/evidence/vision-study"
+    ],
+    "sha256": {
+      "features.jsonl": "0efc962789c45003edffc6cae6c2138a76bda2c776b8ede5d2f6fa0cafe85b0e",
+      "labels.jsonl": "8cbb776c234e7b2a7b6945eb706d1bea7ac8274be3aedb10ab3b65d1028c46a4",
+      "metadata.jsonl": "58fbe18c875f76f61d3f91e44f72628e14ab2c1f21bc8d9ee6d927c7134a4a26",
+      "results.json": "b2281590b1df3ba230073c8ab1cde60224099621f248fa10b125b3f27a3ebdce",
+      "reconciliation.json": "e1eeb1f713c7b41df8b61a8d60e952a19a970c950b0de4ecbb3953b01d7f66f4"
+    }
+  },
+  "architecture": {
+    "command": "npm run test:architecture",
+    "architectureTests": 27,
+    "relocationTests": 34,
+    "result": "passed",
+    "check": {
+      "command": "npm run architecture:check -- --prune",
+      "violations": 52,
+      "newViolations": 0,
+      "staleEntries": 0,
+      "baselineGrowth": 0,
+      "invalidEntries": 0,
+      "transitionalDebt": 59,
+      "relocationErrors": 0
+    }
+  },
+  "database": "not run; database and RabbitMQ gates remain serialized by the coordinator",
+  "compatibility": "Study formulas, temporal split boundaries, feature/label/metadata allowlists, source identity, reconciliation and output bytes remain equivalent. References retain version, eligibility, period, cursor and RepeatableRead semantics; indicators retain public query and history behavior.",
+  "risks": [
+    "The references Prisma adapter locally mirrors the public dataset predicates until the final ownership cleanup; it does not import the dataset persistence adapter.",
+    "The participant reader is published as a matches contract and is currently bound by the indicators adapter; processing composition can bind a dedicated matches adapter in the subsequent ownership step.",
+    "The study entrypoint still composes Riot parsing adapters by design; pure study calculations remain free of Prisma, Nest and transport dependencies."
+  ]
+}

@@ -24,7 +24,7 @@ place: introducing a worker-to-matches module dependency now would contradict th
 final dependency matrix. The port cannot acquire a lease, open a transaction,
 update aggregates or mark processing complete.
 
-Dataset and research consume selective pure contracts through finite, Git-proven
+Dataset and studies consume selective pure contracts through finite, Git-proven
 public-entrypoint bridges until their owner moves in ARQ-07/12. The stats patch
 reader preserves the original interpolation of the first two `split('.')` components (including `undefined` for a missing minor component); it is
 not replaced with a validator having different malformed-input semantics.

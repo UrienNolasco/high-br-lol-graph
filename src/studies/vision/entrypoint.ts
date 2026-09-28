@@ -8,19 +8,21 @@ import {
   rmSync,
 } from 'node:fs';
 import { resolve, dirname, basename } from 'node:path';
-import { MatchDto } from './core/riot/dto/match.dto';
-import { TimelineDto } from './core/riot/dto/timeline.dto';
-import { normalizeTimelineEvents } from './modules/matches/adapters/riot/normalized-events';
-import { projectTimelineSnapshots } from './modules/matches/adapters/riot/timeline-snapshots';
-import { parseMatchData } from './modules/matches/adapters/riot/match.parser';
-import { DATASET_VERSION } from './modules/dataset/contracts/definition';
-import { PROCESSING_VERSION } from './core/processing/processing.constants';
+import { MatchDto } from '../../core/riot/dto/match.dto';
+import { TimelineDto } from '../../core/riot/dto/timeline.dto';
+import { normalizeTimelineEvents } from '../../modules/matches/adapters/riot/normalized-events';
+import { projectTimelineSnapshots } from '../../modules/matches/adapters/riot/timeline-snapshots';
+import { parseMatchData } from '../../modules/matches/adapters/riot/match.parser';
+import { DATASET_VERSION } from '../../modules/dataset/contracts/definition';
+import { PROCESSING_VERSION } from '../../core/processing/processing.constants';
 import {
   datasetDigest,
-  splitForMatch,
   stableJson,
+} from '../../modules/dataset/contracts/serialization';
+import {
+  splitForMatch,
   validateTemporalSplit,
-} from './modules/dataset/adapters/dataset-export.adapter';
+} from '../../modules/dataset/contracts/temporal-split';
 import {
   describeStudy,
   extractVisionFeatures,
@@ -31,7 +33,7 @@ import {
   StudyProtocol,
   StudySample,
   VISION_STUDY_VERSION,
-} from './core/research/vision-study';
+} from './vision-study';
 
 interface CorpusEntry {
   id: string;
@@ -298,8 +300,8 @@ export function runVisionStudy(
       ) + '\n',
   };
   const sourceFiles = [
-    'src/core/research/vision-study.ts',
-    'src/vision-study-cli.ts',
+    'src/studies/vision/vision-study.ts',
+    'src/studies/vision/entrypoint.ts',
     'src/modules/matches/adapters/riot/normalized-events.ts',
     'src/modules/matches/adapters/riot/timeline-snapshots.ts',
     'src/modules/matches/contracts/snapshot-readers.ts',
@@ -309,7 +311,8 @@ export function runVisionStudy(
     'src/modules/matches/contracts/champion-population.ts',
     'src/modules/matches/contracts/eligibility.ts',
     'src/core/processing/processing.constants.ts',
-    'src/modules/dataset/adapters/dataset-export.adapter.ts',
+    'src/modules/dataset/contracts/serialization.ts',
+    'src/modules/dataset/contracts/temporal-split.ts',
   ];
   const manifest = {
     task: 'MET-22',
@@ -403,7 +406,7 @@ if (require.main === module) {
         throw new Error(`Missing value for ${key}`);
       return args[index + 1];
     };
-    const root = resolve(__dirname, '..');
+    const root = resolve(__dirname, '../../..');
     if (
       args.some(
         (arg, index) =>

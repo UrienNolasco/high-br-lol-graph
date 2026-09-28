@@ -1,9 +1,11 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { IndicatorRepository } from './indicator.repository';
+import { MATCH_PARTICIPANT_READER } from '../matches/contracts/participant-reader';
+import type { MatchParticipantReader } from '../matches/contracts/participant-reader';
 import { IndicatorQueryDto, parseIndicatorQuery } from './indicator-query.dto';
 import { calculateIndicators } from './pure/indicator-calculator';
 import { summarizeIndicatorHistory } from './pure/indicator-history';
@@ -11,7 +13,10 @@ import { encodeIndicatorCursor } from './pure/indicator-cursor';
 import { INDICATOR_FAMILIES, IndicatorFamily } from './pure/indicator-catalog';
 @Injectable()
 export class IndicatorService {
-  constructor(private readonly repository: IndicatorRepository) {}
+  constructor(
+    @Inject(MATCH_PARTICIPANT_READER)
+    private readonly repository: MatchParticipantReader,
+  ) {}
   async match(matchId: string, puuid: string, query: IndicatorQueryDto) {
     if (
       Object.entries(query).some(
@@ -24,7 +29,7 @@ export class IndicatorService {
       !INDICATOR_FAMILIES.includes(query.family as IndicatorFamily)
     )
       throw new BadRequestException('Unknown indicator family');
-    const input = await this.repository.match(matchId, puuid);
+    const input = await this.repository.read(matchId, puuid);
     if (!input) throw new NotFoundException('Match or participant not found');
     return calculateIndicators(
       input,
@@ -33,7 +38,7 @@ export class IndicatorService {
   }
   async history(puuid: string, query: IndicatorQueryDto) {
     const parsed = parseIndicatorQuery(query, puuid),
-      selected = await this.repository.history(
+      selected = await this.repository.readHistory(
         parsed.filters,
         parsed.options.limit,
         parsed.after,

@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { prepareHistoricalDataset } from '../../src/modules/dataset/adapters/dataset-writer.adapter';
 import { ReferenceService } from '../../src/modules/references/reference.service';
+import { ReferenceRepository } from '../../src/modules/references/adapters/reference.repository';
 import { normalizeReferenceQuery } from '../../src/modules/references/reference-contract';
 import { historicalDatasetFixture } from '../fixtures/historical-dataset';
 const fixture = historicalDatasetFixture();
@@ -35,7 +36,7 @@ beforeAll(async () => {
     throw new Error('Explicit isolated integration database required');
   prisma = new PrismaService({ datasourceUrl });
   await prisma.$connect();
-  service = new ReferenceService(prisma);
+  service = new ReferenceService(new ReferenceRepository(prisma));
   expect(
     await prisma.match.count({
       where: {

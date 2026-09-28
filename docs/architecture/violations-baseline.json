@@ -12,14 +12,6 @@
       "removalCard": "ARQ-10"
     },
     {
-      "id": "core-no-modules:55bda0148c4da2a7e080",
-      "rule": "core-no-modules",
-      "from": "src/core/research/vision-study.ts",
-      "to": "src/modules/matches/pure/vision-calculator.ts",
-      "owner": "core/research",
-      "removalCard": "ARQ-12"
-    },
-    {
       "id": "core-no-modules:bde0efeed49028f2fa59",
       "rule": "core-no-modules",
       "from": "src/core/processing/rebuild.service.ts",
@@ -393,6 +385,38 @@
       "from": "src/modules/admin/admin.controller.e2e-spec.ts",
       "to": "src/modules/collector/services/collector.service.ts",
       "owner": "admin",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:567619911eadde62843d",
+      "rule": "area-reciprocity",
+      "from": "composition",
+      "to": "core/processing",
+      "owner": "architecture",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:c3321ede908280b399b0",
+      "rule": "area-reciprocity",
+      "from": "composition",
+      "to": "matches",
+      "owner": "architecture",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:cadcafd0076284c1557f",
+      "rule": "area-reciprocity",
+      "from": "composition",
+      "to": "dataset",
+      "owner": "architecture",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:e7e3127c492cd1e2bf85",
+      "rule": "area-reciprocity",
+      "from": "composition",
+      "to": "core/riot",
+      "owner": "architecture",
       "removalCard": "ARQ-13"
     }
   ]

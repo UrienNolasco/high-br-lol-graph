@@ -58,8 +58,8 @@ Ouro aos 15 min pode ser mediador da visão anterior; vantagem no jogo também p
 
 ```sh
 npm run build
-node dist/vision-study-cli.js --out /tmp/met22-study-NEW
-npx jest --runInBand src/core/research/vision-study.spec.ts
+npm run vision-study -- --out /tmp/met22-study-NEW
+npx jest --runInBand src/studies/vision/vision-study.spec.ts
 ```
 
 Opções adicionais: `--corpus caminho.json --protocol caminho.json`. O diretório de destino deve ser novo; as fontes não são alteradas. O destino recebe publicação conjunta de:

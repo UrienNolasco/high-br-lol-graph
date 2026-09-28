@@ -75,7 +75,7 @@ Consequentemente, esta versão informa as contagens observadas e a evidência de
 
 ## Reutilização e validação
 
-`src/core/statistics/empirical-reference.ts` exporta `precisionPolicy`, `requiredReferenceUnits`, `dkwHalfWidth`, `empiricalQuantile`, `empiricalDistribution`, `referenceStatistics` e `selectRosterDisjoint`. As funções puras recebem valores/rosters explícitos. `normalizeReferenceQuery`, `REFERENCE_DEFINITIONS`, `calculateReference` e `ReferenceService` expõem o contrato de coorte para MET-21/26–32. Consultas compartilham `datasetWhere` e `unmaterializedMatchWhere`; não criam filtros concorrentes.
+`src/core/statistics/empirical-reference.ts` exporta `precisionPolicy`, `requiredReferenceUnits`, `dkwHalfWidth`, `empiricalQuantile`, `empiricalDistribution`, `referenceStatistics` e `selectRosterDisjoint`. As funções puras recebem valores/rosters explícitos. `normalizeReferenceQuery`, `REFERENCE_DEFINITIONS`, `calculateReference` e `ReferenceService` expõem o contrato de coorte para MET-21/26–32. O adapter Prisma de references aplica os filtros públicos de dataset com a mesma semântica de versão, elegibilidade e período; não importa o repositório/adaptador de dataset nem cria filtros concorrentes.
 
 [Exemplos reproduzíveis](analysis/met20-examples.json) são fragmentos identificados: uma partida real da fixture 16.2/420/11 retorna insuficiência; 83 partidas, valores e rosters inteiramente sintéticos demonstram o caso nominal suficiente após excluir o alvo. Estes dados controlados não ampliam a cobertura real do corpus. Metadados de processamento/descoberta da fixture também são sintéticos, explicitamente datados. Reproduza com `npx ts-node --transpile-only scripts/example-references.ts`.
 

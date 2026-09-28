@@ -1,4 +1,5 @@
 import { ReferenceService } from '../../modules/references/reference.service';
+import { ReferenceRepository } from '../../modules/references/adapters/reference.repository';
 import { normalizeReferenceQuery } from '../../modules/references/reference-contract';
 import {
   referenceQueryFixture,
@@ -82,10 +83,12 @@ describe('MET20 adversarial source/cohort boundary', () => {
         },
         match: { count: jest.fn().mockResolvedValue(0) },
       };
-      const service = new ReferenceService({
-        $transaction: (callback: (client: typeof tx) => unknown) =>
-          callback(tx),
-      } as never);
+      const service = new ReferenceService(
+        new ReferenceRepository({
+          $transaction: (callback: (client: typeof tx) => unknown) =>
+            callback(tx),
+        } as never),
+      );
       const query = normalizeReferenceQuery({
         ...referenceQueryFixture,
         role: 'MID',

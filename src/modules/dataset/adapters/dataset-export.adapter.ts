@@ -1,4 +1,3 @@
-import { createHash } from 'node:crypto';
 import { mkdir, writeFile, rename, rm, lstat } from 'node:fs/promises';
 import { join, dirname, basename } from 'node:path';
 import {
@@ -8,53 +7,17 @@ import {
 } from '@prisma/client';
 import { DATASET_PROCESSING_VERSION } from '../contracts/processing';
 import { DATASET_DEFINITIONS, DATASET_VERSION } from '../contracts/definition';
+import {
+  splitForMatch,
+  validateTemporalSplit,
+} from '../contracts/temporal-split';
+import type { TemporalSplit } from '../contracts/temporal-split';
+import { datasetDigest, stableJson } from '../contracts/serialization';
 import { datasetWhere, queryDatasetSummary } from './dataset-query.repository';
 import type { DatasetFilters } from '../contracts/query';
-
-export interface TemporalSplit {
-  trainBeforeMs: number;
-  validationBeforeMs: number;
-}
-export function validateTemporalSplit(split: TemporalSplit) {
-  if (
-    !Number.isSafeInteger(split.trainBeforeMs) ||
-    !Number.isSafeInteger(split.validationBeforeMs) ||
-    split.trainBeforeMs < 0 ||
-    split.trainBeforeMs >= split.validationBeforeMs
-  )
-    throw new Error(
-      'Temporal split requires 0 <= trainBeforeMs < validationBeforeMs',
-    );
-  return split;
-}
-export function splitForMatch(
-  gameCreation: bigint | number,
-  split: TemporalSplit,
-): 'train' | 'validation' | 'test' {
-  return BigInt(gameCreation) < BigInt(split.trainBeforeMs)
-    ? 'train'
-    : BigInt(gameCreation) < BigInt(split.validationBeforeMs)
-      ? 'validation'
-      : 'test';
-}
-export function stableJson(value: unknown): string {
-  if (value === null || typeof value !== 'object')
-    return typeof value === 'bigint'
-      ? JSON.stringify(String(value))
-      : JSON.stringify(value);
-  if (value instanceof Date) return JSON.stringify(value.toISOString());
-  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
-  return `{${Object.keys(value)
-    .filter((k) => (value as Record<string, unknown>)[k] !== undefined)
-    .sort()
-    .map(
-      (k) =>
-        `${JSON.stringify(k)}:${stableJson((value as Record<string, unknown>)[k])}`,
-    )
-    .join(',')}}`;
-}
-export const datasetDigest = (value: string) =>
-  createHash('sha256').update(value).digest('hex');
+export { splitForMatch, validateTemporalSplit } from '../contracts/temporal-split';
+export type { TemporalSplit } from '../contracts/temporal-split';
+export { datasetDigest, stableJson } from '../contracts/serialization';
 /** Deliberately explicit allowlist: no outcome, final counters, retrospective role or exclusion flags in feature files. */
 export function exportDatasetValue(
   row: HistoricalMetricContribution,

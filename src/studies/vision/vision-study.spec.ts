@@ -1,20 +1,18 @@
 import { readFileSync, mkdtempSync, rmSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { MatchDto } from '../riot/dto/match.dto';
-import { TimelineDto } from '../riot/dto/timeline.dto';
+import { MatchDto } from '../../core/riot/dto/match.dto';
+import { TimelineDto } from '../../core/riot/dto/timeline.dto';
 import { normalizeTimelineEvents } from '../../modules/matches/adapters/riot/normalized-events';
 import { projectTimelineSnapshots } from '../../modules/matches/adapters/riot/timeline-snapshots';
-import { PROCESSING_VERSION } from '../processing/processing.constants';
-import {
-  stableJson,
-  splitForMatch,
-} from '../../modules/dataset/adapters/dataset-export.adapter';
+import { PROCESSING_VERSION } from '../../core/processing/processing.constants';
+import { stableJson } from '../../modules/dataset/contracts/serialization';
+import { splitForMatch } from '../../modules/dataset/contracts/temporal-split';
 import {
   runVisionStudy,
   studySource,
   validateStudyProtocol,
-} from '../../vision-study-cli';
+} from './entrypoint';
 import {
   CONTEXT_FEATURES,
   VISION_FEATURES,

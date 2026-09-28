@@ -1,34 +1,16 @@
+import type {
+  MatchParticipantInput,
+  MatchParticipantRead,
+  MatchRead,
+  MatchProcessingRead,
+} from '../../matches/contracts/participant-reader';
 import { DatasetFilters } from '../../dataset/contracts/query';
 import { IndicatorCursor } from './indicator-cursor';
 import { IndicatorFamily } from './indicator-catalog';
-export interface IndicatorParticipant {
-  puuid: string;
-  championId: number;
-  championName: string;
-  role: string | null;
-  finalStats: unknown;
-  challenges: unknown;
-  pings: unknown;
-}
-export interface IndicatorMatch {
-  matchId: string;
-  gameCreation: bigint;
-  gameDuration: number;
-  gameVersion: string;
-  mapId: number;
-  queueId: number;
-  populationEligible: boolean | null;
-  populationExclusionReason: string | null;
-}
-export interface IndicatorInput {
-  match: IndicatorMatch;
-  participant: IndicatorParticipant;
-  processing: {
-    status: string;
-    processingVersion: number | null;
-    completedAt: Date | null;
-  } | null;
-}
+export type IndicatorParticipant = MatchParticipantRead;
+export type IndicatorMatch = MatchRead;
+export type IndicatorProcessing = MatchProcessingRead;
+export type IndicatorInput = MatchParticipantInput;
 export interface IndicatorOptions {
   family?: IndicatorFamily;
   limit: number;

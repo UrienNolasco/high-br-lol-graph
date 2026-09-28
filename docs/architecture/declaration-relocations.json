@@ -35,13 +35,6 @@
           "symbols": ["NormalizedTimelineEvent"],
           "owner": "dataset",
           "removalCard": "ARQ-07"
-        },
-        {
-          "from": "src/core/research/vision-study.ts",
-          "kinds": ["type"],
-          "symbols": ["NormalizedTimelineEvent"],
-          "owner": "core/research",
-          "removalCard": "ARQ-12"
         }
       ]
     },
@@ -60,13 +53,6 @@
           "symbols": ["ParticipantSnapshot", "TimelineSnapshotProjection"],
           "owner": "dataset",
           "removalCard": "ARQ-07"
-        },
-        {
-          "from": "src/core/research/vision-study.ts",
-          "kinds": ["type"],
-          "symbols": ["TimelineSnapshotProjection"],
-          "owner": "core/research",
-          "removalCard": "ARQ-12"
         }
       ]
     },
@@ -180,13 +166,6 @@
           "symbols": ["selectCheckpoint"],
           "owner": "dataset",
           "removalCard": "ARQ-07"
-        },
-        {
-          "from": "src/core/research/vision-study.ts",
-          "kinds": ["runtime"],
-          "symbols": ["selectCheckpoint"],
-          "owner": "core/research",
-          "removalCard": "ARQ-12"
         }
       ]
     },
@@ -557,13 +536,6 @@
           "symbols": ["calculateVisionTotals"],
           "owner": "dataset",
           "removalCard": "ARQ-07"
-        },
-        {
-          "from": "src/core/research/vision-study.ts",
-          "kinds": ["runtime"],
-          "symbols": ["VISION_WARD_TYPES"],
-          "owner": "core/research",
-          "removalCard": "ARQ-12"
         }
       ]
     },
@@ -686,13 +658,6 @@
           "removalCard": "ARQ-12"
         },
         {
-          "from": "src/vision-study-cli.ts",
-          "kinds": ["runtime"],
-          "symbols": ["DATASET_VERSION"],
-          "owner": "composition/cli",
-          "removalCard": "ARQ-13"
-        },
-        {
           "from": "src/dataset-cli.ts",
           "kinds": ["runtime"],
           "symbols": ["DATASET_DEFINITIONS"],
@@ -785,13 +750,6 @@
           "symbols": ["datasetWhere", "queryDatasetSummary"],
           "owner": "dataset",
           "removalCard": "ARQ-13"
-        },
-        {
-          "from": "src/modules/references/reference.service.ts",
-          "kinds": ["runtime"],
-          "symbols": ["datasetWhere", "unmaterializedMatchWhere"],
-          "owner": "references",
-          "removalCard": "ARQ-12"
         }
       ]
     },
@@ -811,42 +769,9 @@
       ],
       "consumers": [
         {
-          "from": "src/core/research/vision-study.ts",
-          "kinds": ["runtime"],
-          "symbols": ["splitForMatch"],
-          "owner": "core/research",
-          "removalCard": "ARQ-12"
-        },
-        {
-          "from": "src/core/research/vision-study.ts",
-          "kinds": ["type"],
-          "symbols": ["TemporalSplit"],
-          "owner": "core/research",
-          "removalCard": "ARQ-12"
-        },
-        {
-          "from": "src/core/research/vision-study.spec.ts",
-          "kinds": ["runtime"],
-          "symbols": ["stableJson", "splitForMatch"],
-          "owner": "core/research",
-          "removalCard": "ARQ-12"
-        },
-        {
           "from": "src/dataset-cli.ts",
           "kinds": ["runtime"],
           "symbols": ["exportHistoricalDataset", "stableJson"],
-          "owner": "composition/cli",
-          "removalCard": "ARQ-13"
-        },
-        {
-          "from": "src/vision-study-cli.ts",
-          "kinds": ["runtime"],
-          "symbols": [
-            "datasetDigest",
-            "splitForMatch",
-            "stableJson",
-            "validateTemporalSplit"
-          ],
           "owner": "composition/cli",
           "removalCard": "ARQ-13"
         }

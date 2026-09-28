@@ -8,14 +8,14 @@
   },
   "tests": [
     {
-      "command": "npx jest --runInBand src/core/research/vision-study.spec.ts src/core/dataset/dataset-builder.spec.ts src/core/dataset/dataset-export.spec.ts",
+      "command": "npx jest --runInBand src/studies/vision/vision-study.spec.ts src/modules/dataset/pure/dataset-builder.spec.ts src/modules/dataset/adapters/dataset-export.spec.ts",
       "suites": 3,
       "passed": 46,
       "elapsedSeconds": 17.541,
       "scope": "Before final additional unsupported-patch/queue regression; all passed"
     },
     {
-      "command": "npx jest --runInBand src/core/research/vision-study.spec.ts",
+      "command": "npx jest --runInBand src/studies/vision/vision-study.spec.ts",
       "suites": 1,
       "passed": 22,
       "elapsedSeconds": 9.361,

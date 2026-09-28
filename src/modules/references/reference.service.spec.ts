@@ -1,4 +1,5 @@
 import { PrismaService } from '../../core/prisma/prisma.service';
+import { ReferenceRepository } from './adapters/reference.repository';
 import { ReferenceService } from './reference.service';
 import { normalizeReferenceQuery } from './reference-contract';
 import { referenceQueryFixture } from '../../../test/fixtures/references';
@@ -17,9 +18,9 @@ describe('MET20 bounded projection reads', () => {
         .fn()
         .mockImplementation((fn: (client: typeof tx) => unknown) => fn(tx)),
     } as unknown as PrismaService;
-    const result = await new ReferenceService(prisma).getReference(
-      normalizeReferenceQuery(referenceQueryFixture),
-    );
+    const result = await new ReferenceService(
+      new ReferenceRepository(prisma),
+    ).getReference(normalizeReferenceQuery(referenceQueryFixture));
     expect(result).toMatchObject({
       status: 'insufficient',
       reason: 'cohort_too_large',
@@ -47,9 +48,9 @@ describe('MET20 bounded projection reads', () => {
         .fn()
         .mockImplementation((fn: (client: typeof tx) => unknown) => fn(tx)),
     } as unknown as PrismaService;
-    const result = await new ReferenceService(prisma).getReference(
-      normalizeReferenceQuery(referenceQueryFixture),
-    );
+    const result = await new ReferenceService(
+      new ReferenceRepository(prisma),
+    ).getReference(normalizeReferenceQuery(referenceQueryFixture));
     expect(result).toMatchObject({
       status: 'insufficient',
       counts: { candidateRows: 0, selectedMatches: 0 },
