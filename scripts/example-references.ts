@@ -1,7 +1,7 @@
 /** Offline MET20 examples. Source observations are real; job metadata is the fixture's declared synthetic metadata. */
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { buildHistoricalDataset } from '../src/core/dataset/dataset-builder';
+import { buildHistoricalDataset } from '../src/modules/dataset/pure/dataset-builder';
 import {
   calculateReference,
   ReferenceRow,

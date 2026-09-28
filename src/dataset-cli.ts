@@ -1,11 +1,11 @@
 import { readFile } from 'node:fs/promises';
 import { PrismaClient } from '@prisma/client';
-import { DATASET_DEFINITIONS } from './core/dataset/dataset-registry';
-import { normalizeDatasetFilters } from './core/dataset/dataset-query';
+import { DATASET_DEFINITIONS } from './modules/dataset/contracts/definition';
+import { normalizeDatasetFilters } from './modules/dataset/contracts/query';
 import {
   exportHistoricalDataset,
   stableJson,
-} from './core/dataset/dataset-export';
+} from './modules/dataset/adapters/dataset-export.adapter';
 
 async function main() {
   const [command, ...args] = process.argv.slice(2);

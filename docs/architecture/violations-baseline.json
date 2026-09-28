@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "c3a23589fc6a38d50497c34151594e9646ff459d",
-  "description": "Temporary violations present when ARQ-02 was introduced. Entries may only be removed; ARQ-13 requires zero.",
+  "sourceRevision": "2973957",
+  "description": "Temporary violations after ARQ-07 dataset consolidation; each remaining entry has an owner and removal card.",
   "entries": [
     {
       "id": "area-reciprocity:3d6442ae4197b182e250",
@@ -12,28 +12,12 @@
       "removalCard": "ARQ-08"
     },
     {
-      "id": "area-reciprocity:60a0d7acc06e754f4d55",
-      "rule": "area-reciprocity",
-      "from": "core/dataset",
-      "to": "worker",
-      "owner": "architecture",
-      "removalCard": "ARQ-07"
-    },
-    {
       "id": "area-reciprocity:e60dedcf4cd94aaf21c4",
       "rule": "area-reciprocity",
       "from": "core/processing",
       "to": "worker",
       "owner": "architecture",
       "removalCard": "ARQ-10"
-    },
-    {
-      "id": "contract-transitive-purity:0492c820dfdf1a6bf5ea",
-      "rule": "contract-transitive-purity",
-      "from": "src/modules/references/reference-contract.ts",
-      "to": "external:@prisma/client",
-      "owner": "references",
-      "removalCard": "ARQ-12"
     },
     {
       "id": "core-no-modules:2879bc4ed2e31ca3e69f",
@@ -44,22 +28,6 @@
       "removalCard": "ARQ-08"
     },
     {
-      "id": "core-no-modules:2b62edf70782fa3bb3d6",
-      "rule": "core-no-modules",
-      "from": "src/core/dataset/dataset-builder.ts",
-      "to": "src/modules/matches/pure/combat-calculator.ts",
-      "owner": "core/dataset",
-      "removalCard": "ARQ-07"
-    },
-    {
-      "id": "core-no-modules:440dac6c1e6e0620c311",
-      "rule": "core-no-modules",
-      "from": "src/core/dataset/dataset-builder.ts",
-      "to": "src/modules/worker/pure/match.parser.ts",
-      "owner": "core/dataset",
-      "removalCard": "ARQ-07"
-    },
-    {
       "id": "core-no-modules:55bda0148c4da2a7e080",
       "rule": "core-no-modules",
       "from": "src/core/research/vision-study.ts",
@@ -68,44 +36,12 @@
       "removalCard": "ARQ-12"
     },
     {
-      "id": "core-no-modules:8b82ee72e08ca282319d",
-      "rule": "core-no-modules",
-      "from": "src/core/dataset/dataset-builder.ts",
-      "to": "src/modules/matches/pure/contribution-calculator.ts",
-      "owner": "core/dataset",
-      "removalCard": "ARQ-07"
-    },
-    {
       "id": "core-no-modules:bde0efeed49028f2fa59",
       "rule": "core-no-modules",
       "from": "src/core/processing/rebuild.service.ts",
       "to": "src/modules/worker/services/worker.service.ts",
       "owner": "core/processing",
       "removalCard": "ARQ-10"
-    },
-    {
-      "id": "core-no-modules:dc8eef3d3550b48f6507",
-      "rule": "core-no-modules",
-      "from": "src/core/dataset/dataset-builder.ts",
-      "to": "src/modules/matches/pure/sequences-calculator.ts",
-      "owner": "core/dataset",
-      "removalCard": "ARQ-07"
-    },
-    {
-      "id": "core-no-modules:f233d87947d42ffe7993",
-      "rule": "core-no-modules",
-      "from": "src/core/dataset/dataset-builder.ts",
-      "to": "src/modules/matches/pure/objectives-calculator.ts",
-      "owner": "core/dataset",
-      "removalCard": "ARQ-07"
-    },
-    {
-      "id": "core-no-modules:fd5a42ae6855c0133fc0",
-      "rule": "core-no-modules",
-      "from": "src/core/dataset/dataset-builder.ts",
-      "to": "src/modules/matches/pure/vision-calculator.ts",
-      "owner": "core/dataset",
-      "removalCard": "ARQ-07"
     },
     {
       "id": "cross-module-internal-import:03608f221abab10baec5",
@@ -161,6 +97,22 @@
       "from": "src/modules/stats/dto/matchup-stats.dto.ts",
       "to": "src/modules/champions/dto/champion-images.dto.ts",
       "owner": "stats",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "cross-module-internal-import:39271bbeafbe59fc00d3",
+      "rule": "cross-module-internal-import",
+      "from": "src/modules/dataset/pure/dataset-builder.ts",
+      "to": "src/modules/matches/pure/combat-calculator.ts",
+      "owner": "dataset",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "cross-module-internal-import:3a312b905d200f90b39e",
+      "rule": "cross-module-internal-import",
+      "from": "src/modules/dataset/pure/dataset-builder.ts",
+      "to": "src/modules/matches/pure/vision-calculator.ts",
+      "owner": "dataset",
       "removalCard": "ARQ-13"
     },
     {
@@ -220,6 +172,22 @@
       "removalCard": "ARQ-12"
     },
     {
+      "id": "cross-module-internal-import:9d4a8a77cd170f38d738",
+      "rule": "cross-module-internal-import",
+      "from": "src/modules/dataset/pure/dataset-builder.ts",
+      "to": "src/modules/matches/pure/sequences-calculator.ts",
+      "owner": "dataset",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "cross-module-internal-import:a42f7869c6501182a1ce",
+      "rule": "cross-module-internal-import",
+      "from": "src/modules/dataset/pure/dataset-builder.ts",
+      "to": "src/modules/worker/pure/match.parser.ts",
+      "owner": "dataset",
+      "removalCard": "ARQ-13"
+    },
+    {
       "id": "cross-module-internal-import:be23b027c9bce2183fa9",
       "rule": "cross-module-internal-import",
       "from": "src/modules/stats/dto/champion-stats.dto.ts",
@@ -234,6 +202,14 @@
       "to": "src/modules/indicators/pure/indicator-history.ts",
       "owner": "studies/tools",
       "removalCard": "ARQ-12"
+    },
+    {
+      "id": "cross-module-internal-import:e1b5372b7ec88930db7e",
+      "rule": "cross-module-internal-import",
+      "from": "src/modules/dataset/pure/dataset-builder.ts",
+      "to": "src/modules/matches/pure/objectives-calculator.ts",
+      "owner": "dataset",
+      "removalCard": "ARQ-13"
     },
     {
       "id": "cross-module-internal-import:e2dac70820b4b528acbf",
@@ -260,6 +236,14 @@
       "removalCard": "ARQ-12"
     },
     {
+      "id": "cross-module-internal-import:f1c4f4666b19c9bce93c",
+      "rule": "cross-module-internal-import",
+      "from": "src/modules/dataset/pure/dataset-builder.ts",
+      "to": "src/modules/matches/pure/contribution-calculator.ts",
+      "owner": "dataset",
+      "removalCard": "ARQ-13"
+    },
+    {
       "id": "cross-module-internal-import:f823b4ea3b4ecd7de299",
       "rule": "cross-module-internal-import",
       "from": "scripts/audit-match-report.ts",
@@ -282,14 +266,6 @@
       "to": "src/modules/analytics/dto/compare-evolve.dto.ts",
       "owner": "analytics",
       "removalCard": "ARQ-13"
-    },
-    {
-      "id": "domain-no-framework-or-adapter:56dfcc13e995968fab23",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/indicators/pure/indicator.types.ts",
-      "to": "src/core/dataset/dataset-query.ts",
-      "owner": "indicators",
-      "removalCard": "ARQ-12"
     },
     {
       "id": "domain-no-framework-or-adapter:5a157b73004a55b6fc4c",
@@ -348,14 +324,6 @@
       "removalCard": "ARQ-13"
     },
     {
-      "id": "domain-no-framework-or-adapter:bc9b0e84bc1d0b66c8f1",
-      "rule": "domain-no-framework-or-adapter",
-      "from": "src/modules/indicators/pure/indicator-cursor.ts",
-      "to": "src/core/dataset/dataset-query.ts",
-      "owner": "indicators",
-      "removalCard": "ARQ-12"
-    },
-    {
       "id": "domain-no-framework-or-adapter:bcfd0f5708315ded909c",
       "rule": "domain-no-framework-or-adapter",
       "from": "src/modules/analytics/pure/insights-generator.ts",
@@ -377,6 +345,14 @@
       "from": "src/modules/stats/pure/champion.enricher.ts",
       "to": "src/modules/stats/repositories/champion-stats.repository.ts",
       "owner": "stats",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "module-dependency-direction:ba105fa179ff74f13124",
+      "rule": "module-dependency-direction",
+      "from": "src/modules/dataset/pure/dataset-builder.ts",
+      "to": "src/modules/worker/pure/match.parser.ts",
+      "owner": "dataset",
       "removalCard": "ARQ-13"
     },
     {

@@ -1,5 +1,5 @@
 import { indicatorWhere, IndicatorRepository } from './indicator.repository';
-import { normalizeDatasetFilters } from '../../core/dataset/dataset-query';
+import { normalizeDatasetFilters } from '../dataset/contracts/query';
 import { IndicatorQueryDto, parseIndicatorQuery } from './indicator-query.dto';
 import {
   decodeIndicatorCursor,

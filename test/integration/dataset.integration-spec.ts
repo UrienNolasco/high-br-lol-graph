@@ -16,13 +16,14 @@ import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
-import { DatasetService } from '../../src/modules/dataset/dataset.service';
-import { normalizeDatasetFilters } from '../../src/core/dataset/dataset-query';
+import { DatasetService } from '../../src/modules/dataset/application/dataset.service';
+import { DatasetQueryRepository } from '../../src/modules/dataset/adapters/dataset-query.repository';
+import { normalizeDatasetFilters } from '../../src/modules/dataset/contracts/query';
 import {
   exportHistoricalDataset,
   stableJson,
-} from '../../src/core/dataset/dataset-export';
-import * as persistence from '../../src/core/dataset/dataset-persistence';
+} from '../../src/modules/dataset/adapters/dataset-export.adapter';
+import * as persistence from '../../src/modules/dataset/adapters/dataset-writer.adapter';
 import { historicalDatasetFixture } from '../fixtures/historical-dataset';
 
 const fixture = historicalDatasetFixture();
@@ -179,7 +180,7 @@ test('worker publishes compact rows with exact provenance, distinct cohorts, mis
     subjectKind: 'participant',
     horizonKey: 't:900000',
   });
-  const service = new DatasetService(prisma);
+  const service = new DatasetService(new DatasetQueryRepository(prisma));
   const result = await service.query(filters, 5);
   expect(result.summary.counts).toEqual({
     rows: 20,

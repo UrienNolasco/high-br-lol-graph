@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../core/prisma/prisma.service';
-import { DatasetFilters } from '../../core/dataset/dataset-query';
+import { DatasetFilters } from '../dataset/contracts/query';
 import { IndicatorCursor } from './pure/indicator-cursor';
 import { IndicatorInput } from './pure/indicator.types';
 const select = {

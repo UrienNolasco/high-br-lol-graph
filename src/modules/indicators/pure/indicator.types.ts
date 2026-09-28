@@ -1,4 +1,4 @@
-import { DatasetFilters } from '../../../core/dataset/dataset-query';
+import { DatasetFilters } from '../../dataset/contracts/query';
 import { IndicatorCursor } from './indicator-cursor';
 import { IndicatorFamily } from './indicator-catalog';
 export interface IndicatorParticipant {

@@ -6,7 +6,7 @@ import {
 } from './contracts/statistics';
 import type { ReferenceObservation } from './contracts/statistics';
 import type { ReferenceQuery } from './reference-contract';
-import { DATASET_DEFINITION_MAP } from '../../core/dataset/dataset-registry';
+import { DATASET_DEFINITION_MAP } from '../dataset/contracts/definition';
 export interface ReferenceRow extends ReferenceObservation {
   processedAt: Date;
   lineage: unknown;

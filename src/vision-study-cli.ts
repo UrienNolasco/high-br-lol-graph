@@ -13,14 +13,14 @@ import { TimelineDto } from './core/riot/dto/timeline.dto';
 import { normalizeTimelineEvents } from './modules/matches/adapters/riot/normalized-events';
 import { projectTimelineSnapshots } from './modules/matches/adapters/riot/timeline-snapshots';
 import { parseMatchData } from './modules/matches/adapters/riot/match.parser';
-import { DATASET_VERSION } from './core/dataset/dataset-registry';
+import { DATASET_VERSION } from './modules/dataset/contracts/definition';
 import { PROCESSING_VERSION } from './core/processing/processing.constants';
 import {
   datasetDigest,
   splitForMatch,
   stableJson,
   validateTemporalSplit,
-} from './core/dataset/dataset-export';
+} from './modules/dataset/adapters/dataset-export.adapter';
 import {
   describeStudy,
   extractVisionFeatures,
@@ -309,7 +309,7 @@ export function runVisionStudy(
     'src/modules/matches/contracts/champion-population.ts',
     'src/modules/matches/contracts/eligibility.ts',
     'src/core/processing/processing.constants.ts',
-    'src/core/dataset/dataset-export.ts',
+    'src/modules/dataset/adapters/dataset-export.adapter.ts',
   ];
   const manifest = {
     task: 'MET-22',

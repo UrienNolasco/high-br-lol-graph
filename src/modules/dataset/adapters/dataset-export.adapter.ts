@@ -6,13 +6,10 @@ import {
   Prisma,
   PrismaClient,
 } from '@prisma/client';
-import { DATASET_PROCESSING_VERSION } from '../../modules/dataset/contracts/processing';
-import { DATASET_DEFINITIONS, DATASET_VERSION } from './dataset-registry';
-import {
-  DatasetFilters,
-  datasetWhere,
-  queryDatasetSummary,
-} from './dataset-query';
+import { DATASET_PROCESSING_VERSION } from '../contracts/processing';
+import { DATASET_DEFINITIONS, DATASET_VERSION } from '../contracts/definition';
+import { datasetWhere, queryDatasetSummary } from './dataset-query.repository';
+import type { DatasetFilters } from '../contracts/query';
 
 export interface TemporalSplit {
   trainBeforeMs: number;

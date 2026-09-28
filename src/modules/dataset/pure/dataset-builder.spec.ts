@@ -5,8 +5,8 @@ import {
   DatasetInput,
   predictiveDatasetCells,
 } from './dataset-builder';
-import { DATASET_DEFINITIONS, DATASET_HORIZONS } from './dataset-registry';
-import { historicalDatasetFixture } from '../../../test/fixtures/historical-dataset';
+import { DATASET_DEFINITIONS, DATASET_HORIZONS } from '../contracts/definition';
+import { historicalDatasetFixture } from '../../../../test/fixtures/historical-dataset';
 
 const prefixCell = (
   input: DatasetInput,

@@ -1,7 +1,7 @@
 import { Allow } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { BadRequestException } from '@nestjs/common';
-import { normalizeDatasetFilters } from '../../core/dataset/dataset-query';
+import { normalizeDatasetFilters } from '../dataset/contracts/query';
 import { decodeIndicatorCursor } from './pure/indicator-cursor';
 import { IndicatorQuery } from './pure/indicator.types';
 import { INDICATOR_FAMILIES, IndicatorFamily } from './pure/indicator-catalog';

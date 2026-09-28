@@ -1,0 +1,26 @@
+{
+  "card": "ARQ-07",
+  "base": "2973957",
+  "scope": "Consolidated the historical dataset under modules/dataset with pure builder, public contracts/ports, application query service, and Prisma/export adapters.",
+  "build": "passed",
+  "unit": {
+    "command": "npm test -- --runInBand modules/dataset modules/indicators modules/references core/research test/dataset.e2e-spec.ts",
+    "suites": 9,
+    "tests": 122,
+    "result": "passed"
+  },
+  "architecture": {
+    "command": "npm run architecture:check -- --prune",
+    "newViolations": 0,
+    "staleEntries": 0,
+    "invalidEntries": 0,
+    "relocationErrors": 0,
+    "transitionalDebt": 68
+  },
+  "architectureTests": {
+    "command": "npm run test:architecture",
+    "result": "passed"
+  },
+  "database": "not run; serialized by integration owner",
+  "lineage": "Legacy worker bridge retains ordered observationIds and sorted sources until ARQ-10 binds processing ObservationReader."
+}

@@ -2,7 +2,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { DatasetController } from '../src/modules/dataset/dataset.controller';
-import { DatasetService } from '../src/modules/dataset/dataset.service';
+import { DatasetService } from '../src/modules/dataset/application/dataset.service';
 
 describe('MET19 dataset HTTP contract', () => {
   let app: INestApplication;
@@ -86,6 +86,8 @@ describe('MET19 dataset HTTP contract', () => {
     'fromMs=20&toMs=10',
     'surprise=1',
   ])('rejects invalid query %s', async (query) => {
-    await request(app.getHttpServer()).get(`/api/v1/dataset?${query}`).expect(400);
+    await request(app.getHttpServer())
+      .get(`/api/v1/dataset?${query}`)
+      .expect(400);
   });
 });

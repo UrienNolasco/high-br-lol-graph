@@ -9,10 +9,10 @@
       "symbols": ["ProcessedMatchData"],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["type"],
           "symbols": ["ProcessedMatchData"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
@@ -37,10 +37,10 @@
       "symbols": ["EventQuality", "NormalizedTimelineEvent"],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["type"],
           "symbols": ["NormalizedTimelineEvent"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
@@ -62,10 +62,10 @@
       ],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["type"],
           "symbols": ["ParticipantSnapshot", "TimelineSnapshotProjection"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
@@ -115,18 +115,18 @@
       ],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["gameVersionPatch", "normalizeRole"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
-          "from": "src/core/dataset/dataset-query.ts",
+          "from": "src/modules/dataset/contracts/query.ts",
           "kinds": ["runtime"],
           "symbols": ["normalizeRole"],
-          "owner": "core/dataset",
-          "removalCard": "ARQ-07"
+          "owner": "dataset",
+          "removalCard": "ARQ-13"
         }
       ]
     },
@@ -151,17 +151,17 @@
       ],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["metricQuality"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["type"],
           "symbols": ["MetricEvidence", "MetricResult"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         }
       ]
@@ -182,10 +182,10 @@
       ],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["selectCheckpoint"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
@@ -296,17 +296,17 @@
       },
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-export.ts",
+          "from": "src/modules/dataset/adapters/dataset-export.adapter.ts",
           "kinds": ["runtime"],
           "symbols": ["DATASET_PROCESSING_VERSION"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
-          "from": "src/core/dataset/dataset-query.ts",
+          "from": "src/modules/dataset/adapters/dataset-query.repository.ts",
           "kinds": ["runtime"],
           "symbols": ["DATASET_PROCESSING_VERSION"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         }
       ]
@@ -561,10 +561,10 @@
       "symbols": ["computeContribution"],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["computeContribution"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         }
       ]
@@ -580,10 +580,10 @@
       ],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["calculateVisionTotals"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         },
         {
@@ -607,10 +607,10 @@
       ],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["calculateCombat"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         }
       ]
@@ -622,10 +622,10 @@
       "symbols": ["calculateObjectives"],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["calculateObjectives"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
         }
       ]
@@ -637,11 +637,264 @@
       "symbols": ["calculateSequences"],
       "consumers": [
         {
-          "from": "src/core/dataset/dataset-builder.ts",
+          "from": "src/modules/dataset/pure/dataset-builder.ts",
           "kinds": ["runtime"],
           "symbols": ["calculateSequences"],
-          "owner": "core/dataset",
+          "owner": "dataset",
           "removalCard": "ARQ-07"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/dataset/dataset-builder.ts",
+      "newPath": "src/modules/dataset/pure/dataset-builder.ts",
+      "symbols": [
+        "DatasetInput",
+        "DatasetContribution",
+        "contributionIdentity",
+        "compactDatasetEvidence",
+        "predictiveDatasetCells",
+        "buildHistoricalDataset"
+      ],
+      "consumers": [
+        {
+          "from": "scripts/example-references.ts",
+          "kinds": ["runtime"],
+          "symbols": ["buildHistoricalDataset"],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/dataset/dataset-registry.ts",
+      "newPath": "src/modules/dataset/contracts/definition.ts",
+      "symbols": [
+        "DATASET_VERSION",
+        "DATASET_HORIZONS",
+        "DatasetUsage",
+        "DatasetSubject",
+        "DatasetDefinition",
+        "SNAPSHOT_DATASET_FIELDS",
+        "EVENT_DATASET_FIELDS",
+        "DATASET_DEFINITIONS",
+        "DATASET_DEFINITION_MAP"
+      ],
+      "consumers": [
+        {
+          "from": "src/modules/dataset/dataset.controller.ts",
+          "kinds": ["runtime"],
+          "symbols": [
+            "DATASET_DEFINITIONS",
+            "DATASET_HORIZONS",
+            "DATASET_VERSION"
+          ],
+          "owner": "dataset",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/modules/references/reference-contract.ts",
+          "kinds": ["runtime"],
+          "symbols": ["DATASET_DEFINITIONS", "DATASET_DEFINITION_MAP"],
+          "owner": "references",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/modules/references/reference-contract.ts",
+          "kinds": ["type"],
+          "symbols": ["DatasetDefinition"],
+          "owner": "references",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/modules/references/reference-calculator.ts",
+          "kinds": ["runtime"],
+          "symbols": ["DATASET_DEFINITION_MAP"],
+          "owner": "references",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/vision-study-cli.ts",
+          "kinds": ["runtime"],
+          "symbols": ["DATASET_VERSION"],
+          "owner": "composition/cli",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/dataset-cli.ts",
+          "kinds": ["runtime"],
+          "symbols": ["DATASET_DEFINITIONS"],
+          "owner": "composition/cli",
+          "removalCard": "ARQ-13"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/dataset/dataset-query.ts",
+      "newPath": "src/modules/dataset/contracts/query.ts",
+      "symbols": [
+        "DatasetFilters",
+        "normalizeDatasetFilters",
+        "DatasetCounts",
+        "DatasetAggregate"
+      ],
+      "consumers": [
+        {
+          "from": "src/modules/indicators/indicator-query.dto.ts",
+          "kinds": ["runtime"],
+          "symbols": ["normalizeDatasetFilters"],
+          "owner": "indicators",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/modules/indicators/indicator.repository.ts",
+          "kinds": ["type"],
+          "symbols": ["DatasetFilters"],
+          "owner": "indicators",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/modules/indicators/pure/indicator.types.ts",
+          "kinds": ["type"],
+          "symbols": ["DatasetFilters"],
+          "owner": "indicators",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/modules/indicators/pure/indicator-cursor.ts",
+          "kinds": ["type"],
+          "symbols": ["DatasetFilters"],
+          "owner": "indicators",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/modules/references/reference-contract.ts",
+          "kinds": ["runtime"],
+          "symbols": ["normalizeDatasetFilters"],
+          "owner": "references",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/modules/references/reference-contract.ts",
+          "kinds": ["type"],
+          "symbols": ["DatasetFilters"],
+          "owner": "references",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/modules/dataset/adapters/dataset-export.adapter.ts",
+          "kinds": ["type"],
+          "symbols": ["DatasetFilters"],
+          "owner": "dataset",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/dataset-cli.ts",
+          "kinds": ["runtime"],
+          "symbols": ["normalizeDatasetFilters"],
+          "owner": "composition/cli",
+          "removalCard": "ARQ-13"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/dataset/dataset-query.ts",
+      "newPath": "src/modules/dataset/adapters/dataset-query.repository.ts",
+      "symbols": [
+        "datasetWhere",
+        "datasetSqlWhere",
+        "unmaterializedMatchWhere",
+        "queryDatasetSummary"
+      ],
+      "consumers": [
+        {
+          "from": "src/modules/dataset/adapters/dataset-export.adapter.ts",
+          "kinds": ["runtime"],
+          "symbols": ["datasetWhere", "queryDatasetSummary"],
+          "owner": "dataset",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/modules/references/reference.service.ts",
+          "kinds": ["runtime"],
+          "symbols": ["datasetWhere", "unmaterializedMatchWhere"],
+          "owner": "references",
+          "removalCard": "ARQ-12"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/dataset/dataset-export.ts",
+      "newPath": "src/modules/dataset/adapters/dataset-export.adapter.ts",
+      "symbols": [
+        "TemporalSplit",
+        "validateTemporalSplit",
+        "splitForMatch",
+        "stableJson",
+        "datasetDigest",
+        "exportDatasetValue",
+        "FEATURE_VALUE_COLUMNS",
+        "DatasetExportOptions",
+        "exportHistoricalDataset"
+      ],
+      "consumers": [
+        {
+          "from": "src/core/research/vision-study.ts",
+          "kinds": ["runtime"],
+          "symbols": ["splitForMatch"],
+          "owner": "core/research",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/core/research/vision-study.ts",
+          "kinds": ["type"],
+          "symbols": ["TemporalSplit"],
+          "owner": "core/research",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/core/research/vision-study.spec.ts",
+          "kinds": ["runtime"],
+          "symbols": ["stableJson", "splitForMatch"],
+          "owner": "core/research",
+          "removalCard": "ARQ-12"
+        },
+        {
+          "from": "src/dataset-cli.ts",
+          "kinds": ["runtime"],
+          "symbols": ["exportHistoricalDataset", "stableJson"],
+          "owner": "composition/cli",
+          "removalCard": "ARQ-13"
+        },
+        {
+          "from": "src/vision-study-cli.ts",
+          "kinds": ["runtime"],
+          "symbols": [
+            "datasetDigest",
+            "splitForMatch",
+            "stableJson",
+            "validateTemporalSplit"
+          ],
+          "owner": "composition/cli",
+          "removalCard": "ARQ-13"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/dataset/dataset-persistence.ts",
+      "newPath": "src/modules/dataset/adapters/dataset-writer.adapter.ts",
+      "symbols": [
+        "PreparedDatasetRow",
+        "prepareHistoricalDataset",
+        "replaceHistoricalDataset"
+      ],
+      "consumers": [
+        {
+          "from": "src/modules/worker/services/match-persistence.service.ts",
+          "kinds": ["runtime"],
+          "symbols": ["prepareHistoricalDataset", "replaceHistoricalDataset"],
+          "owner": "worker",
+          "removalCard": "ARQ-10"
         }
       ]
     }

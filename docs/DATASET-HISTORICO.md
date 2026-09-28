@@ -1,6 +1,6 @@
 # Dataset histórico MET19
 
-O dataset materializa contribuições compactas de participante, time e partida para consultas históricas e pesquisa. A versão inicial é `datasetVersion=1`, com definições individualmente versionadas, publicada na geração de processamento **4**. A allowlist executável está em `src/core/dataset/dataset-registry.ts`; `GET /api/v1/dataset/definitions` publica fontes, unidade, sujeito e regra temporal. É uma fundação para H01–H06, sem inferir causalidade, percentis populacionais ou rank histórico.
+O dataset materializa contribuições compactas de participante, time e partida para consultas históricas e pesquisa. A versão inicial é `datasetVersion=1`, com definições individualmente versionadas, publicada na geração de processamento **4**. A allowlist executável está em `src/modules/dataset/contracts/definition.ts`; `GET /api/v1/dataset/definitions` publica fontes, unidade, sujeito e regra temporal. É uma fundação para H01–H06, sem inferir causalidade, percentis populacionais ou rank histórico.
 
 ## Identidade, fórmulas e ausência
 

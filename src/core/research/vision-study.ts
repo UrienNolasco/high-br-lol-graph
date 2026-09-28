@@ -2,7 +2,8 @@ import { selectCheckpoint } from '../../modules/matches/contracts/temporal';
 import type { NormalizedTimelineEvent } from '../../modules/matches/contracts/normalized-events';
 import type { TimelineSnapshotProjection } from '../../modules/matches/contracts/normalized-snapshots';
 import { VISION_WARD_TYPES } from '../../modules/matches/contracts/calculations/vision';
-import { splitForMatch, TemporalSplit } from '../dataset/dataset-export';
+import { splitForMatch } from '../../modules/dataset/adapters/dataset-export.adapter';
+import type { TemporalSplit } from '../../modules/dataset/adapters/dataset-export.adapter';
 
 export const VISION_STUDY_VERSION = 1;
 export const STUDY_HORIZONS = [600000, 900000, 1200000] as const;

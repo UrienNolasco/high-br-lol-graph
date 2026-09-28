@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { DatasetFilters } from '../../../core/dataset/dataset-query';
+import { DatasetFilters } from '../../dataset/contracts/query';
 export interface IndicatorCursor {
   gameCreation: bigint;
   matchId: string;

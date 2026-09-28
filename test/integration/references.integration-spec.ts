@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { prepareHistoricalDataset } from '../../src/core/dataset/dataset-persistence';
+import { prepareHistoricalDataset } from '../../src/modules/dataset/adapters/dataset-writer.adapter';
 import { ReferenceService } from '../../src/modules/references/reference.service';
 import { normalizeReferenceQuery } from '../../src/modules/references/reference-contract';
 import { historicalDatasetFixture } from '../fixtures/historical-dataset';

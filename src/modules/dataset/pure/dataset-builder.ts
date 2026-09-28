@@ -2,24 +2,24 @@ import { createHash } from 'node:crypto';
 import {
   gameVersionPatch,
   normalizeRole,
-} from '../../modules/matches/contracts/eligibility';
-import { metricQuality } from '../../modules/matches/contracts/metric-contract';
-import { selectCheckpoint } from '../../modules/matches/contracts/temporal';
+} from '../../matches/contracts/eligibility';
+import { metricQuality } from '../../matches/contracts/metric-contract';
+import { selectCheckpoint } from '../../matches/contracts/temporal';
 import {
   MetricEvidence,
   MetricResult,
-} from '../../modules/matches/contracts/metric-contract';
-import type { NormalizedTimelineEvent } from '../../modules/matches/contracts/normalized-events';
+} from '../../matches/contracts/metric-contract';
+import type { NormalizedTimelineEvent } from '../../matches/contracts/normalized-events';
 import type {
   TimelineSnapshotProjection,
   ParticipantSnapshot,
-} from '../../modules/matches/contracts/normalized-snapshots';
-import type { ProcessedMatchData } from '../../modules/matches/contracts/normalized-match';
-import { computeContribution } from '../../modules/matches/contracts/calculations/contribution';
-import { calculateVisionTotals } from '../../modules/matches/contracts/calculations/vision';
-import { calculateCombat } from '../../modules/matches/contracts/calculations/combat';
-import { calculateObjectives } from '../../modules/matches/contracts/calculations/objectives';
-import { calculateSequences } from '../../modules/matches/contracts/calculations/sequences';
+} from '../../matches/contracts/normalized-snapshots';
+import type { ProcessedMatchData } from '../../matches/contracts/normalized-match';
+import { computeContribution } from '../../matches/contracts/calculations/contribution';
+import { calculateVisionTotals } from '../../matches/contracts/calculations/vision';
+import { calculateCombat } from '../../matches/contracts/calculations/combat';
+import { calculateObjectives } from '../../matches/contracts/calculations/objectives';
+import { calculateSequences } from '../../matches/contracts/calculations/sequences';
 import {
   DATASET_DEFINITIONS,
   DATASET_DEFINITION_MAP,
@@ -29,7 +29,7 @@ import {
   DatasetSubject,
   EVENT_DATASET_FIELDS,
   SNAPSHOT_DATASET_FIELDS,
-} from './dataset-registry';
+} from '../contracts/definition';
 
 export interface DatasetInput extends ProcessedMatchData {
   projection: TimelineSnapshotProjection;

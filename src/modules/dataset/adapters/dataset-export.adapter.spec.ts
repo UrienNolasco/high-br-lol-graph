@@ -4,7 +4,7 @@ import {
   splitForMatch,
   stableJson,
   validateTemporalSplit,
-} from './dataset-export';
+} from './dataset-export.adapter';
 const split = { trainBeforeMs: 1000, validationBeforeMs: 2000 };
 const row = {
   id: 'r',

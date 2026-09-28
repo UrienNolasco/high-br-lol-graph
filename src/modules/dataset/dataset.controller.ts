@@ -4,14 +4,14 @@ import {
   DATASET_DEFINITIONS,
   DATASET_HORIZONS,
   DATASET_VERSION,
-} from '../../core/dataset/dataset-registry';
-import { normalizeDatasetFilters } from '../../core/dataset/dataset-query';
+} from './contracts/definition';
+import { normalizeDatasetFilters } from './contracts/query';
 import {
   DatasetQueryDto,
   DatasetResponseDto,
   DatasetDefinitionsDto,
 } from './dataset.dto';
-import { DatasetService } from './dataset.service';
+import { DatasetService } from './application/dataset.service';
 @ApiTags('Historical dataset')
 @Controller('api/v1/dataset')
 export class DatasetController {

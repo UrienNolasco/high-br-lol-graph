@@ -12,9 +12,9 @@ import type { ProcessedMatchData } from '../../matches/contracts/normalized-matc
 import type { ParsedTimelineData } from '../../matches/contracts/normalized-timeline';
 import { TimelineDto } from '../../../core/riot/dto/timeline.dto';
 import {
-  replaceHistoricalDataset,
   prepareHistoricalDataset,
-} from '../../../core/dataset/dataset-persistence';
+  replaceHistoricalDataset,
+} from '../../dataset/adapters/dataset-writer.adapter';
 @Injectable()
 export class MatchPersistenceService {
   constructor(

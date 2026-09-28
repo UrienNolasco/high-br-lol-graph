@@ -6,7 +6,10 @@ import { TimelineDto } from '../riot/dto/timeline.dto';
 import { normalizeTimelineEvents } from '../../modules/matches/adapters/riot/normalized-events';
 import { projectTimelineSnapshots } from '../../modules/matches/adapters/riot/timeline-snapshots';
 import { PROCESSING_VERSION } from '../processing/processing.constants';
-import { stableJson, splitForMatch } from '../dataset/dataset-export';
+import {
+  stableJson,
+  splitForMatch,
+} from '../../modules/dataset/adapters/dataset-export.adapter';
 import {
   runVisionStudy,
   studySource,

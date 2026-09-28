@@ -1,12 +1,10 @@
 import {
   DATASET_DEFINITIONS,
   DATASET_DEFINITION_MAP,
-  DatasetDefinition,
-} from '../../core/dataset/dataset-registry';
-import {
-  DatasetFilters,
-  normalizeDatasetFilters,
-} from '../../core/dataset/dataset-query';
+} from '../dataset/contracts/definition';
+import type { DatasetDefinition } from '../dataset/contracts/definition';
+import { normalizeDatasetFilters } from '../dataset/contracts/query';
+import type { DatasetFilters } from '../dataset/contracts/query';
 import { precisionPolicy } from './contracts/statistics';
 import type { PrecisionPolicy } from './contracts/statistics';
 export interface ReferenceDefinition extends DatasetDefinition {

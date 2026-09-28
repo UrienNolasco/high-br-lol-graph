@@ -4,11 +4,11 @@ import { PrismaService } from '../../core/prisma/prisma.service';
 import {
   DATASET_DEFINITION_MAP,
   DATASET_VERSION,
-} from '../../core/dataset/dataset-registry';
+} from '../dataset/contracts/definition';
 import {
   datasetWhere,
   unmaterializedMatchWhere,
-} from '../../core/dataset/dataset-query';
+} from '../dataset/adapters/dataset-query.repository';
 import { DATASET_PROCESSING_VERSION } from '../dataset/contracts/processing';
 import {
   finalVisionField,

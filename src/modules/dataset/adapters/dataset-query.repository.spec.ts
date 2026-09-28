@@ -1,9 +1,9 @@
 import {
   datasetSqlWhere,
   datasetWhere,
-  normalizeDatasetFilters,
   unmaterializedMatchWhere,
-} from './dataset-query';
+} from './dataset-query.repository';
+import { normalizeDatasetFilters } from '../contracts/query';
 
 describe('historical dataset common cohort filters', () => {
   it('normalizes aliases and exact patch, keeps period half-open and distinguishes posthoc eligibility', () => {
