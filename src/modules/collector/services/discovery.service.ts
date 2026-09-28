@@ -5,7 +5,7 @@ import {
   type DiscoveryRecorder,
   type ObservationRequest,
   type IngestionTransactionCoordinator,
-} from '../../../core/processing/contracts/request-ingestion';
+} from '../../processing/contracts/request-ingestion';
 import {
   OBSERVATION_WRITER,
   type ObservationWriter,

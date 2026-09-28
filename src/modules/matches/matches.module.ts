@@ -35,6 +35,8 @@ import { MatchEconomyController } from './match-economy.controller';
 import { MatchEconomyService } from './services/match-economy.service';
 import { DataDragonCatalogAdapter } from './adapters/data-dragon/catalog.adapter';
 import { MATCH_CATALOGS } from './ports/catalog-reader';
+import { MatchProjectionPersistenceAdapter } from './adapters/persistence/match-projection-writer';
+import { MATCH_PROJECTION_WRITER } from './ports/match-projection-writer';
 
 @Module({
   imports: [PrismaModule, DataDragonModule],
@@ -54,6 +56,11 @@ import { MATCH_CATALOGS } from './ports/catalog-reader';
   providers: [
     DataDragonCatalogAdapter,
     { provide: MATCH_CATALOGS, useExisting: DataDragonCatalogAdapter },
+    MatchProjectionPersistenceAdapter,
+    {
+      provide: MATCH_PROJECTION_WRITER,
+      useExisting: MatchProjectionPersistenceAdapter,
+    },
     MatchBountiesStealsService,
     ReportRepository,
     MatchReportService,
@@ -82,6 +89,7 @@ import { MATCH_CATALOGS } from './ports/catalog-reader';
     MatchKillEpisodesService,
     MatchContributionService,
     MatchObjectivesService,
+    MATCH_PROJECTION_WRITER,
   ],
 })
 export class MatchesModule {}

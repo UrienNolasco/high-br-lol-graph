@@ -6,18 +6,16 @@ import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
 import { DiscoveryService } from '../../src/modules/collector/services/discovery.service';
 import { CollectorRepository } from '../../src/modules/collector/repositories/collector.repository';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
-import { RebuildService } from '../../src/core/processing/rebuild.service';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
+import { RebuildService } from '../../src/modules/processing/services/rebuild.service';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
-import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { RiotService } from '../../src/core/riot/riot.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { DatasetService } from '../../src/modules/dataset/application/dataset.service';
 import { DatasetQueryRepository } from '../../src/modules/dataset/adapters/dataset-query.repository';
 import { normalizeDatasetFilters } from '../../src/modules/dataset/contracts/query';
@@ -26,7 +24,9 @@ import {
   stableJson,
 } from '../../src/modules/dataset/adapters/dataset-export.adapter';
 import * as persistence from '../../src/modules/dataset/adapters/dataset-writer.adapter';
+import { DatasetPersistenceAdapter } from '../../src/modules/dataset/adapters/dataset-writer.adapter';
 import { historicalDatasetFixture } from '../fixtures/historical-dataset';
+import { createProcessingService } from '../helpers/processing';
 
 const fixture = historicalDatasetFixture();
 const ids = ['MET19_TRAIN', 'MET19_TEST'];
@@ -35,6 +35,7 @@ let prisma: PrismaService;
 let jobs: ProcessingService;
 let discovery: DiscoveryService;
 let worker: WorkerService;
+let datasetWriter: DatasetPersistenceAdapter;
 let directory: string;
 const riot = {
   getMatchById: jest
@@ -92,16 +93,17 @@ beforeAll(async () => {
     prisma.matchProcessing.deleteMany(),
     prisma.processingMaintenance.deleteMany(),
   ]);
-  jobs = new ProcessingService(prisma);
+  datasetWriter = new DatasetPersistenceAdapter();
+  jobs = createProcessingService(
+    prisma,
+    riot,
+    new PinoLogger({ pinoHttp: { level: 'silent' } }),
+    undefined,
+    undefined,
+    datasetWriter,
+  );
   discovery = new DiscoveryService(jobs, new CollectorRepository(prisma));
   worker = new WorkerService(
-    riot as unknown as RiotService,
-    new TimelineParserService(),
-    new MatchPersistenceService(
-      prisma,
-      jobs,
-      new PlayerStatsAggregationService(),
-    ),
     jobs,
     new PinoLogger({ pinoHttp: { level: 'silent' } }),
   );
@@ -218,7 +220,7 @@ test('worker publishes compact rows with exact provenance, distinct cohorts, mis
   expect((await service.query(filters)).summary.unmaterializedMatches).toBe(1);
   await prisma.match.delete({ where: { matchId: 'MET19_NO_DATASET' } });
   const expected = await durable();
-  const rebuild = new RebuildService(prisma, worker);
+  const rebuild = new RebuildService(prisma, jobs);
   expect(await rebuild.run()).toBe(2);
   expect(await durable()).toEqual(expected);
   expect(await rebuild.run()).toBe(2);
@@ -307,9 +309,9 @@ test('replacement removes retired definitions, preserves replay count and rolls 
     }),
   ).rejects.toThrow();
   await seed('MET19_ROLLBACK');
-  const original = persistence.replaceHistoricalDataset;
+  const original = datasetWriter.write.bind(datasetWriter);
   const fail = jest
-    .spyOn(persistence, 'replaceHistoricalDataset')
+    .spyOn(datasetWriter, 'write')
     .mockImplementationOnce(async (tx, data, prepared) => {
       await original(tx, data, prepared);
       throw new Error('injected after materialization');

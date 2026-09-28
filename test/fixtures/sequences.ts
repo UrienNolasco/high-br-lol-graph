@@ -4,7 +4,7 @@ import { objectivesFixture } from './objectives';
 import { normalizeTimelineEvents } from '../../src/modules/matches/adapters/riot/normalized-events';
 import { projectTimelineSnapshots } from '../../src/modules/matches/adapters/riot/timeline-snapshots';
 import { SequencesInput } from '../../src/modules/matches/pure/sequences-calculator';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
 export function sequencesFixture(): SequencesInput {
   const summary = JSON.parse(
     readFileSync(

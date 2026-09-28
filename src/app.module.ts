@@ -17,6 +17,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { ReferenceModule } from './modules/references/reference.module';
 import { DatasetModule } from './modules/dataset/dataset.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { ProcessingModule } from './modules/processing/processing.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AdminModule } from './modules/admin/admin.module';
     LoggerModule,
     AppConfigModule,
     PrismaModule,
+    ProcessingModule,
     ScheduleModule.forRoot(),
     DataDragonModule,
     ChampionsModule,

@@ -4,22 +4,6 @@
   "description": "Temporary violations after ARQ-07 dataset consolidation; each remaining entry has an owner and removal card.",
   "entries": [
     {
-      "id": "area-reciprocity:e60dedcf4cd94aaf21c4",
-      "rule": "area-reciprocity",
-      "from": "core/processing",
-      "to": "worker",
-      "owner": "architecture",
-      "removalCard": "ARQ-10"
-    },
-    {
-      "id": "core-no-modules:bde0efeed49028f2fa59",
-      "rule": "core-no-modules",
-      "from": "src/core/processing/rebuild.service.ts",
-      "to": "src/modules/worker/services/worker.service.ts",
-      "owner": "core/processing",
-      "removalCard": "ARQ-10"
-    },
-    {
       "id": "cross-module-internal-import:03608f221abab10baec5",
       "rule": "cross-module-internal-import",
       "from": "scripts/validate-bounties-steals.cjs",
@@ -128,14 +112,6 @@
       "rule": "cross-module-internal-import",
       "from": "scripts/benchmark-release.cjs",
       "to": "src/modules/matches/match-report.controller.ts",
-      "owner": "studies/tools",
-      "removalCard": "ARQ-12"
-    },
-    {
-      "id": "cross-module-internal-import:73a163ad6297081d9b26",
-      "rule": "cross-module-internal-import",
-      "from": "scripts/benchmark-release.cjs",
-      "to": "src/modules/worker/services/match-persistence.service.ts",
       "owner": "studies/tools",
       "removalCard": "ARQ-12"
     },
@@ -385,14 +361,6 @@
       "from": "src/modules/admin/admin.controller.e2e-spec.ts",
       "to": "src/modules/collector/services/collector.service.ts",
       "owner": "admin",
-      "removalCard": "ARQ-13"
-    },
-    {
-      "id": "area-reciprocity:567619911eadde62843d",
-      "rule": "area-reciprocity",
-      "from": "composition",
-      "to": "core/processing",
-      "owner": "architecture",
       "removalCard": "ARQ-13"
     },
     {

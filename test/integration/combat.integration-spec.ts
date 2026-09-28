@@ -4,16 +4,16 @@ import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
 import { CombatRepository } from '../../src/modules/matches/repositories/combat.repository';
 import { MatchCombatService } from '../../src/modules/matches/services/match-combat.service';
 import { AnalyticsRepository } from '../../src/modules/analytics/repositories/analytics.repository';
 import { historicalSolo } from '../../src/modules/analytics/pure/historical-solo';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
 import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
+import { createProcessingService } from '../helpers/processing';
 import { RiotService } from '../../src/core/riot/riot.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
@@ -45,26 +45,13 @@ beforeAll(async () => {
     throw new Error('Explicit disposable integration database required');
   prisma = new PrismaService({ datasourceUrl });
   await prisma.$connect();
-  jobs = new ProcessingService(prisma);
-  parser = new TimelineParserService();
-  worker = new WorkerService(
-    {
-      getMatchById: jest.fn(() => {
-        throw new Error('Unexpected network read');
-      }),
-      getTimeline: jest.fn(() => {
-        throw new Error('Unexpected network read');
-      }),
-    } as unknown as RiotService,
-    parser,
-    new MatchPersistenceService(
-      prisma,
-      jobs,
-      new PlayerStatsAggregationService(),
-    ),
-    jobs,
-    new PinoLogger({ pinoHttp: { level: 'silent' } }),
-  );
+  const logger = new PinoLogger({ pinoHttp: { level: 'silent' } });
+  const source = {
+    getMatchById: jest.fn(() => { throw new Error('Unexpected network read'); }),
+    getTimeline: jest.fn(() => { throw new Error('Unexpected network read'); }),
+  };
+  jobs = createProcessingService(prisma, source, logger);
+  worker = new WorkerService(jobs, logger);
 });
 beforeEach(async () => {
   jest.restoreAllMocks();

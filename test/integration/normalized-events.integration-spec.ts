@@ -3,13 +3,14 @@ import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
-import { RebuildService } from '../../src/core/processing/rebuild.service';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
+import { RebuildService } from '../../src/modules/processing/services/rebuild.service';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
 import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
+import { RiotMatchPreparer } from '../../src/modules/matches/adapters/riot/match-preparer';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
+import { createProcessingService } from '../helpers/processing';
 import { RiotService } from '../../src/core/riot/riot.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
@@ -41,26 +42,20 @@ beforeAll(async () => {
     throw new Error('Explicit disposable integration database required');
   prisma = new PrismaService({ datasourceUrl });
   await prisma.$connect();
-  jobs = new ProcessingService(prisma);
+  const logger = new PinoLogger({ pinoHttp: { level: 'silent' } });
   parser = new TimelineParserService();
-  worker = new WorkerService(
-    {
-      getMatchById: jest.fn(() => {
-        throw new Error('Unexpected network read');
-      }),
-      getTimeline: jest.fn(() => {
-        throw new Error('Unexpected network read');
-      }),
-    } as unknown as RiotService,
-    parser,
-    new MatchPersistenceService(
-      prisma,
-      jobs,
-      new PlayerStatsAggregationService(),
-    ),
-    jobs,
-    new PinoLogger({ pinoHttp: { level: 'silent' } }),
+  const source = {
+    getMatchById: jest.fn(() => { throw new Error('Unexpected network read'); }),
+    getTimeline: jest.fn(() => { throw new Error('Unexpected network read'); }),
+  };
+  jobs = createProcessingService(
+    prisma,
+    source,
+    logger,
+    undefined,
+    new RiotMatchPreparer(parser),
   );
+  worker = new WorkerService(jobs, logger);
 });
 beforeEach(async () => {
   jest.restoreAllMocks();
@@ -110,7 +105,7 @@ test('real events round-trip transactionally, redelivery is idempotent and repea
   expect(absentAssist.assistingParticipantIds).toBeNull();
   await worker.processMatch({ matchId });
   expect(await prisma.matchEventProjection.count()).toBe(1966);
-  const rebuild = new RebuildService(prisma, worker);
+  const rebuild = new RebuildService(prisma, jobs);
   const stable = (events: typeof rows) =>
     events.map((event) => ({ ...event, processedAt: null }));
   for (let iteration = 0; iteration < 2; iteration++) {

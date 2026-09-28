@@ -1,12 +1,13 @@
-import { PrismaService } from '../prisma/prisma.service';
-import { WorkerService } from '../../modules/worker/services/worker.service';
-import { PROCESSING_GATE, PROCESSING_VERSION } from './processing.constants';
+import { PrismaService } from '../../../core/prisma/prisma.service';
+import { PROCESSING_GATE, PROCESSING_VERSION } from '../contracts/processing.constants';
+import type { ProcessMatchUseCase } from '../contracts/process-match';
+import type { RebuildUseCase } from '../contracts/rebuild';
 
 /** Offline operation. Callers must stop the HTTP API before starting. */
-export class RebuildService {
+export class RebuildService implements RebuildUseCase {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly worker: WorkerService,
+    private readonly processing: ProcessMatchUseCase,
   ) {}
 
   async run(resume = false, progress: (completed: number) => void = () => {}) {
@@ -114,7 +115,7 @@ export class RebuildService {
           });
           if (!batch.length) break;
           for (const job of batch) {
-            await this.worker.processMatch({ matchId: job.matchId }, true);
+            await this.processing.processMatch({ matchId: job.matchId }, true);
             const result = await this.prisma.matchProcessing.findUniqueOrThrow({
               where: { matchId: job.matchId },
             });

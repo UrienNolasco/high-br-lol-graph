@@ -1,23 +1,14 @@
-import { MatchNormalizationModule } from '../matches/match-normalization.module';
 import { Module } from '@nestjs/common';
 import { WorkerService } from './services/worker.service';
 import { WorkerController } from './worker.controller';
-import { RiotModule } from '../../core/riot/riot.module';
-import { PrismaModule } from '../../core/prisma/prisma.module';
-import { StatsModule } from '../stats/stats.module';
-import { MatchPersistenceService } from './services/match-persistence.service';
-import { ProcessingModule } from '../../core/processing/processing.module';
+import { ProcessingModule } from '../processing/processing.module';
 
 @Module({
   imports: [
-    RiotModule,
-    MatchNormalizationModule,
-    PrismaModule,
-    StatsModule,
     ProcessingModule,
   ],
   controllers: [WorkerController],
-  providers: [WorkerService, MatchPersistenceService],
+  providers: [WorkerService],
   exports: [WorkerService],
 })
 export class WorkerModule {}

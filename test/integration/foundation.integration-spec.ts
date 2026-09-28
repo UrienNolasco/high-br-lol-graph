@@ -5,16 +5,15 @@ import { performance } from 'node:perf_hooks';
 import { gzipSync } from 'node:zlib';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
-import { RebuildService } from '../../src/core/processing/rebuild.service';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
+import { RebuildService } from '../../src/modules/processing/services/rebuild.service';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
-import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
 import { RiotService } from '../../src/core/riot/riot.service';
+import { createProcessingService } from '../helpers/processing';
 
 const summarySource = JSON.parse(
   readFileSync(
@@ -107,15 +106,14 @@ beforeAll(async () => {
     throw new Error('Disposable *_integration database required');
   db = new PrismaService({ datasourceUrl: url });
   await db.$connect();
-  jobs = new ProcessingService(db);
   aggregates = new PlayerStatsAggregationService();
-  worker = new WorkerService(
+  jobs = createProcessingService(
+    db,
     riot as unknown as RiotService,
-    new TimelineParserService(),
-    new MatchPersistenceService(db, jobs, aggregates),
-    jobs,
-    new PinoLogger({ pinoHttp: { level: 'silent' } }),
+    undefined,
+    aggregates,
   );
+  worker = new WorkerService(jobs, new PinoLogger({ pinoHttp: { level: 'silent' } }));
 });
 beforeEach(async () => {
   jest.restoreAllMocks();
@@ -243,7 +241,7 @@ test('integrated projections and contributions survive redelivery, interrupted r
     rawBefore = await rawFingerprint();
   await worker.processMatch({ matchId: 'BR1_909001' });
   expect(await snapshot()).toEqual(expected);
-  const rebuild = new RebuildService(db, worker);
+  const rebuild = new RebuildService(db, jobs);
   const start = performance.now();
   await expect(
     rebuild.run(false, () => {

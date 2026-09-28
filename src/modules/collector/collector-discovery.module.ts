@@ -1,8 +1,11 @@
 import { Global, Module } from '@nestjs/common';
 import { PrismaModule } from '../../core/prisma/prisma.module';
-import { ProcessingModule } from '../../core/processing/processing.module';
-import { OBSERVATION_READER } from '../../core/processing/ports/observation-reader';
-import { DISCOVERY_RECORDER } from '../../core/processing/contracts/request-ingestion';
+import { OBSERVATION_READER } from '../processing/ports/observation-reader';
+import {
+  DISCOVERY_RECORDER,
+  INGESTION_TRANSACTION_COORDINATOR,
+} from '../processing/contracts/request-ingestion';
+import { IngestionTransactionService } from './services/ingestion-transaction.service';
 import { CollectorRepository } from './repositories/collector.repository';
 import { OBSERVATION_WRITER } from './ports/observation-writer';
 import { DiscoveryReportService } from './services/discovery-report.service';
@@ -11,8 +14,13 @@ import { DiscoveryService } from './services/discovery.service';
 /** Side-effect-free discovery composition shared by players and collector. */
 @Global()
 @Module({
-  imports: [PrismaModule, ProcessingModule],
+  imports: [PrismaModule],
   providers: [
+    IngestionTransactionService,
+    {
+      provide: INGESTION_TRANSACTION_COORDINATOR,
+      useExisting: IngestionTransactionService,
+    },
     CollectorRepository,
     DiscoveryReportService,
     DiscoveryService,
@@ -27,6 +35,7 @@ import { DiscoveryService } from './services/discovery.service';
     OBSERVATION_WRITER,
     OBSERVATION_READER,
     DISCOVERY_RECORDER,
+    INGESTION_TRANSACTION_COORDINATOR,
   ],
 })
 export class CollectorDiscoveryModule {}

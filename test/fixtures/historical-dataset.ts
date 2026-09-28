@@ -3,7 +3,7 @@ import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DatasetInput } from '../../src/modules/dataset/pure/dataset-builder';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
 import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 

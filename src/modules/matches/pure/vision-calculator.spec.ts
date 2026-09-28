@@ -1,4 +1,4 @@
-import { PROCESSING_VERSION } from '../../../core/processing/processing.constants';
+import { PROCESSING_VERSION } from '../../../lib/processing-policy';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {

@@ -7,7 +7,7 @@ import { QueueService } from '../../../core/queue/queue.service';
 import { SyncService } from './sync.service';
 import { SyncStatus } from '../dto/sync-response.dto';
 import { PinoLogger } from 'nestjs-pino';
-import { DISCOVERY_RECORDER } from '../../../core/processing/contracts/request-ingestion';
+import { DISCOVERY_RECORDER } from '../../processing/contracts/request-ingestion';
 
 describe('SyncOrchestratorService', () => {
   let service: SyncOrchestratorService;

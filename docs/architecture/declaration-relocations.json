@@ -14,13 +14,6 @@
           "symbols": ["ProcessedMatchData"],
           "owner": "dataset",
           "removalCard": "ARQ-07"
-        },
-        {
-          "from": "src/modules/worker/services/match-persistence.service.ts",
-          "kinds": ["type"],
-          "symbols": ["ProcessedMatchData"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
         }
       ]
     },
@@ -53,28 +46,6 @@
           "symbols": ["ParticipantSnapshot", "TimelineSnapshotProjection"],
           "owner": "dataset",
           "removalCard": "ARQ-07"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/riot/timeline-parser.service.ts",
-      "newPath": "src/modules/matches/contracts/normalized-timeline.ts",
-      "symbols": [
-        "ItemEvent",
-        "ObjectiveEvent",
-        "ParsedTimelineData",
-        "ParticipantTimelineData",
-        "PathPoint",
-        "PositionEvent",
-        "WardEvent"
-      ],
-      "consumers": [
-        {
-          "from": "src/modules/worker/services/match-persistence.service.ts",
-          "kinds": ["type"],
-          "symbols": ["ParsedTimelineData"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
         }
       ]
     },
@@ -282,13 +253,6 @@
       "symbols": ["buildParticipantMap", "parseMatchData"],
       "consumers": [
         {
-          "from": "src/modules/worker/services/worker.service.ts",
-          "kinds": ["runtime"],
-          "symbols": ["buildParticipantMap", "parseMatchData"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        },
-        {
           "from": "scripts/build-economy-examples.cjs",
           "kinds": ["runtime"],
           "symbols": ["parseMatchData"],
@@ -327,20 +291,6 @@
       "newPath": "src/modules/matches/adapters/riot/timeline-parser.service.ts",
       "symbols": ["TimelineParserService"],
       "consumers": [
-        {
-          "from": "src/modules/worker/services/worker.service.ts",
-          "kinds": ["runtime"],
-          "symbols": ["TimelineParserService"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        },
-        {
-          "from": "src/modules/worker/services/worker.service.spec.ts",
-          "kinds": ["runtime"],
-          "symbols": ["TimelineParserService"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        },
         {
           "from": "scripts/benchmark-release.cjs",
           "kinds": ["runtime"],
@@ -479,29 +429,6 @@
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
-        }
-      ]
-    },
-    {
-      "kind": "provider-composition",
-      "oldPath": "src/core/riot/riot.module.ts",
-      "newPath": "src/modules/matches/match-normalization.module.ts",
-      "symbols": ["MatchNormalizationModule"],
-      "originSymbols": {
-        "MatchNormalizationModule": "RiotModule"
-      },
-      "provider": {
-        "symbol": "TimelineParserService",
-        "oldPath": "src/core/riot/timeline-parser.service.ts",
-        "newPath": "src/modules/matches/adapters/riot/timeline-parser.service.ts"
-      },
-      "consumers": [
-        {
-          "from": "src/modules/worker/worker.module.ts",
-          "kinds": ["runtime"],
-          "symbols": ["MatchNormalizationModule"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
         }
       ]
     },
@@ -778,49 +705,10 @@
       ]
     },
     {
-      "oldPath": "src/core/dataset/dataset-persistence.ts",
-      "newPath": "src/modules/dataset/adapters/dataset-writer.adapter.ts",
-      "symbols": [
-        "PreparedDatasetRow",
-        "prepareHistoricalDataset",
-        "replaceHistoricalDataset"
-      ],
-      "consumers": [
-        {
-          "from": "src/modules/worker/services/match-persistence.service.ts",
-          "kinds": ["runtime"],
-          "symbols": ["prepareHistoricalDataset", "replaceHistoricalDataset"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/stats/stats.module.ts",
-      "newPath": "src/modules/stats/stats.module.ts",
-      "symbols": ["StatsModule"],
-      "consumers": [
-        {
-          "from": "src/modules/worker/worker.module.ts",
-          "kinds": ["runtime"],
-          "symbols": ["StatsModule"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        }
-      ]
-    },
-    {
       "oldPath": "src/core/stats/player-stats-aggregation.service.ts",
       "newPath": "src/modules/stats/adapters/persistence/player-stats-writer.ts",
       "symbols": ["PlayerStatsAggregationService"],
       "consumers": [
-        {
-          "from": "src/modules/worker/services/match-persistence.service.ts",
-          "kinds": ["runtime"],
-          "symbols": ["PlayerStatsAggregationService"],
-          "owner": "worker",
-          "removalCard": "ARQ-10"
-        },
         {
           "from": "scripts/benchmark-release.cjs",
           "kinds": ["runtime"],

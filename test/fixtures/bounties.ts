@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { normalizeTimelineEvents } from '../../src/modules/matches/adapters/riot/normalized-events';
 import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 import { BountiesStealsInput } from '../../src/modules/matches/pure/bounties-steals-calculator';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
 export function bountiesFixture(): BountiesStealsInput {
   const summary = JSON.parse(
     readFileSync(

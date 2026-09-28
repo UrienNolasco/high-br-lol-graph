@@ -15,13 +15,11 @@ import { HttpException } from '@nestjs/common';
 import { RmqContext } from '@nestjs/microservices';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
-import { RebuildService } from '../../src/core/processing/rebuild.service';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
+import { RebuildService } from '../../src/modules/processing/services/rebuild.service';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { WorkerController } from '../../src/modules/worker/worker.controller';
-import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { RiotService } from '../../src/core/riot/riot.service';
 import { QueueService } from '../../src/core/queue/queue.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
@@ -29,10 +27,9 @@ import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
 import { playerChampionAverages } from '../../src/modules/stats/contracts/aggregate.mapper';
 import { PlayerStatsReaderAdapter } from '../../src/modules/stats/adapters/persistence/player-stats-reader';
 import { ChampionStatsRepository } from '../../src/modules/stats/repositories/champion-stats.repository';
-import {
-  LeaseLostError,
-  MAX_ATTEMPTS,
-} from '../../src/core/processing/processing.constants';
+import { MAX_ATTEMPTS } from '../../src/lib/processing-policy';
+import { LeaseLostError } from '../../src/lib/processing-errors';
+import { createProcessingService } from '../helpers/processing';
 
 const summaryTemplate = JSON.parse(
   readFileSync(
@@ -65,15 +62,14 @@ let queue: QueueService;
 const queueName = `high-br-integration-${process.pid}`;
 
 function makeWorker(db: PrismaService) {
-  const processing = new ProcessingService(db);
   const aggregation = new PlayerStatsAggregationService();
-  const service = new WorkerService(
+  const processing = createProcessingService(
+    db,
     riot as unknown as RiotService,
-    new TimelineParserService(),
-    new MatchPersistenceService(db, processing, aggregation),
-    processing,
     logger,
+    aggregation,
   );
+  const service = new WorkerService(processing, logger);
   return { service, aggregation };
 }
 function fixture(id = 'BR1_3200579475', queueId = 420) {
@@ -158,7 +154,7 @@ beforeAll(async () => {
   prisma = new PrismaService({ datasourceUrl: db });
   secondPrisma = new PrismaService({ datasourceUrl: db });
   await Promise.all([prisma.$connect(), secondPrisma.$connect()]);
-  jobs = new ProcessingService(prisma);
+  jobs = createProcessingService(prisma, riot as unknown as RiotService, logger);
   discovery = new DiscoveryService(jobs, new CollectorRepository(prisma));
   ({ service: worker, aggregation: aggregates } = makeWorker(prisma));
   otherWorker = makeWorker(secondPrisma).service;
@@ -705,7 +701,7 @@ test('offline rebuild can resume after interruption and reproduce the entire agg
     await worker.processMatch({ matchId: id });
   }
   const expected = await snapshot();
-  const rebuild = new RebuildService(prisma, worker);
+  const rebuild = new RebuildService(prisma, jobs);
   await expect(
     rebuild.run(false, () => {
       throw new Error('operator interruption');
@@ -806,7 +802,7 @@ test('multiple discovery paths preserve lineage but contribute once, including t
     unknownMatches: 0,
   });
   for (let i = 0; i < 2; i++) {
-    expect(await new RebuildService(prisma, worker).run()).toBe(1);
+    expect(await new RebuildService(prisma, jobs).run()).toBe(1);
     expect(await snapshot()).toEqual(before);
     expect(await report.lineage(matchId)).toEqual(lineage);
   }
@@ -947,7 +943,7 @@ test('final summary projections reconcile ten participants, remain nullable, ret
   expect((missing.teams[0].finalObjectives as any).values.dragon).toBeNull();
   const aggregateBefore = await snapshot();
   for (let i = 0; i < 2; i++) {
-    expect(await new RebuildService(prisma, worker).run()).toBe(2);
+  expect(await new RebuildService(prisma, jobs).run()).toBe(2);
     expect(await projection()).toEqual(projected);
     expect(await snapshot()).toEqual(aggregateBefore);
     expect(await jobs.readRaw('BR1_505', 'summary')).toEqual(legacy.summary);

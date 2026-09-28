@@ -5,7 +5,7 @@ import {
   referenceQueryFixture,
   referenceRowFixture,
 } from '../../../test/fixtures/references';
-import { PROCESSING_VERSION } from '../processing/processing.constants';
+import { PROCESSING_VERSION } from '../../lib/processing-policy';
 
 /** A canonical dataset role is not necessarily the original participant role. */
 describe('MET20 adversarial source/cohort boundary', () => {

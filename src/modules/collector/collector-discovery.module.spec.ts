@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { CollectorDiscoveryModule } from './collector-discovery.module';
-import { DISCOVERY_RECORDER } from '../../core/processing/contracts/request-ingestion';
-import { OBSERVATION_READER } from '../../core/processing/ports/observation-reader';
+import { DISCOVERY_RECORDER } from '../processing/contracts/request-ingestion';
+import { OBSERVATION_READER } from '../processing/ports/observation-reader';
 
 describe('CollectorDiscoveryModule', () => {
   it('exposes the recorder and reader without starting external adapters', async () => {

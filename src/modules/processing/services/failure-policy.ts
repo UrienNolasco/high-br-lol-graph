@@ -1,15 +1,15 @@
 import { HttpException } from '@nestjs/common';
 import { isAxiosError } from 'axios';
-import { InvalidMatchError } from './processing.constants';
-import { httpStatus } from '../../lib/technical-error';
-export { httpStatus } from '../../lib/technical-error';
+import { InvalidMatchError } from '../contracts/processing.constants';
+import { httpStatus } from '../../../lib/technical-error';
+export { httpStatus } from '../../../lib/technical-error';
 
 export function retryAfterMs(error: unknown, now = Date.now()): number {
   let value: unknown;
   if (isAxiosError(error)) value = error.response?.headers?.['retry-after'];
   if (error instanceof HttpException) {
     const body = error.getResponse();
-    if (typeof body === 'object' && 'retryAfter' in body)
+    if (typeof body === 'object' && body !== null && 'retryAfter' in body)
       value = body.retryAfter;
   }
   if (typeof value !== 'string' && typeof value !== 'number') return 0;
@@ -22,12 +22,7 @@ export function retryAfterMs(error: unknown, now = Date.now()): number {
 export function isPermanentFailure(error: unknown): boolean {
   if (error instanceof InvalidMatchError) return true;
   const status = httpStatus(error);
-  return (
-    status !== undefined &&
-    status >= 400 &&
-    status < 500 &&
-    ![408, 429].includes(status)
-  );
+  return status !== undefined && status >= 400 && status < 500 && ![408, 429].includes(status);
 }
 
 export function failureDelay(attempt: number, error: unknown): number {

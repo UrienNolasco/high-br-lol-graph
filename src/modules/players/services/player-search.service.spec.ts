@@ -5,7 +5,7 @@ import { MatchRepository } from '../repositories/match.repository';
 import { RiotService } from '../../../core/riot/riot.service';
 import { QueueService } from '../../../core/queue/queue.service';
 import { PinoLogger } from 'nestjs-pino';
-import { DISCOVERY_RECORDER } from '../../../core/processing/contracts/request-ingestion';
+import { DISCOVERY_RECORDER } from '../../processing/contracts/request-ingestion';
 
 describe('PlayerSearchService', () => {
   let service: PlayerSearchService;

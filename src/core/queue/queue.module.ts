@@ -9,7 +9,6 @@ import {
 } from 'amqp-connection-manager';
 import { QueueService } from './queue.service';
 import { RABBITMQ_CHANNEL } from './queue.constants';
-import { ProcessingModule } from '../processing/processing.module';
 import { PrismaModule } from '../prisma/prisma.module';
 @Injectable()
 class QueueConnection implements OnModuleDestroy {
@@ -43,7 +42,7 @@ class QueueConnection implements OnModuleDestroy {
   }
 }
 @Module({
-  imports: [ProcessingModule, PrismaModule],
+  imports: [PrismaModule],
   providers: [
     QueueConnection,
     QueueService,

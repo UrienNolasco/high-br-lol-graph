@@ -3,12 +3,12 @@ import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
-import { RebuildService } from '../../src/core/processing/rebuild.service';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
+import { RebuildService } from '../../src/modules/processing/services/rebuild.service';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
 import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
+import { createProcessingService } from '../helpers/processing';
 import { readFinalInventory } from '../../src/modules/matches/contracts/final-inventory';
 const source = JSON.parse(
   readFileSync(
@@ -33,15 +33,10 @@ beforeAll(async () => {
     throw new Error('Disposable *_integration database required');
   db = new PrismaService({ datasourceUrl: url });
   await db.$connect();
-  jobs = new ProcessingService(db);
+  const logger = new PinoLogger({ pinoHttp: { level: 'silent' } });
   aggregates = new PlayerStatsAggregationService();
-  worker = new WorkerService(
-    riot as any,
-    new TimelineParserService(),
-    new MatchPersistenceService(db, jobs, aggregates),
-    jobs,
-    new PinoLogger({ pinoHttp: { level: 'silent' } }),
-  );
+  jobs = createProcessingService(db, riot, logger, aggregates);
+  worker = new WorkerService(jobs, logger);
 });
 beforeEach(async () => {
   jest.restoreAllMocks();
@@ -88,7 +83,7 @@ test('all 70 slots and quest slots survive persistence, redelivery and two rebui
   }
   await worker.processMatch({ matchId: id });
   expect(await snapshot()).toEqual(expected);
-  const rebuild = new RebuildService(db, worker);
+  const rebuild = new RebuildService(db, jobs);
   expect(await rebuild.run()).toBe(1);
   expect(await snapshot()).toEqual(expected);
   expect(await rebuild.run()).toBe(1);

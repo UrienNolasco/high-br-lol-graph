@@ -2,11 +2,11 @@ import { projectionComparisonTimeline } from '../../src/modules/analytics/pure/c
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { performance } from 'node:perf_hooks';
+import { gzipSync } from 'node:zlib';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
-import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
-import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
+import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
+import { createProcessingService } from '../helpers/processing';
 import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { readSnapshotProjection } from '../../src/modules/matches/contracts/snapshot-readers';
 import { MatchRepository } from '../../src/modules/matches/repositories/match.repository';
@@ -15,7 +15,6 @@ import { MatchGoldTimelineService } from '../../src/modules/matches/services/mat
 describe('MET03 snapshot transactional round-trip', () => {
   let prisma: PrismaService;
   let processing: ProcessingService;
-  let persistence: MatchPersistenceService;
   const aggregates = { update: jest.fn() };
   const prefix = `MET03_${process.pid}_`;
   const fixture = (suffix: string) => {
@@ -58,10 +57,10 @@ describe('MET03 snapshot transactional round-trip', () => {
       throw new Error('Explicit isolated integration database required');
     prisma = new PrismaService({ datasourceUrl });
     await prisma.$connect();
-    processing = new ProcessingService(prisma);
-    persistence = new MatchPersistenceService(
+    processing = createProcessingService(
       prisma,
-      processing,
+      { getMatchById: jest.fn(), getTimeline: jest.fn() },
+      undefined,
       aggregates as any,
     );
   });
@@ -80,10 +79,15 @@ describe('MET03 snapshot transactional round-trip', () => {
     const { summary, timeline, parsed } = fixture('roundtrip');
     const id = summary.metadata.matchId;
     await processing.enqueue(id);
-    const lease = await processing.claim(id);
-    expect(lease).not.toBeNull();
+    await prisma.matchRaw.create({
+      data: {
+        matchId: id,
+        summary: gzipSync(JSON.stringify(summary)),
+        timeline: gzipSync(JSON.stringify(timeline)),
+      },
+    });
     const start = performance.now();
-    await persistence.save(lease!, parseMatchData(summary), parsed, timeline);
+    await processing.processMatch({ matchId: id }, true);
     const writeMs = performance.now() - start;
     const loaded = await prisma.matchTimelineProjection.findUniqueOrThrow({
       where: { matchId: id },
@@ -147,12 +151,18 @@ describe('MET03 snapshot transactional round-trip', () => {
     const { summary, timeline, parsed } = fixture('rollback');
     const id = summary.metadata.matchId;
     await processing.enqueue(id);
-    const lease = await processing.claim(id);
     aggregates.update.mockRejectedValueOnce(
       new Error('synthetic failure after snapshot insert'),
     );
+    await prisma.matchRaw.create({
+      data: {
+        matchId: id,
+        summary: gzipSync(JSON.stringify(summary)),
+        timeline: gzipSync(JSON.stringify(timeline)),
+      },
+    });
     await expect(
-      persistence.save(lease!, parseMatchData(summary), parsed, timeline),
+      processing.processMatch({ matchId: id }, true),
     ).rejects.toThrow('synthetic failure');
     expect(
       await prisma.match.findUnique({ where: { matchId: id } }),

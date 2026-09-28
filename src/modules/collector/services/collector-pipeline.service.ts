@@ -12,7 +12,7 @@ import {
   DISCOVERY_RECORDER,
   type DiscoveryRecorder,
   type ObservationRequest,
-} from '../../../core/processing/contracts/request-ingestion';
+} from '../../processing/contracts/request-ingestion';
 
 interface CollectionWindow {
   startHour: number;

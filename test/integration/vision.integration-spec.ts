@@ -3,11 +3,11 @@ import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
-import { ProcessingService } from '../../src/core/processing/processing.service';
+import { ProcessingService } from '../../src/modules/processing/services/processing.service';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
 import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
-import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
+import { createProcessingService } from '../helpers/processing';
 import { RiotService } from '../../src/core/riot/riot.service';
 import { MatchVisionService } from '../../src/modules/matches/services/match-vision.service';
 const summary = JSON.parse(
@@ -42,15 +42,10 @@ beforeAll(async () => {
 afterAll(async () => db?.$disconnect());
 it('reads persisted ward/final projections, reconciles all participants and degrades missing event coverage', async () => {
   const riot = { getMatchById: jest.fn(), getTimeline: jest.fn() };
-  const jobs = new ProcessingService(db),
-    id = summary.metadata.matchId;
-  const worker = new WorkerService(
-    riot as unknown as RiotService,
-    new TimelineParserService(),
-    new MatchPersistenceService(db, jobs, new PlayerStatsAggregationService()),
-    jobs,
-    new PinoLogger({ pinoHttp: { level: 'silent' } }),
-  );
+  const id = summary.metadata.matchId;
+  const logger = new PinoLogger({ pinoHttp: { level: 'silent' } });
+  const jobs = createProcessingService(db, riot as unknown as RiotService, logger);
+  const worker = new WorkerService(jobs, logger);
   await jobs.enqueue(id);
   await db.matchRaw.create({
     data: {

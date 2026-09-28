@@ -5,7 +5,7 @@ import type { ObservationWriter } from '../ports/observation-writer';
 import type {
   ObservationLineage,
   ObservationReader,
-} from '../../../core/processing/ports/observation-reader';
+} from '../../processing/ports/observation-reader';
 import type { TransactionContext } from '../../../lib/transaction-context';
 import { getPrismaTransaction } from '../../../core/prisma/transaction-context';
 

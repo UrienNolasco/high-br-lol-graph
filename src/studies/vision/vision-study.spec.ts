@@ -5,7 +5,7 @@ import { MatchDto } from '../../core/riot/dto/match.dto';
 import { TimelineDto } from '../../core/riot/dto/timeline.dto';
 import { normalizeTimelineEvents } from '../../modules/matches/adapters/riot/normalized-events';
 import { projectTimelineSnapshots } from '../../modules/matches/adapters/riot/timeline-snapshots';
-import { PROCESSING_VERSION } from '../../core/processing/processing.constants';
+import { PROCESSING_VERSION } from '../../lib/processing-policy';
 import { stableJson } from '../../modules/dataset/contracts/serialization';
 import { splitForMatch } from '../../modules/dataset/contracts/temporal-split';
 import {

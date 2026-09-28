@@ -14,7 +14,7 @@ import { normalizeTimelineEvents } from '../../modules/matches/adapters/riot/nor
 import { projectTimelineSnapshots } from '../../modules/matches/adapters/riot/timeline-snapshots';
 import { parseMatchData } from '../../modules/matches/adapters/riot/match.parser';
 import { DATASET_VERSION } from '../../modules/dataset/contracts/definition';
-import { PROCESSING_VERSION } from '../../core/processing/processing.constants';
+import { PROCESSING_VERSION } from '../../lib/processing-policy';
 import {
   datasetDigest,
   stableJson,
@@ -310,7 +310,7 @@ export function runVisionStudy(
     'src/modules/matches/adapters/riot/match.parser.ts',
     'src/modules/matches/contracts/champion-population.ts',
     'src/modules/matches/contracts/eligibility.ts',
-    'src/core/processing/processing.constants.ts',
+    'src/lib/processing-policy.ts',
     'src/modules/dataset/contracts/serialization.ts',
     'src/modules/dataset/contracts/temporal-split.ts',
   ];

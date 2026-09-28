@@ -4,7 +4,7 @@ import {
   isPermanentFailure,
   retryAfterMs,
 } from './failure-policy';
-import { MissingTimelineError } from './processing.constants';
+import { MissingTimelineError } from '../contracts/processing.constants';
 
 describe('processing retry policy', () => {
   it('honors numeric and HTTP date Retry-After even beyond exponential backoff', () => {
