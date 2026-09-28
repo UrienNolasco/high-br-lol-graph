@@ -224,30 +224,6 @@
       ]
     },
     {
-      "oldPath": "src/core/processing/processing.constants.ts",
-      "newPath": "src/modules/dataset/contracts/processing.ts",
-      "symbols": ["DATASET_PROCESSING_VERSION"],
-      "originSymbols": {
-        "DATASET_PROCESSING_VERSION": "PROCESSING_VERSION"
-      },
-      "consumers": [
-        {
-          "from": "src/modules/dataset/adapters/dataset-export.adapter.ts",
-          "kinds": ["runtime"],
-          "symbols": ["DATASET_PROCESSING_VERSION"],
-          "owner": "dataset",
-          "removalCard": "ARQ-07"
-        },
-        {
-          "from": "src/modules/dataset/adapters/dataset-query.repository.ts",
-          "kinds": ["runtime"],
-          "symbols": ["DATASET_PROCESSING_VERSION"],
-          "owner": "dataset",
-          "removalCard": "ARQ-07"
-        }
-      ]
-    },
-    {
       "oldPath": "src/modules/worker/pure/match.parser.ts",
       "newPath": "src/modules/matches/adapters/riot/match.parser.ts",
       "symbols": ["buildParticipantMap", "parseMatchData"],
@@ -283,21 +259,6 @@
           "owner": "studies/tools",
           "removalCard": "ARQ-12",
           "syntax": "require"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/riot/timeline-parser.service.ts",
-      "newPath": "src/modules/matches/adapters/riot/timeline-parser.service.ts",
-      "symbols": ["TimelineParserService"],
-      "consumers": [
-        {
-          "from": "scripts/benchmark-release.cjs",
-          "kinds": ["runtime"],
-          "symbols": ["TimelineParserService"],
-          "owner": "studies/tools",
-          "removalCard": "ARQ-12",
-          "syntax": "compiled-loader"
         }
       ]
     },
@@ -646,76 +607,11 @@
           "removalCard": "ARQ-12"
         },
         {
-          "from": "src/modules/dataset/adapters/dataset-export.adapter.ts",
-          "kinds": ["type"],
-          "symbols": ["DatasetFilters"],
-          "owner": "dataset",
-          "removalCard": "ARQ-13"
-        },
-        {
           "from": "src/dataset-cli.ts",
           "kinds": ["runtime"],
           "symbols": ["normalizeDatasetFilters"],
           "owner": "composition/cli",
           "removalCard": "ARQ-13"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/dataset/dataset-query.ts",
-      "newPath": "src/modules/dataset/adapters/dataset-query.repository.ts",
-      "symbols": [
-        "datasetWhere",
-        "datasetSqlWhere",
-        "unmaterializedMatchWhere",
-        "queryDatasetSummary"
-      ],
-      "consumers": [
-        {
-          "from": "src/modules/dataset/adapters/dataset-export.adapter.ts",
-          "kinds": ["runtime"],
-          "symbols": ["datasetWhere", "queryDatasetSummary"],
-          "owner": "dataset",
-          "removalCard": "ARQ-13"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/dataset/dataset-export.ts",
-      "newPath": "src/modules/dataset/adapters/dataset-export.adapter.ts",
-      "symbols": [
-        "TemporalSplit",
-        "validateTemporalSplit",
-        "splitForMatch",
-        "stableJson",
-        "datasetDigest",
-        "exportDatasetValue",
-        "FEATURE_VALUE_COLUMNS",
-        "DatasetExportOptions",
-        "exportHistoricalDataset"
-      ],
-      "consumers": [
-        {
-          "from": "src/dataset-cli.ts",
-          "kinds": ["runtime"],
-          "symbols": ["exportHistoricalDataset", "stableJson"],
-          "owner": "composition/cli",
-          "removalCard": "ARQ-13"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/core/stats/player-stats-aggregation.service.ts",
-      "newPath": "src/modules/stats/adapters/persistence/player-stats-writer.ts",
-      "symbols": ["PlayerStatsAggregationService"],
-      "consumers": [
-        {
-          "from": "scripts/benchmark-release.cjs",
-          "kinds": ["runtime"],
-          "symbols": ["PlayerStatsAggregationService"],
-          "owner": "studies/tools",
-          "removalCard": "ARQ-12",
-          "syntax": "compiled-loader"
         }
       ]
     }

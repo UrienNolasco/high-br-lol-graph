@@ -12,17 +12,11 @@ const { NestFactory } = require('@nestjs/core');
 const { PinoLogger } = require('nestjs-pino');
 const from = (file) => require(path.resolve(__dirname, '../dist', file));
 const { PrismaService } = from('core/prisma/prisma.service');
-const { ProcessingService } = from('core/processing/processing.service');
-const { RebuildService } = from('core/processing/rebuild.service');
-const { PROCESSING_VERSION } = from('core/processing/processing.constants');
-const { PlayerStatsAggregationService } = from(
-  'modules/stats/adapters/persistence/player-stats-writer',
+const { PROCESSING_VERSION } = from(
+  'modules/processing/contracts/processing.constants',
 );
-const { TimelineParserService } = from(
-  'modules/matches/adapters/riot/timeline-parser.service',
-);
-const { MatchPersistenceService } = from(
-  'modules/worker/services/match-persistence.service',
+const { createProcessingComposition } = from(
+  'composition/processing',
 );
 const { WorkerService } = from('modules/worker/services/worker.service');
 const { ReportRepository } = from(
@@ -116,18 +110,13 @@ async function main() {
       prisma.matchProcessing.deleteMany(),
       prisma.processingMaintenance.deleteMany(),
     ]);
-    const jobs = new ProcessingService(prisma);
-    const worker = new WorkerService(
-      { getMatchById: forbidden, getTimeline: forbidden },
-      new TimelineParserService(),
-      new MatchPersistenceService(
-        prisma,
-        jobs,
-        new PlayerStatsAggregationService(),
-      ),
-      jobs,
-      new PinoLogger({ pinoHttp: { level: 'silent' } }),
-    );
+    const logger = new PinoLogger({ pinoHttp: { level: 'silent' } });
+    const { processing: jobs, rebuild } = createProcessingComposition({
+      prisma,
+      source: { getMatchById: forbidden, getTimeline: forbidden },
+      logger,
+    });
+    const worker = new WorkerService(jobs, logger);
     const sourceSummary = read('exemplo_partida_BR1_3200579475.json');
     const sourceTimeline = read('exemplo_partida_timeline_BR1_3200579475.json');
     const ids = ['MET33_0', 'MET33_1', 'MET33_2'];
@@ -187,7 +176,7 @@ async function main() {
     const beforeRaw = await rawHashes(),
       beforeDataset = hash(initialDataset);
     const startRebuild = performance.now();
-    const rebuilt = await new RebuildService(prisma, worker).run();
+    const rebuilt = await rebuild.run();
     const rebuildMs = performance.now() - startRebuild;
     assert.equal(rebuilt, ids.length);
     assert.deepEqual(await rawHashes(), beforeRaw);

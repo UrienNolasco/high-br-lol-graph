@@ -1,4 +1,5 @@
 import { Controller } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import type { Channel, Message } from 'amqplib';
 import { PinoLogger } from 'nestjs-pino';
@@ -25,7 +26,7 @@ export class WorkerController {
     const channel = context.getChannelRef() as Channel;
     const originalMsg = context.getMessage() as Message;
 
-    const traceId = payload.traceId || crypto.randomUUID();
+    const traceId = payload.traceId || randomUUID();
 
     await traceIdStore.run({ traceId }, async () => {
       this.logger.info(
@@ -64,7 +65,7 @@ export class WorkerController {
     const channel = context.getChannelRef() as Channel;
     const originalMsg = context.getMessage() as Message;
 
-    const traceId = payload.traceId || crypto.randomUUID();
+    const traceId = payload.traceId || randomUUID();
 
     await traceIdStore.run({ traceId }, async () => {
       this.logger.info(

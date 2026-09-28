@@ -8,7 +8,7 @@ const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.
 const {
   calculateObjectives,
 } = require('../dist/modules/matches/contracts/calculations/objectives');
-const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
+const { PROCESSING_VERSION } = require('../dist/modules/processing/contracts/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(
     path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),

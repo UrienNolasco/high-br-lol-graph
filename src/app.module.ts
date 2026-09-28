@@ -7,7 +7,7 @@ import { PrismaModule } from './core/prisma/prisma.module';
 import { DataDragonModule } from './core/data-dragon/data-dragon.module';
 import { LoggerModule } from './core/logger/logger.module';
 
-import { WorkerModule } from './modules/worker/worker.module';
+import { OnlineProcessingModule } from './composition/online-processing.module';
 import { CollectorModule } from './modules/collector/collector.module';
 import { PlayersModule } from './modules/players/players.module';
 import { ChampionsModule } from './modules/champions/champions.module';
@@ -17,7 +17,6 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { ReferenceModule } from './modules/references/reference.module';
 import { DatasetModule } from './modules/dataset/dataset.module';
 import { AdminModule } from './modules/admin/admin.module';
-import { ProcessingModule } from './modules/processing/processing.module';
 
 @Module({
   imports: [
@@ -25,7 +24,7 @@ import { ProcessingModule } from './modules/processing/processing.module';
     LoggerModule,
     AppConfigModule,
     PrismaModule,
-    ProcessingModule,
+    OnlineProcessingModule,
     ScheduleModule.forRoot(),
     DataDragonModule,
     ChampionsModule,
@@ -34,7 +33,6 @@ import { ProcessingModule } from './modules/processing/processing.module';
     PlayersModule,
     MatchesModule,
     AnalyticsModule,
-    WorkerModule,
     AdminModule,
     DatasetModule,
     ReferenceModule,

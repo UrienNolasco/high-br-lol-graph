@@ -1,13 +1,7 @@
 import 'reflect-metadata';
 import { PrismaService } from './core/prisma/prisma.service';
-import { ProcessingService } from './modules/processing/services/processing.service';
 import { createOfflineDiscoveryReport } from './modules/collector/composition/offline';
-import { DatasetPersistenceAdapter } from './modules/dataset/adapters/dataset-writer.adapter';
-import { MatchProjectionPersistenceAdapter } from './modules/matches/adapters/persistence/match-projection-writer';
-import { RiotMatchPreparer } from './modules/matches/adapters/riot/match-preparer';
-import { TimelineParserService } from './modules/matches/adapters/riot/timeline-parser.service';
-import { CollectorRepository } from './modules/collector/repositories/collector.repository';
-import { PlayerStatsAggregationService } from './modules/stats/adapters/persistence/player-stats-writer';
+import { createOfflineProcessingComposition } from './composition/offline-processing';
 import { PinoLogger } from 'nestjs-pino';
 
 async function main() {
@@ -29,24 +23,6 @@ async function main() {
   const prisma = new PrismaService();
   await prisma.$connect();
   try {
-    const offlineRiot = {
-      getMatchById: () => {
-        throw new Error('Offline rebuild attempted HTTP');
-      },
-      getTimeline: () => {
-        throw new Error('Offline rebuild attempted HTTP');
-      },
-    };
-    const processing = new ProcessingService(
-      prisma,
-      offlineRiot,
-      new RiotMatchPreparer(new TimelineParserService()),
-      new MatchProjectionPersistenceAdapter(),
-      new DatasetPersistenceAdapter(),
-      new PlayerStatsAggregationService(),
-      new CollectorRepository(prisma),
-      new PinoLogger({}),
-    );
     if (command === 'coverage') {
       console.log(
         JSON.stringify(
@@ -79,14 +55,19 @@ async function main() {
       });
       console.log(JSON.stringify({ states, maintenance, failures }, null, 2));
     } else if (command === 'retry') {
+      const { processing } = createOfflineProcessingComposition(
+        prisma,
+        new PinoLogger({}),
+      );
       console.log(
         await processing.retryFailed(args[0] === '--all' ? undefined : args[0]),
       );
     } else {
-      const { RebuildService } = await import(
-        './modules/processing/services/rebuild.service.js'
+      const { rebuild } = createOfflineProcessingComposition(
+        prisma,
+        new PinoLogger({}),
       );
-      const count = await new RebuildService(prisma, processing).run(
+      const count = await rebuild.run(
         args.includes('--resume'),
         (completed) =>
           console.log(JSON.stringify({ event: 'rebuild_progress', completed })),

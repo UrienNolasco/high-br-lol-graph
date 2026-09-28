@@ -4,7 +4,7 @@ const {performance}=require('node:perf_hooks');
 const {calculateVision}=require('../dist/modules/matches/contracts/calculations/vision');
 const {normalizeTimelineEvents}=require('../dist/modules/matches/adapters/riot/normalized-events');
 const {projectFinalStats}=require('../dist/modules/matches/adapters/riot/final-stats');
-const {PROCESSING_VERSION}=require('../dist/core/processing/processing.constants');
+const {PROCESSING_VERSION}=require('../dist/modules/processing/contracts/processing.constants');
 const summary=JSON.parse(fs.readFileSync(path.join(__dirname,'../exemplo_partida_BR1_3200579475.json'),'utf8'));
 const timeline=JSON.parse(fs.readFileSync(path.join(__dirname,'../exemplo_partida_timeline_BR1_3200579475.json'),'utf8'));
 const input={matchId:summary.metadata.matchId,gameVersion:summary.info.gameVersion,gameDuration:summary.info.gameDuration,participants:summary.info.participants.map(p=>({puuid:p.puuid,teamId:p.teamId,finalStats:projectFinalStats(p)})),events:normalizeTimelineEvents(timeline,new Map(summary.info.participants.map(p=>[p.participantId,p.puuid])),new Map(summary.info.participants.map(p=>[p.participantId,p.teamId])),{processingVersion:PROCESSING_VERSION}),processing:{status:'COMPLETED',processingVersion:PROCESSING_VERSION,completedAt:new Date('2026-09-23T00:00:00Z')}};

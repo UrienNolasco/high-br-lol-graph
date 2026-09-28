@@ -386,6 +386,38 @@
       "to": "core/riot",
       "owner": "architecture",
       "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:0e8aa009cb735de34be3",
+      "rule": "area-reciprocity",
+      "from": "collector",
+      "to": "composition",
+      "owner": "architecture",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:468ec749d00a49b606c8",
+      "rule": "area-reciprocity",
+      "from": "composition",
+      "to": "core/prisma",
+      "owner": "architecture",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:48bb18d40ff01b06f4d8",
+      "rule": "area-reciprocity",
+      "from": "composition",
+      "to": "processing",
+      "owner": "architecture",
+      "removalCard": "ARQ-13"
+    },
+    {
+      "id": "area-reciprocity:697c10cc7ba01decd173",
+      "rule": "area-reciprocity",
+      "from": "composition",
+      "to": "stats",
+      "owner": "architecture",
+      "removalCard": "ARQ-13"
     }
   ]
 }

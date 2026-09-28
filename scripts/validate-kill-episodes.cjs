@@ -10,7 +10,7 @@ const {
 const {
   calculateKillEpisodes,
 } = require('../dist/modules/matches/contracts/calculations/kill-episodes');
-const { PROCESSING_VERSION } = require('../dist/core/processing/processing.constants');
+const { PROCESSING_VERSION } = require('../dist/modules/processing/contracts/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(
     path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),

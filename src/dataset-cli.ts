@@ -2,10 +2,8 @@ import { readFile } from 'node:fs/promises';
 import { PrismaClient } from '@prisma/client';
 import { DATASET_DEFINITIONS } from './modules/dataset/contracts/definition';
 import { normalizeDatasetFilters } from './modules/dataset/contracts/query';
-import {
-  exportHistoricalDataset,
-  stableJson,
-} from './modules/dataset/adapters/dataset-export.adapter';
+import { stableJson } from './modules/dataset/contracts/serialization';
+import { createOfflineDatasetExport } from './modules/dataset/composition/offline';
 
 async function main() {
   const [command, ...args] = process.argv.slice(2);
@@ -44,7 +42,7 @@ async function main() {
   );
   const prisma = new PrismaClient();
   try {
-    const result = await exportHistoricalDataset(prisma, {
+    const result = await createOfflineDatasetExport(prisma, {
       filters,
       out: flags['--out'],
       split: {
