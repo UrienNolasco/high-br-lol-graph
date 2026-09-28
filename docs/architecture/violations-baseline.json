@@ -4,28 +4,12 @@
   "description": "Temporary violations after ARQ-07 dataset consolidation; each remaining entry has an owner and removal card.",
   "entries": [
     {
-      "id": "area-reciprocity:3d6442ae4197b182e250",
-      "rule": "area-reciprocity",
-      "from": "core/stats",
-      "to": "worker",
-      "owner": "architecture",
-      "removalCard": "ARQ-08"
-    },
-    {
       "id": "area-reciprocity:e60dedcf4cd94aaf21c4",
       "rule": "area-reciprocity",
       "from": "core/processing",
       "to": "worker",
       "owner": "architecture",
       "removalCard": "ARQ-10"
-    },
-    {
-      "id": "core-no-modules:2879bc4ed2e31ca3e69f",
-      "rule": "core-no-modules",
-      "from": "src/core/stats/player-stats-aggregation.service.ts",
-      "to": "src/modules/worker/pure/match.parser.ts",
-      "owner": "core/stats",
-      "removalCard": "ARQ-08"
     },
     {
       "id": "core-no-modules:55bda0148c4da2a7e080",

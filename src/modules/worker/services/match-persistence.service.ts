@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { jsonObject } from '../../../core/prisma/json-value';
+import { toTransactionContext } from '../../../core/prisma/transaction-context';
 import {
   ProcessingService,
   ProcessingLease,
 } from '../../../core/processing/processing.service';
 import { PROCESSING_VERSION } from '../../../core/processing/processing.constants';
-import { PlayerStatsAggregationService } from '../../../core/stats/player-stats-aggregation.service';
+import { PlayerStatsAggregationService } from '../../stats/adapters/persistence/player-stats-writer';
 import type { ProcessedMatchData } from '../../matches/contracts/normalized-match';
 import type { ParsedTimelineData } from '../../matches/contracts/normalized-timeline';
 import { TimelineDto } from '../../../core/riot/dto/timeline.dto';
@@ -107,7 +108,10 @@ export class MatchPersistenceService {
           preparedDataset,
         );
         // Shared aggregate rows are locked only after independent per-match writes finish.
-        await this.aggregates.update(tx, matchData, raw);
+        await this.aggregates.update(toTransactionContext(tx), {
+          matchData,
+          timeline,
+        });
         await tx.matchProcessing.update({
           where: { matchId: lease.matchId },
           data: {

@@ -15,7 +15,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { ProcessingService } from '../../src/core/processing/processing.service';
 import { RebuildService } from '../../src/core/processing/rebuild.service';
-import { PlayerStatsAggregationService } from '../../src/core/stats/player-stats-aggregation.service';
+import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { WorkerController } from '../../src/modules/worker/worker.controller';
@@ -24,8 +24,8 @@ import { RiotService } from '../../src/core/riot/riot.service';
 import { QueueService } from '../../src/core/queue/queue.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
-import { playerChampionAverages } from '../../src/core/stats/aggregate.mapper';
-import { PlayerStatsRepository } from '../../src/modules/players/repositories/player-stats.repository';
+import { playerChampionAverages } from '../../src/modules/stats/contracts/aggregate.mapper';
+import { PlayerStatsReaderAdapter } from '../../src/modules/stats/adapters/persistence/player-stats-reader';
 import { ChampionStatsRepository } from '../../src/modules/stats/repositories/champion-stats.repository';
 import {
   LeaseLostError,
@@ -550,7 +550,7 @@ test('activity and role statistics isolate the exact patch', async () => {
     await seed(summary, timeline);
     await worker.processMatch({ matchId: id });
   }
-  const repository = new PlayerStatsRepository(prisma);
+  const repository = new PlayerStatsReaderAdapter(prisma);
   const puuid = summaryTemplate.info.participants[0].puuid;
   const roles = await repository.getRoleDistribution(puuid, '16.2');
   const activity = await repository.getActivityData(puuid, '16.2');
@@ -730,7 +730,7 @@ test('top five champions are selected from full history, including a previously 
     await seed(summary, timeline);
     await worker.processMatch({ matchId: summary.metadata.matchId });
   }
-  const summary = await new PlayerStatsRepository(prisma).getAggregatedStats(
+  const summary = await new PlayerStatsReaderAdapter(prisma).getAggregatedStats(
     base.summary.info.participants[0].puuid,
     'ALL',
     420,

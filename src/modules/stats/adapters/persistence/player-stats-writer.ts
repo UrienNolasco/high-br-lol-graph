@@ -1,35 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { extractPatch } from '../../modules/matches/contracts/calculations/patch';
-import type { ProcessedMatchData } from '../../modules/matches/contracts/normalized-match';
-import { TimelineDto } from '../riot/dto/timeline.dto';
-import { LEGACY_LANE_CHECKPOINT } from '../../modules/matches/contracts/temporal';
-// Identifiers come exclusively from this module, never from a request.
+import { fromTransactionContext } from '../../../../core/prisma/transaction-context';
+import { extractPatch } from '../../../matches/contracts/calculations/patch';
+import type {
+  SnapshotFrame,
+  ParticipantSnapshot,
+} from '../../../matches/contracts/normalized-snapshots';
+import { LEGACY_LANE_CHECKPOINT } from '../../../matches/contracts/temporal';
+import type { StatsAggregateInput } from '../../contracts/aggregate';
+import type { StatsWriter } from '../../ports/stats-writer';
+import type { TransactionContext } from '../../../../lib/transaction-context';
+
 const identifier = (name: string) => Prisma.raw(`"${name}"`);
+const ALLOWED_ROLES = new Set(['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY']);
+
+/** Prisma adapter for the public stats writer port. */
 @Injectable()
-export class PlayerStatsAggregationService {
+export class PlayerStatsAggregationService implements StatsWriter {
   async update(
-    tx: Prisma.TransactionClient,
-    data: ProcessedMatchData,
-    timeline: TimelineDto,
-  ) {
-    const { match, participants } = data;
+    transaction: TransactionContext,
+    input: StatsAggregateInput,
+  ): Promise<void> {
+    const tx = fromTransactionContext(transaction);
+    const { match, participants } = input.matchData;
     const patch = extractPatch(match.gameVersion);
     const minutes = match.gameDuration / 60;
-    const frame15 =
-      match.gameDuration >= 900
-        ? timeline.info.frames.find(
-            (frame) =>
-              frame.timestamp >= LEGACY_LANE_CHECKPOINT.startMs &&
-              frame.timestamp < LEGACY_LANE_CHECKPOINT.endMs,
-          )
-        : undefined;
-    const frames = new Map(
-      timeline.metadata.participants.map((puuid, index) => [
-        puuid,
-        frame15?.participantFrames[index + 1],
-      ]),
+    const frame15 = this.firstLaneFrame(
+      input.timeline.snapshotProjection.frames,
+      match.gameDuration,
     );
+    const snapshots = this.snapshotsByPuuid(frame15);
+
     // Consistent ordering reduces deadlocks across overlapping matches.
     for (const p of [...participants].sort(
       (a, b) => a.championId - b.championId || a.puuid.localeCompare(b.puuid),
@@ -50,32 +51,19 @@ export class PlayerStatsAggregationService {
         { championName: p.championName },
       );
     }
+
+    // The player row is acquired before its player/champion row.  ALL is
+    // intentionally written before the patch row, preserving lock order.
     for (const p of [...participants].sort((a, b) =>
       a.puuid.localeCompare(b.puuid),
     )) {
       const opponents = participants.filter(
         (other) => p.role && other.role === p.role && other.teamId !== p.teamId,
       );
-      const own = frames.get(p.puuid);
+      const own = snapshots.get(p.puuid);
       const opponent =
-        opponents.length === 1 ? frames.get(opponents[0].puuid) : undefined;
-      const valid = !!(
-        own &&
-        opponent &&
-        [
-          own.totalGold,
-          own.xp,
-          own.minionsKilled,
-          own.jungleMinionsKilled,
-          opponent.totalGold,
-          opponent.xp,
-          opponent.minionsKilled,
-          opponent.jungleMinionsKilled,
-        ].every(
-          (value) => typeof value === 'number' && Number.isFinite(value),
-        ) &&
-        ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'].includes(p.role)
-      );
+        opponents.length === 1 ? snapshots.get(opponents[0].puuid) : undefined;
+      const valid = this.validLaneSample(p.role, own, opponent);
       const sums = {
         gamesPlayed: 1,
         wins: +p.win,
@@ -97,13 +85,13 @@ export class PlayerStatsAggregationService {
             ...sums,
             laningSamples: +valid,
             sumCsd15: valid
-              ? own.minionsKilled +
-                own.jungleMinionsKilled -
-                opponent.minionsKilled -
-                opponent.jungleMinionsKilled
+              ? own!.minionsKilled! +
+                own!.jungleMinionsKilled! -
+                opponent!.minionsKilled! -
+                opponent!.jungleMinionsKilled!
               : 0,
-            sumGd15: valid ? own.totalGold - opponent.totalGold : 0,
-            sumXpd15: valid ? own.xp - opponent.xp : 0,
+            sumGd15: valid ? own!.totalGold! - opponent!.totalGold! : 0,
+            sumXpd15: valid ? own!.xp! - opponent!.xp! : 0,
           },
           {},
           p.role,
@@ -112,6 +100,55 @@ export class PlayerStatsAggregationService {
       }
     }
   }
+
+  private firstLaneFrame(
+    frames: readonly SnapshotFrame[],
+    duration: number,
+  ): SnapshotFrame | undefined {
+    if (duration < 900) return undefined;
+    // Do not sort: the legacy behavior is the first source frame in the
+    // original order within the half-open 15-minute window.
+    return frames.find(
+      (frame) =>
+        typeof frame.timestamp === 'number' &&
+        Number.isFinite(frame.timestamp) &&
+        frame.timestamp >= LEGACY_LANE_CHECKPOINT.startMs &&
+        frame.timestamp < LEGACY_LANE_CHECKPOINT.endMs,
+    );
+  }
+
+  private snapshotsByPuuid(
+    frame: SnapshotFrame | undefined,
+  ): Map<string, ParticipantSnapshot> {
+    const result = new Map<string, ParticipantSnapshot>();
+    if (!frame) return result;
+    // Object insertion order is the normalized source order.  The snapshot's
+    // participantId and puuid are retained together by the matches adapter;
+    // no array index is used here.
+    for (const snapshot of Object.values(frame.participantFrames)) {
+      if (snapshot.puuid) result.set(snapshot.puuid, snapshot);
+    }
+    return result;
+  }
+
+  private validLaneSample(
+    role: string,
+    own: ParticipantSnapshot | undefined,
+    opponent: ParticipantSnapshot | undefined,
+  ): own is ParticipantSnapshot {
+    if (!own || !opponent || !ALLOWED_ROLES.has(role)) return false;
+    return [
+      own.totalGold,
+      own.xp,
+      own.minionsKilled,
+      own.jungleMinionsKilled,
+      opponent.totalGold,
+      opponent.xp,
+      opponent.minionsKilled,
+      opponent.jungleMinionsKilled,
+    ].every((value) => typeof value === 'number' && Number.isFinite(value));
+  }
+
   private async increment(
     tx: Prisma.TransactionClient,
     table: string,

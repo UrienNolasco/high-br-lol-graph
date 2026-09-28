@@ -8,7 +8,7 @@ import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { ProcessingService } from '../../src/core/processing/processing.service';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 import { RebuildService } from '../../src/core/processing/rebuild.service';
-import { PlayerStatsAggregationService } from '../../src/core/stats/player-stats-aggregation.service';
+import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
 import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { MatchPersistenceService } from '../../src/modules/worker/services/match-persistence.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';

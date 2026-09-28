@@ -5,10 +5,10 @@ import { SyncService } from './services/sync.service';
 import { RedisModule } from '../../core/redis/redis.module';
 import { RiotModule } from '../../core/riot/riot.module';
 import { PrismaModule } from '../../core/prisma/prisma.module';
+import { StatsModule } from '../stats/stats.module';
 import { QueueModule } from '../../core/queue/queue.module';
 import { DataDragonModule } from '../../core/data-dragon/data-dragon.module';
 import { PlayerRepository } from './repositories/player.repository';
-import { PlayerStatsRepository } from './repositories/player-stats.repository';
 import { MatchRepository } from './repositories/match.repository';
 import { PlayerSearchService } from './services/player-search.service';
 import { PlayerProfileService } from './services/player-profile.service';
@@ -25,11 +25,11 @@ import { SyncStatusService } from './services/sync-status.service';
     QueueModule,
     ConfigModule,
     DataDragonModule,
+    StatsModule,
   ],
   controllers: [PlayersController],
   providers: [
     PlayerRepository,
-    PlayerStatsRepository,
     MatchRepository,
     PlayerSearchService,
     PlayerProfileService,

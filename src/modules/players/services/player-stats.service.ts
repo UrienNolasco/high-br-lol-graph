@@ -1,11 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { DataDragonService } from '../../../core/data-dragon/data-dragon.service';
 import { PlayerSummaryDto } from '../dto/player-summary.dto';
 import { PlayerChampionsDto } from '../dto/player-champions.dto';
 import { PlayerRoleDistributionDto } from '../dto/player-role-distribution.dto';
 import { PlayerActivityDto } from '../dto/player-activity.dto';
-import { PlayerStatsRepository } from '../repositories/player-stats.repository';
+import { STATS_READER } from '../../stats/ports/stats-reader';
+import type { StatsReader } from '../../stats/ports/stats-reader';
 import { buildEmptyHeatmap, fillHeatmap } from '../pure/heatmap.builder';
 import { calculateActivityInsights } from '../pure/insights.calculator';
 import { enrichChampionStats } from '../pure/champion.enricher';
@@ -13,7 +14,7 @@ import { enrichChampionStats } from '../pure/champion.enricher';
 @Injectable()
 export class PlayerStatsService {
   constructor(
-    private readonly statsRepo: PlayerStatsRepository,
+    @Inject(STATS_READER) private readonly statsRepo: StatsReader,
     private readonly dataDragon: DataDragonService,
     private readonly logger: PinoLogger,
   ) {

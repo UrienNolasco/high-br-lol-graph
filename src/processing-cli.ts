@@ -3,7 +3,7 @@ import { PrismaService } from './core/prisma/prisma.service';
 import { ProcessingService } from './core/processing/processing.service';
 import { DiscoveryReportService } from './core/processing/discovery-report.service';
 import { RebuildService } from './core/processing/rebuild.service';
-import { PlayerStatsAggregationService } from './core/stats/player-stats-aggregation.service';
+import { PlayerStatsAggregationService } from './modules/stats/adapters/persistence/player-stats-writer';
 import { MatchPersistenceService } from './modules/worker/services/match-persistence.service';
 import { WorkerService } from './modules/worker/services/worker.service';
 import { TimelineParserService } from './modules/matches/adapters/riot/timeline-parser.service';

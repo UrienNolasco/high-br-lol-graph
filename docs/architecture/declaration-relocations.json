@@ -16,13 +16,6 @@
           "removalCard": "ARQ-07"
         },
         {
-          "from": "src/core/stats/player-stats-aggregation.service.ts",
-          "kinds": ["type"],
-          "symbols": ["ProcessedMatchData"],
-          "owner": "core/stats",
-          "removalCard": "ARQ-08"
-        },
-        {
           "from": "src/modules/worker/services/match-persistence.service.ts",
           "kinds": ["type"],
           "symbols": ["ProcessedMatchData"],
@@ -194,13 +187,6 @@
           "symbols": ["selectCheckpoint"],
           "owner": "core/research",
           "removalCard": "ARQ-12"
-        },
-        {
-          "from": "src/core/stats/player-stats-aggregation.service.ts",
-          "kinds": ["runtime"],
-          "symbols": ["LEGACY_LANE_CHECKPOINT"],
-          "owner": "core/stats",
-          "removalCard": "ARQ-08"
         }
       ]
     },
@@ -537,20 +523,6 @@
           "symbols": ["MatchNormalizationModule"],
           "owner": "worker",
           "removalCard": "ARQ-10"
-        }
-      ]
-    },
-    {
-      "oldPath": "src/modules/worker/pure/match.parser.ts",
-      "newPath": "src/modules/matches/contracts/calculations/patch.ts",
-      "symbols": ["extractPatch"],
-      "consumers": [
-        {
-          "from": "src/core/stats/player-stats-aggregation.service.ts",
-          "kinds": ["runtime"],
-          "symbols": ["extractPatch"],
-          "owner": "core/stats",
-          "removalCard": "ARQ-08"
         }
       ]
     },
@@ -895,6 +867,42 @@
           "symbols": ["prepareHistoricalDataset", "replaceHistoricalDataset"],
           "owner": "worker",
           "removalCard": "ARQ-10"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/stats/stats.module.ts",
+      "newPath": "src/modules/stats/stats.module.ts",
+      "symbols": ["StatsModule"],
+      "consumers": [
+        {
+          "from": "src/modules/worker/worker.module.ts",
+          "kinds": ["runtime"],
+          "symbols": ["StatsModule"],
+          "owner": "worker",
+          "removalCard": "ARQ-10"
+        }
+      ]
+    },
+    {
+      "oldPath": "src/core/stats/player-stats-aggregation.service.ts",
+      "newPath": "src/modules/stats/adapters/persistence/player-stats-writer.ts",
+      "symbols": ["PlayerStatsAggregationService"],
+      "consumers": [
+        {
+          "from": "src/modules/worker/services/match-persistence.service.ts",
+          "kinds": ["runtime"],
+          "symbols": ["PlayerStatsAggregationService"],
+          "owner": "worker",
+          "removalCard": "ARQ-10"
+        },
+        {
+          "from": "scripts/benchmark-release.cjs",
+          "kinds": ["runtime"],
+          "symbols": ["PlayerStatsAggregationService"],
+          "owner": "studies/tools",
+          "removalCard": "ARQ-12",
+          "syntax": "compiled-loader"
         }
       ]
     }

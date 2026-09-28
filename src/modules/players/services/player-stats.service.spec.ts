@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlayerStatsService } from './player-stats.service';
-import { PlayerStatsRepository } from '../repositories/player-stats.repository';
+import { STATS_READER } from '../../stats/ports/stats-reader';
+import type { StatsReader } from '../../stats/ports/stats-reader';
 import { DataDragonService } from '../../../core/data-dragon/data-dragon.service';
 import { PinoLogger } from 'nestjs-pino';
 
@@ -8,7 +9,7 @@ describe('PlayerStatsService', () => {
   let service: PlayerStatsService;
   let statsRepo: jest.Mocked<
     Pick<
-      PlayerStatsRepository,
+      StatsReader,
       | 'getAggregatedStats'
       | 'getChampionStats'
       | 'getRoleDistribution'
@@ -35,7 +36,7 @@ describe('PlayerStatsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlayerStatsService,
-        { provide: PlayerStatsRepository, useValue: statsRepo },
+        { provide: STATS_READER, useValue: statsRepo },
         { provide: DataDragonService, useValue: dataDragon },
         {
           provide: PinoLogger,

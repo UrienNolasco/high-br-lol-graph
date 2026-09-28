@@ -4,7 +4,7 @@ import { WorkerService } from './services/worker.service';
 import { WorkerController } from './worker.controller';
 import { RiotModule } from '../../core/riot/riot.module';
 import { PrismaModule } from '../../core/prisma/prisma.module';
-import { StatsModule } from '../../core/stats/stats.module';
+import { StatsModule } from '../stats/stats.module';
 import { MatchPersistenceService } from './services/match-persistence.service';
 import { ProcessingModule } from '../../core/processing/processing.module';
 

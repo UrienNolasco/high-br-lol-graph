@@ -1,16 +1,28 @@
+import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from '../../../../core/prisma/prisma.service';
 import {
   playerAverages,
   playerChampionAverages,
-} from '../../../core/stats/aggregate.mapper';
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../core/prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+} from '../../contracts/aggregate.mapper';
+import type {
+  PlayerActivityStat,
+  PlayerChampionStat,
+  PlayerRoleStat,
+  PlayerStatsSummary,
+  StatsReader,
+} from '../../ports/stats-reader';
 
+/** Prisma adapter behind the read-only stats port. */
 @Injectable()
-export class PlayerStatsRepository {
+export class PlayerStatsReaderAdapter implements StatsReader {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAggregatedStats(puuid: string, patch: string, queueId: number) {
+  async getAggregatedStats(
+    puuid: string,
+    patch: string,
+    queueId: number,
+  ): Promise<PlayerStatsSummary | null> {
     return this.prisma.$transaction(
       async (tx) => {
         const row = await tx.playerStats.findUnique({
@@ -29,30 +41,28 @@ export class PlayerStatsRepository {
             games: champ.gamesPlayed,
             winRate: playerChampionAverages(champ).winRate,
           })),
-        };
+        } as PlayerStatsSummary;
       },
       { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead },
     );
   }
 
-  async getChampionStats(puuid: string, patch: string, queueId: number) {
+  async getChampionStats(
+    puuid: string,
+    patch: string,
+    queueId: number,
+  ): Promise<PlayerChampionStat[]> {
     const rows = await this.prisma.playerChampionStats.findMany({
       where: { puuid, patch, queueId },
     });
-    return rows.map(playerChampionAverages);
+    return rows.map((row) => playerChampionAverages(row) as PlayerChampionStat);
   }
 
-  async getRoleDistribution(puuid: string, patch: string) {
-    return this.prisma.$queryRaw<
-      Array<{
-        role: string;
-        gamesplayed: bigint;
-        wins: bigint;
-        losses: bigint;
-        winrate: number;
-        avgkda: number;
-      }>
-    >`
+  async getRoleDistribution(
+    puuid: string,
+    patch: string,
+  ): Promise<PlayerRoleStat[]> {
+    return this.prisma.$queryRaw<PlayerRoleStat[]>`
       SELECT
         mp.role,
         COUNT(*) as gamesPlayed,
@@ -70,17 +80,11 @@ export class PlayerStatsRepository {
     `;
   }
 
-  async getActivityData(puuid: string, patch: string) {
-    return this.prisma.$queryRaw<
-      Array<{
-        dayofweek: number;
-        hour: number;
-        games: bigint;
-        wins: bigint;
-        losses: bigint;
-        winrate: number;
-      }>
-    >`
+  async getActivityData(
+    puuid: string,
+    patch: string,
+  ): Promise<PlayerActivityStat[]> {
+    return this.prisma.$queryRaw<PlayerActivityStat[]>`
       SELECT
         EXTRACT(DOW FROM TO_TIMESTAMP(m."gameCreation" / 1000) AT TIME ZONE 'America/Sao_Paulo') as dayOfWeek,
         EXTRACT(HOUR FROM TO_TIMESTAMP(m."gameCreation" / 1000) AT TIME ZONE 'America/Sao_Paulo') as hour,

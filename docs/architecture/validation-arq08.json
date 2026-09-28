@@ -1,0 +1,26 @@
+{
+  "card": "ARQ-08",
+  "base": "2973957",
+  "scope": "Unified aggregate writes and player-stat reads under modules/stats through public transactional ports and normalized match projections.",
+  "build": "passed",
+  "unit": {
+    "command": "npm test -- --runInBand",
+    "suites": 102,
+    "tests": 632,
+    "result": "passed"
+  },
+  "architecture": {
+    "command": "npm run architecture:check -- --prune",
+    "newViolations": 0,
+    "staleEntries": 0,
+    "invalidEntries": 0,
+    "relocationErrors": 0
+  },
+  "database": {
+    "command": "npm run test:integration -- --testPathPatterns='processing|foundation|dataset'",
+    "suites": 3,
+    "tests": 32,
+    "result": "passed"
+  },
+  "compatibility": "Aggregate formulas, eligibility, ALL-before-patch writes, role distribution, timestamps, and lock acquisition order are preserved."
+}

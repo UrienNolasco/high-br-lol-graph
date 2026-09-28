@@ -8,6 +8,10 @@ import { MatchCountRepository } from './repositories/match-count.repository';
 import { ChampionStatsService } from './services/champion-stats.service';
 import { ChampionDetailService } from './services/champion-detail.service';
 import { ProcessedMatchesService } from './services/processed-matches.service';
+import { PlayerStatsAggregationService } from './adapters/persistence/player-stats-writer';
+import { STATS_WRITER } from './ports/stats-writer';
+import { PlayerStatsReaderAdapter } from './adapters/persistence/player-stats-reader';
+import { STATS_READER } from './ports/stats-reader';
 
 @Module({
   imports: [DataDragonModule, PrismaModule],
@@ -19,6 +23,10 @@ import { ProcessedMatchesService } from './services/processed-matches.service';
     ChampionDetailService,
     ProcessedMatchesService,
     TierRankService,
+    PlayerStatsAggregationService,
+    { provide: STATS_WRITER, useExisting: PlayerStatsAggregationService },
+    PlayerStatsReaderAdapter,
+    { provide: STATS_READER, useExisting: PlayerStatsReaderAdapter },
   ],
   exports: [
     ChampionStatsService,
@@ -26,6 +34,8 @@ import { ProcessedMatchesService } from './services/processed-matches.service';
     ProcessedMatchesService,
     TierRankService,
     ChampionStatsRepository,
+    STATS_WRITER,
+    STATS_READER,
   ],
 })
 export class StatsModule {}
