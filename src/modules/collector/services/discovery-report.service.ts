@@ -1,7 +1,7 @@
-import { PrismaService } from '../prisma/prisma.service';
-import { CoverageMatch, discoveryCoverage } from './discovery-coverage';
+import { PrismaService } from '../../../core/prisma/prisma.service';
+import { CoverageMatch, discoveryCoverage } from '../contracts/coverage';
 
-/** Read-only offline report. Never loads compressed raw payloads or current User.rank. */
+/** Offline read model. It does not load raw payloads or current User.rank. */
 export class DiscoveryReportService {
   constructor(private readonly prisma: PrismaService) {}
 

@@ -7,6 +7,7 @@ import { QueueService } from '../../../core/queue/queue.service';
 import { SyncService } from './sync.service';
 import { SyncStatus } from '../dto/sync-response.dto';
 import { PinoLogger } from 'nestjs-pino';
+import { DISCOVERY_RECORDER } from '../../../core/processing/contracts/request-ingestion';
 
 describe('SyncOrchestratorService', () => {
   let service: SyncOrchestratorService;
@@ -15,6 +16,7 @@ describe('SyncOrchestratorService', () => {
   let riotService: jest.Mocked<RiotService>;
   let queueService: jest.Mocked<QueueService>;
   let redis: jest.Mocked<SyncService>;
+  let discovery: { recordDiscovery: jest.Mock };
 
   beforeEach(async () => {
     playerRepo = { findByPuuid: jest.fn() } as any;
@@ -22,8 +24,8 @@ describe('SyncOrchestratorService', () => {
     riotService = { getMatchIdsByPuuid: jest.fn() } as any;
     queueService = {
       publishDeepSyncMatch: jest.fn(),
-      recordDiscovery: jest.fn(),
     } as any;
+    discovery = { recordDiscovery: jest.fn() };
     redis = {
       hget: jest.fn(),
       hgetall: jest.fn(),
@@ -40,6 +42,7 @@ describe('SyncOrchestratorService', () => {
         { provide: MatchRepository, useValue: matchRepo },
         { provide: RiotService, useValue: riotService },
         { provide: QueueService, useValue: queueService },
+        { provide: DISCOVERY_RECORDER, useValue: discovery },
         { provide: SyncService, useValue: redis },
         {
           provide: PinoLogger,
@@ -75,9 +78,8 @@ describe('SyncOrchestratorService', () => {
 
     expect(result.status).toBe(SyncStatus.DONE);
     expect(result.matchesTotal).toBe(0);
-    expect(queueService.recordDiscovery).toHaveBeenCalledWith(
-      [],
-      expect.objectContaining({ source: 'sync' }),
+    expect(discovery.recordDiscovery).toHaveBeenCalledWith(
+      expect.objectContaining({ source: 'sync', matchIds: [] }),
     );
   });
 
@@ -100,9 +102,9 @@ describe('SyncOrchestratorService', () => {
 
     const result = await service.startDeepSync('p1');
 
-    expect(queueService.recordDiscovery).toHaveBeenCalledWith(
-      ['M1', 'M2', 'M3'],
+    expect(discovery.recordDiscovery).toHaveBeenCalledWith(
       expect.objectContaining({
+        matchIds: ['M1', 'M2', 'M3'],
         source: 'sync',
         region: 'br1',
         queriedPuuid: 'p1',

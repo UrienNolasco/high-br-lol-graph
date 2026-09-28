@@ -9,6 +9,7 @@ describe('CollectorRepository', () => {
   beforeEach(async () => {
     const mockPrisma = {
       match: { findUnique: jest.fn() },
+      discoveryObservation: { findMany: jest.fn() },
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -44,5 +45,53 @@ describe('CollectorRepository', () => {
 
       expect(result).toBe(false);
     });
+  });
+
+  it('records an empty immutable observation in the caller transaction', async () => {
+    const tx = { discoveryObservation: { upsert: jest.fn() } };
+    const context = {
+      observationId: 'o1',
+      source: 'sync' as const,
+      observedAt: new Date('2026-09-23T00:00:00Z'),
+      region: null,
+      queriedPuuid: 'p1',
+      queueFilter: 420,
+      requestedCount: 100,
+      startIndex: 0,
+      rank: null,
+    };
+    await repo.recordObservation([], context, tx as any);
+    expect(tx.discoveryObservation.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'o1' },
+        update: {},
+        create: expect.objectContaining({
+          id: 'o1',
+          matches: { createMany: { data: [] } },
+        }),
+      }),
+    );
+  });
+
+  it('reads lineage through the exact caller transaction', async () => {
+    const tx = {
+      discoveryObservation: {
+        findMany: jest.fn().mockResolvedValue([
+          { id: 'o1', source: 'collector', observedAt: new Date() },
+          { id: 'o2', source: 'search', observedAt: new Date() },
+        ]),
+      },
+    };
+    await expect(repo.readLineage('M1', tx as any)).resolves.toEqual({
+      observationIds: ['o1', 'o2'],
+      sources: ['collector', 'search'],
+      status: 'observed',
+      reason: null,
+    });
+    expect(tx.discoveryObservation.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { matches: { some: { matchId: 'M1' } } },
+      }),
+    );
   });
 });

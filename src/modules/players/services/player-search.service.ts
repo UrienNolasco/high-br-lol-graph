@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { getErrorMessage } from '../../../core/logger/get-error-message';
 import { RiotService } from '../../../core/riot/riot.service';
@@ -8,6 +8,11 @@ import { PlayerSearchDto } from '../dto/player-search.dto';
 import { PlayerResponseDto } from '../dto/player-response.dto';
 import { PlayerRepository } from '../repositories/player.repository';
 import { MatchRepository } from '../repositories/match.repository';
+import {
+  DISCOVERY_RECORDER,
+  type DiscoveryRecorder,
+  type ObservationRequest,
+} from '../../../core/processing/contracts/request-ingestion';
 
 @Injectable()
 export class PlayerSearchService {
@@ -17,6 +22,8 @@ export class PlayerSearchService {
     private readonly matchRepo: MatchRepository,
     private readonly queueService: QueueService,
     private readonly logger: PinoLogger,
+    @Inject(DISCOVERY_RECORDER)
+    private readonly discovery: DiscoveryRecorder,
   ) {
     this.logger.setContext(PlayerSearchService.name);
   }
@@ -56,7 +63,7 @@ export class PlayerSearchService {
         account.puuid,
         20,
       );
-      await this.queueService.recordDiscovery(matchIds, {
+      const context: ObservationRequest = {
         observationId: randomUUID(),
         source: 'search',
         observedAt: new Date(),
@@ -74,7 +81,9 @@ export class PlayerSearchService {
               observedAt: rankObservedAt,
             }
           : null,
-      });
+        matchIds,
+      };
+      await this.discovery.recordDiscovery(context);
       const existingSet = await this.matchRepo.findExistingMatchIds(matchIds);
       const newMatchIds = matchIds.filter((id) => !existingSet.has(id));
 

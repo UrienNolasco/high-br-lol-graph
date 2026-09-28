@@ -5,6 +5,7 @@ import { MatchRepository } from '../repositories/match.repository';
 import { RiotService } from '../../../core/riot/riot.service';
 import { QueueService } from '../../../core/queue/queue.service';
 import { PinoLogger } from 'nestjs-pino';
+import { DISCOVERY_RECORDER } from '../../../core/processing/contracts/request-ingestion';
 
 describe('PlayerSearchService', () => {
   let service: PlayerSearchService;
@@ -12,6 +13,7 @@ describe('PlayerSearchService', () => {
   let matchRepo: jest.Mocked<MatchRepository>;
   let riotService: jest.Mocked<RiotService>;
   let queueService: jest.Mocked<QueueService>;
+  let discovery: { recordDiscovery: jest.Mock };
 
   beforeEach(async () => {
     playerRepo = { findByPuuid: jest.fn(), upsert: jest.fn() } as any;
@@ -31,9 +33,9 @@ describe('PlayerSearchService', () => {
     } as any;
     queueService = {
       publishUserRequestedMatch: jest.fn(),
-      recordDiscovery: jest.fn(),
       publishDeepSyncMatch: jest.fn(),
     } as any;
+    discovery = { recordDiscovery: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -42,6 +44,7 @@ describe('PlayerSearchService', () => {
         { provide: MatchRepository, useValue: matchRepo },
         { provide: RiotService, useValue: riotService },
         { provide: QueueService, useValue: queueService },
+        { provide: DISCOVERY_RECORDER, useValue: discovery },
         {
           provide: PinoLogger,
           useValue: {
@@ -84,9 +87,9 @@ describe('PlayerSearchService', () => {
 
     const result = await service.search(dto);
 
-    expect(queueService.recordDiscovery).toHaveBeenCalledWith(
-      ['MATCH_1', 'MATCH_2'],
+    expect(discovery.recordDiscovery).toHaveBeenCalledWith(
       expect.objectContaining({
+        matchIds: ['MATCH_1', 'MATCH_2'],
         source: 'search',
         queriedPuuid: 'puuid-123',
         queueFilter: null,

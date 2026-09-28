@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { getErrorMessage } from '../../../core/logger/get-error-message';
 import { RiotService } from '../../../core/riot/riot.service';
@@ -13,6 +13,11 @@ import {
   syncStatusKey,
   syncMatchIdsKey,
 } from '../pure/sync-state';
+import {
+  DISCOVERY_RECORDER,
+  type DiscoveryRecorder,
+  type ObservationRequest,
+} from '../../../core/processing/contracts/request-ingestion';
 
 @Injectable()
 export class SyncOrchestratorService {
@@ -23,6 +28,8 @@ export class SyncOrchestratorService {
     private readonly queueService: QueueService,
     private readonly redis: SyncService,
     private readonly logger: PinoLogger,
+    @Inject(DISCOVERY_RECORDER)
+    private readonly discovery: DiscoveryRecorder,
   ) {
     this.logger.setContext(SyncOrchestratorService.name);
   }
@@ -78,7 +85,7 @@ export class SyncOrchestratorService {
       queue: 420,
     });
 
-    await this.queueService.recordDiscovery(riotMatchIds, {
+    const context: ObservationRequest = {
       observationId: randomUUID(),
       source: 'sync',
       observedAt: new Date(),
@@ -89,7 +96,9 @@ export class SyncOrchestratorService {
       startIndex: 0,
       // Stored User.rank has no observation timestamp; never relabel it as fresh.
       rank: null,
-    });
+      matchIds: riotMatchIds,
+    };
+    await this.discovery.recordDiscovery(context);
 
     if (riotMatchIds.length === 0) {
       this.logger.info(

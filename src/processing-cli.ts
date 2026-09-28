@@ -1,14 +1,7 @@
 import 'reflect-metadata';
 import { PrismaService } from './core/prisma/prisma.service';
 import { ProcessingService } from './core/processing/processing.service';
-import { DiscoveryReportService } from './core/processing/discovery-report.service';
-import { RebuildService } from './core/processing/rebuild.service';
-import { PlayerStatsAggregationService } from './modules/stats/adapters/persistence/player-stats-writer';
-import { MatchPersistenceService } from './modules/worker/services/match-persistence.service';
-import { WorkerService } from './modules/worker/services/worker.service';
-import { TimelineParserService } from './modules/matches/adapters/riot/timeline-parser.service';
-import { RiotService } from './core/riot/riot.service';
-import { PinoLogger } from 'nestjs-pino';
+import { createOfflineDiscoveryReport } from './modules/collector/composition/offline';
 
 async function main() {
   const [command, ...args] = process.argv.slice(2);
@@ -33,7 +26,7 @@ async function main() {
     if (command === 'coverage') {
       console.log(
         JSON.stringify(
-          await new DiscoveryReportService(prisma).coverage(),
+          await createOfflineDiscoveryReport(prisma).coverage(),
           null,
           2,
         ),
@@ -41,7 +34,7 @@ async function main() {
     } else if (command === 'lineage') {
       console.log(
         JSON.stringify(
-          await new DiscoveryReportService(prisma).lineage(args[0]),
+          await createOfflineDiscoveryReport(prisma).lineage(args[0]),
           null,
           2,
         ),
@@ -66,6 +59,25 @@ async function main() {
         await processing.retryFailed(args[0] === '--all' ? undefined : args[0]),
       );
     } else {
+      // Rebuild is the only command that loads the worker graph. Coverage,
+      // lineage, status and retry remain offline composition paths.
+      const { RebuildService } = await import(
+        './core/processing/rebuild.service.js'
+      );
+      const { PlayerStatsAggregationService } = await import(
+        './modules/stats/adapters/persistence/player-stats-writer.js'
+      );
+      const { MatchPersistenceService } = await import(
+        './modules/worker/services/match-persistence.service.js'
+      );
+      const { WorkerService } = await import(
+        './modules/worker/services/worker.service.js'
+      );
+      const { TimelineParserService } = await import(
+        './modules/matches/adapters/riot/timeline-parser.service.js'
+      );
+      const { PinoLogger } = await import('nestjs-pino');
+      type RiotOfflineSource = ConstructorParameters<typeof WorkerService>[0];
       const logger = new PinoLogger({});
       const persistence = new MatchPersistenceService(
         prisma,
@@ -80,7 +92,7 @@ async function main() {
         getTimeline: () => {
           throw new Error('Offline rebuild attempted HTTP');
         },
-      } as unknown as RiotService;
+      } as unknown as RiotOfflineSource;
       const worker = new WorkerService(
         offlineRiot,
         new TimelineParserService(),

@@ -1,12 +1,18 @@
 import { randomUUID } from 'node:crypto';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { RiotService } from '../../../core/riot/riot.service';
 import type { RiotRankObservation } from '../../../core/riot/dto/rank-observation.dto';
-import type { ObservedAccountRank } from '../../../core/processing/discovery';
+import type { ObservedAccountRank } from '../contracts/discovery';
+import type { DiscoveryContext } from '../contracts/discovery';
 import { getErrorMessage } from '../../../core/logger/get-error-message';
 import { QueueService } from '../../../core/queue/queue.service';
 import { CollectorRepository } from '../repositories/collector.repository';
+import {
+  DISCOVERY_RECORDER,
+  type DiscoveryRecorder,
+  type ObservationRequest,
+} from '../../../core/processing/contracts/request-ingestion';
 
 interface CollectionWindow {
   startHour: number;
@@ -26,6 +32,8 @@ export class CollectorPipelineService {
     private readonly queueService: QueueService,
     private readonly collectorRepo: CollectorRepository,
     private readonly logger: PinoLogger,
+    @Inject(DISCOVERY_RECORDER)
+    private readonly discovery: DiscoveryRecorder,
   ) {}
 
   async runCollection(window: CollectionWindow): Promise<void> {
@@ -48,7 +56,7 @@ export class CollectorPipelineService {
       for (const { puuid, rank } of highEloAccounts) {
         try {
           const matchIds = await this.riotService.getMatchIdsByPuuid(puuid, 20);
-          await this.queueService.recordDiscovery(matchIds, {
+          const context: DiscoveryContext = {
             observationId: randomUUID(),
             source: 'collector',
             observedAt: new Date(),
@@ -58,7 +66,9 @@ export class CollectorPipelineService {
             requestedCount: 20,
             startIndex: 0,
             rank: toObservedRank(rank),
-          });
+          };
+          const request: ObservationRequest = { ...context, matchIds };
+          await this.discovery.recordDiscovery(request);
           totalMatchesFound += matchIds.length;
 
           for (const matchId of matchIds) {

@@ -8,6 +8,7 @@ export interface CoverageMatch {
   mapId: number | null;
   gameVersion: string | null;
 }
+
 export interface CoverageObservation {
   id: string;
   source: string;
@@ -23,23 +24,16 @@ export interface CoverageObservation {
 
 function bounds(values: number[]) {
   return {
-    first: values.length
-      ? new Date(
-          values.reduce((min, n) => Math.min(min, n), Infinity),
-        ).toISOString()
-      : null,
-    last: values.length
-      ? new Date(
-          values.reduce((max, n) => Math.max(max, n), -Infinity),
-        ).toISOString()
-      : null,
+    first: values.length ? new Date(Math.min(...values)).toISOString() : null,
+    last: values.length ? new Date(Math.max(...values)).toISOString() : null,
     knownN: values.length,
   };
 }
 
+/** Pure, deterministic coverage projection owned by collector. */
 export function discoveryCoverage(
-  matches: CoverageMatch[],
-  observations: CoverageObservation[],
+  matches: readonly CoverageMatch[],
+  observations: readonly CoverageObservation[],
   participantAccounts: number,
 ) {
   const uniqueMatches = [
@@ -51,7 +45,10 @@ export function discoveryCoverage(
   const complete = uniqueMatches.filter(
     (m) => m.summaryPresent && m.timelinePresent,
   ).length;
-  const groups = <T>(rows: T[], key: (row: T) => Record<string, unknown>) => {
+  const groups = <T>(
+    rows: readonly T[],
+    key: (row: T) => Record<string, unknown>,
+  ) => {
     const grouped = new Map<
       string,
       { dimensions: Record<string, unknown>; count: number }

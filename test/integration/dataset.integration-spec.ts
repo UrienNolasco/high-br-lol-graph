@@ -7,6 +7,8 @@ import { gzipSync } from 'node:zlib';
 import { PinoLogger } from 'nestjs-pino';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { ProcessingService } from '../../src/core/processing/processing.service';
+import { DiscoveryService } from '../../src/modules/collector/services/discovery.service';
+import { CollectorRepository } from '../../src/modules/collector/repositories/collector.repository';
 import { PROCESSING_VERSION } from '../../src/core/processing/processing.constants';
 import { RebuildService } from '../../src/core/processing/rebuild.service';
 import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
@@ -31,6 +33,7 @@ const ids = ['MET19_TRAIN', 'MET19_TEST'];
 const creation = Number(fixture.match.gameCreation);
 let prisma: PrismaService;
 let jobs: ProcessingService;
+let discovery: DiscoveryService;
 let worker: WorkerService;
 let directory: string;
 const riot = {
@@ -90,6 +93,7 @@ beforeAll(async () => {
     prisma.processingMaintenance.deleteMany(),
   ]);
   jobs = new ProcessingService(prisma);
+  discovery = new DiscoveryService(jobs, new CollectorRepository(prisma));
   worker = new WorkerService(
     riot as unknown as RiotService,
     new TimelineParserService(),
@@ -111,7 +115,7 @@ afterAll(async () => {
 
 test('worker publishes compact rows with exact provenance, distinct cohorts, missing coverage and same identities through two rebuilds', async () => {
   for (const [i, id] of ids.entries()) await seed(id, i * 86400000);
-  await jobs.recordDiscovery(ids, {
+  await discovery.recordObservation(ids, {
     observationId: 'MET19_SYNTHETIC_COLLECTOR',
     source: 'collector',
     observedAt: new Date('2026-09-23Z'),
@@ -128,7 +132,7 @@ test('worker publishes compact rows with exact provenance, distinct cohorts, mis
       observedAt: new Date('2026-09-23Z'),
     },
   });
-  await jobs.recordDiscovery(ids, {
+  await discovery.recordObservation(ids, {
     observationId: 'MET19_SYNTHETIC_SYNC',
     source: 'sync',
     observedAt: new Date('2026-09-23Z'),

@@ -2,8 +2,10 @@ import {
   FINAL_STAT_UNITS,
   FINAL_FLAG_FIELDS,
 } from '../../src/modules/matches/contracts/final-stats';
-import { DiscoveryReportService } from '../../src/core/processing/discovery-report.service';
-import { DiscoveryContext } from '../../src/core/processing/discovery';
+import { DiscoveryReportService } from '../../src/modules/collector/services/discovery-report.service';
+import { DiscoveryService } from '../../src/modules/collector/services/discovery.service';
+import { CollectorRepository } from '../../src/modules/collector/repositories/collector.repository';
+import { DiscoveryContext } from '../../src/modules/collector/contracts/discovery';
 import { readFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { join } from 'node:path';
@@ -50,6 +52,7 @@ const originalQueue = process.env.RABBITMQ_QUEUE;
 let prisma: PrismaService;
 let secondPrisma: PrismaService;
 let jobs: ProcessingService;
+let discovery: DiscoveryService;
 let worker: WorkerService;
 let otherWorker: WorkerService;
 let aggregates: PlayerStatsAggregationService;
@@ -156,6 +159,7 @@ beforeAll(async () => {
   secondPrisma = new PrismaService({ datasourceUrl: db });
   await Promise.all([prisma.$connect(), secondPrisma.$connect()]);
   jobs = new ProcessingService(prisma);
+  discovery = new DiscoveryService(jobs, new CollectorRepository(prisma));
   ({ service: worker, aggregation: aggregates } = makeWorker(prisma));
   otherWorker = makeWorker(secondPrisma).service;
   rabbit = await amqp.connect(rmq);
@@ -763,9 +767,9 @@ test('multiple discovery paths preserve lineage but contribute once, including t
       observedAt: new Date('2026-09-23T11:59:00Z'),
     },
   };
-  await jobs.recordDiscovery([matchId, matchId], base);
-  await jobs.recordDiscovery([matchId], base); // Same API observation retried.
-  await jobs.recordDiscovery([matchId], {
+  await discovery.recordObservation([matchId, matchId], base);
+  await discovery.recordObservation([matchId], base); // Same API observation retried.
+  await discovery.recordObservation([matchId], {
     ...base,
     source: 'search',
     observationId: 'search-two',
@@ -821,7 +825,7 @@ test('legacy origins stay unknown and report accounts for incomplete raw pairs a
     data: { matchId: 'BR1_901', timeline: gzipSync('{}') },
   });
   await jobs.enqueue('BR1_902', 5);
-  await jobs.recordDiscovery([], {
+  await discovery.recordObservation([], {
     observationId: 'empty-sync',
     source: 'sync',
     observedAt: new Date(),

@@ -1,10 +1,7 @@
 import type { Prisma } from '@prisma/client';
 import type { TransactionContext } from '../../lib/transaction-context';
 
-/**
- * Persistence-only bridge for the opaque transaction passed through public
- * ports.  No module contract may depend on Prisma's transaction client.
- */
+/** Persistence-only identity bridge for opaque public transaction ports. */
 export function toTransactionContext(
   transaction: Prisma.TransactionClient,
 ): TransactionContext {
@@ -16,3 +13,6 @@ export function fromTransactionContext(
 ): Prisma.TransactionClient {
   return transaction as unknown as Prisma.TransactionClient;
 }
+
+export const bindPrismaTransaction = toTransactionContext;
+export const getPrismaTransaction = fromTransactionContext;

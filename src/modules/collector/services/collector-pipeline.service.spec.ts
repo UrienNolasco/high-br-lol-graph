@@ -8,8 +8,8 @@ describe('CollectorPipelineService', () => {
   };
   let mockQueueService: {
     publishBackgroundMatch: jest.Mock;
-    recordDiscovery: jest.Mock;
   };
+  let mockDiscovery: { recordDiscovery: jest.Mock };
   let mockCollectorRepo: { matchExists: jest.Mock };
   let mockLogger: {
     info: jest.Mock;
@@ -25,8 +25,8 @@ describe('CollectorPipelineService', () => {
     };
     mockQueueService = {
       publishBackgroundMatch: jest.fn(),
-      recordDiscovery: jest.fn(),
     };
+    mockDiscovery = { recordDiscovery: jest.fn() };
     mockCollectorRepo = {
       matchExists: jest.fn(),
     };
@@ -42,6 +42,7 @@ describe('CollectorPipelineService', () => {
       mockQueueService,
       mockCollectorRepo,
       mockLogger,
+      mockDiscovery,
     );
   });
 
@@ -74,9 +75,9 @@ describe('CollectorPipelineService', () => {
 
     expect(mockQueueService.publishBackgroundMatch).toHaveBeenCalledTimes(1);
     expect(mockQueueService.publishBackgroundMatch).toHaveBeenCalledWith('M2');
-    expect(mockQueueService.recordDiscovery).toHaveBeenCalledWith(
-      ['M1', 'M2'],
+    expect(mockDiscovery.recordDiscovery).toHaveBeenCalledWith(
       expect.objectContaining({
+        matchIds: ['M1', 'M2'],
         source: 'collector',
         queriedPuuid: 'p1',
         queueFilter: null,
@@ -130,9 +131,13 @@ describe('CollectorPipelineService', () => {
     ]);
     mockRiotService.getMatchIdsByPuuid.mockResolvedValue([]);
     await service.runCollection({ startHour: 1, endHour: 8 });
-    expect(mockQueueService.recordDiscovery).toHaveBeenCalledWith(
-      [],
-      expect.objectContaining({ rank, queueFilter: null, region: 'br1' }),
+    expect(mockDiscovery.recordDiscovery).toHaveBeenCalledWith(
+      expect.objectContaining({
+        matchIds: [],
+        rank,
+        queueFilter: null,
+        region: 'br1',
+      }),
     );
     expect(mockQueueService.publishBackgroundMatch).not.toHaveBeenCalled();
   });

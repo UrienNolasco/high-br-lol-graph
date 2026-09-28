@@ -5,7 +5,6 @@ import type { ChannelWrapper } from 'amqp-connection-manager';
 import { RABBITMQ_CHANNEL } from './queue.constants';
 import { traceIdStore } from '../logger';
 import { ProcessingService } from '../processing/processing.service';
-import { DiscoveryContext } from '../processing/discovery';
 import { PrismaService } from '../prisma/prisma.service';
 import { MAX_ATTEMPTS, REPUBLISH_MS } from '../processing/processing.constants';
 export interface MatchPublishOptions {
@@ -27,11 +26,12 @@ export class QueueService {
     pattern: string,
     matchId: string,
     options?: MatchPublishOptions,
+    traceId?: string,
   ): Promise<void> {
     const job = await this.processing.enqueue(
       matchId,
       options?.priority ?? 1,
-      traceIdStore.getStore()?.traceId,
+      traceId ?? traceIdStore.getStore()?.traceId,
     );
     if (
       job.status === 'PENDING' &&
@@ -40,9 +40,6 @@ export class QueueService {
     ) {
       await this.deliver(job, pattern);
     }
-  }
-  recordDiscovery(matchIds: string[], context: DiscoveryContext) {
-    return this.processing.recordDiscovery(matchIds, context);
   }
   publishUserRequestedMatch(matchId: string) {
     return this.publish('match.collect', matchId, { priority: 10 });
