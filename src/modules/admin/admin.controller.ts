@@ -1,7 +1,10 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Inject, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { RateLimiterService } from '../../core/riot/rate-limiter.service';
-import { CollectorService } from '../collector/services/collector.service';
+import {
+  COLLECTOR_CONTROL,
+  type CollectorControl,
+} from '../collector/contracts/collector-control';
 import { RateLimitStatusDto } from './dto/rate-limit-status.dto';
 import { ResetResponseDto } from './dto/reset-response.dto';
 
@@ -10,7 +13,8 @@ import { ResetResponseDto } from './dto/reset-response.dto';
 export class AdminController {
   constructor(
     private readonly rateLimiterService: RateLimiterService,
-    private readonly collectorService: CollectorService,
+    @Inject(COLLECTOR_CONTROL)
+    private readonly collectorService: CollectorControl,
   ) {}
 
   // ========== Rate Limit ==========

@@ -92,6 +92,16 @@ function areaOf(file) {
   if (parts[0] === 'src' && parts[1] === 'modules' && parts[2]) return parts[2];
   if (parts[0] === 'src' && parts[1] === 'core' && parts[2])
     return `core/${parts[2]}`;
+  if (parts[0] === 'src' && parts[1] === 'lib') {
+    if (parts[2] === 'math') return 'lib/math';
+    return 'core/lib';
+  }
+  if (parts[0] === 'src' && parts[1] === 'studies') return 'studies';
+  if (parts[0] === 'src' && parts[1] === 'composition') {
+    if (parts[2] === 'http' || parts[2] === 'cli')
+      return `composition/${parts[2]}`;
+    return 'composition';
+  }
   if (parts[0] === 'src') {
     if (
       file === 'src/main.ts' ||
@@ -100,7 +110,7 @@ function areaOf(file) {
     )
       return 'composition/http';
     if (file.endsWith('-cli.ts')) return 'composition/cli';
-    return 'composition';
+    return 'other';
   }
   if (parts[0] === 'scripts') return 'studies/tools';
   if (parts[0] === 'test') return 'test/integration';

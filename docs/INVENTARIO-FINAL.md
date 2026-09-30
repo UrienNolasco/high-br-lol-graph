@@ -4,7 +4,13 @@ A rota existente `GET /api/v1/matches/:matchId/builds` agora usa `item0..item6` 
 
 ## Fonte, slots e ausência
 
-O parser grava `MatchParticipant.finalInventory` JSONB, version=1, dentro da mesma transação de MatchPersistenceService. A projeção contém sete entradas ordenadas por slot0..6 e roleBoundItem separado. Slots0..5 são itens, slot6 é trinket; IDs duplicados não são deduplicados. O campo final do resumo prevalece sobre compras, venda, destruição, transformação e undo observados na timeline. Não inferir item de quest a partir de compras nem inseri-lo em um dos seis slots.
+O adapter Riot de matches grava `MatchParticipant.finalInventory` JSONB,
+version=1, dentro da transação coordenada pelo caso de uso de processing. A
+projeção contém sete entradas ordenadas por slot0..6 e `roleBoundItem`
+separado. Slots0..5 são itens, slot6 é trinket; IDs duplicados não são
+deduplicados. O campo final do resumo prevalece sobre compras, venda,
+destruição, transformação e undo observados na timeline. Não inferir item de
+quest a partir de compras nem inseri-lo em um dos seis slots.
 
 ID0 é slot vazio observado, `empty=true`, origem observed. Campo ausente/null vira itemId=null, empty=null, origem unavailable e missing_field. ID negativo, não inteiro ou não finito gera invalid_value. Um ID desconhecido mas válido permanece com seu slot e ID; só metadata fica null. Cobertura `validSlots/totalSlots` conta os sete campos válidos, incluindo vazios observados; roleBoundItem tem estado próprio e não altera esse denominador. Não arredondar IDs/timestamps nem fabricar coordenadas.
 
@@ -24,7 +30,13 @@ A rota de builds pode consultar os arquivos públicos Data Dragon, sem chave Rio
 
 `finalBuild` mantém o nome, mas sua semântica é corrigida: retorna **sete slots com itemId nullable**, não seis compras. `roleBoundItem`, estados/razões, cobertura e catálogo são aditivos; clientes devem usar slot/kind e tratar null. `itemTimeline` permanece separado, com timestamp em ms e minute=timestamp/60000 apenas como conveniência. Não apresentar transações legadas como sequência completa de undo. Não há nota de qualidade de build nem recomendação causal.
 
-Migration `20260923040000_met06_final_inventory` apenas adiciona coluna nullable; linhas existentes não são preenchidas com valores inventados. PROCESSING_VERSION=2 identifica a nova geração de projeções de fundação, compartilhada com MET-03/04/05. Aplicar migration antes do worker atualizado e reconstruir offline pelo runbook existente; redelivery de um job COMPLETED não faz rebuild. MET-09 integra o ensaio das quatro projeções. Rollback da aplicação preserva coluna e MatchRaw; não apagar dados para retroceder versão.
+Migration `20260923040000_met06_final_inventory` apenas adiciona coluna
+nullable; linhas existentes não são preenchidas com valores inventados.
+`PROCESSING_VERSION=2` identifica a geração de projeções de fundação,
+compartilhada com MET-03/04/05. Aplicar migration antes do worker atualizado e
+reconstruir offline pelo runbook existente; redelivery de um job `COMPLETED` não
+faz rebuild. MET-09 integra o ensaio das quatro projeções. Rollback da
+aplicação preserva coluna e `MatchRaw`; não apagar dados para retroceder versão.
 
 ## Validação reproduzível
 

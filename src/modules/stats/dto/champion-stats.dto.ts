@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ChampionImagesDto } from '../../champions/dto/champion-images.dto';
+import type { ChampionImages } from '../contracts/champion-images';
 
 export class ChampionStatsDto {
   @ApiProperty({ type: String, nullable: true, example: 'Aatrox' })
@@ -20,8 +20,8 @@ export class ChampionStatsDto {
   @ApiProperty({ type: Number, nullable: true, example: 547 })
   losses: number | null;
 
-  @ApiProperty({ type: ChampionImagesDto, nullable: true })
-  images: ChampionImagesDto | null;
+  @ApiProperty({ type: 'object', additionalProperties: false, nullable: true })
+  images: ChampionImages | null;
 
   @ApiProperty({ type: Number, nullable: true, example: 2.5 })
   kda: number | null;

@@ -4,7 +4,7 @@
   "matchId": "BR1_3200579475",
   "gameVersion": "16.2.741.3171",
   "metricVersion": 1,
-  "processingVersion": 3,
+  "processingVersion": 4,
   "processedAt": "2026-09-23T00:00:00.000Z",
   "coverage": {
     "completeTimeline": true,
@@ -115,7 +115,7 @@
     "eventId": "BR1_3200579475:13:37",
     "metricId": "O01",
     "metricVersion": 1,
-    "processingVersion": 3,
+    "processingVersion": 4,
     "processedAt": "2026-09-23T00:00:00.000Z",
     "frameIndex": 13,
     "eventIndex": 37,
@@ -164,7 +164,7 @@
     "eventId": "BR1_3200579475:13:12",
     "metricId": "O01",
     "metricVersion": 1,
-    "processingVersion": 3,
+    "processingVersion": 4,
     "processedAt": "2026-09-23T00:00:00.000Z",
     "frameIndex": 13,
     "eventIndex": 12,
@@ -215,7 +215,7 @@
   "fiora": {
     "turretDamage": {
       "metricId": "O03",
-      "processingVersion": 3,
+      "processingVersion": 4,
       "processedAt": "2026-09-23T00:00:00.000Z",
       "matchId": "BR1_3200579475",
       "subject": {
@@ -247,7 +247,7 @@
     },
     "turretDamageShare": {
       "metricId": "O03",
-      "processingVersion": 3,
+      "processingVersion": 4,
       "processedAt": "2026-09-23T00:00:00.000Z",
       "matchId": "BR1_3200579475",
       "subject": {
@@ -303,7 +303,7 @@
     },
     "turretKills": {
       "metricId": "O03",
-      "processingVersion": 3,
+      "processingVersion": 4,
       "processedAt": "2026-09-23T00:00:00.000Z",
       "matchId": "BR1_3200579475",
       "subject": {
@@ -335,7 +335,7 @@
     },
     "turretTakedowns": {
       "metricId": "O03",
-      "processingVersion": 3,
+      "processingVersion": 4,
       "processedAt": "2026-09-23T00:00:00.000Z",
       "matchId": "BR1_3200579475",
       "subject": {

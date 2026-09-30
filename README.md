@@ -4,6 +4,26 @@ Backend em NestJS que coleta dados da Riot API, processa partidas de League of L
 
 O fluxo atual de ingestão usa trabalhos duráveis no PostgreSQL, payloads brutos preservados e gravação transacional da partida com seus agregados. Consulte [Processamento confiável de partidas](docs/PROCESSAMENTO-CONFIAVEL.md) para as garantias, migration, testes e comandos de recuperação/reconstrução. Os diagramas e exemplos de ingestão abaixo antecedem essa mudança; o guia de processamento é a referência para esse fluxo.
 
+## Organização atual e validação arquitetural
+
+As fronteiras de produção ficam em `src/modules/**`. `src/core/**` contém
+apenas infraestrutura técnica compartilhada (configuração, Prisma, Redis,
+locks, logs, fila e clientes externos). A composição HTTP está em
+`src/composition/http/**`; as CLIs de processamento, dataset e estudos usam
+composições offline explícitas. Regras puras vivem em contratos, `pure/` e
+`domain/`; adapters são os pontos que acessam infraestrutura.
+
+Antes de integrar uma alteração, execute:
+
+```bash
+npm run test:architecture
+npm run architecture:check -- --strict
+npm run build
+```
+
+O modo estrito exige zero violações, ciclos, pontes de compatibilidade e
+relocações pendentes. O workflow de arquitetura executa esses comandos.
+
 ---
 
 ## Visão Geral

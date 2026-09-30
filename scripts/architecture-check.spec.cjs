@@ -3,7 +3,13 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { analyzeViolations, compareBaseline, check } = require('./architecture-check.cjs');
+const {
+  analyzeViolations,
+  compareBaseline,
+  check,
+  areaOf: checkAreaOf,
+} = require('./architecture-check.cjs');
+const { areaOf: inventoryAreaOf } = require('./architecture-inventory.cjs');
 
 function inspect(t, files) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'highbr-architecture-'));
@@ -24,6 +30,48 @@ function inspect(t, files) {
   }
   return analyzeViolations(root);
 }
+
+test('area classification keeps technical libraries and studies out of composition', () => {
+  const expected = {
+    'src/lib/math/per-minute.ts': 'lib/math',
+    'src/lib/processing-policy.ts': 'core/lib',
+    'src/studies/vision/entrypoint.ts': 'studies',
+    'src/composition/online-processing.module.ts': 'composition',
+    'src/composition/http/server.ts': 'composition/http',
+    'src/main.ts': 'composition/http',
+    'src/processing-cli.ts': 'composition/cli',
+  };
+  for (const [file, area] of Object.entries(expected)) {
+    assert.equal(inventoryAreaOf(file), area, `inventory area for ${file}`);
+    assert.equal(checkAreaOf(file), area, `checker area for ${file}`);
+  }
+});
+
+test('studies may consume public contracts but not module internals', t => {
+  const result = inspect(t, {
+    'src/modules/matches/contracts/normalized-match.ts': 'export interface Match { id: string }',
+    'src/modules/matches/domain/private.ts': 'export const value = 1;',
+    'src/studies/vision/study.ts': [
+      "import type { Match } from '../../modules/matches/contracts/normalized-match';",
+      "import { value } from '../../modules/matches/domain/private';",
+      'export const study = (match: Match) => match.id + value;',
+    ].join('\n'),
+  });
+  assert.ok(
+    result.violations.some(
+      violation =>
+        violation.rule === 'cross-module-internal-import' &&
+        violation.from === 'src/studies/vision/study.ts',
+    ),
+  );
+  assert.ok(
+    !result.violations.some(
+      violation =>
+        violation.rule === 'cross-module-internal-import' &&
+        violation.to === 'src/modules/matches/contracts/normalized-match.ts',
+    ),
+  );
+});
 
 test('pure upstream contracts and same-module domain imports are allowed', t => {
   const result = inspect(t, {

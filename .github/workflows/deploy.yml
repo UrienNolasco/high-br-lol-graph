@@ -61,7 +61,7 @@ jobs:
           ARCHITECTURE_BASE_REF: ${{ github.event.before }}
         run: |
           npm run test:architecture
-          npm run architecture:check
+          npm run architecture:check -- --strict
 
       - name: Verify production build entrypoints
         run: |

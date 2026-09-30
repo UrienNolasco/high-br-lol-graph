@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import type { ChampionImages } from '../contracts/champion-images';
 
-export class ChampionImagesDto {
+export class ChampionImagesDto implements ChampionImages {
   @ApiProperty({
     example:
       'https://ddragon.leagueoflegends.com/cdn/15.23/img/champion/Aatrox.png',

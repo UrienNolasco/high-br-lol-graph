@@ -2,7 +2,7 @@ const { readFileSync, writeFileSync } = require('node:fs');
 const { join } = require('node:path');
 const {
   projectTimelineSnapshots,
-} = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
+} = require('../dist/composition/study-api');
 const {
   calculateMapPresence,
 } = require('../dist/modules/matches/contracts/calculations/map-presence');

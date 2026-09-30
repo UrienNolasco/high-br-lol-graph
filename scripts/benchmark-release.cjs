@@ -18,16 +18,12 @@ const { PROCESSING_VERSION } = from(
 const { createProcessingComposition } = from(
   'composition/processing',
 );
-const { WorkerService } = from('modules/worker/services/worker.service');
-const { ReportRepository } = from(
-  'modules/matches/repositories/report.repository',
-);
-const { MatchReportService } = from(
-  'modules/matches/services/match-report.service',
-);
-const { MatchReportController } = from(
-  'modules/matches/match-report.controller',
-);
+const {
+  WorkerService,
+  ReportRepository,
+  MatchReportService,
+  MatchReportController,
+} = from('composition/study-api');
 const { unavailableItemCatalog } = from('modules/matches/contracts/catalogs');
 const { unavailableSkillCatalog } = from('modules/matches/contracts/catalogs');
 const { VISION_WARD_TYPES } = from(

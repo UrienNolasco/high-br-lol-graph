@@ -1,6 +1,7 @@
 # Guia de entrada — High BR LoL Graph
 
-Levantamento do código local em 18/09/2026, referência Git `30b212b`. Este documento descreve a implementação encontrada; diferenças em relação ao README estão explicitadas. Não houve execução da aplicação integrada nem consulta ao ambiente de produção.
+Levantamento do código local em 28/09/2026. Este documento descreve a
+organização modular atual; detalhes históricos são marcados explicitamente.
 
 Atualização: a ingestão e os agregados foram substituídos pelo [processamento confiável](PROCESSAMENTO-CONFIAVEL.md). Consulte esse guia para o comportamento atual de persistência, falhas, recuperação, reconstrução e validação; as descrições desses pontos neste levantamento são históricas.
 
@@ -74,11 +75,12 @@ src/
     redis/                  Cliente Redis compartilhado
     lock/                   Locks distribuídos via SET NX PX
     queue/                  Conexão RabbitMQ e publicação com prioridades
-    riot/                   Cliente Riot, retry, rate limiter, DTOs e parsers
+    riot/                   Cliente Riot, retry, rate limiter e DTOs externos
     data-dragon/            Catálogo local, versões e URLs de imagens
-    stats/                  Atualização de agregados por jogador
     logger/                 Pino e contexto de trace ID
-    interceptors/           Conversão de BigInt para JSON
+    interceptors/           Infraestrutura técnica de baixo nível
+  composition/
+    http/                   Bootstrap/adapters HTTP e interceptors Nest
   modules/
     players/                Busca, perfil, histórico, estatísticas e sync
     matches/                Detalhes, timelines, builds e desempenho
@@ -86,7 +88,10 @@ src/
     stats/                  Estatísticas globais e tier list
     analytics/              Comparação entre dois jogadores
     collector/              Descoberta de partidas e controles de coleta
-    worker/                 Consumo, transformação e persistência
+    worker/                 Consumo AMQP e delegação ao caso de uso de processing
+    processing/             Casos de uso, contratos e adapters de processamento
+    dataset/                Casos de uso, contratos e adapters de dataset
+    stats/                  Contratos, casos de uso e adapters de agregados
     admin/                  Controles de rate limit e collector
 prisma/
   schema.prisma             Modelo atual: 7 tabelas
@@ -95,14 +100,21 @@ test/
   helpers/                  Aplicação de teste e mocks
   fixtures/                 Dados reutilizados em testes
   jest-e2e.json             Configuração dos testes HTTP
-.github/workflows/deploy.yml Pipeline de produção
+.github/workflows/architecture.yml Verificação das fronteiras
+.github/workflows/deploy.yml Pipeline de produção e gates de integração
 ```
 
 O padrão predominante é `controller → service → repository → Prisma`. Arquivos em `pure/` contêm cálculos, mapeamentos e transformações sem infraestrutura. DTOs definem contratos de entrada/saída e parte da validação. Há exceções: agregações e `TierRankService` acessam Prisma diretamente.
 
-Os testes ficam principalmente ao lado do código. Existem dois `StatsModule`: `core/stats` escreve agregados de jogadores; `modules/stats` atende consultas globais de campeões. Também existem dois `MatchRepository`, cada um no seu módulo.
+Os testes ficam principalmente ao lado do código. `modules/stats` é o
+proprietário dos agregados e expõe portas para leitura/escrita; os adapters
+Prisma permanecem dentro do módulo. O worker consome a porta pública de
+processing e não grava partidas ou agregados diretamente.
 
-O parser ativo de partidas do worker é [worker/pure/match.parser.ts](../src/modules/worker/pure/match.parser.ts). `core/riot/match-parser.service.ts` continua registrado, mas não é o parser utilizado nesse fluxo. O DTO de matchup também permanece no código, sem endpoint correspondente.
+O parser de partidas pertence ao adapter Riot de matches
+([match.parser.ts](../src/modules/matches/adapters/riot/match.parser.ts)). O
+worker adapta a mensagem AMQP para o caso de uso de processing. O DTO de
+matchup também permanece no código, sem endpoint correspondente.
 
 ## 4. Fluxos de ponta a ponta
 
@@ -159,7 +171,9 @@ O consumidor aceita também `user.update`, mas os três métodos atuais de publi
 
 Duplicatas são tratadas pela consulta prévia e pelo erro Prisma `P2002`. Não há deduplicação dos IDs que ainda estão na fila. Não há dead-letter queue configurada no repositório. Erros individuais de agregação são logados e absorvidos; uma partida pode receber ACK mesmo com agregados incompletos. Reenviar a partida não repara isso, porque a presença em `matches` faz o worker ignorá-la.
 
-Referências: [worker](../src/modules/worker/services/worker.service.ts), [persistência](../src/modules/worker/services/match-persistence.service.ts), [ACK/NACK](../src/modules/worker/worker.controller.ts), [publicação](../src/core/queue/queue.service.ts).
+Referências: [worker](../src/modules/worker/services/worker.service.ts),
+[caso de uso](../src/modules/processing/services/processing.service.ts),
+[ACK/NACK](../src/modules/worker/worker.controller.ts), [publicação](../src/core/queue/queue.service.ts).
 
 ## 5. Modelo de dados
 
@@ -181,7 +195,7 @@ As atualizações calculam médias incrementais e gravam versões `ALL` e patch 
 
 Índices ajudam consultas por PUUID, campeão, `(puuid, championId)`, `(puuid, role)` e `(queueId, gameCreation DESC)`. Consultas de distribuição por posição e atividade usam SQL parametrizado; o heatmap de atividade usa explicitamente `America/Sao_Paulo`.
 
-Referências: [schema](../prisma/schema.prisma), [agregação](../src/core/stats/player-stats-aggregation.service.ts), [tier/rank](../src/modules/stats/services/tier-rank.service.ts).
+Referências: [schema](../prisma/schema.prisma), [agregação](../src/modules/stats/services), [tier/rank](../src/modules/stats/services/tier-rank.service.ts).
 
 ## 6. Inventário completo de endpoints
 
@@ -306,21 +320,21 @@ Os itens abaixo são observações do código local, não confirmação de incid
 |---|---|
 | Agendamento | Expressão do cron está no campo de horas; não implementa os 30 minutos descritos. Com janela padrão, o disparo de meia-noite é descartado. [Código](../src/modules/collector/services/collector.service.ts) |
 | Isolamento de processos | Todos carregam scheduler/collector; flag em Redis é global e `isRunning` é local. Após corrigir/habilitar cron, várias instâncias podem coletar simultaneamente. [Código](../src/app.module.ts) |
-| Mistura de modalidades | Busca/coleta importam sem filtro de queue; agregador de jogadores grava sempre `queueId: 420`, sem verificar a queue da partida. Resumos Solo/Duo podem incluir outras modalidades. [Código](../src/core/stats/player-stats-aggregation.service.ts) |
-| Integridade dos agregados | Atualizações leem valor atual e depois fazem upsert com números absolutos; workers concorrentes podem sobrescrever incrementos. Agregados ficam fora da transação principal e não têm reconstrução/reparo implementado. [Código](../src/modules/worker/services/match-persistence.service.ts) |
-| Objetivos da timeline | Parser extrai eventos, mas persistência salva `team.objectives` do Match-V5, um objeto de totais, em `objectivesTimeline`. Leitura espera array e chama `.map`; dados desse fluxo podem causar erro em `/timeline/events`. [Gravação](../src/modules/worker/pure/match.parser.ts), [leitura](../src/modules/matches/pure/timeline-events.mapper.ts) |
+| Mistura de modalidades | Busca/coleta importam sem filtro de queue; agregação e consultas devem aplicar o contrato de modalidade da partida. [Código](../src/modules/stats/services), [contratos](../src/modules/matches/contracts/eligibility.ts) |
+| Integridade dos agregados | O caso de uso de processing coordena projeções e agregados em uma transação; rebuild e retry são operações offline explícitas. [Código](../src/modules/processing/services/processing.service.ts) |
+| Objetivos da timeline | Eventos são normalizados pelo adapter Riot e publicados pelas portas de matches; consultas usam o contrato de projeção. [Gravação](../src/modules/matches/adapters/riot/normalized-events.ts), [leitura](../src/modules/matches/pure/timeline-events.mapper.ts) |
 | Analytics com `ALL` | Valor padrão `ALL` é passado a `gameVersion.startsWith('ALL')`, em vez de omitir o filtro; timelines retornam vazias para versões normais. `role` filtra timelines, mas não os agregados gerais/laning da mesma resposta. [Código](../src/modules/analytics/repositories/analytics.repository.ts) |
-| Posição central | Parser mantém `teamPosition` recebido; fixture contém `MIDDLE`, enquanto DTOs de histórico/comparação aceitam `MID`. Filtro pode não encontrar registros de mid. [Parser](../src/modules/worker/pure/match.parser.ts), [DTO](../src/modules/players/dto/player-match.dto.ts) |
-| Métricas globais incompletas | Worker inicializa `banRate`, `pickRate`, `cspm` em zero e não os calcula posteriormente. São entradas do score de tier. Consultas globais por patch não filtram queue e podem retornar várias linhas do mesmo campeão. [Persistência](../src/modules/worker/services/match-persistence.service.ts), [consultas](../src/modules/stats/repositories/champion-stats.repository.ts) |
-| Timeline indisponível | `getTimeline` reconhece 404 somente como AxiosError, mas o interceptor converte 404 em NotFoundException. O caminho previsto de retornar null/ignorar partida pode não ser alcançado na integração real. [Cliente](../src/core/riot/riot.service.ts), [interceptor](../src/core/riot/riot.module.ts) |
-| Serialização de datas | Interceptor de BigInt reconstrói qualquer objeto via `Object.keys`; um `Date` vira `{}`. Perfil/resumo retornam Dates que passam por esse interceptor na aplicação real. Helper de testes HTTP não instala esse interceptor. [Código](../src/core/interceptors/bigint.interceptor.ts) |
-| Precisão das análises | Wards têm posição `(0,0)`; `finalBuild` usa últimas seis compras distintas, sem reconstruir inventário; `winner` da timeline de ouro é quem termina com mais ouro, não o campo real de vitória. Solo kills/deaths na comparação são sempre zero. [Parser](../src/core/riot/timeline-parser.service.ts), [builds](../src/modules/matches/pure/builds.mapper.ts), [ouro](../src/modules/matches/pure/gold-calculator.ts) |
-| Paginação | Cursor usa data de criação mesmo ao ordenar por KDA/kills/dano, incompatível com esses critérios; sem desempate único também pode omitir partidas com timestamp igual. [Código](../src/modules/players/pure/match.mapper.ts) |
-| Patches | Filtros por prefixo podem confundir, por exemplo, `15.1` com `15.10`; cálculo do patch anterior usa padding e transição fixa de temporada. [Consultas](../src/modules/players/repositories/player-stats.repository.ts), [tier](../src/modules/stats/services/tier-rank.service.ts) |
-| Top campeões/data | Top 5 é truncado a cada atualização, perdendo histórico de campeões fora da lista; `lastPlayedAt` recebe hora de processamento, não a hora da partida. [Código](../src/core/stats/player-stats-aggregation.service.ts) |
+| Posição central | O adapter preserva `teamPosition`; normalização de `MID`/`MIDDLE` pertence aos contratos de matches. [Parser](../src/modules/matches/adapters/riot/match.parser.ts), [contrato](../src/modules/matches/contracts/eligibility.ts) |
+| Métricas globais incompletas | Agregados são escritos pelo módulo de stats e consultados por seus contratos; a composição de processing fornece a geração explicitamente. [Persistência](../src/modules/stats/adapters), [consultas](../src/modules/stats/repositories/champion-stats.repository.ts) |
+| Timeline indisponível | A ausência de timeline é tratada pelo adapter Riot e pelo caso de uso de processing; o caminho offline exige que o bruto já exista. [Cliente](../src/core/riot/riot.service.ts), [adapter](../src/modules/matches/adapters/riot/timeline-parser.service.ts) |
+| Serialização de datas | A serialização HTTP pertence à composição e seus interceptors; testes de contrato devem instalar o mesmo adapter HTTP usado pelo bootstrap. [Código](../src/composition/http) |
+| Precisão das análises | Wards têm posição `(0,0)`; o inventário final usa slots observados e permanece separado das compras; comparações publicam cobertura e ausência conforme os contratos. [Parser](../src/modules/matches/adapters/riot/timeline-parser.service.ts), [builds](../src/modules/matches/pure/builds.mapper.ts), [ouro](../src/modules/matches/pure/gold-calculator.ts) |
+| Paginação | Cursor e ordenação pertencem aos contratos e readers de players; critérios de ordenação precisam de desempate estável por identidade. [Código](../src/modules/players/repositories/match.mapper.ts) |
+| Patches | Filtros de versão são exatos nos contratos públicos; consultas de stats e tier usam os readers do módulo. [Consultas](../src/modules/players/services/player-stats.service.ts), [tier](../src/modules/stats/services/tier-rank.service.ts) |
+| Top campeões/data | A política de agregação pertence ao módulo de stats e deve ser lida junto do contrato de versão da projeção. [Código](../src/modules/stats/services) |
 | Estado de sync | Check de `SYNCING` e gravação não são atômicos; chamadas simultâneas podem duplicar publicações. Novo sync adiciona IDs ao set anterior sem limpá-lo. Falhas de mensagens não têm estado de erro específico; podem permanecer em sync até TTL. [Código](../src/modules/players/services/sync-orchestrator.service.ts) |
 | Contador administrativo | Admin chama `getStatus()` sem key e lê `riot_requests:default`, enquanto chamadas reais usam hash da key; status não representa automaticamente os workers. Reset limpa os contadores locais, não a cota no servidor Riot. [Código](../src/modules/admin/admin.controller.ts) |
-| Proteções HTTP/saída | Não há guards de autenticação para admin/collector e CORS reflete a origem. Cliente Riot desabilita validação do certificado TLS (`rejectUnauthorized: false`). [Bootstrap](../src/main.ts), [RiotModule](../src/core/riot/riot.module.ts) |
+| Proteções HTTP/saída | Não há guards de autenticação para admin/collector e CORS reflete a origem. Cliente Riot e sua configuração permanecem isolados nos adapters externos. [Bootstrap](../src/main.ts), [RiotModule](../src/core/riot/riot.module.ts) |
 | Evolução de banco | Migration adiciona `damageTaken NOT NULL` sem default/backfill; aplicar em tabela já populada exige tratamento. Migration de pivot elimina tabelas/campos antigos. [Migration](../prisma/migrations/20260211020137_add_damage_taken/migration.sql) |
 
 ## 10. Testes e verificação deste levantamento
@@ -341,7 +355,7 @@ Não foram executados Jest, build, migrations ou containers: o checkout não pos
 2. [schema.prisma](../prisma/schema.prisma): dados de origem e agregados disponíveis.
 3. [PlayersController](../src/modules/players/players.controller.ts) e [PlayerSearchService](../src/modules/players/services/player-search.service.ts): entrada do usuário.
 4. [QueueService](../src/core/queue/queue.service.ts), [WorkerController](../src/modules/worker/worker.controller.ts) e [WorkerService](../src/modules/worker/services/worker.service.ts): caminho assíncrono.
-5. [MatchPersistenceService](../src/modules/worker/services/match-persistence.service.ts) e [PlayerStatsAggregationService](../src/core/stats/player-stats-aggregation.service.ts): consistência e métricas.
+5. [ProcessingService](../src/modules/processing/services/processing.service.ts) e [stats](../src/modules/stats/services): consistência e métricas.
 6. Serviços/repositórios de `players`, `matches`, `stats` e `analytics`: como o dado chega ao cliente.
 7. [Compose de desenvolvimento](../docker-compose.yml), [Compose de produção](../docker-compose.prod.yml) e [workflow](../.github/workflows/deploy.yml): execução e operação.
 

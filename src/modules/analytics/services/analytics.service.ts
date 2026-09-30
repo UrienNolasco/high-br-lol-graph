@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { AnalyticsRepository } from '../repositories/analytics.repository';
 import type { TimelineFilters } from '../../matches/ports/comparison-cohort-reader';
-import { generateInsights } from '../pure/insights-generator';
+import { generateInsights } from './insights-generator';
 import { PlayerComparisonDto } from '../dto/compare-evolve.dto';
 import { calculateCohort } from '../pure/cohort-calculator';
 import { normalizeRole } from '../../matches/contracts/eligibility';

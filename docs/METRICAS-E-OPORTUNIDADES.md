@@ -130,7 +130,7 @@ Há ainda um cuidado com métricas de sobrevivência: Karthus recebe um abate re
 
 Os fundamentos concluídos acima **não geram tarefas de reimplementação**. As novas tasks tratam extensão, correção de contrato e validação. O scheduler do collector também já foi corrigido para seis campos e verifica `APP_MODE=COLLECTOR`. O [onboarding](ONBOARDING.md) contém descrições históricas; para processamento, prevalecem o [guia atualizado](PROCESSAMENTO-CONFIAVEL.md) e o código inspecionado.
 
-Referências de código: [parser de partida](../src/modules/worker/pure/match.parser.ts), [parser de timeline](../src/core/riot/timeline-parser.service.ts), [persistência](../src/modules/worker/services/match-persistence.service.ts), [agregações](../src/core/stats/player-stats-aggregation.service.ts), [analytics](../src/modules/analytics/services/analytics.service.ts), [performance](../src/modules/matches/pure/performance-calculator.ts).
+Referências de código: [parser de partida](../src/modules/matches/adapters/riot/match.parser.ts), [parser de timeline](../src/modules/matches/adapters/riot/timeline-parser.service.ts), [persistência de projeções](../src/modules/matches/adapters/persistence/match-projection-writer.ts), [agregações](../src/modules/stats/services), [analytics](../src/modules/analytics/services/analytics.service.ts), [performance](../src/modules/matches/pure/performance-calculator.ts).
 
 ## 4. Catálogo priorizado de oportunidades
 
@@ -393,7 +393,7 @@ Os cálculos numéricos do relatório são rastreáveis ao JSON gerado. Nesta re
 
 Cada métrica precisa responder: qual pergunta atende, em qual população, a partir de quais campos, com qual unidade, regra temporal, denominador e limitação. O catálogo da seção 4 identifica as fontes; MET-01 deve transformar as convenções abaixo em contratos executáveis e exemplos OpenAPI.
 
-MET-01 implementada: [contratos executáveis, matriz de elegibilidade e compatibilidade](CONTRATOS-METRICAS.md), com exemplos dos quatro estados em `src/core/metrics/metric-examples.ts` e schema compartilhado no OpenAPI.
+MET-01 implementada: [contratos executáveis, matriz de elegibilidade e compatibilidade](CONTRATOS-METRICAS.md), com exemplos dos quatro estados em `src/modules/matches/dto/metric-examples.ts` e schema compartilhado no OpenAPI.
 
 MET-02 implementada: [corpus, auditoria reproduzível e limites de cobertura](CORPUS-METRICAS.md), com manifesto e relatório em `docs/analysis/corpus-*.json`.
 
@@ -451,7 +451,14 @@ flowchart LR
 
 O desenho é lógico: frames/eventos podem começar em JSON estruturado se o padrão de consulta favorecer leitura por partida. MET-03/04 devem registrar a escolha física e medir tamanho/leitura. Campos necessários a filtros históricos pedem índices ou projeções próprias. Não descomprimir o histórico bruto inteiro em cada GET, nem calcular percentis sobre toda a base sem limite.
 
-Reaproveitar a transação de `MatchPersistenceService` e o rebuild existente. Features persistidas devem ter identidade estável por partida/sujeito/horizonte/versão, sem contribuição duplicada. Uma mudança de fórmula que altere agregados exige incremento de `PROCESSING_VERSION` e rebuild offline conforme o runbook; reentrega de trabalho `COMPLETED` não é reprocessamento. Evolução para rebuild incremental pode ser avaliada se o tempo offline medido impedir operação, mas não é pré-requisito inventado para esta fase.
+Reaproveitar a transação coordenada pelo caso de uso de processing e o rebuild
+existente. Features persistidas devem ter identidade estável por
+partida/sujeito/horizonte/versão, sem contribuição duplicada. Uma mudança de
+fórmula que altere agregados exige incremento de `PROCESSING_VERSION` e rebuild
+offline conforme o runbook; reentrega de trabalho `COMPLETED` não é
+reprocessamento. Evolução para rebuild incremental pode ser avaliada se o
+tempo offline medido impedir operação, mas não é pré-requisito inventado para
+esta fase.
 
 Contratos REST novos devem expor recurso, janela e evidência, não a organização interna das tabelas. Preferir extensão compatível ou rota versionada quando mudar significado/nulabilidade. O formato exato de rota será fechado em MET-17 junto da especificação de consumo MET-34. A implementação de app mobile/web depende de repositório e stack ainda não presentes, por isso não há tarefa de tela atribuída a um frontend imaginário.
 

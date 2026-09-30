@@ -11,7 +11,7 @@ import {
   buildMatchOrderBy,
   toPlayerMatchDto,
   MatchRow,
-} from '../pure/match.mapper';
+} from '../repositories/match.mapper';
 
 @Injectable()
 export class PlayerMatchesService {

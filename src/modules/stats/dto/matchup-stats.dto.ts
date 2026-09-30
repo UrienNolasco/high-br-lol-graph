@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ChampionImagesDto } from '../../champions/dto/champion-images.dto';
+import type { ChampionImages } from '../contracts/champion-images';
 
 export class MatchupChampionDto {
   @ApiProperty({ example: 'Irelia' })
   name: string;
 
-  @ApiProperty({ type: ChampionImagesDto })
-  images: ChampionImagesDto;
+  @ApiProperty({ type: 'object', additionalProperties: false })
+  images: ChampionImages;
 
   @ApiProperty({ example: 25 })
   winRate: number;

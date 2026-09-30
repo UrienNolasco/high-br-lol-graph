@@ -2,7 +2,7 @@ import { Module, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AdminController } from './admin.controller';
 import { RateLimiterService } from '../../core/riot/rate-limiter.service';
-import { CollectorService } from '../collector/services/collector.service';
+import { COLLECTOR_CONTROL } from '../collector/contracts/collector-control';
 import { createTestingApp } from '../../../test/helpers/app.builder';
 import {
   mockRateLimiterService,
@@ -13,7 +13,7 @@ import {
   controllers: [AdminController],
   providers: [
     { provide: RateLimiterService, useValue: {} },
-    { provide: CollectorService, useValue: {} },
+    { provide: COLLECTOR_CONTROL, useValue: {} },
   ],
 })
 class TestAdminModule {}
@@ -27,7 +27,7 @@ describe('AdminController (e2e)', () => {
     app = await createTestingApp(TestAdminModule, {
       overrides: [
         { provide: RateLimiterService, useValue: rateLimiterService },
-        { provide: CollectorService, useValue: collectorService },
+        { provide: COLLECTOR_CONTROL, useValue: collectorService },
       ],
     });
   });

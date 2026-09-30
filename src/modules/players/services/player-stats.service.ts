@@ -7,8 +7,8 @@ import { PlayerRoleDistributionDto } from '../dto/player-role-distribution.dto';
 import { PlayerActivityDto } from '../dto/player-activity.dto';
 import { STATS_READER } from '../../stats/ports/stats-reader';
 import type { StatsReader } from '../../stats/ports/stats-reader';
-import { buildEmptyHeatmap, fillHeatmap } from '../pure/heatmap.builder';
-import { calculateActivityInsights } from '../pure/insights.calculator';
+import { buildEmptyHeatmap, fillHeatmap } from './heatmap.builder';
+import { calculateActivityInsights } from './insights.calculator';
 import { enrichChampionStats } from '../pure/champion.enricher';
 
 @Injectable()

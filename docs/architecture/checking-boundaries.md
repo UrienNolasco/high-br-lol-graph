@@ -1,6 +1,11 @@
 # Verificação das fronteiras
 
-Execute `npm run test:architecture` e `npm run architecture:check` antes de integrar uma alteração. O primeiro comando testa exemplos mínimos válidos e inválidos; o segundo analisa o checkout atual. O inventário ARQ-01 permanece como evidência histórica, sem ser regenerado para acomodar a migração.
+Execute `npm run test:architecture` e `npm run architecture:check -- --strict`
+antes de integrar uma alteração. O primeiro comando testa exemplos mínimos
+válidos e inválidos; o segundo analisa o checkout atual e falha diante de
+qualquer violação, ciclo, ponte ou relocação pendente. O inventário ARQ-01
+permanece como evidência histórica, sem ser regenerado para acomodar a
+migração. O modo sem `--strict` é reservado à inspeção durante uma migração.
 
 As regras estão em `rules.json`. O verificador resolve imports relativos, aliases do tsconfig, imports de tipos e reexports. Ciclos de runtime, ciclos apenas de tipos, imports de módulos Nest e reciprocidade entre áreas são analisados separadamente. O grafo Nest representa `@Module().imports`; ele não substitui o teste de inicialização dos providers.
 

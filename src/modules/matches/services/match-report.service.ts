@@ -13,23 +13,23 @@ import {
   isFiniteNumber,
   sourceKnown,
   sourceTime,
-} from '../pure/report/report.types';
+} from './report/report.types';
 import {
   ReportFamily,
   REPORT_FAMILIES,
   REPORT_SECTIONS,
 } from '../contracts/calculations/report';
-import { reportFamilies } from '../pure/report/report-families';
+import { reportFamilies } from './report/report-families';
 import {
   buildReportSummary,
   observedReportTotals,
   reportSourceAvailability,
-} from '../pure/report/report-summary';
+} from './report/report-summary';
 import {
   buildReportEpisodes,
   presentEpisode,
   filteredEpisodes,
-} from '../pure/report/report-episodes';
+} from './report/report-episodes';
 import {
   reportBase,
   navigationPath,
@@ -41,7 +41,7 @@ import {
   page,
   evidenceId,
   collectEvidence,
-} from '../pure/report/report-navigation';
+} from './report/report-navigation';
 import type { CatalogReader } from '../ports/catalog-reader';
 import { MATCH_CATALOGS } from '../ports/catalog-reader';
 @Injectable()

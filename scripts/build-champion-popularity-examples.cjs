@@ -4,10 +4,10 @@ const { join } = require('node:path');
 const {
   championDto,
   toChampionMetrics,
-} = require('../dist/modules/stats/pure/champion.enricher');
+} = require('../dist/composition/study-api');
 const {
   TierRankService,
-} = require('../dist/modules/stats/services/tier-rank.service');
+} = require('../dist/composition/study-api');
 
 const tier = new TierRankService();
 const row = {

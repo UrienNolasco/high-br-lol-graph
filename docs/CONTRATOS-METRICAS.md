@@ -1,6 +1,9 @@
 # Contratos executáveis de métricas — MET-01
 
-Implementação: `src/core/metrics/index.ts`. Estes contratos concretizam a seção 11 de `METRICAS-E-OPORTUNIDADES.md`; nenhuma projeção persistida muda nesta task.
+Implementação: `src/modules/matches/contracts/metric-contract.ts`, com regras
+temporais e de elegibilidade nos contratos do módulo de matches e matemática
+genérica em `src/lib/math/`. Estes contratos concretizam a seção 11 de
+`METRICAS-E-OPORTUNIDADES.md`; nenhuma projeção persistida muda nesta task.
 
 ## Valores e resposta
 
@@ -46,7 +49,14 @@ O @15 legado é explicitamente `LEGACY_LANE_CHECKPOINT` metricVersion=0: primeir
 
 ## Validação
 
-`npm test -- --runInBand src/core/metrics` cobre serialização de quatro estados, zero válido, ausência, denominador zero/inválido, precisão, frames futuros/ausentes/duplicados, fim de jogo, bordas/censura, role ambígua, coorte ordenada/deduplicada e patches desconhecidos. `npm run build` valida integração Nest/OpenAPI. Dados e exemplos sintéticos estão explicitamente identificados. Não há migration ou rebuild nesta task, pois não muda o schema nem o significado de valores persistidos.
+`npm test -- --runInBand src/modules/matches/contracts src/modules/matches/dto`
+cobre serialização de quatro estados, zero válido, ausência, denominador
+zero/inválido, precisão, frames futuros/ausentes/duplicados, fim de jogo,
+bordas/censura, role ambígua, coorte ordenada/deduplicada e patches
+desconhecidos. `npm run build` valida integração Nest/OpenAPI. Dados e
+exemplos sintéticos estão explicitamente identificados. Não há migration ou
+rebuild nesta task, pois não muda o schema nem o significado de valores
+persistidos.
 
 ## MET-13: combate e solo histórico
 

@@ -5,7 +5,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const childProcess = require('node:child_process');
-const { analyze } = require('./architecture-inventory.cjs');
+const { analyze, areaOf } = require('./architecture-inventory.cjs');
 const {
   applyRelocations,
   validateRelocations,
@@ -28,26 +28,6 @@ const matchesAny = (value, regexes) =>
 const moduleName = (file) => /^src\/modules\/([^/]+)\//.exec(file)?.[1] || null;
 const identityTarget = (edge) => edge.resolved || `external:${edge.specifier}`;
 const logicalTarget = (edge) => edge.logicalResolved || identityTarget(edge);
-
-function areaOf(file) {
-  const parts = file.split('/');
-  if (parts[0] === 'src' && parts[1] === 'modules' && parts[2]) return parts[2];
-  if (parts[0] === 'src' && parts[1] === 'core' && parts[2])
-    return `core/${parts[2]}`;
-  if (parts[0] === 'src') {
-    if (
-      file === 'src/main.ts' ||
-      file === 'src/app.module.ts' ||
-      file === 'src/app.controller.ts'
-    )
-      return 'composition/http';
-    if (file.endsWith('-cli.ts')) return 'composition/cli';
-    return 'composition';
-  }
-  if (parts[0] === 'scripts') return 'studies/tools';
-  if (parts[0] === 'test') return 'test/integration';
-  return 'other';
-}
 
 function relocatedReciprocalAreas(imports, files) {
   const directions = new Map();
@@ -329,7 +309,8 @@ function analyzeViolations(root = REPOSITORY_ROOT, options = {}) {
           ),
         );
     } else if (
-      source.scope === 'tool' &&
+      (source.scope === 'tool' ||
+        (source.scope === 'production' && areaOf(edge.from) === 'studies')) &&
       ownershipTargetModule &&
       !matchesAny(ownershipTarget, publicApis)
     ) {
@@ -723,6 +704,6 @@ function main() {
   if (!result.ok) process.exitCode = 1;
 }
 
-module.exports = { analyzeViolations, compareBaseline, check };
+module.exports = { analyzeViolations, compareBaseline, check, areaOf };
 
 if (require.main === module) main();

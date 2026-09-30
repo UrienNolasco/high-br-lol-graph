@@ -3,9 +3,10 @@ import { PinoLogger } from 'nestjs-pino';
 import { Cron } from '@nestjs/schedule';
 import { CollectorConfigService } from './collector-config.service';
 import { CollectorPipelineService } from './collector-pipeline.service';
+import type { CollectorControl } from '../contracts/collector-control';
 
 @Injectable()
-export class CollectorService {
+export class CollectorService implements CollectorControl {
   private isRunning = false;
 
   constructor(

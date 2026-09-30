@@ -3,13 +3,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {
   normalizeTimelineEvents,
-} = require('../dist/modules/matches/adapters/riot/normalized-events');
+} = require('../dist/composition/study-api');
 const {
   projectTimelineSnapshots,
-} = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
+} = require('../dist/composition/study-api');
 const {
   calculateSequences,
-} = require('../dist/modules/matches/contracts/calculations/sequences');
+} = require('../dist/composition/study-api');
 const { PROCESSING_VERSION } = require('../dist/modules/processing/contracts/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(

@@ -8,6 +8,7 @@ import { RiotModule } from '../../core/riot/riot.module';
 import { QueueModule } from '../../core/queue/queue.module';
 import { RedisModule } from '../../core/redis/redis.module';
 import { CollectorDiscoveryModule } from './collector-discovery.module';
+import { COLLECTOR_CONTROL } from './contracts/collector-control';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { CollectorDiscoveryModule } from './collector-discovery.module';
     CollectorConfigService,
     CollectorPipelineService,
     CollectorService,
+    { provide: COLLECTOR_CONTROL, useExisting: CollectorService },
   ],
-  exports: [CollectorService],
+  exports: [COLLECTOR_CONTROL],
 })
 export class CollectorModule {}

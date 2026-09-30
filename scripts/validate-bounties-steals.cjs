@@ -3,12 +3,12 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const {
   normalizeTimelineEvents,
-} = require('../dist/modules/matches/adapters/riot/normalized-events');
-const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
+} = require('../dist/composition/study-api');
+const { parseMatchData } = require('../dist/composition/study-api');
 const {
   calculateBountiesSteals,
   STEAL_CHALLENGES,
-} = require('../dist/modules/matches/contracts/calculations/bounties-steals');
+} = require('../dist/composition/study-api');
 const { PROCESSING_VERSION } = require('../dist/modules/processing/contracts/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(

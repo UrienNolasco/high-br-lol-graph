@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../core/prisma/prisma.service';
-import { ReportInput, record } from '../pure/report/report.types';
+import { ReportInput, record } from '../services/report/report.types';
 export const REPORT_READ_LIMITS = { events: 10000, frames: 300 } as const;
 @Injectable()
 export class ReportRepository {

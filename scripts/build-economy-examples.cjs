@@ -2,11 +2,9 @@ const { readFileSync, writeFileSync } = require('node:fs');
 const { join } = require('node:path');
 const {
   projectTimelineSnapshots,
-} = require('../dist/modules/matches/adapters/riot/timeline-snapshots');
-const { parseMatchData } = require('../dist/modules/matches/adapters/riot/match.parser');
-const {
-  calculateEconomy,
-} = require('../dist/modules/matches/contracts/calculations/economy');
+} = require('../dist/composition/study-api');
+const { parseMatchData } = require('../dist/composition/study-api');
+const { calculateEconomy } = require('../dist/composition/study-api');
 const summary = JSON.parse(
   readFileSync(
     join(__dirname, '../exemplo_partida_BR1_3200579475.json'),

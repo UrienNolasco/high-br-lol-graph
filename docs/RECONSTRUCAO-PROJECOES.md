@@ -2,14 +2,20 @@
 
 MET-03/04/05/06 formam a geração `PROCESSING_VERSION=2`: snapshots completos, eventos normalizados, estatísticas/contexto/objetivos finais e inventário final. Os números de versão individuais das projeções permanecem independentes (atualmente 1). MET-09 valida a integração dessa geração; não altera fórmulas nem cria uma terceira geração apenas para executar um ensaio.
 
-`MatchPersistenceService.save` grava partida, times, participantes/finais/inventário, snapshots, eventos, contribuições agregadas e status COMPLETED na mesma transação. A identidade dos eventos é `(matchId, frameIndex, eventIndex)`; a dos participantes é `(matchId, puuid)`; há uma projeção de snapshots por partida. Reentrega de COMPLETED não insere novas contribuições nem atualiza a geração: dados antigos exigem rebuild explícito.
+O caso de uso de processing coordena a gravação da partida, times,
+participantes/finais/inventário, snapshots, eventos, contribuições agregadas e
+status `COMPLETED` na mesma transação, através das portas dos módulos donos.
+A identidade dos eventos é `(matchId, frameIndex, eventIndex)`; a dos
+participantes é `(matchId, puuid)`; há uma projeção de snapshots por partida.
+Reentrega de `COMPLETED` não insere novas contribuições nem atualiza a geração:
+dados antigos exigem rebuild explícito.
 
 ## Antes de migrar
 
 O ensaio desta entrega ocorre somente em PostgreSQL descartável com nome terminado em `_integration`. Os comandos operacionais abaixo são um runbook, não registro de execução em produção.
 
 1. Conservar backup verificável, MatchRaw e observações de descoberta. `processing -- coverage` descreve os pares brutos disponíveis, população e lacunas. `processing -- status` mostra trabalhos e manutenção. Uma partida COMPLETED sem os dois brutos impede o início do rebuild; não apagar essa partida para contornar a checagem.
-2. Parar API, collectors e todos os workers. O marcador de manutenção bloqueia enqueue/claim/retry durante o rebuild, mas não torna consultas HTTP atomicamente visíveis em toda a base: a API deve permanecer parada até conclusão. Parar apenas o consumidor da fila é insuficiente.
+2. Parar API, collectors e todos os workers. O marcador de manutenção bloqueia enqueue/claim/retry durante o rebuild, mas não torna consultas HTTP atomicamente visíveis em toda a base: a API deve permanecer parada até conclusão. Parar apenas o consumidor da fila é insuficiente. O rebuild usa a composição offline e não inicializa HTTP, cron, Redis, RabbitMQ ou cliente Riot.
 3. Aplicar as migrations aditivas antes de executar o novo worker. Ordem do Prisma: `20260923020000_met04_normalized_events`, `20260923030000_met05`, `20260923040000_met06_final_inventory`, `20260923120000_met03_timeline_snapshots` (a migration de linhagem MET-18 também integra a árvore e é preservada).
 4. Gerar o cliente Prisma e compilar o mesmo checkout que será usado na reconstrução. Conferir versão, banco alvo e resultado de cada comando; nenhum download Riot é necessário quando o par bruto existe.
 
@@ -17,9 +23,9 @@ O ensaio desta entrega ocorre somente em PostgreSQL descartável com nome termin
 npx prisma migrate deploy
 npx prisma generate
 npm run build
-node dist/processing-cli.js status
-node dist/processing-cli.js coverage
-node dist/processing-cli.js rebuild
+npm run processing -- status
+npm run processing -- coverage
+npm run processing -- rebuild
 ```
 
 As migrations não sobrescrevem os campos legados nem o bruto. Finais/inventário/Riot ID novos ficam SQL NULL em registros existentes; tabelas de snapshots/eventos começam vazias. Essa ausência é distinta de contador zero e permanece explícita nos contratos de leitura até reconstrução. Não preencher colunas por inferência de séries legadas ou últimas compras.
@@ -29,8 +35,8 @@ As migrations não sobrescrevem os campos legados nem o bruto. Finais/inventári
 O rebuild verifica os brutos antes de limpar projeções/agregados. A limpeza e o marcador de manutenção são atômicos. A trava de execução impede dois comandos concorrentes; cada partida reconstruída tem seu próprio commit. Se houver interrupção, os commits já COMPLETED ficam válidos e `rebuild --resume` processa apenas os restantes na mesma geração. A admissão normal continua bloqueada entre os comandos.
 
 ```sh
-node dist/processing-cli.js status
-node dist/processing-cli.js rebuild --resume
+npm run processing -- status
+npm run processing -- rebuild --resume
 ```
 
 Não iniciar um rebuild novo para substituir `--resume`; não editar manualmente maintenance, status ou processingVersion. Uma falha após gravar projeções/agregados reverte a partida inteira; o bruto é mantido e o erro fica no trabalho. Corrigir a causa, manter a API parada e retomar. Trabalhos sem par bruto completo continuam pendentes para coleta posterior; isso não é cobertura completa. Execuções acima de uma hora precisam de retomada conforme o limite existente.

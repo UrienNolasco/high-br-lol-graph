@@ -1,14 +1,16 @@
 /** Offline audit of observed fixture counters; publication timestamps are synthetic. */
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { contributionFixture } from '../test/fixtures/contribution';
-import { indicatorFixture } from '../test/fixtures/indicators';
-import { calculateIndicators } from '../src/modules/indicators/pure/indicator-calculator';
 import {
+  contributionFixture,
+  indicatorFixture,
+} from '../src/composition/study-fixtures';
+import {
+  calculateIndicators,
   indicatorCatalog,
   INDICATOR_CATALOG,
-} from '../src/modules/indicators/pure/indicator-catalog';
-import { summarizeIndicatorHistory } from '../src/modules/indicators/pure/indicator-history';
+  summarizeIndicatorHistory,
+} from '../src/composition/study-api';
 const fixture = contributionFixture();
 const reports = fixture.match.participants.map((player) =>
   calculateIndicators(indicatorFixture(player.championName)),

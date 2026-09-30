@@ -1,11 +1,11 @@
-import { computeContribution } from '../contribution-calculator';
-import { calculateEconomy } from '../economy-calculator';
-import { calculateVision } from '../vision-calculator';
-import { calculateObjectives } from '../objectives-calculator';
-import { calculateCombat } from '../combat-calculator';
-import { combatInput } from '../combat-source';
-import { calculateSequences } from '../sequences-calculator';
-import { calculateProgression } from '../progression/progression-calculator';
+import { computeContribution } from '../../pure/contribution-calculator';
+import { calculateEconomy } from '../../pure/economy-calculator';
+import { calculateVision } from '../../pure/vision-calculator';
+import { calculateObjectives } from '../../pure/objectives-calculator';
+import { calculateCombat } from '../../pure/combat-calculator';
+import { combatInput } from '../../pure/combat-source';
+import { calculateSequences } from '../../pure/sequences-calculator';
+import { calculateProgression } from '../../pure/progression/progression-calculator';
 import { readSnapshotProjection } from '../../contracts/snapshot-readers';
 import { ItemCatalog, SkillCatalog } from '../../contracts/catalogs';
 import {

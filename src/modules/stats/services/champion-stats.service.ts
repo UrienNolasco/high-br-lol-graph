@@ -6,8 +6,8 @@ import {
   ChampionStatsDto,
 } from '../dto/champion-stats.dto';
 import { ChampionStatsRepository } from '../repositories/champion-stats.repository';
-import { toChampionMetrics, championDto } from '../pure/champion.enricher';
-import { sortChampions } from '../pure/champion.sorter';
+import { toChampionMetrics, championDto } from './champion.enricher';
+import { sortChampions } from './champion.sorter';
 
 @Injectable()
 export class ChampionStatsService {

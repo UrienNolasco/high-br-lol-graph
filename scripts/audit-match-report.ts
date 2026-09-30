@@ -1,11 +1,12 @@
 /** Offline fixture audit. Processing metadata below is explicitly synthetic. */
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { reportFixture, reportCatalogs } from '../test/fixtures/report';
-import { MatchReportService } from '../src/modules/matches/services/match-report.service';
-import { ReportRepository } from '../src/modules/matches/repositories/report.repository';
-import { DataDragonService } from '../src/core/data-dragon/data-dragon.service';
-import { MatchReportQueryDto } from '../src/modules/matches/dto/match-report-query.dto';
+import { reportFixture, reportCatalogs } from '../src/composition/study-fixtures';
+import {
+  MatchReportService,
+  ReportRepository,
+  MatchReportQueryDto,
+} from '../src/composition/study-api';
 import {
   REPORT_FAMILIES,
   REPORT_SECTIONS,
@@ -15,7 +16,7 @@ async function main() {
     query = new MatchReportQueryDto();
   const service = new MatchReportService(
     { findReport: () => Promise.resolve(input) } as unknown as ReportRepository,
-    reportCatalogs as unknown as DataDragonService,
+    reportCatalogs as any,
   );
   const examples: unknown[] = [],
     sizes: unknown[] = [];

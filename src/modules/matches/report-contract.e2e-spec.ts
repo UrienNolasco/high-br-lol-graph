@@ -8,7 +8,7 @@ import { MATCH_CATALOGS } from './ports/catalog-reader';
 import { mockPrismaService } from '../../../test/helpers/shared-mocks';
 import { ReportRepository } from './repositories/report.repository';
 import { reportFixture, reportCatalogs } from '../../../test/fixtures/report';
-import { ReportInput } from './pure/report/report.types';
+import { ReportInput } from './services/report/report.types';
 describe('MET17 report REST contract', () => {
   let app: INestApplication, input: ReportInput, base: string;
   const repository = { findReport: jest.fn() };
