@@ -1,0 +1,74 @@
+{
+  "card": "ARQ-14",
+  "base": "af3efe7ae9a18a491915f129698506cf3165601c",
+  "scope": "Consolidated the available validation evidence for ARQ-01 through ARQ-13 and recorded the local gates observed on the current refactor state.",
+  "historicalEvidence": {
+    "validations": [
+      "validation-arq02.json",
+      "validation-arq03.json",
+      "validation-arq04.json",
+      "validation-arq05.json",
+      "validation-arq06.json",
+      "validation-arq07.json",
+      "validation-arq08.json",
+      "validation-arq09.json",
+      "validation-arq10.json",
+      "validation-arq11.json",
+      "validation-arq12.json"
+    ],
+    "additionalEvidence": [
+      "evidence/build.txt",
+      "evidence/unit.txt",
+      "evidence/http.txt",
+      "evidence/integration.txt",
+      "evidence/arq05-projection-equivalence.json",
+      "evidence/vision-study/"
+    ],
+    "summary": "The ARQ-01 baseline and ARQ-02..13 validation artifacts document the progressive boundary, contract, composition, projection, study and processing refactors. Historical integration results are preserved as historical evidence and are not reclassified as current ARQ-14 results."
+  },
+  "currentGates": {
+    "ref": "af3efe7",
+    "architecture": {
+      "command": "npm run architecture:check -- --strict",
+      "result": "passed",
+      "violations": 0,
+      "newViolations": 0,
+      "staleEntries": 0,
+      "baselineGrowth": 0,
+      "invalidEntries": 0,
+      "transitionalDebt": 0,
+      "relocationErrors": 0
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "tsc": {
+      "command": "npx tsc --noEmit --pretty false",
+      "result": "passed",
+      "diagnostics": 0
+    },
+    "unit": {
+      "command": "npm test -- --runInBand",
+      "result": "passed",
+      "suites": 105,
+      "tests": 615
+    },
+    "http": {
+      "command": "npm run test:e2e -- --runInBand",
+      "result": "passed",
+      "suites": 27,
+      "tests": 160
+    }
+  },
+  "integration": {
+    "postgresql": "not validated for ARQ-14: disposable environment unavailable",
+    "rabbitmq": "not validated for ARQ-14: disposable environment unavailable",
+    "result": "No current ARQ-14 claim is made for PostgreSQL/RabbitMQ integration, rollback, redelivery, concurrency or rebuild. Historical integration evidence remains in validation-arq03.json, validation-arq05.json, validation-arq08.json, validation-arq09.json, validation-arq10.json and validation-arq11.json."
+  },
+  "limitations": [
+    "Current integration and benchmark/reconciliation evidence was not produced by this report.",
+    "The worktree contains five pre-existing untracked paths outside this documentation change; they were not modified or included here."
+  ],
+  "generatedWithoutProductionChanges": true
+}

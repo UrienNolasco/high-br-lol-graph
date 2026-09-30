@@ -153,7 +153,12 @@ it('unknown future types retain identity/category and never become recognized wa
   );
   expect(r.metrics!.recognizedPlacements.value).toBe(0);
   expect(r.metrics!.unknownPlacements.value).toBe(1);
-  const unknown = r.byType?.find((entry) => entry.type === 'UNKNOWN');
+  const unknown = (
+    r.byType as Array<{
+      type: string;
+      metrics: { placements: { value: number } };
+    }>
+  ).find((entry) => entry.type === 'UNKNOWN');
   expect(unknown?.metrics.placements.value).toBe(1);
   expect(r.events[0]).toMatchObject({
     eventId: 'M:0:0',
