@@ -79,7 +79,6 @@ describe('RedisService', () => {
   it('should quit Redis on module destroy', async () => {
     await service.onModuleDestroy();
 
-    const client = service.client as { quit: jest.Mock };
-    expect(client.quit).toHaveBeenCalled();
+    expect(jest.mocked(service.client.quit)).toHaveBeenCalled();
   });
 });

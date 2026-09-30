@@ -167,7 +167,7 @@ beforeAll(async () => {
   publisher = connect([rmq]);
   channel = publisher.createChannel({ confirm: true, publishTimeout: 2000 });
   await channel.waitForConnect();
-  queue = new QueueService(channel, logger, jobs, prisma);
+  queue = new QueueService(channel, logger, jobs);
 });
 beforeEach(async () => {
   jest.restoreAllMocks();
@@ -661,7 +661,6 @@ test('publication failure leaves durable work for a later confirmed recovery', a
     } as unknown as ChannelWrapper,
     logger,
     jobs,
-    prisma,
   );
   await broken.publishUserRequestedMatch('BR1_99');
   const job = await prisma.matchProcessing.findUniqueOrThrow({

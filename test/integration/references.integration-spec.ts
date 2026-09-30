@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { Prisma } from '@prisma/client';
+import { prismaJson } from '../helpers/prisma-json';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { prepareHistoricalDataset } from '../../src/modules/dataset/adapters/dataset-writer.adapter';
 import { ReferenceService } from '../../src/modules/references/reference.service';
@@ -54,6 +55,7 @@ beforeAll(async () => {
       await tx.match.createMany({
         data: Array.from({ length: 85 }, (_, i) => ({
           ...fixture.match,
+          finalContext: prismaJson(fixture.match.finalContext),
           matchId: id(i),
           gameCreation: BigInt(creation + i),
           gameVersion: i === 84 ? '16.20.1' : fixture.match.gameVersion,
@@ -63,6 +65,8 @@ beforeAll(async () => {
         data: Array.from({ length: 85 }, (_, i) =>
           fixture.participants.map((p, j) => ({
             ...p,
+            finalInventory: prismaJson(p.finalInventory),
+            runes: prismaJson(p.runes),
             matchId: id(i),
             puuid: `${id(i)}:${j}`,
             goldGraph: [],

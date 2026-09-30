@@ -3,6 +3,7 @@ import { MatchEconomyService } from '../../src/modules/matches/services/match-ec
 import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 import { economyFixture, economySummary } from '../fixtures/economy.fixture';
 import { Prisma } from '@prisma/client';
+import { prismaJson } from '../helpers/prisma-json';
 
 describe('MET12 persisted economy read contract', () => {
   let prisma: PrismaService;
@@ -30,10 +31,18 @@ describe('MET12 persisted economy read contract', () => {
           processingVersion: 2,
         },
       });
-      await tx.match.create({ data: parsed.match });
+      await tx.match.create({
+        data: {
+          ...parsed.match,
+          finalContext: prismaJson(parsed.match.finalContext),
+        },
+      });
       await tx.matchParticipant.createMany({
         data: parsed.participants.map((p) => ({
           ...p,
+          finalStats: prismaJson(p.finalStats),
+          finalInventory: prismaJson(p.finalInventory),
+          runes: prismaJson(p.runes),
           goldGraph: [],
           xpGraph: [],
           csGraph: [],

@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { prismaJson } from '../helpers/prisma-json';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { MatchMapPresenceService } from '../../src/modules/matches/services/match-map-presence.service';
 import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
@@ -38,10 +39,18 @@ describe('MET25 projected position PostgreSQL contract', () => {
           completedAt,
         },
       });
-      await tx.match.create({ data: parsed.match });
+      await tx.match.create({
+        data: {
+          ...parsed.match,
+          finalContext: prismaJson(parsed.match.finalContext),
+        },
+      });
       await tx.matchParticipant.createMany({
         data: parsed.participants.map((p) => ({
           ...p,
+          finalStats: prismaJson(p.finalStats),
+          finalInventory: prismaJson(p.finalInventory),
+          runes: prismaJson(p.runes),
           goldGraph: [],
           xpGraph: [],
           csGraph: [],

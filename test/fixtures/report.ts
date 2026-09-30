@@ -7,7 +7,7 @@ import {
   unavailableItemCatalog,
   unavailableSkillCatalog,
 } from '../../src/modules/matches/contracts/catalogs';
-import { ReportInput } from '../../src/modules/matches/pure/report/report.types';
+import { ReportInput } from '../../src/modules/matches/services/report/report.types';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
 export function reportFixture(): ReportInput {

@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { PrismaService } from '../../src/core/prisma/prisma.service';
 import { parseMatchData } from '../../src/modules/matches/adapters/riot/match.parser';
 import { ChampionStatsRepository } from '../../src/modules/stats/repositories/champion-stats.repository';
+import { prismaJson } from '../helpers/prisma-json';
 
 describe('MET23 distinct match popularity SQL', () => {
   let prisma: PrismaService;
@@ -51,6 +52,7 @@ describe('MET23 distinct match popularity SQL', () => {
       await tx.match.create({
         data: {
           ...parsed.match,
+          finalContext: prismaJson(parsed.match.finalContext),
           populationEligible: eligible,
           populationExclusionReason: eligible
             ? null
@@ -59,10 +61,20 @@ describe('MET23 distinct match popularity SQL', () => {
               : 'unknown_remake',
         },
       });
-      await tx.matchTeam.createMany({ data: parsed.teams });
+      await tx.matchTeam.createMany({
+        data: parsed.teams.map((team) => ({
+          ...team,
+          bans: team.bans,
+          objectivesTimeline: prismaJson(team.objectivesTimeline),
+          finalObjectives: prismaJson(team.finalObjectives),
+        })),
+      });
       await tx.matchParticipant.createMany({
         data: parsed.participants.map((p) => ({
           ...p,
+          finalStats: prismaJson(p.finalStats),
+          finalInventory: prismaJson(p.finalInventory),
+          runes: prismaJson(p.runes),
           goldGraph: [],
           xpGraph: [],
           csGraph: [],

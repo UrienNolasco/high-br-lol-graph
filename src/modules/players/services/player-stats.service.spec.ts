@@ -69,8 +69,11 @@ describe('PlayerStatsService', () => {
       } as any);
 
       dataDragon.getChampionById.mockReturnValue({
+        version: '15.1',
         id: 'Annie',
+        key: '1',
         name: 'Annie',
+        title: 'the Dark Child',
       });
 
       const result = await service.getSummary('p1', { patch: '15.1' });
@@ -111,10 +114,17 @@ describe('PlayerStatsService', () => {
       ]);
 
       dataDragon.getChampionById.mockReturnValue({
+        version: '15.1',
         id: 'Annie',
+        key: '1',
         name: 'Annie',
+        title: 'the Dark Child',
       });
-      dataDragon.getChampionImageUrls.mockResolvedValue({ square: 'img.png' });
+      dataDragon.getChampionImageUrls.mockResolvedValue({
+        square: 'img.png',
+        loading: 'loading.png',
+        splash: 'splash.png',
+      });
 
       const result = await service.getChampions('p1', { patch: '15.1' });
 

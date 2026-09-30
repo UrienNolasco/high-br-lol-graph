@@ -111,19 +111,31 @@ describe('MET19 predictive prefixes — adversarial leakage and attribution', ()
         p.goldEarned = 999999;
         p.totalDamage = 999999;
         p.finalStats = {
-          projectionVersion: 99,
-          values: { goldEarned: 999999, timePlayed: 1 },
+          ...p.finalStats,
+          values: {
+            ...p.finalStats.values,
+            goldEarned: 999999,
+            timePlayed: 1,
+          },
         };
       }
       for (const team of poisoned.teams) {
         team.win = !team.win;
+        const tower = team.finalObjectives.values.tower ?? {
+          first: null,
+          kills: null,
+          lost: null,
+        };
         team.finalObjectives = {
-          projectionVersion: 99,
-          values: { tower: { kills: 99 } },
+          ...team.finalObjectives,
+          values: { ...team.finalObjectives.values, tower: { ...tower, kills: 99 } },
         };
       }
       poisoned.match.gameDuration = 1;
-      poisoned.match.finalContext = { gameEndTimestamp: 1 };
+      poisoned.match.finalContext = {
+        ...poisoned.match.finalContext,
+        values: { ...poisoned.match.finalContext.values, gameEndTimestamp: 1 },
+      };
       poisoned.projection.observedEndMs = 1;
       expect(predictiveDatasetCells(poisoned, horizon)).toEqual(expected);
       for (const row of expected) {

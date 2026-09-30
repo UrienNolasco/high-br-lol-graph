@@ -1,3 +1,8 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { PinoLogger } from 'nestjs-pino';
+import { QueueService } from '../../../core/queue/queue.service';
+import { CollectorRepository } from '../repositories/collector.repository';
+import { DISCOVERY_RECORDER } from '../../processing/contracts/request-ingestion';
 import { CollectorPipelineService } from './collector-pipeline.service';
 
 describe('CollectorPipelineService', () => {
@@ -18,7 +23,7 @@ describe('CollectorPipelineService', () => {
     error: jest.Mock;
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockRiotService = {
       getHighEloAccounts: jest.fn(),
       getMatchIdsByPuuid: jest.fn(),
@@ -37,13 +42,21 @@ describe('CollectorPipelineService', () => {
       error: jest.fn(),
     };
 
-    service = new CollectorPipelineService(
-      mockRiotService,
-      mockQueueService,
-      mockCollectorRepo,
-      mockLogger,
-      mockDiscovery,
-    );
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        CollectorPipelineService,
+        { provide: 'RiotService', useValue: mockRiotService },
+        { provide: QueueService, useValue: mockQueueService },
+        { provide: CollectorRepository, useValue: mockCollectorRepo },
+        { provide: PinoLogger, useValue: mockLogger },
+        { provide: DISCOVERY_RECORDER, useValue: mockDiscovery },
+      ],
+    })
+      .overrideProvider('RiotService')
+      .useValue(mockRiotService)
+      .compile();
+
+    service = module.get<CollectorPipelineService>(CollectorPipelineService);
   });
 
   it('should fetch high-elo puids and enqueue new matches', async () => {

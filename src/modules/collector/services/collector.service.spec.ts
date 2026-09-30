@@ -1,3 +1,7 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { PinoLogger } from 'nestjs-pino';
+import { CollectorConfigService } from './collector-config.service';
+import { CollectorPipelineService } from './collector-pipeline.service';
 import { CollectorService } from './collector.service';
 
 interface MockConfig {
@@ -25,7 +29,7 @@ describe('CollectorService', () => {
   let mockPipeline: MockPipeline;
   let mockLogger: MockLogger;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockConfig = {
       isEnabled: jest.fn(),
       setEnabled: jest.fn(),
@@ -43,7 +47,15 @@ describe('CollectorService', () => {
       error: jest.fn(),
     };
 
-    service = new CollectorService(mockConfig, mockPipeline, mockLogger);
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        CollectorService,
+        { provide: CollectorConfigService, useValue: mockConfig },
+        { provide: CollectorPipelineService, useValue: mockPipeline },
+        { provide: PinoLogger, useValue: mockLogger },
+      ],
+    }).compile();
+    service = module.get<CollectorService>(CollectorService);
   });
 
   it('should be defined', () => {

@@ -73,12 +73,18 @@ describe('PlayerSearchService', () => {
     } as any);
     riotService.getRankedStatsByPuuid.mockResolvedValue([
       {
+        puuid: 'puuid-123',
+        summonerId: 'summ1',
         queueType: 'RANKED_SOLO_5x5',
         tier: 'GOLD',
         rank: 'II',
         leaguePoints: 50,
         wins: 100,
         losses: 90,
+        veteran: false,
+        inactive: false,
+        freshBlood: false,
+        hotStreak: false,
       },
     ]);
     riotService.getMatchIdsByPuuid.mockResolvedValue(['MATCH_1', 'MATCH_2']);

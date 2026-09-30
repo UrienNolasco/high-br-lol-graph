@@ -140,7 +140,9 @@ test('missing projection rows fail reconciliation and unavailable generation can
   await prisma.matchEventProjection.deleteMany({ where: { matchId } });
   const service = new MatchCombatService(new CombatRepository(prisma));
   let result = await service.getCombat(matchId);
-  expect(result.quality.summaryKillDeathMismatch).toBe(true);
+  expect(result.quality).toEqual(
+    expect.objectContaining({ summaryKillDeathMismatch: true }),
+  );
   expect(
     result.participants.every(
       (p) => p.soloKills15.reason === 'incomplete_events',

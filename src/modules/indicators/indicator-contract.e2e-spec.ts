@@ -10,7 +10,7 @@ import { indicatorFixture } from '../../../test/fixtures/indicators';
 import { IndicatorInput } from './pure/indicator.types';
 describe('MET29 optional indicators REST', () => {
   let app: INestApplication, input: IndicatorInput;
-  const repo = { match: jest.fn(), history: jest.fn() };
+  const repo = { read: jest.fn(), readHistory: jest.fn() };
   beforeAll(async () => {
     const module = await Test.createTestingModule({
       imports: [IndicatorModule],
@@ -36,8 +36,8 @@ describe('MET29 optional indicators REST', () => {
   });
   beforeEach(() => {
     input = indicatorFixture();
-    repo.match.mockReset().mockResolvedValue(input);
-    repo.history.mockReset().mockResolvedValue({
+    repo.read.mockReset().mockResolvedValue(input);
+    repo.readHistory.mockReset().mockResolvedValue({
       inputs: [input],
       total: 1,
       truncated: false,
@@ -81,14 +81,14 @@ describe('MET29 optional indicators REST', () => {
       reason: 'missing_field',
     });
     expect(result.body.catalogValidation.status).toBe('unvalidated_patch');
-    repo.match.mockResolvedValue(null);
+    repo.read.mockResolvedValue(null);
     await request(app.getHttpServer())
       .get('/api/v1/matches/missing/indicators/p')
       .expect(404);
   });
   it('returns page-scoped N and stable cursor while never producing a population percentile for one player/match', async () => {
     input.participant.role = 'MID';
-    repo.history.mockResolvedValue({
+    repo.readHistory.mockResolvedValue({
       inputs: [input],
       total: 105,
       truncated: true,
@@ -115,7 +115,7 @@ describe('MET29 optional indicators REST', () => {
       reason: 'not_calculated',
     });
     const next = result.body.selection.next;
-    repo.history.mockResolvedValue({
+    repo.readHistory.mockResolvedValue({
       inputs: [],
       total: 105,
       truncated: true,
@@ -123,7 +123,7 @@ describe('MET29 optional indicators REST', () => {
     });
     const empty = await request(app.getHttpServer()).get(next).expect(200);
     expect(empty.body.sample.observations).toBe(0);
-    expect(repo.history.mock.calls[1][2]).toEqual({
+    expect(repo.readHistory.mock.calls[1][2]).toEqual({
       gameCreation: input.match.gameCreation,
       matchId: input.match.matchId,
     });

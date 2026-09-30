@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { prismaJson } from '../helpers/prisma-json';
 import { readFileSync } from 'node:fs';
 import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -215,7 +216,11 @@ test('worker publishes compact rows with exact provenance, distinct cohorts, mis
     rows: 1,
   });
   await prisma.match.create({
-    data: { ...fixture.match, matchId: 'MET19_NO_DATASET' },
+    data: {
+      ...fixture.match,
+      matchId: 'MET19_NO_DATASET',
+      finalContext: prismaJson(fixture.match.finalContext),
+    },
   });
   expect((await service.query(filters)).summary.unmaterializedMatches).toBe(1);
   await prisma.match.delete({ where: { matchId: 'MET19_NO_DATASET' } });
