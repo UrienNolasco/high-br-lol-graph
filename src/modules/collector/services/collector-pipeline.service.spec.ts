@@ -4,6 +4,7 @@ import { QueueService } from '../../../core/queue/queue.service';
 import { CollectorRepository } from '../repositories/collector.repository';
 import { DISCOVERY_RECORDER } from '../../processing/contracts/request-ingestion';
 import { CollectorPipelineService } from './collector-pipeline.service';
+import { RiotService } from '../../../core/riot/riot.service';
 
 describe('CollectorPipelineService', () => {
   let service: CollectorPipelineService;
@@ -45,14 +46,14 @@ describe('CollectorPipelineService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CollectorPipelineService,
-        { provide: 'RiotService', useValue: mockRiotService },
+        { provide: RiotService, useValue: mockRiotService },
         { provide: QueueService, useValue: mockQueueService },
         { provide: CollectorRepository, useValue: mockCollectorRepo },
         { provide: PinoLogger, useValue: mockLogger },
         { provide: DISCOVERY_RECORDER, useValue: mockDiscovery },
       ],
     })
-      .overrideProvider('RiotService')
+      .overrideProvider(RiotService)
       .useValue(mockRiotService)
       .compile();
 
