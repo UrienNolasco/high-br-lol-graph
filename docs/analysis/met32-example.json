@@ -1,0 +1,179 @@
+{
+  "synthetic": true,
+  "description": "Observed chronology independent of numeric patch labels; role strata, zero, missingness and incompatible definition.",
+  "version": 1,
+  "metricId": "H09",
+  "sequence": {
+    "source": "first_observed_gameCreation_in_returned_cohort",
+    "patches": [
+      {
+        "patch": "99.1",
+        "firstObservedMs": 1577836800000,
+        "lastObservedMs": 1577836800000
+      },
+      {
+        "patch": "1.2",
+        "firstObservedMs": 1580515200000,
+        "lastObservedMs": 1580515200000
+      }
+    ],
+    "adjacentObserved": true,
+    "chronologyAmbiguous": false,
+    "complete": true
+  },
+  "before": {
+    "patch": "99.1",
+    "firstObservedMs": 1577836800000,
+    "lastObservedMs": 1577836800000,
+    "matches": 2,
+    "participants": 2,
+    "players": 2,
+    "matchIds": [
+      "a",
+      "b"
+    ],
+    "cells": [
+      {
+        "championId": 1,
+        "role": "TOP",
+        "participantObservations": 1,
+        "distinctMatches": 1,
+        "pickRate": 0.5,
+        "denominatorMatches": 2,
+        "distribution": {
+          "n": 1,
+          "missing": 0,
+          "mean": 0,
+          "p25": 0,
+          "median": 0,
+          "p75": 0,
+          "reason": "insufficient_sample",
+          "observedValidN": 1
+        },
+        "signatures": [
+          "1:1:4:gold"
+        ]
+      },
+      {
+        "championId": 2,
+        "role": "UTILITY",
+        "participantObservations": 1,
+        "distinctMatches": 1,
+        "pickRate": 0.5,
+        "denominatorMatches": 2,
+        "distribution": {
+          "n": 0,
+          "missing": 1,
+          "mean": null,
+          "p25": null,
+          "median": null,
+          "p75": null,
+          "reason": "insufficient_sample",
+          "observedValidN": 0
+        },
+        "signatures": [
+          "1:1:4:gold"
+        ]
+      }
+    ],
+    "missingReasons": {
+      "missing_field": 1
+    }
+  },
+  "after": {
+    "patch": "1.2",
+    "firstObservedMs": 1580515200000,
+    "lastObservedMs": 1580515200000,
+    "matches": 2,
+    "participants": 2,
+    "players": 2,
+    "matchIds": [
+      "c",
+      "d"
+    ],
+    "cells": [
+      {
+        "championId": 1,
+        "role": "TOP",
+        "participantObservations": 1,
+        "distinctMatches": 1,
+        "pickRate": 0.5,
+        "denominatorMatches": 2,
+        "distribution": {
+          "n": 1,
+          "missing": 0,
+          "mean": 10,
+          "p25": 10,
+          "median": 10,
+          "p75": 10,
+          "reason": "insufficient_sample",
+          "observedValidN": 1
+        },
+        "signatures": [
+          "1:1:4:gold"
+        ]
+      },
+      {
+        "championId": 2,
+        "role": "UTILITY",
+        "participantObservations": 1,
+        "distinctMatches": 1,
+        "pickRate": 0.5,
+        "denominatorMatches": 2,
+        "distribution": {
+          "n": 1,
+          "missing": 0,
+          "mean": 20,
+          "p25": 20,
+          "median": 20,
+          "p75": 20,
+          "reason": "insufficient_sample",
+          "observedValidN": 1
+        },
+        "signatures": [
+          "2:1:4:gold"
+        ]
+      }
+    ],
+    "missingReasons": {}
+  },
+  "changes": [
+    {
+      "championId": 1,
+      "role": "TOP",
+      "meanDelta": 10,
+      "pickRateDelta": 0,
+      "reason": null,
+      "beforeN": 1,
+      "afterN": 1,
+      "precision": "insufficient_sample"
+    },
+    {
+      "championId": 2,
+      "role": "UTILITY",
+      "meanDelta": null,
+      "pickRateDelta": 0,
+      "reason": "incompatible_versions_or_units",
+      "beforeN": 0,
+      "afterN": 1,
+      "precision": "insufficient_sample"
+    }
+  ],
+  "coverage": {
+    "returnedRows": 4,
+    "distinctEligibleRows": 4,
+    "truncated": false,
+    "unavailableObservations": [],
+    "exclusionReasons": {
+      "conflicting_duplicate_identity": 0
+    }
+  },
+  "limitations": [
+    "Imported observations only; absent patches are not inferred from public numbering or gameVersion.",
+    "Popularity denominator is distinct matches represented by the selected metric/horizon, not all games played or population popularity.",
+    "ALL roles are stratified; no pooled metric delta. Choice and player composition vary between periods.",
+    "Quantiles use linear interpolation; repeated players and opponents are correlated. N >= 30 does not guarantee precision.",
+    "Deltas are descriptive associations, never causal balance effects. No independent confidence interval for deltas.",
+    "Missing fields remain unavailable; incompatible definition/dataset/processing versions or units suppress metric deltas."
+  ]
+}

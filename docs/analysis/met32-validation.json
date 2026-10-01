@@ -1,0 +1,52 @@
+{
+  "task": "MET-32",
+  "baseSha": "fa8bd3f1251ff11b46ad1b7440c5858b41f6ea3a",
+  "scope": "Observed imported dataset patch distributions and champion choices; no persisted changes",
+  "checks": {
+    "npm test -- --runInBand --testPathPatterns=modules/analytics": {
+      "suites": 9,
+      "tests": 46,
+      "passed": true
+    },
+    "npm run test:e2e -- --runInBand --testPathPatterns=patch-comparison": {
+      "suites": 1,
+      "tests": 2,
+      "passed": true
+    },
+    "npm run architecture:check -- --strict": {
+      "violations": 0,
+      "transitionalDebt": 0,
+      "passed": true
+    },
+    "npx tsc --noEmit": {
+      "passed": true
+    },
+    "npm run build": {
+      "passed": true
+    },
+    "git diff --check": {
+      "passed": true
+    }
+  },
+  "environment": "Isolated worktree task/met-32; HTTP tests use ephemeral local ports (sandbox required escalation)",
+  "productionOperations": false,
+  "databaseOperations": false,
+  "migrations": false,
+  "limitations": [
+    "No new ORM query; existing public DatasetReader used. No database resets or integration mutation required.",
+    "Real corpus provides one observed patch only; multiversion comparison example is explicitly synthetic.",
+    "Bounded metric/horizon cohort; sequence and popularity represent returned imported observations, not population or global patch catalogue.",
+    "Correlated repeated participants and selection/composition changes; no causal balance attribution or independent delta confidence interval."
+  ],
+  "reviewCorrections": {
+    "duplicateIdentity": "Conflicting signatures/value/context unavailable, excluded without first-row arbitration",
+    "heterogeneousDistribution": "No pooled mean or quantiles across incompatible versions or units",
+    "definitionHorizon": "Reject incompatible participant definition/horizon before read",
+    "npm test -- --runInBand --testPathPatterns=patch-comparison": {
+      "suites": 2,
+      "tests": 28,
+      "passed": true
+    },
+    "orderInvariance": "Conflicting duplicates and heterogeneous cells invariant to reversed input"
+  }
+}

@@ -514,6 +514,8 @@ MET-20 publica referências homogêneas com precisão nominal, dependência expl
 
 MET-21 compara janelas pessoais sem sobreposição com composição, censura e episódios; contrato, limitações de precisão e exemplos em [EVOLUCAO-PESSOAL.md](EVOLUCAO-PESSOAL.md).
 
+MET-32 compara patches observados por distribuições e escolhas estratificadas, com sequência pelos dados e incompatibilidade explícita; contrato e exemplo em [COMPARACAO-PATCHES.md](COMPARACAO-PATCHES.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 MET-19 materializa o dataset histórico geração 4 com preditores até t, descritivos/rótulos separados e exportação temporal reproduzível; contrato e evidências em [DATASET-HISTORICO.md](DATASET-HISTORICO.md).
