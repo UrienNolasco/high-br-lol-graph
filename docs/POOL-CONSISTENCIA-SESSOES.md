@@ -1,0 +1,31 @@
+# MET-31 — pool e sessões observadas (H08, H10)
+
+`GET /api/v1/players/:puuid/pool-sessions?queueId=420&mapId=11&fromMs=0&toMs=86400000&gapMinutes=30` oferece análise descritiva em leitura. PUUID, fila, mapa e período são obrigatórios; o período usa `gameCreation` em epoch ms, `[fromMs,toMs)`, até 366 dias. Gap é inteiro de 1 a 180 minutos, padrão 30. Filtros desconhecidos são rejeitados. Patch e posição são publicados por contexto, sem misturar silenciosamente a dispersão entre eles. A distribuição total do pool agrega os contextos explicitamente listados.
+
+## Fontes e elegibilidade
+
+Método versão 1, dataset e processingVersion vigentes. Cada partida usa uma âncora `label.win` final, participante `subjectId=puuid`, com definitionVersion exata, datasetVersion e processingVersion atuais. A consulta não visita dados brutos, Riot ou catálogos. Match fornece `gameDuration` em segundos. Âncoras excluídas permanecem na cronologia; não entram no pool nem nos resultados por posição. Identidade é matchId, deduplicada antes dos denominadores. Campeão ausente não entra no pool; resultado ausente não vira derrota. Perdas válidas mantêm zero. Role desconhecida é null.
+
+A aplicação mantém uma única transação RepeatableRead via ReadSnapshot, infraestrutura genérica que isola consultas concorrentes. Portas públicas transportam somente dados; seus adapters usam o client do snapshot dentro do proprietário: dataset lê HistoricalMetricContribution, matches lê Match/MatchParticipant, collector lê MatchDiscovery/DiscoveryObservation. Players somente orquestra essas portas e calcula a resposta; não consulta ORM ou SQL de outro módulo. Mais de 10.000 âncoras retorna `unavailable/candidate_limit_exceeded`, sem publicar uma amostra truncada como o universo. `candidateRows` revela o tamanho encontrado; restrinja o período. Sem partidas retorna `unavailable/no_observed_matches`, concentração null com `zero_denominator`. Nenhuma migration, versão persistida ou rebuild novo é necessário: esta entrega consulta as projeções atuais.
+
+## Pool e dispersão
+
+Para campeão c, `n_c` é o número de partidas elegíveis distintas com campeão conhecido. `N=sum(n_c)` é o denominador do pool. A distribuição publica n e `share=n_c/N`, fração. Concentração top3 é `sum(n_c dos três maiores)/N`; menos de três campeões usa todos. Empates ordenam championId crescente. Um empate na borda muda a identidade selecionada, mas nunca o valor da concentração. Campeões com n<5 são marcados `sparse`; não se deduz especialização de amostra pequena.
+
+Consistência é operacionalizada aqui somente como **dispersão dos resultados binários observados**, não uma medida geral de desempenho. Dentro de cada campeão/posição/patch, x é 0 (derrota) ou 1 (vitória) validado pela âncora. `mean=sum(x)/N`; desvio padrão amostral `sqrt(sum((x-mean)^2)/(N-1))`, unidade `binary_win`. N conta somente resultados válidos; `missingOutcomeN` e `observedMatches` explicam perdas de cobertura. Desvio fica null se N<5, `insufficient_sample`. Esse mínimo é uma política exploratória explícita da versão 1, não validação de precisão estatística. Contexto desconhecido é sinalizado `unknown_context`. Cada grupo contém matchId/datasetContributionId para evidência. Não há intervalo iid: partidas repetidas de um jogador são dependentes; N>=5 não estabelece tendência, habilidade, ranking ou generalização.
+
+## Sessões estimadas, bordas e sensibilidade
+
+Ordenar por gameCreation crescente; empate usa matchId. Fim estimado é `gameCreation + gameDuration*1000`. Uma nova sessão começa quando início menos o maior fim estimado da sessão anterior **excede** gapMinutes. Igualdade fica na sessão; sobreposições preservam o máximo fim. Duração inválida exclui aquela partida da inferência e quebra continuidade, com matchId em `invalidTimingMatchIds`. Cada partida inclui posição sequencial, elegibilidade, resultado ou null e evidência. As posições agregam resultados válidos observados com N, média e mesma regra de dispersão; não são comparação causal e sua composição é inspecionável pelas partidas e grupos do pool.
+
+Sensibilidade repete a inferência com 15/30/60 minutos e o valor solicitado, publicando número de sessões e partidas em cada limiar. Todos são parâmetros exploratórios, não uma definição validada de rotina. Jogos excluídos do pool continuam ocupando posição na sessão, evitando aproximar jogos separados por um remake conhecido. O primeiro e último intervalo são censurados pelo período consultado. Não se buscam partidas fora da janela nem se afirma que uma sessão começou/terminou de fato.
+
+## Cobertura incompleta e gaps
+
+`unmaterializedMatches` conta partidas importadas na fila/mapa/período para o PUUID sem âncora vigente. Se positivo, coverage.status é `incomplete_import`. `discoveryGaps.discoveredUnimportedMatches` conta IDs distintos descobertos para o PUUID cujo Match não existe. Esse último usa **observedAt da descoberta no período**: gameCreation/fila/mapa dos IDs ausentes são desconhecidos, por isso é uma cobertura separada e conservadora, sem atribuí-los à coorte. Duplicatas de descoberta não somam o mesmo ID duas vezes.
+
+Mesmo quando ambas as contagens são zero, completude de coleta continua desconhecida (`coverage.complete=false`): partidas jamais descobertas não são mensuráveis. Gaps de importação podem unir ou dividir sessões. Não se interpreta um intervalo entre partidas como inatividade provada, nem posição como tilt/fadiga. Não se recomenda mudança de rotina com base nessas associações.
+
+## Evidências e validação
+
+Exemplos sintéticos reproduzíveis: `docs/analysis/met31-pool-sessions-examples.json`; casos com pool conhecido, empates, amostra insuficiente, zero observado, duração inválida e limites estão nos testes de cálculo. HTTP/OpenAPI verifica filtros obrigatórios, ausência e schema. Testes exercitam cada reader proprietário e a orquestração por portas, incluindo gerações, contexto do snapshot, preservação de derrota zero e recusa de truncamento. Integração PostgreSQL usa dados isolados, testa âncoras por PUUID/fila/período, cronologia de partidas excluídas e gaps reais de materialização/descoberta; é skipped sem TEST_DATABASE_URL e exige banco `_integration`. Não usa reset nem produção.

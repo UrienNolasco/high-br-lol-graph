@@ -1,3 +1,9 @@
+import { ReadSnapshotModule } from '../../core/prisma/read-snapshot.module';
+import { DatasetModule } from '../dataset/dataset.module';
+import { CollectorDiscoveryModule } from '../collector/collector-discovery.module';
+import { MatchQueriesModule } from '../matches/match-queries.module';
+import { PoolSessionsController } from './pool-sessions.controller';
+import { PoolSessionsRepository } from './repositories/pool-sessions.repository';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PlayersController } from './players.controller';
@@ -19,6 +25,10 @@ import { SyncStatusService } from './services/sync-status.service';
 
 @Module({
   imports: [
+    ReadSnapshotModule,
+    DatasetModule,
+    CollectorDiscoveryModule,
+    MatchQueriesModule,
     RiotModule,
     RedisModule,
     PrismaModule,
@@ -27,8 +37,9 @@ import { SyncStatusService } from './services/sync-status.service';
     DataDragonModule,
     StatsModule,
   ],
-  controllers: [PlayersController],
+  controllers: [PlayersController, PoolSessionsController],
   providers: [
+    PoolSessionsRepository,
     PlayerRepository,
     MatchRepository,
     PlayerSearchService,

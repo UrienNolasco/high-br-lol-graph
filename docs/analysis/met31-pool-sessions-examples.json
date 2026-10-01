@@ -1,0 +1,360 @@
+{
+  "synthetic": true,
+  "observed": {
+    "methodVersion": 1,
+    "opportunities": [
+      "H08",
+      "H10"
+    ],
+    "status": "descriptive",
+    "reason": null,
+    "filters": {
+      "playerId": "synthetic",
+      "queueId": 420,
+      "mapId": 11,
+      "fromMs": 0,
+      "toMs": 86400000,
+      "gapMinutes": 30
+    },
+    "coverage": {
+      "candidateRows": 6,
+      "observedDistinctMatches": 6,
+      "duplicateRowsRemoved": 0,
+      "eligiblePoolMatches": 6,
+      "excludedN": 0,
+      "missingChampionN": 0,
+      "unmaterializedMatches": 1,
+      "exclusions": [],
+      "complete": false,
+      "status": "incomplete_import",
+      "caveat": "Only imported/materialized matches are observed; undiscovered or failed imports can join or split inferred sessions. Period boundaries censor sessions."
+    },
+    "pool": {
+      "origin": "derived",
+      "n": 6,
+      "champions": [
+        {
+          "championId": 1,
+          "n": 5,
+          "share": 0.8333333333333334,
+          "sparse": false
+        },
+        {
+          "championId": 2,
+          "n": 1,
+          "share": 0.16666666666666666,
+          "sparse": true
+        }
+      ],
+      "top3": {
+        "numerator": 6,
+        "denominator": 6,
+        "value": 1,
+        "reason": null,
+        "unit": "fraction",
+        "formula": "sum(count of three most observed champions)/eligible known-champion matches",
+        "tiePolicy": "Equal counts ordered by ascending championId; tied cutoff does not alter concentration"
+      },
+      "contexts": [
+        {
+          "patch": "16.2",
+          "role": "MIDDLE",
+          "championId": 1,
+          "observedMatches": 5,
+          "missingOutcomeN": 0,
+          "status": "descriptive",
+          "dispersion": {
+            "n": 5,
+            "mean": 0.4,
+            "sampleStandardDeviation": 0.5477225575051662,
+            "reason": null,
+            "origin": "derived",
+            "unit": "binary_win",
+            "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+            "minimumN": 5,
+            "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+          },
+          "evidence": [
+            {
+              "matchId": "synthetic:0",
+              "datasetContributionId": "synthetic:anchor:0"
+            },
+            {
+              "matchId": "synthetic:1",
+              "datasetContributionId": "synthetic:anchor:1"
+            },
+            {
+              "matchId": "synthetic:2",
+              "datasetContributionId": "synthetic:anchor:2"
+            },
+            {
+              "matchId": "synthetic:3",
+              "datasetContributionId": "synthetic:anchor:3"
+            },
+            {
+              "matchId": "synthetic:4",
+              "datasetContributionId": "synthetic:anchor:4"
+            }
+          ]
+        },
+        {
+          "patch": "16.2",
+          "role": "MIDDLE",
+          "championId": 2,
+          "observedMatches": 1,
+          "missingOutcomeN": 0,
+          "status": "insufficient",
+          "dispersion": {
+            "n": 1,
+            "mean": 1,
+            "sampleStandardDeviation": null,
+            "reason": "insufficient_sample",
+            "origin": "derived",
+            "unit": "binary_win",
+            "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+            "minimumN": 5,
+            "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+          },
+          "evidence": [
+            {
+              "matchId": "synthetic:5",
+              "datasetContributionId": "synthetic:anchor:5"
+            }
+          ]
+        }
+      ]
+    },
+    "sessions": {
+      "thresholdMinutes": 30,
+      "count": 1,
+      "sessions": [
+        {
+          "id": 1,
+          "startMs": 0,
+          "estimatedEndMs": 16200000,
+          "matches": [
+            {
+              "matchId": "synthetic:0",
+              "position": 1,
+              "eligible": true,
+              "win": 0,
+              "evidenceId": "synthetic:anchor:0"
+            },
+            {
+              "matchId": "synthetic:1",
+              "position": 2,
+              "eligible": true,
+              "win": 1,
+              "evidenceId": "synthetic:anchor:1"
+            },
+            {
+              "matchId": "synthetic:2",
+              "position": 3,
+              "eligible": true,
+              "win": 0,
+              "evidenceId": "synthetic:anchor:2"
+            },
+            {
+              "matchId": "synthetic:3",
+              "position": 4,
+              "eligible": true,
+              "win": 1,
+              "evidenceId": "synthetic:anchor:3"
+            },
+            {
+              "matchId": "synthetic:4",
+              "position": 5,
+              "eligible": true,
+              "win": 0,
+              "evidenceId": "synthetic:anchor:4"
+            },
+            {
+              "matchId": "synthetic:5",
+              "position": 6,
+              "eligible": true,
+              "win": 1,
+              "evidenceId": "synthetic:anchor:5"
+            }
+          ]
+        }
+      ],
+      "invalidTimingMatchIds": [],
+      "origin": "estimated",
+      "endFormula": "gameCreationMs + gameDurationSeconds * 1000",
+      "gapRule": "New session when start minus previous estimated session end > threshold; equality stays in session; overlaps keep maximum end",
+      "positions": [
+        {
+          "position": 1,
+          "n": 1,
+          "mean": 0,
+          "sampleStandardDeviation": null,
+          "reason": "insufficient_sample",
+          "origin": "derived",
+          "unit": "binary_win",
+          "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+          "minimumN": 5,
+          "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+        },
+        {
+          "position": 2,
+          "n": 1,
+          "mean": 1,
+          "sampleStandardDeviation": null,
+          "reason": "insufficient_sample",
+          "origin": "derived",
+          "unit": "binary_win",
+          "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+          "minimumN": 5,
+          "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+        },
+        {
+          "position": 3,
+          "n": 1,
+          "mean": 0,
+          "sampleStandardDeviation": null,
+          "reason": "insufficient_sample",
+          "origin": "derived",
+          "unit": "binary_win",
+          "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+          "minimumN": 5,
+          "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+        },
+        {
+          "position": 4,
+          "n": 1,
+          "mean": 1,
+          "sampleStandardDeviation": null,
+          "reason": "insufficient_sample",
+          "origin": "derived",
+          "unit": "binary_win",
+          "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+          "minimumN": 5,
+          "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+        },
+        {
+          "position": 5,
+          "n": 1,
+          "mean": 0,
+          "sampleStandardDeviation": null,
+          "reason": "insufficient_sample",
+          "origin": "derived",
+          "unit": "binary_win",
+          "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+          "minimumN": 5,
+          "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+        },
+        {
+          "position": 6,
+          "n": 1,
+          "mean": 1,
+          "sampleStandardDeviation": null,
+          "reason": "insufficient_sample",
+          "origin": "derived",
+          "unit": "binary_win",
+          "formula": "sqrt(sum((x-mean)^2)/(N-1)); x in {0,1}",
+          "minimumN": 5,
+          "interpretation": "Descriptive dispersion of observed binary outcomes; no skill or stability ranking"
+        }
+      ],
+      "sensitivity": [
+        {
+          "thresholdMinutes": 15,
+          "sessionCount": 6,
+          "matchN": 6
+        },
+        {
+          "thresholdMinutes": 30,
+          "sessionCount": 1,
+          "matchN": 6
+        },
+        {
+          "thresholdMinutes": 60,
+          "sessionCount": 1,
+          "matchN": 6
+        }
+      ]
+    },
+    "limitations": [
+      "Outcome dispersion uses observed binary wins within champion/role/patch contexts; small samples are insufficient and repeated player matches are dependent.",
+      "Session positions are descriptive associations, not evidence of tilt, fatigue or a reason to change routine.",
+      "Excluded matches remain in session chronology; unknown timing breaks continuity; no gap proves inactivity."
+    ]
+  },
+  "empty": {
+    "methodVersion": 1,
+    "opportunities": [
+      "H08",
+      "H10"
+    ],
+    "status": "unavailable",
+    "reason": "no_observed_matches",
+    "filters": {
+      "playerId": "synthetic",
+      "queueId": 420,
+      "mapId": 11,
+      "fromMs": 0,
+      "toMs": 86400000,
+      "gapMinutes": 30
+    },
+    "coverage": {
+      "candidateRows": 0,
+      "observedDistinctMatches": 0,
+      "duplicateRowsRemoved": 0,
+      "eligiblePoolMatches": 0,
+      "excludedN": 0,
+      "missingChampionN": 0,
+      "unmaterializedMatches": 0,
+      "exclusions": [],
+      "complete": false,
+      "status": "unknown_collection_completeness",
+      "caveat": "Only imported/materialized matches are observed; undiscovered or failed imports can join or split inferred sessions. Period boundaries censor sessions."
+    },
+    "pool": {
+      "origin": "derived",
+      "n": 0,
+      "champions": [],
+      "top3": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null,
+        "reason": "zero_denominator",
+        "unit": "fraction",
+        "formula": "sum(count of three most observed champions)/eligible known-champion matches",
+        "tiePolicy": "Equal counts ordered by ascending championId; tied cutoff does not alter concentration"
+      },
+      "contexts": []
+    },
+    "sessions": {
+      "thresholdMinutes": 30,
+      "count": 0,
+      "sessions": [],
+      "invalidTimingMatchIds": [],
+      "origin": "estimated",
+      "endFormula": "gameCreationMs + gameDurationSeconds * 1000",
+      "gapRule": "New session when start minus previous estimated session end > threshold; equality stays in session; overlaps keep maximum end",
+      "positions": [],
+      "sensitivity": [
+        {
+          "thresholdMinutes": 15,
+          "sessionCount": 0,
+          "matchN": 0
+        },
+        {
+          "thresholdMinutes": 30,
+          "sessionCount": 0,
+          "matchN": 0
+        },
+        {
+          "thresholdMinutes": 60,
+          "sessionCount": 0,
+          "matchN": 0
+        }
+      ]
+    },
+    "limitations": [
+      "Outcome dispersion uses observed binary wins within champion/role/patch contexts; small samples are insufficient and repeated player matches are dependent.",
+      "Session positions are descriptive associations, not evidence of tilt, fatigue or a reason to change routine.",
+      "Excluded matches remain in session chronology; unknown timing breaks continuity; no gap proves inactivity."
+    ]
+  }
+}
