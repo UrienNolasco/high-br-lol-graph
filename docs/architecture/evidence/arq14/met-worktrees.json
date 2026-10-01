@@ -1,0 +1,88 @@
+[
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met15",
+    "head": "e8a8d6a53d7e3c0249a59524faf5bc6526c2ef9d",
+    "branch": "refs/heads/task/met-15",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met17",
+    "head": "ceab5acf22955fe6f2d132a9e411ebf061ccb83d",
+    "branch": "refs/heads/task/met-17",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met19",
+    "head": "f275910a372315271fc4039291117f231922fe81",
+    "branch": "refs/heads/task/met-19",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met20",
+    "head": "217331a675974fe6531da5bfff63a06c5324fde9",
+    "branch": "refs/heads/task/met-20",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met21",
+    "head": "217331a675974fe6531da5bfff63a06c5324fde9",
+    "branch": "refs/heads/task/met-21",
+    "status": [
+      "?? src/modules/evolution/"
+    ]
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met22",
+    "head": "7d2877a55b4c8921c8b71a6ab12fd792b9af1bf1",
+    "branch": "refs/heads/task/met-22",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met24",
+    "head": "3c1a7158470edb854c948d02df5ca37a3a76bdbe",
+    "branch": "refs/heads/task/met-24",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met25",
+    "head": "ec50543a2071ed86fbcde891d982c652abb29cd9",
+    "branch": "refs/heads/task/met-25",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met26",
+    "head": "217331a675974fe6531da5bfff63a06c5324fde9",
+    "branch": "refs/heads/task/met-26",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met27",
+    "head": "217331a675974fe6531da5bfff63a06c5324fde9",
+    "branch": "refs/heads/task/met-27",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met29",
+    "head": "8b0ca34d5d5536e76b35eb4099b6417787fd39fa",
+    "branch": "refs/heads/task/met-29",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met30",
+    "head": "1a0aaa6b7e49e39cf71c435e08011bebade61bab",
+    "branch": "refs/heads/task/met-30",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met31",
+    "head": "217331a675974fe6531da5bfff63a06c5324fde9",
+    "branch": "refs/heads/task/met-31",
+    "status": []
+  },
+  {
+    "path": "/home/uriennfs/pessoal/projetos/high-br-lol/.worktrees/met33",
+    "head": "0c715bdf86005533636fb5bde4dcaa249ccf486f",
+    "branch": "refs/heads/task/met-33",
+    "status": []
+  }
+]

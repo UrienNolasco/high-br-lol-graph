@@ -1,0 +1,81 @@
+npm notice run high-br-lol-graph@0.0.1 test:architecture
+npm notice run node scripts/architecture-check.spec.cjs && node scripts/architecture-relocations.spec.cjs
+✔ area classification keeps technical libraries and studies out of composition (4.912406ms)
+✔ studies may consume public contracts but not module internals (243.93493ms)
+✔ pure upstream contracts and same-module domain imports are allowed (25.313428ms)
+✔ core ownership is enforced even for type imports: ../../modules/matches/contracts/normalized-match (23.903742ms)
+✔ core ownership is enforced even for type imports: @matches/contracts/normalized-match (33.78087ms)
+✔ domain cannot import external adapter types from @nestjs/common (15.100247ms)
+✔ domain cannot import external adapter types from @prisma/client (13.42547ms)
+✔ domain cannot import external adapter types from axios (17.714739ms)
+✔ domain cannot import a Data Dragon transport shape (18.228089ms)
+✔ a public contract cannot expose a Data Dragon transport shape (18.699124ms)
+✔ private cross-module dependencies are rejected (19.810234ms)
+✔ public reexports do not expose persistence internals (27.277984ms)
+✔ production cannot consume test fixtures (31.954979ms)
+✔ a module test may exercise its own private implementation (20.740871ms)
+✔ runtime cycles are rejected even inside the same module (19.801365ms)
+✔ type-only recursion does not create a runtime cycle (29.865321ms)
+✔ a pure public capability may reexport its own domain implementation (30.584152ms)
+✔ math cannot depend on match concepts through a public contract (13.975216ms)
+✔ baseline comparison distinguishes a new violation from a retired one (1.19833ms)
+✔ type reexports through an alias preserve the ownership restriction (13.409478ms)
+✔ domain cannot launder an external adapter through a public contract (15.654787ms)
+✔ violation identity does not depend on source line numbers (27.278898ms)
+✔ public naming does not allow matches to depend on analytics (13.934088ms)
+✔ module composition may wire a permitted upstream Nest module (18.394537ms)
+✔ domain cannot use the Nest module entrypoint exception (15.639827ms)
+✔ a previously empty baseline cannot grow to whitelist a regression (15.078103ms)
+✔ strict mode accepts a clean graph and zero exceptions (10.114572ms)
+✔ baseline entries require a concrete removal card and an owner (0.507339ms)
+✔ math cannot import framework or ORM types (11.399534ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 792.147524
+✔ verified extraction preserves logical boundary identity and reports its bridges (310.989349ms)
+✔ a new consumer is not authorized by an existing relocation (98.041214ms)
+✔ a type bridge cannot authorize runtime imports (127.101563ms)
+✔ changing the ledger itself cannot turn an original type import into runtime (120.227192ms)
+✔ a relocation cannot leave a second declaration at the old path (129.885572ms)
+✔ the new contract must export every declared transferred symbol (97.333924ms)
+✔ the new public contract may use a proven named reexport (99.206469ms)
+✔ a relocation must prove its origin in Git (63.978831ms)
+✔ listing a symbol absent from the original declaration fails (98.59531ms)
+✔ a renamed declaration requires an explicit proven origin symbol (128.299875ms)
+✔ strict mode rejects even valid transitional bridges (94.844783ms)
+✔ an unlisted edge cannot hide inside a reciprocal pair covered by other bridges (105.460054ms)
+✔ one origin file may be split into disjoint declaration relocations (164.668405ms)
+✔ relocations sharing an endpoint cannot overlap symbols (97.843862ms)
+✔ an origin consumer may reach a declaration through a proven reexport barrel (160.740471ms)
+✔ an unrelated origin barrel cannot prove a declaration relocation (164.490413ms)
+✔ a proven internal adapter move preserves ownership only for its original consumer (227.709985ms)
+✔ an adapter relocation never relaxes domain purity against its physical target (212.927852ms)
+✔ a CommonJS tool bridge proves its exact destructured runtime binding (291.792403ms)
+✔ a provider composition move proves both Nest module registrations (293.18822ms)
+✔ a provider composition move rejects a missing provider registration (216.581744ms)
+✔ a provider composition move rejects an extra provider (234.552026ms)
+✔ a provider composition move does not authorize an extra module consumer (227.206541ms)
+✔ strict mode rejects a provider composition bridge (233.820835ms)
+✔ a public entrypoint keeps one canonical declaration and stable logical identity (220.61985ms)
+✔ a public entrypoint cannot redeclare the canonical symbol (162.593449ms)
+✔ a public entrypoint must reexport from the exact canonical file (174.30956ms)
+✔ a public entrypoint rejects blanket reexports (154.144208ms)
+✔ a public entrypoint rejects canonical symbols absent from its finite ledger (152.627241ms)
+✔ a public entrypoint does not authorize an unlisted consumer (172.471789ms)
+✔ a public entrypoint keeps transitive purity checks on the canonical implementation (200.521811ms)
+✔ a public entrypoint keeps runtime cycles on physical files visible (294.43082ms)
+✔ a public entrypoint cannot downgrade a runtime API to a type export (212.620795ms)
+✔ strict mode rejects a public entrypoint bridge (213.581911ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5983.734692

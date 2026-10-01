@@ -1,0 +1,1738 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-10-01T14:49:15.670Z",
+  "processingVersion": 4,
+  "environment": {
+    "loadAverageAtStart": [
+      3.69,
+      4.3,
+      4.11
+    ],
+    "loadAverageAtEnd": [
+      3.63,
+      4.2,
+      4.08
+    ],
+    "isolation": "shared local workstation; CPU not pinned",
+    "node": "v26.10.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1245U",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 16486875136,
+    "postgres": "15.19"
+  },
+  "corpus": {
+    "sourceMatchId": "BR1_3200579475",
+    "independentRealMatches": 1,
+    "syntheticLoadCopies": 3,
+    "mutation": "match IDs and creation day only",
+    "patch": "16.2.741.3171",
+    "queueId": 420,
+    "mapId": 11,
+    "fixtureSummarySha256": "84f4a95ab6be4c3e9ee264a4b2ca421d76b180e47d39bdd8eb9a4a6163dc79ef",
+    "fixtureTimelineSha256": "47b305de799e4e737d43dc3eeedf41c5d9f84a8bdd4f43b608ca0466a2728626"
+  },
+  "method": {
+    "execution": "compiled dist; real Nest HTTP and PostgreSQL; sequential requests; cached catalogs unavailable",
+    "concurrency": 1,
+    "warmupsPerRoute": 2,
+    "measuredRequestsPerRoute": 20,
+    "quantile": "nearest rank ceil(p*N), no interpolation",
+    "scope": "local fixture benchmark; not production capacity or multiversion coverage",
+    "ingestion": "offline raw already present; excludes Riot/RabbitMQ/download and raw seeding"
+  },
+  "ingestion": {
+    "latencyMs": {
+      "n": 3,
+      "min": 1820.1119829999998,
+      "p50": 1965.9882519999996,
+      "p95": 2181.6572560000004,
+      "max": 2181.6572560000004,
+      "samples": [
+        2181.6572560000004,
+        1965.9882519999996,
+        1820.1119829999998
+      ]
+    },
+    "matchesPerSecond": 0.5027013923612534
+  },
+  "rebuild": {
+    "matches": 3,
+    "durationMs": 5956.922284,
+    "rawHashesPreserved": true,
+    "logicalDatasetPreserved": true,
+    "duplicateRows": 0
+  },
+  "storage": {
+    "measurement": "pg_column_size(row) sampled summed stored tuple bytes; excludes indexes/free space; raw exact gzip bytes separately. Not disk-capacity estimate.",
+    "matches": 3,
+    "totals": {
+      "rawGzipBytes": 298914,
+      "matchRowBytes": 1647,
+      "participantRowBytes": 228036,
+      "teamRowBytes": 10830,
+      "timelineRowBytes": 328830,
+      "eventRowBytes": 3068328,
+      "datasetRowBytes": 3012944
+    },
+    "perMatch": {
+      "rawGzipBytes": 99638,
+      "matchRowBytes": 549,
+      "participantRowBytes": 76012,
+      "teamRowBytes": 3610,
+      "timelineRowBytes": 109610,
+      "eventRowBytes": 1022776,
+      "datasetRowBytes": 1004314.6666666666
+    },
+    "datasetRows": 2631,
+    "datasetRowsPerMatch": 877
+  },
+  "coverage": {
+    "sourceMatchEvents": 1966,
+    "unknownEvents": 0,
+    "wardEvents": 803,
+    "unknownWardEvents": 556,
+    "featureVersions": [
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.kills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.deaths",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.jungleMinionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 6,
+        "_sum": {
+          "validCount": 6,
+          "sampleCount": 6
+        },
+        "definitionId": "final.objectivesAfterKills60",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.minionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 6,
+        "_sum": {
+          "validCount": 6,
+          "sampleCount": 6
+        },
+        "definitionId": "final.objectives.horde",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.soloKills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsPlaced",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.killParticipation",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.deaths",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.soloKills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 3,
+        "_sum": {
+          "validCount": 3,
+          "sampleCount": 3
+        },
+        "definitionId": "final.winnerObservedDeficit",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.damageToGoldShareRatio",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsPlaced",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 6,
+        "_sum": {
+          "validCount": 6,
+          "sampleCount": 6
+        },
+        "definitionId": "final.objectives.riftHerald",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.currentGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.kills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsPlaced",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.epicObjectiveLastHits",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalCs",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.level",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.epicObjectiveLastHits",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.xp",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.allyHealing",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.currentGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.jungleMinionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.goldPerMinute",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.minionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalCs",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "label.win",
+        "definitionVersion": 1,
+        "usage": "label",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.xp",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.assists",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 6,
+        "_sum": {
+          "validCount": 6,
+          "sampleCount": 6
+        },
+        "definitionId": "final.objectives.dragon",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "final.combat.assists",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": "unknown_assistance"
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.turretDamage",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 6,
+        "_sum": {
+          "validCount": 6,
+          "sampleCount": 6
+        },
+        "definitionId": "final.objectives.inhibitor",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.csPerMinute",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.level",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.deaths",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.cs",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsPlaced",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.wardsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.xp",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.currentGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.kills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.currentGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalCs",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.level",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.vision.removals",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.deaths",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.deadTime",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.minionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.gold",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.damageShare",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.level",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.assists",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.soloKills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.combat.kills",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.damageTaken",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.assists",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.soloKills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 0,
+          "sampleCount": 30
+        },
+        "definitionId": "events.assists",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": "missing_field"
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.epicObjectiveLastHits",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.jungleMinionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalCs",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.damage",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 6,
+        "_sum": {
+          "validCount": 6,
+          "sampleCount": 6
+        },
+        "definitionId": "final.objectives.baron",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.minionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.vision.placements",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.visionScore",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.deathsNearObjectives",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 6,
+        "_sum": {
+          "validCount": 6,
+          "sampleCount": 6
+        },
+        "definitionId": "final.objectives.tower",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.goldShare",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "events.epicObjectiveLastHits",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:300000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.allyShielding",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.totalGold",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.damagePerMinute",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 39,
+        "_sum": {
+          "validCount": 39,
+          "sampleCount": 39
+        },
+        "definitionId": "events.kills",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:900000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.crowdControl",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "final.combat.deaths",
+        "definitionVersion": 1,
+        "usage": "descriptive",
+        "horizonKey": "final",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 36,
+        "_sum": {
+          "validCount": 36,
+          "sampleCount": 36
+        },
+        "definitionId": "snapshot.xp",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:1200000",
+        "eligible": true,
+        "reason": null
+      },
+      {
+        "_count": 30,
+        "_sum": {
+          "validCount": 30,
+          "sampleCount": 30
+        },
+        "definitionId": "snapshot.jungleMinionsKilled",
+        "definitionVersion": 1,
+        "usage": "predictive",
+        "horizonKey": "t:600000",
+        "eligible": true,
+        "reason": null
+      }
+    ],
+    "eventTypes": [
+      {
+        "_count": 54,
+        "type": "ITEM_UNDO"
+      },
+      {
+        "_count": 876,
+        "type": "ITEM_PURCHASED"
+      },
+      {
+        "_count": 3,
+        "type": "OBJECTIVE_BOUNTY_FINISH"
+      },
+      {
+        "_count": 3,
+        "type": "DRAGON_SOUL_GIVEN"
+      },
+      {
+        "_count": 831,
+        "type": "ITEM_DESTROYED"
+      },
+      {
+        "_count": 531,
+        "type": "SKILL_LEVEL_UP"
+      },
+      {
+        "_count": 276,
+        "type": "CHAMPION_KILL"
+      },
+      {
+        "_count": 2256,
+        "type": "WARD_PLACED"
+      },
+      {
+        "_count": 3,
+        "type": "GAME_END"
+      },
+      {
+        "_count": 36,
+        "type": "CHAMPION_SPECIAL_KILL"
+      },
+      {
+        "_count": 510,
+        "type": "LEVEL_UP"
+      },
+      {
+        "_count": 153,
+        "type": "WARD_KILL"
+      },
+      {
+        "_count": 3,
+        "type": "OBJECTIVE_BOUNTY_PRESTART"
+      },
+      {
+        "_count": 222,
+        "type": "TURRET_PLATE_DESTROYED"
+      },
+      {
+        "_count": 36,
+        "type": "ELITE_MONSTER_KILL"
+      },
+      {
+        "_count": 3,
+        "type": "PAUSE_END"
+      },
+      {
+        "_count": 45,
+        "type": "BUILDING_KILL"
+      },
+      {
+        "_count": 57,
+        "type": "ITEM_SOLD"
+      }
+    ],
+    "projectionVersion": 1,
+    "frameCount": 41,
+    "report": {
+      "status": "available",
+      "finalTotals": {
+        "validN": 12,
+        "totalN": 12
+      },
+      "processingReason": null,
+      "eventsReason": null,
+      "framesReason": null
+    },
+    "provenance": {
+      "processingVersion": 4,
+      "processedAt": "2026-10-01T14:48:42.070Z",
+      "known": true,
+      "reason": null
+    },
+    "dimensions": [
+      {
+        "id": "resources",
+        "metricVersions": [
+          1
+        ]
+      },
+      {
+        "id": "combat",
+        "metricVersions": [
+          1
+        ]
+      },
+      {
+        "id": "vision",
+        "metricVersions": [
+          1
+        ]
+      },
+      {
+        "id": "structures",
+        "metricVersions": [
+          1
+        ]
+      }
+    ]
+  },
+  "invariants": {
+    "externalNetworkCalls": 0,
+    "getRawReads": 0,
+    "rawHashesPreservedAfterGets": true
+  },
+  "routes": {
+    "summary": {
+      "route": "/api/v1/matches/MET33_0/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "latencyMs": {
+        "n": 20,
+        "min": 170.26558099999966,
+        "p50": 200.41717499999868,
+        "p95": 237.8853280000003,
+        "max": 239.12297799999942,
+        "samples": [
+          195.24398999999903,
+          195.2986239999991,
+          212.29487400000107,
+          221.81158099999993,
+          186.51489599999877,
+          172.77227800000037,
+          218.5935900000004,
+          200.41717499999868,
+          208.0615349999971,
+          224.67911300000196,
+          239.12297799999942,
+          201.77651400000104,
+          212.23241499999858,
+          186.13758700000108,
+          177.30456100000083,
+          176.39427599999908,
+          170.26558099999966,
+          184.93382999999812,
+          237.8853280000003,
+          207.43038399999932
+        ]
+      },
+      "payloadBytes": {
+        "n": 20,
+        "min": 41371,
+        "p50": 41371,
+        "p95": 41371,
+        "max": 41371,
+        "samples": [
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371,
+          41371
+        ]
+      }
+    },
+    "metric": {
+      "route": "/api/v1/matches/MET33_0/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/metrics/contribution%3AWyJyZXNvdXJjZXMiLCJnb2xkIiwidGVhbVNoYXJlIl0?mode=pastOnly",
+      "latencyMs": {
+        "n": 20,
+        "min": 164.21256899999935,
+        "p50": 185.28666499999963,
+        "p95": 257.92482799999925,
+        "max": 281.69168100000024,
+        "samples": [
+          182.73954100000265,
+          216.95217200000116,
+          216.31165200000032,
+          176.2619199999972,
+          203.53669300000183,
+          281.69168100000024,
+          257.92482799999925,
+          191.22731600000043,
+          197.6226910000005,
+          179.91452199999912,
+          180.8009920000004,
+          185.28666499999963,
+          189.1709719999999,
+          168.5491690000017,
+          166.36812199999986,
+          164.21256899999935,
+          173.61423400000058,
+          173.11806799999977,
+          201.20171499999924,
+          219.44772000000012
+        ]
+      },
+      "payloadBytes": {
+        "n": 20,
+        "min": 2880,
+        "p50": 2880,
+        "p95": 2880,
+        "max": 2880,
+        "samples": [
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880,
+          2880
+        ]
+      }
+    },
+    "evidence": {
+      "route": "/api/v1/matches/MET33_0/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/evidence/contribution%3Ac7be421bc6bcc806194fe819?mode=pastOnly",
+      "latencyMs": {
+        "n": 20,
+        "min": 163.09593999999925,
+        "p50": 189.082996000001,
+        "p95": 213.39207800000077,
+        "max": 227.4844910000029,
+        "samples": [
+          213.39207800000077,
+          213.19225000000006,
+          200.33322200000111,
+          185.87870499999917,
+          176.07397299999866,
+          197.98140799999965,
+          188.1222119999984,
+          172.69778299999962,
+          182.7506659999999,
+          199.89496899999722,
+          203.18156799999997,
+          189.082996000001,
+          182.22977399999945,
+          163.09593999999925,
+          227.4844910000029,
+          202.14209299999857,
+          198.10905300000013,
+          184.48125300000174,
+          175.7191550000025,
+          196.62364199999865
+        ]
+      },
+      "payloadBytes": {
+        "n": 20,
+        "min": 269,
+        "p50": 269,
+        "p95": 269,
+        "max": 269,
+        "samples": [
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269,
+          269
+        ]
+      }
+    },
+    "episodes": {
+      "route": "/api/v1/matches/MET33_0/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/episodes?kind=death&limit=10",
+      "latencyMs": {
+        "n": 20,
+        "min": 178.1304940000009,
+        "p50": 198.12845599999855,
+        "p95": 244.6461190000009,
+        "max": 266.13474399999905,
+        "samples": [
+          201.96191499999986,
+          187.83185800000138,
+          198.12845599999855,
+          211.26753100000133,
+          244.6461190000009,
+          190.82261300000027,
+          178.1304940000009,
+          189.42776900000172,
+          189.41402500000186,
+          222.17427800000223,
+          210.63420499999847,
+          185.57064799999716,
+          179.57774499999869,
+          213.08440300000075,
+          201.5154479999983,
+          196.16498099999808,
+          204.2680959999998,
+          179.8852650000008,
+          266.13474399999905,
+          224.69415599999775
+        ]
+      },
+      "payloadBytes": {
+        "n": 20,
+        "min": 18087,
+        "p50": 18087,
+        "p95": 18087,
+        "max": 18087,
+        "samples": [
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087,
+          18087
+        ]
+      }
+    },
+    "economy": {
+      "route": "/api/v1/matches/MET33_0/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/economy?section=checkpoints",
+      "latencyMs": {
+        "n": 20,
+        "min": 182.28388500000437,
+        "p50": 204.51598199999717,
+        "p95": 227.0958529999989,
+        "max": 248.9021550000034,
+        "samples": [
+          182.28388500000437,
+          184.16162000000622,
+          201.60558299999684,
+          226.7231660000034,
+          198.31721999999718,
+          191.0336610000013,
+          206.56723599999532,
+          248.9021550000034,
+          206.65025900000182,
+          209.1393790000002,
+          191.31272300000273,
+          210.5463069999969,
+          182.8590389999954,
+          204.51598199999717,
+          218.84292700000515,
+          227.0958529999989,
+          225.25480800000514,
+          191.03744300000108,
+          207.22440300000017,
+          188.89145599999756
+        ]
+      },
+      "payloadBytes": {
+        "n": 20,
+        "min": 133524,
+        "p50": 133524,
+        "p95": 133524,
+        "max": 133524,
+        "samples": [
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524,
+          133524
+        ]
+      }
+    },
+    "vision": {
+      "route": "/api/v1/matches/MET33_0/report/tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ/families/vision?section=objectiveWindows",
+      "latencyMs": {
+        "n": 20,
+        "min": 183.69844100000046,
+        "p50": 204.0462120000011,
+        "p95": 245.2206720000031,
+        "max": 246.37277399999584,
+        "samples": [
+          191.34116399999766,
+          199.28711599999951,
+          187.1043389999977,
+          193.72845200000302,
+          234.90997899999638,
+          192.19064400000207,
+          219.82374799999525,
+          206.30772199999774,
+          187.45485599999665,
+          245.2206720000031,
+          188.26784900000348,
+          183.69844100000046,
+          246.37277399999584,
+          204.0462120000011,
+          220.3155310000002,
+          214.71347999999853,
+          239.4724470000001,
+          224.03125100000034,
+          220.3056959999958,
+          193.74145700000372
+        ]
+      },
+      "payloadBytes": {
+        "n": 20,
+        "min": 214557,
+        "p50": 214557,
+        "p95": 214557,
+        "max": 214557,
+        "samples": [
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557,
+          214557
+        ]
+      }
+    }
+  },
+  "regressionGate": {
+    "policy": "Local engineering review trigger: latency x2, payload x1.05, dataset tuple storage x1.1; no production SLA",
+    "failures": []
+  }
+}

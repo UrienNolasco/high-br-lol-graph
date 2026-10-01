@@ -1,7 +1,91 @@
 {
+  "schemaVersion": 2,
   "card": "ARQ-14",
-  "base": "af3efe7ae9a18a491915f129698506cf3165601c",
-  "scope": "Consolidated the available validation evidence for ARQ-01 through ARQ-13 and recorded the local gates observed on the current refactor state.",
+  "status": "accepted",
+  "validatedSourceSha": "098858979b9f38e51eb7d69375c8de0bde352801",
+  "baselineSha": "217331a675974fe6531da5bfff63a06c5324fde9",
+  "validatedAt": "2026-10-01T15:56:31.920750+00:00",
+  "scope": "Integrated local architectural refactor; no production operations or MET feature work. Documentation-only follow-up records these results without changing the validated source.",
+  "environment": {
+    "node": "v26.10.0",
+    "npm": "12.1.0",
+    "postgres": "15.19",
+    "rabbitmqImage": "rabbitmq:3.13-alpine",
+    "postgresContainer": "highbr-arq14-final-postgres",
+    "rabbitmqContainer": "highbr-arq14-final-rabbit",
+    "postgresPort": 55441,
+    "rabbitmqPort": 55681,
+    "database": "high_br_integration",
+    "execution": "Local disposable containers. Integration and benchmarks ran serially; HTTP/DB commands outside socket-restricted sandbox.",
+    "migrations": "17 existing migrations applied; schema and migrations identical to baseline; no new migration."
+  },
+  "predecessors": {
+    "ARQ-01": {
+      "taskId": 39,
+      "integratedCommit": "c3a23589fc6a38d50497c34151594e9646ff459d",
+      "integrated": true
+    },
+    "ARQ-02": {
+      "taskId": 40,
+      "integratedCommit": "92a34197dcff642ba4ef85136e70eb5a70e705b2",
+      "integrated": true
+    },
+    "ARQ-03": {
+      "taskId": 41,
+      "integratedCommit": "94ac3c117f47aa7e53eba11b4c29589ebd9c49b4",
+      "integrated": true
+    },
+    "ARQ-04": {
+      "taskId": 42,
+      "integratedCommit": "69c874f128c1f417a959afee5c696bfa357f76c2",
+      "integrated": true
+    },
+    "ARQ-05": {
+      "taskId": 43,
+      "integratedCommit": "ffe37ffea39066b0f6ea04eb2f12ac8e9e91deb9",
+      "integrated": true
+    },
+    "ARQ-06": {
+      "taskId": 44,
+      "integratedCommit": "2973957b8d5c7d66578c7deddd40e490868b255d",
+      "integrated": true
+    },
+    "ARQ-07": {
+      "taskId": 45,
+      "integratedCommit": "2b13126374e3734149a458f61e6b24b5f29e565b",
+      "integrated": true
+    },
+    "ARQ-08": {
+      "taskId": 46,
+      "integratedCommit": "0ad17f693c58473e682d16d0b14ed8d7ddacb065",
+      "integrated": true
+    },
+    "ARQ-09": {
+      "taskId": 47,
+      "integratedCommit": "02ad37dac75c1cce07550957896187e322a165a4",
+      "integrated": true
+    },
+    "ARQ-10": {
+      "taskId": 48,
+      "integratedCommit": "4041d16827ca38948059e8e8dbbf9b8cfa6c39bb",
+      "integrated": true
+    },
+    "ARQ-11": {
+      "taskId": 49,
+      "integratedCommit": "e05dce91fc9aafdfe48f5658c50024048d80afc7",
+      "integrated": true
+    },
+    "ARQ-12": {
+      "taskId": 50,
+      "integratedCommit": "7050558dd37c852a0ed14b0a3ba0f5351caafc4f",
+      "integrated": true
+    },
+    "ARQ-13": {
+      "taskId": 51,
+      "integratedCommit": "25f58eb15e1f9cd2fece3fcdb6d5c51be6433759",
+      "integrated": true
+    }
+  },
   "historicalEvidence": {
     "validations": [
       "validation-arq02.json",
@@ -26,8 +110,9 @@
     ],
     "summary": "The ARQ-01 baseline and ARQ-02..13 validation artifacts document the progressive boundary, contract, composition, projection, study and processing refactors. Historical integration results are preserved as historical evidence and are not reclassified as current ARQ-14 results."
   },
+  "supersedes": "The incomplete af3efe7 validation report in commit 88516ad. Earlier integration evidence remains historical.",
   "currentGates": {
-    "ref": "af3efe7",
+    "ref": "098858979b9f38e51eb7d69375c8de0bde352801",
     "architecture": {
       "command": "npm run architecture:check -- --strict",
       "result": "passed",
@@ -39,14 +124,18 @@
       "transitionalDebt": 0,
       "relocationErrors": 0
     },
+    "architectureTests": {
+      "command": "npm run test:architecture",
+      "result": "passed",
+      "tests": 63
+    },
     "build": {
       "command": "npm run build",
       "result": "passed"
     },
-    "tsc": {
+    "typescript": {
       "command": "npx tsc --noEmit --pretty false",
-      "result": "passed",
-      "diagnostics": 0
+      "result": "passed"
     },
     "unit": {
       "command": "npm test -- --runInBand",
@@ -59,16 +148,182 @@
       "result": "passed",
       "suites": 27,
       "tests": 160
+    },
+    "integration": {
+      "command": "TEST_DATABASE_URL=<disposable PostgreSQL URL> TEST_RABBITMQ_URL=<disposable RabbitMQ URL> npm run test:integration",
+      "result": "passed",
+      "suites": 16,
+      "tests": 64,
+      "seconds": 272.856,
+      "coverage": [
+        "ingestion",
+        "concurrent workers and shared aggregates",
+        "redelivery and broker recovery",
+        "lease expiration and maintenance gate",
+        "10 PostgreSQL AFTER-trigger publication faults and exactly-once recovery",
+        "retained raw data after rollback",
+        "resumable offline rebuild repeated twice",
+        "dataset export determinism and temporal splits",
+        "projections, lineage, queries and references"
+      ]
+    },
+    "python": {
+      "command": "python3 -m unittest discover -s scripts -p 'test_*.py'",
+      "result": "passed",
+      "tests": 8
+    },
+    "corpus": {
+      "command": "python3 scripts/audit-metrics-corpus.py --output /tmp/arq14-final-corpus.json",
+      "result": "passed",
+      "realMatches": 1,
+      "syntheticVariants": 9,
+      "unexpectedFailures": 0
+    },
+    "projections": {
+      "command": "ARQ_CORPUS_OUTPUT=/tmp/arq14-final-projections ARQ_CORPUS_BASELINE=/tmp/arq14-final-baseline-projections node docs/architecture/evidence/compare-projection-corpus.cjs",
+      "result": "passed",
+      "validators": 7,
+      "semanticallyEqualArtifacts": 8,
+      "baselinePreparation": "git archive 217331a extracted to /tmp/highbr-arq14-baseline-final; build with same installed dependencies; run the same comparator with cwd set to the baseline and ARQ_CORPUS_OUTPUT=/tmp/arq14-final-baseline-projections. Only top-level calculationMs is omitted from comparison."
+    },
+    "study": {
+      "command": "npm run vision-study -- --out /tmp/arq14-accepted-study",
+      "result": "passed",
+      "byteEquivalentArtifacts": 5,
+      "comparedWith": "docs/architecture/evidence/vision-study",
+      "independentMatches": 1,
+      "conclusion": "insufficient_sample_or_coverage"
+    },
+    "cli": {
+      "commands": [
+        "DATABASE_URL=<disposable PostgreSQL URL> node dist/processing-cli.js status",
+        "DATABASE_URL=<disposable PostgreSQL URL> node dist/processing-cli.js coverage",
+        "node dist/dataset-cli.js definitions"
+      ],
+      "result": "passed"
     }
   },
-  "integration": {
-    "postgresql": "not validated for ARQ-14: disposable environment unavailable",
-    "rabbitmq": "not validated for ARQ-14: disposable environment unavailable",
-    "result": "No current ARQ-14 claim is made for PostgreSQL/RabbitMQ integration, rollback, redelivery, concurrency or rebuild. Historical integration evidence remains in validation-arq03.json, validation-arq05.json, validation-arq08.json, validation-arq09.json, validation-arq10.json and validation-arq11.json."
+  "benchmark": {
+    "command": "TEST_DATABASE_URL=<disposable PostgreSQL URL> node scripts/benchmark-release.cjs --reset-disposable --baseline docs/architecture/evidence/benchmark.json --output /tmp/arq14-final-benchmark.json",
+    "baselineReplayCommand": "From the extracted 217331a baseline: TEST_DATABASE_URL=<same disposable PostgreSQL URL> node scripts/benchmark-release.cjs --reset-disposable --output /tmp/arq14-baseline-replay-benchmark.json",
+    "result": "passed",
+    "comparison": "Historical baseline and freshly replayed baseline both pass the original thresholds. No threshold or benchmark assertion was weakened.",
+    "ingestionP95Ms": 2181.6572560000004,
+    "rebuildMs": 5956.922284,
+    "datasetRowsPerMatch": 877,
+    "payloadsEqualToReplay": true,
+    "datasetTupleBytesEqualToReplay": true,
+    "interpretation": "Against same-environment replay: route p95 ratios 0.933–1.070, ingestion 0.994, rebuild 1.004. Historical rebuild +11.15% is also present in replay (+10.67%); no refactor regression trigger. Shared workstation and one fixture do not establish production capacity."
   },
-  "limitations": [
-    "Current integration and benchmark/reconciliation evidence was not produced by this report.",
-    "The worktree contains five pre-existing untracked paths outside this documentation change; they were not modified or included here."
+  "persistedData": {
+    "result": "equal",
+    "tables": {
+      "match": {
+        "count": 3,
+        "sha256": "5c1855d4298b21920280e03586dbe87bab5fdf5160a790a348da060a29cc1161"
+      },
+      "matchTeam": {
+        "count": 6,
+        "sha256": "3cb72a0ae566d445fe590b13f92245a490f74f6de7caf292cef42148da4620cc"
+      },
+      "matchParticipant": {
+        "count": 30,
+        "sha256": "7da23080619155907e0d3823274dd5062f4c10365b9ceb17aa3367f96b244a4a"
+      },
+      "matchTimelineProjection": {
+        "count": 3,
+        "sha256": "45e8cb1fb2247767d4399fffde4f86b412bdb9c9adb66608ae9b32b2a681e16f"
+      },
+      "matchEventProjection": {
+        "count": 5898,
+        "sha256": "2d5150677624d6bd6345f79d783bb7b1c0ec685d0cf6075ad60bd10dab7e42c7"
+      },
+      "historicalMetricContribution": {
+        "count": 2631,
+        "sha256": "ddf33b6183eb80832fcdf5235cdd8ccce07fea4365310dee0e7f915390495a24"
+      },
+      "championStats": {
+        "count": 10,
+        "sha256": "dda3886ef3528cace0b29fb0ab8ae823d8f32918f015dc30e6f7f25b9cbb5c17"
+      },
+      "playerStats": {
+        "count": 20,
+        "sha256": "f776a2acbdb696a2c14f92fd476f649156f0e5d3fd2f87caa045371f11fe641e"
+      },
+      "playerChampionStats": {
+        "count": 20,
+        "sha256": "85a2da73a5e4926e990a905f088400ae99200461a2f761fabcb086c4a8b64cb8"
+      }
+    },
+    "rawPayloads": "equal",
+    "jobStates": "equal; all completed and leases released",
+    "snapshotCommand": "After each serial benchmark: TEST_DATABASE_URL=<disposable PostgreSQL URL> node docs/architecture/evidence/arq14/snapshot-database.cjs <repository-root> <snapshot-output.json>",
+    "normalization": "Sorted JSON keys and rows; bigint decimal; ISO dates. Omit processing wall-clock processedAt, playerStats.lastUpdated and surrogate IDs only on matchTeam/championStats/playerStats/playerChampionStats. Preserve match identities, event timestamps, values, nulls, versions and lastPlayedAt."
+  },
+  "resolvedFindings": [
+    "Published STEAL_CHALLENGES and MatchReportController through the offline composition entrypoint; reconciliation and benchmark execute successfully.",
+    "Rollback test expectations distinguish patch-only champion aggregates from patch plus ALL player aggregates; every row still requires gamesPlayed=1 and redelivery leaves the complete snapshot unchanged.",
+    "Snapshot rollback spec now exercises the full processing use case and asserts RETRY_WAIT, no completedAt, no lease and the recorded failure instead of the old direct-persistence PROCESSING state.",
+    "ARQ-13 completion evidence added to board; MET-21 native ARQ-14 dependency restored."
   ],
+  "initialFailedRuns": {
+    "first": "11 expectation failures: 10 new aggregate row-count assertions and one stale direct-persistence status assertion; 53 other integration tests passed.",
+    "second": "10 row-count assertions still conflated champion and player scopes; 54 other integration tests passed.",
+    "resolution": "Expected scopes verified against both original and refactored writers, then all 64 integration tests passed. No production formula or failure policy changed."
+  },
+  "boardAuditBeforeRelease": {
+    "boardId": 3,
+    "predecessorsDone": 13,
+    "metCardsPreserved": 34,
+    "metDonePreserved": 28,
+    "metReadyPreserved": 6,
+    "metCardsWithNativeGateDependency": 34,
+    "met21Dependencies": [
+      21,
+      22,
+      52
+    ],
+    "partialWorktrees": "evidence/arq14/met-worktrees.json; existing MET-21 partial work preserved.",
+    "releasePolicy": "Move ARQ-14 #52 to Done after accepted evidence is committed; preserve every MET dependency and existing completion state."
+  },
+  "metResumption": [
+    "Start from the final local dev and preserve worktree changes before rebasing or transplanting paused work.",
+    "Replace removed core paths and internal module imports with the public matches/dataset/stats/collector/processing contracts documented in docs/architecture/migration-map.md.",
+    "Keep original MET dependency order; a released architecture gate does not complete unfinished MET cards.",
+    "Run architecture:check --strict plus affected suites for each resumed card; do not recreate compatibility aliases."
+  ],
+  "limitations": [
+    "One real fixture and nine synthetic variants; no claim of multi-patch empirical coverage.",
+    "Local benchmark on a shared workstation, no production SLA or load-capacity claim.",
+    "Integration is into local dev; no GitHub push or production deployment is part of this validation."
+  ],
+  "evidenceDirectory": "docs/architecture/evidence/arq14",
+  "artifactSha256": {
+    "architecture-check.txt": "778ef7c181dfcbacc8aef48cad19f62af28c4b32fefcd39ad05f7e2025215da2",
+    "architecture-tests.txt": "796a1fca1ea83b6d1894d219e4fb262879c667f77f13210d64acf297c83002de",
+    "baseline-database.json": "2c6e43fe506961ee760977be68cb132a287c5d730583216926a6933af7cac2a6",
+    "baseline-replay-benchmark.json": "ac140c83df64d9303eadbd84a08fc63ce218921743ca718e78abc7f9f1d0a9a0",
+    "baseline-replay-benchmark.txt": "dc6a74d065679022dbf680b5e9d48521b3266423f5cb39ae477f9c51c9750e21",
+    "benchmark-comparison.json": "efe98b7d7c1711d04b6b264893b61398c45cf15f0da81152492aa68209f7e07c",
+    "benchmark.json": "d3798f16a3e3b6802c4c3b25248c1d492b739e6b88d372837da766fa5c3d326d",
+    "benchmark.txt": "f589bb3b9d7dc41dda55344c9ab6321f496aea04270d31f6b900af7021196ee5",
+    "build.txt": "9887708fd99dcda0558cb1b238165856e3d9dbddc961eea7dfed0e55f5ab6cd9",
+    "cli-coverage.txt": "3c54db1ee33adb696dd1b87026071180b5ab0e516b58e8d47fe5ad077b67b5e6",
+    "cli-dataset.txt": "086b0e6a2683f79a522c49909018679ea409da2f7b4156ea8d5877e38831a3da",
+    "cli-status.txt": "78c7d423aa20d49340a088439edb081f861c01d467efe12710d0845fbc7f41df",
+    "corpus.json": "fffa8c977aabf0d6aabb0451a028cc2e2b8aa8c694d41aa4afd557489106e56e",
+    "database.json": "2c6e43fe506961ee760977be68cb132a287c5d730583216926a6933af7cac2a6",
+    "http.txt": "702400f14195e538631bc28ff87c4f9ba1775593870778706b72274145f1036a",
+    "integration.txt": "1ffdd12288c7fbf5eb5e2693213cf24e27ab369bfc313e72eecf4ff708b94190",
+    "met-worktrees.json": "846244820942f70063b84f35d03819482909d60d61902e748016071f92b3f9ec",
+    "projection-equivalence.json": "4bda581abd348087d57844b1f4d969435993498ec0e0304449615f3b6addaf29",
+    "projections.txt": "1f656e909b336d5374a6e8b7f321d7b0d58d76737e136ed23b6e9c4ca86d2915",
+    "python.txt": "d790b1e2ee74d5dbcbfbb8fd50ed2b73d860c846735a2d68682718a6e1ca1c26",
+    "snapshot-database.cjs": "b68870774e01b5b13687ef5f036a9cbdb357f656318f3061ba7f0be9387ed6ec",
+    "study-equivalence.json": "61c97960dd994ceb8ef966596b3de7a13b57823ceeea746667ba8ef72d362972",
+    "study.txt": "4d8fc59b7303c261c07b768eda8715ab06ca68c6f5b7fbcfa3a5adf9272bb661",
+    "tsc.txt": "5ddc72f3fe150f8f97b60998fe4707c65b2b31dbbb80052b73dd5d04ca8efdf0",
+    "unit.txt": "8b12c4313f15faeaebf0ebb75aa7b9c80507a9a50974a4124df98c9ee8a14b47"
+  },
   "generatedWithoutProductionChanges": true
 }

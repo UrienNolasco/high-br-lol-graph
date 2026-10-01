@@ -1,0 +1,73 @@
+{
+  "lineageVersion": 1,
+  "population": {
+    "distinctKnownMatches": 3,
+    "importedMatches": 3,
+    "queriedAccounts": 0,
+    "participantAccounts": 10,
+    "discoveryObservations": 0,
+    "observationsWithNoMatches": 0,
+    "historicalParticipantRank": "unavailable",
+    "selection": "observed_imports_and_account_queries; not representative of all matches"
+  },
+  "rawPair": {
+    "complete": 3,
+    "summaryOnly": 0,
+    "timelineOnly": 0,
+    "neither": 0,
+    "denominator": 3,
+    "coverage": 1,
+    "validation": "presence_only; payload validity is assessed by processing"
+  },
+  "lineage": {
+    "knownMatches": 0,
+    "unknownMatches": 3,
+    "bySource": [
+      {
+        "source": "collector",
+        "observations": 0,
+        "distinctMatches": 0,
+        "queriedAccounts": 0
+      },
+      {
+        "source": "search",
+        "observations": 0,
+        "distinctMatches": 0,
+        "queriedAccounts": 0
+      },
+      {
+        "source": "sync",
+        "observations": 0,
+        "distinctMatches": 0,
+        "queriedAccounts": 0
+      }
+    ],
+    "sourceCountsOverlap": true
+  },
+  "importedGamePeriod": {
+    "first": "2026-02-02T06:54:48.681Z",
+    "last": "2026-02-04T06:54:48.681Z",
+    "knownN": 3,
+    "unknownN": 0,
+    "source": "Match.gameCreation; no discovery timestamp substitution",
+    "continuousCoverage": "unknown"
+  },
+  "discoveryPeriod": {
+    "first": null,
+    "last": null,
+    "knownN": 0
+  },
+  "matchPopulation": [
+    {
+      "dimensions": {
+        "queueId": 420,
+        "mapId": 11,
+        "gameVersion": "16.2.741.3171"
+      },
+      "count": 3
+    }
+  ],
+  "queryPopulation": [],
+  "queriedAccountRankObservations": [],
+  "rankInterpretation": "Queried account at discovery time only; never the historical rank of match participants."
+}

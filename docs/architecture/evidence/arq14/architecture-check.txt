@@ -1,0 +1,3 @@
+npm notice run high-br-lol-graph@0.0.1 architecture:check
+npm notice run node scripts/architecture-check.cjs --strict
+architecture: {"violations":0,"newViolations":0,"staleEntries":0,"baselineGrowth":0,"invalidEntries":0,"transitionalDebt":0,"relocationErrors":0,"strict":true}

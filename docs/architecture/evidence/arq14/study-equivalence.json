@@ -1,0 +1,27 @@
+[
+  {
+    "file": "features.jsonl",
+    "equal": true,
+    "sha256": "0efc962789c45003edffc6cae6c2138a76bda2c776b8ede5d2f6fa0cafe85b0e"
+  },
+  {
+    "file": "labels.jsonl",
+    "equal": true,
+    "sha256": "8cbb776c234e7b2a7b6945eb706d1bea7ac8274be3aedb10ab3b65d1028c46a4"
+  },
+  {
+    "file": "metadata.jsonl",
+    "equal": true,
+    "sha256": "58fbe18c875f76f61d3f91e44f72628e14ab2c1f21bc8d9ee6d927c7134a4a26"
+  },
+  {
+    "file": "results.json",
+    "equal": true,
+    "sha256": "b2281590b1df3ba230073c8ab1cde60224099621f248fa10b125b3f27a3ebdce"
+  },
+  {
+    "file": "reconciliation.json",
+    "equal": true,
+    "sha256": "e1eeb1f713c7b41df8b61a8d60e952a19a970c950b0de4ecbb3953b01d7f66f4"
+  }
+]

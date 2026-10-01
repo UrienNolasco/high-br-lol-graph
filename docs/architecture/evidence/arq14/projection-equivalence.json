@@ -1,0 +1,47 @@
+{
+  "baselineSha": "217331a675974fe6531da5bfff63a06c5324fde9",
+  "candidateSha": "098858979b9f38e51eb7d69375c8de0bde352801",
+  "normalization": "Parsed JSON equality; omit top-level calculationMs only. SHA-256 uses sorted compact JSON keys, UTF-8.",
+  "outputs": [
+    {
+      "file": "met05-final-stats-reconciliation.json",
+      "equal": true,
+      "sha256": "7fcbfd438b00870eafa6a1943739f24823e743d7378ed7c254e8472211344b45"
+    },
+    {
+      "file": "met10-contribution-examples.json",
+      "equal": true,
+      "sha256": "9503235e6695d8bd2e5713d5461b7b6fe8a133b3cae4bad3d3029874e9cac0ad"
+    },
+    {
+      "file": "met11-vision-example.json",
+      "equal": true,
+      "sha256": "e34b47f3a1382491be1622bda468088c72a090bd4acc73dd4f53d0b5bb6cce7e"
+    },
+    {
+      "file": "met11-vision-reconciliation.json",
+      "equal": true,
+      "sha256": "779bfb2856d95b0944a5c662dbaedd0a6a3bbe405ab52de8f17fc43b9f00c302"
+    },
+    {
+      "file": "met14-objectives-examples.json",
+      "equal": true,
+      "sha256": "6cd5e37fdf19e34d73e7ed41e52a53c715986f50dc5a799469a8ace67ffe804d"
+    },
+    {
+      "file": "met15-sequences-examples.json",
+      "equal": true,
+      "sha256": "ffe0fb2b1db3e7e7738cea35bdf16e16eed6d23f21bdec856ceda87c3eeba489"
+    },
+    {
+      "file": "met24-kill-episodes-examples.json",
+      "equal": true,
+      "sha256": "f52e38b666a11513a03227d2c888cf89b65393800f5fde6ff6fad1feb07da616"
+    },
+    {
+      "file": "met30-bounties-steals-examples.json",
+      "equal": true,
+      "sha256": "7acbcf9057a11058e311afd1364db602479e968fa77f05974acaccf4a0201862"
+    }
+  ]
+}

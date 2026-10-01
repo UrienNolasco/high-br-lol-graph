@@ -1,0 +1,8 @@
+{"participantChecks":590,"objectiveChecks":32,"failures":0,"output":"/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/docs/analysis/met05-final-stats-reconciliation.json"}
+{"checkedParticipants":10,"formulaChecks":40,"fioraTurretSharePercent":79.1386420880733,"milioAllyShielding":19049,"failures":0}
+{"totals":{"recognizedPlacements":196,"unknownPlacements":556,"recognizedRemovals":51},"failures":0,"calculationMs":63.00798899999995}
+{"reconciliations":12,"towers":13,"inhibitors":2,"plates":74,"killerIdZero":28,"platesAtOrAfter14Minutes":60,"fioraTurretShare":79.1386420880733,"failures":0}
+{"precedingRedKills":5,"persistentLeadFrame":28,"largestObservedDeficit":4750,"firstBaronGoldChange":2606,"failures":0}
+{"windowStart":1260000,"windowEnd":1555457,"observedDurationMs":295457,"participantChecks":80,"eventChecks":238,"literalRewardEvents":119,"failures":0}
+{"assignedKills":92,"episodes":62,"quickTrades":11,"participantSnapshotsChecked":239,"sensitivity":[{"profile":"tight","episodes":74,"trades":8,"coClusterPairChanges":28},{"profile":"default","episodes":62,"trades":11,"coClusterPairChanges":0},{"profile":"loose","episodes":53,"trades":16,"coClusterPairChanges":21}],"failures":0}
+{"semanticBaselineComparisons":["met05-final-stats-reconciliation.json","met10-contribution-examples.json","met11-vision-reconciliation.json","met11-vision-example.json","met14-objectives-examples.json","met15-sequences-examples.json","met30-bounties-steals-examples.json","met24-kill-episodes-examples.json"]}

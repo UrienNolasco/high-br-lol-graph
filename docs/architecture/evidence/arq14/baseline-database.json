@@ -1,0 +1,81 @@
+{
+  "normalization": "Sorted JSON keys and rows; bigint decimal; ISO dates. Omit processing wall-clock processedAt, playerStats.lastUpdated and surrogate IDs only on matchTeam/championStats/playerStats/playerChampionStats. Preserve match identities, event timestamps, values, nulls, versions and lastPlayedAt.",
+  "tables": {
+    "match": {
+      "count": 3,
+      "sha256": "5c1855d4298b21920280e03586dbe87bab5fdf5160a790a348da060a29cc1161"
+    },
+    "matchTeam": {
+      "count": 6,
+      "sha256": "3cb72a0ae566d445fe590b13f92245a490f74f6de7caf292cef42148da4620cc"
+    },
+    "matchParticipant": {
+      "count": 30,
+      "sha256": "7da23080619155907e0d3823274dd5062f4c10365b9ceb17aa3367f96b244a4a"
+    },
+    "matchTimelineProjection": {
+      "count": 3,
+      "sha256": "45e8cb1fb2247767d4399fffde4f86b412bdb9c9adb66608ae9b32b2a681e16f"
+    },
+    "matchEventProjection": {
+      "count": 5898,
+      "sha256": "2d5150677624d6bd6345f79d783bb7b1c0ec685d0cf6075ad60bd10dab7e42c7"
+    },
+    "historicalMetricContribution": {
+      "count": 2631,
+      "sha256": "ddf33b6183eb80832fcdf5235cdd8ccce07fea4365310dee0e7f915390495a24"
+    },
+    "championStats": {
+      "count": 10,
+      "sha256": "dda3886ef3528cace0b29fb0ab8ae823d8f32918f015dc30e6f7f25b9cbb5c17"
+    },
+    "playerStats": {
+      "count": 20,
+      "sha256": "f776a2acbdb696a2c14f92fd476f649156f0e5d3fd2f87caa045371f11fe641e"
+    },
+    "playerChampionStats": {
+      "count": 20,
+      "sha256": "85a2da73a5e4926e990a905f088400ae99200461a2f761fabcb086c4a8b64cb8"
+    }
+  },
+  "raw": [
+    {
+      "matchId": "MET33_0",
+      "summary": "c51bae49e6feb611ec2dca7ec098aea2ead6da082daf4dfa9132a6cb2e4eeb86",
+      "timeline": "97ea2fe83eac064ae34775e7e934725601cacd89886e1daa9e919b402a4a9861"
+    },
+    {
+      "matchId": "MET33_1",
+      "summary": "b96cbfab740be04a848cc8b155fea5e794fb5fd9cccecc9faf985049f61a9645",
+      "timeline": "2c6b6c36ee7817f9eab042a7f4ff0e8b6219d30f77fa76a0cc6c0aca9315ad34"
+    },
+    {
+      "matchId": "MET33_2",
+      "summary": "17325de44c6aeaa32ec1185396f49cc002e51f89e0f54b2ef91dfe0ed8fceced",
+      "timeline": "c542f01c2dd4602f84df4b8acb6d9349e1cde439a7b2a10baf2858fd67f6d903"
+    }
+  ],
+  "jobs": [
+    {
+      "matchId": "MET33_0",
+      "status": "COMPLETED",
+      "processingVersion": 4,
+      "completed": true,
+      "leaseReleased": true
+    },
+    {
+      "matchId": "MET33_1",
+      "status": "COMPLETED",
+      "processingVersion": 4,
+      "completed": true,
+      "leaseReleased": true
+    },
+    {
+      "matchId": "MET33_2",
+      "status": "COMPLETED",
+      "processingVersion": 4,
+      "completed": true,
+      "leaseReleased": true
+    }
+  ]
+}

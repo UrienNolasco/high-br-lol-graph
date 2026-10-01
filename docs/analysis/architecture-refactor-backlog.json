@@ -4,7 +4,7 @@
   "board_name": "high-br-lol",
   "date": "2026-09-23",
   "baseline_sha": "217331a675974fe6531da5bfff63a06c5324fde9",
-  "status": "in_progress",
+  "status": "complete",
   "release_gate": "ARQ-14",
   "common": {
     "scope": "Implementação autorizada em 2026-09-26, conforme dependências. Desenvolvimento local, sem deploy ou alterações em produção.",
@@ -875,5 +875,27 @@
     "original_dependencies_preserved": true,
     "acyclic": true,
     "note": "is_blocked alone is insufficient; verified unfinished gate and native --actionable filter."
+  },
+  "completion": {
+    "validated_source_sha": "098858979b9f38e51eb7d69375c8de0bde352801",
+    "date": "2026-10-01T15:56:32.180438+00:00",
+    "report": "docs/architecture/validation-arq14.json",
+    "local_only": true,
+    "predecessor_commits": {
+      "ARQ-01": "c3a23589fc6a38d50497c34151594e9646ff459d",
+      "ARQ-02": "92a34197dcff642ba4ef85136e70eb5a70e705b2",
+      "ARQ-03": "94ac3c117f47aa7e53eba11b4c29589ebd9c49b4",
+      "ARQ-04": "69c874f128c1f417a959afee5c696bfa357f76c2",
+      "ARQ-05": "ffe37ffea39066b0f6ea04eb2f12ac8e9e91deb9",
+      "ARQ-06": "2973957b8d5c7d66578c7deddd40e490868b255d",
+      "ARQ-07": "2b13126374e3734149a458f61e6b24b5f29e565b",
+      "ARQ-08": "0ad17f693c58473e682d16d0b14ed8d7ddacb065",
+      "ARQ-09": "02ad37dac75c1cce07550957896187e322a165a4",
+      "ARQ-10": "4041d16827ca38948059e8e8dbbf9b8cfa6c39bb",
+      "ARQ-11": "e05dce91fc9aafdfe48f5658c50024048d80afc7",
+      "ARQ-12": "7050558dd37c852a0ed14b0a3ba0f5351caafc4f",
+      "ARQ-13": "25f58eb15e1f9cd2fece3fcdb6d5c51be6433759"
+    },
+    "met_resumption": "Follow final public contracts and original dependencies; preserve paused changes."
   }
 }

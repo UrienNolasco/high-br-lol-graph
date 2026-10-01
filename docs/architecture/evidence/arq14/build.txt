@@ -1,0 +1,2 @@
+npm notice run high-br-lol-graph@0.0.1 build
+npm notice run nest build

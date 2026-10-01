@@ -2,7 +2,7 @@
 
 Data: 2026-09-23. Board: `high-br-lol` (#3). Base inspecionada: `217331a675974fe6531da5bfff63a06c5324fde9`.
 
-Estado: execução iniciada em 2026-09-26. ARQ-01 registra a ADR em `docs/architecture/ADR-001-modular-boundaries.md`, o inventário reproduzível e o baseline em `docs/architecture/validation-baseline.json`. Os demais cards seguem a ordem de dependências; o backlog MET continua bloqueado até ARQ-14.
+Estado: refatoração integrada e validada localmente em 2026-10-01, no SHA `098858979b9f38e51eb7d69375c8de0bde352801`. ARQ-01 a ARQ-13 estão integrados; o aceite ARQ-14 está registrado em `docs/architecture/validation-arq14.json`, com integração PostgreSQL/RabbitMQ, reconciliações e benchmark aprovados. Após o fechamento do card #52, o backlog MET pode ser retomado respeitando suas dependências originais e os contratos públicos finais. Não houve push ou deploy em produção.
 
 ## Objetivo e limites
 
@@ -10,7 +10,7 @@ Migrar incrementalmente para um monólito modular com proprietário explícito d
 
 A refatoração não inclui novas análises MET, migração para microserviços, mudança de banco, novos mecanismos de eventos, deploy ou alteração em produção. Movimentação estrutural não justifica alteração automática de fórmulas, rotas, schema ou versões de dados. Qualquer incompatibilidade descoberta deve ser registrada e resolvida explicitamente, sem esconder mudança funcional.
 
-## Diagnóstico verificado
+## Diagnóstico original verificado
 
 - `core/dataset` importa o parser do worker e cálculos internos de matches.
 - `core/processing/rebuild.service.ts` importa WorkerService; a CLI instancia esse grafo manualmente e simula RiotService por cast.

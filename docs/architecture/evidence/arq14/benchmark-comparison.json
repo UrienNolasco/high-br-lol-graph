@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "thresholdsUnchanged": {
+    "latencyRatio": 2,
+    "payloadRatio": 1.05,
+    "datasetTupleBytesRatio": 1.1
+  },
+  "ratios": {
+    "historical": {
+      "ingestionP95": 0.9458711759687453,
+      "rebuild": 1.11147657521493,
+      "datasetTupleBytes": 1.0,
+      "routes": {
+        "summary": {
+          "p95": 1.2414336473587035,
+          "payload": 1.0
+        },
+        "metric": {
+          "p95": 1.3332968792638862,
+          "payload": 1.0
+        },
+        "evidence": {
+          "p95": 1.0483918038088,
+          "payload": 1.0
+        },
+        "episodes": {
+          "p95": 1.2298365760798518,
+          "payload": 1.0
+        },
+        "economy": {
+          "p95": 0.9296489571201367,
+          "payload": 1.0
+        },
+        "vision": {
+          "p95": 0.9885680692437432,
+          "payload": 1.0
+        }
+      }
+    },
+    "sameEnvironmentReplay": {
+      "ingestionP95": 0.9938738591702315,
+      "rebuild": 1.004337108430405,
+      "datasetTupleBytes": 1.0,
+      "routes": {
+        "summary": {
+          "p95": 1.0444259832437006,
+          "payload": 1.0
+        },
+        "metric": {
+          "p95": 1.0644584420805665,
+          "payload": 1.0
+        },
+        "evidence": {
+          "p95": 0.9924733680999663,
+          "payload": 1.0
+        },
+        "episodes": {
+          "p95": 0.9777842769034744,
+          "payload": 1.0
+        },
+        "economy": {
+          "p95": 0.9329013046421478,
+          "payload": 1.0
+        },
+        "vision": {
+          "p95": 1.0698087237676077,
+          "payload": 1.0
+        }
+      }
+    }
+  },
+  "databaseEquivalent": true,
+  "databaseComparison": "Nine table hashes/counts, raw payload hashes and final job states equal; normalization documented in snapshot-database.cjs and database.json."
+}
