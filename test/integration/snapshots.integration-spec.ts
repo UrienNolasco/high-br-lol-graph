@@ -174,6 +174,12 @@ describe('MET03 snapshot transactional round-trip', () => {
     ).toBeNull();
     expect(
       await prisma.matchProcessing.findUnique({ where: { matchId: id } }),
-    ).toMatchObject({ status: 'PROCESSING', processingVersion: null });
+    ).toMatchObject({
+      status: 'RETRY_WAIT',
+      processingVersion: null,
+      completedAt: null,
+      leaseToken: null,
+      lastError: expect.stringContaining('synthetic failure'),
+    });
   });
 });

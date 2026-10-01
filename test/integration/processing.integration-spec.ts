@@ -154,7 +154,11 @@ beforeAll(async () => {
   prisma = new PrismaService({ datasourceUrl: db });
   secondPrisma = new PrismaService({ datasourceUrl: db });
   await Promise.all([prisma.$connect(), secondPrisma.$connect()]);
-  jobs = createProcessingService(prisma, riot as unknown as RiotService, logger);
+  jobs = createProcessingService(
+    prisma,
+    riot as unknown as RiotService,
+    logger,
+  );
   discovery = new DiscoveryService(jobs, new CollectorRepository(prisma));
   ({ service: worker, aggregation: aggregates } = makeWorker(prisma));
   otherWorker = makeWorker(secondPrisma).service;
@@ -364,6 +368,113 @@ test('a failure after all aggregate writes rolls back everything except retained
     ),
   ).toBe(true);
 });
+
+// PostgreSQL faults run after real writes, so these assertions exercise rollback
+// rather than only proving that a mocked writer stopped the call sequence.
+const publicationFaults = [
+  'matches',
+  'match_teams',
+  'match_participants',
+  'match_timeline_projections',
+  'match_event_projections',
+  'historical_metric_contributions',
+  'champion_stats',
+  'player_stats',
+  'player_champion_stats',
+  'match_processing',
+] as const;
+
+test.each(publicationFaults)(
+  'a PostgreSQL fault at %s rolls back every projection and permits exactly-once recovery',
+  async (table) => {
+    const { summary, timeline } = fixture();
+    await seed(summary, timeline);
+    await prisma.$executeRawUnsafe(`
+      CREATE FUNCTION arq14_fail_publication() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN RAISE EXCEPTION 'ARQ14 injected publication fault'; END $$
+    `);
+    try {
+      const event =
+        table === 'match_processing'
+          ? `UPDATE ON "${table}" FOR EACH ROW WHEN (NEW.status = 'COMPLETED')`
+          : `INSERT ON "${table}" FOR EACH ROW`;
+      await prisma.$executeRawUnsafe(`
+        CREATE TRIGGER arq14_publication_fault AFTER ${event}
+        EXECUTE FUNCTION arq14_fail_publication()
+      `);
+      await worker.processMatch({ matchId: summary.metadata.matchId });
+      for (const count of await Promise.all([
+        prisma.match.count(),
+        prisma.matchTeam.count(),
+        prisma.matchParticipant.count(),
+        prisma.matchTimelineProjection.count(),
+        prisma.matchEventProjection.count(),
+        prisma.historicalMetricContribution.count(),
+        prisma.championStats.count(),
+        prisma.playerStats.count(),
+        prisma.playerChampionStats.count(),
+      ]))
+        expect(count).toBe(0);
+      const job = await prisma.matchProcessing.findUniqueOrThrow({
+        where: { matchId: summary.metadata.matchId },
+      });
+      expect(job.status).toBe('RETRY_WAIT');
+      expect(job.completedAt).toBeNull();
+      expect(job.leaseToken).toBeNull();
+      expect(job.lastError).toContain('ARQ14 injected publication fault');
+      const raw = await prisma.matchRaw.findUniqueOrThrow({
+        where: { matchId: summary.metadata.matchId },
+      });
+      expect(Buffer.from(raw.summary!)).toEqual(
+        gzipSync(JSON.stringify(summary)),
+      );
+      expect(Buffer.from(raw.timeline!)).toEqual(
+        gzipSync(JSON.stringify(timeline)),
+      );
+    } finally {
+      await prisma.$executeRawUnsafe(
+        `DROP TRIGGER IF EXISTS arq14_publication_fault ON "${table}"`,
+      );
+      await prisma.$executeRawUnsafe('DROP FUNCTION arq14_fail_publication()');
+    }
+    await due(summary.metadata.matchId);
+    await otherWorker.processMatch({ matchId: summary.metadata.matchId });
+    const recovered = await snapshot();
+    await worker.processMatch({ matchId: summary.metadata.matchId });
+    expect(await snapshot()).toEqual(recovered);
+    expect(await prisma.match.count()).toBe(1);
+    expect(await prisma.matchTeam.count()).toBe(2);
+    expect(await prisma.matchParticipant.count()).toBe(10);
+    expect(await prisma.matchTimelineProjection.count()).toBe(1);
+    expect(await prisma.matchEventProjection.count()).toBeGreaterThan(0);
+    expect(await prisma.historicalMetricContribution.count()).toBeGreaterThan(
+      0,
+    );
+    const patch = summary.info.gameVersion.split('.').slice(0, 2).join('.');
+    for (const { rows, patches } of [
+      { rows: recovered.players, patches: [patch, 'ALL'] },
+      { rows: recovered.champions, patches: [patch] },
+      { rows: recovered.playerChampions, patches: [patch, 'ALL'] },
+    ]) {
+      expect(rows).toHaveLength(10 * patches.length);
+      for (const expectedPatch of patches) {
+        expect(rows.filter((row) => row.patch === expectedPatch)).toHaveLength(
+          10,
+        );
+      }
+      expect(rows.every((row) => row.gamesPlayed === 1)).toBe(true);
+    }
+    expect(
+      (
+        await prisma.matchProcessing.findUniqueOrThrow({
+          where: { matchId: summary.metadata.matchId },
+        })
+      ).status,
+    ).toBe('COMPLETED');
+    expect(riot.getMatchById).not.toHaveBeenCalled();
+    expect(riot.getTimeline).not.toHaveBeenCalled();
+  },
+);
 
 test('timeline unavailability retains summary, then fetches only the missing payload', async () => {
   const { summary, timeline } = fixture();
@@ -942,7 +1053,7 @@ test('final summary projections reconcile ten participants, remain nullable, ret
   expect((missing.teams[0].finalObjectives as any).values.dragon).toBeNull();
   const aggregateBefore = await snapshot();
   for (let i = 0; i < 2; i++) {
-  expect(await new RebuildService(prisma, jobs).run()).toBe(2);
+    expect(await new RebuildService(prisma, jobs).run()).toBe(2);
     expect(await projection()).toEqual(projected);
     expect(await snapshot()).toEqual(aggregateBefore);
     expect(await jobs.readRaw('BR1_505', 'summary')).toEqual(legacy.summary);

@@ -13,11 +13,13 @@ export {
   projectFinalObjectives,
 } from '../modules/matches/adapters/riot/final-stats';
 export { MatchReportService } from '../modules/matches/services/match-report.service';
+export { MatchReportController } from '../modules/matches/match-report.controller';
 export { ReportRepository } from '../modules/matches/repositories/report.repository';
 export { MatchReportQueryDto } from '../modules/matches/dto/match-report-query.dto';
 export { DataDragonService } from '../core/data-dragon/data-dragon.service';
 export {
   calculateBountiesSteals,
+  STEAL_CHALLENGES,
 } from '../modules/matches/contracts/calculations/bounties-steals';
 export { calculateEconomy } from '../modules/matches/contracts/calculations/economy';
 export { calculateKillEpisodes } from '../modules/matches/contracts/calculations/kill-episodes';
@@ -33,20 +35,14 @@ export {
 } from '../modules/stats/services/champion.enricher';
 export { TierRankService } from '../modules/stats/services/tier-rank.service';
 export { WorkerService } from '../modules/worker/services/worker.service';
-export {
-  calculateIndicators,
-} from '../modules/indicators/pure/indicator-calculator';
+export { calculateIndicators } from '../modules/indicators/pure/indicator-calculator';
 export {
   indicatorCatalog,
   INDICATOR_CATALOG,
 } from '../modules/indicators/pure/indicator-catalog';
 export { summarizeIndicatorHistory } from '../modules/indicators/pure/indicator-history';
-export {
-  buildHistoricalDataset,
-} from '../modules/dataset/pure/dataset-builder';
-export {
-  calculateReference,
-} from '../modules/references/reference-calculator';
+export { buildHistoricalDataset } from '../modules/dataset/pure/dataset-builder';
+export { calculateReference } from '../modules/references/reference-calculator';
 export type { ReferenceRow } from '../modules/references/reference-calculator';
 export { normalizeReferenceQuery } from '../modules/references/reference-contract';
 export { visionInvestmentContext } from '../modules/references/contracts/statistics';
