@@ -26,7 +26,6 @@ Os testes de integração exigem PostgreSQL e RabbitMQ descartáveis e executam 
 | `src/modules/` | Domínio, casos de uso, contratos e adapters de cada funcionalidade |
 | `src/core/` | Configuração, banco, fila, Redis, logs e clientes externos |
 | `src/composition/` | Composição online e offline dos serviços |
-| `src/studies/` | Estudos offline, separados da aplicação de produção |
 | `prisma/` | Schema e histórico de migrations |
 | `test/` | Integração e fixtures compartilhadas |
 | `scripts/` | Verificador arquitetural e benchmark de release |
@@ -47,7 +46,6 @@ node scripts/architecture-inventory.cjs --live --stdout > /tmp/architecture.json
 npm run processing -- status
 npm run processing -- coverage
 npm run dataset -- definitions
-npm run vision-study -- --out /tmp/vision-study
 ```
 
 Após `npm run build`, os reconciliadores em `scripts/validation/validate-*.cjs` verificam o fixture e geram os exemplos documentados. Os geradores em `scripts/examples/` são ferramentas manuais; não integram o runtime. Os comandos específicos estão nos respectivos guias abaixo. Resultados de auditoria temporários devem ir para `/tmp`; novos arquivos gerados só devem ser versionados quando forem fixtures, exemplos ou evidências necessárias.
@@ -64,7 +62,7 @@ O benchmark `scripts/benchmark-release.cjs` exige um banco descartável e `--res
 | Relatório | [Partida](docs/RELATORIO-PARTIDA-MET17.md), [contribuição](docs/CONTRIBUICAO-INDIVIDUAL.md), [experiência de revisão](docs/EXPERIENCIA-REVISAO.md) |
 | Combate | [Combate](docs/COMBATE-MET13.md), [episódios](docs/EPISODIOS-DE-ABATES.md), [objetivos](docs/OBJETIVOS-E-ESTRUTURAS.md), [sequências](docs/SEQUENCIAS-E-VIRADAS.md), [bounties e roubos](docs/BOUNTIES-E-ROUBOS-REGISTRADOS.md) |
 | Economia | [Progressão](docs/ECONOMIA-E-PROGRESSAO.md), [itens e habilidades](docs/PROGRESSAO-ITENS-HABILIDADES-MET16.md), [timeline de ouro](docs/TIMELINE-OURO.md) |
-| Visão e mapa | [Visão por fase](docs/VISAO-POR-FASE.md), [presença amostrada](docs/PRESENCA-AMOSTRADA.md), [estudo de visão](docs/VISAO-ANTECIPADA-MET22.md) |
+| Visão e mapa | [Visão por fase](docs/VISAO-POR-FASE.md), [presença amostrada](docs/PRESENCA-AMOSTRADA.md) |
 | Histórico | [Comparações](docs/COMPARACOES-MET08.md), [popularidade](docs/POPULARIDADE-CAMPEOES.md), [indicadores opcionais](docs/INDICADORES-OPCIONAIS-MET29.md) |
 | Planejamento | [Catálogo de oportunidades e backlog MET](docs/METRICAS-E-OPORTUNIDADES.md), [conclusão da refatoração](docs/REFATORACAO-ARQUITETURAL.md) |
 
@@ -78,5 +76,7 @@ Relatórios intermediários ARQ e o analisador de retenção anterior foram reti
 git show 9e64893:docs/architecture/validation-arq10.json
 git show 9e64893:scripts/analyze-example-match.py
 ```
+
+O experimento offline MET-22 foi retirado do checkout; código, protocolo e resultados continuam disponíveis no commit `54e5186` (por exemplo, `git show 54e5186:docs/VISAO-ANTECIPADA-MET22.md`). As evidências históricas da refatoração registram sua validação naquele momento. A análise de visão das partidas permanece em `src/modules/matches/`.
 
 Worktrees são ambientes temporários. Ao encerrar uma tarefa, integre seu trabalho, confira `git status` e remova o worktree com `git worktree remove <caminho>`. Preserve alterações pendentes e branches necessárias antes da remoção. Dependências e builds gerados não devem ser commitados.

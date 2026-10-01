@@ -9,7 +9,7 @@ Os 14 cards ARQ foram concluídos no board `high-br-lol` (#3). O código validad
 - `collector`: descoberta e linhagem da coleta.
 - `processing`: jobs, leases, falhas e coordenação transacional.
 - `dataset` e `stats`: preparação, escrita e leitura dos próprios dados.
-- Worker e CLIs: adapters dos casos de uso; estudos ficam separados em `studies/`.
+- Worker e CLIs: adapters dos casos de uso. O estudo offline MET-22 foi arquivado no Git após a refatoração (commit `54e5186`).
 
 A [ADR](architecture/ADR-001-modular-boundaries.md), a [propriedade dos dados](architecture/data-ownership.md) e o [mapa de migração](architecture/migration-map.md) detalham as fronteiras. O CI exige arquitetura strict sem exceções transitórias.
 

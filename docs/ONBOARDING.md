@@ -66,7 +66,7 @@ A integração real usa `TEST_DATABASE_URL` e `TEST_RABBITMQ_URL`. O banco preci
 
 - Casos de uso e domínio: `src/modules/`; infraestrutura compartilhada: `src/core/`.
 - Montagem online/offline: `src/composition/`; processamento e dataset têm CLIs próprios.
-- Estudos: `src/studies/`; não devem entrar no grafo de inicialização da API.
+- Ferramentas offline: `scripts/validation/` e `scripts/examples/`; usam a composição pública em `src/composition/study-api.ts`.
 - Reconciliações: `scripts/validation/`; geradores de exemplos: `scripts/examples/`.
 - Fronteiras permitidas: [ADR](architecture/ADR-001-modular-boundaries.md), [ownership](architecture/data-ownership.md) e [checker](architecture/checking-boundaries.md).
 

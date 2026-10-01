@@ -311,7 +311,7 @@ Uma segunda pergunta, mais localizada, é: “atividade de visão nos 90 s anter
 
 Com **uma partida**, este levantamento valida extração e produz hipóteses. Não estima efeito, significância, probabilidade confiável de vitória ou quantidade ideal de wards.
 
-MET-22 executa esse protocolo offline com fontes/projeções versionadas, tabelas descritivas, gate de modelos e exportação sem vazamento. O corpus real permanece N=1; resultado e reprodução em [VISAO-ANTECIPADA-MET22.md](VISAO-ANTECIPADA-MET22.md).
+MET-22 executou esse protocolo offline com corpus real N=1, insuficiente para conclusões. O experimento foi retirado do checkout; código, protocolo, resultados e guia de reprodução estão preservados no commit `54e5186` (`docs/VISAO-ANTECIPADA-MET22.md`). A análise de visão por partida permanece ativa em `matches`.
 
 ## 8. Como transformar isso em funcionalidades úteis
 

@@ -35,7 +35,7 @@ test('area classification keeps technical libraries and studies out of compositi
   const expected = {
     'src/lib/math/per-minute.ts': 'lib/math',
     'src/lib/processing-policy.ts': 'core/lib',
-    'src/studies/vision/entrypoint.ts': 'studies',
+    'src/studies/example/entrypoint.ts': 'studies',
     'src/composition/online-processing.module.ts': 'composition',
     'src/composition/http/server.ts': 'composition/http',
     'src/main.ts': 'composition/http',
@@ -51,7 +51,7 @@ test('studies may consume public contracts but not module internals', t => {
   const result = inspect(t, {
     'src/modules/matches/contracts/normalized-match.ts': 'export interface Match { id: string }',
     'src/modules/matches/domain/private.ts': 'export const value = 1;',
-    'src/studies/vision/study.ts': [
+    'src/studies/example/study.ts': [
       "import type { Match } from '../../modules/matches/contracts/normalized-match';",
       "import { value } from '../../modules/matches/domain/private';",
       'export const study = (match: Match) => match.id + value;',
@@ -61,7 +61,7 @@ test('studies may consume public contracts but not module internals', t => {
     result.violations.some(
       violation =>
         violation.rule === 'cross-module-internal-import' &&
-        violation.from === 'src/studies/vision/study.ts',
+        violation.from === 'src/studies/example/study.ts',
     ),
   );
   assert.ok(
