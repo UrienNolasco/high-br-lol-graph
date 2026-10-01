@@ -1,0 +1,69 @@
+{
+  "task": "MET-26",
+  "base": "a634cdc",
+  "methodVersion": 1,
+  "branch": "task/met-26",
+  "scope": [
+    "B03",
+    "B05"
+  ],
+  "productionExecuted": false,
+  "schemaChanged": false,
+  "migrationRequired": false,
+  "checks": [
+    {
+      "command": "npm test -- --runInBand --testPathPatterns='build-choices|build-choice.repository|choice-catalog|choice-source|catalog-source|progression|item-ledger'",
+      "result": "passed",
+      "suites": 8,
+      "tests": 75
+    },
+    {
+      "command": "npm run test:e2e -- --runInBand --testPathPatterns='build-choices|comparison-contract|builds-contract|progression-contract'",
+      "result": "passed",
+      "suites": 4,
+      "tests": 22,
+      "environment": "outside sandbox, local Supertest ports; sandbox attempt failed EPERM and was repeated with approved prefix"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "passed"
+    },
+    {
+      "command": "npm run architecture:check -- --strict",
+      "result": "passed",
+      "violations": 0,
+      "transitionalDebt": 0
+    },
+    {
+      "command": "node scripts/examples/build-choice-examples.cjs",
+      "result": "passed",
+      "syntheticScenarios": 4
+    },
+    {
+      "command": "npm run test:architecture",
+      "result": "passed",
+      "tests": 63
+    }
+  ],
+  "pendingIntegration": {
+    "test": "test/integration/build-choices.integration-spec.ts",
+    "execution": "Parent agent coordinates serial run with explicit disposable TEST_DATABASE_URL; no reset or production use",
+    "scenarios": [
+      "Exact patch/role/date SQL before limiting",
+      "Generation/timeline/event projections and unknown event preservation",
+      "Independent known-family denominators and nonbuyer complement",
+      "Truncation and deterministic ordering"
+    ]
+  },
+  "limitations": [
+    "Synthetic scenarios validate behavior, not population representativeness or causal effects",
+    "Nominal Wilson assumes independence; repeated players, overlapping choices and buying/selection bias remain",
+    "Rune shards retain IDs and explicit unavailable names because runesReforged has no shard catalog",
+    "Exact patch latest revision metadata does not claim Riot public patch identity",
+    "No production run; PostgreSQL integration execution is deferred to coordinator"
+  ]
+}

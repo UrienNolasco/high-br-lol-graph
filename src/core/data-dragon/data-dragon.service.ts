@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { compatibleItemVersion } from './catalog-version';
 import {
+  DataDragonChoiceSource,
   DataDragonItemCatalogSource,
   DataDragonItemRecord,
   DataDragonSkillCatalogSource,
@@ -327,6 +328,80 @@ export class DataDragonService implements OnModuleInit {
       };
     } catch {
       return unavailableItemCatalogSource(gameVersion);
+    }
+  }
+
+  private readonly choiceSources = new Map<
+    string,
+    { expiresAt: number; value: DataDragonChoiceSource }
+  >();
+  private readonly pendingChoiceSources = new Map<
+    string,
+    Promise<DataDragonChoiceSource>
+  >();
+  async getChoiceCatalogSource(
+    gameVersion: string,
+  ): Promise<DataDragonChoiceSource> {
+    const cached = this.choiceSources.get(gameVersion);
+    if (cached && cached.expiresAt > Date.now()) return cached.value;
+    const pending = this.pendingChoiceSources.get(gameVersion);
+    if (pending) return pending;
+    const request = this.loadChoiceCatalogSource(gameVersion)
+      .then((value) => {
+        this.choiceSources.set(gameVersion, {
+          value,
+          expiresAt: Date.now() + (value.status === 'ok' ? 3600000 : 60000),
+        });
+        return value;
+      })
+      .finally(() => this.pendingChoiceSources.delete(gameVersion));
+    this.pendingChoiceSources.set(gameVersion, request);
+    return request;
+  }
+  private async loadChoiceCatalogSource(
+    gameVersion: string,
+  ): Promise<DataDragonChoiceSource> {
+    const absent = (
+      status: DataDragonChoiceSource['status'],
+    ): DataDragonChoiceSource => ({
+      gameVersion,
+      version: null,
+      status,
+      runes: null,
+      summoners: null,
+    });
+    try {
+      const options = { timeout: 5000, maxContentLength: 5000000 };
+      const rawVersions = (
+        await firstValueFrom(
+          this.httpService.get<unknown>(this.VERSIONS_URL, options),
+        )
+      ).data;
+      if (
+        !Array.isArray(rawVersions) ||
+        !rawVersions.every((v) => typeof v === 'string')
+      )
+        return absent('invalid_catalog');
+      const version = compatibleItemVersion(gameVersion, rawVersions);
+      if (!version) return absent('unsupported_version');
+      const base = `https://ddragon.leagueoflegends.com/cdn/${version}/data/pt_BR`;
+      const [runes, summoners] = await Promise.all([
+        firstValueFrom(
+          this.httpService.get<unknown>(`${base}/runesReforged.json`, options),
+        ),
+        firstValueFrom(
+          this.httpService.get<unknown>(`${base}/summoner.json`, options),
+        ),
+      ]);
+      return {
+        gameVersion,
+        version,
+        status: 'ok',
+        runes: runes.data,
+        summoners: summoners.data,
+      };
+    } catch {
+      return absent('catalog_unavailable');
     }
   }
 

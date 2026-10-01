@@ -40,3 +40,16 @@ export interface DataDragonSkillCatalogSource {
   status: DataDragonCatalogStatus | 'unknown_champion_id';
   spells: DataDragonSkillRecord[];
 }
+
+/** Raw JSON from exact-version CDN paths; rune payloads have no version envelope. */
+export interface DataDragonChoiceSource {
+  gameVersion: string;
+  version: string | null;
+  status:
+    | 'ok'
+    | 'catalog_unavailable'
+    | 'unsupported_version'
+    | 'invalid_catalog';
+  runes: unknown;
+  summoners: unknown;
+}

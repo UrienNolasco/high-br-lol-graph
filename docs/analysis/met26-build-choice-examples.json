@@ -1,0 +1,905 @@
+{
+  "methodVersion": 1,
+  "synthetic": true,
+  "examples": [
+    {
+      "name": "observed-buyer-and-nonbuyer",
+      "synthetic": true,
+      "response": {
+        "methodVersion": 1,
+        "opportunities": [
+          "B03",
+          "B05"
+        ],
+        "filters": {
+          "patch": "16.2",
+          "role": "TOP",
+          "championId": 1,
+          "checkpointMs": 900000,
+          "queueId": 420,
+          "limit": 500
+        },
+        "coverage": {
+          "queriedMatches": 2,
+          "returnedMatches": 2,
+          "eligibleMatches": 2,
+          "players": 2,
+          "truncated": false,
+          "processingVersions": [
+            5
+          ],
+          "exclusions": {},
+          "missingness": {}
+        },
+        "checkpoint": {
+          "targetMs": 900000,
+          "mode": "pastOnly",
+          "toleranceMs": 60000,
+          "resourceGoldBinWidth": 2000,
+          "minimumDescriptiveN": 30
+        },
+        "catalogs": [
+          {
+            "gameVersion": "16.2.741",
+            "items": {
+              "version": "16.2.1",
+              "reason": null
+            },
+            "choices": {
+              "version": "16.2.1",
+              "reason": null
+            }
+          }
+        ],
+        "contexts": [
+          {
+            "opponentChampionId": 2,
+            "goldBin": {
+              "lower": 6000,
+              "upperExclusive": 8000
+            },
+            "n": 2,
+            "baseline": {
+              "n": 2,
+              "players": 2,
+              "wins": 1,
+              "winRate": 0.5,
+              "interval95": {
+                "lower": 0.09453120573423074,
+                "upper": 0.9054687942657693
+              },
+              "sufficient": false
+            },
+            "denominators": {
+              "items": 2,
+              "runes": 2,
+              "summoners": 2
+            },
+            "alternatives": {
+              "items": [
+                {
+                  "choiceKey": "100",
+                  "ids": [
+                    100
+                  ],
+                  "n": 1,
+                  "players": 1,
+                  "wins": 1,
+                  "winRate": 1,
+                  "interval95": {
+                    "lower": 0.20654931437723745,
+                    "upper": 1
+                  },
+                  "sufficient": false,
+                  "denominatorN": 2,
+                  "share": 0.5,
+                  "comparison": {
+                    "n": 1,
+                    "players": 1,
+                    "wins": 0,
+                    "winRate": 0,
+                    "interval95": {
+                      "lower": 0,
+                      "upper": 0.7934506856227626
+                    },
+                    "sufficient": false
+                  },
+                  "meanTotalGold": 6000,
+                  "meanCurrentGold": 500,
+                  "meanAcquisitionMs": 600000,
+                  "acquisitionResources": {
+                    "validN": 1,
+                    "totalN": 1,
+                    "meanTotalGold": 4000,
+                    "meanCurrentGold": 2000,
+                    "missingReason": null
+                  },
+                  "metadata": [
+                    {
+                      "id": 100,
+                      "name": "Synthetic item",
+                      "reason": null
+                    }
+                  ],
+                  "catalogVersions": [
+                    "16.2.1"
+                  ],
+                  "evidence": [
+                    {
+                      "matchId": "synthetic-buyer",
+                      "puuid": "hero",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": 540000,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": "synthetic-buyer:10:0"
+                    }
+                  ]
+                }
+              ],
+              "runes": [
+                {
+                  "choiceKey": "1000/2000:1000,2000,1001,1002,1003,1004,2002,2003,5008,5008,5002",
+                  "ids": [
+                    1000,
+                    2000,
+                    1001,
+                    1002,
+                    1003,
+                    1004,
+                    2002,
+                    2003,
+                    5008,
+                    5008,
+                    5002
+                  ],
+                  "n": 2,
+                  "players": 2,
+                  "wins": 1,
+                  "winRate": 0.5,
+                  "interval95": {
+                    "lower": 0.09453120573423074,
+                    "upper": 0.9054687942657693
+                  },
+                  "sufficient": false,
+                  "denominatorN": 2,
+                  "share": 1,
+                  "comparison": {
+                    "n": 0,
+                    "players": 0,
+                    "wins": 0,
+                    "winRate": null,
+                    "interval95": null,
+                    "sufficient": false
+                  },
+                  "meanTotalGold": 6000,
+                  "meanCurrentGold": 500,
+                  "meanAcquisitionMs": null,
+                  "acquisitionResources": null,
+                  "metadata": [
+                    {
+                      "id": 1000,
+                      "name": "Synthetic primary",
+                      "reason": null
+                    },
+                    {
+                      "id": 2000,
+                      "name": "Synthetic secondary",
+                      "reason": null
+                    },
+                    {
+                      "id": 1001,
+                      "name": "Synthetic rune 1001",
+                      "reason": null
+                    },
+                    {
+                      "id": 1002,
+                      "name": "Synthetic rune 1002",
+                      "reason": null
+                    },
+                    {
+                      "id": 1003,
+                      "name": "Synthetic rune 1003",
+                      "reason": null
+                    },
+                    {
+                      "id": 1004,
+                      "name": "Synthetic rune 1004",
+                      "reason": null
+                    },
+                    {
+                      "id": 2002,
+                      "name": "Synthetic rune 2002",
+                      "reason": null
+                    },
+                    {
+                      "id": 2003,
+                      "name": "Synthetic rune 2003",
+                      "reason": null
+                    },
+                    {
+                      "id": 5008,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    },
+                    {
+                      "id": 5008,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    },
+                    {
+                      "id": 5002,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    }
+                  ],
+                  "catalogVersions": [
+                    "16.2.1"
+                  ],
+                  "evidence": [
+                    {
+                      "matchId": "synthetic-buyer",
+                      "puuid": "hero",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    },
+                    {
+                      "matchId": "synthetic-nonbuyer",
+                      "puuid": "hero2",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    }
+                  ]
+                }
+              ],
+              "summoners": [
+                {
+                  "choiceKey": "4,12",
+                  "ids": [
+                    4,
+                    12
+                  ],
+                  "n": 2,
+                  "players": 2,
+                  "wins": 1,
+                  "winRate": 0.5,
+                  "interval95": {
+                    "lower": 0.09453120573423074,
+                    "upper": 0.9054687942657693
+                  },
+                  "sufficient": false,
+                  "denominatorN": 2,
+                  "share": 1,
+                  "comparison": {
+                    "n": 0,
+                    "players": 0,
+                    "wins": 0,
+                    "winRate": null,
+                    "interval95": null,
+                    "sufficient": false
+                  },
+                  "meanTotalGold": 6000,
+                  "meanCurrentGold": 500,
+                  "meanAcquisitionMs": null,
+                  "acquisitionResources": null,
+                  "metadata": [
+                    {
+                      "id": 4,
+                      "name": "Synthetic flash",
+                      "reason": null
+                    },
+                    {
+                      "id": 12,
+                      "name": "Synthetic teleport",
+                      "reason": null
+                    }
+                  ],
+                  "catalogVersions": [
+                    "16.2.1"
+                  ],
+                  "evidence": [
+                    {
+                      "matchId": "synthetic-buyer",
+                      "puuid": "hero",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    },
+                    {
+                      "matchId": "synthetic-nonbuyer",
+                      "puuid": "hero2",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "interpretation": "Observed associations conditional on exact patch/champion/role, unique opponent, survival to checkpoint and gold band. Items mean effective observed purchases by t, including later sold or destroyed items; not currently held slots. Only undo observed by t is used; future undo cannot rewrite the past. Acquisition and resources use no evidence after t; win is a final descriptive outcome. Purchasing power and selection bias remain; never an optimal build or victory guarantee.",
+        "uncertainty": "95% Wilson intervals are nominal under independent matches; repeated players, matchup selection, gold conditioning and overlapping item groups invalidate causal or calibrated population claims. N<30 is insufficient by method1 policy; no ranking or recommendation. Latest limited sample is not random; truncation is explicit. Rune stat-perk IDs are preserved with unavailable metadata because runesReforged omits shards. Runes and summoners are initial selections, not later spell replacements."
+      }
+    },
+    {
+      "name": "effective-undo-by-checkpoint",
+      "synthetic": true,
+      "response": {
+        "methodVersion": 1,
+        "opportunities": [
+          "B03",
+          "B05"
+        ],
+        "filters": {
+          "patch": "16.2",
+          "role": "TOP",
+          "championId": 1,
+          "checkpointMs": 900000,
+          "queueId": 420,
+          "limit": 500
+        },
+        "coverage": {
+          "queriedMatches": 1,
+          "returnedMatches": 1,
+          "eligibleMatches": 1,
+          "players": 1,
+          "truncated": false,
+          "processingVersions": [
+            5
+          ],
+          "exclusions": {},
+          "missingness": {}
+        },
+        "checkpoint": {
+          "targetMs": 900000,
+          "mode": "pastOnly",
+          "toleranceMs": 60000,
+          "resourceGoldBinWidth": 2000,
+          "minimumDescriptiveN": 30
+        },
+        "catalogs": [
+          {
+            "gameVersion": "16.2.741",
+            "items": {
+              "version": "16.2.1",
+              "reason": null
+            },
+            "choices": {
+              "version": "16.2.1",
+              "reason": null
+            }
+          }
+        ],
+        "contexts": [
+          {
+            "opponentChampionId": 2,
+            "goldBin": {
+              "lower": 6000,
+              "upperExclusive": 8000
+            },
+            "n": 1,
+            "baseline": {
+              "n": 1,
+              "players": 1,
+              "wins": 1,
+              "winRate": 1,
+              "interval95": {
+                "lower": 0.20654931437723745,
+                "upper": 1
+              },
+              "sufficient": false
+            },
+            "denominators": {
+              "items": 1,
+              "runes": 1,
+              "summoners": 1
+            },
+            "alternatives": {
+              "items": [],
+              "runes": [
+                {
+                  "choiceKey": "1000/2000:1000,2000,1001,1002,1003,1004,2002,2003,5008,5008,5002",
+                  "ids": [
+                    1000,
+                    2000,
+                    1001,
+                    1002,
+                    1003,
+                    1004,
+                    2002,
+                    2003,
+                    5008,
+                    5008,
+                    5002
+                  ],
+                  "n": 1,
+                  "players": 1,
+                  "wins": 1,
+                  "winRate": 1,
+                  "interval95": {
+                    "lower": 0.20654931437723745,
+                    "upper": 1
+                  },
+                  "sufficient": false,
+                  "denominatorN": 1,
+                  "share": 1,
+                  "comparison": {
+                    "n": 0,
+                    "players": 0,
+                    "wins": 0,
+                    "winRate": null,
+                    "interval95": null,
+                    "sufficient": false
+                  },
+                  "meanTotalGold": 6000,
+                  "meanCurrentGold": 500,
+                  "meanAcquisitionMs": null,
+                  "acquisitionResources": null,
+                  "metadata": [
+                    {
+                      "id": 1000,
+                      "name": "Synthetic primary",
+                      "reason": null
+                    },
+                    {
+                      "id": 2000,
+                      "name": "Synthetic secondary",
+                      "reason": null
+                    },
+                    {
+                      "id": 1001,
+                      "name": "Synthetic rune 1001",
+                      "reason": null
+                    },
+                    {
+                      "id": 1002,
+                      "name": "Synthetic rune 1002",
+                      "reason": null
+                    },
+                    {
+                      "id": 1003,
+                      "name": "Synthetic rune 1003",
+                      "reason": null
+                    },
+                    {
+                      "id": 1004,
+                      "name": "Synthetic rune 1004",
+                      "reason": null
+                    },
+                    {
+                      "id": 2002,
+                      "name": "Synthetic rune 2002",
+                      "reason": null
+                    },
+                    {
+                      "id": 2003,
+                      "name": "Synthetic rune 2003",
+                      "reason": null
+                    },
+                    {
+                      "id": 5008,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    },
+                    {
+                      "id": 5008,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    },
+                    {
+                      "id": 5002,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    }
+                  ],
+                  "catalogVersions": [
+                    "16.2.1"
+                  ],
+                  "evidence": [
+                    {
+                      "matchId": "synthetic-undo",
+                      "puuid": "hero",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    }
+                  ]
+                }
+              ],
+              "summoners": [
+                {
+                  "choiceKey": "4,12",
+                  "ids": [
+                    4,
+                    12
+                  ],
+                  "n": 1,
+                  "players": 1,
+                  "wins": 1,
+                  "winRate": 1,
+                  "interval95": {
+                    "lower": 0.20654931437723745,
+                    "upper": 1
+                  },
+                  "sufficient": false,
+                  "denominatorN": 1,
+                  "share": 1,
+                  "comparison": {
+                    "n": 0,
+                    "players": 0,
+                    "wins": 0,
+                    "winRate": null,
+                    "interval95": null,
+                    "sufficient": false
+                  },
+                  "meanTotalGold": 6000,
+                  "meanCurrentGold": 500,
+                  "meanAcquisitionMs": null,
+                  "acquisitionResources": null,
+                  "metadata": [
+                    {
+                      "id": 4,
+                      "name": "Synthetic flash",
+                      "reason": null
+                    },
+                    {
+                      "id": 12,
+                      "name": "Synthetic teleport",
+                      "reason": null
+                    }
+                  ],
+                  "catalogVersions": [
+                    "16.2.1"
+                  ],
+                  "evidence": [
+                    {
+                      "matchId": "synthetic-undo",
+                      "puuid": "hero",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "interpretation": "Observed associations conditional on exact patch/champion/role, unique opponent, survival to checkpoint and gold band. Items mean effective observed purchases by t, including later sold or destroyed items; not currently held slots. Only undo observed by t is used; future undo cannot rewrite the past. Acquisition and resources use no evidence after t; win is a final descriptive outcome. Purchasing power and selection bias remain; never an optimal build or victory guarantee.",
+        "uncertainty": "95% Wilson intervals are nominal under independent matches; repeated players, matchup selection, gold conditioning and overlapping item groups invalidate causal or calibrated population claims. N<30 is insufficient by method1 policy; no ranking or recommendation. Latest limited sample is not random; truncation is explicit. Rune stat-perk IDs are preserved with unavailable metadata because runesReforged omits shards. Runes and summoners are initial selections, not later spell replacements."
+      }
+    },
+    {
+      "name": "missingness-and-short-match",
+      "synthetic": true,
+      "response": {
+        "methodVersion": 1,
+        "opportunities": [
+          "B03",
+          "B05"
+        ],
+        "filters": {
+          "patch": "16.2",
+          "role": "TOP",
+          "championId": 1,
+          "checkpointMs": 900000,
+          "queueId": 420,
+          "limit": 500
+        },
+        "coverage": {
+          "queriedMatches": 2,
+          "returnedMatches": 2,
+          "eligibleMatches": 1,
+          "players": 1,
+          "truncated": false,
+          "processingVersions": [
+            5
+          ],
+          "exclusions": {
+            "short_or_unknown_duration": 1
+          },
+          "missingness": {
+            "items_unknown_catalog_or_trajectory": 1
+          }
+        },
+        "checkpoint": {
+          "targetMs": 900000,
+          "mode": "pastOnly",
+          "toleranceMs": 60000,
+          "resourceGoldBinWidth": 2000,
+          "minimumDescriptiveN": 30
+        },
+        "catalogs": [
+          {
+            "gameVersion": "16.2.741",
+            "items": {
+              "version": "16.2.1",
+              "reason": null
+            },
+            "choices": {
+              "version": "16.2.1",
+              "reason": null
+            }
+          }
+        ],
+        "contexts": [
+          {
+            "opponentChampionId": 2,
+            "goldBin": {
+              "lower": 6000,
+              "upperExclusive": 8000
+            },
+            "n": 1,
+            "baseline": {
+              "n": 1,
+              "players": 1,
+              "wins": 1,
+              "winRate": 1,
+              "interval95": {
+                "lower": 0.20654931437723745,
+                "upper": 1
+              },
+              "sufficient": false
+            },
+            "denominators": {
+              "items": 0,
+              "runes": 1,
+              "summoners": 1
+            },
+            "alternatives": {
+              "items": [],
+              "runes": [
+                {
+                  "choiceKey": "1000/2000:1000,2000,1001,1002,1003,1004,2002,2003,5008,5008,5002",
+                  "ids": [
+                    1000,
+                    2000,
+                    1001,
+                    1002,
+                    1003,
+                    1004,
+                    2002,
+                    2003,
+                    5008,
+                    5008,
+                    5002
+                  ],
+                  "n": 1,
+                  "players": 1,
+                  "wins": 1,
+                  "winRate": 1,
+                  "interval95": {
+                    "lower": 0.20654931437723745,
+                    "upper": 1
+                  },
+                  "sufficient": false,
+                  "denominatorN": 1,
+                  "share": 1,
+                  "comparison": {
+                    "n": 0,
+                    "players": 0,
+                    "wins": 0,
+                    "winRate": null,
+                    "interval95": null,
+                    "sufficient": false
+                  },
+                  "meanTotalGold": 6000,
+                  "meanCurrentGold": 500,
+                  "meanAcquisitionMs": null,
+                  "acquisitionResources": null,
+                  "metadata": [
+                    {
+                      "id": 1000,
+                      "name": "Synthetic primary",
+                      "reason": null
+                    },
+                    {
+                      "id": 2000,
+                      "name": "Synthetic secondary",
+                      "reason": null
+                    },
+                    {
+                      "id": 1001,
+                      "name": "Synthetic rune 1001",
+                      "reason": null
+                    },
+                    {
+                      "id": 1002,
+                      "name": "Synthetic rune 1002",
+                      "reason": null
+                    },
+                    {
+                      "id": 1003,
+                      "name": "Synthetic rune 1003",
+                      "reason": null
+                    },
+                    {
+                      "id": 1004,
+                      "name": "Synthetic rune 1004",
+                      "reason": null
+                    },
+                    {
+                      "id": 2002,
+                      "name": "Synthetic rune 2002",
+                      "reason": null
+                    },
+                    {
+                      "id": 2003,
+                      "name": "Synthetic rune 2003",
+                      "reason": null
+                    },
+                    {
+                      "id": 5008,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    },
+                    {
+                      "id": 5008,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    },
+                    {
+                      "id": 5002,
+                      "name": null,
+                      "reason": "stat_perk_catalog_unavailable"
+                    }
+                  ],
+                  "catalogVersions": [
+                    "16.2.1"
+                  ],
+                  "evidence": [
+                    {
+                      "matchId": "synthetic-unknown",
+                      "puuid": "hero",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    }
+                  ]
+                }
+              ],
+              "summoners": [
+                {
+                  "choiceKey": "4,12",
+                  "ids": [
+                    4,
+                    12
+                  ],
+                  "n": 1,
+                  "players": 1,
+                  "wins": 1,
+                  "winRate": 1,
+                  "interval95": {
+                    "lower": 0.20654931437723745,
+                    "upper": 1
+                  },
+                  "sufficient": false,
+                  "denominatorN": 1,
+                  "share": 1,
+                  "comparison": {
+                    "n": 0,
+                    "players": 0,
+                    "wins": 0,
+                    "winRate": null,
+                    "interval95": null,
+                    "sufficient": false
+                  },
+                  "meanTotalGold": 6000,
+                  "meanCurrentGold": 500,
+                  "meanAcquisitionMs": null,
+                  "acquisitionResources": null,
+                  "metadata": [
+                    {
+                      "id": 4,
+                      "name": "Synthetic flash",
+                      "reason": null
+                    },
+                    {
+                      "id": 12,
+                      "name": "Synthetic teleport",
+                      "reason": null
+                    }
+                  ],
+                  "catalogVersions": [
+                    "16.2.1"
+                  ],
+                  "evidence": [
+                    {
+                      "matchId": "synthetic-unknown",
+                      "puuid": "hero",
+                      "frameTimestampMs": 900000,
+                      "sourceMaxTimestampMs": 900000,
+                      "acquisitionFrameTimestampMs": null,
+                      "processingVersion": 5,
+                      "processedAt": "2026-10-01T00:00:00.000Z",
+                      "eventId": null
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "interpretation": "Observed associations conditional on exact patch/champion/role, unique opponent, survival to checkpoint and gold band. Items mean effective observed purchases by t, including later sold or destroyed items; not currently held slots. Only undo observed by t is used; future undo cannot rewrite the past. Acquisition and resources use no evidence after t; win is a final descriptive outcome. Purchasing power and selection bias remain; never an optimal build or victory guarantee.",
+        "uncertainty": "95% Wilson intervals are nominal under independent matches; repeated players, matchup selection, gold conditioning and overlapping item groups invalidate causal or calibrated population claims. N<30 is insufficient by method1 policy; no ranking or recommendation. Latest limited sample is not random; truncation is explicit. Rune stat-perk IDs are preserved with unavailable metadata because runesReforged omits shards. Runes and summoners are initial selections, not later spell replacements."
+      }
+    },
+    {
+      "name": "empty",
+      "synthetic": true,
+      "response": {
+        "methodVersion": 1,
+        "opportunities": [
+          "B03",
+          "B05"
+        ],
+        "filters": {
+          "patch": "16.2",
+          "role": "TOP",
+          "championId": 1,
+          "checkpointMs": 900000,
+          "queueId": 420,
+          "limit": 500
+        },
+        "coverage": {
+          "queriedMatches": 0,
+          "returnedMatches": 0,
+          "eligibleMatches": 0,
+          "players": 0,
+          "truncated": false,
+          "processingVersions": [],
+          "exclusions": {},
+          "missingness": {}
+        },
+        "checkpoint": {
+          "targetMs": 900000,
+          "mode": "pastOnly",
+          "toleranceMs": 60000,
+          "resourceGoldBinWidth": 2000,
+          "minimumDescriptiveN": 30
+        },
+        "catalogs": [
+          {
+            "gameVersion": "16.2.741",
+            "items": {
+              "version": "16.2.1",
+              "reason": null
+            },
+            "choices": {
+              "version": "16.2.1",
+              "reason": null
+            }
+          }
+        ],
+        "contexts": [],
+        "interpretation": "Observed associations conditional on exact patch/champion/role, unique opponent, survival to checkpoint and gold band. Items mean effective observed purchases by t, including later sold or destroyed items; not currently held slots. Only undo observed by t is used; future undo cannot rewrite the past. Acquisition and resources use no evidence after t; win is a final descriptive outcome. Purchasing power and selection bias remain; never an optimal build or victory guarantee.",
+        "uncertainty": "95% Wilson intervals are nominal under independent matches; repeated players, matchup selection, gold conditioning and overlapping item groups invalidate causal or calibrated population claims. N<30 is insufficient by method1 policy; no ranking or recommendation. Latest limited sample is not random; truncation is explicit. Rune stat-perk IDs are preserved with unavailable metadata because runesReforged omits shards. Runes and summoners are initial selections, not later spell replacements."
+      }
+    }
+  ]
+}

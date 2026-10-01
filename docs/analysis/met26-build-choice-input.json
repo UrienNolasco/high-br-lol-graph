@@ -1,0 +1,848 @@
+{
+  "synthetic": true,
+  "filters": {
+    "patch": "16.2",
+    "championId": 1,
+    "role": "TOP",
+    "checkpointMs": 900000,
+    "queueId": 420,
+    "limit": 500
+  },
+  "catalogs": {
+    "16.2.741": {
+      "items": {
+        "gameVersion": "16.2.741",
+        "version": "16.2.1",
+        "reason": null,
+        "policy": "latest_revision_of_exact_patch",
+        "locale": "pt_BR",
+        "items": {
+          "100": {
+            "name": "Synthetic item",
+            "imageUrl": null,
+            "from": []
+          },
+          "101": {
+            "name": "Synthetic alternative",
+            "imageUrl": null,
+            "from": []
+          }
+        }
+      },
+      "choices": {
+        "gameVersion": "16.2.741",
+        "version": "16.2.1",
+        "reason": null,
+        "policy": "latest_revision_of_exact_patch",
+        "summoners": {
+          "4": {
+            "id": 4,
+            "name": "Synthetic flash"
+          },
+          "12": {
+            "id": 12,
+            "name": "Synthetic teleport"
+          }
+        },
+        "styles": {
+          "1000": {
+            "id": 1000,
+            "name": "Synthetic primary",
+            "slots": [
+              [
+                1001
+              ],
+              [
+                1002
+              ],
+              [
+                1003
+              ],
+              [
+                1004
+              ]
+            ]
+          },
+          "2000": {
+            "id": 2000,
+            "name": "Synthetic secondary",
+            "slots": [
+              [
+                2001
+              ],
+              [
+                2002
+              ],
+              [
+                2003
+              ],
+              [
+                2004
+              ]
+            ]
+          }
+        },
+        "runes": {
+          "1001": {
+            "id": 1001,
+            "name": "Synthetic rune 1001"
+          },
+          "1002": {
+            "id": 1002,
+            "name": "Synthetic rune 1002"
+          },
+          "1003": {
+            "id": 1003,
+            "name": "Synthetic rune 1003"
+          },
+          "1004": {
+            "id": 1004,
+            "name": "Synthetic rune 1004"
+          },
+          "2001": {
+            "id": 2001,
+            "name": "Synthetic rune 2001"
+          },
+          "2002": {
+            "id": 2002,
+            "name": "Synthetic rune 2002"
+          },
+          "2003": {
+            "id": 2003,
+            "name": "Synthetic rune 2003"
+          },
+          "2004": {
+            "id": 2004,
+            "name": "Synthetic rune 2004"
+          }
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "name": "observed-buyer-and-nonbuyer",
+      "cohort": {
+        "matches": [
+          {
+            "matchId": "synthetic-buyer",
+            "gameVersion": "16.2.741",
+            "gameDuration": 1800,
+            "populationEligible": true,
+            "processing": {
+              "status": "COMPLETED",
+              "processingVersion": 5,
+              "completedAt": "2026-10-01T00:00:00.000Z"
+            },
+            "participants": [
+              {
+                "puuid": "hero",
+                "championId": 1,
+                "teamId": 100,
+                "role": "TOP",
+                "win": true,
+                "spells": [
+                  12,
+                  4
+                ],
+                "runes": {
+                  "styles": [
+                    {
+                      "description": "primaryStyle",
+                      "style": 1000,
+                      "selections": [
+                        {
+                          "perk": 1001
+                        },
+                        {
+                          "perk": 1002
+                        },
+                        {
+                          "perk": 1003
+                        },
+                        {
+                          "perk": 1004
+                        }
+                      ]
+                    },
+                    {
+                      "description": "subStyle",
+                      "style": 2000,
+                      "selections": [
+                        {
+                          "perk": 2002
+                        },
+                        {
+                          "perk": 2003
+                        }
+                      ]
+                    }
+                  ],
+                  "statPerks": {
+                    "offense": 5008,
+                    "flex": 5008,
+                    "defense": 5002
+                  }
+                }
+              },
+              {
+                "puuid": "enemy",
+                "championId": 2,
+                "teamId": 200,
+                "role": "TOP",
+                "win": false,
+                "spells": [],
+                "runes": {}
+              }
+            ],
+            "timelineProjection": {
+              "projectionVersion": 1,
+              "frameIntervalMs": 60000,
+              "observedEndMs": 1800000,
+              "frames": [
+                {
+                  "frameIndex": 15,
+                  "timestamp": 900000,
+                  "participantFrames": {
+                    "1": {
+                      "participantId": 1,
+                      "puuid": "hero",
+                      "totalGold": 6000,
+                      "currentGold": 500,
+                      "xp": 6000,
+                      "level": 10,
+                      "minionsKilled": 100,
+                      "jungleMinionsKilled": 0,
+                      "position": null,
+                      "damageStats": null,
+                      "championStats": null,
+                      "additionalFields": {},
+                      "missingFields": []
+                    }
+                  }
+                },
+                {
+                  "frameIndex": 9,
+                  "timestamp": 540000,
+                  "participantFrames": {
+                    "1": {
+                      "participantId": 1,
+                      "puuid": "hero",
+                      "totalGold": 4000,
+                      "currentGold": 2000,
+                      "xp": 6000,
+                      "level": 10,
+                      "minionsKilled": 100,
+                      "jungleMinionsKilled": 0,
+                      "position": null,
+                      "damageStats": null,
+                      "championStats": null,
+                      "additionalFields": {},
+                      "missingFields": []
+                    }
+                  }
+                }
+              ]
+            },
+            "events": [
+              {
+                "matchId": "synthetic-buyer",
+                "frameIndex": 10,
+                "eventIndex": 0,
+                "type": "ITEM_PURCHASED",
+                "timestampMs": 600000,
+                "actorPuuid": "hero",
+                "payload": {
+                  "itemId": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              },
+              {
+                "matchId": "synthetic-buyer",
+                "frameIndex": 30,
+                "eventIndex": 0,
+                "type": "GAME_END",
+                "timestampMs": 1800000,
+                "actorPuuid": null,
+                "payload": {
+                  "winningTeam": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              }
+            ]
+          },
+          {
+            "matchId": "synthetic-nonbuyer",
+            "gameVersion": "16.2.741",
+            "gameDuration": 1800,
+            "populationEligible": true,
+            "processing": {
+              "status": "COMPLETED",
+              "processingVersion": 5,
+              "completedAt": "2026-10-01T00:00:00.000Z"
+            },
+            "participants": [
+              {
+                "puuid": "hero2",
+                "championId": 1,
+                "teamId": 100,
+                "role": "TOP",
+                "win": false,
+                "spells": [
+                  12,
+                  4
+                ],
+                "runes": {
+                  "styles": [
+                    {
+                      "description": "primaryStyle",
+                      "style": 1000,
+                      "selections": [
+                        {
+                          "perk": 1001
+                        },
+                        {
+                          "perk": 1002
+                        },
+                        {
+                          "perk": 1003
+                        },
+                        {
+                          "perk": 1004
+                        }
+                      ]
+                    },
+                    {
+                      "description": "subStyle",
+                      "style": 2000,
+                      "selections": [
+                        {
+                          "perk": 2002
+                        },
+                        {
+                          "perk": 2003
+                        }
+                      ]
+                    }
+                  ],
+                  "statPerks": {
+                    "offense": 5008,
+                    "flex": 5008,
+                    "defense": 5002
+                  }
+                }
+              },
+              {
+                "puuid": "enemy",
+                "championId": 2,
+                "teamId": 200,
+                "role": "TOP",
+                "win": false,
+                "spells": [],
+                "runes": {}
+              }
+            ],
+            "timelineProjection": {
+              "projectionVersion": 1,
+              "frameIntervalMs": 60000,
+              "observedEndMs": 1800000,
+              "frames": [
+                {
+                  "frameIndex": 15,
+                  "timestamp": 900000,
+                  "participantFrames": {
+                    "1": {
+                      "participantId": 1,
+                      "puuid": "hero2",
+                      "totalGold": 6000,
+                      "currentGold": 500,
+                      "xp": 6000,
+                      "level": 10,
+                      "minionsKilled": 100,
+                      "jungleMinionsKilled": 0,
+                      "position": null,
+                      "damageStats": null,
+                      "championStats": null,
+                      "additionalFields": {},
+                      "missingFields": []
+                    }
+                  }
+                }
+              ]
+            },
+            "events": [
+              {
+                "matchId": "synthetic-nonbuyer",
+                "frameIndex": 30,
+                "eventIndex": 0,
+                "type": "GAME_END",
+                "timestampMs": 1800000,
+                "actorPuuid": null,
+                "payload": {
+                  "winningTeam": 200
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              }
+            ]
+          }
+        ],
+        "totalMatches": 2,
+        "truncated": false
+      }
+    },
+    {
+      "name": "effective-undo-by-checkpoint",
+      "cohort": {
+        "matches": [
+          {
+            "matchId": "synthetic-undo",
+            "gameVersion": "16.2.741",
+            "gameDuration": 1800,
+            "populationEligible": true,
+            "processing": {
+              "status": "COMPLETED",
+              "processingVersion": 5,
+              "completedAt": "2026-10-01T00:00:00.000Z"
+            },
+            "participants": [
+              {
+                "puuid": "hero",
+                "championId": 1,
+                "teamId": 100,
+                "role": "TOP",
+                "win": true,
+                "spells": [
+                  12,
+                  4
+                ],
+                "runes": {
+                  "styles": [
+                    {
+                      "description": "primaryStyle",
+                      "style": 1000,
+                      "selections": [
+                        {
+                          "perk": 1001
+                        },
+                        {
+                          "perk": 1002
+                        },
+                        {
+                          "perk": 1003
+                        },
+                        {
+                          "perk": 1004
+                        }
+                      ]
+                    },
+                    {
+                      "description": "subStyle",
+                      "style": 2000,
+                      "selections": [
+                        {
+                          "perk": 2002
+                        },
+                        {
+                          "perk": 2003
+                        }
+                      ]
+                    }
+                  ],
+                  "statPerks": {
+                    "offense": 5008,
+                    "flex": 5008,
+                    "defense": 5002
+                  }
+                }
+              },
+              {
+                "puuid": "enemy",
+                "championId": 2,
+                "teamId": 200,
+                "role": "TOP",
+                "win": false,
+                "spells": [],
+                "runes": {}
+              }
+            ],
+            "timelineProjection": {
+              "projectionVersion": 1,
+              "frameIntervalMs": 60000,
+              "observedEndMs": 1800000,
+              "frames": [
+                {
+                  "frameIndex": 15,
+                  "timestamp": 900000,
+                  "participantFrames": {
+                    "1": {
+                      "participantId": 1,
+                      "puuid": "hero",
+                      "totalGold": 6000,
+                      "currentGold": 500,
+                      "xp": 6000,
+                      "level": 10,
+                      "minionsKilled": 100,
+                      "jungleMinionsKilled": 0,
+                      "position": null,
+                      "damageStats": null,
+                      "championStats": null,
+                      "additionalFields": {},
+                      "missingFields": []
+                    }
+                  }
+                }
+              ]
+            },
+            "events": [
+              {
+                "matchId": "synthetic-undo",
+                "frameIndex": 10,
+                "eventIndex": 0,
+                "type": "ITEM_PURCHASED",
+                "timestampMs": 600000,
+                "actorPuuid": "hero",
+                "payload": {
+                  "itemId": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              },
+              {
+                "matchId": "synthetic-undo",
+                "frameIndex": 30,
+                "eventIndex": 0,
+                "type": "GAME_END",
+                "timestampMs": 1800000,
+                "actorPuuid": null,
+                "payload": {
+                  "winningTeam": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              },
+              {
+                "matchId": "synthetic-undo",
+                "frameIndex": 10,
+                "eventIndex": 1,
+                "type": "ITEM_UNDO",
+                "timestampMs": 660000,
+                "actorPuuid": "hero",
+                "payload": {
+                  "beforeId": 100,
+                  "afterId": 0,
+                  "goldGain": 300
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              }
+            ]
+          }
+        ],
+        "totalMatches": 1,
+        "truncated": false
+      }
+    },
+    {
+      "name": "missingness-and-short-match",
+      "cohort": {
+        "matches": [
+          {
+            "matchId": "synthetic-short",
+            "gameVersion": "16.2.741",
+            "gameDuration": 899,
+            "populationEligible": true,
+            "processing": {
+              "status": "COMPLETED",
+              "processingVersion": 5,
+              "completedAt": "2026-10-01T00:00:00.000Z"
+            },
+            "participants": [
+              {
+                "puuid": "hero",
+                "championId": 1,
+                "teamId": 100,
+                "role": "TOP",
+                "win": true,
+                "spells": [
+                  12,
+                  4
+                ],
+                "runes": {
+                  "styles": [
+                    {
+                      "description": "primaryStyle",
+                      "style": 1000,
+                      "selections": [
+                        {
+                          "perk": 1001
+                        },
+                        {
+                          "perk": 1002
+                        },
+                        {
+                          "perk": 1003
+                        },
+                        {
+                          "perk": 1004
+                        }
+                      ]
+                    },
+                    {
+                      "description": "subStyle",
+                      "style": 2000,
+                      "selections": [
+                        {
+                          "perk": 2002
+                        },
+                        {
+                          "perk": 2003
+                        }
+                      ]
+                    }
+                  ],
+                  "statPerks": {
+                    "offense": 5008,
+                    "flex": 5008,
+                    "defense": 5002
+                  }
+                }
+              },
+              {
+                "puuid": "enemy",
+                "championId": 2,
+                "teamId": 200,
+                "role": "TOP",
+                "win": false,
+                "spells": [],
+                "runes": {}
+              }
+            ],
+            "timelineProjection": {
+              "projectionVersion": 1,
+              "frameIntervalMs": 60000,
+              "observedEndMs": 1800000,
+              "frames": [
+                {
+                  "frameIndex": 15,
+                  "timestamp": 900000,
+                  "participantFrames": {
+                    "1": {
+                      "participantId": 1,
+                      "puuid": "hero",
+                      "totalGold": 6000,
+                      "currentGold": 500,
+                      "xp": 6000,
+                      "level": 10,
+                      "minionsKilled": 100,
+                      "jungleMinionsKilled": 0,
+                      "position": null,
+                      "damageStats": null,
+                      "championStats": null,
+                      "additionalFields": {},
+                      "missingFields": []
+                    }
+                  }
+                }
+              ]
+            },
+            "events": [
+              {
+                "matchId": "synthetic-short",
+                "frameIndex": 10,
+                "eventIndex": 0,
+                "type": "ITEM_PURCHASED",
+                "timestampMs": 600000,
+                "actorPuuid": "hero",
+                "payload": {
+                  "itemId": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              },
+              {
+                "matchId": "synthetic-short",
+                "frameIndex": 30,
+                "eventIndex": 0,
+                "type": "GAME_END",
+                "timestampMs": 1800000,
+                "actorPuuid": null,
+                "payload": {
+                  "winningTeam": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              }
+            ]
+          },
+          {
+            "matchId": "synthetic-unknown",
+            "gameVersion": "16.2.741",
+            "gameDuration": 1800,
+            "populationEligible": true,
+            "processing": {
+              "status": "COMPLETED",
+              "processingVersion": 5,
+              "completedAt": "2026-10-01T00:00:00.000Z"
+            },
+            "participants": [
+              {
+                "puuid": "hero",
+                "championId": 1,
+                "teamId": 100,
+                "role": "TOP",
+                "win": true,
+                "spells": [
+                  12,
+                  4
+                ],
+                "runes": {
+                  "styles": [
+                    {
+                      "description": "primaryStyle",
+                      "style": 1000,
+                      "selections": [
+                        {
+                          "perk": 1001
+                        },
+                        {
+                          "perk": 1002
+                        },
+                        {
+                          "perk": 1003
+                        },
+                        {
+                          "perk": 1004
+                        }
+                      ]
+                    },
+                    {
+                      "description": "subStyle",
+                      "style": 2000,
+                      "selections": [
+                        {
+                          "perk": 2002
+                        },
+                        {
+                          "perk": 2003
+                        }
+                      ]
+                    }
+                  ],
+                  "statPerks": {
+                    "offense": 5008,
+                    "flex": 5008,
+                    "defense": 5002
+                  }
+                }
+              },
+              {
+                "puuid": "enemy",
+                "championId": 2,
+                "teamId": 200,
+                "role": "TOP",
+                "win": false,
+                "spells": [],
+                "runes": {}
+              }
+            ],
+            "timelineProjection": {
+              "projectionVersion": 1,
+              "frameIntervalMs": 60000,
+              "observedEndMs": 1800000,
+              "frames": [
+                {
+                  "frameIndex": 15,
+                  "timestamp": 900000,
+                  "participantFrames": {
+                    "1": {
+                      "participantId": 1,
+                      "puuid": "hero",
+                      "totalGold": 6000,
+                      "currentGold": 500,
+                      "xp": 6000,
+                      "level": 10,
+                      "minionsKilled": 100,
+                      "jungleMinionsKilled": 0,
+                      "position": null,
+                      "damageStats": null,
+                      "championStats": null,
+                      "additionalFields": {},
+                      "missingFields": []
+                    }
+                  }
+                }
+              ]
+            },
+            "events": [
+              {
+                "matchId": "synthetic-unknown",
+                "frameIndex": 10,
+                "eventIndex": 0,
+                "type": "ITEM_PURCHASED",
+                "timestampMs": 600000,
+                "actorPuuid": "hero",
+                "payload": {
+                  "itemId": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              },
+              {
+                "matchId": "synthetic-unknown",
+                "frameIndex": 30,
+                "eventIndex": 0,
+                "type": "GAME_END",
+                "timestampMs": 1800000,
+                "actorPuuid": null,
+                "payload": {
+                  "winningTeam": 100
+                },
+                "quality": {},
+                "metricVersion": 1,
+                "processingVersion": 5
+              },
+              {
+                "matchId": "synthetic-unknown",
+                "frameIndex": 10,
+                "eventIndex": 1,
+                "type": "UNKNOWN_ITEM_ACTION",
+                "timestampMs": 600000,
+                "actorPuuid": "hero",
+                "payload": {
+                  "itemId": 100
+                },
+                "quality": {
+                  "unknownType": true
+                },
+                "metricVersion": 1,
+                "processingVersion": 5
+              }
+            ]
+          }
+        ],
+        "totalMatches": 2,
+        "truncated": false
+      }
+    },
+    {
+      "name": "empty",
+      "cohort": {
+        "matches": [],
+        "totalMatches": 0,
+        "truncated": false
+      }
+    }
+  ]
+}
