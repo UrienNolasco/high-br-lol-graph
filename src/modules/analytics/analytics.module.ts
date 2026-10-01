@@ -11,9 +11,16 @@ import { MatchQueriesModule } from '../matches/match-queries.module';
 
 import { ChampionContextController } from './champion-context.controller';
 
+import { AdvantageController } from './advantage.controller';
+
 @Module({
   imports: [PrismaModule, MatchQueriesModule, BuildChoiceQueriesModule],
-  controllers: [AnalyticsController, ChampionContextController, BuildChoicesController],
+  controllers: [
+    AdvantageController,
+    AnalyticsController,
+    ChampionContextController,
+    BuildChoicesController,
+  ],
   providers: [AnalyticsRepository, AnalyticsService, BuildChoicesService],
 })
 export class AnalyticsModule {}

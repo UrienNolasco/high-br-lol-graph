@@ -1,0 +1,44 @@
+{
+  "task": "MET-28",
+  "base": "2d8a2f39580176d061f328258a08f4183f3dea61",
+  "branch": "task/met-28",
+  "checks": {
+    "unit": {
+      "command": "npm test -- --runInBand --testPathPatterns=pure/advantage.spec.ts",
+      "suites": 1,
+      "tests": 7,
+      "passed": true
+    },
+    "http": {
+      "command": "npm run test:e2e -- --runInBand --testPathPatterns=advantage.e2e-spec.ts",
+      "suites": 1,
+      "tests": 3,
+      "passed": true
+    },
+    "build": {
+      "command": "npm run build",
+      "passed": true
+    },
+    "typescript": {
+      "command": "npx tsc --noEmit",
+      "passed": true
+    },
+    "architecture": {
+      "command": "npm run architecture:check -- --strict",
+      "violations": 0,
+      "passed": true
+    },
+    "integration": {
+      "command": "npm run test:integration -- --testPathPatterns=advantage.integration-spec.ts",
+      "tests": 2,
+      "executed": false,
+      "reason": "Coordinator owns serial disposable database execution."
+    }
+  },
+  "persistenceChanges": false,
+  "productionOperations": false,
+  "limitations": [
+    "Synthetic validation only; no population estimate.",
+    "Nominal intervals do not correct recurring-player dependence or multiple comparisons."
+  ]
+}

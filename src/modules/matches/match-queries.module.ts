@@ -9,6 +9,9 @@ import { COMPARISON_COHORT_READER } from './ports/comparison-cohort-reader';
 import { CHAMPION_CONTEXT_READER } from './ports/champion-context-reader';
 import { ChampionContextRepository } from './repositories/champion-context.repository';
 
+import { ADVANTAGE_READER } from './ports/advantage-reader';
+import { AdvantageRepository } from './repositories/advantage.repository';
+
 @Module({
   imports: [ReadSnapshotModule, PrismaModule],
   providers: [
@@ -16,11 +19,13 @@ import { ChampionContextRepository } from './repositories/champion-context.repos
       provide: PLAYER_HISTORY_COVERAGE_READER,
       useClass: PlayerHistoryCoveragePersistenceReader,
     },
+    { provide: ADVANTAGE_READER, useClass: AdvantageRepository },
     { provide: CHAMPION_CONTEXT_READER, useClass: ChampionContextRepository },
     { provide: COMPARISON_COHORT_READER, useClass: ComparisonCohortRepository },
   ],
   exports: [
     PLAYER_HISTORY_COVERAGE_READER,
+    ADVANTAGE_READER,
     COMPARISON_COHORT_READER,
     CHAMPION_CONTEXT_READER,
   ],

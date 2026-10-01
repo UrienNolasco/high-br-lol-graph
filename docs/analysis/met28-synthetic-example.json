@@ -1,0 +1,670 @@
+{
+  "synthetic": true,
+  "filters": {
+    "patch": "16.2",
+    "championId": 100,
+    "role": "TOP",
+    "queueId": 420,
+    "mapId": 11,
+    "limit": 1000
+  },
+  "policy": {
+    "version": 1,
+    "checkpointsMs": [
+      600000,
+      900000,
+      1200000
+    ],
+    "horizonMs": 300000,
+    "toleranceMs": 60000,
+    "maxGapMs": 90000,
+    "neutralGold": 500,
+    "interpolation": "piecewise_linear_trapezoids",
+    "unit": "gold-minute"
+  },
+  "championId": 100,
+  "role": "TOP",
+  "cells": [
+    {
+      "checkpointMs": 600000,
+      "bin": "deficit",
+      "outcome": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "focalGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 0,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": null,
+      "structuresN": 0,
+      "meanStructures": null,
+      "integralN": 0,
+      "meanIntegral": null
+    },
+    {
+      "checkpointMs": 600000,
+      "bin": "neutral",
+      "outcome": {
+        "n": 1,
+        "wins": 1,
+        "rate": 1,
+        "interval95": [
+          0.20654329147389294,
+          1
+        ],
+        "reason": "insufficient_sample"
+      },
+      "focalGoldGain": {
+        "n": 1,
+        "mean": 1000,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 1,
+        "mean": 0,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 1,
+        "mean": 1000,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 1,
+        "mean": 1,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 1,
+        "mean": 500,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 1,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": 1000,
+      "structuresN": 1,
+      "meanStructures": 1,
+      "integralN": 1,
+      "meanIntegral": 500
+    },
+    {
+      "checkpointMs": 600000,
+      "bin": "lead",
+      "outcome": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "focalGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 0,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": null,
+      "structuresN": 0,
+      "meanStructures": null,
+      "integralN": 0,
+      "meanIntegral": null
+    },
+    {
+      "checkpointMs": 900000,
+      "bin": "deficit",
+      "outcome": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "focalGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 0,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": null,
+      "structuresN": 0,
+      "meanStructures": null,
+      "integralN": 0,
+      "meanIntegral": null
+    },
+    {
+      "checkpointMs": 900000,
+      "bin": "neutral",
+      "outcome": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "focalGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 0,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": null,
+      "structuresN": 0,
+      "meanStructures": null,
+      "integralN": 0,
+      "meanIntegral": null
+    },
+    {
+      "checkpointMs": 900000,
+      "bin": "lead",
+      "outcome": {
+        "n": 1,
+        "wins": 1,
+        "rate": 1,
+        "interval95": [
+          0.20654329147389294,
+          1
+        ],
+        "reason": "insufficient_sample"
+      },
+      "focalGoldGain": {
+        "n": 1,
+        "mean": 1000,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 1,
+        "mean": 0,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 1,
+        "mean": 1000,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 1,
+        "mean": 0,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 1,
+        "mean": 5500,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 1,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": 1000,
+      "structuresN": 1,
+      "meanStructures": 0,
+      "integralN": 1,
+      "meanIntegral": 5500
+    },
+    {
+      "checkpointMs": 1200000,
+      "bin": "deficit",
+      "outcome": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "focalGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 0,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": null,
+      "structuresN": 0,
+      "meanStructures": null,
+      "integralN": 0,
+      "meanIntegral": null
+    },
+    {
+      "checkpointMs": 1200000,
+      "bin": "neutral",
+      "outcome": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "focalGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 0,
+        "mean": null,
+        "interval95": null,
+        "reason": "no_observations",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 0,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": null,
+      "structuresN": 0,
+      "meanStructures": null,
+      "integralN": 0,
+      "meanIntegral": null
+    },
+    {
+      "checkpointMs": 1200000,
+      "bin": "lead",
+      "outcome": {
+        "n": 1,
+        "wins": 1,
+        "rate": 1,
+        "interval95": [
+          0.20654329147389294,
+          1
+        ],
+        "reason": "insufficient_sample"
+      },
+      "focalGoldGain": {
+        "n": 1,
+        "mean": 1000,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "opponentGoldGain": {
+        "n": 1,
+        "mean": 0,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "leadChange": {
+        "n": 1,
+        "mean": 1000,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "structures": {
+        "n": 1,
+        "mean": 0,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "integral": {
+        "n": 1,
+        "mean": 10500,
+        "interval95": null,
+        "reason": "insufficient_sample",
+        "method": "nominal_normal_mean_interval"
+      },
+      "futureN": 1,
+      "censoredOrMissingFutureN": 0,
+      "recovery": {
+        "n": 0,
+        "wins": 0,
+        "rate": null,
+        "interval95": null,
+        "reason": "no_observations"
+      },
+      "meanLeadChange": 1000,
+      "structuresN": 1,
+      "meanStructures": 0,
+      "integralN": 1,
+      "meanIntegral": 10500
+    }
+  ],
+  "evidence": [
+    {
+      "matchId": "SYNTHETIC_MET28",
+      "checkpointMs": 600000,
+      "timestampMs": 600000,
+      "offsetMs": 0,
+      "goldLead": -400,
+      "bin": "neutral",
+      "win": true,
+      "future": {
+        "timestampMs": 900000,
+        "offsetMs": 0,
+        "goldLead": 600,
+        "leadChange": 1000,
+        "focalGoldGain": 1000,
+        "opponentGoldGain": 0,
+        "recovered": null,
+        "structures": 1
+      },
+      "integral": {
+        "value": 500,
+        "startMs": 600000,
+        "endMs": 900000,
+        "reason": null
+      }
+    },
+    {
+      "matchId": "SYNTHETIC_MET28",
+      "checkpointMs": 900000,
+      "timestampMs": 900000,
+      "offsetMs": 0,
+      "goldLead": 600,
+      "bin": "lead",
+      "win": true,
+      "future": {
+        "timestampMs": 1200000,
+        "offsetMs": 0,
+        "goldLead": 1600,
+        "leadChange": 1000,
+        "focalGoldGain": 1000,
+        "opponentGoldGain": 0,
+        "recovered": null,
+        "structures": 0
+      },
+      "integral": {
+        "value": 5500,
+        "startMs": 900000,
+        "endMs": 1200000,
+        "reason": null
+      }
+    },
+    {
+      "matchId": "SYNTHETIC_MET28",
+      "checkpointMs": 1200000,
+      "timestampMs": 1200000,
+      "offsetMs": 0,
+      "goldLead": 1600,
+      "bin": "lead",
+      "win": true,
+      "future": {
+        "timestampMs": 1500000,
+        "offsetMs": 0,
+        "goldLead": 2600,
+        "leadChange": 1000,
+        "focalGoldGain": 1000,
+        "opponentGoldGain": 0,
+        "recovered": null,
+        "structures": 0
+      },
+      "integral": {
+        "value": 10500,
+        "startMs": 1200000,
+        "endMs": 1500000,
+        "reason": null
+      }
+    }
+  ],
+  "coverage": {
+    "availableMatches": 1,
+    "returnedMatches": 1,
+    "distinctMatches": 1,
+    "truncated": false,
+    "exclusions": {}
+  },
+  "limitations": [
+    "Observed association; no causal attribution or universal carry classification.",
+    "Integral is signed gold-minute, not a win probability.",
+    "Nominal Wilson intervals assume independent matches; recurring players and overlapping checkpoints violate independence.",
+    "Mean intervals use a nominal normal approximation; small samples cannot establish a trend.",
+    "Structures are team resources and cannot be attributed to the focal player.",
+    "Past-only checkpoints use actual timestamps; future eligibility is explicit and missing values never become zero."
+  ]
+}
