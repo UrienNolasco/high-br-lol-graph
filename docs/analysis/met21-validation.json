@@ -1,0 +1,72 @@
+{
+  "task": "MET-21 / #23",
+  "base": "a634cdc",
+  "branch": "task/met-21",
+  "priorWorkBackup": "/tmp/met21-preserved/evolution",
+  "productionOperations": false,
+  "persistenceChanges": false,
+  "checks": [
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "passed"
+    },
+    {
+      "command": "node scripts/architecture-check.cjs --strict",
+      "result": "passed",
+      "violations": 0,
+      "transitionalDebt": 0
+    },
+    {
+      "command": "npm test -- --runInBand --testPathPatterns='evolution|window-reader|sequence-examples-reader|read-snapshot'",
+      "result": "passed",
+      "suites": 5,
+      "tests": 11
+    },
+    {
+      "command": "npm run test:e2e -- --runInBand --testPathPatterns=evolution",
+      "result": "passed",
+      "suites": 1,
+      "tests": 3,
+      "environment": "outside sandbox; local HTTP listen EPERM in restricted execution"
+    },
+    {
+      "command": "npx ts-node scripts/examples/example-evolution.ts",
+      "result": "passed",
+      "artifact": "docs/analysis/met21-examples.json"
+    }
+  ],
+  "databaseValidation": {
+    "status": "prepared_not_run",
+    "reason": "coordinator serializes disposable SQL suites",
+    "suite": "test/integration/evolution.integration-spec.ts",
+    "command": "npm run test:integration -- --testPathPatterns=evolution"
+  },
+  "reconciliation": {
+    "Fiora": {
+      "associatedEligibleDeaths": 2,
+      "eligibleDeaths": 5,
+      "percent": 40
+    },
+    "Milio": {
+      "associatedEligibleDeaths": 6,
+      "eligibleDeaths": 12,
+      "percent": 50
+    },
+    "source": "one real observed match BR1_3200579475; declared synthetic processing/lineage metadata; recent window empty"
+  },
+  "limitations": [
+    "No longitudinal player sample beyond one observed match",
+    "No validated serial-dependence model; trend and inferential precision unavailable",
+    "Bounded first-match examples are descriptive, not representative"
+  ],
+  "ownershipCorrection": {
+    "datasetPort": "src/modules/dataset/ports/window-reader.ts",
+    "matchesPort": "src/modules/matches/ports/sequence-examples-reader.ts",
+    "snapshot": "src/core/prisma/read-snapshot.ts",
+    "ormPolicy": "Adapters query only their owner models; evolution orchestrates data-only ports; publication metadata replaces processing job reads"
+  }
+}

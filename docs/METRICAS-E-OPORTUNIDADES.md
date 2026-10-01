@@ -508,6 +508,8 @@ MET-27 publica confrontos de posição e pares aliados observados com baseline, 
 
 MET-20 publica referências homogêneas com precisão nominal, dependência explícita e ausência de gasto V08 sem contexto de compra validado; contrato em [REFERENCIAS-HISTORICAS.md](REFERENCIAS-HISTORICAS.md).
 
+MET-21 compara janelas pessoais sem sobreposição com composição, censura e episódios; contrato, limitações de precisão e exemplos em [EVOLUCAO-PESSOAL.md](EVOLUCAO-PESSOAL.md).
+
 ### Critério comum de conclusão das futuras tasks
 
 MET-19 materializa o dataset histórico geração 4 com preditores até t, descritivos/rótulos separados e exportação temporal reproduzível; contrato e evidências em [DATASET-HISTORICO.md](DATASET-HISTORICO.md).

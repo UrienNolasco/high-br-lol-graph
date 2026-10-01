@@ -1,3 +1,4 @@
+import { EvolutionModule } from './modules/evolution/evolution.module';
 import { IndicatorModule } from './modules/indicators/indicator.module';
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -36,6 +37,7 @@ import { AdminModule } from './modules/admin/admin.module';
     AdminModule,
     DatasetModule,
     ReferenceModule,
+    EvolutionModule,
   ],
   controllers: [AppController],
 })

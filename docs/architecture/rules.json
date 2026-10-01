@@ -43,6 +43,7 @@
     "champions": [],
     "collector": ["processing"],
     "dataset": ["matches"],
+    "evolution": ["dataset", "matches", "references"],
     "indicators": ["dataset", "matches", "stats"],
     "matches": [],
     "players": ["matches", "processing", "stats"],

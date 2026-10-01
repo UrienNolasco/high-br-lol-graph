@@ -1,0 +1,1110 @@
+{
+  "source": "BR1_3200579475; source observations real; completed-job/lineage metadata explicitly synthetic in historicalDatasetFixture; recent window empty, no longitudinal claim",
+  "examples": [
+    {
+      "champion": "Fiora",
+      "methodVersion": 1,
+      "puuid": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+      "definition": {
+        "id": "final.deathsNearObjectives",
+        "metricId": "C07",
+        "unit": "percent",
+        "source": "MET15 calculateSequences",
+        "subjectKinds": [
+          "participant"
+        ],
+        "usage": "descriptive",
+        "version": 1,
+        "temporalRule": "Final retrospective observation. Never include in predictive feature files."
+      },
+      "filters": {
+        "eligibleOnly": false,
+        "queueId": 420,
+        "mapId": 11,
+        "championId": 114,
+        "playerId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+        "definitionId": "final.deathsNearObjectives",
+        "horizonKey": "final",
+        "subjectKind": "participant",
+        "usage": "descriptive",
+        "role": "TOP"
+      },
+      "windows": {
+        "baseline": {
+          "requested": {
+            "fromMs": 1770015288681,
+            "toMs": 1770015288682,
+            "bounds": "[)"
+          },
+          "counts": {
+            "candidate": {
+              "rows": 1,
+              "matches": 1,
+              "players": 1
+            },
+            "eligible": {
+              "rows": 1,
+              "matches": 1,
+              "players": 1
+            },
+            "valid": {
+              "rows": 1,
+              "matches": 1,
+              "players": 1
+            }
+          },
+          "coverage": {
+            "numerator": 1,
+            "denominator": 1,
+            "value": 1,
+            "missingReasons": {},
+            "exclusions": {}
+          },
+          "observed": {
+            "mean": 40,
+            "median": 40,
+            "p25": 40,
+            "p75": 40
+          },
+          "period": {
+            "firstGameCreationMs": "1770015288681",
+            "lastGameCreationMs": "1770015288681"
+          },
+          "unmaterializedMatches": 0,
+          "duplicateRowsRemoved": 0,
+          "conflictingIdentities": 0,
+          "composition": [
+            {
+              "patch": "16.2",
+              "championId": 114,
+              "role": "TOP",
+              "queueId": 420,
+              "mapId": 11,
+              "counts": {
+                "candidate": {
+                  "rows": 1,
+                  "matches": 1,
+                  "players": 1
+                },
+                "eligible": {
+                  "rows": 1,
+                  "matches": 1,
+                  "players": 1
+                },
+                "valid": {
+                  "rows": 1,
+                  "matches": 1,
+                  "players": 1
+                }
+              },
+              "coverage": {
+                "numerator": 1,
+                "denominator": 1,
+                "value": 1,
+                "missingReasons": {},
+                "exclusions": {}
+              },
+              "observed": {
+                "mean": 40,
+                "median": 40,
+                "p25": 40,
+                "p75": 40
+              },
+              "period": {
+                "firstGameCreationMs": "1770015288681",
+                "lastGameCreationMs": "1770015288681"
+              },
+              "deathPattern": {
+                "metricId": "C07",
+                "definitionId": "final.deathsNearObjectives",
+                "windowMs": 60000,
+                "bounds": "(]",
+                "associatedEligibleDeaths": 2,
+                "eligibleDeaths": 5,
+                "recordedDeathsInKnownMatches": 5,
+                "censoredDeathsInKnownMatches": 0,
+                "matchesWithKnownFollowup": 1,
+                "matchesWithUnknownFollowup": 0,
+                "unknownReasons": {},
+                "value": 40,
+                "unit": "percent",
+                "reason": null,
+                "method": "100*sum(eligible deaths with >=1 opposing capture within60s)/sum(deaths with complete60s follow-up); multiple captures do not multiply deaths",
+                "interval": null,
+                "intervalReason": "Deaths within matches and repeated player matches are dependent; no independent-binomial interval"
+              }
+            }
+          ],
+          "deathPattern": {
+            "metricId": "C07",
+            "definitionId": "final.deathsNearObjectives",
+            "windowMs": 60000,
+            "bounds": "(]",
+            "associatedEligibleDeaths": 2,
+            "eligibleDeaths": 5,
+            "recordedDeathsInKnownMatches": 5,
+            "censoredDeathsInKnownMatches": 0,
+            "matchesWithKnownFollowup": 1,
+            "matchesWithUnknownFollowup": 0,
+            "unknownReasons": {},
+            "value": 40,
+            "unit": "percent",
+            "reason": null,
+            "method": "100*sum(eligible deaths with >=1 opposing capture within60s)/sum(deaths with complete60s follow-up); multiple captures do not multiply deaths",
+            "interval": null,
+            "intervalReason": "Deaths within matches and repeated player matches are dependent; no independent-binomial interval"
+          },
+          "nominalIidDiagnostic": {
+            "confidence": 0.95,
+            "cdfHalfWidth": 0.15,
+            "minimumUnits": 0,
+            "requiredMatches": 82,
+            "validMatches": 1,
+            "meetsNominalCount": false,
+            "appliesToPlayerPrecision": false
+          },
+          "precision": {
+            "status": "unavailable",
+            "reason": "insufficient_sample_and_unmodelled_serial_dependence",
+            "interval": null
+          },
+          "observations": {
+            "total": 1,
+            "returned": 1,
+            "truncated": false,
+            "items": [
+              {
+                "contributionId": "81e69d1eefab4b5a0a474ae933095bd93ec05f7a0fa689c67affce6a6269b7b9",
+                "matchId": "BR1_3200579475",
+                "gameCreationMs": "1770015288681",
+                "patch": "16.2",
+                "value": 40,
+                "eligible": true,
+                "reason": null,
+                "processedAt": "2026-09-23T00:00:00.000Z"
+              }
+            ]
+          },
+          "provenance": {
+            "processedAt": {
+              "earliest": "2026-09-23T00:00:00.000Z",
+              "latest": "2026-09-23T00:00:00.000Z"
+            },
+            "lineageUnknownRows": 0,
+            "fingerprint": "1d8a1df4d284dd7d2380cbdca70840a097df8b7b3c700548d12b2445e73f52d2"
+          },
+          "examples": {
+            "items": [
+              {
+                "matchId": "BR1_3200579475",
+                "reason": null,
+                "episodes": [
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:8:4",
+                      "frameIndex": 8,
+                      "eventIndex": 4,
+                      "timestampMs": 428857,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+                    "windowMs": 60000,
+                    "windowEndMs": 488857,
+                    "observedUntilMs": 488857,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:9:32",
+                      "frameIndex": 9,
+                      "eventIndex": 32,
+                      "timestampMs": 506225,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+                    "windowMs": 60000,
+                    "windowEndMs": 566225,
+                    "observedUntilMs": 566225,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:9:39",
+                        "frameIndex": 9,
+                        "eventIndex": 39,
+                        "timestampMs": 511401,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "HORDE",
+                        "teamId": 200,
+                        "lane": null
+                      },
+                      {
+                        "eventId": "BR1_3200579475:9:45",
+                        "frameIndex": 9,
+                        "eventIndex": 45,
+                        "timestampMs": 517079,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "HORDE",
+                        "teamId": 200,
+                        "lane": null
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:20:46",
+                      "frameIndex": 20,
+                      "eventIndex": 46,
+                      "timestampMs": 1198068,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+                    "windowMs": 60000,
+                    "windowEndMs": 1258068,
+                    "observedUntilMs": 1258068,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:21:33",
+                        "frameIndex": 21,
+                        "eventIndex": 33,
+                        "timestampMs": 1240704,
+                        "type": "BUILDING_KILL",
+                        "objective": "TOWER_BUILDING",
+                        "teamId": 200,
+                        "lane": "TOP_LANE"
+                      },
+                      {
+                        "eventId": "BR1_3200579475:21:41",
+                        "frameIndex": 21,
+                        "eventIndex": 41,
+                        "timestampMs": 1244550,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "BARON_NASHOR",
+                        "teamId": 200,
+                        "lane": null
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:30:41",
+                      "frameIndex": 30,
+                      "eventIndex": 41,
+                      "timestampMs": 1792692,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+                    "windowMs": 60000,
+                    "windowEndMs": 1852692,
+                    "observedUntilMs": 1852692,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:37:31",
+                      "frameIndex": 37,
+                      "eventIndex": 31,
+                      "timestampMs": 2211956,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "tjsWO0e9LBfvNR_NPBhiv7tmX_lpw2h3BHnhY3288dfDhFHNzhwwzMzc0JG_r_UyR0BYjuu1MXqmaQ",
+                    "windowMs": 60000,
+                    "windowEndMs": 2271956,
+                    "observedUntilMs": 2271956,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "recent": {
+          "requested": {
+            "fromMs": 1770015288682,
+            "toMs": 1770015288683,
+            "bounds": "[)"
+          },
+          "counts": {
+            "candidate": {
+              "rows": 0,
+              "matches": 0,
+              "players": 0
+            },
+            "eligible": {
+              "rows": 0,
+              "matches": 0,
+              "players": 0
+            },
+            "valid": {
+              "rows": 0,
+              "matches": 0,
+              "players": 0
+            }
+          },
+          "coverage": {
+            "numerator": 0,
+            "denominator": 0,
+            "value": null,
+            "missingReasons": {},
+            "exclusions": {}
+          },
+          "observed": {
+            "mean": null,
+            "median": null,
+            "p25": null,
+            "p75": null
+          },
+          "period": null,
+          "unmaterializedMatches": 0,
+          "duplicateRowsRemoved": 0,
+          "conflictingIdentities": 0,
+          "composition": [],
+          "deathPattern": {
+            "metricId": "C07",
+            "definitionId": "final.deathsNearObjectives",
+            "windowMs": 60000,
+            "bounds": "(]",
+            "associatedEligibleDeaths": 0,
+            "eligibleDeaths": 0,
+            "recordedDeathsInKnownMatches": 0,
+            "censoredDeathsInKnownMatches": 0,
+            "matchesWithKnownFollowup": 0,
+            "matchesWithUnknownFollowup": 0,
+            "unknownReasons": {},
+            "value": null,
+            "unit": "percent",
+            "reason": "missing_followup",
+            "method": "100*sum(eligible deaths with >=1 opposing capture within60s)/sum(deaths with complete60s follow-up); multiple captures do not multiply deaths",
+            "interval": null,
+            "intervalReason": "Deaths within matches and repeated player matches are dependent; no independent-binomial interval"
+          },
+          "nominalIidDiagnostic": {
+            "confidence": 0.95,
+            "cdfHalfWidth": 0.15,
+            "minimumUnits": 0,
+            "requiredMatches": 82,
+            "validMatches": 0,
+            "meetsNominalCount": false,
+            "appliesToPlayerPrecision": false
+          },
+          "precision": {
+            "status": "unavailable",
+            "reason": "insufficient_sample_and_unmodelled_serial_dependence",
+            "interval": null
+          },
+          "observations": {
+            "total": 0,
+            "returned": 0,
+            "truncated": false,
+            "items": []
+          },
+          "provenance": {
+            "processedAt": null,
+            "lineageUnknownRows": 0,
+            "fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "examples": {
+            "items": []
+          }
+        }
+      },
+      "comparison": {
+        "direction": "recent minus baseline; observed differences do not mean improvement",
+        "pooledObservedDelta": {
+          "mean": null,
+          "median": null,
+          "deathFrequencyPercentagePoints": null
+        },
+        "pooledContext": "patch_mixture_or_change",
+        "patchesOnlyInBaseline": [
+          "16.2"
+        ],
+        "patchesOnlyInRecent": [],
+        "matchedPatches": [],
+        "trend": null,
+        "trendReason": "Repeated observations of one player are serially dependent; no validated temporal model or inferential trend",
+        "precision": null
+      },
+      "limitations": [
+        "Descriptive comparisons only; no causal attribution or forecast",
+        "Champion/role/queue/map fixed by filters; other champions/roles are outside this comparison",
+        "Patches are stratified; pooled delta can reflect composition change",
+        "Nominal iid minimum is a planning diagnostic, never a player-level confidence claim"
+      ]
+    },
+    {
+      "champion": "Milio",
+      "methodVersion": 1,
+      "puuid": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+      "definition": {
+        "id": "final.deathsNearObjectives",
+        "metricId": "C07",
+        "unit": "percent",
+        "source": "MET15 calculateSequences",
+        "subjectKinds": [
+          "participant"
+        ],
+        "usage": "descriptive",
+        "version": 1,
+        "temporalRule": "Final retrospective observation. Never include in predictive feature files."
+      },
+      "filters": {
+        "eligibleOnly": false,
+        "queueId": 420,
+        "mapId": 11,
+        "championId": 902,
+        "playerId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+        "definitionId": "final.deathsNearObjectives",
+        "horizonKey": "final",
+        "subjectKind": "participant",
+        "usage": "descriptive",
+        "role": "UTILITY"
+      },
+      "windows": {
+        "baseline": {
+          "requested": {
+            "fromMs": 1770015288681,
+            "toMs": 1770015288682,
+            "bounds": "[)"
+          },
+          "counts": {
+            "candidate": {
+              "rows": 1,
+              "matches": 1,
+              "players": 1
+            },
+            "eligible": {
+              "rows": 1,
+              "matches": 1,
+              "players": 1
+            },
+            "valid": {
+              "rows": 1,
+              "matches": 1,
+              "players": 1
+            }
+          },
+          "coverage": {
+            "numerator": 1,
+            "denominator": 1,
+            "value": 1,
+            "missingReasons": {},
+            "exclusions": {}
+          },
+          "observed": {
+            "mean": 50,
+            "median": 50,
+            "p25": 50,
+            "p75": 50
+          },
+          "period": {
+            "firstGameCreationMs": "1770015288681",
+            "lastGameCreationMs": "1770015288681"
+          },
+          "unmaterializedMatches": 0,
+          "duplicateRowsRemoved": 0,
+          "conflictingIdentities": 0,
+          "composition": [
+            {
+              "patch": "16.2",
+              "championId": 902,
+              "role": "UTILITY",
+              "queueId": 420,
+              "mapId": 11,
+              "counts": {
+                "candidate": {
+                  "rows": 1,
+                  "matches": 1,
+                  "players": 1
+                },
+                "eligible": {
+                  "rows": 1,
+                  "matches": 1,
+                  "players": 1
+                },
+                "valid": {
+                  "rows": 1,
+                  "matches": 1,
+                  "players": 1
+                }
+              },
+              "coverage": {
+                "numerator": 1,
+                "denominator": 1,
+                "value": 1,
+                "missingReasons": {},
+                "exclusions": {}
+              },
+              "observed": {
+                "mean": 50,
+                "median": 50,
+                "p25": 50,
+                "p75": 50
+              },
+              "period": {
+                "firstGameCreationMs": "1770015288681",
+                "lastGameCreationMs": "1770015288681"
+              },
+              "deathPattern": {
+                "metricId": "C07",
+                "definitionId": "final.deathsNearObjectives",
+                "windowMs": 60000,
+                "bounds": "(]",
+                "associatedEligibleDeaths": 6,
+                "eligibleDeaths": 12,
+                "recordedDeathsInKnownMatches": 12,
+                "censoredDeathsInKnownMatches": 0,
+                "matchesWithKnownFollowup": 1,
+                "matchesWithUnknownFollowup": 0,
+                "unknownReasons": {},
+                "value": 50,
+                "unit": "percent",
+                "reason": null,
+                "method": "100*sum(eligible deaths with >=1 opposing capture within60s)/sum(deaths with complete60s follow-up); multiple captures do not multiply deaths",
+                "interval": null,
+                "intervalReason": "Deaths within matches and repeated player matches are dependent; no independent-binomial interval"
+              }
+            }
+          ],
+          "deathPattern": {
+            "metricId": "C07",
+            "definitionId": "final.deathsNearObjectives",
+            "windowMs": 60000,
+            "bounds": "(]",
+            "associatedEligibleDeaths": 6,
+            "eligibleDeaths": 12,
+            "recordedDeathsInKnownMatches": 12,
+            "censoredDeathsInKnownMatches": 0,
+            "matchesWithKnownFollowup": 1,
+            "matchesWithUnknownFollowup": 0,
+            "unknownReasons": {},
+            "value": 50,
+            "unit": "percent",
+            "reason": null,
+            "method": "100*sum(eligible deaths with >=1 opposing capture within60s)/sum(deaths with complete60s follow-up); multiple captures do not multiply deaths",
+            "interval": null,
+            "intervalReason": "Deaths within matches and repeated player matches are dependent; no independent-binomial interval"
+          },
+          "nominalIidDiagnostic": {
+            "confidence": 0.95,
+            "cdfHalfWidth": 0.15,
+            "minimumUnits": 0,
+            "requiredMatches": 82,
+            "validMatches": 1,
+            "meetsNominalCount": false,
+            "appliesToPlayerPrecision": false
+          },
+          "precision": {
+            "status": "unavailable",
+            "reason": "insufficient_sample_and_unmodelled_serial_dependence",
+            "interval": null
+          },
+          "observations": {
+            "total": 1,
+            "returned": 1,
+            "truncated": false,
+            "items": [
+              {
+                "contributionId": "2c79b94cb42bfdfae78a1c336c5035576d67e7f56a745afd52969a69406075cf",
+                "matchId": "BR1_3200579475",
+                "gameCreationMs": "1770015288681",
+                "patch": "16.2",
+                "value": 50,
+                "eligible": true,
+                "reason": null,
+                "processedAt": "2026-09-23T00:00:00.000Z"
+              }
+            ]
+          },
+          "provenance": {
+            "processedAt": {
+              "earliest": "2026-09-23T00:00:00.000Z",
+              "latest": "2026-09-23T00:00:00.000Z"
+            },
+            "lineageUnknownRows": 0,
+            "fingerprint": "186efa2ce47cca3629f39ee036ab7d4d6bb81390d4de285d6fbd443523012a2b"
+          },
+          "examples": {
+            "items": [
+              {
+                "matchId": "BR1_3200579475",
+                "reason": null,
+                "episodes": [
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:9:25",
+                      "frameIndex": 9,
+                      "eventIndex": 25,
+                      "timestampMs": 503553,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 563553,
+                    "observedUntilMs": 563553,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:9:39",
+                        "frameIndex": 9,
+                        "eventIndex": 39,
+                        "timestampMs": 511401,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "HORDE",
+                        "teamId": 200,
+                        "lane": null
+                      },
+                      {
+                        "eventId": "BR1_3200579475:9:45",
+                        "frameIndex": 9,
+                        "eventIndex": 45,
+                        "timestampMs": 517079,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "HORDE",
+                        "teamId": 200,
+                        "lane": null
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:12:21",
+                      "frameIndex": 12,
+                      "eventIndex": 21,
+                      "timestampMs": 683430,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 743430,
+                    "observedUntilMs": 743430,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:19:4",
+                      "frameIndex": 19,
+                      "eventIndex": 4,
+                      "timestampMs": 1085307,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1145307,
+                    "observedUntilMs": 1145307,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:19:26",
+                        "frameIndex": 19,
+                        "eventIndex": 26,
+                        "timestampMs": 1105070,
+                        "type": "BUILDING_KILL",
+                        "objective": "TOWER_BUILDING",
+                        "teamId": 200,
+                        "lane": "MID_LANE"
+                      },
+                      {
+                        "eventId": "BR1_3200579475:19:52",
+                        "frameIndex": 19,
+                        "eventIndex": 52,
+                        "timestampMs": 1126044,
+                        "type": "BUILDING_KILL",
+                        "objective": "TOWER_BUILDING",
+                        "teamId": 200,
+                        "lane": "MID_LANE"
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:20:49",
+                      "frameIndex": 20,
+                      "eventIndex": 49,
+                      "timestampMs": 1199103,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1259103,
+                    "observedUntilMs": 1259103,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:21:33",
+                        "frameIndex": 21,
+                        "eventIndex": 33,
+                        "timestampMs": 1240704,
+                        "type": "BUILDING_KILL",
+                        "objective": "TOWER_BUILDING",
+                        "teamId": 200,
+                        "lane": "TOP_LANE"
+                      },
+                      {
+                        "eventId": "BR1_3200579475:21:41",
+                        "frameIndex": 21,
+                        "eventIndex": 41,
+                        "timestampMs": 1244550,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "BARON_NASHOR",
+                        "teamId": 200,
+                        "lane": null
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:22:21",
+                      "frameIndex": 22,
+                      "eventIndex": 21,
+                      "timestampMs": 1299461,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1359461,
+                    "observedUntilMs": 1359461,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:23:11",
+                        "frameIndex": 23,
+                        "eventIndex": 11,
+                        "timestampMs": 1333999,
+                        "type": "BUILDING_KILL",
+                        "objective": "TOWER_BUILDING",
+                        "teamId": 200,
+                        "lane": "MID_LANE"
+                      },
+                      {
+                        "eventId": "BR1_3200579475:23:16",
+                        "frameIndex": 23,
+                        "eventIndex": 16,
+                        "timestampMs": 1338317,
+                        "type": "BUILDING_KILL",
+                        "objective": "INHIBITOR_BUILDING",
+                        "teamId": 200,
+                        "lane": "MID_LANE"
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:24:18",
+                      "frameIndex": 24,
+                      "eventIndex": 18,
+                      "timestampMs": 1409037,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1469037,
+                    "observedUntilMs": 1469037,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:24:25",
+                        "frameIndex": 24,
+                        "eventIndex": 25,
+                        "timestampMs": 1419571,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "DRAGON",
+                        "teamId": 200,
+                        "lane": null
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:25:19",
+                      "frameIndex": 25,
+                      "eventIndex": 19,
+                      "timestampMs": 1463447,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1523447,
+                    "observedUntilMs": 1523447,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:27:44",
+                      "frameIndex": 27,
+                      "eventIndex": 44,
+                      "timestampMs": 1614290,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1674290,
+                    "observedUntilMs": 1674290,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:29:26",
+                      "frameIndex": 29,
+                      "eventIndex": 26,
+                      "timestampMs": 1727643,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1787643,
+                    "observedUntilMs": 1787643,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:32:33",
+                      "frameIndex": 32,
+                      "eventIndex": 33,
+                      "timestampMs": 1896316,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 1956316,
+                    "observedUntilMs": 1956316,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": [
+                      {
+                        "eventId": "BR1_3200579475:33:25",
+                        "frameIndex": 33,
+                        "eventIndex": 25,
+                        "timestampMs": 1948675,
+                        "type": "ELITE_MONSTER_KILL",
+                        "objective": "BARON_NASHOR",
+                        "teamId": 200,
+                        "lane": null
+                      }
+                    ]
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:35:34",
+                      "frameIndex": 35,
+                      "eventIndex": 34,
+                      "timestampMs": 2083447,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 2143447,
+                    "observedUntilMs": 2143447,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  },
+                  {
+                    "event": {
+                      "eventId": "BR1_3200579475:37:26",
+                      "frameIndex": 37,
+                      "eventIndex": 26,
+                      "timestampMs": 2198038,
+                      "type": "CHAMPION_KILL",
+                      "objective": null,
+                      "teamId": 200,
+                      "lane": null
+                    },
+                    "subjectId": "gcd7avXhWxpSJqhotQaFmRujFjyKZd6kDbRkPHQzGoUEsI5utM5QEMcLXNFgrMSKcF3InCsAf7ITnA",
+                    "windowMs": 60000,
+                    "windowEndMs": 2258038,
+                    "observedUntilMs": 2258038,
+                    "eligible": true,
+                    "reason": null,
+                    "objectives": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "recent": {
+          "requested": {
+            "fromMs": 1770015288682,
+            "toMs": 1770015288683,
+            "bounds": "[)"
+          },
+          "counts": {
+            "candidate": {
+              "rows": 0,
+              "matches": 0,
+              "players": 0
+            },
+            "eligible": {
+              "rows": 0,
+              "matches": 0,
+              "players": 0
+            },
+            "valid": {
+              "rows": 0,
+              "matches": 0,
+              "players": 0
+            }
+          },
+          "coverage": {
+            "numerator": 0,
+            "denominator": 0,
+            "value": null,
+            "missingReasons": {},
+            "exclusions": {}
+          },
+          "observed": {
+            "mean": null,
+            "median": null,
+            "p25": null,
+            "p75": null
+          },
+          "period": null,
+          "unmaterializedMatches": 0,
+          "duplicateRowsRemoved": 0,
+          "conflictingIdentities": 0,
+          "composition": [],
+          "deathPattern": {
+            "metricId": "C07",
+            "definitionId": "final.deathsNearObjectives",
+            "windowMs": 60000,
+            "bounds": "(]",
+            "associatedEligibleDeaths": 0,
+            "eligibleDeaths": 0,
+            "recordedDeathsInKnownMatches": 0,
+            "censoredDeathsInKnownMatches": 0,
+            "matchesWithKnownFollowup": 0,
+            "matchesWithUnknownFollowup": 0,
+            "unknownReasons": {},
+            "value": null,
+            "unit": "percent",
+            "reason": "missing_followup",
+            "method": "100*sum(eligible deaths with >=1 opposing capture within60s)/sum(deaths with complete60s follow-up); multiple captures do not multiply deaths",
+            "interval": null,
+            "intervalReason": "Deaths within matches and repeated player matches are dependent; no independent-binomial interval"
+          },
+          "nominalIidDiagnostic": {
+            "confidence": 0.95,
+            "cdfHalfWidth": 0.15,
+            "minimumUnits": 0,
+            "requiredMatches": 82,
+            "validMatches": 0,
+            "meetsNominalCount": false,
+            "appliesToPlayerPrecision": false
+          },
+          "precision": {
+            "status": "unavailable",
+            "reason": "insufficient_sample_and_unmodelled_serial_dependence",
+            "interval": null
+          },
+          "observations": {
+            "total": 0,
+            "returned": 0,
+            "truncated": false,
+            "items": []
+          },
+          "provenance": {
+            "processedAt": null,
+            "lineageUnknownRows": 0,
+            "fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "examples": {
+            "items": []
+          }
+        }
+      },
+      "comparison": {
+        "direction": "recent minus baseline; observed differences do not mean improvement",
+        "pooledObservedDelta": {
+          "mean": null,
+          "median": null,
+          "deathFrequencyPercentagePoints": null
+        },
+        "pooledContext": "patch_mixture_or_change",
+        "patchesOnlyInBaseline": [
+          "16.2"
+        ],
+        "patchesOnlyInRecent": [],
+        "matchedPatches": [],
+        "trend": null,
+        "trendReason": "Repeated observations of one player are serially dependent; no validated temporal model or inferential trend",
+        "precision": null
+      },
+      "limitations": [
+        "Descriptive comparisons only; no causal attribution or forecast",
+        "Champion/role/queue/map fixed by filters; other champions/roles are outside this comparison",
+        "Patches are stratified; pooled delta can reflect composition change",
+        "Nominal iid minimum is a planning diagnostic, never a player-level confidence claim"
+      ]
+    }
+  ]
+}
