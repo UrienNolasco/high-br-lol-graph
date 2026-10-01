@@ -156,4 +156,4 @@ aplicada no PostgreSQL isolado de integração; a segunda execução informou
 nenhuma migration pendente. Os testes de integração incluem processamento
 repetido, falha transacional, dois rebuilds e comparação da população.
 Nenhuma consulta ou alteração de produção foi feita. Para regenerar os
-exemplos após o build: `node scripts/build-champion-popularity-examples.cjs`.
+exemplos após o build: `node scripts/examples/build-champion-popularity-examples.cjs`.

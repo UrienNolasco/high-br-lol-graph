@@ -36,7 +36,7 @@ A atividade é **global**. Sem coordenadas de colocação, não é possível afi
 
 ```sh
 npm run build
-node scripts/validate-vision.cjs
+node scripts/validation/validate-vision.cjs
 npm test -- --runInBand vision-calculator
 npm run test:e2e -- --runInBand --testPathPatterns=vision-contract
 TEST_DATABASE_URL=postgresql://integration:integration@localhost:55439/high_br_integration npm run test:integration -- --testPathPatterns=vision.integration-spec.ts

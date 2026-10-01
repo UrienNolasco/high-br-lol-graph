@@ -42,7 +42,7 @@ A reconciliação reproduzível compara todos os campos promovidos para cada um 
 
 ```sh
 npm run build
-node scripts/validate-final-stats.cjs
+node scripts/validation/validate-final-stats.cjs
 ```
 
 Resultado em [analysis/met05-final-stats-reconciliation.json](analysis/met05-final-stats-reconciliation.json), incluindo unidades, N por participante e falhas. O script usa somente a fixture local e não faz rede/banco.

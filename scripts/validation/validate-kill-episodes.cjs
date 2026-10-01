@@ -3,23 +3,23 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const {
   normalizeTimelineEvents,
-} = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
 const {
   projectTimelineSnapshots,
-} = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
 const {
   calculateKillEpisodes,
-} = require('../dist/composition/study-api');
-const { PROCESSING_VERSION } = require('../dist/modules/processing/contracts/processing.constants');
+} = require('../../dist/composition/study-api');
+const { PROCESSING_VERSION } = require('../../dist/modules/processing/contracts/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(
-    path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),
+    path.join(__dirname, '../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 );
 const timeline = JSON.parse(
   fs.readFileSync(
-    path.join(__dirname, '../exemplo_partida_timeline_BR1_3200579475.json'),
+    path.join(__dirname, '../../exemplo_partida_timeline_BR1_3200579475.json'),
     'utf8',
   ),
 );
@@ -95,7 +95,7 @@ const example = {
   },
 };
 fs.writeFileSync(
-  path.join(__dirname, '../docs/analysis/met24-kill-episodes-examples.json'),
+  path.join(__dirname, '../../docs/analysis/met24-kill-episodes-examples.json'),
   JSON.stringify(example, null, 2) + '\n',
 );
 console.log(

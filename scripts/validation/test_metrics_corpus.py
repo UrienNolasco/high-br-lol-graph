@@ -9,7 +9,7 @@ SCRIPT = Path(__file__).with_name('audit-metrics-corpus.py')
 SPEC = importlib.util.spec_from_file_location('corpus_audit', SCRIPT)
 AUDIT = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(AUDIT)
-ROOT = SCRIPT.parent.parent
+ROOT = SCRIPT.parent.parent.parent
 
 
 class CorpusAuditTest(unittest.TestCase):

@@ -49,7 +49,7 @@ Os campos são opcionais por participante/versão. As categorias organizam nomes
 
 ```sh
 npm run build
-node scripts/validate-bounties-steals.cjs
+node scripts/validation/validate-bounties-steals.cjs
 npm test -- --runInBand bounty-windows bounties-steals
 npm run test:e2e -- --runInBand bounties-steals-contract
 ```

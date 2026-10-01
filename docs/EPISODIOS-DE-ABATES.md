@@ -60,7 +60,7 @@ Na fixture, tight produz 74 episódios/8 trocas; default, 62/11; loose, 53/16. A
 
 ```sh
 npm run build
-node scripts/validate-kill-episodes.cjs
+node scripts/validation/validate-kill-episodes.cjs
 npm test -- --runInBand kill-episode episode-resources
 npm run test:e2e -- --runInBand kill-episodes-contract
 ```

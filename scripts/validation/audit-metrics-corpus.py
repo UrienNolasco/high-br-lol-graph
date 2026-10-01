@@ -11,7 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 KNOWN_WARDS = {'YELLOW_TRINKET', 'BLUE_TRINKET', 'SIGHT_WARD', 'CONTROL_WARD'}
 KNOWN_EVENTS = {'ASCENDED_EVENT', 'BUILDING_KILL', 'CHAMPION_KILL', 'CHAMPION_SPECIAL_KILL',
                 'CHAMPION_TRANSFORM', 'DRAGON_SOUL_GIVEN', 'ELITE_MONSTER_KILL', 'GAME_END',

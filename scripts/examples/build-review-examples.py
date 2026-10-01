@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'docs/review'
 summary = json.loads((ROOT / 'exemplo_partida_BR1_3200579475.json').read_text())
 timeline = json.loads((ROOT / 'exemplo_partida_timeline_BR1_3200579475.json').read_text())

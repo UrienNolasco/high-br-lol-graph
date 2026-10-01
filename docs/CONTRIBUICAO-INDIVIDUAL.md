@@ -50,7 +50,7 @@ Na fixture BR1_3200579475, Fiora tem aproximadamente 79,14% do dano a torres do 
 
 ```sh
 npm run build
-node scripts/validate-contribution.cjs
+node scripts/validation/validate-contribution.cjs
 npm test -- --runInBand contribution match.repository
 npm run test:e2e -- --runInBand contribution.e2e-spec
 ```

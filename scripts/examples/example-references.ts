@@ -1,18 +1,18 @@
 /** Offline MET20 examples. Source observations are real; job metadata is the fixture's declared synthetic metadata. */
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { buildHistoricalDataset } from '../src/composition/study-api';
+import { buildHistoricalDataset } from '../../src/composition/study-api';
 import {
   calculateReference,
   normalizeReferenceQuery,
   ReferenceRow,
-} from '../src/composition/study-api';
+} from '../../src/composition/study-api';
 import {
   historicalDatasetFixture,
   referenceQueryFixture,
   referenceRowFixture,
-} from '../src/composition/study-fixtures';
-import { visionInvestmentContext } from '../src/composition/study-api';
+} from '../../src/composition/study-fixtures';
+import { visionInvestmentContext } from '../../src/composition/study-api';
 const fixture = historicalDatasetFixture();
 const source = buildHistoricalDataset(fixture).find(
   (r) =>

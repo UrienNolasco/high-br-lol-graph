@@ -108,7 +108,9 @@
       "evidence/arq05-projection-equivalence.json",
       "evidence/vision-study/"
     ],
-    "summary": "The ARQ-01 baseline and ARQ-02..13 validation artifacts document the progressive boundary, contract, composition, projection, study and processing refactors. Historical integration results are preserved as historical evidence and are not reclassified as current ARQ-14 results."
+    "summary": "The ARQ-01 baseline and ARQ-02..13 validation artifacts document the progressive boundary, contract, composition, projection, study and processing refactors. Historical integration results are preserved as historical evidence and are not reclassified as current ARQ-14 results.",
+    "gitRevision": "9e648930213ff6fab500dda7e609887cb78f9036",
+    "retrieval": "Intermediate validation files were removed from the working tree during cleanup. Read them at the recorded revision: git show 9e64893:docs/architecture/<filename>. Commands in this validation describe its validatedSourceSha; current script locations are documented in README.md."
   },
   "supersedes": "The incomplete af3efe7 validation report in commit 88516ad. Earlier integration evidence remains historical.",
   "currentGates": {

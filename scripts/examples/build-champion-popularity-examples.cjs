@@ -4,10 +4,10 @@ const { join } = require('node:path');
 const {
   championDto,
   toChampionMetrics,
-} = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
 const {
   TierRankService,
-} = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
 
 const tier = new TierRankService();
 const row = {
@@ -89,6 +89,6 @@ const examples = {
   },
 };
 writeFileSync(
-  join(__dirname, '../docs/analysis/met23-api-examples.json'),
+  join(__dirname, '../../docs/analysis/met23-api-examples.json'),
   JSON.stringify(examples, null, 2) + '\n',
 );

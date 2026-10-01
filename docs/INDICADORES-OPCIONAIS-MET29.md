@@ -76,6 +76,6 @@ Para cada definição do grupo:
 
 Por partida lemos um participante, contexto da partida e job. Histórico lê um count agregado, até 101 participantes com contexto, e até 100 jobs. Não lê MatchRaw, frames, eventos, Riot ou CDN. Não altera migrations nem `PROCESSING_VERSION`. Uma página vazia não fabrica zeros ou estatística populacional.
 
-Reproduzir exemplos offline: `npx ts-node scripts/audit-optional-indicators.ts`. A data/generation do artefato são metadados **sintéticos identificados**, e a variante de ausência é uma cópia sintética, não uma segunda partida real. O teste PostgreSQL usa metadados reais gerados pelo worker e remove os brutos antes da consulta.
+Reproduzir exemplos offline: `npx ts-node scripts/examples/audit-optional-indicators.ts`. A data/generation do artefato são metadados **sintéticos identificados**, e a variante de ausência é uma cópia sintética, não uma segunda partida real. O teste PostgreSQL usa metadados reais gerados pelo worker e remove os brutos antes da consulta.
 
 Testes cobrem os 24 campos da fixture, ausência/zero/inválido, denominadores, proveniência desconhecida, separação de coorte/versão, aliases de posição, filtro de patch sem colisão com 16.20, cursor com empate na data, N distintos, paginação/limites, 400/404 e OpenAPI. A integração cria uma cópia sintética apenas para testar cursor SQL sem sobreposição. Não se alega validação de habilidade, comunicação, toxicidade ou resultado do jogador.

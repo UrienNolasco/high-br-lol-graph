@@ -61,7 +61,7 @@ Não há alteração de schema, migration nem nova reconstrução de dados. É u
 
 ## Exemplos e validação
 
-[Exemplos executáveis e tamanhos](analysis/met17-report-examples.json) incluem Fiora e Milio, episódios e variantes de ausência. Valores vêm da fixture real de 41 frames; geração/data de processamento do exemplo são **sintéticas**, identificadas no artefato, sem alegar um job histórico real. O teste PostgreSQL usa a data real do processamento feito no banco descartável. Reproduzir o artefato com `npx ts-node scripts/audit-match-report.ts`.
+[Exemplos executáveis e tamanhos](analysis/met17-report-examples.json) incluem Fiora e Milio, episódios e variantes de ausência. Valores vêm da fixture real de 41 frames; geração/data de processamento do exemplo são **sintéticas**, identificadas no artefato, sem alegar um job histórico real. O teste PostgreSQL usa a data real do processamento feito no banco descartável. Reproduzir o artefato com `npx ts-node scripts/examples/audit-match-report.ts`.
 
 As contribuições reconciliam Fiora (ouro do time 28,0613%, cura 2877, escudo zero observado) e Milio (cura 13741, escudos 19049, 46 wards). O episódio de Fiora perto de 19:58 tem uma morte e duas capturas: torre e Barão. Testes unitários cobrem os sete adapters, identidade/paginação, gerações legadas, truncamento e ausência. HTTP usa o `MatchesModule` real e valida OpenAPI, 400/404, parcial/indisponível e percurso nearest → métrica → evidência. PostgreSQL reconstrói a fixture, remove o bruto e percorre as rotas de serviço, depois remove as projeções temporais e a data do job para comprovar preservação dos totais e ausência explícita.
 

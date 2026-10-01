@@ -16,7 +16,7 @@ A cobertura e cada métrica escalar seguem o envelope de MET-01: unidade, fonte,
 
 ## Fixture e validação
 
-`npm run build && node scripts/validate-sequences.cjs` reconcilia independentemente os eventos brutos de exemplo com o relatório e grava [met15-sequences-examples.json](analysis/met15-sequences-examples.json). A data de processamento usada nesse exemplo offline é declaradamente sintética; a API usa a data persistida.
+`npm run build && node scripts/validation/validate-sequences.cjs` reconcilia independentemente os eventos brutos de exemplo com o relatório e grava [met15-sequences-examples.json](analysis/met15-sequences-examples.json). A data de processamento usada nesse exemplo offline é declaradamente sintética; a API usa a data persistida.
 
 Na partida `BR1_3200579475` (patch16.2), o primeiro Barão ocorre em1244550 ms, evento `:21:41`. Cinco abates do time200 nos60s anteriores correspondem a cinco episódios O05, e não a cinco objetivos diferentes. O time100 supera um déficit observado de4750 ouro; seu primeiro snapshot de vantagem persistente é o frame28,1680598 ms, com455 ouro de vantagem. Para o primeiro Barão, a variação observada favorável ao time200 é2606 ouro, entre frames20 e23; os offsets em relação aos alvos são -44088 e -44044 ms. Não se atribui esse ouro ao Barão.
 

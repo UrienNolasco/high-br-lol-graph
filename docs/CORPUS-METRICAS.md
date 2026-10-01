@@ -5,27 +5,15 @@ O corpus disponível contém **uma partida real**, BR1_3200579475, gameVersion `
 ## Reprodução
 
 ```sh
-python3 scripts/analyze-example-match.py
-python3 -m unittest discover -s scripts -p 'test_metrics_corpus.py' -v
-python3 scripts/audit-metrics-corpus.py
+python3 -m unittest discover -s scripts/validation -p 'test_metrics_corpus.py' -v
+python3 scripts/validation/audit-metrics-corpus.py
 ```
 
-O auditor original continua disponível para exploração detalhada; o novo auditor compara diretamente os dois JSONs de origem, sem ler o relatório anterior ou resultados do parser como verdade esperada. SHA-256 dos arquivos e entradas do manifesto fazem parte do relatório determinístico `docs/analysis/corpus-audit.json`. O comando retorna código 1 diante de divergências reais/integridade ou cenário sintético que não apresente a resposta esperada. Campos ausentes são registrados como indisponíveis, sem alegar que houve conferência válida.
+O auditor compara diretamente os dois JSONs de origem, sem tratar resultados do parser como verdade esperada. Registra hashes e retorna erro diante de divergências inesperadas. Use `--output /tmp/corpus-audit.json` para resultados temporários; as evidências do aceite estão em `docs/architecture/evidence/arq14/corpus.json`.
 
-Para reproduzir o relatório anexado incluindo a medição já coletada do banco isolado:
+A auditoria offline não mede o banco e registra disponibilidade como `not_measured`. Para cobertura operacional atual, use `npm run processing -- coverage` com uma conexão explicitamente configurada; esse resultado tem contrato próprio e não deve ser passado como evidência do auditor sem conversão. Não transforme ausência de medição em zero.
 
-```sh
-python3 scripts/audit-metrics-corpus.py --match-raw-evidence docs/analysis/match-raw-local-evidence.json
-```
-
-Para medir novamente, apenas se o container dedicado dos testes estiver disponível:
-
-```sh
-python3 scripts/measure-match-raw-local.py --output /tmp/match-raw-local-evidence.json
-python3 scripts/audit-metrics-corpus.py --match-raw-evidence /tmp/match-raw-local-evidence.json --output /tmp/corpus-audit.json
-```
-
-A consulta é um SELECT no container fixo `high-br-reliability-postgres`, banco `high_br_integration`. Não lê DATABASE_URL, não conecta à produção, não altera tabelas nem executa integração/reset. Se o banco não estiver disponível, a medição falha explicitamente; o auditor offline sem evidência registra `not_measured`, contagens null e seu limite. Não substituir indisponibilidade por zero.
+O analisador de retenção anterior e a medição presa ao container `high-br-reliability-postgres` foram retirados do checkout. Seus scripts e resultados históricos podem ser consultados em `git show 9e64893:<caminho>`.
 
 ## Conferências e cobertura
 

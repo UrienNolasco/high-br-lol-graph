@@ -142,7 +142,7 @@ OpenAPI documenta células nulas, checkpoints, intervalos e fases. Exemplos
 recortados de respostas reais da função pura estão em
 [analysis/met12-economy-examples.json](analysis/met12-economy-examples.json),
 com proveniência de teste explicitamente rotulada. Regeneração offline após
-build: `node scripts/build-economy-examples.cjs`.
+build: `node scripts/examples/build-economy-examples.cjs`.
 
 Medição offline do fixture: resposta completa de um participante com 41 frames
 tem 651.336 bytes em JSON sem compressão, incluindo evidências repetidas nas

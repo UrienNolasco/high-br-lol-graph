@@ -151,7 +151,7 @@ idêntica.
 contém exemplo gerado das funções puras e uma variação sintética rotulada.
 O horário de processamento do exemplo é um dado controlado de teste, não
 proveniência real de produção. Regeneração offline após o build:
-`node scripts/build-map-presence-examples.cjs`.
+`node scripts/examples/build-map-presence-examples.cjs`.
 
 Validação de 23/09/2026: build e lint passaram; 71 suítes/352 testes unitários
 passaram. O coordenador executou os gates de rede local: HTTP 4/4 (6,038 s)

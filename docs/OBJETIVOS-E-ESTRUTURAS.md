@@ -36,7 +36,7 @@ Grupos de placas e estruturas usam beneficiário, dono, lane, tier e fase; categ
 
 ```sh
 npm run build
-node scripts/validate-objectives.cjs
+node scripts/validation/validate-objectives.cjs
 npm test -- --runInBand objectives-calculator
 npm run test:e2e -- --runInBand objectives-contract
 ```

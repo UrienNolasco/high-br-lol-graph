@@ -1,11 +1,11 @@
-const { FINAL_STAT_UNITS, FINAL_FLAG_FIELDS } = require('../dist/modules/matches/contracts/final-stats');
+const { FINAL_STAT_UNITS, FINAL_FLAG_FIELDS } = require('../../dist/modules/matches/contracts/final-stats');
 // Offline validation of literal final projections against the single real fixture.
 // Run npm run build first; this script never opens network/database connections.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { projectFinalStats, projectFinalObjectives } = require('../dist/composition/study-api');
-const input = JSON.parse(fs.readFileSync(path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'), 'utf8'));
+const { projectFinalStats, projectFinalObjectives } = require('../../dist/composition/study-api');
+const input = JSON.parse(fs.readFileSync(path.join(__dirname, '../../exemplo_partida_BR1_3200579475.json'), 'utf8'));
 const fields = [...Object.keys(FINAL_STAT_UNITS), ...FINAL_FLAG_FIELDS];
 let checks = 0;
 const participants = input.info.participants.map((p) => {
@@ -28,6 +28,6 @@ const report = {
   projectionVersion: 1, numericUnits: FINAL_STAT_UNITS, booleanFields: FINAL_FLAG_FIELDS,
   participants, participantChecks: checks, objectiveChecks, failures: 0,
 };
-const output = path.join(__dirname, '../docs/analysis/met05-final-stats-reconciliation.json');
+const output = path.join(__dirname, '../../docs/analysis/met05-final-stats-reconciliation.json');
 fs.writeFileSync(output, JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify({ participantChecks: checks, objectiveChecks, failures: 0, output }));

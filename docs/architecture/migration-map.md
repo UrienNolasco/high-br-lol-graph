@@ -1,6 +1,6 @@
 # Mapa de origem, destino e contratos
 
-Este mapa cobre todos os módulos e scripts versionados no snapshot. Globs incluem specs adjacentes, que acompanham o código proprietário. A lista por arquivo está em `import-inventory.json`; a revisão de cobertura usa `node scripts/architecture-inventory.cjs --check`.
+Este mapa registra a migração dos módulos e scripts do snapshot original. Os scripts atuais estão organizados em `scripts/validation/` e `scripts/examples/`; o analisador de retenção antigo e a medição presa a um container foram removidos (histórico em `9e64893`). Globs incluem specs adjacentes, que acompanham o código proprietário. A lista por arquivo está em `import-inventory.json`; a revisão de cobertura usa `node scripts/architecture-inventory.cjs --check`.
 
 ## Composição e infraestrutura
 

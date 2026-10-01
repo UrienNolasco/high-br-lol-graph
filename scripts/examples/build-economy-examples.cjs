@@ -2,18 +2,18 @@ const { readFileSync, writeFileSync } = require('node:fs');
 const { join } = require('node:path');
 const {
   projectTimelineSnapshots,
-} = require('../dist/composition/study-api');
-const { parseMatchData } = require('../dist/composition/study-api');
-const { calculateEconomy } = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
+const { parseMatchData } = require('../../dist/composition/study-api');
+const { calculateEconomy } = require('../../dist/composition/study-api');
 const summary = JSON.parse(
   readFileSync(
-    join(__dirname, '../exemplo_partida_BR1_3200579475.json'),
+    join(__dirname, '../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 );
 const timeline = JSON.parse(
   readFileSync(
-    join(__dirname, '../exemplo_partida_timeline_BR1_3200579475.json'),
+    join(__dirname, '../../exemplo_partida_timeline_BR1_3200579475.json'),
     'utf8',
   ),
 );
@@ -61,6 +61,6 @@ const output = {
   }))(calculateEconomy({ ...input, processing: null }, puuid)),
 };
 writeFileSync(
-  join(__dirname, '../docs/analysis/met12-economy-examples.json'),
+  join(__dirname, '../../docs/analysis/met12-economy-examples.json'),
   JSON.stringify(output, null, 2) + '\n',
 );

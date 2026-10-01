@@ -3,23 +3,23 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {
   normalizeTimelineEvents,
-} = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
 const {
   projectTimelineSnapshots,
-} = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
 const {
   calculateSequences,
-} = require('../dist/composition/study-api');
-const { PROCESSING_VERSION } = require('../dist/modules/processing/contracts/processing.constants');
+} = require('../../dist/composition/study-api');
+const { PROCESSING_VERSION } = require('../../dist/modules/processing/contracts/processing.constants');
 const summary = JSON.parse(
   fs.readFileSync(
-    path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),
+    path.join(__dirname, '../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 );
 const timeline = JSON.parse(
   fs.readFileSync(
-    path.join(__dirname, '../exemplo_partida_timeline_BR1_3200579475.json'),
+    path.join(__dirname, '../../exemplo_partida_timeline_BR1_3200579475.json'),
     'utf8',
   ),
 );
@@ -118,7 +118,7 @@ const output = {
   ),
 };
 fs.writeFileSync(
-  path.join(__dirname, '../docs/analysis/met15-sequences-examples.json'),
+  path.join(__dirname, '../../docs/analysis/met15-sequences-examples.json'),
   JSON.stringify(output, null, 2) + '\n',
 );
 console.log(

@@ -12,14 +12,9 @@ Os dois arquivos identificam a mesma partida `BR1_3200579475`, com os mesmos dez
 
 Foram percorridos todos os valores dos JSONs: 41 frames, 410 snapshots de participantes, 1.966 eventos de 18 tipos, 146 nomes de campos no nível de participante e 138 nomes de campos em `challenges` na união dos dez jogadores. Campos de challenges são opcionais: cada participante tem entre 126 e 131, não todos os 138. O inventário recursivo encontra 342 caminhos de campos no resumo e 109 na timeline, normalizando índices de arrays e IDs dos snapshots; são caminhos distintos, não quantidade de valores.
 
-Artefatos reproduzíveis:
+O analisador e os três artefatos deste levantamento inicial estão preservados no Git em `9e64893`, nos caminhos `scripts/analyze-example-match.py` e `docs/analysis/BR1_3200579475.*`. Foram retirados do checkout porque a classificação estática de retenção descrevia o parser anterior.
 
-- [Script de análise](../scripts/analyze-example-match.py): Python padrão, sem serviços externos ou dependências adicionais.
-- [Resultados e definições em JSON](analysis/BR1_3200579475.metrics.json): times, jogadores, checkpoints, objetivos, janelas temporais, validações e hashes dos arquivos de origem.
-- [Inventário completo de campos e retenção no backend](analysis/BR1_3200579475.fields.csv).
-- [Série temporal de ouro, abates e wards](analysis/BR1_3200579475.timeline.csv).
-
-Reprodução: `python3 scripts/analyze-example-match.py`, a partir da raiz do repositório. O script também funciona quando chamado por caminho absoluto. A auditoria de retenção é estática, baseada nos parsers e na persistência ativos; precisa ser revisada quando esses componentes mudarem. Desde o processamento confiável, os dois payloads completos são guardados em `MatchRaw`. “Descartado”, “ignorado” ou “não retido” nas descrições de parsers significa **ausente da projeção analítica**, não perdido no armazenamento bruto. Isso permite reconstrução sem nova chamada à Riot quando o par bruto da partida estiver disponível.
+Para a auditoria atual, consulte [Corpus de validação](CORPUS-METRICAS.md) e execute `npm run audit:corpus -- --output /tmp/corpus-audit.json`. As descrições de implementação deste levantamento são históricas; os contratos e guias de cada funcionalidade documentam as entregas posteriores. Os payloads completos são preservados em `MatchRaw`; ausência na projeção analítica não significa perda no armazenamento bruto.
 
 ## 2. A partida já revela um produto mais interessante que o placar
 

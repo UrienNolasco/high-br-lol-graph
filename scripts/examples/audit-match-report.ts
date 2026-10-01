@@ -1,16 +1,16 @@
 /** Offline fixture audit. Processing metadata below is explicitly synthetic. */
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { reportFixture, reportCatalogs } from '../src/composition/study-fixtures';
+import { reportFixture, reportCatalogs } from '../../src/composition/study-fixtures';
 import {
   MatchReportService,
   ReportRepository,
   MatchReportQueryDto,
-} from '../src/composition/study-api';
+} from '../../src/composition/study-api';
 import {
   REPORT_FAMILIES,
   REPORT_SECTIONS,
-} from '../src/modules/matches/contracts/calculations/report';
+} from '../../src/modules/matches/contracts/calculations/report';
 async function main() {
   const input = reportFixture(),
     query = new MatchReportQueryDto();
@@ -75,7 +75,7 @@ async function main() {
     },
   };
   writeFileSync(
-    join(__dirname, '../docs/analysis/met17-report-examples.json'),
+    join(__dirname, '../../docs/analysis/met17-report-examples.json'),
     JSON.stringify(artifact, null, 2) + '\n',
   );
   console.log(JSON.stringify(sizes, null, 2));

@@ -4,13 +4,13 @@ import { join } from 'node:path';
 import {
   contributionFixture,
   indicatorFixture,
-} from '../src/composition/study-fixtures';
+} from '../../src/composition/study-fixtures';
 import {
   calculateIndicators,
   indicatorCatalog,
   INDICATOR_CATALOG,
   summarizeIndicatorHistory,
-} from '../src/composition/study-api';
+} from '../../src/composition/study-api';
 const fixture = contributionFixture();
 const reports = fixture.match.participants.map((player) =>
   calculateIndicators(indicatorFixture(player.championName)),
@@ -78,7 +78,7 @@ const result = {
   },
 };
 writeFileSync(
-  join(__dirname, '../docs/analysis/met29-optional-indicators-examples.json'),
+  join(__dirname, '../../docs/analysis/met29-optional-indicators-examples.json'),
   JSON.stringify(result, null, 2) + '\n',
 );
 console.log(

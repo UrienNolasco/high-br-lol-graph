@@ -2,13 +2,13 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { parseMatchData } = require('../dist/composition/study-api');
+const { parseMatchData } = require('../../dist/composition/study-api');
 const {
   computeContribution,
-} = require('../dist/modules/matches/contracts/calculations/contribution');
+} = require('../../dist/modules/matches/contracts/calculations/contribution');
 const raw = JSON.parse(
   fs.readFileSync(
-    path.join(__dirname, '../exemplo_partida_BR1_3200579475.json'),
+    path.join(__dirname, '../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 );
@@ -87,7 +87,7 @@ const output = {
   syntheticZeroTeamKills: zero,
 };
 fs.writeFileSync(
-  path.join(__dirname, '../docs/analysis/met10-contribution-examples.json'),
+  path.join(__dirname, '../../docs/analysis/met10-contribution-examples.json'),
   JSON.stringify(output, null, 2) + '\n',
 );
 console.log(

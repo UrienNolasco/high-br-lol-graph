@@ -23,7 +23,9 @@
     "processing": "ts-node src/processing-cli.ts",
     "test:integration": "jest --config test/jest-integration.json --runInBand",
     "dataset": "ts-node src/dataset-cli.ts",
-    "vision-study": "ts-node src/studies/vision/entrypoint.ts"
+    "vision-study": "ts-node src/studies/vision/entrypoint.ts",
+    "test:corpus": "python3 -m unittest discover -s scripts/validation -p 'test_*.py'",
+    "audit:corpus": "python3 scripts/validation/audit-metrics-corpus.py"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",

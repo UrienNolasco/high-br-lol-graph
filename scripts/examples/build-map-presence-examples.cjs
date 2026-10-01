@@ -2,19 +2,19 @@ const { readFileSync, writeFileSync } = require('node:fs');
 const { join } = require('node:path');
 const {
   projectTimelineSnapshots,
-} = require('../dist/composition/study-api');
+} = require('../../dist/composition/study-api');
 const {
   calculateMapPresence,
-} = require('../dist/modules/matches/contracts/calculations/map-presence');
+} = require('../../dist/modules/matches/contracts/calculations/map-presence');
 const summary = JSON.parse(
   readFileSync(
-    join(__dirname, '../exemplo_partida_BR1_3200579475.json'),
+    join(__dirname, '../../exemplo_partida_BR1_3200579475.json'),
     'utf8',
   ),
 );
 const timeline = JSON.parse(
   readFileSync(
-    join(__dirname, '../exemplo_partida_timeline_BR1_3200579475.json'),
+    join(__dirname, '../../exemplo_partida_timeline_BR1_3200579475.json'),
     'utf8',
   ),
 );
@@ -58,6 +58,6 @@ const output = {
   },
 };
 writeFileSync(
-  join(__dirname, '../docs/analysis/met25-presence-examples.json'),
+  join(__dirname, '../../docs/analysis/met25-presence-examples.json'),
   JSON.stringify(output, null, 2) + '\n',
 );

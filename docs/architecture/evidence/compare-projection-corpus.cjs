@@ -23,5 +23,9 @@ fs.writeFileSync = (file, data, ...options) => {
     comparisons.push(path.basename(absolute));
   }
 };
-for (const name of ['final-stats','contribution','vision','objectives','sequences','bounties-steals','kill-episodes']) require(path.join(root, 'scripts', `validate-${name}.cjs`));
+for (const name of ['final-stats','contribution','vision','objectives','sequences','bounties-steals','kill-episodes']) {
+  const current = path.join(root, 'scripts/validation', `validate-${name}.cjs`);
+  // Historical baseline revisions used the flat scripts directory.
+  require(fs.existsSync(current) ? current : path.join(root, 'scripts', `validate-${name}.cjs`));
+}
 console.log(JSON.stringify({semanticBaselineComparisons: comparisons}));

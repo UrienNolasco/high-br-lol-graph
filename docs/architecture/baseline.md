@@ -34,7 +34,7 @@ Antes do build deste checkout foi necessário executar `npx prisma generate`, po
 ```bash
 npm run build
 npm test -- --runInBand
-python3 scripts/test_metrics_corpus.py
+python3 scripts/validation/test_metrics_corpus.py
 ```
 
 Resultado observado: build passou; 98 suites/615 testes unitários passaram; corpus Python passou com 8 checks, 1 partida real + 9 casos sintéticos e 0 resultados inesperados.
