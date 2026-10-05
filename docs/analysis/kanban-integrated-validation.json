@@ -1,0 +1,101 @@
+{
+  "completedAtUtc": "2026-10-05T23:26:57.001106+00:00",
+  "boardId": 3,
+  "taskIds": [
+    23,
+    28,
+    29,
+    30,
+    33,
+    34
+  ],
+  "validatedIntegrationCommit": "88de63b0d9977ce0ac8d5219f5d14f8635fb2447",
+  "integratedCodeCommit": "3434bb435104abf05d40f60e9ab2ba44f3aabf98",
+  "validatedTree": "38d9e97ca51a2431b3fe77264f86286a22782a6c",
+  "integratedTree": "38d9e97ca51a2431b3fe77264f86286a22782a6c",
+  "historyConsolidationPreservedTree": true,
+  "implementationCommits": [
+    "3434bb435104abf05d40f60e9ab2ba44f3aabf98 feat(analytics): compare observed patch distributions and choices",
+    "cd228df3a5d4735b4c45d08b8e86453a16942947 feat(analytics): analyze advantage conversion and recovery by role",
+    "1e09188de05b83a1acebc0319d47df6d17cd7699 feat(analytics): compare contextual builds runes and summoners (MET-26)",
+    "3a364c465e7b7ffa81cb340d032b64e951b60470 feat(players): analyze champion pool and inferred sessions",
+    "fb1042906f329acaed3baf3e78cc2ca675306bfd feat(evolution): compare personal windows with censored death patterns",
+    "ffac3c9a74f8aaf8c92942a7265f8e24fdcb1363 feat(analytics): describe lane matchups and allied champion cooccurrence"
+  ],
+  "checks": [
+    {
+      "name": "unit",
+      "command": "npm test -- --runInBand",
+      "result": "passed",
+      "suites": 123,
+      "tests": 699
+    },
+    {
+      "name": "http",
+      "command": "npm run test:e2e -- --runInBand",
+      "result": "passed",
+      "suites": 33,
+      "tests": 182
+    },
+    {
+      "name": "integration",
+      "command": "TEST_DATABASE_URL=<disposable PostgreSQL> TEST_RABBITMQ_URL=<disposable RabbitMQ> npm run test:integration",
+      "result": "passed",
+      "suites": 21,
+      "tests": 72
+    },
+    {
+      "command": "npm run architecture:check -- --strict",
+      "result": "passed",
+      "violations": 0,
+      "transitionalDebt": 0
+    },
+    {
+      "command": "npm run test:architecture",
+      "result": "passed",
+      "tests": 63
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test:corpus",
+      "result": "passed",
+      "tests": 8
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "DATABASE_URL=<disposable PostgreSQL> npx prisma migrate deploy",
+      "result": "passed",
+      "existingMigrations": 17,
+      "pendingMigrations": 0
+    }
+  ],
+  "environment": {
+    "postgres": "15-alpine, localhost:55440/high_br_integration",
+    "rabbitmq": "3.13-alpine, localhost:55680",
+    "databaseSuites": "serial, isolated disposable services",
+    "machine": "shared local machine"
+  },
+  "reviewCorrections": [
+    "MET21 and MET31 query through data-owner ports within one RepeatableRead snapshot; no consumer SQL into another owner.",
+    "MET32 duplicate conflicts are unavailable; incompatible signatures never produce pooled distributions.",
+    "Full SQL first run: 71 passed / 1 failed due to MET21 fixture sharing the real-source player and period. Isolated synthetic dates fixed the fixture, preserving assertions and reader filters; entire suite rerun."
+  ],
+  "schemaChanges": false,
+  "newMigrations": false,
+  "productionOperations": false,
+  "limitations": [
+    "One real observed match/patch; multiversion and longitudinal examples explicitly synthetic.",
+    "Observed imported cohorts, bounded queries and correlated players; nominal intervals do not establish causality or individual trends.",
+    "No production performance/capacity claim, deploy or production data mutation."
+  ]
+}

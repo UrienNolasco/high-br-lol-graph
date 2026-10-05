@@ -40,8 +40,8 @@
     }
   ],
   "databaseValidation": {
-    "status": "prepared_not_run",
-    "reason": "coordinator serializes disposable SQL suites",
+    "status": "passed",
+    "reason": "Full serial disposable PostgreSQL/RabbitMQ suite passed after fixture isolation",
     "suite": "test/integration/evolution.integration-spec.ts",
     "command": "npm run test:integration -- --testPathPatterns=evolution"
   },
@@ -68,5 +68,10 @@
     "matchesPort": "src/modules/matches/ports/sequence-examples-reader.ts",
     "snapshot": "src/core/prisma/read-snapshot.ts",
     "ormPolicy": "Adapters query only their owner models; evolution orchestrates data-only ports; publication metadata replaces processing job reads"
+  },
+  "integratedAcceptance": {
+    "result": "passed",
+    "report": "docs/analysis/kanban-integrated-validation.json",
+    "validatedCommit": "88de63b0d9977ce0ac8d5219f5d14f8635fb2447"
   }
 }

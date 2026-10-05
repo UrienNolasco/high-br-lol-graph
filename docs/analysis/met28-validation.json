@@ -31,8 +31,9 @@
     "integration": {
       "command": "npm run test:integration -- --testPathPatterns=advantage.integration-spec.ts",
       "tests": 2,
-      "executed": false,
-      "reason": "Coordinator owns serial disposable database execution."
+      "executed": true,
+      "reason": "Full serial disposable suite passed",
+      "passed": true
     }
   },
   "persistenceChanges": false,
@@ -40,5 +41,10 @@
   "limitations": [
     "Synthetic validation only; no population estimate.",
     "Nominal intervals do not correct recurring-player dependence or multiple comparisons."
-  ]
+  ],
+  "integratedAcceptance": {
+    "result": "passed",
+    "report": "docs/analysis/kanban-integrated-validation.json",
+    "validatedCommit": "88de63b0d9977ce0ac8d5219f5d14f8635fb2447"
+  }
 }

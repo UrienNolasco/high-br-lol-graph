@@ -49,7 +49,18 @@
       "tests": 63
     }
   ],
-  "pendingIntegration": {
+  "limitations": [
+    "Synthetic scenarios validate behavior, not population representativeness or causal effects",
+    "Nominal Wilson assumes independence; repeated players, overlapping choices and buying/selection bias remain",
+    "Rune shards retain IDs and explicit unavailable names because runesReforged has no shard catalog",
+    "Exact patch latest revision metadata does not claim Riot public patch identity"
+  ],
+  "integratedAcceptance": {
+    "result": "passed",
+    "report": "docs/analysis/kanban-integrated-validation.json",
+    "validatedCommit": "88de63b0d9977ce0ac8d5219f5d14f8635fb2447"
+  },
+  "integration": {
     "test": "test/integration/build-choices.integration-spec.ts",
     "execution": "Parent agent coordinates serial run with explicit disposable TEST_DATABASE_URL; no reset or production use",
     "scenarios": [
@@ -57,13 +68,7 @@
       "Generation/timeline/event projections and unknown event preservation",
       "Independent known-family denominators and nonbuyer complement",
       "Truncation and deterministic ordering"
-    ]
-  },
-  "limitations": [
-    "Synthetic scenarios validate behavior, not population representativeness or causal effects",
-    "Nominal Wilson assumes independence; repeated players, overlapping choices and buying/selection bias remain",
-    "Rune shards retain IDs and explicit unavailable names because runesReforged has no shard catalog",
-    "Exact patch latest revision metadata does not claim Riot public patch identity",
-    "No production run; PostgreSQL integration execution is deferred to coordinator"
-  ]
+    ],
+    "result": "passed"
+  }
 }

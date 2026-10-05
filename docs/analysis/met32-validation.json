@@ -48,5 +48,10 @@
       "passed": true
     },
     "orderInvariance": "Conflicting duplicates and heterogeneous cells invariant to reversed input"
+  },
+  "integratedAcceptance": {
+    "result": "passed",
+    "report": "docs/analysis/kanban-integrated-validation.json",
+    "validatedCommit": "88de63b0d9977ce0ac8d5219f5d14f8635fb2447"
   }
 }
