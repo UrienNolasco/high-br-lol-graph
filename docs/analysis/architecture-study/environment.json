@@ -1,0 +1,6 @@
+{
+  "capturedAt": "2026-10-08T12:10:09Z",
+  "topology": "CPU CORE SOCKET    MAXMHZ\n  0    0      0 1600.0000\n  1    0      0 1600.0000\n  2    1      0 1600.0000\n  3    1      0 1600.0000\n  4    2      0 1200.0000\n  5    3      0 1200.0000\n  6    4      0 1200.0000\n  7    5      0 1200.0000\n  8    6      0 1200.0000\n  9    7      0 1200.0000\n 10    8      0 1200.0000\n 11    9      0 1200.0000\n",
+  "docker": "4,5 2000000000 2147483648",
+  "note": "First 2-worker round pins Node to SMT siblings 0,1. Later primary rounds pin to separate P cores 0,2. Do not pool absolute throughput across these cohorts."
+}

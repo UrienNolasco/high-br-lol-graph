@@ -1,0 +1,352 @@
+{
+  "measuredAt": "2026-10-08T13:34:33.532Z",
+  "input": "/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/docs/analysis/architecture-study/history-writes.json",
+  "scope": "actual dataset query response, 20 rows plus full cohort summary; one old query then three optimized repeats",
+  "runs": [
+    {
+      "variant": "A",
+      "database": "highbr_architecture_study_1791466262942_a_1",
+      "cases": [
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "queueId": 420,
+            "patch": "16.19"
+          },
+          "optimizedMs": [
+            26252.044981000003,
+            26653.516209,
+            26107.813246000005
+          ],
+          "originalMs": 28206.767844,
+          "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `57014`. Message: `ERROR: canceling statement due to statement timeout`"
+        },
+        {
+          "filters": {
+            "eligibleOnly": true,
+            "championId": 80,
+            "role": "UTILITY"
+          },
+          "optimizedMs": [
+            53.18627500000002,
+            64.15495499999088,
+            55.51343000000634
+          ],
+          "originalMs": 130.51890300000377,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "definitionId": "final.deathsNearObjectives",
+            "horizonKey": "final"
+          },
+          "optimizedMs": [
+            391.79208300000755,
+            319.78245299999253,
+            312.37442900000315
+          ],
+          "originalMs": 682.8467710000114,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+          },
+          "optimizedMs": [
+            2659.0761009999987,
+            2534.188877000008,
+            2734.25992099999
+          ],
+          "originalMs": 2958.97134199999,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ]
+    },
+    {
+      "variant": "B2",
+      "database": "highbr_architecture_study_1791466338189_b2_1",
+      "cases": [
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "queueId": 420,
+            "patch": "16.19"
+          },
+          "optimizedMs": [
+            22652.556633,
+            20779.95116300002,
+            20549.764291
+          ],
+          "originalMs": 27859.278108,
+          "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `57014`. Message: `ERROR: canceling statement due to statement timeout`"
+        },
+        {
+          "filters": {
+            "eligibleOnly": true,
+            "championId": 80,
+            "role": "UTILITY"
+          },
+          "optimizedMs": [
+            47.35511800000677,
+            50.51404499998898,
+            43.7462719999894
+          ],
+          "originalMs": 77.58394700000645,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "definitionId": "final.deathsNearObjectives",
+            "horizonKey": "final"
+          },
+          "optimizedMs": [
+            310.1823399999994,
+            309.4769410000008,
+            303.432541999995
+          ],
+          "originalMs": 441.9363500000036,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+          },
+          "optimizedMs": [
+            2604.4026799999992,
+            2613.442790000001,
+            2666.0231909999857
+          ],
+          "originalMs": 2618.5629760000156,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ]
+    },
+    {
+      "variant": "C",
+      "database": "highbr_architecture_study_1791466388350_c_1",
+      "cases": [
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "queueId": 420,
+            "patch": "16.19"
+          },
+          "optimizedMs": [
+            37378.496771000035,
+            36643.05456899997,
+            36741.583071
+          ],
+          "originalMs": 39947.76437099997,
+          "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nTransaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 30000 ms, however 39945 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.",
+          "optimizedError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nTransaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 30000 ms, however 36739 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction."
+        },
+        {
+          "filters": {
+            "eligibleOnly": true,
+            "championId": 80,
+            "role": "UTILITY"
+          },
+          "optimizedMs": [
+            12841.437428000034,
+            12798.581989999977,
+            12172.443960000004
+          ],
+          "originalMs": 15326.748359999969,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "definitionId": "final.deathsNearObjectives",
+            "horizonKey": "final"
+          },
+          "optimizedMs": [
+            31640.02124600002,
+            31474.498661999998,
+            33067.684476999915
+          ],
+          "originalMs": 30961.222777999996,
+          "originalError": "PrismaClientKnownRequestError: \nInvalid `tx.historicalMetricContribution.findMany()` invocation in\n/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/dist/modules/dataset/adapters/dataset-query.repository.js:148:68\n\n  145 async query(filters, limit = 100, after) {\n  146     return this.prisma.$transaction(async (tx) => {\n  147         const summary = await queryDatasetSummary(tx, filters);\n→ 148         const selected = await tx.historicalMetricContribution.findMany(\nTransaction API e",
+          "optimizedError": "PrismaClientKnownRequestError: \nInvalid `tx.historicalMetricContribution.findMany()` invocation in\n/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/dist/modules/dataset/adapters/dataset-query.repository.js:148:68\n\n  145 async query(filters, limit = 100, after) {\n  146     return this.prisma.$transaction(async (tx) => {\n  147         const summary = await queryDatasetSummary(tx, filters);\n→ 148         const selected = await tx.historicalMetricContribution.findMany(\nTransaction API e"
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+          },
+          "optimizedMs": [
+            11937.337303000037,
+            12058.01087899995,
+            11844.59075600002
+          ],
+          "originalMs": 14165.373169000028,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ]
+    },
+    {
+      "variant": "E",
+      "database": "highbr_architecture_study_1791466428614_e_1",
+      "cases": [
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "queueId": 420,
+            "patch": "16.19"
+          },
+          "optimizedMs": [
+            27977.81553199992,
+            27651.609167000046,
+            27835.54189200001
+          ],
+          "originalMs": 31434.627553,
+          "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nTransaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 30000 ms, however 31432 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction."
+        },
+        {
+          "filters": {
+            "eligibleOnly": true,
+            "championId": 80,
+            "role": "UTILITY"
+          },
+          "optimizedMs": [
+            941.4767290001037,
+            918.4872919999762,
+            929.1159850000404
+          ],
+          "originalMs": 958.6136870000046,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "definitionId": "final.deathsNearObjectives",
+            "horizonKey": "final"
+          },
+          "optimizedMs": [
+            1525.026477000094,
+            1538.1155840000138,
+            1511.3904649999458
+          ],
+          "originalMs": 1904.824718000018,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+          },
+          "optimizedMs": [
+            1102.733615999925,
+            1062.080221000011,
+            1075.8653630000772
+          ],
+          "originalMs": 1173.384010000038,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ]
+    }
+  ]
+}

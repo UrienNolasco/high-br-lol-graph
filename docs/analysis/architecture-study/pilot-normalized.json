@@ -1,0 +1,658 @@
+{
+  "startedAt": "2026-10-08T12:22:51.832Z",
+  "commit": "413628a821370b39628ecb234cb3bc6490d0254e",
+  "environment": {
+    "node": "v26.10.0",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1245U",
+    "logicalCpus": 12,
+    "load": [
+      6.03,
+      6.26,
+      5.61
+    ],
+    "workers": 1,
+    "postgresCpus": 2,
+    "postgresMemory": "2GiB",
+    "nodeAffinity": "pid 565731's current affinity list: 0,2"
+  },
+  "method": {
+    "scope": "production ProcessingService from stored gzip through committed outputs; D includes both durable downstream stages; excludes acquisition and RabbitMQ delivery",
+    "round": 1,
+    "arrivalRate": 0,
+    "arrivalDispatch": "fixed round-robin assignment; scheduled timestamps independent of service speed",
+    "requested": 120,
+    "selected": 1,
+    "screen": [
+      {
+        "id": "BR1_3200579475",
+        "events": 1966,
+        "rows": 877
+      }
+    ],
+    "excluded": [],
+    "measured": 1
+  },
+  "runs": [
+    {
+      "variant": "A",
+      "database": "highbr_architecture_study_1791462171849_a_1",
+      "template": "highbr_architecture_study",
+      "wallMs": 2748.730813,
+      "matches": 1,
+      "matchesPerSecond": 0.36380426750795114,
+      "nodeCpuMs": 2109.814,
+      "postgresCpuMs": 834.9479999999749,
+      "walBytes": 3862138,
+      "responseMs": {
+        "n": 1,
+        "mean": 2734,
+        "p50": 2734,
+        "p95": 2734,
+        "max": 2734
+      },
+      "backlog": [
+        {
+          "offsetMs": 0,
+          "due": 1,
+          "completed": 0
+        },
+        {
+          "offsetMs": 1000,
+          "due": 1,
+          "completed": 0
+        },
+        {
+          "offsetMs": 2000,
+          "due": 1,
+          "completed": 0
+        }
+      ],
+      "sumWorkerPeakRss": 380715008,
+      "serviceMs": {
+        "n": 1,
+        "mean": 2731.3214000000003,
+        "p50": 2731.3214000000003,
+        "p95": 2731.3214000000003,
+        "max": 2731.3214000000003
+      },
+      "availabilityMs": {
+        "n": 1,
+        "mean": 2734,
+        "p50": 2734,
+        "p95": 2734,
+        "max": 2734
+      },
+      "downstreamLagMs": null,
+      "relations": [
+        {
+          "name": "_prisma_migrations",
+          "bytes": "32768",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "champion_stats",
+          "bytes": "65536",
+          "indexBytes": "49152"
+        },
+        {
+          "name": "discovery_observations",
+          "bytes": "32768",
+          "indexBytes": "24576"
+        },
+        {
+          "name": "historical_metric_contributions",
+          "bytes": "2990080",
+          "indexBytes": "753664"
+        },
+        {
+          "name": "match_discoveries",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "match_event_projections",
+          "bytes": "2850816",
+          "indexBytes": "638976"
+        },
+        {
+          "name": "match_participants",
+          "bytes": "319488",
+          "indexBytes": "81920"
+        },
+        {
+          "name": "match_processing",
+          "bytes": "65536",
+          "indexBytes": "49152"
+        },
+        {
+          "name": "match_raw",
+          "bytes": "237568",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "match_teams",
+          "bytes": "49152",
+          "indexBytes": "32768"
+        },
+        {
+          "name": "match_timeline_projections",
+          "bytes": "294912",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "matches",
+          "bytes": "81920",
+          "indexBytes": "65536"
+        },
+        {
+          "name": "player_champion_stats",
+          "bytes": "131072",
+          "indexBytes": "81920"
+        },
+        {
+          "name": "player_stats",
+          "bytes": "114688",
+          "indexBytes": "65536"
+        },
+        {
+          "name": "processing_maintenance",
+          "bytes": "8192",
+          "indexBytes": "8192"
+        },
+        {
+          "name": "study_jobs",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "study_metric_groups",
+          "bytes": "49152",
+          "indexBytes": "40960"
+        },
+        {
+          "name": "study_metric_matches",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "users",
+          "bytes": "40960",
+          "indexBytes": "32768"
+        }
+      ],
+      "sql": [
+        {
+          "calls": "1",
+          "total_exec_time": 136.954182,
+          "rows": "1365",
+          "wal_bytes": "1302494",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 81.17918300000001,
+          "rows": "500",
+          "wal_bytes": "984041",
+          "query": "INSERT INTO \"public\".\"historical_metric_contributions\" (\"id\",\"matchId\",\"datasetVersion\",\"subjectKind\",\"subjectId\",\"definitionId\",\"definitionVersion\",\"usage\",\"horizonKey\",\"horizonMs"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 64.109162,
+          "rows": "377",
+          "wal_bytes": "735410",
+          "query": "INSERT INTO \"public\".\"historical_metric_contributions\" (\"id\",\"matchId\",\"datasetVersion\",\"subjectKind\",\"subjectId\",\"definitionId\",\"definitionVersion\",\"usage\",\"horizonKey\",\"horizonMs"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 61.89656,
+          "rows": "601",
+          "wal_bytes": "585773",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 32.362365,
+          "rows": "1",
+          "wal_bytes": "116940",
+          "query": "INSERT INTO \"public\".\"match_timeline_projections\" (\"matchId\",\"projectionVersion\",\"frameIntervalMs\",\"observedEndMs\",\"frames\") VALUES ($1,$2,$3,$4,$5) RETURNING \"public\".\"match_timel"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 25.363929,
+          "rows": "19",
+          "wal_bytes": "0",
+          "query": "SELECT c.relname name,pg_total_relation_size(c.oid)::text bytes,pg_indexes_size(c.oid)::text \"indexBytes\" FROM pg_class c JOIN pg_namespace n ON c.relnamespace=n.oid WHERE n.nspnam"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 17.523954,
+          "rows": "10",
+          "wal_bytes": "93406",
+          "query": "INSERT INTO \"public\".\"match_participants\" (\"matchId\",\"puuid\",\"riotIdGameName\",\"riotIdTagline\",\"finalStats\",\"summonerName\",\"championId\",\"championName\",\"teamId\",\"role\",\"lane\",\"win\",\""
+        },
+        {
+          "calls": "18",
+          "total_exec_time": 4.973047,
+          "rows": "18",
+          "wal_bytes": "16201",
+          "query": "INSERT INTO \"player_champion_stats\" (\"puuid\",\"patch\",\"queueId\",\"championId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"laningSamples\",\"sum"
+        },
+        {
+          "calls": "18",
+          "total_exec_time": 4.500310999999999,
+          "rows": "18",
+          "wal_bytes": "14193",
+          "query": "INSERT INTO \"player_stats\" (\"puuid\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"roleDistribution\")\n      VALUES ($1,$2,$3"
+        },
+        {
+          "calls": "9",
+          "total_exec_time": 2.226773,
+          "rows": "9",
+          "wal_bytes": "3807",
+          "query": "INSERT INTO \"champion_stats\" (\"championId\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"championName\")\n      VALUES ($1,$2,$3,$4,$5,$6,$7,$"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.977739,
+          "rows": "1",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"match_raw\".\"matchId\", \"public\".\"match_raw\".\"timeline\" FROM \"public\".\"match_raw\" WHERE (\"public\".\"match_raw\".\"matchId\" = $1 AND $4=$5) LIMIT $2 OFFSET $3"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.917108,
+          "rows": "2",
+          "wal_bytes": "4030",
+          "query": "INSERT INTO \"public\".\"match_teams\" (\"matchId\",\"teamId\",\"win\",\"bans\",\"bansAvailable\",\"objectivesTimeline\",\"finalObjectives\") VALUES ($1,$2,$3,$4,$5,$6,$7), ($8,$9,$10,$11,$12,$13,$1"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.707174,
+          "rows": "1",
+          "wal_bytes": "0",
+          "query": "SELECT pg_stat_statements_reset()::text"
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 0.6870550000000001,
+          "rows": "2",
+          "wal_bytes": "1566",
+          "query": "INSERT INTO \"player_stats\" (\"puuid\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"roleDistribution\")\n      VALUES ($1,$2,$3"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.60071,
+          "rows": "1",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"match_raw\".\"matchId\", \"public\".\"match_raw\".\"summary\" FROM \"public\".\"match_raw\" WHERE (\"public\".\"match_raw\".\"matchId\" = $1 AND $4=$5) LIMIT $2 OFFSET $3"
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 0.48066,
+          "rows": "2",
+          "wal_bytes": "1782",
+          "query": "INSERT INTO \"player_champion_stats\" (\"puuid\",\"patch\",\"queueId\",\"championId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"laningSamples\",\"sum"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.299014,
+          "rows": "1",
+          "wal_bytes": "353",
+          "query": "UPDATE \"public\".\"match_processing\" SET \"status\" = CAST($1::text AS \"public\".\"ProcessingStatus\"), \"completedAt\" = $2, \"processingVersion\" = $3, \"lastError\" = $4, \"leaseToken\" = $5, "
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.261988,
+          "rows": "1",
+          "wal_bytes": "130",
+          "query": "INSERT INTO match_processing (\"matchId\", priority, \"traceId\", \"updatedAt\")\n        VALUES ($1, $2, $3, CURRENT_TIMESTAMP)\n        ON CONFLICT (\"matchId\") DO UPDATE SET priority = G"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.23201799999999997,
+          "rows": "1",
+          "wal_bytes": "423",
+          "query": "INSERT INTO \"champion_stats\" (\"championId\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"championName\")\n      VALUES ($1,$2,$3,$4,$5,$6,$7,$"
+        },
+        {
+          "calls": "3",
+          "total_exec_time": 0.16647699999999999,
+          "rows": "0",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"processing_maintenance\".\"id\", \"public\".\"processing_maintenance\".\"rebuilding\", \"public\".\"processing_maintenance\".\"targetVersion\", \"public\".\"processing_maintenance\"."
+        }
+      ],
+      "workers": [
+        {
+          "done": true,
+          "role": "facts",
+          "samples": [
+            {
+              "matchId": "BR1_3200579475",
+              "arrivalAt": 1791462175854,
+              "serviceMs": 2731.3214000000003,
+              "finishedAt": 1791462178588
+            }
+          ],
+          "batches": [],
+          "wallMs": 2734.8194580000004,
+          "cpuMs": 2109.814,
+          "rssPeak": 380715008
+        }
+      ]
+    },
+    {
+      "variant": "E",
+      "database": "highbr_architecture_study_1791462179904_e_1",
+      "template": "highbr_architecture_study",
+      "wallMs": 1328.8376820000012,
+      "matches": 1,
+      "matchesPerSecond": 0.7525373591866573,
+      "nodeCpuMs": 811.127,
+      "postgresCpuMs": 716.2229999999981,
+      "walBytes": 3328562,
+      "responseMs": {
+        "n": 1,
+        "mean": 1318,
+        "p50": 1318,
+        "p95": 1318,
+        "max": 1318
+      },
+      "backlog": [
+        {
+          "offsetMs": 0,
+          "due": 1,
+          "completed": 0
+        },
+        {
+          "offsetMs": 1000,
+          "due": 1,
+          "completed": 0
+        }
+      ],
+      "sumWorkerPeakRss": 239116288,
+      "serviceMs": {
+        "n": 1,
+        "mean": 1316.794563,
+        "p50": 1316.794563,
+        "p95": 1316.794563,
+        "max": 1316.794563
+      },
+      "availabilityMs": {
+        "n": 1,
+        "mean": 1318,
+        "p50": 1318,
+        "p95": 1318,
+        "max": 1318
+      },
+      "downstreamLagMs": null,
+      "relations": [
+        {
+          "name": "_prisma_migrations",
+          "bytes": "32768",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "champion_stats",
+          "bytes": "65536",
+          "indexBytes": "49152"
+        },
+        {
+          "name": "discovery_observations",
+          "bytes": "32768",
+          "indexBytes": "24576"
+        },
+        {
+          "name": "match_discoveries",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "match_event_projections",
+          "bytes": "1695744",
+          "indexBytes": "573440"
+        },
+        {
+          "name": "match_participants",
+          "bytes": "253952",
+          "indexBytes": "81920"
+        },
+        {
+          "name": "match_processing",
+          "bytes": "65536",
+          "indexBytes": "49152"
+        },
+        {
+          "name": "match_raw",
+          "bytes": "237568",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "match_teams",
+          "bytes": "49152",
+          "indexBytes": "32768"
+        },
+        {
+          "name": "match_timeline_projections",
+          "bytes": "180224",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "matches",
+          "bytes": "81920",
+          "indexBytes": "65536"
+        },
+        {
+          "name": "player_champion_stats",
+          "bytes": "131072",
+          "indexBytes": "81920"
+        },
+        {
+          "name": "player_stats",
+          "bytes": "114688",
+          "indexBytes": "65536"
+        },
+        {
+          "name": "processing_maintenance",
+          "bytes": "8192",
+          "indexBytes": "8192"
+        },
+        {
+          "name": "study_jobs",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "study_metric_groups",
+          "bytes": "49152",
+          "indexBytes": "40960"
+        },
+        {
+          "name": "study_metric_matches",
+          "bytes": "49152",
+          "indexBytes": "32768"
+        },
+        {
+          "name": "study_metric_subjects",
+          "bytes": "188416",
+          "indexBytes": "122880"
+        },
+        {
+          "name": "study_metric_values",
+          "bytes": "1245184",
+          "indexBytes": "507904"
+        },
+        {
+          "name": "study_unused_eav",
+          "bytes": "49152",
+          "indexBytes": "40960"
+        },
+        {
+          "name": "users",
+          "bytes": "40960",
+          "indexBytes": "32768"
+        }
+      ],
+      "sql": [
+        {
+          "calls": "1",
+          "total_exec_time": 207.260203,
+          "rows": "1966",
+          "wal_bytes": "1815681",
+          "query": "INSERT INTO \"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\",\"victimPu"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 72.473449,
+          "rows": "877",
+          "wal_bytes": "1129259",
+          "query": "WITH incoming AS MATERIALIZED (\n    SELECT * FROM jsonb_to_recordset($1::jsonb) AS x(\"subjectKind\" text,\"subjectId\" text,\"horizonKey\" text,\"horizonMs\" integer,\"championId\" integer,"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 30.637790000000003,
+          "rows": "1",
+          "wal_bytes": "116940",
+          "query": "INSERT INTO \"public\".\"match_timeline_projections\" (\"matchId\",\"projectionVersion\",\"frameIntervalMs\",\"observedEndMs\",\"frames\") VALUES ($1,$2,$3,$4,$5) RETURNING \"public\".\"match_timel"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 28.627406,
+          "rows": "21",
+          "wal_bytes": "0",
+          "query": "SELECT c.relname name,pg_total_relation_size(c.oid)::text bytes,pg_indexes_size(c.oid)::text \"indexBytes\" FROM pg_class c JOIN pg_namespace n ON c.relnamespace=n.oid WHERE n.nspnam"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 13.869953,
+          "rows": "10",
+          "wal_bytes": "93406",
+          "query": "INSERT INTO \"public\".\"match_participants\" (\"matchId\",\"puuid\",\"riotIdGameName\",\"riotIdTagline\",\"finalStats\",\"summonerName\",\"championId\",\"championName\",\"teamId\",\"role\",\"lane\",\"win\",\""
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 2.2308440000000003,
+          "rows": "20",
+          "wal_bytes": "17983",
+          "query": "INSERT INTO \"player_champion_stats\" (\"puuid\",\"patch\",\"queueId\",\"championId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"laningSamples\",\"sum"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 1.867882,
+          "rows": "20",
+          "wal_bytes": "15759",
+          "query": "INSERT INTO \"player_stats\" (\"puuid\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"roleDistribution\") VALUES ($1,$2,$3,$4,$5"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.940335,
+          "rows": "1",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"match_raw\".\"matchId\", \"public\".\"match_raw\".\"timeline\" FROM \"public\".\"match_raw\" WHERE (\"public\".\"match_raw\".\"matchId\" = $1 AND $4=$5) LIMIT $2 OFFSET $3"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.870773,
+          "rows": "2",
+          "wal_bytes": "4030",
+          "query": "INSERT INTO \"public\".\"match_teams\" (\"matchId\",\"teamId\",\"win\",\"bans\",\"bansAvailable\",\"objectivesTimeline\",\"finalObjectives\") VALUES ($1,$2,$3,$4,$5,$6,$7), ($8,$9,$10,$11,$12,$13,$1"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.781553,
+          "rows": "10",
+          "wal_bytes": "4230",
+          "query": "INSERT INTO \"champion_stats\" (\"championId\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"championName\") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.5004989999999999,
+          "rows": "1",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"match_raw\".\"matchId\", \"public\".\"match_raw\".\"summary\" FROM \"public\".\"match_raw\" WHERE (\"public\".\"match_raw\".\"matchId\" = $1 AND $4=$5) LIMIT $2 OFFSET $3"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.36871400000000004,
+          "rows": "1",
+          "wal_bytes": "639",
+          "query": "INSERT INTO study_metric_matches (\"matchId\",generation,patch,\"queueId\",\"mapId\",\"gameCreation\",common)\n    VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb)"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.30327099999999996,
+          "rows": "1",
+          "wal_bytes": "0",
+          "query": "SELECT pg_stat_statements_reset()::text"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.246939,
+          "rows": "1",
+          "wal_bytes": "353",
+          "query": "UPDATE \"public\".\"match_processing\" SET \"status\" = CAST($1::text AS \"public\".\"ProcessingStatus\"), \"completedAt\" = $2, \"processingVersion\" = $3, \"lastError\" = $4, \"leaseToken\" = $5, "
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.243787,
+          "rows": "1",
+          "wal_bytes": "130",
+          "query": "INSERT INTO match_processing (\"matchId\", priority, \"traceId\", \"updatedAt\")\n        VALUES ($1, $2, $3, CURRENT_TIMESTAMP)\n        ON CONFLICT (\"matchId\") DO UPDATE SET priority = G"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.175509,
+          "rows": "1",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"match_processing\".\"matchId\", \"public\".\"match_processing\".\"status\"::text, \"public\".\"match_processing\".\"attempts\", \"public\".\"match_processing\".\"priority\", \"public\".\""
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.150555,
+          "rows": "1",
+          "wal_bytes": "385",
+          "query": "UPDATE \"public\".\"match_processing\" SET \"status\" = CAST($1::text AS \"public\".\"ProcessingStatus\"), \"attempts\" = (\"public\".\"match_processing\".\"attempts\" + $2), \"leaseToken\" = $3, \"lea"
+        },
+        {
+          "calls": "3",
+          "total_exec_time": 0.140114,
+          "rows": "0",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"processing_maintenance\".\"id\", \"public\".\"processing_maintenance\".\"rebuilding\", \"public\".\"processing_maintenance\".\"targetVersion\", \"public\".\"processing_maintenance\"."
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 0.124377,
+          "rows": "0",
+          "wal_bytes": "0",
+          "query": "SELECT \"public\".\"discovery_observations\".\"id\", \"public\".\"discovery_observations\".\"source\", \"public\".\"discovery_observations\".\"observedAt\" FROM \"public\".\"discovery_observations\" WHE"
+        },
+        {
+          "calls": "3",
+          "total_exec_time": 0.09200599999999999,
+          "rows": "3",
+          "wal_bytes": "0",
+          "query": "SELECT pg_advisory_xact_lock_shared($1)::text"
+        }
+      ],
+      "workers": [
+        {
+          "done": true,
+          "role": "facts",
+          "samples": [
+            {
+              "matchId": "BR1_3200579475",
+              "arrivalAt": 1791462182632,
+              "serviceMs": 1316.794563,
+              "finishedAt": 1791462183950
+            }
+          ],
+          "batches": [],
+          "wallMs": 1319.266313,
+          "cpuMs": 811.127,
+          "rssPeak": 239116288
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "createdAt": "2026-10-08T13:20:48.735Z",
+  "source": "/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/docs/analysis/architecture-study/round-2-w2.json",
+  "multiplier": 5,
+  "kind": "synthetic dense replay history; independent match count unchanged",
+  "templates": {
+    "E": "highbr_architecture_study_history_e_1791465648735",
+    "C": "highbr_architecture_study_history_c_1791465791811",
+    "B2": "highbr_architecture_study_history_b2_1791465945693",
+    "A": "highbr_architecture_study_history_a_1791466105016"
+  },
+  "databases": [
+    {
+      "variant": "E",
+      "database": "highbr_architecture_study_history_e_1791465648735",
+      "matches": 595,
+      "independentMatches": 119,
+      "bytes": 1245110787
+    },
+    {
+      "variant": "C",
+      "database": "highbr_architecture_study_history_c_1791465791811",
+      "matches": 595,
+      "independentMatches": 119,
+      "bytes": 857694723
+    },
+    {
+      "variant": "B2",
+      "database": "highbr_architecture_study_history_b2_1791465945693",
+      "matches": 595,
+      "independentMatches": 119,
+      "bytes": 1505665539
+    },
+    {
+      "variant": "A",
+      "database": "highbr_architecture_study_history_a_1791466105016",
+      "matches": 595,
+      "independentMatches": 119,
+      "bytes": 1502544387
+    }
+  ]
+}

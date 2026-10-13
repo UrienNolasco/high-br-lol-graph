@@ -1,0 +1,161 @@
+{
+  "measuredAt": "2026-10-08T12:49:50.684Z",
+  "matches": [
+    "BR1_3232475185",
+    "BR1_3235871686",
+    "BR1_3286421852",
+    "BR1_3290759378",
+    "BR1_3290773412"
+  ],
+  "variants": [
+    {
+      "variant": "A",
+      "database": "highbr_architecture_study_rebuild_a_1791463790685",
+      "rounds": [
+        {
+          "kind": "interrupt after two then resume",
+          "ms": 11669.510972999999,
+          "resumed": 3,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "kind": "second complete rebuild",
+          "ms": 11109.723902000002,
+          "completed": 5,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ],
+      "digest": "f2f77697fe834b7ef63e9c643b72651b8ab9a542862bc00b4386d524b8b841f0"
+    },
+    {
+      "variant": "B2",
+      "database": "highbr_architecture_study_rebuild_b2_1791463825913",
+      "rounds": [
+        {
+          "kind": "interrupt after two then resume",
+          "ms": 7151.493895,
+          "resumed": 3,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "kind": "second complete rebuild",
+          "ms": 6908.339033000004,
+          "completed": 5,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ],
+      "digest": "545359128f86c7ad1d4c320a6a2900c797e0c8c02cbcc16be89b320ec73501dc"
+    },
+    {
+      "variant": "C",
+      "database": "highbr_architecture_study_rebuild_c_1791463847623",
+      "rounds": [
+        {
+          "kind": "interrupt after two then resume",
+          "ms": 6525.9242710000035,
+          "resumed": 3,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "kind": "second complete rebuild",
+          "ms": 6441.6243530000065,
+          "completed": 5,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ],
+      "digest": "545359128f86c7ad1d4c320a6a2900c797e0c8c02cbcc16be89b320ec73501dc"
+    },
+    {
+      "variant": "E",
+      "database": "highbr_architecture_study_rebuild_e_1791463867462",
+      "rounds": [
+        {
+          "kind": "interrupt after two then resume",
+          "ms": 6704.428673000002,
+          "resumed": 3,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "kind": "second complete rebuild",
+          "ms": 6326.922067000007,
+          "completed": 5,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ],
+      "digest": "545359128f86c7ad1d4c320a6a2900c797e0c8c02cbcc16be89b320ec73501dc"
+    }
+  ],
+  "scope": "Existing offline rebuild, five real matches, interruption/resume and a second full rebuild. Does not prove online generation swapping or large-history rebuild duration."
+}

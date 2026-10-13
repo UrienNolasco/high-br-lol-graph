@@ -1,0 +1,594 @@
+{
+  "measuredAt": "2026-10-08T13:49:56.690Z",
+  "first": "docs/analysis/architecture-study/scale-w4.json",
+  "second": "docs/analysis/architecture-study/scale-w2-slots2.json",
+  "variants": [
+    {
+      "variant": "A",
+      "matches": 60,
+      "tables": {
+        "matches": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_teams": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_participants": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_timeline_projections": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_event_projections": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "historical_metric_contributions": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "champion_stats": {
+          "exact": false,
+          "differences": 3,
+          "numericDifferences": 3,
+          "nonNumericDifferences": 0,
+          "maxAbs": 2.2737367544323206e-13,
+          "maxRel": 1.6156544569805016e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "champion_stats.all.40.sumKda",
+              "a": 24.15151515151515,
+              "b": 24.151515151515152
+            },
+            {
+              "at": "champion_stats.all.180.sumKda",
+              "a": 10.994658119658121,
+              "b": 10.99465811965812
+            },
+            {
+              "at": "champion_stats.all.235.sumDpm",
+              "a": 1501.2653100721614,
+              "b": 1501.2653100721611
+            }
+          ]
+        },
+        "player_stats": {
+          "exact": false,
+          "differences": 14,
+          "numericDifferences": 14,
+          "nonNumericDifferences": 0,
+          "maxAbs": 9.094947017729282e-13,
+          "maxRel": 2.1600384067259423e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "player_stats.all.172.sumCspm",
+              "a": 94.6016029738565,
+              "b": 94.60160297385649
+            },
+            {
+              "at": "player_stats.all.172.sumGpm",
+              "a": 5684.171725486907,
+              "b": 5684.171725486908
+            },
+            {
+              "at": "player_stats.all.173.sumCspm",
+              "a": 94.6016029738565,
+              "b": 94.60160297385649
+            },
+            {
+              "at": "player_stats.all.173.sumGpm",
+              "a": 5684.171725486907,
+              "b": 5684.171725486908
+            },
+            {
+              "at": "player_stats.all.216.sumGpm",
+              "a": 3499.066753088703,
+              "b": 3499.0667530887026
+            },
+            {
+              "at": "player_stats.all.216.sumKda",
+              "a": 27.851515151515148,
+              "b": 27.85151515151515
+            },
+            {
+              "at": "player_stats.all.217.sumGpm",
+              "a": 5445.094235179606,
+              "b": 5445.094235179605
+            },
+            {
+              "at": "player_stats.all.400.sumGpm",
+              "a": 3557.1031189036726,
+              "b": 3557.103118903673
+            }
+          ]
+        },
+        "player_champion_stats": {
+          "exact": false,
+          "differences": 3,
+          "numericDifferences": 3,
+          "nonNumericDifferences": 0,
+          "maxAbs": 2.2737367544323206e-13,
+          "maxRel": 1.5145469219714594e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "player_champion_stats.all.297.sumKda",
+              "a": 24.15151515151515,
+              "b": 24.151515151515152
+            },
+            {
+              "at": "player_champion_stats.all.298.sumKda",
+              "a": 26.551515151515147,
+              "b": 26.55151515151515
+            },
+            {
+              "at": "player_champion_stats.all.1034.sumDpm",
+              "a": 1501.2653100721614,
+              "b": 1501.2653100721611
+            }
+          ]
+        }
+      }
+    },
+    {
+      "variant": "B2",
+      "matches": 60,
+      "tables": {
+        "matches": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_teams": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_participants": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_timeline_projections": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_event_projections": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "historical_metric_contributions": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "champion_stats": {
+          "exact": false,
+          "differences": 11,
+          "numericDifferences": 11,
+          "nonNumericDifferences": 0,
+          "maxAbs": 9.094947017729282e-13,
+          "maxRel": 2.073146174316349e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "champion_stats.all.6.sumKda",
+              "a": 11.95,
+              "b": 11.950000000000001
+            },
+            {
+              "at": "champion_stats.all.48.sumKda",
+              "a": 28.265384615384612,
+              "b": 28.265384615384615
+            },
+            {
+              "at": "champion_stats.all.53.sumGpm",
+              "a": 3187.712939523441,
+              "b": 3187.7129395234406
+            },
+            {
+              "at": "champion_stats.all.70.sumGpm",
+              "a": 2287.4365365702997,
+              "b": 2287.4365365702993
+            },
+            {
+              "at": "champion_stats.all.128.sumKda",
+              "a": 7.952380952380953,
+              "b": 7.9523809523809526
+            },
+            {
+              "at": "champion_stats.all.154.sumKda",
+              "a": 13.916666666666668,
+              "b": 13.916666666666666
+            },
+            {
+              "at": "champion_stats.all.180.sumKda",
+              "a": 10.994658119658121,
+              "b": 10.99465811965812
+            },
+            {
+              "at": "champion_stats.all.208.sumDpm",
+              "a": 5380.411876754538,
+              "b": 5380.411876754539
+            }
+          ]
+        },
+        "player_stats": {
+          "exact": false,
+          "differences": 42,
+          "numericDifferences": 42,
+          "nonNumericDifferences": 0,
+          "maxAbs": 1.8189894035458565e-12,
+          "maxRel": 2.4784750113290314e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "player_stats.all.118.sumCspm",
+              "a": 21.865668536872324,
+              "b": 21.865668536872327
+            },
+            {
+              "at": "player_stats.all.118.sumGpm",
+              "a": 1355.1820268145011,
+              "b": 1355.1820268145013
+            },
+            {
+              "at": "player_stats.all.119.sumCspm",
+              "a": 21.865668536872324,
+              "b": 21.865668536872327
+            },
+            {
+              "at": "player_stats.all.119.sumGpm",
+              "a": 1355.1820268145011,
+              "b": 1355.1820268145013
+            },
+            {
+              "at": "player_stats.all.154.sumDpm",
+              "a": 1362.8100907359828,
+              "b": 1362.810090735983
+            },
+            {
+              "at": "player_stats.all.155.sumDpm",
+              "a": 1802.379983209101,
+              "b": 1802.3799832091013
+            },
+            {
+              "at": "player_stats.all.172.sumDpm",
+              "a": 10606.655680106182,
+              "b": 10606.65568010618
+            },
+            {
+              "at": "player_stats.all.172.sumKda",
+              "a": 40.18643578643579,
+              "b": 40.186435786435794
+            }
+          ]
+        },
+        "player_champion_stats": {
+          "exact": false,
+          "differences": 6,
+          "numericDifferences": 6,
+          "nonNumericDifferences": 0,
+          "maxAbs": 4.547473508864641e-13,
+          "maxRel": 1.6778091130510188e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "player_champion_stats.all.147.sumCspm",
+              "a": 21.865668536872324,
+              "b": 21.865668536872327
+            },
+            {
+              "at": "player_champion_stats.all.147.sumGpm",
+              "a": 1355.1820268145011,
+              "b": 1355.1820268145013
+            },
+            {
+              "at": "player_champion_stats.all.148.sumCspm",
+              "a": 21.865668536872324,
+              "b": 21.865668536872327
+            },
+            {
+              "at": "player_champion_stats.all.148.sumGpm",
+              "a": 1355.1820268145011,
+              "b": 1355.1820268145013
+            },
+            {
+              "at": "player_champion_stats.all.212.sumGpm",
+              "a": 2802.5385863175916,
+              "b": 2802.538586317591
+            },
+            {
+              "at": "player_champion_stats.all.213.sumGpm",
+              "a": 2802.5385863175916,
+              "b": 2802.538586317591
+            }
+          ]
+        }
+      }
+    },
+    {
+      "variant": "E",
+      "matches": 60,
+      "tables": {
+        "matches": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_teams": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_participants": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_timeline_projections": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "match_event_projections": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "historical_metric_contributions": {
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "champion_stats": {
+          "exact": false,
+          "differences": 12,
+          "numericDifferences": 12,
+          "nonNumericDifferences": 0,
+          "maxAbs": 9.094947017729282e-13,
+          "maxRel": 2.1583492699766984e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "champion_stats.all.6.sumGpm",
+              "a": 2305.995217400505,
+              "b": 2305.9952174005057
+            },
+            {
+              "at": "champion_stats.all.48.sumKda",
+              "a": 28.265384615384612,
+              "b": 28.265384615384615
+            },
+            {
+              "at": "champion_stats.all.83.sumCspm",
+              "a": 65.84131175097265,
+              "b": 65.84131175097264
+            },
+            {
+              "at": "champion_stats.all.109.sumDpm",
+              "a": 5441.6451238417,
+              "b": 5441.645123841699
+            },
+            {
+              "at": "champion_stats.all.128.sumKda",
+              "a": 7.952380952380953,
+              "b": 7.9523809523809526
+            },
+            {
+              "at": "champion_stats.all.157.sumKda",
+              "a": 34.517857142857146,
+              "b": 34.51785714285714
+            },
+            {
+              "at": "champion_stats.all.208.sumDpm",
+              "a": 5380.411876754538,
+              "b": 5380.411876754539
+            },
+            {
+              "at": "champion_stats.all.225.sumCspm",
+              "a": 2.7697529461660153,
+              "b": 2.7697529461660158
+            }
+          ]
+        },
+        "player_stats": {
+          "exact": false,
+          "differences": 22,
+          "numericDifferences": 22,
+          "nonNumericDifferences": 0,
+          "maxAbs": 1.8189894035458565e-12,
+          "maxRel": 2.365847066903774e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "player_stats.all.61.sumDpm",
+              "a": 4692.4987183240455,
+              "b": 4692.498718324046
+            },
+            {
+              "at": "player_stats.all.172.sumCspm",
+              "a": 94.60160297385649,
+              "b": 94.6016029738565
+            },
+            {
+              "at": "player_stats.all.172.sumDpm",
+              "a": 10606.655680106182,
+              "b": 10606.65568010618
+            },
+            {
+              "at": "player_stats.all.173.sumCspm",
+              "a": 94.60160297385649,
+              "b": 94.6016029738565
+            },
+            {
+              "at": "player_stats.all.173.sumDpm",
+              "a": 10606.655680106182,
+              "b": 10606.65568010618
+            },
+            {
+              "at": "player_stats.all.217.sumCspm",
+              "a": 74.06509198167716,
+              "b": 74.06509198167717
+            },
+            {
+              "at": "player_stats.all.217.sumGpm",
+              "a": 5445.094235179606,
+              "b": 5445.094235179605
+            },
+            {
+              "at": "player_stats.all.217.sumKda",
+              "a": 44.28484848484848,
+              "b": 44.284848484848474
+            }
+          ]
+        },
+        "player_champion_stats": {
+          "exact": false,
+          "differences": 6,
+          "numericDifferences": 6,
+          "nonNumericDifferences": 0,
+          "maxAbs": 2.2737367544323206e-13,
+          "maxRel": 1.6918368887891424e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "player_champion_stats.all.84.sumGpm",
+              "a": 1865.0096852722256,
+              "b": 1865.0096852722254
+            },
+            {
+              "at": "player_champion_stats.all.338.sumCspm",
+              "a": 2.7697529461660153,
+              "b": 2.7697529461660158
+            },
+            {
+              "at": "player_champion_stats.all.338.sumDpm",
+              "a": 1343.9456069903094,
+              "b": 1343.9456069903092
+            },
+            {
+              "at": "player_champion_stats.all.339.sumCspm",
+              "a": 2.7697529461660153,
+              "b": 2.7697529461660158
+            },
+            {
+              "at": "player_champion_stats.all.339.sumDpm",
+              "a": 1343.9456069903094,
+              "b": 1343.9456069903092
+            },
+            {
+              "at": "player_champion_stats.all.1035.sumKda",
+              "a": 30.566666666666666,
+              "b": 30.56666666666667
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

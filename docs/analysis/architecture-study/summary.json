@@ -1,0 +1,1490 @@
+{
+  "units": {
+    "storage": "decimal MB",
+    "memory": "MiB",
+    "cpu": "milliseconds per match"
+  },
+  "primary": {
+    "round-2-w2": [
+      {
+        "variant": "E",
+        "matches": 119,
+        "matchesPerSecond": 2.261596410732344,
+        "nodeCpuMsPerMatch": 429.9454369747899,
+        "postgresCpuMsPerMatch": 416.438571428571,
+        "nodeAverageCores": 0.9723630570729341,
+        "postgresAverageCores": 0.9418159784333611,
+        "sumWorkerPeakRssMiB": 776.40625,
+        "relationsMB": 252.878848,
+        "walMB": 293.586088,
+        "responseMs": {
+          "n": 119,
+          "mean": 26724.571428571428,
+          "p50": 26786,
+          "p95": 50075,
+          "max": 52598
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 134.86697550869886,
+        "throughputGainPercentOverB2": 24.73908287290105
+      },
+      {
+        "variant": "D",
+        "matches": 119,
+        "matchesPerSecond": 2.077974944144581,
+        "nodeCpuMsPerMatch": 606.227731092437,
+        "postgresCpuMsPerMatch": 581.3365462184873,
+        "nodeAverageCores": 1.259726035655703,
+        "postgresAverageCores": 1.208002777157565,
+        "sumWorkerPeakRssMiB": 1246.87109375,
+        "relationsMB": 204.013568,
+        "walMB": 233.728451,
+        "responseMs": {
+          "n": 119,
+          "mean": 30206.764705882353,
+          "p50": 30394,
+          "p95": 54581,
+          "max": 57212
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 115.79787091900138,
+        "throughputGainPercentOverB2": 14.611381383262746
+      },
+      {
+        "variant": "C",
+        "matches": 119,
+        "matchesPerSecond": 2.1063479396789044,
+        "nodeCpuMsPerMatch": 499.56273109243693,
+        "postgresCpuMsPerMatch": 427.2651428571431,
+        "nodeAverageCores": 1.0522529293769212,
+        "postgresAverageCores": 0.8999690533537561,
+        "sumWorkerPeakRssMiB": 762.7890625,
+        "relationsMB": 174.333952,
+        "walMB": 200.061759,
+        "responseMs": {
+          "n": 119,
+          "mean": 28126.453781512606,
+          "p50": 28311,
+          "p95": 53293,
+          "max": 56466
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 118.74440886699472,
+        "throughputGainPercentOverB2": 16.176303145834137
+      },
+      {
+        "variant": "B2",
+        "matches": 119,
+        "matchesPerSecond": 1.8130615991755579,
+        "nodeCpuMsPerMatch": 509.747462184874,
+        "postgresCpuMsPerMatch": 582.054739495798,
+        "nodeAverageCores": 0.9242035489645899,
+        "postgresAverageCores": 1.0553010967979644,
+        "sumWorkerPeakRssMiB": 764.27734375,
+        "relationsMB": 300.867584,
+        "walMB": 380.773658,
+        "responseMs": {
+          "n": 119,
+          "mean": 32773.34453781512,
+          "p50": 32637,
+          "p95": 62574,
+          "max": 65608
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 88.28659799271506,
+        "throughputGainPercentOverB2": 0.0
+      },
+      {
+        "variant": "B",
+        "matches": 119,
+        "matchesPerSecond": 1.3108520365211525,
+        "nodeCpuMsPerMatch": 925.3078235294117,
+        "postgresCpuMsPerMatch": 589.3000504201681,
+        "nodeAverageCores": 1.2129416448824843,
+        "postgresAverageCores": 0.7724851712152951,
+        "sumWorkerPeakRssMiB": 773.9140625,
+        "relationsMB": 298.041344,
+        "walMB": 363.253143,
+        "responseMs": {
+          "n": 119,
+          "mean": 44846.773109243695,
+          "p50": 42953,
+          "p95": 86216,
+          "max": 90754
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 36.13209310738426,
+        "throughputGainPercentOverB2": -27.69953116224909
+      },
+      {
+        "variant": "A",
+        "matches": 119,
+        "matchesPerSecond": 0.9629265271688145,
+        "nodeCpuMsPerMatch": 1390.9042100840336,
+        "postgresCpuMsPerMatch": 704.070294117647,
+        "nodeAverageCores": 1.3393385606407016,
+        "postgresAverageCores": 0.6779679631974316,
+        "sumWorkerPeakRssMiB": 982.17578125,
+        "relationsMB": 298.008576,
+        "walMB": 370.43123,
+        "responseMs": {
+          "n": 119,
+          "mean": 63503.46218487395,
+          "p50": 63200,
+          "p95": 116254,
+          "max": 123549
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 0.0,
+        "throughputGainPercentOverB2": -46.88947537101441
+      }
+    ],
+    "round-3-w2": [
+      {
+        "variant": "A",
+        "matches": 119,
+        "matchesPerSecond": 1.038186391984554,
+        "nodeCpuMsPerMatch": 1330.823243697479,
+        "postgresCpuMsPerMatch": 576.7094957983188,
+        "nodeAverageCores": 1.3816425817434665,
+        "postgresAverageCores": 0.5987319506660879,
+        "sumWorkerPeakRssMiB": 988.34765625,
+        "relationsMB": 298.377216,
+        "walMB": 374.773887,
+        "responseMs": {
+          "n": 119,
+          "mean": 57664.56302521008,
+          "p50": 57235,
+          "p95": 108733,
+          "max": 114588
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 0.0,
+        "throughputGainPercentOverB2": -46.36415483488017
+      },
+      {
+        "variant": "B",
+        "matches": 119,
+        "matchesPerSecond": 1.3466085460018018,
+        "nodeCpuMsPerMatch": 886.3676638655463,
+        "postgresCpuMsPerMatch": 572.2464789915966,
+        "nodeAverageCores": 1.1935902710609971,
+        "postgresAverageCores": 0.7705919990295247,
+        "sumWorkerPeakRssMiB": 782.21875,
+        "relationsMB": 298.172416,
+        "walMB": 366.207123,
+        "responseMs": {
+          "n": 119,
+          "mean": 44564.46218487395,
+          "p50": 43939,
+          "p95": 84090,
+          "max": 88345
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 29.707782378815505,
+        "throughputGainPercentOverB2": -30.430134676187937
+      },
+      {
+        "variant": "B2",
+        "matches": 119,
+        "matchesPerSecond": 1.9356204582746124,
+        "nodeCpuMsPerMatch": 465.91356302521007,
+        "postgresCpuMsPerMatch": 591.4415882352951,
+        "nodeAverageCores": 0.9018318243792146,
+        "postgresAverageCores": 1.1448064380626666,
+        "sumWorkerPeakRssMiB": 775.96875,
+        "relationsMB": 301.162496,
+        "walMB": 371.213646,
+        "responseMs": {
+          "n": 119,
+          "mean": 31176.470588235294,
+          "p50": 31716,
+          "p95": 58309,
+          "max": 61449
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 86.44248019611977,
+        "throughputGainPercentOverB2": 0.0
+      },
+      {
+        "variant": "C",
+        "matches": 119,
+        "matchesPerSecond": 2.216639347751528,
+        "nodeCpuMsPerMatch": 464.47574789915967,
+        "postgresCpuMsPerMatch": 407.3146638655468,
+        "nodeAverageCores": 1.0295752188695964,
+        "postgresAverageCores": 0.9028697108405584,
+        "sumWorkerPeakRssMiB": 767.3828125,
+        "relationsMB": 174.342144,
+        "walMB": 197.774513,
+        "responseMs": {
+          "n": 119,
+          "mean": 26901.915966386554,
+          "p50": 26664,
+          "p95": 50981,
+          "max": 53652
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 113.51073033372091,
+        "throughputGainPercentOverB2": 14.518284732711084
+      },
+      {
+        "variant": "D",
+        "matches": 119,
+        "matchesPerSecond": 2.010760275307998,
+        "nodeCpuMsPerMatch": 641.9831344537815,
+        "postgresCpuMsPerMatch": 562.8994705882354,
+        "nodeAverageCores": 1.2908741841773774,
+        "postgresAverageCores": 1.1318558944507267,
+        "sumWorkerPeakRssMiB": 1207.5234375,
+        "relationsMB": 200.097792,
+        "walMB": 235.466482,
+        "responseMs": {
+          "n": 119,
+          "mean": 29883.55462184874,
+          "p50": 29821,
+          "p95": 56234,
+          "max": 59103
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 93.68008392638554,
+        "throughputGainPercentOverB2": 3.881949930430295
+      },
+      {
+        "variant": "E",
+        "matches": 119,
+        "matchesPerSecond": 2.1580990006070753,
+        "nodeCpuMsPerMatch": 469.20408403361347,
+        "postgresCpuMsPerMatch": 436.0841848739489,
+        "nodeAverageCores": 1.0125888648336994,
+        "postgresAverageCores": 0.9411128435570202,
+        "sumWorkerPeakRssMiB": 759.890625,
+        "relationsMB": 252.575744,
+        "walMB": 294.718718,
+        "responseMs": {
+          "n": 119,
+          "mean": 27949.59663865546,
+          "p50": 28161,
+          "p95": 52411,
+          "max": 55124
+        },
+        "maximumOutstandingAtOneSecondSamples": 119,
+        "throughputGainPercentOverA": 107.8720177098202,
+        "throughputGainPercentOverB2": 11.49391356044962
+      }
+    ]
+  },
+  "scale": {
+    "scale-w1": [
+      {
+        "variant": "A",
+        "matches": 60,
+        "matchesPerSecond": 0.5529459235676125,
+        "nodeCpuMsPerMatch": 1282.752,
+        "postgresCpuMsPerMatch": 616.2500833333354,
+        "nodeAverageCores": 0.709292489348202,
+        "postgresAverageCores": 0.34075297147736927,
+        "sumWorkerPeakRssMiB": 490.08984375,
+        "relationsMB": 150.339584,
+        "walMB": 186.663076,
+        "responseMs": {
+          "n": 60,
+          "mean": 55409.26666666667,
+          "p50": 54637,
+          "p95": 102656,
+          "max": 108481
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "B2",
+        "matches": 60,
+        "matchesPerSecond": 1.053015587831762,
+        "nodeCpuMsPerMatch": 456.20713333333333,
+        "postgresCpuMsPerMatch": 611.956600000003,
+        "nodeAverageCores": 0.48039322268004303,
+        "postgresAverageCores": 0.6443998388765296,
+        "sumWorkerPeakRssMiB": 369.75,
+        "relationsMB": 152.715264,
+        "walMB": 184.712234,
+        "responseMs": {
+          "n": 60,
+          "mean": 29038.266666666666,
+          "p50": 28598,
+          "p95": 53876,
+          "max": 56958
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "E",
+        "matches": 60,
+        "matchesPerSecond": 1.152107435865453,
+        "nodeCpuMsPerMatch": 460.4701833333333,
+        "postgresCpuMsPerMatch": 430.81353333333584,
+        "nodeAverageCores": 0.5305111222126617,
+        "postgresAverageCores": 0.49634347522480543,
+        "sumWorkerPeakRssMiB": 370.47265625,
+        "relationsMB": 127.229952,
+        "walMB": 148.065761,
+        "responseMs": {
+          "n": 60,
+          "mean": 26612.666666666668,
+          "p50": 26292,
+          "p95": 49254,
+          "max": 52060
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      }
+    ],
+    "scale-w2": [
+      {
+        "variant": "E",
+        "matches": 60,
+        "matchesPerSecond": 2.149180760998007,
+        "nodeCpuMsPerMatch": 469.6542666666667,
+        "postgresCpuMsPerMatch": 435.01485000000105,
+        "nodeAverageCores": 1.0093719142406279,
+        "postgresAverageCores": 0.9349255463684362,
+        "sumWorkerPeakRssMiB": 712.5625,
+        "relationsMB": 129.88416,
+        "walMB": 150.770837,
+        "responseMs": {
+          "n": 60,
+          "mean": 14430.366666666667,
+          "p50": 14349,
+          "p95": 26173,
+          "max": 27901
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "B2",
+        "matches": 60,
+        "matchesPerSecond": 1.8908109001227018,
+        "nodeCpuMsPerMatch": 477.0574666666667,
+        "postgresCpuMsPerMatch": 591.7383666666651,
+        "nodeAverageCores": 0.9020254579582558,
+        "postgresAverageCores": 1.1188653537141344,
+        "sumWorkerPeakRssMiB": 720.0234375,
+        "relationsMB": 155.56608,
+        "walMB": 182.542684,
+        "responseMs": {
+          "n": 60,
+          "mean": 15867.166666666666,
+          "p50": 15267,
+          "p95": 29844,
+          "max": 31715
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "A",
+        "matches": 60,
+        "matchesPerSecond": 1.0136465577062457,
+        "nodeCpuMsPerMatch": 1334.8926833333333,
+        "postgresCpuMsPerMatch": 718.1750833333315,
+        "nodeAverageCores": 1.353109373368087,
+        "postgresAverageCores": 0.7279757010512277,
+        "sumWorkerPeakRssMiB": 923.97265625,
+        "relationsMB": 152.100864,
+        "walMB": 181.956348,
+        "responseMs": {
+          "n": 60,
+          "mean": 30367.2,
+          "p50": 30140,
+          "p95": 55326,
+          "max": 59155
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      }
+    ],
+    "scale-w4": [
+      {
+        "variant": "A",
+        "matches": 60,
+        "matchesPerSecond": 1.2919077093133022,
+        "nodeCpuMsPerMatch": 1431.3067333333336,
+        "postgresCpuMsPerMatch": 600.0788499999946,
+        "nodeAverageCores": 1.8491162031853723,
+        "postgresAverageCores": 0.7752464925108538,
+        "sumWorkerPeakRssMiB": 1773.3984375,
+        "relationsMB": 162.054144,
+        "walMB": 182.222928,
+        "responseMs": {
+          "n": 60,
+          "mean": 24718.133333333335,
+          "p50": 24595,
+          "p95": 45085,
+          "max": 46425
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "B2",
+        "matches": 60,
+        "matchesPerSecond": 2.4470973515744063,
+        "nodeCpuMsPerMatch": 502.44350000000003,
+        "postgresCpuMsPerMatch": 613.6713666666687,
+        "nodeAverageCores": 1.229528158165775,
+        "postgresAverageCores": 1.5017135761070515,
+        "sumWorkerPeakRssMiB": 1339.265625,
+        "relationsMB": 161.841152,
+        "walMB": 183.398341,
+        "responseMs": {
+          "n": 60,
+          "mean": 13787.416666666666,
+          "p50": 14004,
+          "p95": 23510,
+          "max": 24499
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "E",
+        "matches": 60,
+        "matchesPerSecond": 2.777413203333905,
+        "nodeCpuMsPerMatch": 532.3938333333333,
+        "postgresCpuMsPerMatch": 463.5205333333385,
+        "nodeAverageCores": 1.4786776620735504,
+        "postgresAverageCores": 1.2873880492963878,
+        "sumWorkerPeakRssMiB": 1302.765625,
+        "relationsMB": 135.610368,
+        "walMB": 148.266651,
+        "responseMs": {
+          "n": 60,
+          "mean": 11487.916666666666,
+          "p50": 11012,
+          "p95": 21271,
+          "max": 21582
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      }
+    ],
+    "scale-w2-slots2": [
+      {
+        "variant": "A",
+        "matches": 60,
+        "matchesPerSecond": 1.3061824090858207,
+        "nodeCpuMsPerMatch": 1399.51775,
+        "postgresCpuMsPerMatch": 668.2741166666616,
+        "nodeAverageCores": 1.8280254662533675,
+        "postgresAverageCores": 0.8728878956373588,
+        "sumWorkerPeakRssMiB": 1012.06640625,
+        "relationsMB": 155.697152,
+        "walMB": 192.889584,
+        "responseMs": {
+          "n": 60,
+          "mean": 24581.216666666667,
+          "p50": 24583,
+          "p95": 44716,
+          "max": 45912
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "B2",
+        "matches": 60,
+        "matchesPerSecond": 2.449716398237231,
+        "nodeCpuMsPerMatch": 526.0472166666666,
+        "postgresCpuMsPerMatch": 627.1411666666701,
+        "nodeAverageCores": 1.288666492915387,
+        "postgresAverageCores": 1.5363179999929701,
+        "sumWorkerPeakRssMiB": 780.90625,
+        "relationsMB": 155.762688,
+        "walMB": 183.626994,
+        "responseMs": {
+          "n": 60,
+          "mean": 13717.783333333333,
+          "p50": 14219,
+          "p95": 23607,
+          "max": 24471
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "E",
+        "matches": 60,
+        "matchesPerSecond": 2.879274678921186,
+        "nodeCpuMsPerMatch": 485.0018166666667,
+        "postgresCpuMsPerMatch": 448.1168666666684,
+        "nodeAverageCores": 1.3964534499591086,
+        "postgresAverageCores": 1.2902515473908396,
+        "sumWorkerPeakRssMiB": 794.015625,
+        "relationsMB": 129.810432,
+        "walMB": 153.010016,
+        "responseMs": {
+          "n": 60,
+          "mean": 11169.983333333334,
+          "p50": 11078,
+          "p95": 19557,
+          "max": 20823
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      }
+    ]
+  },
+  "arrivals": {
+    "arrival-1": [
+      {
+        "variant": "A",
+        "matches": 119,
+        "matchesPerSecond": 0.9915871363873398,
+        "nodeCpuMsPerMatch": 1249.1963781512607,
+        "postgresCpuMsPerMatch": 604.4131512605045,
+        "nodeAverageCores": 1.2386870593964447,
+        "postgresAverageCores": 0.5993283058532517,
+        "sumWorkerPeakRssMiB": 967.703125,
+        "relationsMB": 298.139648,
+        "walMB": 363.633784,
+        "responseMs": {
+          "n": 119,
+          "mean": 1815.7563025210084,
+          "p50": 1853,
+          "p95": 2242,
+          "max": 2403
+        },
+        "maximumOutstandingAtOneSecondSamples": 3
+      },
+      {
+        "variant": "E",
+        "matches": 119,
+        "matchesPerSecond": 0.9979789506184635,
+        "nodeCpuMsPerMatch": 438.8166134453781,
+        "postgresCpuMsPerMatch": 482.6946554621838,
+        "nodeAverageCores": 0.43792974340016644,
+        "postgresAverageCores": 0.481719105727291,
+        "sumWorkerPeakRssMiB": 742.43359375,
+        "relationsMB": 247.734272,
+        "walMB": 301.96043,
+        "responseMs": {
+          "n": 119,
+          "mean": 834.0504201680673,
+          "p50": 831,
+          "p95": 1078,
+          "max": 1290
+        },
+        "maximumOutstandingAtOneSecondSamples": 2
+      },
+      {
+        "variant": "D",
+        "matches": 119,
+        "matchesPerSecond": 0.9989889080726705,
+        "nodeCpuMsPerMatch": 715.0423613445378,
+        "postgresCpuMsPerMatch": 583.033689075631,
+        "nodeAverageCores": 0.7143193877852837,
+        "postgresAverageCores": 0.5824441884192454,
+        "sumWorkerPeakRssMiB": 1242.02734375,
+        "relationsMB": 171.245568,
+        "walMB": 230.526285,
+        "responseMs": {
+          "n": 119,
+          "mean": 1093.6302521008404,
+          "p50": 1080,
+          "p95": 1364,
+          "max": 1597
+        },
+        "maximumOutstandingAtOneSecondSamples": 2
+      }
+    ],
+    "arrival-2": [
+      {
+        "variant": "A",
+        "matches": 119,
+        "matchesPerSecond": 1.103856777523865,
+        "nodeCpuMsPerMatch": 1242.8048319327731,
+        "postgresCpuMsPerMatch": 552.6158235294102,
+        "nodeAverageCores": 1.3718785368683997,
+        "postgresAverageCores": 0.6100087221698717,
+        "sumWorkerPeakRssMiB": 992.4140625,
+        "relationsMB": 297.7792,
+        "walMB": 369.239305,
+        "responseMs": {
+          "n": 119,
+          "mean": 25096.44537815126,
+          "p50": 24754,
+          "p95": 46545,
+          "max": 48768
+        },
+        "maximumOutstandingAtOneSecondSamples": 55
+      },
+      {
+        "variant": "E",
+        "matches": 119,
+        "matchesPerSecond": 1.9835821094409023,
+        "nodeCpuMsPerMatch": 451.5419579831933,
+        "postgresCpuMsPerMatch": 507.58236974789645,
+        "nodeAverageCores": 0.8956705495173778,
+        "postgresAverageCores": 1.0068313076995445,
+        "sumWorkerPeakRssMiB": 761.234375,
+        "relationsMB": 250.011648,
+        "walMB": 308.471482,
+        "responseMs": {
+          "n": 119,
+          "mean": 1065.310924369748,
+          "p50": 963,
+          "p95": 2126,
+          "max": 2534
+        },
+        "maximumOutstandingAtOneSecondSamples": 5
+      },
+      {
+        "variant": "D",
+        "matches": 119,
+        "matchesPerSecond": 1.9532857215478434,
+        "nodeCpuMsPerMatch": 638.3597815126052,
+        "postgresCpuMsPerMatch": 564.1692268907547,
+        "nodeAverageCores": 1.2468990464389726,
+        "postgresAverageCores": 1.1019836954223967,
+        "sumWorkerPeakRssMiB": 1244.7578125,
+        "relationsMB": 196.173824,
+        "walMB": 229.140222,
+        "responseMs": {
+          "n": 119,
+          "mean": 1458.6134453781513,
+          "p50": 1335,
+          "p95": 2300,
+          "max": 2472
+        },
+        "maximumOutstandingAtOneSecondSamples": 5
+      }
+    ]
+  },
+  "history": {
+    "history-writes": [
+      {
+        "variant": "A",
+        "matches": 60,
+        "matchesPerSecond": 1.0860025718860604,
+        "nodeCpuMsPerMatch": 1211.4754333333333,
+        "postgresCpuMsPerMatch": 572.4299999999969,
+        "nodeAverageCores": 1.3156654363767797,
+        "postgresAverageCores": 0.6216604522247342,
+        "sumWorkerPeakRssMiB": 929.98828125,
+        "relationsMB": 1649.246208,
+        "walMB": 194.477516,
+        "responseMs": {
+          "n": 60,
+          "mean": 28043.25,
+          "p50": 27411,
+          "p95": 51924,
+          "max": 55221
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "B2",
+        "matches": 60,
+        "matchesPerSecond": 1.9943572860205927,
+        "nodeCpuMsPerMatch": 440.82816666666673,
+        "postgresCpuMsPerMatch": 528.2654000000019,
+        "nodeAverageCores": 0.879168866074767,
+        "postgresAverageCores": 1.0535499494425866,
+        "sumWorkerPeakRssMiB": 731.53515625,
+        "relationsMB": 1651.0976,
+        "walMB": 206.871469,
+        "responseMs": {
+          "n": 60,
+          "mean": 15486.45,
+          "p50": 15275,
+          "p95": 28473,
+          "max": 30066
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "C",
+        "matches": 60,
+        "matchesPerSecond": 2.2198416554803826,
+        "nodeCpuMsPerMatch": 446.5655666666667,
+        "postgresCpuMsPerMatch": 472.1726833333339,
+        "nodeAverageCores": 0.9913048467898686,
+        "postgresAverageCores": 1.0481485910432824,
+        "sumWorkerPeakRssMiB": 705.9609375,
+        "relationsMB": 934.969344,
+        "walMB": 109.858224,
+        "responseMs": {
+          "n": 60,
+          "mean": 13871.75,
+          "p50": 13427,
+          "p95": 25577,
+          "max": 27009
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      },
+      {
+        "variant": "E",
+        "matches": 60,
+        "matchesPerSecond": 2.167196651043845,
+        "nodeCpuMsPerMatch": 438.64000000000004,
+        "postgresCpuMsPerMatch": 443.4831333333316,
+        "nodeAverageCores": 0.9506191390138723,
+        "postgresAverageCores": 0.9611151613544273,
+        "sumWorkerPeakRssMiB": 708.10546875,
+        "relationsMB": 1362.436096,
+        "walMB": 177.835101,
+        "responseMs": {
+          "n": 60,
+          "mean": 14083.016666666666,
+          "p50": 13891,
+          "p95": 25545,
+          "max": 27656
+        },
+        "maximumOutstandingAtOneSecondSamples": 60
+      }
+    ]
+  },
+  "reads": {
+    "read-experiments": [
+      {
+        "variant": "E",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 12524.719675,
+            "optimizedMedianMs": 4664.633346000002,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 156.657946000003,
+            "optimizedMedianMs": 152.63051700000142,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 281.84070900000006,
+            "optimizedMedianMs": 269.0477319999991,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 108.94763800000146,
+            "optimizedMedianMs": 93.4250600000014,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      },
+      {
+        "variant": "D",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 22328.564976999998,
+            "optimizedMedianMs": 13168.671108999988,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 1710.540685,
+            "optimizedMedianMs": 1746.2678910000104,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 5981.748215,
+            "optimizedMedianMs": 5903.900953000004,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 1551.6983670000045,
+            "optimizedMedianMs": 1552.207672000004,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      },
+      {
+        "variant": "C",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 22176.921592,
+            "optimizedMedianMs": 13848.682713999995,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 1794.3460560000094,
+            "optimizedMedianMs": 1690.5889089999837,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 5932.626622999989,
+            "optimizedMedianMs": 5917.348905999999,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 136.6064919999917,
+            "optimizedMedianMs": 111.69111300000804,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      },
+      {
+        "variant": "B2",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 12279.272390999977,
+            "optimizedMedianMs": 3044.1039460000175,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 35.95729700001539,
+            "optimizedMedianMs": 29.545861999999033,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 150.7780110000167,
+            "optimizedMedianMs": 84.75439200000255,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 791.1698079999769,
+            "optimizedMedianMs": 710.1323039999988,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      },
+      {
+        "variant": "A",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 11700.051531999983,
+            "optimizedMedianMs": 3121.92027100001,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 37.07025400002021,
+            "optimizedMedianMs": 29.101969000010286,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 88.94384999998147,
+            "optimizedMedianMs": 81.55615000001853,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 702.7050189999864,
+            "optimizedMedianMs": 524.1332530000363,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      }
+    ],
+    "history-reads": [
+      {
+        "variant": "A",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 28206.767844,
+            "optimizedMedianMs": 26252.044981000003,
+            "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `57014`. Message: `ERROR: canceling statement due to statement timeout`",
+            "optimizedError": null,
+            "comparison": null
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 130.51890300000377,
+            "optimizedMedianMs": 55.51343000000634,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 682.8467710000114,
+            "optimizedMedianMs": 319.78245299999253,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 2958.97134199999,
+            "optimizedMedianMs": 2659.0761009999987,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      },
+      {
+        "variant": "B2",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 27859.278108,
+            "optimizedMedianMs": 20779.95116300002,
+            "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `57014`. Message: `ERROR: canceling statement due to statement timeout`",
+            "optimizedError": null,
+            "comparison": null
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 77.58394700000645,
+            "optimizedMedianMs": 47.35511800000677,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 441.9363500000036,
+            "optimizedMedianMs": 309.4769410000008,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 2618.5629760000156,
+            "optimizedMedianMs": 2613.442790000001,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      },
+      {
+        "variant": "C",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 39947.76437099997,
+            "optimizedMedianMs": 36741.583071,
+            "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nTransaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 30000 ms, however 39945 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.",
+            "optimizedError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nTransaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 30000 ms, however 36739 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.",
+            "comparison": null
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 15326.748359999969,
+            "optimizedMedianMs": 12798.581989999977,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 30961.222777999996,
+            "optimizedMedianMs": 31640.02124600002,
+            "originalError": "PrismaClientKnownRequestError: \nInvalid `tx.historicalMetricContribution.findMany()` invocation in\n/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/dist/modules/dataset/adapters/dataset-query.repository.js:148:68\n\n  145 async query(filters, limit = 100, after) {\n  146     return this.prisma.$transaction(async (tx) => {\n  147         const summary = await queryDatasetSummary(tx, filters);\n→ 148         const selected = await tx.historicalMetricContribution.findMany(\nTransaction API e",
+            "optimizedError": "PrismaClientKnownRequestError: \nInvalid `tx.historicalMetricContribution.findMany()` invocation in\n/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/dist/modules/dataset/adapters/dataset-query.repository.js:148:68\n\n  145 async query(filters, limit = 100, after) {\n  146     return this.prisma.$transaction(async (tx) => {\n  147         const summary = await queryDatasetSummary(tx, filters);\n→ 148         const selected = await tx.historicalMetricContribution.findMany(\nTransaction API e",
+            "comparison": null
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 14165.373169000028,
+            "optimizedMedianMs": 11937.337303000037,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      },
+      {
+        "variant": "E",
+        "cases": [
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "queueId": 420,
+              "patch": "16.19"
+            },
+            "originalMs": 31434.627553,
+            "optimizedMedianMs": 27835.54189200001,
+            "originalError": "PrismaClientKnownRequestError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nTransaction API error: Transaction already closed: A query cannot be executed on an expired transaction. The timeout for this transaction was 30000 ms, however 31432 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.",
+            "optimizedError": null,
+            "comparison": null
+          },
+          {
+            "filters": {
+              "eligibleOnly": true,
+              "championId": 80,
+              "role": "UTILITY"
+            },
+            "originalMs": 958.6136870000046,
+            "optimizedMedianMs": 929.1159850000404,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "definitionId": "final.deathsNearObjectives",
+              "horizonKey": "final"
+            },
+            "originalMs": 1904.824718000018,
+            "optimizedMedianMs": 1525.026477000094,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          },
+          {
+            "filters": {
+              "eligibleOnly": false,
+              "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+            },
+            "originalMs": 1173.384010000038,
+            "optimizedMedianMs": 1075.8653630000772,
+            "originalError": null,
+            "optimizedError": null,
+            "comparison": {
+              "exact": true,
+              "differences": 0,
+              "numericDifferences": 0,
+              "nonNumericDifferences": 0,
+              "maxAbs": 0,
+              "maxRel": 0,
+              "withinDiagnosticTolerance": true,
+              "examples": []
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

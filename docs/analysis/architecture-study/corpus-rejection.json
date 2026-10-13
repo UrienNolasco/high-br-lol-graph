@@ -1,0 +1,55 @@
+{
+  "matchId": "BR1_3283642155",
+  "issues": [
+    [
+      "identity",
+      1
+    ],
+    [
+      "identity",
+      3
+    ],
+    [
+      "identity",
+      4
+    ],
+    [
+      "identity",
+      5
+    ],
+    [
+      "identity",
+      6
+    ],
+    [
+      "identity",
+      8
+    ],
+    [
+      "identity",
+      9
+    ]
+  ],
+  "handling": "Preserved unchanged. Rejected by current preparer; excluded explicitly from successful-throughput cohort.",
+  "metadataParticipantOrder": [
+    3,
+    2,
+    4,
+    5,
+    1,
+    8,
+    7,
+    9,
+    6,
+    10
+  ],
+  "infoParticipantsAgreeWithSummary": true,
+  "puuidSetsEqual": true,
+  "recommendation": "Map identities using explicit participantId and puuid pairs; validate metadata as a set rather than using array position.",
+  "diagnosticOnly": {
+    "change": "Reordered metadata in memory from explicit info.participants mapping; original files unchanged",
+    "preparationPassed": true,
+    "events": 733,
+    "rows": 877
+  }
+}
