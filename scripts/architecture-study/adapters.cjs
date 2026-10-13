@@ -4,7 +4,8 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const { Prisma } = require('@prisma/client');
 const root = path.resolve(__dirname, '../..');
-const from = (p) => require(path.join(root, 'dist', p));
+const from = (p) =>
+  require(path.join(process.env.STUDY_DIST || path.join(root, 'dist'), p));
 const { MatchProjectionPersistenceAdapter } = from(
   'modules/matches/adapters/persistence/match-projection-writer',
 );
@@ -128,6 +129,13 @@ function proxy(tx, mode) {
 // Reuse the domain's exact aggregate definitions, intercepting only the private persistence method.
 async function statsDeltas(prepared) {
   const writer = new PlayerStatsAggregationService();
+  if (typeof writer.prepare === 'function')
+    return writer
+      .prepare(prepared)
+      .map((delta) => ({
+        ...delta,
+        lastPlayedAt: delta.lastPlayedAt?.toISOString(),
+      }));
   const deltas = [];
   writer.increment = async (
     _,

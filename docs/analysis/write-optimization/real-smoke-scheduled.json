@@ -1,0 +1,997 @@
+{
+  "startedAt": "2026-10-13T21:36:07.123Z",
+  "runtimeImageId": "sha256:01eaf4fe4f5d80cf7e265d47e197be6aa57c5aecf33041fe89fa7f061d73a104",
+  "compiledHashes": {
+    "main.js": "8090eebb5f8bef6b1f286b7a7d11fd9a06913535029bfdec414ba92d2b31707c",
+    "modules/worker/worker.controller.js": "cb9cc644877b93a95d5dfde60a00577e41a963fee29cf29032d6e65766761ce1",
+    "modules/worker/delivery-gate.js": "05e8beaa62409655fe3d55f05b304083bd1d098c1d0a0328b9b33c7d7cc68576",
+    "modules/matches/adapters/persistence/event-recordset.js": "8efc7761dd9d90896769b5bc3f61cffeb19fdd83fea4d3c1dd4f218e5046ee5f",
+    "modules/dataset/adapters/dataset-recordset.js": "399ddf9b9908cb36da9ecbbb701efdb0870e0dc6715d28ad3ea31192086ef6b7",
+    "modules/stats/adapters/persistence/player-stats-writer.js": "411f5c2d73c7a832fe29d1958f791803d32655fd043489d64bfb7d7026e2f318",
+    "core/prisma/recordset-json.js": "d5dd375bba76abd9045bac99b4d1577d20b3dd5e597d279a7adfe6d4819b2e32",
+    "core/queue/queue.service.js": "73ff7c3a11d0186cdbc25c2109ea8a2038fdf246cf07d11bcecf0e6b98843124",
+    "core/queue/queue.module.js": "578fdf6e7a09fc69851ad283da1960ec198a4d0e6dc7b28687207d3ddff4b3f5"
+  },
+  "database": "highbr_architecture_study_write_1791927367123_real",
+  "queue": "highbr_write_1791927367123",
+  "options": {
+    "seconds": 1800,
+    "workers": 2,
+    "slots": 2,
+    "rates": [
+      1
+    ],
+    "count": 30
+  },
+  "method": {
+    "scope": "Real dist/main.js AppModule + Nest RMQ transport in containers; preloaded raw; HTTP reads during growing database",
+    "workerCpuTotal": 2,
+    "workerAffinity": "0,2",
+    "memoryBytesPerWorker": 1073741824,
+    "postgresAffinity": "4,5",
+    "postgresMemoryBytes": 2147483648,
+    "poolPerWorker": 3,
+    "excluded": [
+      "BR1_3283642155"
+    ],
+    "syntheticReplayIds": true,
+    "admission": "Preloaded jobs held with future nextAttemptAt; each arrival activates the job, confirms RMQ publication and records publishedAt; recovery stays enabled."
+  },
+  "arrivals": {
+    "WOPT_000000_BR1_3289982156": 1791927375747,
+    "WOPT_000001_BR1_3289617502": 1791927376546,
+    "WOPT_000002_BR1_3289600320": 1791927377546,
+    "WOPT_000003_BR1_3289582120": 1791927378546,
+    "WOPT_000004_BR1_3289535363": 1791927379546,
+    "WOPT_000005_BR1_3289517289": 1791927380546,
+    "WOPT_000006_BR1_3289500052": 1791927381546,
+    "WOPT_000007_BR1_3289479717": 1791927382546,
+    "WOPT_000008_BR1_3289200795": 1791927383545,
+    "WOPT_000009_BR1_3289185227": 1791927384545,
+    "WOPT_000010_BR1_3289172207": 1791927385546,
+    "WOPT_000011_BR1_3289156261": 1791927386545,
+    "WOPT_000012_BR1_3235899552": 1791927387545,
+    "WOPT_000013_BR1_3235871686": 1791927388546,
+    "WOPT_000014_BR1_3235857814": 1791927389546,
+    "WOPT_000015_BR1_3235599705": 1791927390546,
+    "WOPT_000016_BR1_3235574566": 1791927391546,
+    "WOPT_000017_BR1_3235550712": 1791927392546,
+    "WOPT_000018_BR1_3235532392": 1791927393546,
+    "WOPT_000019_BR1_3233637698": 1791927394546,
+    "WOPT_000020_BR1_3233602356": 1791927395544,
+    "WOPT_000021_BR1_3233579284": 1791927396546,
+    "WOPT_000022_BR1_3233138430": 1791927397546,
+    "WOPT_000023_BR1_3232475185": 1791927398546,
+    "WOPT_000024_BR1_3290759378": 1791927399545,
+    "WOPT_000025_BR1_3290749716": 1791927400546,
+    "WOPT_000026_BR1_3290736778": 1791927401546,
+    "WOPT_000027_BR1_3290732327": 1791927402546,
+    "WOPT_000028_BR1_3290720300": 1791927403546,
+    "WOPT_000029_BR1_3290716379": 1791927404546
+  },
+  "samples": [
+    {
+      "atMs": 10203,
+      "offered": 11,
+      "completed": 6,
+      "oldestPendingMs": 202,
+      "active": {
+        "highbr-write-1791927367123-0": 0,
+        "highbr-write-1791927367123-1": 1,
+        "highbr-write-1791927367123-api": 0
+      },
+      "database": {
+        "locks": 0,
+        "active": 2
+      },
+      "queue": {
+        "queue": "highbr_write_1791927367123",
+        "messageCount": 0,
+        "consumerCount": 2
+      }
+    },
+    {
+      "atMs": 20203,
+      "offered": 21,
+      "completed": 16,
+      "oldestPendingMs": 204,
+      "active": {
+        "highbr-write-1791927367123-0": 0,
+        "highbr-write-1791927367123-1": 1,
+        "highbr-write-1791927367123-api": 0
+      },
+      "database": {
+        "locks": 0,
+        "active": 1
+      },
+      "queue": {
+        "queue": "highbr_write_1791927367123",
+        "messageCount": 0,
+        "consumerCount": 2
+      }
+    },
+    {
+      "atMs": 30013,
+      "offered": 30,
+      "completed": 26,
+      "oldestPendingMs": 0,
+      "active": {
+        "highbr-write-1791927367123-0": 0,
+        "highbr-write-1791927367123-1": 0,
+        "highbr-write-1791927367123-api": 0
+      },
+      "database": {
+        "locks": 0,
+        "active": 1
+      },
+      "queue": {
+        "queue": "highbr_write_1791927367123",
+        "messageCount": 0,
+        "consumerCount": 2
+      }
+    }
+  ],
+  "reads": [
+    {
+      "atMs": 135,
+      "params": {
+        "championId": "14",
+        "role": "TOP",
+        "eligibleOnly": "false",
+        "limit": "20"
+      },
+      "ms": 201,
+      "status": 200,
+      "rows": 20
+    },
+    {
+      "atMs": 10337,
+      "params": {
+        "playerId": "4rQgmZraifXc92WDAadlBSIKyKB7wXa2a58wnsp4RYNExzJb4Q56P30QXYy5BgpdFeslV0rP4179fw",
+        "definitionId": "snapshot.totalGold",
+        "eligibleOnly": "false",
+        "limit": "20"
+      },
+      "ms": 48,
+      "status": 200,
+      "rows": 16
+    },
+    {
+      "atMs": 20386,
+      "params": {
+        "championId": "14",
+        "role": "TOP",
+        "eligibleOnly": "false",
+        "limit": "20"
+      },
+      "ms": 50,
+      "status": 200,
+      "rows": 20
+    }
+  ],
+  "runtime": [
+    {
+      "event": "validation_runtime",
+      "time": 1791927381024,
+      "node": "v26.11.1",
+      "cpuMs": 3366.407,
+      "rss": 211267584,
+      "heapTotal": 77938688,
+      "heapUsed": 60135128,
+      "external": 4842707,
+      "arrayBuffers": 507686,
+      "eventLoopP99Ms": 56.819711,
+      "cgroupMemoryBytes": 142811136,
+      "cgroupMemoryPeakBytes": 148795392,
+      "container": "highbr-write-1791927367123-1"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927381040,
+      "node": "v26.11.1",
+      "cpuMs": 3465.066,
+      "rss": 211140608,
+      "heapTotal": 76238848,
+      "heapUsed": 62142496,
+      "external": 4777078,
+      "arrayBuffers": 442057,
+      "eventLoopP99Ms": 68.354047,
+      "cgroupMemoryBytes": 142860288,
+      "cgroupMemoryPeakBytes": 150007808,
+      "container": "highbr-write-1791927367123-0"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927381051,
+      "node": "v26.11.1",
+      "cpuMs": 2473.454,
+      "rss": 147304448,
+      "heapTotal": 59035648,
+      "heapUsed": 44220616,
+      "external": 4725536,
+      "arrayBuffers": 368143,
+      "eventLoopP99Ms": 21.512191,
+      "cgroupMemoryBytes": 79810560,
+      "cgroupMemoryPeakBytes": 80027648,
+      "container": "highbr-write-1791927367123-api"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927391024,
+      "node": "v26.11.1",
+      "cpuMs": 2087.663,
+      "rss": 208961536,
+      "heapTotal": 73797632,
+      "heapUsed": 47124160,
+      "external": 4774422,
+      "arrayBuffers": 442086,
+      "eventLoopP99Ms": 45.154303,
+      "cgroupMemoryBytes": 140144640,
+      "cgroupMemoryPeakBytes": 156090368,
+      "container": "highbr-write-1791927367123-1"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927391039,
+      "node": "v26.11.1",
+      "cpuMs": 2386.352,
+      "rss": 214159360,
+      "heapTotal": 76013568,
+      "heapUsed": 49825928,
+      "external": 4774393,
+      "arrayBuffers": 442057,
+      "eventLoopP99Ms": 86.310911,
+      "cgroupMemoryBytes": 146128896,
+      "cgroupMemoryPeakBytes": 156168192,
+      "container": "highbr-write-1791927367123-0"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927391051,
+      "node": "v26.11.1",
+      "cpuMs": 45.159,
+      "rss": 147566592,
+      "heapTotal": 59297792,
+      "heapUsed": 45382000,
+      "external": 4725608,
+      "arrayBuffers": 368175,
+      "eventLoopP99Ms": 21.151743,
+      "cgroupMemoryBytes": 79777792,
+      "cgroupMemoryPeakBytes": 80334848,
+      "container": "highbr-write-1791927367123-api"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927401024,
+      "node": "v26.11.1",
+      "cpuMs": 2275.544,
+      "rss": 216952832,
+      "heapTotal": 77058048,
+      "heapUsed": 55343488,
+      "external": 4832028,
+      "arrayBuffers": 507678,
+      "eventLoopP99Ms": 60.850175,
+      "cgroupMemoryBytes": 148180992,
+      "cgroupMemoryPeakBytes": 156090368,
+      "container": "highbr-write-1791927367123-1"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927401043,
+      "node": "v26.11.1",
+      "cpuMs": 2251.577,
+      "rss": 220700672,
+      "heapTotal": 83263488,
+      "heapUsed": 65801064,
+      "external": 4973929,
+      "arrayBuffers": 649579,
+      "eventLoopP99Ms": 59.506687,
+      "cgroupMemoryBytes": 152653824,
+      "cgroupMemoryPeakBytes": 156966912,
+      "container": "highbr-write-1791927367123-0"
+    },
+    {
+      "event": "validation_runtime",
+      "time": 1791927401050,
+      "node": "v26.11.1",
+      "cpuMs": 48.429,
+      "rss": 147283968,
+      "heapTotal": 44355584,
+      "heapUsed": 40852688,
+      "external": 4720378,
+      "arrayBuffers": 366141,
+      "eventLoopP99Ms": 21.168127,
+      "cgroupMemoryBytes": 79757312,
+      "cgroupMemoryPeakBytes": 80334848,
+      "container": "highbr-write-1791927367123-api"
+    }
+  ],
+  "errors": [],
+  "completed": [
+    {
+      "matchId": "WOPT_000004_BR1_3289535363",
+      "time": 1791927380187,
+      "duration": 613,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000005_BR1_3289517289",
+      "time": 1791927381502,
+      "duration": 932,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000006_BR1_3289500052",
+      "time": 1791927382422,
+      "duration": 851,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000007_BR1_3289479717",
+      "time": 1791927383464,
+      "duration": 895,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000008_BR1_3289200795",
+      "time": 1791927384326,
+      "duration": 750,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000009_BR1_3289185227",
+      "time": 1791927385423,
+      "duration": 857,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000010_BR1_3289172207",
+      "time": 1791927386061,
+      "duration": 493,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000011_BR1_3289156261",
+      "time": 1791927387345,
+      "duration": 774,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000012_BR1_3235899552",
+      "time": 1791927388295,
+      "duration": 720,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000013_BR1_3235871686",
+      "time": 1791927389277,
+      "duration": 711,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000014_BR1_3235857814",
+      "time": 1791927390219,
+      "duration": 651,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000015_BR1_3235599705",
+      "time": 1791927391325,
+      "duration": 756,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000016_BR1_3235574566",
+      "time": 1791927392450,
+      "duration": 882,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000017_BR1_3235550712",
+      "time": 1791927393336,
+      "duration": 765,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000018_BR1_3235532392",
+      "time": 1791927394383,
+      "duration": 816,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000019_BR1_3233637698",
+      "time": 1791927395375,
+      "duration": 802,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000020_BR1_3233602356",
+      "time": 1791927396217,
+      "duration": 646,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000021_BR1_3233579284",
+      "time": 1791927397365,
+      "duration": 799,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000022_BR1_3233138430",
+      "time": 1791927398187,
+      "duration": 617,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000023_BR1_3232475185",
+      "time": 1791927399410,
+      "duration": 838,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000024_BR1_3290759378",
+      "time": 1791927400545,
+      "duration": 973,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000025_BR1_3290749716",
+      "time": 1791927401413,
+      "duration": 846,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000026_BR1_3290736778",
+      "time": 1791927402337,
+      "duration": 761,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000027_BR1_3290732327",
+      "time": 1791927403315,
+      "duration": 749,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000028_BR1_3290720300",
+      "time": 1791927404332,
+      "duration": 764,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_000029_BR1_3290716379",
+      "time": 1791927405263,
+      "duration": 696,
+      "attempts": 1
+    },
+    {
+      "matchId": "WOPT_SHUTDOWN_1791927367123",
+      "time": 1791927407126,
+      "duration": 890,
+      "attempts": 1
+    }
+  ],
+  "deliveries": [
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000000_BR1_3289982156",
+      "time": 1791927375760
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000000_BR1_3289982156",
+      "time": 1791927375777
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000001_BR1_3289617502",
+      "time": 1791927376557
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000001_BR1_3289617502",
+      "time": 1791927376571
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000002_BR1_3289600320",
+      "time": 1791927377559
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000002_BR1_3289600320",
+      "time": 1791927377574
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000003_BR1_3289582120",
+      "time": 1791927378555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000003_BR1_3289582120",
+      "time": 1791927378567
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000004_BR1_3289535363",
+      "time": 1791927379557
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000004_BR1_3289535363",
+      "time": 1791927380187
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000005_BR1_3289517289",
+      "time": 1791927380555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000005_BR1_3289517289",
+      "time": 1791927381503
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000006_BR1_3289500052",
+      "time": 1791927381553
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000006_BR1_3289500052",
+      "time": 1791927382423
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000007_BR1_3289479717",
+      "time": 1791927382555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000007_BR1_3289479717",
+      "time": 1791927383465
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000008_BR1_3289200795",
+      "time": 1791927383556
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000008_BR1_3289200795",
+      "time": 1791927384326
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000009_BR1_3289185227",
+      "time": 1791927384551
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000009_BR1_3289185227",
+      "time": 1791927385423
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000010_BR1_3289172207",
+      "time": 1791927385555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000010_BR1_3289172207",
+      "time": 1791927386061
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000011_BR1_3289156261",
+      "time": 1791927386555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000011_BR1_3289156261",
+      "time": 1791927387345
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000012_BR1_3235899552",
+      "time": 1791927387555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000012_BR1_3235899552",
+      "time": 1791927388295
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000013_BR1_3235871686",
+      "time": 1791927388551
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000013_BR1_3235871686",
+      "time": 1791927389277
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000014_BR1_3235857814",
+      "time": 1791927389551
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000014_BR1_3235857814",
+      "time": 1791927390219
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000015_BR1_3235599705",
+      "time": 1791927390553
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000015_BR1_3235599705",
+      "time": 1791927391325
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000016_BR1_3235574566",
+      "time": 1791927391553
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000016_BR1_3235574566",
+      "time": 1791927392450
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000017_BR1_3235550712",
+      "time": 1791927392556
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000017_BR1_3235550712",
+      "time": 1791927393336
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000018_BR1_3235532392",
+      "time": 1791927393550
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000018_BR1_3235532392",
+      "time": 1791927394384
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000019_BR1_3233637698",
+      "time": 1791927394556
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000019_BR1_3233637698",
+      "time": 1791927395375
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000020_BR1_3233602356",
+      "time": 1791927395555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000020_BR1_3233602356",
+      "time": 1791927396217
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000021_BR1_3233579284",
+      "time": 1791927396551
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000021_BR1_3233579284",
+      "time": 1791927397365
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000022_BR1_3233138430",
+      "time": 1791927397555
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000022_BR1_3233138430",
+      "time": 1791927398187
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000023_BR1_3232475185",
+      "time": 1791927398556
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000023_BR1_3232475185",
+      "time": 1791927399410
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000024_BR1_3290759378",
+      "time": 1791927399554
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000024_BR1_3290759378",
+      "time": 1791927400545
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000025_BR1_3290749716",
+      "time": 1791927400551
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000025_BR1_3290749716",
+      "time": 1791927401414
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000026_BR1_3290736778",
+      "time": 1791927401559
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000026_BR1_3290736778",
+      "time": 1791927402337
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000027_BR1_3290732327",
+      "time": 1791927402551
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000027_BR1_3290732327",
+      "time": 1791927403315
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000028_BR1_3290720300",
+      "time": 1791927403552
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_000028_BR1_3290720300",
+      "time": 1791927404332
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000029_BR1_3290716379",
+      "time": 1791927404551
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-0",
+      "matchId": "WOPT_000029_BR1_3290716379",
+      "time": 1791927405263
+    },
+    {
+      "event": "received",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_SHUTDOWN_1791927367123",
+      "time": 1791927406218
+    },
+    {
+      "event": "ack",
+      "container": "highbr-write-1791927367123-1",
+      "matchId": "WOPT_SHUTDOWN_1791927367123",
+      "time": 1791927407127
+    }
+  ],
+  "containers": [
+    {
+      "name": "highbr-write-1791927367123-0",
+      "api": false,
+      "cpus": 1
+    },
+    {
+      "name": "highbr-write-1791927367123-1",
+      "api": false,
+      "cpus": 1
+    },
+    {
+      "name": "highbr-write-1791927367123-api",
+      "api": true,
+      "cpus": 1
+    }
+  ],
+  "shutdown": [
+    {
+      "name": "highbr-write-1791927367123-1",
+      "started": 1791927406223,
+      "inFlight": [
+        "WOPT_SHUTDOWN_1791927367123"
+      ],
+      "ms": 1066,
+      "result": {
+        "code": 0,
+        "signal": null
+      },
+      "completedAtExit": [
+        "WOPT_SHUTDOWN_1791927367123"
+      ]
+    },
+    {
+      "name": "highbr-write-1791927367123-0",
+      "started": 1791927407293,
+      "inFlight": [],
+      "ms": 182,
+      "result": {
+        "code": 0,
+        "signal": null
+      },
+      "completedAtExit": []
+    },
+    {
+      "name": "highbr-write-1791927367123-api",
+      "started": 1791927407475,
+      "inFlight": [],
+      "ms": 189,
+      "result": {
+        "code": 0,
+        "signal": null
+      },
+      "completedAtExit": []
+    }
+  ],
+  "ids": [
+    "WOPT_000000_BR1_3289982156",
+    "WOPT_000001_BR1_3289617502",
+    "WOPT_000002_BR1_3289600320",
+    "WOPT_000003_BR1_3289582120",
+    "WOPT_000004_BR1_3289535363",
+    "WOPT_000005_BR1_3289517289",
+    "WOPT_000006_BR1_3289500052",
+    "WOPT_000007_BR1_3289479717",
+    "WOPT_000008_BR1_3289200795",
+    "WOPT_000009_BR1_3289185227",
+    "WOPT_000010_BR1_3289172207",
+    "WOPT_000011_BR1_3289156261",
+    "WOPT_000012_BR1_3235899552",
+    "WOPT_000013_BR1_3235871686",
+    "WOPT_000014_BR1_3235857814",
+    "WOPT_000015_BR1_3235599705",
+    "WOPT_000016_BR1_3235574566",
+    "WOPT_000017_BR1_3235550712",
+    "WOPT_000018_BR1_3235532392",
+    "WOPT_000019_BR1_3233637698",
+    "WOPT_000020_BR1_3233602356",
+    "WOPT_000021_BR1_3233579284",
+    "WOPT_000022_BR1_3233138430",
+    "WOPT_000023_BR1_3232475185",
+    "WOPT_000024_BR1_3290759378",
+    "WOPT_000025_BR1_3290749716",
+    "WOPT_000026_BR1_3290736778",
+    "WOPT_000027_BR1_3290732327",
+    "WOPT_000028_BR1_3290720300",
+    "WOPT_000029_BR1_3290716379"
+  ],
+  "seedFinishedAt": "2026-10-13T21:36:10.545Z",
+  "warmup": {
+    "ids": [
+      "WOPT_000000_BR1_3289982156",
+      "WOPT_000001_BR1_3289617502",
+      "WOPT_000002_BR1_3289600320",
+      "WOPT_000003_BR1_3289582120"
+    ]
+  },
+  "measuredAt": 1791927375545,
+  "postgresCpuBefore": 2164281.656,
+  "walBefore": "33395290798",
+  "offeringFinishedAt": 1791927404557,
+  "drainedAt": 1791927405558,
+  "walAfter": "33470384124",
+  "postgresCpuMs": 9927.986000000034,
+  "jobStates": [
+    {
+      "_count": 30,
+      "status": "COMPLETED",
+      "attempts": 1
+    }
+  ],
+  "counts": {
+    "matches": 30,
+    "contributions": 26310,
+    "championGames": 300,
+    "playerGames": 300
+  },
+  "throughput": 0.8662912737813614,
+  "responseMs": {
+    "n": 26,
+    "p50": 790,
+    "p95": 956,
+    "p99": 1000,
+    "max": 1000
+  },
+  "serviceMs": {
+    "n": 26,
+    "p50": 764,
+    "p95": 932,
+    "p99": 973,
+    "max": 973
+  },
+  "readMs": {
+    "n": 3,
+    "p50": 50,
+    "p95": 201,
+    "p99": 201,
+    "max": 201
+  },
+  "maxActive": {
+    "highbr-write-1791927367123-0": 1,
+    "highbr-write-1791927367123-1": 1
+  },
+  "shutdownProbe": {
+    "matchId": "WOPT_SHUTDOWN_1791927367123",
+    "status": "COMPLETED",
+    "attempts": 1
+  },
+  "finishedAt": "2026-10-13T21:36:47.681Z"
+}

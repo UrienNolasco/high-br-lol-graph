@@ -252,6 +252,28 @@ async function main() {
       cwd: root,
       encoding: 'utf8',
     }).trim(),
+    compiledPath: process.env.STUDY_DIST || path.join(root, 'dist'),
+    compiledWriterHashes: Object.fromEntries(
+      [
+        'modules/matches/adapters/persistence/match-projection-writer.js',
+        'modules/matches/adapters/persistence/event-recordset.js',
+        'modules/stats/adapters/persistence/player-stats-writer.js',
+        'modules/dataset/adapters/dataset-writer.adapter.js',
+        'modules/dataset/adapters/dataset-recordset.js',
+        'core/prisma/recordset-json.js',
+      ].map((name) => {
+        const file = path.join(
+          process.env.STUDY_DIST || path.join(root, 'dist'),
+          name,
+        );
+        return [
+          name,
+          fs.existsSync(file)
+            ? createHash('sha256').update(fs.readFileSync(file)).digest('hex')
+            : null,
+        ];
+      }),
+    ),
     experimentalHashes: Object.fromEntries(
       ['adapters.cjs', 'engine.cjs', 'run.cjs'].map((name) => [
         name,
@@ -386,6 +408,20 @@ async function main() {
       await db.$queryRaw`SELECT c.relname name,pg_total_relation_size(c.oid)::text bytes,pg_indexes_size(c.oid)::text "indexBytes" FROM pg_class c JOIN pg_namespace n ON c.relnamespace=n.oid WHERE n.nspname='public' AND c.relkind='r' ORDER BY c.relname`;
     const sql =
       await db.$queryRaw`SELECT calls::text,total_exec_time,rows::text,wal_bytes::text,left(query,180) query FROM pg_stat_statements WHERE dbid=(SELECT oid FROM pg_database WHERE datname=current_database()) ORDER BY total_exec_time DESC LIMIT 20`;
+    const writerStatements = await db.$queryRaw`
+      SELECT CASE
+        WHEN query LIKE 'INSERT INTO %match_event_projections%' THEN 'events'
+        WHEN query LIKE 'INSERT INTO %historical_metric_contributions%' THEN 'dataset'
+        WHEN query LIKE 'INSERT INTO %match_timeline_projections%' THEN 'timeline'
+        WHEN query LIKE 'INSERT INTO %player_champion_stats%' THEN 'player_champion_stats'
+        WHEN query LIKE 'INSERT INTO %champion_stats%' THEN 'champion_stats'
+        WHEN query LIKE 'INSERT INTO %player_stats%' THEN 'player_stats'
+        WHEN query LIKE 'SELECT array_to_json%' THEN 'numeric_compatibility'
+        ELSE 'other'
+      END writer, sum(calls)::text calls, sum(total_exec_time) AS "executionMs"
+      FROM pg_stat_statements
+      WHERE dbid=(SELECT oid FROM pg_database WHERE datname=current_database())
+      GROUP BY 1 ORDER BY 1`;
     const all = [...facts, ...stages],
       cpuMs = all.reduce((s, x) => s + x.cpuMs, 0);
     const finishes =
@@ -435,6 +471,7 @@ async function main() {
       aggregateBatchSizes: stages.find((s) => s.role === 'aggregates')?.batches,
       relations,
       sql,
+      writerStatements,
       workers: all,
     };
     result.runs.push(run);

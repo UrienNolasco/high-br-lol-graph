@@ -1,0 +1,436 @@
+{
+  "measuredAt": "2026-10-13T21:05:10.755Z",
+  "input": "docs/analysis/write-optimization/comparison-input.json",
+  "reference": "highbr_architecture_study_1791924403906_a_3",
+  "matches": 119,
+  "contract": "Exact equality excluding operational timestamps and surrogate stats IDs; numeric tolerance is diagnostic, never substitutes exact gate",
+  "variants": [
+    {
+      "variant": "B",
+      "database": "highbr_architecture_study_1791924875909_a_3",
+      "tables": {
+        "match": {
+          "rows": 119,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "matchTeam": {
+          "rows": 238,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "matchParticipant": {
+          "rows": 1190,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "matchTimelineProjection": {
+          "rows": 119,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "matchEventProjection": {
+          "rows": 131203,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "historicalMetricContribution": {
+          "rows": 104363,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "championStats": {
+          "rows": 458,
+          "exact": false,
+          "differences": 7,
+          "numericDifferences": 7,
+          "nonNumericDifferences": 0,
+          "maxAbs": 9.094947017729282e-13,
+          "maxRel": 4.234685783047582e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "championStats.175.sumCspm",
+              "a": 30.32542137553609,
+              "b": 30.3254213755361
+            },
+            {
+              "at": "championStats.176.sumGpm",
+              "a": 3402.639730836676,
+              "b": 3402.639730836675
+            },
+            {
+              "at": "championStats.238.sumCspm",
+              "a": 57.01777488272214,
+              "b": 57.01777488272213
+            },
+            {
+              "at": "championStats.253.sumDpm",
+              "a": 2147.726533604556,
+              "b": 2147.726533604557
+            },
+            {
+              "at": "championStats.336.sumCspm",
+              "a": 97.62722059738705,
+              "b": 97.62722059738704
+            },
+            {
+              "at": "championStats.336.sumKda",
+              "a": 34.71153013653013,
+              "b": 34.71153013653014
+            },
+            {
+              "at": "championStats.407.sumGpm",
+              "a": 4286.61464398329,
+              "b": 4286.614643983291
+            }
+          ]
+        },
+        "playerStats": {
+          "rows": 1288,
+          "exact": false,
+          "differences": 14,
+          "numericDifferences": 14,
+          "nonNumericDifferences": 0,
+          "maxAbs": 9.094947017729282e-12,
+          "maxRel": 8.163238755392052e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "playerStats.276.sumDpm",
+              "a": 3030.730546664295,
+              "b": 3030.730546664296
+            },
+            {
+              "at": "playerStats.277.sumDpm",
+              "a": 3030.730546664295,
+              "b": 3030.730546664296
+            },
+            {
+              "at": "playerStats.282.sumDpm",
+              "a": 8181.211418269343,
+              "b": 8181.211418269344
+            },
+            {
+              "at": "playerStats.282.sumGpm",
+              "a": 5160.515344764146,
+              "b": 5160.515344764147
+            },
+            {
+              "at": "playerStats.283.sumDpm",
+              "a": 8181.211418269343,
+              "b": 8181.211418269344
+            },
+            {
+              "at": "playerStats.283.sumGpm",
+              "a": 5160.515344764146,
+              "b": 5160.515344764147
+            },
+            {
+              "at": "playerStats.910.sumKda",
+              "a": 13.0202380952381,
+              "b": 13.02023809523809
+            },
+            {
+              "at": "playerStats.912.sumDpm",
+              "a": 5627.574873319677,
+              "b": 5627.574873319676
+            }
+          ]
+        },
+        "playerChampionStats": {
+          "rows": 2005,
+          "exact": false,
+          "differences": 2,
+          "numericDifferences": 2,
+          "nonNumericDifferences": 0,
+          "maxAbs": 9.094947017729282e-13,
+          "maxRel": 3.1296049708342166e-16,
+          "withinDiagnosticTolerance": true,
+          "examples": [
+            {
+              "at": "playerChampionStats.789.sumCspm",
+              "a": 30.32542137553609,
+              "b": 30.3254213755361
+            },
+            {
+              "at": "playerChampionStats.790.sumGpm",
+              "a": 2906.100642888794,
+              "b": 2906.100642888793
+            }
+          ]
+        }
+      },
+      "storage": {
+        "dataset": {
+          "rows": 104363,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        },
+        "events": {
+          "rows": 131203,
+          "exact": true,
+          "differences": 0,
+          "numericDifferences": 0,
+          "nonNumericDifferences": 0,
+          "maxAbs": 0,
+          "maxRel": 0,
+          "withinDiagnosticTolerance": true,
+          "examples": []
+        }
+      },
+      "queries": [
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "queueId": 420,
+            "patch": "16.19"
+          },
+          "baseline": {
+            "ms": 9444.647335999995
+          },
+          "candidate": {
+            "ms": 9129.35600900001
+          },
+          "comparison": {
+            "exact": false,
+            "differences": 18,
+            "numericDifferences": 18,
+            "nonNumericDifferences": 0,
+            "maxAbs": 3.4924596548080444e-10,
+            "maxRel": 7.579787389435591e-16,
+            "withinDiagnosticTolerance": true,
+            "examples": [
+              {
+                "at": "query.summary.groups.59.mean",
+                "a": 6.267132942694191,
+                "b": 6.267132942694192
+              },
+              {
+                "at": "query.summary.groups.59.sumValue",
+                "a": 4763.021036447585,
+                "b": 4763.021036447586
+              },
+              {
+                "at": "query.summary.groups.61.mean",
+                "a": 749.9342124032936,
+                "b": 749.9342124032942
+              },
+              {
+                "at": "query.summary.groups.61.sumValue",
+                "a": 569950.0014265032,
+                "b": 569950.0014265035
+              },
+              {
+                "at": "query.summary.groups.62.mean",
+                "a": 20.00000000000001,
+                "b": 20.000000000000004
+              },
+              {
+                "at": "query.summary.groups.62.sumValue",
+                "a": 15200.000000000007,
+                "b": 15200.000000000002
+              },
+              {
+                "at": "query.summary.groups.64.denominatorSum",
+                "a": 15200.000000000002,
+                "b": 15199.999999999998
+              },
+              {
+                "at": "query.summary.groups.64.mean",
+                "a": 0.9716193732248013,
+                "b": 0.9716193732248017
+              }
+            ]
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": true,
+            "championId": 80,
+            "role": "UTILITY"
+          },
+          "baseline": {
+            "ms": 30.46682899998268
+          },
+          "candidate": {
+            "ms": 28.4513089999964
+          },
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "definitionId": "final.deathsNearObjectives",
+            "horizonKey": "final"
+          },
+          "baseline": {
+            "ms": 71.24833400000352
+          },
+          "candidate": {
+            "ms": 72.59701399999904
+          },
+          "comparison": {
+            "exact": false,
+            "differences": 2,
+            "numericDifferences": 2,
+            "nonNumericDifferences": 0,
+            "maxAbs": 7.275957614183426e-12,
+            "maxRel": 3.77395079625022e-16,
+            "withinDiagnosticTolerance": true,
+            "examples": [
+              {
+                "at": "query.summary.groups.0.mean",
+                "a": 37.6551139175472,
+                "b": 37.65511391754721
+              },
+              {
+                "at": "query.summary.groups.0.sumValue",
+                "a": 33626.01672836965,
+                "b": 33626.01672836966
+              }
+            ]
+          }
+        },
+        {
+          "filters": {
+            "eligibleOnly": false,
+            "playerId": "RfY9oVsQu3X3_RO6Qa8HZhCsIXSuYPxqvRbbX2tdJ_-TvIIaNNtFxjTl2mKkxYIAtFAmBsLFR_T1qQ"
+          },
+          "baseline": {
+            "ms": 619.8219810000155
+          },
+          "candidate": {
+            "ms": 615.5690440000035
+          },
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ],
+      "exports": {
+        "baseline": {
+          "ms": 424.4247209999885
+        },
+        "candidate": {
+          "ms": 302.1580279999762
+        },
+        "files": {
+          "features.jsonl": {
+            "byteIdentical": true,
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          },
+          "labels.jsonl": {
+            "byteIdentical": true,
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          },
+          "descriptive.jsonl": {
+            "byteIdentical": true,
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          },
+          "metadata.jsonl": {
+            "byteIdentical": false,
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          },
+          "observations.jsonl": {
+            "byteIdentical": true,
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      }
+    }
+  ]
+}

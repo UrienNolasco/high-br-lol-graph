@@ -1,0 +1,2457 @@
+{
+  "startedAt": "2026-10-13T20:29:52.046Z",
+  "commit": "54cfb3e45a45c2b475bbb20f4ca304bda41d2912",
+  "compiledPath": "/home/uriennfs/pessoal/projetos/high-br-lol/high-br-lol-graph/.tmp/write-optimization/baseline-dist",
+  "compiledWriterHashes": {
+    "modules/matches/adapters/persistence/match-projection-writer.js": "59ce687efce0a1c203b5bfbf861a573ed1f3a194b7bdaecbecd69e8672f93711",
+    "modules/matches/adapters/persistence/event-recordset.js": null,
+    "modules/stats/adapters/persistence/player-stats-writer.js": "b38ef924c22c9ac9f7ab613d931cc153ef0e77669016705e481b07f5252bfbc8",
+    "modules/dataset/adapters/dataset-writer.adapter.js": "3188ba43b06de5af96e59ba71507088fb38ae23fa6b943db9074f2f73a7a13a0",
+    "modules/dataset/adapters/dataset-recordset.js": null,
+    "core/prisma/recordset-json.js": null
+  },
+  "experimentalHashes": {
+    "adapters.cjs": "5ff637c20dc3562a88cf3ac8abcf14344749619de19961762d194f22e4eb5155",
+    "engine.cjs": "004f093874b33e221cff9c049d2f6ebbe3fee204863f98571b732cb1ee2e0102",
+    "run.cjs": "31c393e567d1f447a232e92ab060b25d9cb69d13c9fc5b59b60584cf448ee63f"
+  },
+  "environment": {
+    "node": "v26.11.1",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1245U",
+    "logicalCpus": 12,
+    "slotsPerWorker": 1,
+    "load": [
+      14.59,
+      11.97,
+      11.29
+    ],
+    "workers": 2,
+    "postgresCpus": 2,
+    "postgresMemory": "2GiB",
+    "nodeAffinity": "pid 2663398's current affinity list: 0,2"
+  },
+  "method": {
+    "scope": "production ProcessingService from stored gzip through committed outputs; D includes both durable downstream stages; excludes acquisition and RabbitMQ delivery",
+    "round": 1,
+    "arrivalRate": 0,
+    "arrivalDispatch": "fixed round-robin assignment; scheduled timestamps independent of service speed",
+    "requested": 120,
+    "selected": 120,
+    "screen": [
+      {
+        "id": "BR1_3289982156",
+        "events": 1220,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289617502",
+        "events": 1266,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289600320",
+        "events": 1189,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289582120",
+        "events": 1410,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289535363",
+        "events": 617,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289517289",
+        "events": 1268,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289500052",
+        "events": 1291,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289479717",
+        "events": 985,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289200795",
+        "events": 1098,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289185227",
+        "events": 1286,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289172207",
+        "events": 407,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289156261",
+        "events": 1146,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3235899552",
+        "events": 1136,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3235871686",
+        "events": 1194,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3235857814",
+        "events": 560,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3235599705",
+        "events": 1070,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3235574566",
+        "events": 1183,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3235550712",
+        "events": 1253,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3235532392",
+        "events": 1057,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3233637698",
+        "events": 1058,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3233602356",
+        "events": 880,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3233579284",
+        "events": 1028,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3233138430",
+        "events": 616,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3232475185",
+        "events": 1147,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290759378",
+        "events": 1321,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290749716",
+        "events": 1298,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290736778",
+        "events": 1094,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290732327",
+        "events": 1199,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290720300",
+        "events": 864,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290716379",
+        "events": 969,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290652400",
+        "events": 1171,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290153562",
+        "events": 1339,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290146498",
+        "events": 1179,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290139543",
+        "events": 762,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290126730",
+        "events": 1274,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290118762",
+        "events": 1068,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286939295",
+        "events": 1054,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286918194",
+        "events": 1193,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286811840",
+        "events": 1034,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286624841",
+        "events": 966,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286622241",
+        "events": 631,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286606788",
+        "events": 858,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286601049",
+        "events": 1001,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3285818434",
+        "events": 968,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3285807083",
+        "events": 1255,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3285789989",
+        "events": 1114,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3285690957",
+        "events": 1059,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3285697032",
+        "events": 701,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290048537",
+        "events": 1477,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290041209",
+        "events": 1110,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290019546",
+        "events": 1257,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289084152",
+        "events": 1034,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289067810",
+        "events": 1091,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289059493",
+        "events": 1278,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289043852",
+        "events": 1546,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3287788508",
+        "events": 981,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3287781721",
+        "events": 1023,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3287779021",
+        "events": 1128,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286729660",
+        "events": 1230,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286398861",
+        "events": 1324,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290703657",
+        "events": 1205,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288631167",
+        "events": 1271,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288335997",
+        "events": 1115,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288332933",
+        "events": 1151,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288309200",
+        "events": 1214,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288286800",
+        "events": 1667,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288278488",
+        "events": 751,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288264050",
+        "events": 1029,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289882724",
+        "events": 768,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289862248",
+        "events": 1221,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288993837",
+        "events": 999,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288986697",
+        "events": 1550,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288973927",
+        "events": 1672,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288757200",
+        "events": 1195,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288733126",
+        "events": 705,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3285707715",
+        "events": 996,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3285416344",
+        "events": 1089,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3284618288",
+        "events": 653,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3284358066",
+        "events": 1043,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3284341366",
+        "events": 1040,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290101765",
+        "events": 1299,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290099224",
+        "events": 1114,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290089682",
+        "events": 1257,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289883083",
+        "events": 1299,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289785063",
+        "events": 1140,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289769202",
+        "events": 1373,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289755226",
+        "events": 1458,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289740958",
+        "events": 1211,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289734330",
+        "events": 1372,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288826802",
+        "events": 1102,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288805977",
+        "events": 1125,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286622128",
+        "events": 1151,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286609981",
+        "events": 1141,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3284217608",
+        "events": 1041,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3284212513",
+        "events": 1713,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3283642155",
+        "error": "Error: Invalid match/timeline identity, patch, teams, participants or frames"
+      },
+      {
+        "id": "BR1_3283332713",
+        "events": 959,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3283331160",
+        "events": 1053,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3283328001",
+        "events": 726,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3283040901",
+        "events": 735,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3282222031",
+        "events": 1047,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288074001",
+        "events": 1080,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3287860130",
+        "events": 708,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3287138345",
+        "events": 1240,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3287089933",
+        "events": 85,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286661904",
+        "events": 1463,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286647547",
+        "events": 1424,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286645093",
+        "events": 1239,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286637978",
+        "events": 66,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286460826",
+        "events": 1461,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286455324",
+        "events": 1258,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286437144",
+        "events": 1384,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3286421852",
+        "events": 971,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290773412",
+        "events": 871,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290756681",
+        "events": 1214,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290390827",
+        "events": 1438,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3290385634",
+        "events": 1124,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3289858420",
+        "events": 1080,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288766292",
+        "events": 1033,
+        "rows": 877
+      },
+      {
+        "id": "BR1_3288537121",
+        "events": 1198,
+        "rows": 877
+      }
+    ],
+    "excluded": [
+      {
+        "id": "BR1_3283642155",
+        "error": "Error: Invalid match/timeline identity, patch, teams, participants or frames"
+      }
+    ],
+    "measured": 119
+  },
+  "runs": [
+    {
+      "variant": "A",
+      "database": "highbr_architecture_study_1791923392084_a_1",
+      "template": "highbr_architecture_study",
+      "wallMs": 158846.422335,
+      "matches": 119,
+      "matchesPerSecond": 0.7491512761240182,
+      "nodeCpuMs": 215690.60700000002,
+      "postgresCpuMs": 82023.52600000001,
+      "walBytes": 361991964,
+      "responseMs": {
+        "n": 119,
+        "mean": 81214.34453781512,
+        "p50": 82535,
+        "p95": 151744,
+        "max": 158789
+      },
+      "backlog": [
+        {
+          "offsetMs": 0,
+          "due": 119,
+          "completed": 0
+        },
+        {
+          "offsetMs": 1000,
+          "due": 119,
+          "completed": 0
+        },
+        {
+          "offsetMs": 2000,
+          "due": 119,
+          "completed": 0
+        },
+        {
+          "offsetMs": 3000,
+          "due": 119,
+          "completed": 0
+        },
+        {
+          "offsetMs": 4000,
+          "due": 119,
+          "completed": 2
+        },
+        {
+          "offsetMs": 5000,
+          "due": 119,
+          "completed": 2
+        },
+        {
+          "offsetMs": 6000,
+          "due": 119,
+          "completed": 2
+        },
+        {
+          "offsetMs": 7000,
+          "due": 119,
+          "completed": 4
+        },
+        {
+          "offsetMs": 8000,
+          "due": 119,
+          "completed": 4
+        },
+        {
+          "offsetMs": 9000,
+          "due": 119,
+          "completed": 4
+        },
+        {
+          "offsetMs": 10000,
+          "due": 119,
+          "completed": 6
+        },
+        {
+          "offsetMs": 11000,
+          "due": 119,
+          "completed": 6
+        },
+        {
+          "offsetMs": 12000,
+          "due": 119,
+          "completed": 6
+        },
+        {
+          "offsetMs": 13000,
+          "due": 119,
+          "completed": 8
+        },
+        {
+          "offsetMs": 14000,
+          "due": 119,
+          "completed": 8
+        },
+        {
+          "offsetMs": 15000,
+          "due": 119,
+          "completed": 9
+        },
+        {
+          "offsetMs": 16000,
+          "due": 119,
+          "completed": 10
+        },
+        {
+          "offsetMs": 17000,
+          "due": 119,
+          "completed": 11
+        },
+        {
+          "offsetMs": 18000,
+          "due": 119,
+          "completed": 11
+        },
+        {
+          "offsetMs": 19000,
+          "due": 119,
+          "completed": 12
+        },
+        {
+          "offsetMs": 20000,
+          "due": 119,
+          "completed": 13
+        },
+        {
+          "offsetMs": 21000,
+          "due": 119,
+          "completed": 15
+        },
+        {
+          "offsetMs": 22000,
+          "due": 119,
+          "completed": 15
+        },
+        {
+          "offsetMs": 23000,
+          "due": 119,
+          "completed": 16
+        },
+        {
+          "offsetMs": 24000,
+          "due": 119,
+          "completed": 17
+        },
+        {
+          "offsetMs": 25000,
+          "due": 119,
+          "completed": 17
+        },
+        {
+          "offsetMs": 26000,
+          "due": 119,
+          "completed": 19
+        },
+        {
+          "offsetMs": 27000,
+          "due": 119,
+          "completed": 19
+        },
+        {
+          "offsetMs": 28000,
+          "due": 119,
+          "completed": 20
+        },
+        {
+          "offsetMs": 29000,
+          "due": 119,
+          "completed": 21
+        },
+        {
+          "offsetMs": 30000,
+          "due": 119,
+          "completed": 23
+        },
+        {
+          "offsetMs": 31000,
+          "due": 119,
+          "completed": 23
+        },
+        {
+          "offsetMs": 32000,
+          "due": 119,
+          "completed": 24
+        },
+        {
+          "offsetMs": 33000,
+          "due": 119,
+          "completed": 25
+        },
+        {
+          "offsetMs": 34000,
+          "due": 119,
+          "completed": 25
+        },
+        {
+          "offsetMs": 35000,
+          "due": 119,
+          "completed": 27
+        },
+        {
+          "offsetMs": 36000,
+          "due": 119,
+          "completed": 27
+        },
+        {
+          "offsetMs": 37000,
+          "due": 119,
+          "completed": 29
+        },
+        {
+          "offsetMs": 38000,
+          "due": 119,
+          "completed": 29
+        },
+        {
+          "offsetMs": 39000,
+          "due": 119,
+          "completed": 31
+        },
+        {
+          "offsetMs": 40000,
+          "due": 119,
+          "completed": 31
+        },
+        {
+          "offsetMs": 41000,
+          "due": 119,
+          "completed": 32
+        },
+        {
+          "offsetMs": 42000,
+          "due": 119,
+          "completed": 33
+        },
+        {
+          "offsetMs": 43000,
+          "due": 119,
+          "completed": 33
+        },
+        {
+          "offsetMs": 44000,
+          "due": 119,
+          "completed": 34
+        },
+        {
+          "offsetMs": 45000,
+          "due": 119,
+          "completed": 35
+        },
+        {
+          "offsetMs": 46000,
+          "due": 119,
+          "completed": 35
+        },
+        {
+          "offsetMs": 47000,
+          "due": 119,
+          "completed": 37
+        },
+        {
+          "offsetMs": 48000,
+          "due": 119,
+          "completed": 37
+        },
+        {
+          "offsetMs": 49000,
+          "due": 119,
+          "completed": 38
+        },
+        {
+          "offsetMs": 50000,
+          "due": 119,
+          "completed": 39
+        },
+        {
+          "offsetMs": 51000,
+          "due": 119,
+          "completed": 39
+        },
+        {
+          "offsetMs": 52000,
+          "due": 119,
+          "completed": 41
+        },
+        {
+          "offsetMs": 53000,
+          "due": 119,
+          "completed": 41
+        },
+        {
+          "offsetMs": 54000,
+          "due": 119,
+          "completed": 43
+        },
+        {
+          "offsetMs": 55000,
+          "due": 119,
+          "completed": 43
+        },
+        {
+          "offsetMs": 56000,
+          "due": 119,
+          "completed": 43
+        },
+        {
+          "offsetMs": 57000,
+          "due": 119,
+          "completed": 43
+        },
+        {
+          "offsetMs": 58000,
+          "due": 119,
+          "completed": 45
+        },
+        {
+          "offsetMs": 59000,
+          "due": 119,
+          "completed": 45
+        },
+        {
+          "offsetMs": 60000,
+          "due": 119,
+          "completed": 45
+        },
+        {
+          "offsetMs": 61000,
+          "due": 119,
+          "completed": 46
+        },
+        {
+          "offsetMs": 62000,
+          "due": 119,
+          "completed": 47
+        },
+        {
+          "offsetMs": 63000,
+          "due": 119,
+          "completed": 47
+        },
+        {
+          "offsetMs": 64000,
+          "due": 119,
+          "completed": 48
+        },
+        {
+          "offsetMs": 65000,
+          "due": 119,
+          "completed": 49
+        },
+        {
+          "offsetMs": 66000,
+          "due": 119,
+          "completed": 49
+        },
+        {
+          "offsetMs": 67000,
+          "due": 119,
+          "completed": 50
+        },
+        {
+          "offsetMs": 68000,
+          "due": 119,
+          "completed": 51
+        },
+        {
+          "offsetMs": 69000,
+          "due": 119,
+          "completed": 51
+        },
+        {
+          "offsetMs": 70000,
+          "due": 119,
+          "completed": 52
+        },
+        {
+          "offsetMs": 71000,
+          "due": 119,
+          "completed": 52
+        },
+        {
+          "offsetMs": 72000,
+          "due": 119,
+          "completed": 53
+        },
+        {
+          "offsetMs": 73000,
+          "due": 119,
+          "completed": 54
+        },
+        {
+          "offsetMs": 74000,
+          "due": 119,
+          "completed": 54
+        },
+        {
+          "offsetMs": 75000,
+          "due": 119,
+          "completed": 56
+        },
+        {
+          "offsetMs": 76000,
+          "due": 119,
+          "completed": 56
+        },
+        {
+          "offsetMs": 77000,
+          "due": 119,
+          "completed": 56
+        },
+        {
+          "offsetMs": 78000,
+          "due": 119,
+          "completed": 57
+        },
+        {
+          "offsetMs": 79000,
+          "due": 119,
+          "completed": 58
+        },
+        {
+          "offsetMs": 80000,
+          "due": 119,
+          "completed": 58
+        },
+        {
+          "offsetMs": 81000,
+          "due": 119,
+          "completed": 58
+        },
+        {
+          "offsetMs": 82000,
+          "due": 119,
+          "completed": 59
+        },
+        {
+          "offsetMs": 83000,
+          "due": 119,
+          "completed": 60
+        },
+        {
+          "offsetMs": 84000,
+          "due": 119,
+          "completed": 60
+        },
+        {
+          "offsetMs": 85000,
+          "due": 119,
+          "completed": 61
+        },
+        {
+          "offsetMs": 86000,
+          "due": 119,
+          "completed": 62
+        },
+        {
+          "offsetMs": 87000,
+          "due": 119,
+          "completed": 62
+        },
+        {
+          "offsetMs": 88000,
+          "due": 119,
+          "completed": 62
+        },
+        {
+          "offsetMs": 89000,
+          "due": 119,
+          "completed": 63
+        },
+        {
+          "offsetMs": 90000,
+          "due": 119,
+          "completed": 64
+        },
+        {
+          "offsetMs": 91000,
+          "due": 119,
+          "completed": 65
+        },
+        {
+          "offsetMs": 92000,
+          "due": 119,
+          "completed": 65
+        },
+        {
+          "offsetMs": 93000,
+          "due": 119,
+          "completed": 67
+        },
+        {
+          "offsetMs": 94000,
+          "due": 119,
+          "completed": 67
+        },
+        {
+          "offsetMs": 95000,
+          "due": 119,
+          "completed": 69
+        },
+        {
+          "offsetMs": 96000,
+          "due": 119,
+          "completed": 69
+        },
+        {
+          "offsetMs": 97000,
+          "due": 119,
+          "completed": 69
+        },
+        {
+          "offsetMs": 98000,
+          "due": 119,
+          "completed": 71
+        },
+        {
+          "offsetMs": 99000,
+          "due": 119,
+          "completed": 71
+        },
+        {
+          "offsetMs": 100000,
+          "due": 119,
+          "completed": 71
+        },
+        {
+          "offsetMs": 101000,
+          "due": 119,
+          "completed": 73
+        },
+        {
+          "offsetMs": 102000,
+          "due": 119,
+          "completed": 73
+        },
+        {
+          "offsetMs": 103000,
+          "due": 119,
+          "completed": 75
+        },
+        {
+          "offsetMs": 104000,
+          "due": 119,
+          "completed": 75
+        },
+        {
+          "offsetMs": 105000,
+          "due": 119,
+          "completed": 76
+        },
+        {
+          "offsetMs": 106000,
+          "due": 119,
+          "completed": 77
+        },
+        {
+          "offsetMs": 107000,
+          "due": 119,
+          "completed": 77
+        },
+        {
+          "offsetMs": 108000,
+          "due": 119,
+          "completed": 79
+        },
+        {
+          "offsetMs": 109000,
+          "due": 119,
+          "completed": 79
+        },
+        {
+          "offsetMs": 110000,
+          "due": 119,
+          "completed": 80
+        },
+        {
+          "offsetMs": 111000,
+          "due": 119,
+          "completed": 81
+        },
+        {
+          "offsetMs": 112000,
+          "due": 119,
+          "completed": 81
+        },
+        {
+          "offsetMs": 113000,
+          "due": 119,
+          "completed": 82
+        },
+        {
+          "offsetMs": 114000,
+          "due": 119,
+          "completed": 83
+        },
+        {
+          "offsetMs": 115000,
+          "due": 119,
+          "completed": 83
+        },
+        {
+          "offsetMs": 116000,
+          "due": 119,
+          "completed": 84
+        },
+        {
+          "offsetMs": 117000,
+          "due": 119,
+          "completed": 85
+        },
+        {
+          "offsetMs": 118000,
+          "due": 119,
+          "completed": 85
+        },
+        {
+          "offsetMs": 119000,
+          "due": 119,
+          "completed": 85
+        },
+        {
+          "offsetMs": 120000,
+          "due": 119,
+          "completed": 87
+        },
+        {
+          "offsetMs": 121000,
+          "due": 119,
+          "completed": 87
+        },
+        {
+          "offsetMs": 122000,
+          "due": 119,
+          "completed": 88
+        },
+        {
+          "offsetMs": 123000,
+          "due": 119,
+          "completed": 89
+        },
+        {
+          "offsetMs": 124000,
+          "due": 119,
+          "completed": 89
+        },
+        {
+          "offsetMs": 125000,
+          "due": 119,
+          "completed": 90
+        },
+        {
+          "offsetMs": 126000,
+          "due": 119,
+          "completed": 91
+        },
+        {
+          "offsetMs": 127000,
+          "due": 119,
+          "completed": 92
+        },
+        {
+          "offsetMs": 128000,
+          "due": 119,
+          "completed": 93
+        },
+        {
+          "offsetMs": 129000,
+          "due": 119,
+          "completed": 94
+        },
+        {
+          "offsetMs": 130000,
+          "due": 119,
+          "completed": 94
+        },
+        {
+          "offsetMs": 131000,
+          "due": 119,
+          "completed": 96
+        },
+        {
+          "offsetMs": 132000,
+          "due": 119,
+          "completed": 96
+        },
+        {
+          "offsetMs": 133000,
+          "due": 119,
+          "completed": 97
+        },
+        {
+          "offsetMs": 134000,
+          "due": 119,
+          "completed": 98
+        },
+        {
+          "offsetMs": 135000,
+          "due": 119,
+          "completed": 99
+        },
+        {
+          "offsetMs": 136000,
+          "due": 119,
+          "completed": 100
+        },
+        {
+          "offsetMs": 137000,
+          "due": 119,
+          "completed": 100
+        },
+        {
+          "offsetMs": 138000,
+          "due": 119,
+          "completed": 102
+        },
+        {
+          "offsetMs": 139000,
+          "due": 119,
+          "completed": 103
+        },
+        {
+          "offsetMs": 140000,
+          "due": 119,
+          "completed": 104
+        },
+        {
+          "offsetMs": 141000,
+          "due": 119,
+          "completed": 104
+        },
+        {
+          "offsetMs": 142000,
+          "due": 119,
+          "completed": 105
+        },
+        {
+          "offsetMs": 143000,
+          "due": 119,
+          "completed": 107
+        },
+        {
+          "offsetMs": 144000,
+          "due": 119,
+          "completed": 107
+        },
+        {
+          "offsetMs": 145000,
+          "due": 119,
+          "completed": 108
+        },
+        {
+          "offsetMs": 146000,
+          "due": 119,
+          "completed": 109
+        },
+        {
+          "offsetMs": 147000,
+          "due": 119,
+          "completed": 109
+        },
+        {
+          "offsetMs": 148000,
+          "due": 119,
+          "completed": 110
+        },
+        {
+          "offsetMs": 149000,
+          "due": 119,
+          "completed": 111
+        },
+        {
+          "offsetMs": 150000,
+          "due": 119,
+          "completed": 112
+        },
+        {
+          "offsetMs": 151000,
+          "due": 119,
+          "completed": 113
+        },
+        {
+          "offsetMs": 152000,
+          "due": 119,
+          "completed": 114
+        },
+        {
+          "offsetMs": 153000,
+          "due": 119,
+          "completed": 115
+        },
+        {
+          "offsetMs": 154000,
+          "due": 119,
+          "completed": 116
+        },
+        {
+          "offsetMs": 155000,
+          "due": 119,
+          "completed": 117
+        },
+        {
+          "offsetMs": 156000,
+          "due": 119,
+          "completed": 117
+        },
+        {
+          "offsetMs": 157000,
+          "due": 119,
+          "completed": 118
+        },
+        {
+          "offsetMs": 158000,
+          "due": 119,
+          "completed": 118
+        }
+      ],
+      "sumWorkerPeakRss": 1034215424,
+      "serviceMs": {
+        "n": 119,
+        "mean": 2624.768225310925,
+        "p50": 2587.318752000021,
+        "p95": 3627.498200000002,
+        "max": 3993.6598369999992
+      },
+      "availabilityMs": {
+        "n": 119,
+        "mean": 81214.34453781512,
+        "p50": 82535,
+        "p95": 151744,
+        "max": 158789
+      },
+      "downstreamLagMs": null,
+      "relations": [
+        {
+          "name": "_prisma_migrations",
+          "bytes": "32768",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "champion_stats",
+          "bytes": "204800",
+          "indexBytes": "90112"
+        },
+        {
+          "name": "discovery_observations",
+          "bytes": "32768",
+          "indexBytes": "24576"
+        },
+        {
+          "name": "historical_metric_contributions",
+          "bytes": "168665088",
+          "indexBytes": "39952384"
+        },
+        {
+          "name": "match_discoveries",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "match_event_projections",
+          "bytes": "97763328",
+          "indexBytes": "21987328"
+        },
+        {
+          "name": "match_participants",
+          "bytes": "9560064",
+          "indexBytes": "688128"
+        },
+        {
+          "name": "match_processing",
+          "bytes": "106496",
+          "indexBytes": "49152"
+        },
+        {
+          "name": "match_raw",
+          "bytes": "9093120",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "match_teams",
+          "bytes": "565248",
+          "indexBytes": "49152"
+        },
+        {
+          "name": "match_timeline_projections",
+          "bytes": "9191424",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "matches",
+          "bytes": "180224",
+          "indexBytes": "65536"
+        },
+        {
+          "name": "player_champion_stats",
+          "bytes": "1409024",
+          "indexBytes": "794624"
+        },
+        {
+          "name": "player_stats",
+          "bytes": "974848",
+          "indexBytes": "589824"
+        },
+        {
+          "name": "processing_maintenance",
+          "bytes": "8192",
+          "indexBytes": "8192"
+        },
+        {
+          "name": "study_jobs",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "study_metric_groups",
+          "bytes": "49152",
+          "indexBytes": "40960"
+        },
+        {
+          "name": "study_metric_matches",
+          "bytes": "24576",
+          "indexBytes": "16384"
+        },
+        {
+          "name": "users",
+          "bytes": "40960",
+          "indexBytes": "32768"
+        }
+      ],
+      "sql": [
+        {
+          "calls": "119",
+          "total_exec_time": 10349.563382000008,
+          "rows": "59500",
+          "wal_bytes": "116706129",
+          "query": "INSERT INTO \"public\".\"historical_metric_contributions\" (\"id\",\"matchId\",\"datasetVersion\",\"subjectKind\",\"subjectId\",\"definitionId\",\"definitionVersion\",\"usage\",\"horizonKey\",\"horizonMs"
+        },
+        {
+          "calls": "119",
+          "total_exec_time": 7960.389254,
+          "rows": "44863",
+          "wal_bytes": "88036702",
+          "query": "INSERT INTO \"public\".\"historical_metric_contributions\" (\"id\",\"matchId\",\"datasetVersion\",\"subjectKind\",\"subjectId\",\"definitionId\",\"definitionVersion\",\"usage\",\"horizonKey\",\"horizonMs"
+        },
+        {
+          "calls": "119",
+          "total_exec_time": 2801.703489,
+          "rows": "119",
+          "wal_bytes": "9284142",
+          "query": "INSERT INTO \"public\".\"match_timeline_projections\" (\"matchId\",\"projectionVersion\",\"frameIntervalMs\",\"observedEndMs\",\"frames\") VALUES ($1,$2,$3,$4,$5) RETURNING \"public\".\"match_timel"
+        },
+        {
+          "calls": "15",
+          "total_exec_time": 2773.4707960000005,
+          "rows": "20475",
+          "wal_bytes": "20316043",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "119",
+          "total_exec_time": 1577.225764,
+          "rows": "1190",
+          "wal_bytes": "9884340",
+          "query": "INSERT INTO \"public\".\"match_participants\" (\"matchId\",\"puuid\",\"riotIdGameName\",\"riotIdTagline\",\"finalStats\",\"summonerName\",\"championId\",\"championName\",\"teamId\",\"role\",\"lane\",\"win\",\""
+        },
+        {
+          "calls": "835",
+          "total_exec_time": 756.2844589999997,
+          "rows": "835",
+          "wal_bytes": "273203",
+          "query": "INSERT INTO \"champion_stats\" (\"championId\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"championName\")\n      VALUES ($1,$2,$3,$4,$5,$6,$7,$"
+        },
+        {
+          "calls": "1670",
+          "total_exec_time": 490.7752329999996,
+          "rows": "1670",
+          "wal_bytes": "1648418",
+          "query": "INSERT INTO \"player_champion_stats\" (\"puuid\",\"patch\",\"queueId\",\"championId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"laningSamples\",\"sum"
+        },
+        {
+          "calls": "1670",
+          "total_exec_time": 466.90190200000075,
+          "rows": "1670",
+          "wal_bytes": "1117956",
+          "query": "INSERT INTO \"player_stats\" (\"puuid\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"roleDistribution\")\n      VALUES ($1,$2,$3"
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 356.53999999999996,
+          "rows": "2514",
+          "wal_bytes": "2534212",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 354.21994,
+          "rows": "2598",
+          "wal_bytes": "2646840",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 311.149731,
+          "rows": "2228",
+          "wal_bytes": "2260464",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "682",
+          "total_exec_time": 308.00120399999975,
+          "rows": "682",
+          "wal_bytes": "471930",
+          "query": "INSERT INTO \"player_stats\" (\"puuid\",\"patch\",\"queueId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"roleDistribution\")\n      VALUES ($1,$2,$3"
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 293.428277,
+          "rows": "2160",
+          "wal_bytes": "2171978",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 286.441861,
+          "rows": "2302",
+          "wal_bytes": "2337611",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 269.928188,
+          "rows": "2068",
+          "wal_bytes": "2061977",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "2",
+          "total_exec_time": 268.670261,
+          "rows": "2428",
+          "wal_bytes": "2392204",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 203.837447,
+          "rows": "1091",
+          "wal_bytes": "1109436",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 199.354264,
+          "rows": "1220",
+          "wal_bytes": "1239618",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        },
+        {
+          "calls": "682",
+          "total_exec_time": 195.88068799999988,
+          "rows": "682",
+          "wal_bytes": "663942",
+          "query": "INSERT INTO \"player_champion_stats\" (\"puuid\",\"patch\",\"queueId\",\"championId\",\"gamesPlayed\",\"wins\",\"losses\",\"sumKda\",\"sumDpm\",\"sumGpm\",\"sumCspm\",\"sumVisionScore\",\"laningSamples\",\"sum"
+        },
+        {
+          "calls": "1",
+          "total_exec_time": 195.63718,
+          "rows": "1266",
+          "wal_bytes": "1270556",
+          "query": "INSERT INTO \"public\".\"match_event_projections\" (\"matchId\",\"frameIndex\",\"eventIndex\",\"type\",\"timestampMs\",\"frameTimestampMs\",\"actorParticipantId\",\"actorPuuid\",\"victimParticipantId\","
+        }
+      ],
+      "workers": [
+        {
+          "done": true,
+          "role": "facts",
+          "samples": [
+            {
+              "matchId": "BR1_3289982156",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3793.294260999999,
+              "finishedAt": 1791923404457
+            },
+            {
+              "matchId": "BR1_3289600320",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3160.4639150000003,
+              "finishedAt": 1791923407617
+            },
+            {
+              "matchId": "BR1_3289535363",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2178.6763489999994,
+              "finishedAt": 1791923409796
+            },
+            {
+              "matchId": "BR1_3289500052",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3172.7917169999982,
+              "finishedAt": 1791923412969
+            },
+            {
+              "matchId": "BR1_3289200795",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2499.507082,
+              "finishedAt": 1791923415468
+            },
+            {
+              "matchId": "BR1_3289172207",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1665.2934429999987,
+              "finishedAt": 1791923417133
+            },
+            {
+              "matchId": "BR1_3235899552",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2901.977606999997,
+              "finishedAt": 1791923420035
+            },
+            {
+              "matchId": "BR1_3235857814",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1425.2315970000018,
+              "finishedAt": 1791923421461
+            },
+            {
+              "matchId": "BR1_3235574566",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2698.822092000002,
+              "finishedAt": 1791923424160
+            },
+            {
+              "matchId": "BR1_3235532392",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2308.472690999999,
+              "finishedAt": 1791923426468
+            },
+            {
+              "matchId": "BR1_3233602356",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2482.629026999999,
+              "finishedAt": 1791923428951
+            },
+            {
+              "matchId": "BR1_3233138430",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1461.0696779999998,
+              "finishedAt": 1791923430412
+            },
+            {
+              "matchId": "BR1_3290759378",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2523.748182000003,
+              "finishedAt": 1791923432936
+            },
+            {
+              "matchId": "BR1_3290736778",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2525.6375449999978,
+              "finishedAt": 1791923435461
+            },
+            {
+              "matchId": "BR1_3290720300",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1887.050320000002,
+              "finishedAt": 1791923437348
+            },
+            {
+              "matchId": "BR1_3290652400",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1880.1935520000043,
+              "finishedAt": 1791923439229
+            },
+            {
+              "matchId": "BR1_3290146498",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2368.368942000001,
+              "finishedAt": 1791923441597
+            },
+            {
+              "matchId": "BR1_3290126730",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3331.557142999998,
+              "finishedAt": 1791923444928
+            },
+            {
+              "matchId": "BR1_3286939295",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2212.0178929999965,
+              "finishedAt": 1791923447141
+            },
+            {
+              "matchId": "BR1_3286811840",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2520.546340000001,
+              "finishedAt": 1791923449661
+            },
+            {
+              "matchId": "BR1_3286622241",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2344.1152960000036,
+              "finishedAt": 1791923452005
+            },
+            {
+              "matchId": "BR1_3286601049",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2528.8304080000016,
+              "finishedAt": 1791923454534
+            },
+            {
+              "matchId": "BR1_3285807083",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3760.2303919999977,
+              "finishedAt": 1791923458294
+            },
+            {
+              "matchId": "BR1_3285690957",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3548.9319389999946,
+              "finishedAt": 1791923461843
+            },
+            {
+              "matchId": "BR1_3290048537",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3270.419053000005,
+              "finishedAt": 1791923465114
+            },
+            {
+              "matchId": "BR1_3290019546",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3193.7501600000105,
+              "finishedAt": 1791923468307
+            },
+            {
+              "matchId": "BR1_3289067810",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3573.1396920000116,
+              "finishedAt": 1791923471881
+            },
+            {
+              "matchId": "BR1_3289043852",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3428.6998370000074,
+              "finishedAt": 1791923475309
+            },
+            {
+              "matchId": "BR1_3287781721",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3145.151073000001,
+              "finishedAt": 1791923478454
+            },
+            {
+              "matchId": "BR1_3286729660",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3946.463487999994,
+              "finishedAt": 1791923482401
+            },
+            {
+              "matchId": "BR1_3290703657",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2914.796033999999,
+              "finishedAt": 1791923485316
+            },
+            {
+              "matchId": "BR1_3288335997",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3569.380879000004,
+              "finishedAt": 1791923488885
+            },
+            {
+              "matchId": "BR1_3288309200",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2726.6665709999943,
+              "finishedAt": 1791923491612
+            },
+            {
+              "matchId": "BR1_3288278488",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1902.2374920000002,
+              "finishedAt": 1791923493514
+            },
+            {
+              "matchId": "BR1_3289882724",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2121.7780009999988,
+              "finishedAt": 1791923495636
+            },
+            {
+              "matchId": "BR1_3288993837",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2554.017749000006,
+              "finishedAt": 1791923498190
+            },
+            {
+              "matchId": "BR1_3288973927",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2911.0611120000103,
+              "finishedAt": 1791923501101
+            },
+            {
+              "matchId": "BR1_3288733126",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2102.877106,
+              "finishedAt": 1791923503204
+            },
+            {
+              "matchId": "BR1_3285416344",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2398.172875999997,
+              "finishedAt": 1791923505602
+            },
+            {
+              "matchId": "BR1_3284358066",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2682.2215140000044,
+              "finishedAt": 1791923508284
+            },
+            {
+              "matchId": "BR1_3290101765",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2859.3106299999927,
+              "finishedAt": 1791923511144
+            },
+            {
+              "matchId": "BR1_3290089682",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2628.6719240000093,
+              "finishedAt": 1791923513772
+            },
+            {
+              "matchId": "BR1_3289785063",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3135.625589000003,
+              "finishedAt": 1791923516908
+            },
+            {
+              "matchId": "BR1_3289755226",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3509.7723689999984,
+              "finishedAt": 1791923520418
+            },
+            {
+              "matchId": "BR1_3289734330",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2689.401494000005,
+              "finishedAt": 1791923523107
+            },
+            {
+              "matchId": "BR1_3288805977",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2967.8120789999957,
+              "finishedAt": 1791923526075
+            },
+            {
+              "matchId": "BR1_3286609981",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2258.2419590000063,
+              "finishedAt": 1791923528333
+            },
+            {
+              "matchId": "BR1_3284212513",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2587.1420710000093,
+              "finishedAt": 1791923530920
+            },
+            {
+              "matchId": "BR1_3283331160",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2655.7428990000044,
+              "finishedAt": 1791923533576
+            },
+            {
+              "matchId": "BR1_3283040901",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1859.6914680000045,
+              "finishedAt": 1791923535436
+            },
+            {
+              "matchId": "BR1_3288074001",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2358.194348000019,
+              "finishedAt": 1791923537794
+            },
+            {
+              "matchId": "BR1_3287138345",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2760.673417999991,
+              "finishedAt": 1791923540555
+            },
+            {
+              "matchId": "BR1_3286661904",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2907.276087999984,
+              "finishedAt": 1791923543462
+            },
+            {
+              "matchId": "BR1_3286645093",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2269.203158999997,
+              "finishedAt": 1791923545731
+            },
+            {
+              "matchId": "BR1_3286460826",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3292.6110460000054,
+              "finishedAt": 1791923549024
+            },
+            {
+              "matchId": "BR1_3286437144",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2587.318752000021,
+              "finishedAt": 1791923551611
+            },
+            {
+              "matchId": "BR1_3290773412",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1578.0644730000058,
+              "finishedAt": 1791923553189
+            },
+            {
+              "matchId": "BR1_3290390827",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2168.7492009999987,
+              "finishedAt": 1791923555358
+            },
+            {
+              "matchId": "BR1_3289858420",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2210.3692769999907,
+              "finishedAt": 1791923557568
+            },
+            {
+              "matchId": "BR1_3288537121",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1877.9115849999944,
+              "finishedAt": 1791923559446
+            }
+          ],
+          "batches": [],
+          "wallMs": 158792.914859,
+          "cpuMs": 109448.952,
+          "rssPeak": 508301312
+        },
+        {
+          "done": true,
+          "role": "facts",
+          "samples": [
+            {
+              "matchId": "BR1_3289617502",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3714.477559,
+              "finishedAt": 1791923404378
+            },
+            {
+              "matchId": "BR1_3289582120",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3040.916416,
+              "finishedAt": 1791923407419
+            },
+            {
+              "matchId": "BR1_3289517289",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3185.0400149999987,
+              "finishedAt": 1791923410604
+            },
+            {
+              "matchId": "BR1_3289479717",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2602.8314880000016,
+              "finishedAt": 1791923413207
+            },
+            {
+              "matchId": "BR1_3289185227",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2787.804053,
+              "finishedAt": 1791923415995
+            },
+            {
+              "matchId": "BR1_3289156261",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2915.521278,
+              "finishedAt": 1791923418910
+            },
+            {
+              "matchId": "BR1_3235871686",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2450.8969529999995,
+              "finishedAt": 1791923421361
+            },
+            {
+              "matchId": "BR1_3235599705",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2217.2313299999987,
+              "finishedAt": 1791923423578
+            },
+            {
+              "matchId": "BR1_3235550712",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2233.033607999998,
+              "finishedAt": 1791923425811
+            },
+            {
+              "matchId": "BR1_3233637698",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2509.933491,
+              "finishedAt": 1791923428321
+            },
+            {
+              "matchId": "BR1_3233579284",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1843.8109259999983,
+              "finishedAt": 1791923430165
+            },
+            {
+              "matchId": "BR1_3232475185",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2104.001156999999,
+              "finishedAt": 1791923432269
+            },
+            {
+              "matchId": "BR1_3290749716",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2906.1564910000016,
+              "finishedAt": 1791923435175
+            },
+            {
+              "matchId": "BR1_3290732327",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2066.97825,
+              "finishedAt": 1791923437242
+            },
+            {
+              "matchId": "BR1_3290716379",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1831.6454720000038,
+              "finishedAt": 1791923439074
+            },
+            {
+              "matchId": "BR1_3290153562",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2759.355708000003,
+              "finishedAt": 1791923441833
+            },
+            {
+              "matchId": "BR1_3290139543",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2608.685784000001,
+              "finishedAt": 1791923444442
+            },
+            {
+              "matchId": "BR1_3290118762",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2359.396987,
+              "finishedAt": 1791923446801
+            },
+            {
+              "matchId": "BR1_3286918194",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2747.187883999999,
+              "finishedAt": 1791923449549
+            },
+            {
+              "matchId": "BR1_3286624841",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2731.5791850000023,
+              "finishedAt": 1791923452280
+            },
+            {
+              "matchId": "BR1_3286606788",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2367.661954000003,
+              "finishedAt": 1791923454648
+            },
+            {
+              "matchId": "BR1_3285818434",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3281.045916999996,
+              "finishedAt": 1791923457929
+            },
+            {
+              "matchId": "BR1_3285789989",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3569.0061300000016,
+              "finishedAt": 1791923461498
+            },
+            {
+              "matchId": "BR1_3285697032",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2476.2221319999953,
+              "finishedAt": 1791923463974
+            },
+            {
+              "matchId": "BR1_3290041209",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2891.1551590000017,
+              "finishedAt": 1791923466865
+            },
+            {
+              "matchId": "BR1_3289084152",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3151.803681999998,
+              "finishedAt": 1791923470017
+            },
+            {
+              "matchId": "BR1_3289059493",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3192.5948519999947,
+              "finishedAt": 1791923473210
+            },
+            {
+              "matchId": "BR1_3287788508",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2413.911605000001,
+              "finishedAt": 1791923475624
+            },
+            {
+              "matchId": "BR1_3287779021",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3571.739100000006,
+              "finishedAt": 1791923479196
+            },
+            {
+              "matchId": "BR1_3286398861",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3993.6598369999992,
+              "finishedAt": 1791923483192
+            },
+            {
+              "matchId": "BR1_3288631167",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2931.556628999999,
+              "finishedAt": 1791923486123
+            },
+            {
+              "matchId": "BR1_3288332933",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3627.498200000002,
+              "finishedAt": 1791923489751
+            },
+            {
+              "matchId": "BR1_3288286800",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3170.165782000011,
+              "finishedAt": 1791923492921
+            },
+            {
+              "matchId": "BR1_3288264050",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2378.766202999992,
+              "finishedAt": 1791923495300
+            },
+            {
+              "matchId": "BR1_3289862248",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2786.2778999999864,
+              "finishedAt": 1791923498086
+            },
+            {
+              "matchId": "BR1_3288986697",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2816.4415609999996,
+              "finishedAt": 1791923500903
+            },
+            {
+              "matchId": "BR1_3288757200",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2703.9225609999994,
+              "finishedAt": 1791923503607
+            },
+            {
+              "matchId": "BR1_3285707715",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2669.3896490000043,
+              "finishedAt": 1791923506276
+            },
+            {
+              "matchId": "BR1_3284618288",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1748.4357789999922,
+              "finishedAt": 1791923508025
+            },
+            {
+              "matchId": "BR1_3284341366",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2567.6140400000004,
+              "finishedAt": 1791923510592
+            },
+            {
+              "matchId": "BR1_3290099224",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2523.5673300000053,
+              "finishedAt": 1791923513116
+            },
+            {
+              "matchId": "BR1_3289883083",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3157.632599999997,
+              "finishedAt": 1791923516273
+            },
+            {
+              "matchId": "BR1_3289769202",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3436.6621030000097,
+              "finishedAt": 1791923519710
+            },
+            {
+              "matchId": "BR1_3289740958",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2578.8741919999884,
+              "finishedAt": 1791923522289
+            },
+            {
+              "matchId": "BR1_3288826802",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2823.0562669999927,
+              "finishedAt": 1791923525112
+            },
+            {
+              "matchId": "BR1_3286622128",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2249.397205000001,
+              "finishedAt": 1791923527361
+            },
+            {
+              "matchId": "BR1_3284217608",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2153.0673110000207,
+              "finishedAt": 1791923529515
+            },
+            {
+              "matchId": "BR1_3283332713",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1920.6361800000013,
+              "finishedAt": 1791923531435
+            },
+            {
+              "matchId": "BR1_3283328001",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2316.1029530000233,
+              "finishedAt": 1791923533751
+            },
+            {
+              "matchId": "BR1_3282222031",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2262.7747209999943,
+              "finishedAt": 1791923536014
+            },
+            {
+              "matchId": "BR1_3287860130",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1898.4271970000118,
+              "finishedAt": 1791923537912
+            },
+            {
+              "matchId": "BR1_3287089933",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 999.0466549999837,
+              "finishedAt": 1791923538912
+            },
+            {
+              "matchId": "BR1_3286647547",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 3037.951944999979,
+              "finishedAt": 1791923541950
+            },
+            {
+              "matchId": "BR1_3286637978",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1004.0628620000207,
+              "finishedAt": 1791923542954
+            },
+            {
+              "matchId": "BR1_3286455324",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2336.885057000007,
+              "finishedAt": 1791923545290
+            },
+            {
+              "matchId": "BR1_3286421852",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2431.9431129999866,
+              "finishedAt": 1791923547722
+            },
+            {
+              "matchId": "BR1_3290756681",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 2726.695504000003,
+              "finishedAt": 1791923550449
+            },
+            {
+              "matchId": "BR1_3290385634",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1951.9526699999988,
+              "finishedAt": 1791923552401
+            },
+            {
+              "matchId": "BR1_3288766292",
+              "arrivalAt": 1791923400657,
+              "serviceMs": 1831.2563629999931,
+              "finishedAt": 1791923554232
+            }
+          ],
+          "batches": [],
+          "wallMs": 153582.348065,
+          "cpuMs": 106241.655,
+          "rssPeak": 525914112
+        }
+      ]
+    }
+  ]
+}

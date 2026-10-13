@@ -4,6 +4,8 @@ O objetivo é reduzir CPU, serialização e comandos SQL por partida, mantendo o
 
 Plano elaborado em 13 de outubro de 2026 sobre o commit `413628a821370b39628ecb234cb3bc6490d0254e`. A implementação será dividida em mudanças revisáveis, cada uma acompanhada de comparação com o comportamento anterior. Este plano não altera os writers.
 
+**Implementado e validado em 13 de outubro de 2026.** Ver [resultado da implementação](../write-optimization/report.md): mediana de ganho pareado de 76% na escrita, equivalência dos dados, concorrência configurável e carga real de 30 minutos concluída. O relatório documenta a preservação da ordem de incrementos para chaves repetidas, os limites do ensaio e a piora das latências de leitura com histórico crescente. O restante deste arquivo preserva o plano original.
+
 ## Escopo e garantias
 
 Manter NestJS, TypeScript, PostgreSQL, Prisma como gerenciador da transação e as tabelas atuais. Especializar o SQL nos adapters responsáveis pelas escritas volumosas. A normalização do dataset continua como evolução posterior, avaliada junto com seus leitores; seu ganho não entra na meta desta implementação.

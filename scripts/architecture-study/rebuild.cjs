@@ -38,7 +38,7 @@ async function snapshot(db) {
   return result;
 }
 async function main() {
-  const [input, output] = process.argv.slice(2),
+  const [input, output, selectedVariants = 'A,B2,C,E'] = process.argv.slice(2),
     bench = JSON.parse(fs.readFileSync(input));
   const source = client(bench.runs.find((r) => r.variant === 'A').database);
   const raws = await source.matchRaw.findMany({ orderBy: { matchId: 'asc' } });
@@ -51,7 +51,8 @@ async function main() {
     matches: selected.map((r) => r.matchId),
     variants: [],
   };
-  for (const variant of ['A', 'B2', 'C', 'E']) {
+  for (const variant of selectedVariants.split(',')) {
+    assert(['A', 'B2', 'C', 'E'].includes(variant));
     const database = `highbr_architecture_study_rebuild_${variant.toLowerCase()}_${Date.now()}`;
     execFileSync('docker', [
       'exec',

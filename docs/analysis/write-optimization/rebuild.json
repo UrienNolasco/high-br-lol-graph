@@ -1,0 +1,50 @@
+{
+  "measuredAt": "2026-10-13T21:09:07.887Z",
+  "matches": [
+    "BR1_3232475185",
+    "BR1_3235871686",
+    "BR1_3286421852",
+    "BR1_3290759378",
+    "BR1_3290773412"
+  ],
+  "variants": [
+    {
+      "variant": "A",
+      "database": "highbr_architecture_study_rebuild_a_1791925747888",
+      "rounds": [
+        {
+          "kind": "interrupt after two then resume",
+          "ms": 6192.328889,
+          "resumed": 3,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        },
+        {
+          "kind": "second complete rebuild",
+          "ms": 6161.601447999999,
+          "completed": 5,
+          "comparison": {
+            "exact": true,
+            "differences": 0,
+            "numericDifferences": 0,
+            "nonNumericDifferences": 0,
+            "maxAbs": 0,
+            "maxRel": 0,
+            "withinDiagnosticTolerance": true,
+            "examples": []
+          }
+        }
+      ],
+      "digest": "f2f77697fe834b7ef63e9c643b72651b8ab9a542862bc00b4386d524b8b841f0"
+    }
+  ],
+  "scope": "Existing offline rebuild, five real matches, interruption/resume and a second full rebuild. Does not prove online generation swapping or large-history rebuild duration."
+}

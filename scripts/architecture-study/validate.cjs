@@ -158,22 +158,27 @@ async function main() {
     }
     // Text transport bypasses Prisma's float/JSON decoding. Compare the actual
     // persisted representation as well as the application-visible values above.
-    const stored = comparison();
-    let storedRows = 0;
-    for (const matchId of ids) {
-      const read = async (db) =>
-        (
-          await db.$queryRaw(
-            Prisma.sql`SELECT row_to_json(t)::text value FROM historical_metric_contributions t WHERE "matchId"=${matchId} ORDER BY id`,
-          )
-        ).map((r) => JSON.parse(r.value));
-      const av = await read(a),
-        bv = await read(b);
-      storedRows += av.length;
-      diff(normalize(av), normalize(bv), stored, `storedDataset.${matchId}`);
+    for (const [name, table, ordering] of [
+      ['dataset', 'historical_metric_contributions', 'id'],
+      ['events', 'match_event_projections', '"frameIndex","eventIndex"'],
+    ]) {
+      const stored = comparison();
+      let storedRows = 0;
+      for (const matchId of ids) {
+        const read = async (db) =>
+          (
+            await db.$queryRaw(
+              Prisma.sql`SELECT row_to_json(t)::text value FROM ${Prisma.raw(table)} t WHERE "matchId"=${matchId} ORDER BY ${Prisma.raw(ordering)}`,
+            )
+          ).map((r) => JSON.parse(r.value));
+        const av = await read(a),
+          bv = await read(b);
+        storedRows += av.length;
+        diff(normalize(av), normalize(bv), stored, `stored.${name}.${matchId}`);
+      }
+      record.storage[name] = { rows: storedRows, ...stored };
+      save();
     }
-    record.storage.dataset = { rows: storedRows, ...stored };
-    save();
     for (const [name, orderBy] of Object.entries(stats)) {
       const dropId = (xs) => normalize(xs.map(({ id, ...x }) => x));
       const av = await a[name].findMany({ orderBy }),
