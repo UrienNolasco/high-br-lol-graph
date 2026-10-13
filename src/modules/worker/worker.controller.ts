@@ -1,15 +1,32 @@
-import { Controller } from '@nestjs/common';
+import { Controller, OnModuleDestroy } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import type { Channel, Message } from 'amqplib';
 import { PinoLogger } from 'nestjs-pino';
 import { WorkerService } from './services/worker.service';
+import { DeliveryGate } from './delivery-gate';
+import { workerConcurrency } from '../../core/config/worker-concurrency';
 import { ProcessMatchDto } from './dto/process-match.dto';
 import { traceIdStore } from '../../core/logger';
 import { getErrorMessage } from '../../core/logger/get-error-message';
 
 @Controller()
-export class WorkerController {
+export class WorkerController implements OnModuleDestroy {
+  private readonly deliveries = new DeliveryGate(workerConcurrency());
+  private readonly consumers = new Map<Channel, Set<string>>();
+
+  async onModuleDestroy() {
+    const drained = this.deliveries.close();
+    // Cancel consumption before draining. Keep the channel open for ACKs of
+    // accepted work; Nest closes RMQ and dependency providers afterwards.
+    await Promise.allSettled(
+      [...this.consumers].flatMap(([channel, tags]) =>
+        [...tags].map(async (tag) => channel.cancel(tag)),
+      ),
+    );
+    await drained;
+  }
+
   constructor(
     private readonly workerService: WorkerService,
     private readonly logger: PinoLogger,
@@ -18,79 +35,63 @@ export class WorkerController {
   }
 
   @EventPattern('match.collect')
-  async handleMatchCollect(
+  handleMatchCollect(
     @Payload() payload: ProcessMatchDto,
     @Ctx() context: RmqContext,
   ) {
-    const { matchId } = payload;
-    const channel = context.getChannelRef() as Channel;
-    const originalMsg = context.getMessage() as Message;
-
-    const traceId = payload.traceId || randomUUID();
-
-    await traceIdStore.run({ traceId }, async () => {
-      this.logger.info(
-        { matchId, event: 'match_received' },
-        `Recebida mensagem para processar partida: ${matchId}`,
-      );
-
-      try {
-        await this.workerService.processMatch({ matchId, traceId });
-
-        channel.ack(originalMsg);
-
-        this.logger.info(
-          { matchId, event: 'match_delivery_handled' },
-          `Entrega da partida ${matchId} tratada e confirmada.`,
-        );
-      } catch (error) {
-        this.logger.error(
-          { matchId, event: 'match_failed', error: getErrorMessage(error) },
-          `Erro ao processar partida ${matchId}`,
-        );
-
-        channel.nack(originalMsg, false, true);
-
-        throw error;
-      }
-    });
+    return this.handle(payload, context, 'match.collect');
   }
 
   @EventPattern('user.update')
-  async handleUserUpdate(
+  handleUserUpdate(
     @Payload() payload: ProcessMatchDto,
     @Ctx() context: RmqContext,
   ) {
+    return this.handle(payload, context, 'user.update');
+  }
+
+  private async handle(
+    payload: ProcessMatchDto,
+    context: RmqContext,
+    pattern: string,
+  ) {
     const { matchId } = payload;
     const channel = context.getChannelRef() as Channel;
-    const originalMsg = context.getMessage() as Message;
-
+    const message = context.getMessage() as Message;
+    const tag = message.fields.consumerTag;
+    if (tag) {
+      if (!this.consumers.has(channel))
+        channel.once('close', () => this.consumers.delete(channel));
+      const tags = this.consumers.get(channel) ?? new Set<string>();
+      tags.add(tag);
+      this.consumers.set(channel, tags);
+    }
     const traceId = payload.traceId || randomUUID();
-
     await traceIdStore.run({ traceId }, async () => {
-      this.logger.info(
-        { matchId, event: 'match_received', pattern: 'user.update' },
-        `[USER UPDATE] Processando partida: ${matchId}`,
-      );
-
       try {
-        await this.workerService.processMatch({ matchId, traceId });
-        channel.ack(originalMsg);
-        this.logger.info(
-          { matchId, event: 'match_delivery_handled', pattern: 'user.update' },
-          `[USER UPDATE] Entrega da partida ${matchId} tratada.`,
-        );
+        await this.deliveries.run(async () => {
+          this.logger.info(
+            { matchId, pattern, event: 'match_received' },
+            `Recebida mensagem para processar partida: ${matchId}`,
+          );
+          await this.workerService.processMatch({ matchId, traceId });
+          channel.ack(message);
+          this.logger.info(
+            { matchId, pattern, event: 'match_delivery_handled' },
+            `Entrega da partida ${matchId} tratada e confirmada.`,
+          );
+        });
       } catch (error) {
         this.logger.error(
           {
             matchId,
+            pattern,
             event: 'match_failed',
-            pattern: 'user.update',
             error: getErrorMessage(error),
           },
-          `[USER UPDATE] Erro ao processar ${matchId}`,
+          `Erro ao processar ${matchId}`,
         );
-        channel.nack(originalMsg, false, true);
+        channel.nack(message, false, true);
         throw error;
       }
     });

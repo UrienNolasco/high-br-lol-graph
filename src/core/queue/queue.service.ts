@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import { PinoLogger } from 'nestjs-pino';
 import type { ChannelWrapper } from 'amqp-connection-manager';
@@ -11,9 +11,10 @@ export interface MatchPublishOptions {
   priority?: number;
 }
 @Injectable()
-export class QueueService {
+export class QueueService implements OnModuleDestroy {
   private readonly queueName = process.env.RABBITMQ_QUEUE || 'default_queue';
-  private recovering = false;
+  private recovery: Promise<void> | null = null;
+  private stopping = false;
   constructor(
     @Inject(RABBITMQ_CHANNEL) private readonly channel: ChannelWrapper,
     private readonly logger: PinoLogger,
@@ -79,15 +80,32 @@ export class QueueService {
       });
     }
   }
+  async onModuleDestroy(): Promise<void> {
+    this.stopping = true;
+    if (this.recovery) await this.recovery;
+  }
   @Interval(10_000)
   async recover(): Promise<void> {
-    if (process.env.APP_MODE !== 'WORKER' || this.recovering) return;
-    this.recovering = true;
+    if (process.env.APP_MODE !== 'WORKER' || this.recovery || this.stopping)
+      return;
+    this.recovery = this.recoverOnce();
+    try {
+      await this.recovery;
+    } finally {
+      this.recovery = null;
+    }
+  }
+  private async recoverOnce(): Promise<void> {
     try {
       const now = new Date();
       await this.processing.recoverExpired(now);
+      if (this.stopping) return;
       const jobs = await this.processing.duePublications(now, 50);
-      for (const job of jobs) await this.deliver(job);
+      for (const job of jobs) {
+        if (this.stopping) return;
+        await this.deliver(job);
+      }
+      if (this.stopping) return;
       this.logger.info({
         event: 'processing_recovery',
         attemptedPublications: jobs.length,
@@ -98,8 +116,6 @@ export class QueueService {
         event: 'processing_recovery_failed',
         error: String(error),
       });
-    } finally {
-      this.recovering = false;
     }
   }
 }

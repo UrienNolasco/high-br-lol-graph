@@ -10,6 +10,7 @@ import { Logger, PinoLogger } from 'nestjs-pino';
 import pino from 'pino';
 import { TraceIdMiddleware, SERVICE_NAMES } from './core/logger';
 import { getErrorMessage } from './core/logger/get-error-message';
+import { workerConcurrency } from './core/config/worker-concurrency';
 import { MetricResultDto } from './modules/matches/dto/metric-result.dto';
 import { METRIC_OPENAPI_EXAMPLES } from './modules/matches/dto/metric-result.dto';
 import {
@@ -54,7 +55,7 @@ async function bootstrap() {
 
   const appMode = process.env.APP_MODE || 'DEFAULT';
   const serviceName = SERVICE_NAMES[appMode] || appMode.toLowerCase();
-  const pinoLogger = app.get(PinoLogger);
+  const pinoLogger = await app.resolve(PinoLogger);
 
   if (appMode === 'API') {
     const config = new DocumentBuilder()
@@ -99,6 +100,7 @@ async function bootstrap() {
       `Documentação disponível em http://localhost:${port}/reference`,
     );
   } else if (appMode === 'WORKER') {
+    const concurrency = workerConcurrency();
     const rabbitUrl = process.env.RABBITMQ_URL;
     const rabbitQueue = process.env.RABBITMQ_QUEUE;
 
@@ -122,7 +124,7 @@ async function bootstrap() {
             'x-max-priority': 10,
           },
         },
-        prefetchCount: 1,
+        prefetchCount: concurrency,
         noAck: false,
       },
     });
@@ -130,7 +132,12 @@ async function bootstrap() {
     await app.init();
     await app.startAllMicroservices();
     pinoLogger.info(
-      { event: 'app_started', service: serviceName, queue: rabbitQueue },
+      {
+        event: 'app_started',
+        service: serviceName,
+        queue: rabbitQueue,
+        concurrency,
+      },
       `Worker iniciado ouvindo fila: ${rabbitQueue}`,
     );
   } else if (appMode === 'COLLECTOR') {

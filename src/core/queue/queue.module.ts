@@ -1,5 +1,5 @@
 import type { ConfirmChannel } from 'amqplib';
-import { Injectable, Module, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, Module, BeforeApplicationShutdown } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PinoLogger } from 'nestjs-pino';
 import {
@@ -11,7 +11,7 @@ import { QueueService } from './queue.service';
 import { RABBITMQ_CHANNEL } from './queue.constants';
 import { PrismaModule } from '../prisma/prisma.module';
 @Injectable()
-class QueueConnection implements OnModuleDestroy {
+class QueueConnection implements BeforeApplicationShutdown {
   readonly channel: ChannelWrapper;
   private readonly connection: AmqpConnectionManager;
   constructor(config: ConfigService, logger: PinoLogger) {
@@ -37,7 +37,8 @@ class QueueConnection implements OnModuleDestroy {
       logger.error({ event: 'rabbitmq_channel_error', error: String(error) }),
     );
   }
-  async onModuleDestroy() {
+  // Recovery drains in onModuleDestroy before its publisher connection closes.
+  async beforeApplicationShutdown() {
     await this.connection.close();
   }
 }

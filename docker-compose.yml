@@ -88,11 +88,13 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: high-br-lol-worker
+    stop_grace_period: 60s
     command: npm run start:dev
     mem_limit: 2g
     mem_reservation: 1g
     environment:
       - APP_MODE=WORKER
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-1}
       - NODE_OPTIONS=--max-old-space-size=1536
       - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres
@@ -129,11 +131,13 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: high-br-lol-worker-2
+    stop_grace_period: 60s
     command: npm run start:dev
     mem_limit: 2g
     mem_reservation: 1g
     environment:
       - APP_MODE=WORKER
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-1}
       - NODE_OPTIONS=--max-old-space-size=1536
       - CHOKIDAR_USEPOLLING=true
       - POSTGRES_HOST=postgres

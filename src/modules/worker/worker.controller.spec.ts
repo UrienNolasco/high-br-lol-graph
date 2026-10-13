@@ -87,4 +87,53 @@ describe('WorkerController', () => {
       expect(mockChannel.ack).not.toHaveBeenCalled();
     });
   });
+  it('shares the execution limit across patterns and ACKs accepted work before shutdown', async () => {
+    let finish!: () => void;
+    const pending = new Promise<void>((resolve) => (finish = resolve));
+    const service = {
+      processMatch: jest
+        .fn()
+        .mockReturnValueOnce(pending)
+        .mockResolvedValue(undefined),
+    };
+    const previous = process.env.WORKER_CONCURRENCY;
+    process.env.WORKER_CONCURRENCY = '1';
+    const worker = new WorkerController(
+      service as unknown as WorkerService,
+      mockLogger as unknown as PinoLogger,
+    );
+    if (previous === undefined) delete process.env.WORKER_CONCURRENCY;
+    else process.env.WORKER_CONCURRENCY = previous;
+    const channel = {
+      ack: jest.fn(),
+      nack: jest.fn(),
+      cancel: jest.fn().mockResolvedValue(undefined),
+      once: jest.fn(),
+    };
+    const message = { ...mockMessage, fields: { consumerTag: 'consumer' } };
+    const context = {
+      getChannelRef: () => channel,
+      getMessage: () => message,
+    } as unknown as RmqContext;
+    const first = worker.handleMatchCollect({ matchId: 'first' }, context);
+    const second = worker.handleUserUpdate({ matchId: 'second' }, context);
+    expect(service.processMatch).toHaveBeenCalledTimes(1);
+    let closed = false;
+    const closing = worker.onModuleDestroy().then(() => {
+      closed = true;
+    });
+    expect(channel.cancel).toHaveBeenCalledWith('consumer');
+    expect(channel.ack).not.toHaveBeenCalled();
+    expect(closed).toBe(false);
+    await expect(
+      worker.handleMatchCollect({ matchId: 'late' }, context),
+    ).rejects.toThrow('draining');
+    expect(channel.nack).toHaveBeenCalledWith(message, false, true);
+    finish();
+    await Promise.all([first, second, closing]);
+    expect(service.processMatch).toHaveBeenCalledTimes(2);
+    expect(channel.ack).toHaveBeenCalledTimes(2);
+    expect(closed).toBe(true);
+    expect(channel.once).toHaveBeenCalledTimes(1);
+  });
 });
