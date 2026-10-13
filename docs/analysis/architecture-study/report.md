@@ -218,6 +218,10 @@ Na partida `BR1_3283642155`, a ordem de PUUIDs em `timeline.metadata.participant
 
 Reordenar apenas os metadados em memória, a partir dos pares explícitos, fez a preparação passar com 733 eventos e 877 contribuições. O [diagnóstico](corpus-rejection.json) foi preservado; os arquivos brutos continuam intactos. A correção indicada é construir o mapa por `participantId`/`puuid`, validar unicidade e consistência com o summary, e tratar metadados como conjunto. Esse problema merece correção independentemente da escolha de arquitetura.
 
+**Correção posterior, em 13/10/2026:** o preparador agora usa os pares explícitos do summary, valida os pares da timeline quando presentes e trata os metadados como conjunto. Identidades duplicadas, contraditórias e frames com IDs desconhecidos continuam sendo rejeitados. A [comparação do corpus completo](../participant-identity-validation.json) aceitou as 120 partidas e confirmou igualdade dos resultados preparados, incluindo o dataset, para as 119 anteriormente aceitas. A partida antes rejeitada publicou 733 eventos e 877 contribuições em banco isolado, com retry de `FAILED`, redelivery e duas reconstruções sem duplicação; seus gzip originais foram preservados. O diagnóstico e os benchmarks anteriores permanecem como registros dos respectivos códigos e populações.
+
+O retry de um job já marcado como `FAILED` é explícito: `npm run processing -- retry BR1_3283642155`, no ambiente correspondente após atualizar o código. A correção não altera automaticamente bancos da aplicação nem modifica versões de processamento, pois os resultados das partidas anteriormente aceitas foram preservados.
+
 ## Recuperação, duplicidade e reconstrução
 
 Os [sete testes de falha de D](failures.json) passaram: rollback da publicação inicial, entrega duplicada, entrega fora de ordem, `SIGKILL` durante escrita de métricas, consumidores concorrentes, `SIGKILL` depois dos incrementos e repetição após commit. Foram processos realmente encerrados por sinal, com verificação de rollback e ausência de dupla contagem. Não foi exercitado o ack do broker nesses testes.

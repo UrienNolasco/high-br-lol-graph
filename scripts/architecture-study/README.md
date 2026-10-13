@@ -15,6 +15,8 @@ D mede a separação da publicação. A preparação das métricas ainda ocorre 
 
 Os dados originais estão em `.tmp/architecture-study-corpus`, ignorados pelo Git. O manifesto com IDs e hashes está em `docs/analysis/architecture-study/corpus-manifest.json`. São 120 partidas reais distintas, com jogadores compartilhados, não observações estatisticamente independentes. Uma delas é rejeitada pela validação atual de identidade dos participantes; a causa e o diagnóstico estão em `corpus-rejection.json`. A exclusão nas medições precisa ser solicitada explicitamente com `--exclude-rejected=1`.
 
+Atualização após os benchmarks: a identidade foi corrigida e o preparador agora aceita as 120 partidas. A exclusão nos benchmarks históricos preserva sua população original. Para repetir a comparação de correção, preserve o `dist` anterior à correção e execute `node scripts/architecture-study/identity.cjs .tmp/architecture-study-corpus CAMINHO_DO_DIST_ANTERIOR docs/analysis/participant-identity-validation.json`. O script confere hashes dos brutos e compara todas as projeções preparadas e contribuições, verificando também snapshots, atores, vítimas e assistências contra os pares explícitos do summary. O resultado esperado é 119 partidas inalteradas e a aceitação de `BR1_3283642155`.
+
 **Ambiente de execução**
 
 Os comandos partem da raiz do repositório. Usam as dependências instaladas e a aplicação compilada por `npm run build`. A coleta é independente do backend:

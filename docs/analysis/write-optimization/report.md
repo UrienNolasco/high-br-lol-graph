@@ -131,6 +131,8 @@ Como schema e versões foram preservados, reverter o código restaura os writers
 
 A partida `BR1_3283642155`, rejeitada pelo problema de identidade já documentado no estudo anterior, permanece excluída dos dois caminhos. Seus brutos não foram corrigidos. Os [240 arquivos do corpus tiveram seus hashes conferidos](corpus-integrity.json). Resolver esse problema de domínio e repetir a comparação sobre as 120 partidas continua sendo uma entrega independente.
 
+**Atualização posterior:** a [correção de identidade](../participant-identity-validation.json) foi validada nas 120 partidas, sem modificar os brutos e preservando os resultados preparados das outras 119. Isso não altera os percentuais deste relatório, medidos anteriormente na população de 119 partidas; a validação posterior é de correção, não uma nova medição de desempenho.
+
 ## Próximo limite a investigar
 
 Esta implementação reduz o custo comprovado de serialização e comandos da escrita, preservando as tabelas e a transação. Ela não demonstra que todas as possibilidades de otimização em código foram esgotadas. O próximo trabalho justificado pelos dados é melhorar as consultas do dataset e repetir degraus acima de duas partidas/s, com histórico e objetivo de latência definidos, instrumentando espera por conexão e I/O. Só essa medição permitirá decidir se a próxima unidade de capacidade deve vir de outro worker, mais recursos para o PostgreSQL ou outra redução de custo por partida.

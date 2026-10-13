@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InvalidMatchError } from '../../../../lib/processing-errors';
-import type { MatchDto, ParticipantDto } from '../../../../core/riot/dto/match.dto';
+import type { MatchDto } from '../../../../core/riot/dto/match.dto';
 import type { TimelineDto } from '../../../../core/riot/dto/timeline.dto';
 import { buildParticipantMap, parseMatchData } from './match.parser';
 import { TimelineParserService } from './timeline-parser.service';
-import type {
-  MatchPreparer,
-  PreparedMatch,
-} from '../../ports/match-preparer';
+import type { MatchPreparer, PreparedMatch } from '../../ports/match-preparer';
 
 @Injectable()
 export class RiotMatchPreparer implements MatchPreparer {
@@ -21,11 +18,7 @@ export class RiotMatchPreparer implements MatchPreparer {
   ): PreparedMatch {
     const summary = summaryInput as MatchDto;
     const timeline = timelineInput as TimelineDto;
-    this.validate(matchId, summary, timeline);
-    const participantMap = buildParticipantMap(
-      timeline.metadata.participants,
-      summary.info.participants,
-    );
+    const participantMap = this.validate(matchId, summary, timeline);
     return {
       matchData: parseMatchData(summary),
       timeline: this.timelineParser.parseTimeline(
@@ -42,7 +35,6 @@ export class RiotMatchPreparer implements MatchPreparer {
   private validate(matchId: string, summary: MatchDto, timeline: TimelineDto) {
     const participants = summary?.info?.participants;
     const teams = summary?.info?.teams;
-    const timelinePuuids = timeline?.metadata?.participants;
     const frames = timeline?.info?.frames;
     const nonnegative = (value: unknown) =>
       typeof value === 'number' && Number.isFinite(value) && value >= 0;
@@ -69,14 +61,8 @@ export class RiotMatchPreparer implements MatchPreparer {
       new Set(teams.map((team) => team.teamId)).size !== teams.length ||
       !Array.isArray(frames) ||
       !frames.length ||
-      !Array.isArray(timelinePuuids) ||
-      new Set(participants.map((p) => p.puuid)).size !== participants.length ||
-      timelinePuuids.length !== participants.length ||
-      new Set(timelinePuuids).size !== participants.length ||
       participants.some(
         (p) =>
-          !Number.isInteger(p.participantId) ||
-          timelinePuuids[p.participantId - 1] !== p.puuid ||
           !teams.some(
             (team) => team.teamId === p.teamId && team.win === p.win,
           ) ||
@@ -92,7 +78,18 @@ export class RiotMatchPreparer implements MatchPreparer {
             p.totalMinionsKilled,
             p.neutralMinionsKilled,
           ].every(nonnegative),
-      ) ||
+      )
+    ) {
+      throw new InvalidMatchError(
+        'Invalid match/timeline identity, patch, teams, participants or frames',
+      );
+    }
+    const participantMap = buildParticipantMap(
+      timeline.metadata.participants,
+      participants,
+      timeline.info.participants,
+    );
+    if (
       frames.some(
         (frame, index) =>
           !frame ||
@@ -111,8 +108,8 @@ export class RiotMatchPreparer implements MatchPreparer {
           Object.entries(frame.participantFrames).some(
             ([id, pf]) =>
               !pf ||
-              !timelinePuuids[Number(id) - 1] ||
-              pf.participantId !== Number(id) ||
+              !participantMap.has(pf.participantId) ||
+              String(pf.participantId) !== id ||
               ![
                 pf.totalGold,
                 pf.xp,
@@ -127,5 +124,6 @@ export class RiotMatchPreparer implements MatchPreparer {
         'Invalid match/timeline identity, patch, teams, participants or frames',
       );
     }
+    return participantMap;
   }
 }

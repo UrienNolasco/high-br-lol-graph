@@ -1,0 +1,21 @@
+{
+  "matchId": "BR1_3283642155",
+  "source": "Frozen architecture-study corpus; original gzip bytes, no participant reordering or edits.",
+  "purpose": "Regression for shuffled timeline.metadata.participants with agreeing explicit summary/timeline participantId-puuid pairs.",
+  "metadataParticipantIds": [
+    3,
+    2,
+    4,
+    5,
+    1,
+    8,
+    7,
+    9,
+    6,
+    10
+  ],
+  "sha256": {
+    "BR1_3283642155.summary.json.gz": "187b6c5b03a669e879dba6c63954f86ba202e454a97d460e4e654279320e7f01",
+    "BR1_3283642155.timeline.json.gz": "bb8e51b0567890c539221ca1a64e1ffdf3fb00f9ed7b3bddda0aa5e28900664e"
+  }
+}
