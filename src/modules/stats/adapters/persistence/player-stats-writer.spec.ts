@@ -111,7 +111,7 @@ describe('PlayerStatsAggregationService normalized input compatibility', () => {
       0,
     ],
   ])(
-    '%s preserves lane sample and SQL write sequence',
+    '%s preserves lane samples and batches writes',
     async (_name, duration, frame, samples, expectedCsd) => {
       const database = tx();
       await new PlayerStatsAggregationService().update(
@@ -119,29 +119,29 @@ describe('PlayerStatsAggregationService normalized input compatibility', () => {
         input(duration, frame),
       );
 
-      // Two champions, then for each PUUID: ALL and patch player row followed
-      // by player/champion row. This also records the lock acquisition order.
-      expect(database.$executeRaw).toHaveBeenCalledTimes(10);
-      const values = database.$executeRaw.mock.calls.map(
-        ([query]) => query.values,
+      expect(database.$executeRaw).toHaveBeenCalledTimes(3);
+      const deltas = new PlayerStatsAggregationService().prepare(
+        input(duration, frame),
       );
-      expect(values[0]).toEqual(expect.arrayContaining([1, '16.2', 420]));
-      expect(values[1]).toEqual(expect.arrayContaining([2, '16.2', 420]));
-      expect(values[2]).toEqual(expect.arrayContaining(['p1', 'ALL', 420]));
-      expect(values[3]).toEqual(expect.arrayContaining(['p1', 'ALL', 420, 2]));
-      expect(values[4]).toEqual(expect.arrayContaining(['p1', '16.2', 420]));
-      expect(values[5]).toEqual(expect.arrayContaining(['p1', '16.2', 420, 2]));
-      expect(values[3].slice(12, 16)).toEqual([
-        samples,
-        expectedCsd,
-        expectedCsd ? 200 : 0,
-        expectedCsd ? 20 : 0,
-      ]);
-      const laningValues = values.filter((row: unknown[]) =>
-        row.includes('p1'),
-      );
-      expect(laningValues.some((row) => row.includes(samples))).toBe(true);
-      expect(laningValues.some((row) => row.includes(expectedCsd))).toBe(true);
+      const lane = deltas.find(
+        (row) =>
+          row.table === 'player_champion_stats' &&
+          row.keys.puuid === 'p1' &&
+          row.keys.patch === 'ALL',
+      )!;
+      expect(lane.sums).toMatchObject({
+        laningSamples: samples,
+        sumCsd15: expectedCsd,
+        sumGd15: expectedCsd ? 200 : 0,
+        sumXpd15: expectedCsd ? 20 : 0,
+      });
+      expect(
+        deltas
+          .filter(
+            (row) => row.table === 'player_stats' && row.keys.puuid === 'p1',
+          )
+          .map((row) => row.keys.patch),
+      ).toEqual(['ALL', '16.2']);
     },
   );
 });

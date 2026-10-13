@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { writeEvents } from './event-recordset';
 import { jsonObject } from '../../../../core/prisma/json-value';
 import type {
   MatchProjectionWrite,
@@ -10,7 +10,9 @@ import { fromTransactionContext } from '../../../../core/prisma/transaction-cont
 
 /** Prisma adapter for the ordered match projection writes. */
 @Injectable()
-export class MatchProjectionPersistenceAdapter implements MatchProjectionWriter {
+export class MatchProjectionPersistenceAdapter
+  implements MatchProjectionWriter
+{
   async write(
     transaction: TransactionContext,
     input: MatchProjectionWrite,
@@ -56,6 +58,7 @@ export class MatchProjectionPersistenceAdapter implements MatchProjectionWriter 
       }),
     });
     await tx.matchTimelineProjection.create({
+      select: { matchId: true },
       data: {
         matchId: matchData.match.matchId,
         projectionVersion: timeline.snapshotProjection.projectionVersion,
@@ -64,16 +67,6 @@ export class MatchProjectionPersistenceAdapter implements MatchProjectionWriter 
         frames: timeline.snapshotProjection.frames.map(jsonObject),
       },
     });
-    await tx.matchEventProjection.createMany({
-      data: timeline.normalizedEvents.map((event) => ({
-        ...event,
-        processedAt: completedAt,
-        assistingParticipantIds:
-          event.assistingParticipantIds ?? Prisma.DbNull,
-        assistingPuuids: event.assistingPuuids ?? Prisma.DbNull,
-        payload: jsonObject(event.payload),
-        quality: jsonObject(event.quality),
-      })),
-    });
+    await writeEvents(tx, timeline.normalizedEvents, completedAt);
   }
 }

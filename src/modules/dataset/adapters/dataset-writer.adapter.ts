@@ -1,4 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import {
+  DATASET_WRITE_BATCH_SIZE,
+  insertDatasetBatch,
+  type PreparedDatasetRow,
+} from './dataset-recordset';
+export type { PreparedDatasetRow } from './dataset-recordset';
 import { Prisma } from '@prisma/client';
 import type { TransactionContext } from '../../../lib/transaction-context';
 import {
@@ -11,10 +17,6 @@ import type { DatasetWriter } from '../ports/dataset-writer';
 const json = (value: unknown): Prisma.InputJsonValue =>
   JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
 
-export type PreparedDatasetRow = Omit<
-  Prisma.HistoricalMetricContributionCreateManyInput,
-  'processedAt' | 'lineage'
->;
 /** Expensive pure calculations and JSON conversion happen before opening the publication transaction. */
 export function prepareDatasetContributions(
   input: Omit<DatasetInput, 'lineage'>,
@@ -31,12 +33,18 @@ export function prepareDatasetContributions(
     ...row,
     // JSON conversion is intentionally part of preparation, before the
     // coordinator opens its publication transaction.
-    quality: JSON.parse(JSON.stringify(row.quality)),
-    evidence: JSON.parse(JSON.stringify(row.evidence)),
+    quality: JSON.parse(
+      JSON.stringify(row.quality),
+    ) as DatasetContribution['quality'],
+    evidence: JSON.parse(
+      JSON.stringify(row.evidence),
+    ) as DatasetContribution['evidence'],
     denominator:
       row.denominator === null
         ? null
-        : JSON.parse(JSON.stringify(row.denominator)),
+        : (JSON.parse(
+            JSON.stringify(row.denominator),
+          ) as DatasetContribution['denominator']),
   }));
 }
 /** Compatibility adapter for offline callers that need Prisma createMany rows. */
@@ -148,13 +156,16 @@ async function persistPreparedDataset(
   await tx.historicalMetricContribution.deleteMany({
     where: { matchId: input.match.matchId },
   });
-  for (let offset = 0; offset < prepared.length; offset += 500)
-    await tx.historicalMetricContribution.createMany({
-      data: prepared.slice(offset, offset + 500).map((row) => ({
-        ...row,
-        lineage: resolvedLineage,
-        processedAt: input.processedAt,
-      })),
-    });
+  for (
+    let offset = 0;
+    offset < prepared.length;
+    offset += DATASET_WRITE_BATCH_SIZE
+  )
+    await insertDatasetBatch(
+      tx,
+      prepared.slice(offset, offset + DATASET_WRITE_BATCH_SIZE),
+      resolvedLineage,
+      input.processedAt,
+    );
   return prepared.length;
 }

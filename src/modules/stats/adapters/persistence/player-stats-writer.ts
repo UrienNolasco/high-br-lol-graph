@@ -14,6 +14,16 @@ import type { TransactionContext } from '../../../../lib/transaction-context';
 const identifier = (name: string) => Prisma.raw(`"${name}"`);
 const ALLOWED_ROLES = new Set(['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY']);
 
+type StatsTable = 'champion_stats' | 'player_stats' | 'player_champion_stats';
+export interface StatsIncrement {
+  table: StatsTable;
+  keys: Record<string, string | number>;
+  sums: Record<string, number>;
+  extra: Record<string, string>;
+  role?: string;
+  lastPlayedAt?: Date;
+}
+
 /** Prisma adapter for the public stats writer port. */
 @Injectable()
 export class PlayerStatsAggregationService implements StatsWriter {
@@ -22,6 +32,49 @@ export class PlayerStatsAggregationService implements StatsWriter {
     input: StatsAggregateInput,
   ): Promise<void> {
     const tx = fromTransactionContext(transaction);
+    const increments = this.prepare(input);
+    for (const table of [
+      'champion_stats',
+      'player_stats',
+      'player_champion_stats',
+    ] as const) {
+      const pending = increments
+        .filter((row) => row.table === table)
+        .sort((a, b) =>
+          JSON.stringify(a.keys).localeCompare(JSON.stringify(b.keys)),
+        );
+      // One conflict target per statement. Keep repeated keys in successive
+      // batches: folding floating-point sums in JS would change SQL's order of
+      // addition to an existing aggregate. Normal ranked matches need 3 writes.
+      while (pending.length) {
+        const seen = new Set<string>();
+        const batch: StatsIncrement[] = [];
+        for (let i = 0; i < pending.length; ) {
+          const key = JSON.stringify(pending[i].keys);
+          if (seen.has(key)) {
+            i++;
+            continue;
+          }
+          seen.add(key);
+          batch.push(pending.splice(i, 1)[0]);
+        }
+        await this.writeBatch(tx, table, batch);
+      }
+    }
+  }
+
+  prepare(input: StatsAggregateInput): StatsIncrement[] {
+    const increments: StatsIncrement[] = [];
+    const increment = (
+      table: StatsTable,
+      keys: StatsIncrement['keys'],
+      sums: StatsIncrement['sums'],
+      extra: StatsIncrement['extra'],
+      role?: string,
+      lastPlayedAt?: Date,
+    ) => {
+      increments.push({ table, keys, sums, extra, role, lastPlayedAt });
+    };
     const { match, participants } = input.matchData;
     const patch = extractPatch(match.gameVersion);
     const minutes = match.gameDuration / 60;
@@ -35,8 +88,7 @@ export class PlayerStatsAggregationService implements StatsWriter {
     for (const p of [...participants].sort(
       (a, b) => a.championId - b.championId || a.puuid.localeCompare(b.puuid),
     )) {
-      await this.increment(
-        tx,
+      increment(
         'champion_stats',
         { championId: p.championId, patch, queueId: match.queueId },
         {
@@ -52,8 +104,8 @@ export class PlayerStatsAggregationService implements StatsWriter {
       );
     }
 
-    // The player row is acquired before its player/champion row.  ALL is
-    // intentionally written before the patch row, preserving lock order.
+    // Preserve the legacy order when constructing deltas. SQL acquisition
+    // order is defined separately by table and key in update().
     for (const p of [...participants].sort((a, b) =>
       a.puuid.localeCompare(b.puuid),
     )) {
@@ -76,22 +128,21 @@ export class PlayerStatsAggregationService implements StatsWriter {
       };
       for (const scope of ['ALL', patch]) {
         const keys = { puuid: p.puuid, patch: scope, queueId: match.queueId };
-        await this.increment(tx, 'player_stats', keys, sums, {}, p.role);
-        await this.increment(
-          tx,
+        increment('player_stats', keys, sums, {}, p.role);
+        increment(
           'player_champion_stats',
           { ...keys, championId: p.championId },
           {
             ...sums,
             laningSamples: +valid,
             sumCsd15: valid
-              ? own!.minionsKilled! +
-                own!.jungleMinionsKilled! -
+              ? own.minionsKilled! +
+                own.jungleMinionsKilled! -
                 opponent!.minionsKilled! -
                 opponent!.jungleMinionsKilled!
               : 0,
-            sumGd15: valid ? own!.totalGold! - opponent!.totalGold! : 0,
-            sumXpd15: valid ? own!.xp! - opponent!.xp! : 0,
+            sumGd15: valid ? own.totalGold! - opponent!.totalGold! : 0,
+            sumXpd15: valid ? own.xp! - opponent!.xp! : 0,
           },
           {},
           p.role,
@@ -99,6 +150,7 @@ export class PlayerStatsAggregationService implements StatsWriter {
         );
       }
     }
+    return increments;
   }
 
   private firstLaneFrame(
@@ -149,44 +201,53 @@ export class PlayerStatsAggregationService implements StatsWriter {
     ].every((value) => typeof value === 'number' && Number.isFinite(value));
   }
 
-  private async increment(
+  private async writeBatch(
     tx: Prisma.TransactionClient,
-    table: string,
-    keys: Record<string, string | number>,
-    sums: Record<string, number>,
-    extra: Record<string, string>,
-    role?: string,
-    lastPlayedAt?: Date,
+    tableName: StatsTable,
+    rows: readonly StatsIncrement[],
   ) {
-    const entries: Array<[string, string | number | Date]> = [
-      ...Object.entries(keys),
-      ...Object.entries(sums),
-      ...Object.entries(extra),
+    const table = identifier(tableName);
+    const keys = Object.keys(rows[0].keys);
+    const sums = Object.keys(rows[0].sums);
+    const roles = tableName !== 'champion_stats';
+    const dates = tableName === 'player_champion_stats';
+    const columns = [
+      ...keys,
+      ...sums,
+      ...Object.keys(rows[0].extra),
+      ...(roles ? ['roleDistribution'] : []),
+      ...(dates ? ['lastPlayedAt'] : []),
     ];
-    const columns = entries.map(([key]) => identifier(key));
-    const values = entries.map(([, value]) => Prisma.sql`${value}`);
-    const updates = Object.keys(sums).map(
-      (key) =>
-        Prisma.sql`${identifier(key)} = ${identifier(table)}.${identifier(key)} + EXCLUDED.${identifier(key)}`,
+    const values = rows.map((row) => {
+      const data = { ...row.keys, ...row.sums, ...row.extra };
+      return Prisma.sql`(${Prisma.join(
+        columns.map((column) =>
+          column === 'roleDistribution'
+            ? Prisma.sql`${JSON.stringify(row.role === undefined ? {} : { [row.role]: 1 })}::jsonb`
+            : column === 'lastPlayedAt'
+              ? Prisma.sql`${row.lastPlayedAt ?? null}`
+              : Prisma.sql`${data[column]}`,
+        ),
+      )})`;
+    });
+    const updates = sums.map(
+      (column) =>
+        Prisma.sql`${identifier(column)}=${table}.${identifier(column)}+EXCLUDED.${identifier(column)}`,
     );
-    if (role !== undefined) {
-      columns.push(identifier('roleDistribution'));
-      values.push(Prisma.sql`${JSON.stringify({ [role]: 1 })}::jsonb`);
+    if (roles)
+      updates.push(Prisma.sql`"roleDistribution"=(SELECT COALESCE(jsonb_object_agg(key,total),'{}'::jsonb) FROM
+      (SELECT key,sum(value::integer) total FROM
+        (SELECT key,value FROM jsonb_each_text(${table}."roleDistribution")
+         UNION ALL SELECT key,value FROM jsonb_each_text(EXCLUDED."roleDistribution")) entries GROUP BY key) counts)`);
+    if (tableName === 'player_stats')
       updates.push(
-        Prisma.sql`"roleDistribution" = jsonb_set(${identifier(table)}."roleDistribution", ARRAY[${role}]::text[], to_jsonb(COALESCE((${identifier(table)}."roleDistribution" ->> ${role})::int, 0) + 1))`,
+        Prisma.sql`"lastUpdated"=CASE WHEN EXCLUDED."roleDistribution"='{}'::jsonb THEN ${table}."lastUpdated" ELSE CURRENT_TIMESTAMP END`,
       );
-      if (table === 'player_stats')
-        updates.push(Prisma.sql`"lastUpdated" = CURRENT_TIMESTAMP`);
-    }
-    if (lastPlayedAt) {
-      columns.push(identifier('lastPlayedAt'));
-      values.push(Prisma.sql`${lastPlayedAt}`);
+    if (dates)
       updates.push(
-        Prisma.sql`"lastPlayedAt" = GREATEST(${identifier(table)}."lastPlayedAt", EXCLUDED."lastPlayedAt")`,
+        Prisma.sql`"lastPlayedAt"=GREATEST(${table}."lastPlayedAt",EXCLUDED."lastPlayedAt")`,
       );
-    }
-    await tx.$executeRaw(Prisma.sql`INSERT INTO ${identifier(table)} (${Prisma.join(columns)})
-      VALUES (${Prisma.join(values)}) ON CONFLICT (${Prisma.join(Object.keys(keys).map(identifier))})
-      DO UPDATE SET ${Prisma.join(updates)}`);
+    await tx.$executeRaw(Prisma.sql`INSERT INTO ${table} (${Prisma.join(columns.map(identifier))}) VALUES ${Prisma.join(values)}
+      ON CONFLICT (${Prisma.join(keys.map(identifier))}) DO UPDATE SET ${Prisma.join(updates)}`);
   }
 }
