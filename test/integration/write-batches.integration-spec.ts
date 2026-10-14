@@ -30,7 +30,10 @@ beforeAll(() => {
 });
 beforeEach(async () => {
   await db.match.deleteMany({ where: { matchId } });
-  await db.match.create({ data: fixture().match });
+  const match = fixture().match;
+  await db.match.create({
+    data: { ...match, finalContext: jsonObject(match.finalContext) },
+  });
 });
 afterAll(async () => {
   await db?.match.deleteMany({ where: { matchId } });

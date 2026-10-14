@@ -278,9 +278,14 @@ export function buildReportSummary(
     const reason =
       family === 'contribution'
         ? availability.processingReason
-        : family === 'economy'
-          ? availability.framesReason
-          : availability.eventsReason;
+        : family === 'review'
+          ? input.mapId !== 11 || ![420, 440].includes(input.queueId)
+            ? 'outside_cohort'
+            : (availability.processingReason ??
+              (availability.eventsReason && availability.framesReason))
+          : family === 'economy'
+            ? availability.framesReason
+            : availability.eventsReason;
     return {
       family,
       dataAvailable: reason === null,

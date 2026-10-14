@@ -1,0 +1,1732 @@
+{
+  "checkedAt": "2026-10-13T22:44:26.314Z",
+  "method": "All frozen raw hashes checked. Exact canonical comparison of complete prepared match/timeline and dataset rows; map/object key order ignored, numeric values preserved. Every snapshot, actor, victim and assist independently checked against explicit summary participant IDs.",
+  "compiledHashes": {
+    "baseline": {
+      "modules/matches/adapters/riot/match-preparer.js": "09496b92f61d44e79fcf5d13b6846280add05c5c6de4193a7676c56deadba4b3",
+      "modules/matches/adapters/riot/match.parser.js": "6ea454303979b57c2ce4d0081525e21125671b0ac2de22b4d79aa6c5eeaaaf6b"
+    },
+    "candidate": {
+      "modules/matches/adapters/riot/match-preparer.js": "1e1ddd538429db07c09f8cc08b4526813304f00cae158a51079674d63b33b034",
+      "modules/matches/adapters/riot/match.parser.js": "03146851dc11308823c3890c028dbb0f46bccd04091e25205dab0e0af786db33"
+    }
+  },
+  "compared": 120,
+  "unchangedPreviouslyAccepted": 119,
+  "newlyAccepted": [
+    "BR1_3283642155"
+  ],
+  "changed": [],
+  "variants": {
+    "baseline": [
+      {
+        "matchId": "BR1_3289982156",
+        "accepted": true,
+        "preparedSha256": "77351b9b95e3372ac706ef3b7cf0c9503f17e636684e1f528d5f08b554300057",
+        "events": 1220,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289617502",
+        "accepted": true,
+        "preparedSha256": "5ef110e897a20e574908fc1a2450d85b3a6089cd255c813839f929d126d222f0",
+        "events": 1266,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289600320",
+        "accepted": true,
+        "preparedSha256": "591721abbfd4447594f6ee74ae73f8e56c5cbecf5718b4ded7e6a11aa59f5915",
+        "events": 1189,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289582120",
+        "accepted": true,
+        "preparedSha256": "504ae8915f54fd3abe0e63ad9b98f7d4e12ca6b84d915cfafa1606dc4e939c1c",
+        "events": 1410,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289535363",
+        "accepted": true,
+        "preparedSha256": "f852262cff39ef15f370c0ea250977a9dd4d49a6165b7c31b764d52d081a29c3",
+        "events": 617,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289517289",
+        "accepted": true,
+        "preparedSha256": "480eee73f4dfb09efe7ff03f25b9067d7e6956399248c7bfb7bc1ddf090489e9",
+        "events": 1268,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289500052",
+        "accepted": true,
+        "preparedSha256": "3c391ff2710c792d5f4bc4f9f43ff6f11fb7ee375638271823665039a64d63e1",
+        "events": 1291,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289479717",
+        "accepted": true,
+        "preparedSha256": "620d2fba8b8e085b8f205f195eb7b3691350a22438513ab66055fc7f62336790",
+        "events": 985,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289200795",
+        "accepted": true,
+        "preparedSha256": "e643ddb7cf3c43a50bc93a5dad0fde7e15f6644f5639bd87f28b6f9fea9a03ca",
+        "events": 1098,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289185227",
+        "accepted": true,
+        "preparedSha256": "24408a293fa621121d7694ebf52debf97e54f128d480283bcb1629a154fd4ace",
+        "events": 1286,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289172207",
+        "accepted": true,
+        "preparedSha256": "dad276e0c8534ad7e29027389a5ec1aa9c090aa26dd94e49e1dd280573fca3f1",
+        "events": 407,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289156261",
+        "accepted": true,
+        "preparedSha256": "51c0adae06ef852bd4b5d03233c78bda42441345ef8e618134ce502aed342d88",
+        "events": 1146,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235899552",
+        "accepted": true,
+        "preparedSha256": "e28a257bc003232e38178323c99d23f4b0e3b09d6b42f0f6bb46810e53473202",
+        "events": 1136,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235871686",
+        "accepted": true,
+        "preparedSha256": "749a1e82dc8b5c1dc3e2134e97f1f47ca8beab60715b2e69c8ac8997bfe9606b",
+        "events": 1194,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235857814",
+        "accepted": true,
+        "preparedSha256": "ab95c2f3e48fe479dc1b246ffd21705cb2a0e765a411a899b8768c7473de2098",
+        "events": 560,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235599705",
+        "accepted": true,
+        "preparedSha256": "89782b244aa5abf773144a02facd6533e4abd19cadd96dd8026f23b27623486f",
+        "events": 1070,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235574566",
+        "accepted": true,
+        "preparedSha256": "3844f7c729b8d0d0f41d5adf09cb80bd1cb37b5ba4e26576dec044911c209d45",
+        "events": 1183,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235550712",
+        "accepted": true,
+        "preparedSha256": "dab4ba98e92e8df65a42b8223567824330a978f27e9a58a03e75f97ebe66ffd3",
+        "events": 1253,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235532392",
+        "accepted": true,
+        "preparedSha256": "a6c0e9d2c2ec99ab480dc55e4aace3398d6b1965a3006ab624948787e14b95e7",
+        "events": 1057,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233637698",
+        "accepted": true,
+        "preparedSha256": "200cc98799777c14e5057886b775dc2e6702fd59e8c8625d75f00ad95bd292fd",
+        "events": 1058,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233602356",
+        "accepted": true,
+        "preparedSha256": "1a0c8d4cf1544666463841e602809f9ab028cc32e7cb9abfd8eceff5a34fadd0",
+        "events": 880,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233579284",
+        "accepted": true,
+        "preparedSha256": "6fc6c2cec9fcebfef4dc304db374b00252ec4d544355375499daa9d1345ca815",
+        "events": 1028,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233138430",
+        "accepted": true,
+        "preparedSha256": "957134b03d2df012cff53b07cba0ada13a9906f58a6dfc683b5cc3219249b8ee",
+        "events": 616,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3232475185",
+        "accepted": true,
+        "preparedSha256": "c239dce67b5c91e8358ddf2edaef15b0de41189ccc077686f365476450252aa4",
+        "events": 1147,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290759378",
+        "accepted": true,
+        "preparedSha256": "ef4f829648d62b945dc884614dbac09e17eb6db58006a8916139e8b9b4b80a36",
+        "events": 1321,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290749716",
+        "accepted": true,
+        "preparedSha256": "6c98884b89d41347c0944d263a38e4d67868585e2b7c0623bc08ccff7ca8a9e2",
+        "events": 1298,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290736778",
+        "accepted": true,
+        "preparedSha256": "4b7db90e10f7186c1d02602531d52f8273d56a70fbf2bfa9f8826c5397e903fc",
+        "events": 1094,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290732327",
+        "accepted": true,
+        "preparedSha256": "6ba38ceea9194ad493fd2b871b91d4fb0c81203ea28d99da4c3a2017f97c61d6",
+        "events": 1199,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290720300",
+        "accepted": true,
+        "preparedSha256": "aa1567615eb8a7a8bc822d0855614c71286b08ef8ae7cedb0625e38855f1063b",
+        "events": 864,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290716379",
+        "accepted": true,
+        "preparedSha256": "06963566e3f223b1b98d74efc5b0722037781e13bcd2c1a013af955ffb61537e",
+        "events": 969,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290652400",
+        "accepted": true,
+        "preparedSha256": "af411d1e98bf967e2283388a83e2c6b98c74ee914626469da8e27a9361f6e815",
+        "events": 1171,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290153562",
+        "accepted": true,
+        "preparedSha256": "b8be6246007dece193a9450b3bfc3bb43df48c9b646bc65f679462bf14cabfe4",
+        "events": 1339,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290146498",
+        "accepted": true,
+        "preparedSha256": "9b50c81faa414e1c5243cea8c6cab02adc9f654669f86f697e82fbdb3972d50f",
+        "events": 1179,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290139543",
+        "accepted": true,
+        "preparedSha256": "4049e4855c08edb10bd405ddbf8da4bb0238494bda8f3a5da3d1d41ba8814444",
+        "events": 762,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290126730",
+        "accepted": true,
+        "preparedSha256": "359b0c94d3f2a7083fc03d2895ff13a09494d3491ee22b2a5fed23c9f923995e",
+        "events": 1274,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290118762",
+        "accepted": true,
+        "preparedSha256": "a28c5b61db3744ebb4b6cfe8cf25e38663c9e9249244b5f0f6bfb9356c2cb847",
+        "events": 1068,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286939295",
+        "accepted": true,
+        "preparedSha256": "dc1ec33f1b1b43d541be3b1c830727b1c32c37b604a2006162e8dd71a439cab7",
+        "events": 1054,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286918194",
+        "accepted": true,
+        "preparedSha256": "642e0573e43a27040838b361c2fc51af2b5cb0956948eabae7ea6756576f16a6",
+        "events": 1193,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286811840",
+        "accepted": true,
+        "preparedSha256": "e184149b4b5f63469a9629ee42068f6f171962cd236ecf49ca454b62e86a9fde",
+        "events": 1034,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286624841",
+        "accepted": true,
+        "preparedSha256": "34e44660998e1beb96b1a56ba85dd3b4ff419732bdaec919ada853ded67eea15",
+        "events": 966,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286622241",
+        "accepted": true,
+        "preparedSha256": "e06895a6d2a5bffd459dc447bf4f16c0c91a92db70258d3e045e778aa5e88509",
+        "events": 631,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286606788",
+        "accepted": true,
+        "preparedSha256": "20f0f1250fd7a7791a9f6dce1296935d085d2928edb04cefbaf5ec9fbbceac29",
+        "events": 858,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286601049",
+        "accepted": true,
+        "preparedSha256": "deae3e81755e7a0d91b6dd67c7ddd10eb860a20372e5f41fad5eab6cfabf684f",
+        "events": 1001,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285818434",
+        "accepted": true,
+        "preparedSha256": "7e59b4607504d0843c9288906f401d5a92e7fe945bb184a526b7f853cb9d9a82",
+        "events": 968,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285807083",
+        "accepted": true,
+        "preparedSha256": "c54401b909caccba978e72558fb5fdce78ffa73529dc39429b3d122ca3190ef6",
+        "events": 1255,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285789989",
+        "accepted": true,
+        "preparedSha256": "669c5088054ea9b237ef5de2b6b5d436cfc7d9092a7f7bb860bf8c4c52bf3568",
+        "events": 1114,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285690957",
+        "accepted": true,
+        "preparedSha256": "5c2e63d18c18cfe4476afe6f0e9dae90ed9ba691341b3703f49e1dc47101e442",
+        "events": 1059,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285697032",
+        "accepted": true,
+        "preparedSha256": "72cc130f3b43f00e3d2ab5b5d13ba65bded903cd16c8c59e3646d0383d91b1f0",
+        "events": 701,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290048537",
+        "accepted": true,
+        "preparedSha256": "1b44421bbc55090d9daa9925b49794feb9f45012c503ea73b51e6c0720bd110a",
+        "events": 1477,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290041209",
+        "accepted": true,
+        "preparedSha256": "0307b5fa90762e5b5d78f1a865523e7ae3e46924e5fbebcbf4f52a49d876058f",
+        "events": 1110,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290019546",
+        "accepted": true,
+        "preparedSha256": "a84dd47e85036dc2739dc7953acad5c63e6f14c58b0e02a32d6290947ff68a3f",
+        "events": 1257,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289084152",
+        "accepted": true,
+        "preparedSha256": "febeb5d2e3a4f72ad9cbeb0c54027ff7487507f5b51798b4e01554c7e69392d7",
+        "events": 1034,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289067810",
+        "accepted": true,
+        "preparedSha256": "c5d134f7e0c5f11b61ba60d408e5e8515d947ac10e919e37f0fcfd35298a872c",
+        "events": 1091,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289059493",
+        "accepted": true,
+        "preparedSha256": "27de0dace7d00cb40c94c4c9e98cca3b04afcf1af0a36be8dc66d084fb07dc0f",
+        "events": 1278,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289043852",
+        "accepted": true,
+        "preparedSha256": "c1c70e33d7084f78e683a55c2257274fbe2484dfcf71c6b7857d2a1507308b85",
+        "events": 1546,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287788508",
+        "accepted": true,
+        "preparedSha256": "62e42ddb6173f529c128e1d94cd5756861bedf285804c1ab020c27c8caea24d0",
+        "events": 981,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287781721",
+        "accepted": true,
+        "preparedSha256": "97568263e45cc584c6f3791a5a45577d9fb81adfd640b547b47216afd8410052",
+        "events": 1023,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287779021",
+        "accepted": true,
+        "preparedSha256": "b50b73cb10ecfc35bcbb2ba0b96c9921b05043d42a24bab7e54656911b8872b9",
+        "events": 1128,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286729660",
+        "accepted": true,
+        "preparedSha256": "73c8f86c1c2e305c86e3332e7ad940446c451b7841604c317e4d98a8648ebb89",
+        "events": 1230,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286398861",
+        "accepted": true,
+        "preparedSha256": "20d54e568b211558612eb85c2e2f3180054960eae9641801010936d2e56580d2",
+        "events": 1324,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290703657",
+        "accepted": true,
+        "preparedSha256": "cbb8876482a930370c7432312cf6601811b218c46ceb08533c22243434d7ba94",
+        "events": 1205,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288631167",
+        "accepted": true,
+        "preparedSha256": "23030fb54fb89e5059aeb8277af0cd73572812d53439160fd392308a44a5580c",
+        "events": 1271,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288335997",
+        "accepted": true,
+        "preparedSha256": "1afa3e56a5e0621f3f8090161f02cedd454c737856432f0551981a31d55f2a3c",
+        "events": 1115,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288332933",
+        "accepted": true,
+        "preparedSha256": "35534aa0a52c1c4942842f55e422827785507a1d8b40d416b4bc11d2bd15bfe4",
+        "events": 1151,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288309200",
+        "accepted": true,
+        "preparedSha256": "9dcab47868f07070f3e3c47b0b498e6649b480a0c6b064872149ef5d1a3014b8",
+        "events": 1214,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288286800",
+        "accepted": true,
+        "preparedSha256": "f83226d49b5205833ff84655f03d26d32d94c8fd546406fb265689c570c7a0d2",
+        "events": 1667,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288278488",
+        "accepted": true,
+        "preparedSha256": "f22e411d94f4a90fda1411eaffc21259abbdb274b1c79492d04996163ba0383e",
+        "events": 751,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288264050",
+        "accepted": true,
+        "preparedSha256": "bc6eb99db076a30f7f7faf62b1a0abe88147f02172615d88a095cdb663005a02",
+        "events": 1029,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289882724",
+        "accepted": true,
+        "preparedSha256": "e80f3542429c3580bdacbd1eb0e7150480c57b1fd95218eb7974bc9afee5df49",
+        "events": 768,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289862248",
+        "accepted": true,
+        "preparedSha256": "b0dede38402d48668bb5beeaccc9e463678802a110d029edf0aac5c752683a1f",
+        "events": 1221,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288993837",
+        "accepted": true,
+        "preparedSha256": "51711186ddead63432a9e0596edccec908834cbb63d7d6d4bdcf0eae43ecbbcd",
+        "events": 999,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288986697",
+        "accepted": true,
+        "preparedSha256": "864f3ae9cc344d69057a66bab2e156c2b7e047403bf75ff3a181d8adaa61f9eb",
+        "events": 1550,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288973927",
+        "accepted": true,
+        "preparedSha256": "94c3aa4ef77f1361e14b1c598098eb2da18dc16a52c80d8b4d53abb334dda238",
+        "events": 1672,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288757200",
+        "accepted": true,
+        "preparedSha256": "3c11c22a0ee7e2a72f9b8149011048f0c786469dca5441b3fa46f0638a9d8959",
+        "events": 1195,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288733126",
+        "accepted": true,
+        "preparedSha256": "1c5fcbb05d8b32c913e8aa4b30f7704058cc74e3baf807c925dc696d4fd56581",
+        "events": 705,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285707715",
+        "accepted": true,
+        "preparedSha256": "4582120d76f66e42da73a9ddbfb508fb2cbad74fb02a06b06cb9469d3eb4a5c6",
+        "events": 996,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285416344",
+        "accepted": true,
+        "preparedSha256": "8b8808b9df51c3d8d2d95bcc29f6c5dd79e5f7809b4d01ce3ae9c9c0186b2b77",
+        "events": 1089,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284618288",
+        "accepted": true,
+        "preparedSha256": "2f6c5dbaf0f7a3c0373625d432b826e68f35c07d9474ae3431f0c4e72b04158b",
+        "events": 653,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284358066",
+        "accepted": true,
+        "preparedSha256": "13d004edf2f08cb7cc87486021a3bff4e6c04bdec2a72636e8bdcd53e80cdda3",
+        "events": 1043,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284341366",
+        "accepted": true,
+        "preparedSha256": "9e5e6f80131ec686045359a92fc9ec027de6fcf5f5b4bda30f62894ee67ab909",
+        "events": 1040,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290101765",
+        "accepted": true,
+        "preparedSha256": "b13fceb9de0f6c8c132a3769160b1a83e38d693a5ef070977de38648aea5aa17",
+        "events": 1299,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290099224",
+        "accepted": true,
+        "preparedSha256": "a2a4139ef1b68c3809f4ee53f79b0860421cb9eb5367903d2913aa7805efb33b",
+        "events": 1114,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290089682",
+        "accepted": true,
+        "preparedSha256": "28f1748a838ac760249db4c0b38068ae6380efc34d6437e7b61da299e71dc031",
+        "events": 1257,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289883083",
+        "accepted": true,
+        "preparedSha256": "9d701ca48f28ba471ff1c611653ecec18329e2b5f34ab2af4cda878d70dde92a",
+        "events": 1299,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289785063",
+        "accepted": true,
+        "preparedSha256": "831755aadef03e7422e49ef03216ddf2bc7d8388bbbf87e4950f13d45d613bbc",
+        "events": 1140,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289769202",
+        "accepted": true,
+        "preparedSha256": "d63251ede3cd2e8d152a83c36726d522d932eb72bcda265b55711f8ae7abfe31",
+        "events": 1373,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289755226",
+        "accepted": true,
+        "preparedSha256": "58ac9d7abdd258551d7eb45c97c821061773b46c70b009f33c138d8cdef6c71d",
+        "events": 1458,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289740958",
+        "accepted": true,
+        "preparedSha256": "85cb6772293ca97b7ee3a5840d372cc16a9ac794b3179151fcd95ac5f84da90d",
+        "events": 1211,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289734330",
+        "accepted": true,
+        "preparedSha256": "f4096eab4488ba13c65ed61d51e864a9b400f4354932f1586c357efcbe10e53f",
+        "events": 1372,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288826802",
+        "accepted": true,
+        "preparedSha256": "cbacc0ce60876780c6e97b2e2710707c56f5b59882690be09785e3b029917d2d",
+        "events": 1102,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288805977",
+        "accepted": true,
+        "preparedSha256": "8e330deee479b0f98070900e1671cd339f103eb6503bf184ffc10ccb2202d75f",
+        "events": 1125,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286622128",
+        "accepted": true,
+        "preparedSha256": "4aa7b123af386bb1bf9031fd8e03c37ef84ad9abfc084204650f9166275c74a8",
+        "events": 1151,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286609981",
+        "accepted": true,
+        "preparedSha256": "0baf2d2a44fb0b7d38a0ab3b732105a26aec796afc47ee49d51f2c05762b6f28",
+        "events": 1141,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284217608",
+        "accepted": true,
+        "preparedSha256": "e1487a6879ecf20c5ec8be395d4c96b93577c8f60f52717b9e569016c4650dc5",
+        "events": 1041,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284212513",
+        "accepted": true,
+        "preparedSha256": "f23a14071c0c384dc0ec4421d62357e82289b665ee48e533f6eb1b9227a7e380",
+        "events": 1713,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283642155",
+        "accepted": false,
+        "error": "Invalid match/timeline identity, patch, teams, participants or frames"
+      },
+      {
+        "matchId": "BR1_3283332713",
+        "accepted": true,
+        "preparedSha256": "218c0bab6335ce1d4e93f3f610a340e2ac70fdfd7a2d968dd63ffb63df8aad39",
+        "events": 959,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283331160",
+        "accepted": true,
+        "preparedSha256": "485a718b0ad0622b47941c6355b72b55aeb2d4c2bb7303ec0ab8db2cc1b7b272",
+        "events": 1053,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283328001",
+        "accepted": true,
+        "preparedSha256": "97852030c60ee3c46199d2fe264bcbdd3690e3b790fdaaa01d322080cdae23a1",
+        "events": 726,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283040901",
+        "accepted": true,
+        "preparedSha256": "2965b177d9c24d4344483f2b5300a2f634679eec8fdab3f92869a2837bc817bf",
+        "events": 735,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3282222031",
+        "accepted": true,
+        "preparedSha256": "e67216942f9307757d491e69c3be9e3de13fdec7c95aef5b55b9c5cc0bb60e12",
+        "events": 1047,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288074001",
+        "accepted": true,
+        "preparedSha256": "3d4978aa258915c3694a058a617af51334907541a130d8fc1e701517586314c8",
+        "events": 1080,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287860130",
+        "accepted": true,
+        "preparedSha256": "b66324cb0361872d6a95b56375a01af5dce20442abe2dbc21c6f8c5677e5744f",
+        "events": 708,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287138345",
+        "accepted": true,
+        "preparedSha256": "190c016fa387763260fa545f9ba6b480c8e5ba18d615093e885fe9371f1a7ce1",
+        "events": 1240,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287089933",
+        "accepted": true,
+        "preparedSha256": "a283b9053309f0c5e4e01dfa51a2ae795f731d7e083f4f0b3febe7c5e75705e8",
+        "events": 85,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286661904",
+        "accepted": true,
+        "preparedSha256": "6f272ebe9e62cd2be59698b5f5a13caab02bf17020d63ddc23219829e100f30e",
+        "events": 1463,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286647547",
+        "accepted": true,
+        "preparedSha256": "a73292e4c29c509bd28550948bbb3489186c4f6869bd7bd4477de0cc054dd01d",
+        "events": 1424,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286645093",
+        "accepted": true,
+        "preparedSha256": "87f4f61b0c4f46cb0852fca8242cc2e39450f0a3eab0b8ca1464c99fa1b2b422",
+        "events": 1239,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286637978",
+        "accepted": true,
+        "preparedSha256": "f9de88360bf4f79cc5907c3262ff99470cc4e0199400880448fa41a32f13963f",
+        "events": 66,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286460826",
+        "accepted": true,
+        "preparedSha256": "4870da6cafed9fee234d14e3a0c9de207c4188d07f33f6dd59b62d87ce9ceac1",
+        "events": 1461,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286455324",
+        "accepted": true,
+        "preparedSha256": "958fce73dcf36f75e3bad9acab4663830040cf70008f0f64eede9a04657a85af",
+        "events": 1258,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286437144",
+        "accepted": true,
+        "preparedSha256": "83701706f936e57a0712a986dd19d4428dc898ca0d816f4df60e81f1112b21da",
+        "events": 1384,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286421852",
+        "accepted": true,
+        "preparedSha256": "ad837f8a6e29ae58da890e682f7f0674160083fa768f74cdaa2f974b275b0610",
+        "events": 971,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290773412",
+        "accepted": true,
+        "preparedSha256": "3d1b3734dadc4b13116132f084bd5e75cd78b3f54f725da1a61ae8cb53684c37",
+        "events": 871,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290756681",
+        "accepted": true,
+        "preparedSha256": "91f2ebc651a4fc7da80b59a65741a77f3aa8652a177f656f34f342c00b015625",
+        "events": 1214,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290390827",
+        "accepted": true,
+        "preparedSha256": "e849e6293eb8850ec484ade9b4cd9b4c19c1020d292f79c122c8d9038149db67",
+        "events": 1438,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290385634",
+        "accepted": true,
+        "preparedSha256": "f26a66d772b1b72f1a4eb815d11191a831487a2b2911d13e7596ab8ff88757a4",
+        "events": 1124,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289858420",
+        "accepted": true,
+        "preparedSha256": "119f25b0a81f7d1240ba7544448541f938e1b9bcd4fab5ada5f9ad69e68d2d47",
+        "events": 1080,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288766292",
+        "accepted": true,
+        "preparedSha256": "6f26e0fdd38c2b603d3f83f292346e1ed85232fe65a82ca81fca8111e21b91e7",
+        "events": 1033,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288537121",
+        "accepted": true,
+        "preparedSha256": "520f90f5cf45ba4f1210f717927b747d6ee0f87e5865a46b45db4cff320cc5aa",
+        "events": 1198,
+        "contributions": 877
+      }
+    ],
+    "candidate": [
+      {
+        "matchId": "BR1_3289982156",
+        "accepted": true,
+        "preparedSha256": "77351b9b95e3372ac706ef3b7cf0c9503f17e636684e1f528d5f08b554300057",
+        "events": 1220,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289617502",
+        "accepted": true,
+        "preparedSha256": "5ef110e897a20e574908fc1a2450d85b3a6089cd255c813839f929d126d222f0",
+        "events": 1266,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289600320",
+        "accepted": true,
+        "preparedSha256": "591721abbfd4447594f6ee74ae73f8e56c5cbecf5718b4ded7e6a11aa59f5915",
+        "events": 1189,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289582120",
+        "accepted": true,
+        "preparedSha256": "504ae8915f54fd3abe0e63ad9b98f7d4e12ca6b84d915cfafa1606dc4e939c1c",
+        "events": 1410,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289535363",
+        "accepted": true,
+        "preparedSha256": "f852262cff39ef15f370c0ea250977a9dd4d49a6165b7c31b764d52d081a29c3",
+        "events": 617,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289517289",
+        "accepted": true,
+        "preparedSha256": "480eee73f4dfb09efe7ff03f25b9067d7e6956399248c7bfb7bc1ddf090489e9",
+        "events": 1268,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289500052",
+        "accepted": true,
+        "preparedSha256": "3c391ff2710c792d5f4bc4f9f43ff6f11fb7ee375638271823665039a64d63e1",
+        "events": 1291,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289479717",
+        "accepted": true,
+        "preparedSha256": "620d2fba8b8e085b8f205f195eb7b3691350a22438513ab66055fc7f62336790",
+        "events": 985,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289200795",
+        "accepted": true,
+        "preparedSha256": "e643ddb7cf3c43a50bc93a5dad0fde7e15f6644f5639bd87f28b6f9fea9a03ca",
+        "events": 1098,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289185227",
+        "accepted": true,
+        "preparedSha256": "24408a293fa621121d7694ebf52debf97e54f128d480283bcb1629a154fd4ace",
+        "events": 1286,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289172207",
+        "accepted": true,
+        "preparedSha256": "dad276e0c8534ad7e29027389a5ec1aa9c090aa26dd94e49e1dd280573fca3f1",
+        "events": 407,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289156261",
+        "accepted": true,
+        "preparedSha256": "51c0adae06ef852bd4b5d03233c78bda42441345ef8e618134ce502aed342d88",
+        "events": 1146,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235899552",
+        "accepted": true,
+        "preparedSha256": "e28a257bc003232e38178323c99d23f4b0e3b09d6b42f0f6bb46810e53473202",
+        "events": 1136,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235871686",
+        "accepted": true,
+        "preparedSha256": "749a1e82dc8b5c1dc3e2134e97f1f47ca8beab60715b2e69c8ac8997bfe9606b",
+        "events": 1194,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235857814",
+        "accepted": true,
+        "preparedSha256": "ab95c2f3e48fe479dc1b246ffd21705cb2a0e765a411a899b8768c7473de2098",
+        "events": 560,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235599705",
+        "accepted": true,
+        "preparedSha256": "89782b244aa5abf773144a02facd6533e4abd19cadd96dd8026f23b27623486f",
+        "events": 1070,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235574566",
+        "accepted": true,
+        "preparedSha256": "3844f7c729b8d0d0f41d5adf09cb80bd1cb37b5ba4e26576dec044911c209d45",
+        "events": 1183,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235550712",
+        "accepted": true,
+        "preparedSha256": "dab4ba98e92e8df65a42b8223567824330a978f27e9a58a03e75f97ebe66ffd3",
+        "events": 1253,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3235532392",
+        "accepted": true,
+        "preparedSha256": "a6c0e9d2c2ec99ab480dc55e4aace3398d6b1965a3006ab624948787e14b95e7",
+        "events": 1057,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233637698",
+        "accepted": true,
+        "preparedSha256": "200cc98799777c14e5057886b775dc2e6702fd59e8c8625d75f00ad95bd292fd",
+        "events": 1058,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233602356",
+        "accepted": true,
+        "preparedSha256": "1a0c8d4cf1544666463841e602809f9ab028cc32e7cb9abfd8eceff5a34fadd0",
+        "events": 880,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233579284",
+        "accepted": true,
+        "preparedSha256": "6fc6c2cec9fcebfef4dc304db374b00252ec4d544355375499daa9d1345ca815",
+        "events": 1028,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3233138430",
+        "accepted": true,
+        "preparedSha256": "957134b03d2df012cff53b07cba0ada13a9906f58a6dfc683b5cc3219249b8ee",
+        "events": 616,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3232475185",
+        "accepted": true,
+        "preparedSha256": "c239dce67b5c91e8358ddf2edaef15b0de41189ccc077686f365476450252aa4",
+        "events": 1147,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290759378",
+        "accepted": true,
+        "preparedSha256": "ef4f829648d62b945dc884614dbac09e17eb6db58006a8916139e8b9b4b80a36",
+        "events": 1321,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290749716",
+        "accepted": true,
+        "preparedSha256": "6c98884b89d41347c0944d263a38e4d67868585e2b7c0623bc08ccff7ca8a9e2",
+        "events": 1298,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290736778",
+        "accepted": true,
+        "preparedSha256": "4b7db90e10f7186c1d02602531d52f8273d56a70fbf2bfa9f8826c5397e903fc",
+        "events": 1094,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290732327",
+        "accepted": true,
+        "preparedSha256": "6ba38ceea9194ad493fd2b871b91d4fb0c81203ea28d99da4c3a2017f97c61d6",
+        "events": 1199,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290720300",
+        "accepted": true,
+        "preparedSha256": "aa1567615eb8a7a8bc822d0855614c71286b08ef8ae7cedb0625e38855f1063b",
+        "events": 864,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290716379",
+        "accepted": true,
+        "preparedSha256": "06963566e3f223b1b98d74efc5b0722037781e13bcd2c1a013af955ffb61537e",
+        "events": 969,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290652400",
+        "accepted": true,
+        "preparedSha256": "af411d1e98bf967e2283388a83e2c6b98c74ee914626469da8e27a9361f6e815",
+        "events": 1171,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290153562",
+        "accepted": true,
+        "preparedSha256": "b8be6246007dece193a9450b3bfc3bb43df48c9b646bc65f679462bf14cabfe4",
+        "events": 1339,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290146498",
+        "accepted": true,
+        "preparedSha256": "9b50c81faa414e1c5243cea8c6cab02adc9f654669f86f697e82fbdb3972d50f",
+        "events": 1179,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290139543",
+        "accepted": true,
+        "preparedSha256": "4049e4855c08edb10bd405ddbf8da4bb0238494bda8f3a5da3d1d41ba8814444",
+        "events": 762,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290126730",
+        "accepted": true,
+        "preparedSha256": "359b0c94d3f2a7083fc03d2895ff13a09494d3491ee22b2a5fed23c9f923995e",
+        "events": 1274,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290118762",
+        "accepted": true,
+        "preparedSha256": "a28c5b61db3744ebb4b6cfe8cf25e38663c9e9249244b5f0f6bfb9356c2cb847",
+        "events": 1068,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286939295",
+        "accepted": true,
+        "preparedSha256": "dc1ec33f1b1b43d541be3b1c830727b1c32c37b604a2006162e8dd71a439cab7",
+        "events": 1054,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286918194",
+        "accepted": true,
+        "preparedSha256": "642e0573e43a27040838b361c2fc51af2b5cb0956948eabae7ea6756576f16a6",
+        "events": 1193,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286811840",
+        "accepted": true,
+        "preparedSha256": "e184149b4b5f63469a9629ee42068f6f171962cd236ecf49ca454b62e86a9fde",
+        "events": 1034,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286624841",
+        "accepted": true,
+        "preparedSha256": "34e44660998e1beb96b1a56ba85dd3b4ff419732bdaec919ada853ded67eea15",
+        "events": 966,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286622241",
+        "accepted": true,
+        "preparedSha256": "e06895a6d2a5bffd459dc447bf4f16c0c91a92db70258d3e045e778aa5e88509",
+        "events": 631,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286606788",
+        "accepted": true,
+        "preparedSha256": "20f0f1250fd7a7791a9f6dce1296935d085d2928edb04cefbaf5ec9fbbceac29",
+        "events": 858,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286601049",
+        "accepted": true,
+        "preparedSha256": "deae3e81755e7a0d91b6dd67c7ddd10eb860a20372e5f41fad5eab6cfabf684f",
+        "events": 1001,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285818434",
+        "accepted": true,
+        "preparedSha256": "7e59b4607504d0843c9288906f401d5a92e7fe945bb184a526b7f853cb9d9a82",
+        "events": 968,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285807083",
+        "accepted": true,
+        "preparedSha256": "c54401b909caccba978e72558fb5fdce78ffa73529dc39429b3d122ca3190ef6",
+        "events": 1255,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285789989",
+        "accepted": true,
+        "preparedSha256": "669c5088054ea9b237ef5de2b6b5d436cfc7d9092a7f7bb860bf8c4c52bf3568",
+        "events": 1114,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285690957",
+        "accepted": true,
+        "preparedSha256": "5c2e63d18c18cfe4476afe6f0e9dae90ed9ba691341b3703f49e1dc47101e442",
+        "events": 1059,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285697032",
+        "accepted": true,
+        "preparedSha256": "72cc130f3b43f00e3d2ab5b5d13ba65bded903cd16c8c59e3646d0383d91b1f0",
+        "events": 701,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290048537",
+        "accepted": true,
+        "preparedSha256": "1b44421bbc55090d9daa9925b49794feb9f45012c503ea73b51e6c0720bd110a",
+        "events": 1477,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290041209",
+        "accepted": true,
+        "preparedSha256": "0307b5fa90762e5b5d78f1a865523e7ae3e46924e5fbebcbf4f52a49d876058f",
+        "events": 1110,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290019546",
+        "accepted": true,
+        "preparedSha256": "a84dd47e85036dc2739dc7953acad5c63e6f14c58b0e02a32d6290947ff68a3f",
+        "events": 1257,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289084152",
+        "accepted": true,
+        "preparedSha256": "febeb5d2e3a4f72ad9cbeb0c54027ff7487507f5b51798b4e01554c7e69392d7",
+        "events": 1034,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289067810",
+        "accepted": true,
+        "preparedSha256": "c5d134f7e0c5f11b61ba60d408e5e8515d947ac10e919e37f0fcfd35298a872c",
+        "events": 1091,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289059493",
+        "accepted": true,
+        "preparedSha256": "27de0dace7d00cb40c94c4c9e98cca3b04afcf1af0a36be8dc66d084fb07dc0f",
+        "events": 1278,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289043852",
+        "accepted": true,
+        "preparedSha256": "c1c70e33d7084f78e683a55c2257274fbe2484dfcf71c6b7857d2a1507308b85",
+        "events": 1546,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287788508",
+        "accepted": true,
+        "preparedSha256": "62e42ddb6173f529c128e1d94cd5756861bedf285804c1ab020c27c8caea24d0",
+        "events": 981,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287781721",
+        "accepted": true,
+        "preparedSha256": "97568263e45cc584c6f3791a5a45577d9fb81adfd640b547b47216afd8410052",
+        "events": 1023,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287779021",
+        "accepted": true,
+        "preparedSha256": "b50b73cb10ecfc35bcbb2ba0b96c9921b05043d42a24bab7e54656911b8872b9",
+        "events": 1128,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286729660",
+        "accepted": true,
+        "preparedSha256": "73c8f86c1c2e305c86e3332e7ad940446c451b7841604c317e4d98a8648ebb89",
+        "events": 1230,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286398861",
+        "accepted": true,
+        "preparedSha256": "20d54e568b211558612eb85c2e2f3180054960eae9641801010936d2e56580d2",
+        "events": 1324,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290703657",
+        "accepted": true,
+        "preparedSha256": "cbb8876482a930370c7432312cf6601811b218c46ceb08533c22243434d7ba94",
+        "events": 1205,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288631167",
+        "accepted": true,
+        "preparedSha256": "23030fb54fb89e5059aeb8277af0cd73572812d53439160fd392308a44a5580c",
+        "events": 1271,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288335997",
+        "accepted": true,
+        "preparedSha256": "1afa3e56a5e0621f3f8090161f02cedd454c737856432f0551981a31d55f2a3c",
+        "events": 1115,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288332933",
+        "accepted": true,
+        "preparedSha256": "35534aa0a52c1c4942842f55e422827785507a1d8b40d416b4bc11d2bd15bfe4",
+        "events": 1151,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288309200",
+        "accepted": true,
+        "preparedSha256": "9dcab47868f07070f3e3c47b0b498e6649b480a0c6b064872149ef5d1a3014b8",
+        "events": 1214,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288286800",
+        "accepted": true,
+        "preparedSha256": "f83226d49b5205833ff84655f03d26d32d94c8fd546406fb265689c570c7a0d2",
+        "events": 1667,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288278488",
+        "accepted": true,
+        "preparedSha256": "f22e411d94f4a90fda1411eaffc21259abbdb274b1c79492d04996163ba0383e",
+        "events": 751,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288264050",
+        "accepted": true,
+        "preparedSha256": "bc6eb99db076a30f7f7faf62b1a0abe88147f02172615d88a095cdb663005a02",
+        "events": 1029,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289882724",
+        "accepted": true,
+        "preparedSha256": "e80f3542429c3580bdacbd1eb0e7150480c57b1fd95218eb7974bc9afee5df49",
+        "events": 768,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289862248",
+        "accepted": true,
+        "preparedSha256": "b0dede38402d48668bb5beeaccc9e463678802a110d029edf0aac5c752683a1f",
+        "events": 1221,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288993837",
+        "accepted": true,
+        "preparedSha256": "51711186ddead63432a9e0596edccec908834cbb63d7d6d4bdcf0eae43ecbbcd",
+        "events": 999,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288986697",
+        "accepted": true,
+        "preparedSha256": "864f3ae9cc344d69057a66bab2e156c2b7e047403bf75ff3a181d8adaa61f9eb",
+        "events": 1550,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288973927",
+        "accepted": true,
+        "preparedSha256": "94c3aa4ef77f1361e14b1c598098eb2da18dc16a52c80d8b4d53abb334dda238",
+        "events": 1672,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288757200",
+        "accepted": true,
+        "preparedSha256": "3c11c22a0ee7e2a72f9b8149011048f0c786469dca5441b3fa46f0638a9d8959",
+        "events": 1195,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288733126",
+        "accepted": true,
+        "preparedSha256": "1c5fcbb05d8b32c913e8aa4b30f7704058cc74e3baf807c925dc696d4fd56581",
+        "events": 705,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285707715",
+        "accepted": true,
+        "preparedSha256": "4582120d76f66e42da73a9ddbfb508fb2cbad74fb02a06b06cb9469d3eb4a5c6",
+        "events": 996,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3285416344",
+        "accepted": true,
+        "preparedSha256": "8b8808b9df51c3d8d2d95bcc29f6c5dd79e5f7809b4d01ce3ae9c9c0186b2b77",
+        "events": 1089,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284618288",
+        "accepted": true,
+        "preparedSha256": "2f6c5dbaf0f7a3c0373625d432b826e68f35c07d9474ae3431f0c4e72b04158b",
+        "events": 653,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284358066",
+        "accepted": true,
+        "preparedSha256": "13d004edf2f08cb7cc87486021a3bff4e6c04bdec2a72636e8bdcd53e80cdda3",
+        "events": 1043,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284341366",
+        "accepted": true,
+        "preparedSha256": "9e5e6f80131ec686045359a92fc9ec027de6fcf5f5b4bda30f62894ee67ab909",
+        "events": 1040,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290101765",
+        "accepted": true,
+        "preparedSha256": "b13fceb9de0f6c8c132a3769160b1a83e38d693a5ef070977de38648aea5aa17",
+        "events": 1299,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290099224",
+        "accepted": true,
+        "preparedSha256": "a2a4139ef1b68c3809f4ee53f79b0860421cb9eb5367903d2913aa7805efb33b",
+        "events": 1114,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290089682",
+        "accepted": true,
+        "preparedSha256": "28f1748a838ac760249db4c0b38068ae6380efc34d6437e7b61da299e71dc031",
+        "events": 1257,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289883083",
+        "accepted": true,
+        "preparedSha256": "9d701ca48f28ba471ff1c611653ecec18329e2b5f34ab2af4cda878d70dde92a",
+        "events": 1299,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289785063",
+        "accepted": true,
+        "preparedSha256": "831755aadef03e7422e49ef03216ddf2bc7d8388bbbf87e4950f13d45d613bbc",
+        "events": 1140,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289769202",
+        "accepted": true,
+        "preparedSha256": "d63251ede3cd2e8d152a83c36726d522d932eb72bcda265b55711f8ae7abfe31",
+        "events": 1373,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289755226",
+        "accepted": true,
+        "preparedSha256": "58ac9d7abdd258551d7eb45c97c821061773b46c70b009f33c138d8cdef6c71d",
+        "events": 1458,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289740958",
+        "accepted": true,
+        "preparedSha256": "85cb6772293ca97b7ee3a5840d372cc16a9ac794b3179151fcd95ac5f84da90d",
+        "events": 1211,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289734330",
+        "accepted": true,
+        "preparedSha256": "f4096eab4488ba13c65ed61d51e864a9b400f4354932f1586c357efcbe10e53f",
+        "events": 1372,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288826802",
+        "accepted": true,
+        "preparedSha256": "cbacc0ce60876780c6e97b2e2710707c56f5b59882690be09785e3b029917d2d",
+        "events": 1102,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288805977",
+        "accepted": true,
+        "preparedSha256": "8e330deee479b0f98070900e1671cd339f103eb6503bf184ffc10ccb2202d75f",
+        "events": 1125,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286622128",
+        "accepted": true,
+        "preparedSha256": "4aa7b123af386bb1bf9031fd8e03c37ef84ad9abfc084204650f9166275c74a8",
+        "events": 1151,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286609981",
+        "accepted": true,
+        "preparedSha256": "0baf2d2a44fb0b7d38a0ab3b732105a26aec796afc47ee49d51f2c05762b6f28",
+        "events": 1141,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284217608",
+        "accepted": true,
+        "preparedSha256": "e1487a6879ecf20c5ec8be395d4c96b93577c8f60f52717b9e569016c4650dc5",
+        "events": 1041,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3284212513",
+        "accepted": true,
+        "preparedSha256": "f23a14071c0c384dc0ec4421d62357e82289b665ee48e533f6eb1b9227a7e380",
+        "events": 1713,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283642155",
+        "accepted": true,
+        "preparedSha256": "b02395ff3168d4fbbf5bac98cc7b8611c5a843c1ef016d2bb61aa25e3360690d",
+        "events": 733,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283332713",
+        "accepted": true,
+        "preparedSha256": "218c0bab6335ce1d4e93f3f610a340e2ac70fdfd7a2d968dd63ffb63df8aad39",
+        "events": 959,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283331160",
+        "accepted": true,
+        "preparedSha256": "485a718b0ad0622b47941c6355b72b55aeb2d4c2bb7303ec0ab8db2cc1b7b272",
+        "events": 1053,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283328001",
+        "accepted": true,
+        "preparedSha256": "97852030c60ee3c46199d2fe264bcbdd3690e3b790fdaaa01d322080cdae23a1",
+        "events": 726,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3283040901",
+        "accepted": true,
+        "preparedSha256": "2965b177d9c24d4344483f2b5300a2f634679eec8fdab3f92869a2837bc817bf",
+        "events": 735,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3282222031",
+        "accepted": true,
+        "preparedSha256": "e67216942f9307757d491e69c3be9e3de13fdec7c95aef5b55b9c5cc0bb60e12",
+        "events": 1047,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288074001",
+        "accepted": true,
+        "preparedSha256": "3d4978aa258915c3694a058a617af51334907541a130d8fc1e701517586314c8",
+        "events": 1080,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287860130",
+        "accepted": true,
+        "preparedSha256": "b66324cb0361872d6a95b56375a01af5dce20442abe2dbc21c6f8c5677e5744f",
+        "events": 708,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287138345",
+        "accepted": true,
+        "preparedSha256": "190c016fa387763260fa545f9ba6b480c8e5ba18d615093e885fe9371f1a7ce1",
+        "events": 1240,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3287089933",
+        "accepted": true,
+        "preparedSha256": "a283b9053309f0c5e4e01dfa51a2ae795f731d7e083f4f0b3febe7c5e75705e8",
+        "events": 85,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286661904",
+        "accepted": true,
+        "preparedSha256": "6f272ebe9e62cd2be59698b5f5a13caab02bf17020d63ddc23219829e100f30e",
+        "events": 1463,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286647547",
+        "accepted": true,
+        "preparedSha256": "a73292e4c29c509bd28550948bbb3489186c4f6869bd7bd4477de0cc054dd01d",
+        "events": 1424,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286645093",
+        "accepted": true,
+        "preparedSha256": "87f4f61b0c4f46cb0852fca8242cc2e39450f0a3eab0b8ca1464c99fa1b2b422",
+        "events": 1239,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286637978",
+        "accepted": true,
+        "preparedSha256": "f9de88360bf4f79cc5907c3262ff99470cc4e0199400880448fa41a32f13963f",
+        "events": 66,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286460826",
+        "accepted": true,
+        "preparedSha256": "4870da6cafed9fee234d14e3a0c9de207c4188d07f33f6dd59b62d87ce9ceac1",
+        "events": 1461,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286455324",
+        "accepted": true,
+        "preparedSha256": "958fce73dcf36f75e3bad9acab4663830040cf70008f0f64eede9a04657a85af",
+        "events": 1258,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286437144",
+        "accepted": true,
+        "preparedSha256": "83701706f936e57a0712a986dd19d4428dc898ca0d816f4df60e81f1112b21da",
+        "events": 1384,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3286421852",
+        "accepted": true,
+        "preparedSha256": "ad837f8a6e29ae58da890e682f7f0674160083fa768f74cdaa2f974b275b0610",
+        "events": 971,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290773412",
+        "accepted": true,
+        "preparedSha256": "3d1b3734dadc4b13116132f084bd5e75cd78b3f54f725da1a61ae8cb53684c37",
+        "events": 871,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290756681",
+        "accepted": true,
+        "preparedSha256": "91f2ebc651a4fc7da80b59a65741a77f3aa8652a177f656f34f342c00b015625",
+        "events": 1214,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290390827",
+        "accepted": true,
+        "preparedSha256": "e849e6293eb8850ec484ade9b4cd9b4c19c1020d292f79c122c8d9038149db67",
+        "events": 1438,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3290385634",
+        "accepted": true,
+        "preparedSha256": "f26a66d772b1b72f1a4eb815d11191a831487a2b2911d13e7596ab8ff88757a4",
+        "events": 1124,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3289858420",
+        "accepted": true,
+        "preparedSha256": "119f25b0a81f7d1240ba7544448541f938e1b9bcd4fab5ada5f9ad69e68d2d47",
+        "events": 1080,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288766292",
+        "accepted": true,
+        "preparedSha256": "6f26e0fdd38c2b603d3f83f292346e1ed85232fe65a82ca81fca8111e21b91e7",
+        "events": 1033,
+        "contributions": 877
+      },
+      {
+        "matchId": "BR1_3288537121",
+        "accepted": true,
+        "preparedSha256": "520f90f5cf45ba4f1210f717927b747d6ee0f87e5865a46b45db4cff320cc5aa",
+        "events": 1198,
+        "contributions": 877
+      }
+    ]
+  },
+  "verification": {
+    "unit": {
+      "suites": 127,
+      "passed": 733
+    },
+    "integration": {
+      "suites": 2,
+      "passed": 43
+    },
+    "build": "passed",
+    "lint": {
+      "errors": 0,
+      "preexistingWarnings": 1
+    },
+    "architecture": {
+      "preexisting": 27,
+      "added": 0
+    },
+    "realMatch": {
+      "events": 733,
+      "contributions": 877,
+      "failedJobRetry": "passed",
+      "redelivery": "passed",
+      "rebuilds": 2,
+      "rawGzipBytesUnchanged": true
+    },
+    "processingVersionChanged": false
+  }
+}

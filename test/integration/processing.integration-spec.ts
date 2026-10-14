@@ -7,7 +7,7 @@ import { DiscoveryService } from '../../src/modules/collector/services/discovery
 import { CollectorRepository } from '../../src/modules/collector/repositories/collector.repository';
 import { DiscoveryContext } from '../../src/modules/collector/contracts/discovery';
 import { readFileSync } from 'node:fs';
-import { gzipSync } from 'node:zlib';
+import { gunzipSync, gzipSync } from 'node:zlib';
 import { join } from 'node:path';
 import { connect, ChannelWrapper } from 'amqp-connection-manager';
 import * as amqp from 'amqplib';
@@ -30,6 +30,7 @@ import { ChampionStatsRepository } from '../../src/modules/stats/repositories/ch
 import { MAX_ATTEMPTS } from '../../src/lib/processing-policy';
 import { LeaseLostError } from '../../src/lib/processing-errors';
 import { createProcessingService } from '../helpers/processing';
+import type { SnapshotFrame } from '../../src/modules/matches/contracts/normalized-snapshots';
 
 const summaryTemplate = JSON.parse(
   readFileSync(
@@ -201,6 +202,86 @@ afterAll(async () => {
   else process.env.APP_MODE = originalMode;
   if (originalQueue === undefined) delete process.env.RABBITMQ_QUEUE;
   else process.env.RABBITMQ_QUEUE = originalQueue;
+});
+
+test('retries the original shuffled-identity match without changing raw data and preserves identities across redelivery and rebuild', async () => {
+  const matchId = 'BR1_3283642155';
+  const raw = (kind: string) =>
+    readFileSync(
+      join(
+        __dirname,
+        '../fixtures/riot-identity',
+        `${matchId}.${kind}.json.gz`,
+      ),
+    );
+  const summaryBytes = raw('summary'),
+    timelineBytes = raw('timeline');
+  const summary = JSON.parse(gunzipSync(summaryBytes).toString()) as MatchDto;
+  const timeline = JSON.parse(
+    gunzipSync(timelineBytes).toString(),
+  ) as TimelineDto;
+  await jobs.enqueue(matchId);
+  await prisma.matchRaw.create({
+    data: { matchId, summary: summaryBytes, timeline: timelineBytes },
+  });
+  await prisma.matchProcessing.update({
+    where: { matchId },
+    data: {
+      status: 'FAILED',
+      attempts: 1,
+      lastError:
+        'Invalid match/timeline identity, patch, teams, participants or frames',
+    },
+  });
+  expect(await jobs.retryFailed(matchId)).toEqual({ count: 1 });
+  await worker.processMatch({ matchId });
+  expect(
+    await prisma.matchProcessing.findUniqueOrThrow({ where: { matchId } }),
+  ).toMatchObject({ status: 'COMPLETED', attempts: 1 });
+  expect(await prisma.matchParticipant.count()).toBe(10);
+  expect(await prisma.matchEventProjection.count()).toBe(733);
+  expect(await prisma.historicalMetricContribution.count()).toBe(877);
+  const identities = new Map(
+    summary.info.participants.map((p) => [p.participantId, p.puuid]),
+  );
+  const projection = await prisma.matchTimelineProjection.findUniqueOrThrow({
+    where: { matchId },
+  });
+  for (const frame of projection.frames as unknown as SnapshotFrame[])
+    for (const participant of Object.values(frame.participantFrames)) {
+      expect(participant.puuid).toBe(identities.get(participant.participantId));
+      expect(participant.totalGold).toBe(
+        timeline.info.frames[frame.frameIndex].participantFrames[
+          participant.participantId
+        ].totalGold,
+      );
+    }
+  const events = await prisma.matchEventProjection.findMany({
+    where: { matchId },
+  });
+  for (const event of events) {
+    expect(event.actorPuuid).toBe(
+      identities.get(event.actorParticipantId ?? 0) ?? null,
+    );
+    expect(event.victimPuuid).toBe(
+      identities.get(event.victimParticipantId ?? 0) ?? null,
+    );
+  }
+  const before = await snapshot();
+  await worker.processMatch({ matchId });
+  expect(await snapshot()).toEqual(before);
+  const rebuild = new RebuildService(prisma, jobs);
+  for (let i = 0; i < 2; i++) {
+    expect(await rebuild.run()).toBe(1);
+    expect(await snapshot()).toEqual(before);
+  }
+  const stored = await prisma.matchRaw.findUniqueOrThrow({
+    where: { matchId },
+  });
+  expect(Buffer.from(stored.summary!)).toEqual(summaryBytes);
+  expect(Buffer.from(stored.timeline!)).toEqual(timelineBytes);
+  expect(riot.getMatchById).not.toHaveBeenCalled();
+  expect(riot.getTimeline).not.toHaveBeenCalled();
 });
 
 test('two workers and concurrent enqueue apply one complete match exactly once', async () => {
@@ -498,6 +579,32 @@ test('timeline unavailability retains summary, then fetches only the missing pay
 const invalidPayloads: Array<
   [string, (summary: MatchDto, timeline: TimelineDto) => void]
 > = [
+  [
+    'duplicate participant ID',
+    (summary) => {
+      summary.info.participants[1].participantId =
+        summary.info.participants[0].participantId;
+    },
+  ],
+  [
+    'contradictory timeline identities',
+    (_summary, timeline) => {
+      const participants = timeline.info.participants!;
+      [participants[0].puuid, participants[1].puuid] = [
+        participants[1].puuid,
+        participants[0].puuid,
+      ];
+    },
+  ],
+  [
+    'unknown frame participant',
+    (_summary, timeline) => {
+      timeline.info.frames[0].participantFrames[99] = {
+        ...timeline.info.frames[0].participantFrames[1],
+        participantId: 99,
+      };
+    },
+  ],
   [
     'missing teams',
     (summary) => {

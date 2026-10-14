@@ -62,3 +62,12 @@ __pycache__/
 
 # Reproducible corpus output (the accepted evidence remains versioned)
 /docs/analysis/corpus-audit.json
+
+# Local research and exploratory benchmark archives; retain technical docs.
+/research/
+/scripts/**/*.py
+/docs/analysis/**/*.md
+/docs/analysis/architecture-study/
+/docs/analysis/write-optimization/
+/docs/analysis/processing-*
+/docs/analysis/*benchmark*.json

@@ -31,7 +31,7 @@ Os testes de integração exigem PostgreSQL e RabbitMQ descartáveis e executam 
 | `scripts/` | Verificador arquitetural e benchmark de release |
 | `scripts/validation/` | Auditoria do corpus e reconciliação das métricas |
 | `scripts/examples/` | Geração de exemplos para documentação e protótipo |
-| `docs/analysis/` | Manifestos, protocolos e exemplos analíticos |
+| `docs/analysis/` | Manifestos e exemplos de contratos; relatórios exploratórios ficam locais |
 | `docs/architecture/` | Decisões, fronteiras e evidências da arquitetura |
 
 `matches` possui o modelo normalizado; `collector` registra descoberta e origem; `processing` coordena jobs e publicação; `dataset` e `stats` possuem suas escritas. Worker e CLIs delegam aos casos de uso. Partidas, projeções, dataset, agregados e conclusão do job compartilham a transação de publicação; a captura bruta é preservada separadamente.
@@ -46,9 +46,12 @@ node scripts/architecture-inventory.cjs --live --stdout > /tmp/architecture.json
 npm run processing -- status
 npm run processing -- coverage
 npm run dataset -- definitions
+npm run test:review-corpus
+# Requer o corpus original local, não incluído no Git:
+npm run validate:review -- --corpus .tmp/architecture-study-corpus
 ```
 
-Após `npm run build`, os reconciliadores em `scripts/validation/validate-*.cjs` verificam o fixture e geram os exemplos documentados. Os geradores em `scripts/examples/` são ferramentas manuais; não integram o runtime. Os comandos específicos estão nos respectivos guias abaixo. Resultados de auditoria temporários devem ir para `/tmp`; novos arquivos gerados só devem ser versionados quando forem fixtures, exemplos ou evidências necessárias.
+Após `npm run build`, os reconciliadores em `scripts/validation/validate-*.cjs` verificam o fixture e geram os exemplos documentados. Os geradores em `scripts/examples/` são ferramentas manuais; não integram o runtime. Os comandos específicos estão nos respectivos guias abaixo. Resultados de auditoria temporários devem ir para `.tmp/` ou `/tmp`. Pesquisa, relatórios de benchmark e ferramentas exploratórias ficam fora do Git; fixtures e exemplos de contratos continuam versionados. As validações do corpus e o gerador de exemplos de revisão usam Node (`.mjs`), sem dependência de Python.
 
 O benchmark `scripts/benchmark-release.cjs` exige um banco descartável e `--reset-disposable`. Instruções e limites: [validação de release](docs/LIBERACAO-POR-PARTIDA.md).
 
@@ -80,3 +83,5 @@ git show 9e64893:scripts/analyze-example-match.py
 O experimento offline MET-22 foi retirado do checkout; código, protocolo e resultados continuam disponíveis no commit `54e5186` (por exemplo, `git show 54e5186:docs/VISAO-ANTECIPADA-MET22.md`). As evidências históricas da refatoração registram sua validação naquele momento. A análise de visão das partidas permanece em `src/modules/matches/`.
 
 Worktrees são ambientes temporários. Ao encerrar uma tarefa, integre seu trabalho, confira `git status` e remova o worktree com `git worktree remove <caminho>`. Preserve alterações pendentes e branches necessárias antes da remoção. Dependências e builds gerados não devem ser commitados.
+
+Os estudos exploratórios de arquitetura e otimização de escrita foram retirados do versionamento; o histórico permanece em `4b81c87`. As cópias locais desta organização estão em `research/legacy-benchmarks/`, com manifesto de hashes. O harness documentado de aceitação de release permanece disponível.

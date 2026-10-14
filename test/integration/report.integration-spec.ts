@@ -1,3 +1,6 @@
+import { MatchReviewRepository } from '../../src/modules/matches/repositories/match-review.repository';
+import { MatchReviewService } from '../../src/modules/matches/services/match-review.service';
+import { MatchReviewQueryDto } from '../../src/modules/matches/dto/match-review.dto';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
@@ -11,11 +14,8 @@ import type { CatalogReader } from '../../src/modules/matches/ports/catalog-read
 import { unavailableItemCatalog } from '../../src/modules/matches/contracts/catalogs';
 import { unavailableSkillCatalog } from '../../src/modules/matches/contracts/catalogs';
 import { PROCESSING_VERSION } from '../../src/lib/processing-policy';
-import { PlayerStatsAggregationService } from '../../src/modules/stats/adapters/persistence/player-stats-writer';
-import { TimelineParserService } from '../../src/modules/matches/adapters/riot/timeline-parser.service';
 import { WorkerService } from '../../src/modules/worker/services/worker.service';
 import { createProcessingService } from '../helpers/processing';
-import { RiotService } from '../../src/core/riot/riot.service';
 import { MatchDto } from '../../src/core/riot/dto/match.dto';
 import { TimelineDto } from '../../src/core/riot/dto/timeline.dto';
 
@@ -34,7 +34,6 @@ const timeline = JSON.parse(
 const matchId = summary.metadata.matchId;
 let prisma: PrismaService;
 let jobs: ProcessingService;
-let parser: TimelineParserService;
 let worker: WorkerService;
 
 beforeAll(async () => {
@@ -48,8 +47,12 @@ beforeAll(async () => {
   await prisma.$connect();
   const logger = new PinoLogger({ pinoHttp: { level: 'silent' } });
   const source = {
-    getMatchById: jest.fn(() => { throw new Error('Unexpected network read'); }),
-    getTimeline: jest.fn(() => { throw new Error('Unexpected network read'); }),
+    getMatchById: jest.fn(() => {
+      throw new Error('Unexpected network read');
+    }),
+    getTimeline: jest.fn(() => {
+      throw new Error('Unexpected network read');
+    }),
   };
   jobs = createProcessingService(prisma, source, logger);
   worker = new WorkerService(jobs, logger);
@@ -126,6 +129,31 @@ test('one report snapshot uses persisted projections after raw deletion and reta
     query,
   );
   expect(event).toMatchObject({ type: 'CHAMPION_KILL', victimPuuid: puuid });
+  const reviewService = new MatchReviewService(
+    new MatchReviewRepository(prisma),
+  );
+  const review = await reviewService.overview(matchId, puuid);
+  expect(review.processingVersion).toBe(PROCESSING_VERSION);
+  expect(review.summary.damageComplete).toBe(true);
+  expect(review.summary.totalDamage.value).toBeGreaterThan(0);
+  expect(Buffer.byteLength(JSON.stringify(review))).toBeLessThan(80000);
+  const reviews = await reviewService.deaths(
+    matchId,
+    puuid,
+    new MatchReviewQueryDto(),
+  );
+  expect(reviews.total).toBeGreaterThan(0);
+  expect(reviews.items[0]).not.toHaveProperty('baseline');
+  const detail = await reviewService.death(
+    matchId,
+    puuid,
+    reviews.items[0].eventId,
+  );
+  expect(detail.resources?.eventId).toBe(reviews.items[0].eventId);
+  expect(detail.recap?.windowDurationMs).toBeNull();
+  await expect(
+    reviewService.death(matchId, 'absent', reviews.items[0].eventId),
+  ).rejects.toMatchObject({ status: 404 });
   await prisma.matchTimelineProjection.deleteMany({ where: { matchId } });
   await prisma.matchEventProjection.deleteMany({ where: { matchId } });
   const partial = await service.summary(matchId, puuid, query);

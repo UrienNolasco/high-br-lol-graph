@@ -1,3 +1,4 @@
+import { matchReviewFixture } from '../../../test/fixtures/match-review.fixture';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -236,5 +237,73 @@ describe('MET17 report REST contract', () => {
     expect(
       schemas.ReportDimensionDto.properties.presentationWeight.enum,
     ).toEqual([1]);
+  });
+  it('navigates review observations and their evidence without inventing catalog metric IDs', async () => {
+    const review = matchReviewFixture();
+    const template = reportFixture();
+    const projected = {
+      ...template,
+      ...review,
+      timelineProjection: review.projection,
+      participants: review.participants.map((p, i) => ({
+        ...template.participants[i],
+        ...p,
+      })),
+      readLimits: {
+        eventsTruncated: false,
+        framesTruncated: false,
+        eventLimit: 10000,
+        eventRows: review.events.length,
+        frameLimit: 300,
+        frameRows: review.projection!.frames.length,
+      },
+    };
+    repository.findReport.mockResolvedValue(projected);
+    const url = '/api/v1/matches/REVIEW_TEST/report/review-p1';
+    const summary = await request(app.getHttpServer()).get(url).expect(200);
+    expect(summary.body.families).toContainEqual(
+      expect.objectContaining({ family: 'review', dataAvailable: true }),
+    );
+    const { body } = await request(app.getHttpServer())
+      .get(url + '/families/review?section=deaths&limit=1')
+      .expect(200);
+    expect(body.data.items[0]).toMatchObject({
+      eventId: 'REVIEW_TEST:4:0',
+      deathMs: 195000,
+    });
+    const source = await request(app.getHttpServer())
+      .get(
+        url +
+          '/families/review?section=deaths&path=0.metrics.gold.focalPostGain.evidence&limit=1',
+      )
+      .expect(200);
+    expect(source.body.data).toMatchObject({ total: 2, hasMore: true });
+    expect(source.body.data.items[0]).toMatchObject({ frameIndex: 6 });
+    const next = await request(app.getHttpServer())
+      .get(source.body.data.next)
+      .expect(200);
+    expect(next.body.data.items).toHaveLength(1);
+    const filtered = await request(app.getHttpServer())
+      .get(url + '/families/review?section=deaths&fromMs=200000')
+      .expect(200);
+    expect(filtered.body.data.total).toBe(1);
+    expect(filtered.body.data.items[0].deathMs).toBe(630000);
+    projected.readLimits.eventsTruncated = true;
+    const partial = await request(app.getHttpServer())
+      .get(url + '/families/review?section=damage&limit=1')
+      .expect(200);
+    expect(partial.body.data.items[0].personalDamage.value).toBe(100);
+    expect(partial.body.data.items[0].noDeaths).toBeNull();
+    expect(partial.body.metadata.coverage.combat).toBe('truncated_events');
+    projected.readLimits.eventsTruncated = false;
+    projected.queueId = 450;
+    const outside = await request(app.getHttpServer()).get(url).expect(200);
+    expect(outside.body.families).toContainEqual(
+      expect.objectContaining({
+        family: 'review',
+        dataAvailable: false,
+        reason: 'outside_cohort',
+      }),
+    );
   });
 });

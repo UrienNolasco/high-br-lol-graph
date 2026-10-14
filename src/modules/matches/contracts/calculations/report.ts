@@ -6,9 +6,11 @@ export const REPORT_FAMILIES = [
   'combat',
   'sequences',
   'progression',
+  'review',
 ] as const;
 export type ReportFamily = (typeof REPORT_FAMILIES)[number];
 export const REPORT_SECTIONS: Record<ReportFamily, readonly string[]> = {
+  review: ['deaths', 'damage', 'highlights', 'recaps'],
   contribution: ['resources', 'combat', 'vision', 'structures'],
   economy: [
     'checkpoints',

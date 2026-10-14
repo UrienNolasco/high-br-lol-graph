@@ -1,12 +1,14 @@
 # Corpus de validação e cobertura — MET-02
 
-O corpus disponível contém **uma partida real**, BR1_3200579475, gameVersion `16.2.741.3171`, fila 420, mapa 11. O manifesto `docs/analysis/corpus-manifest.json` aceita pares adicionais de resumo/timeline. Nenhuma amostra real de outros patches foi encontrada entre os fixtures registrados. A matriz não declara suporte geral ao patch, a modalidades diferentes ou à população BR.
+O corpus versionado deste contrato contém **uma partida real**, BR1_3200579475, gameVersion `16.2.741.3171`, fila 420, mapa 11. O manifesto `docs/analysis/corpus-manifest.json` aceita pares adicionais de resumo/timeline. Nenhuma amostra real de outros patches foi encontrada entre os fixtures registrados. A matriz não declara suporte geral ao patch, a modalidades diferentes ou à população BR.
+
+A validação da nova revisão observacional usa separadamente 120 partidas originais de um corpus local não versionado. Seus comandos estão em [EXPERIENCIA-REVISAO.md](EXPERIENCIA-REVISAO.md#revisão-observacional-implementada); esse conjunto não altera a contagem do manifesto de fixtures deste contrato.
 
 ## Reprodução
 
 ```sh
-python3 -m unittest discover -s scripts/validation -p 'test_metrics_corpus.py' -v
-python3 scripts/validation/audit-metrics-corpus.py
+npm run test:corpus
+node scripts/validation/audit-metrics-corpus.mjs
 ```
 
 O auditor compara diretamente os dois JSONs de origem, sem tratar resultados do parser como verdade esperada. Registra hashes e retorna erro diante de divergências inesperadas. Use `--output /tmp/corpus-audit.json` para resultados temporários; as evidências do aceite estão em `docs/architecture/evidence/arq14/corpus.json`.

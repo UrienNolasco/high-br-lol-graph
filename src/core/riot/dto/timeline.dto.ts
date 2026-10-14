@@ -14,10 +14,17 @@ export interface TimelineDto {
 
 export interface TimelineMetadata {
   matchId: string;
-  participants: string[]; // PUUIDs na ordem (índice + 1 = ParticipantID)
+  participants: string[]; // Conjunto de PUUIDs; a posição não identifica o participante.
+}
+
+export interface TimelineParticipant {
+  participantId: number;
+  puuid: string;
 }
 
 export interface TimelineInfo {
+  // Older stored payloads may omit this field; summary IDs remain explicit.
+  participants?: TimelineParticipant[];
   frameInterval: number; // Geralmente 60000ms (1 minuto)
   frames: TimelineFrame[];
   gameId: number;

@@ -1,3 +1,4 @@
+import { calculateMatchReview } from '../../pure/review/match-review-calculator';
 import { computeContribution } from '../../pure/contribution-calculator';
 import { calculateEconomy } from '../../pure/economy-calculator';
 import { calculateVision } from '../../pure/vision-calculator';
@@ -57,7 +58,7 @@ export function reportFamilies(
       sections: {},
     };
     if (
-      !['contribution', 'economy'].includes(family) &&
+      !['contribution', 'economy', 'review'].includes(family) &&
       input.readLimits.eventsTruncated
     ) {
       const missing = { ...base, reason: 'event_read_limit_exceeded' };
@@ -115,6 +116,31 @@ export function reportFamilies(
           phases: report.phases,
           unspentGold: report.unspentGold,
           finalResources: report.finalResources,
+        },
+      };
+    } else if (family === 'review') {
+      const report = calculateMatchReview(shared, puuid);
+      result = {
+        ...base,
+        reason: report.reason,
+        metadata: {
+          coverage: report.coverage,
+          interpretation: report.interpretation,
+          temporalScope: report.temporalScope,
+          resourcesReason: report.resources.reason,
+          damageReason: report.damage.reason,
+          recapReason: report.recaps.reason,
+        },
+        sections: {
+          deaths: report.resources.episodes,
+          damage: report.damage.intervals,
+          recaps: report.recaps.deaths,
+          highlights: {
+            personalPeak: report.damage.personalPeak,
+            personalPeakWithoutDeaths: report.damage.personalPeakWithoutDeaths,
+            globalPeakWithoutDeaths: report.damage.globalPeakWithoutDeaths,
+            rankingReason: report.damage.rankingReason,
+          },
         },
       };
     } else if (family === 'vision') {

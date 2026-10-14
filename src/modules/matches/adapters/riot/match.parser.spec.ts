@@ -1,33 +1,138 @@
 import { buildParticipantMap, parseMatchData } from './match.parser';
 import { extractPatch } from '../../contracts/calculations/patch';
+import { InvalidMatchError } from '../../../../lib/processing-errors';
 
 describe('match.parser', () => {
   describe('buildParticipantMap', () => {
-    it('should map timeline PUUIDs to participant IDs (1-indexed)', () => {
+    it('maps explicit IDs independently of summary, timeline and metadata order', () => {
       const map = buildParticipantMap(
-        ['puuid-1', 'puuid-2', 'puuid-3'],
+        ['puuid-3', 'puuid-1', 'puuid-2'],
         [
-          { puuid: 'puuid-1' } as any,
-          { puuid: 'puuid-2' } as any,
-          { puuid: 'puuid-3' } as any,
+          { participantId: 8, puuid: 'puuid-2' },
+          { participantId: 3, puuid: 'puuid-1' },
+          { participantId: 12, puuid: 'puuid-3' },
+        ],
+        [
+          { participantId: 12, puuid: 'puuid-3' },
+          { participantId: 8, puuid: 'puuid-2' },
+          { participantId: 3, puuid: 'puuid-1' },
         ],
       );
-
-      expect(map.get(1)).toBe('puuid-1');
-      expect(map.get(2)).toBe('puuid-2');
-      expect(map.get(3)).toBe('puuid-3');
-    });
-
-    it('should call onMismatch callback for unmatched PUUIDs', () => {
-      const onMismatch = jest.fn();
-      buildParticipantMap(
-        ['puuid-1', 'puuid-missing'],
-        [{ puuid: 'puuid-1' } as any],
-        onMismatch,
+      expect(map).toEqual(
+        new Map([
+          [3, 'puuid-1'],
+          [8, 'puuid-2'],
+          [12, 'puuid-3'],
+        ]),
       );
-
-      expect(onMismatch).toHaveBeenCalledWith(2, 'puuid-missing');
     });
+
+    it('uses explicit summary IDs when older payloads omit timeline pairs', () => {
+      expect(
+        buildParticipantMap(
+          ['b', 'a'],
+          [
+            { participantId: 1, puuid: 'a' },
+            { participantId: 2, puuid: 'b' },
+          ],
+        ),
+      ).toEqual(
+        new Map([
+          [1, 'a'],
+          [2, 'b'],
+        ]),
+      );
+    });
+
+    it.each([
+      [
+        'unknown metadata PUUID',
+        ['a', 'missing'],
+        [
+          { participantId: 1, puuid: 'a' },
+          { participantId: 2, puuid: 'b' },
+        ],
+      ],
+      [
+        'duplicate metadata PUUID',
+        ['a', 'a'],
+        [
+          { participantId: 1, puuid: 'a' },
+          { participantId: 2, puuid: 'b' },
+        ],
+      ],
+      [
+        'missing metadata PUUID',
+        ['a'],
+        [
+          { participantId: 1, puuid: 'a' },
+          { participantId: 2, puuid: 'b' },
+        ],
+      ],
+      [
+        'duplicate summary ID',
+        ['a', 'b'],
+        [
+          { participantId: 1, puuid: 'a' },
+          { participantId: 1, puuid: 'b' },
+        ],
+      ],
+      [
+        'duplicate summary PUUID',
+        ['a', 'b'],
+        [
+          { participantId: 1, puuid: 'a' },
+          { participantId: 2, puuid: 'a' },
+        ],
+      ],
+      ['zero ID', ['a'], [{ participantId: 0, puuid: 'a' }]],
+      ['negative ID', ['a'], [{ participantId: -1, puuid: 'a' }]],
+      ['fractional ID', ['a'], [{ participantId: 1.5, puuid: 'a' }]],
+    ] as const)('rejects %s', (_name, metadata, participants) => {
+      expect(() => buildParticipantMap(metadata, participants)).toThrow(
+        InvalidMatchError,
+      );
+    });
+
+    it.each([
+      [
+        'contradictory timeline pairs',
+        [
+          { participantId: 1, puuid: 'b' },
+          { participantId: 2, puuid: 'a' },
+        ],
+      ],
+      [
+        'duplicate timeline ID',
+        [
+          { participantId: 1, puuid: 'a' },
+          { participantId: 1, puuid: 'a' },
+        ],
+      ],
+      [
+        'unknown timeline ID',
+        [
+          { participantId: 1, puuid: 'a' },
+          { participantId: 3, puuid: 'b' },
+        ],
+      ],
+      ['missing timeline participant', [{ participantId: 1, puuid: 'a' }]],
+      ['empty timeline pairs', []],
+    ] as const)(
+      'rejects %s even when metadata membership agrees',
+      (_name, timeline) => {
+        expect(() =>
+          buildParticipantMap(
+            ['a', 'b'],
+            [
+              { participantId: 1, puuid: 'a' },
+              { participantId: 2, puuid: 'b' },
+            ],
+            timeline,
+          ),
+        ).toThrow(InvalidMatchError);
+      },
+    );
   });
 
   describe('parseMatchData', () => {

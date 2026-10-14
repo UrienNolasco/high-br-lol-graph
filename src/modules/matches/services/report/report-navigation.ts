@@ -172,6 +172,7 @@ export function withinOutput(value: unknown, options: ReportOptions) {
     event = record(row.event);
   const time = [
     row.timestampMs,
+    row.deathMs,
     row.timestamp,
     event.timestampMs,
     row.targetMs,

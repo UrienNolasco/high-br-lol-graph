@@ -51,7 +51,7 @@ O modo baseline exige saída distinta da entrada para conservar a referência e 
 
 ## Cobertura e observabilidade
 
-A evidência do corpus e reconciliações por família permanece nos scripts `audit-metrics-corpus.py` e `validate-*.cjs`, com discrepâncias e ausências qualificadas. A fixture tem wards de tipo desconhecido: `unknownWardEvents` não é falha de parser nem ward reconhecida. Eventos globais desconhecidos usam `quality.unknownType`; preservar payload/identidade e investigar crescimento por patch. Não zerar desconhecidos para obter cobertura artificial.
+A evidência do corpus e reconciliações por família permanece nos scripts `scripts/validation/audit-metrics-corpus.mjs` e `validate-*.cjs`, com discrepâncias e ausências qualificadas. A fixture tem wards de tipo desconhecido: `unknownWardEvents` não é falha de parser nem ward reconhecida. Eventos globais desconhecidos usam `quality.unknownType`; preservar payload/identidade e investigar crescimento por patch. Não zerar desconhecidos para obter cobertura artificial.
 
 O benchmark registra tipos de evento, desconhecidos globais e de wards, quantidade/versão de snapshots, disponibilidade/proveniência do relatório e cobertura de cada definição/horizonte. `definitionVersion` do dataset e `metricVersion` da métrica cumprem o papel de **featureVersion**, independentes da geração persistida `processingVersion`; não inferir atualização de fórmula apenas pelo deploy. Cobertura usa contagens de linhas válidas/amostras e motivo de ausência, não dez jogadores como dez partidas independentes.
 

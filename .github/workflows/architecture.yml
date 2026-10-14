@@ -21,6 +21,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:architecture
+      - name: Test offline corpus validators
+        run: |
+          npm run test:corpus
+          npm run test:review-corpus
       - name: Enforce strict architecture boundaries
         run: npm run architecture:check -- --strict
         env:

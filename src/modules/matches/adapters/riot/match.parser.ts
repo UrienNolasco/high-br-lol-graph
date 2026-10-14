@@ -5,6 +5,8 @@ import {
 } from './final-stats';
 import { optionalText } from '../../contracts/participant-display';
 import { MatchDto, ParticipantDto } from '../../../../core/riot/dto/match.dto';
+import type { TimelineParticipant } from '../../../../core/riot/dto/timeline.dto';
+import { InvalidMatchError } from '../../../../lib/processing-errors';
 import type { ProcessedMatchData } from '../../contracts/normalized-match';
 import { projectFinalInventory } from './final-inventory';
 import {
@@ -13,23 +15,62 @@ import {
 } from '../../contracts/champion-population';
 
 export function buildParticipantMap(
-  timelinePuuids: string[],
-  matchParticipants: ParticipantDto[],
-  onMismatch?: (participantId: number, puuid: string) => void,
+  timelinePuuids: readonly string[],
+  matchParticipants: readonly Pick<ParticipantDto, 'participantId' | 'puuid'>[],
+  timelineParticipants?: readonly TimelineParticipant[],
 ): Map<number, string> {
+  const invalid = (): never => {
+    throw new InvalidMatchError('Invalid match/timeline participant identity');
+  };
+  if (
+    !Array.isArray(matchParticipants) ||
+    !matchParticipants.length ||
+    !Array.isArray(timelinePuuids)
+  )
+    invalid();
   const map = new Map<number, string>();
-
-  timelinePuuids.forEach((puuid, index) => {
-    map.set(index + 1, puuid);
-  });
-
-  const participantPuuids = new Set(matchParticipants.map((p) => p.puuid));
-  for (const [participantId, puuid] of map.entries()) {
-    if (!participantPuuids.has(puuid)) {
-      onMismatch?.(participantId, puuid);
+  const puuids = new Set<string>();
+  for (const participant of matchParticipants) {
+    if (
+      !participant ||
+      !Number.isSafeInteger(participant.participantId) ||
+      participant.participantId <= 0 ||
+      typeof participant.puuid !== 'string' ||
+      !participant.puuid ||
+      map.has(participant.participantId) ||
+      puuids.has(participant.puuid)
+    )
+      invalid();
+    map.set(participant.participantId, participant.puuid);
+    puuids.add(participant.puuid);
+  }
+  // Metadata is a membership list, never an ID-to-PUUID mapping.
+  if (
+    timelinePuuids.length !== map.size ||
+    new Set(timelinePuuids).size !== map.size ||
+    timelinePuuids.some((puuid) => !puuids.has(puuid))
+  )
+    invalid();
+  // Preserve support for stored payloads without info.participants. If supplied,
+  // its explicit pairs must agree; never silently prefer one conflicting source.
+  if (timelineParticipants !== undefined) {
+    if (
+      !Array.isArray(timelineParticipants) ||
+      timelineParticipants.length !== map.size
+    )
+      invalid();
+    const ids = new Set<number>();
+    for (const participant of timelineParticipants as readonly TimelineParticipant[]) {
+      if (
+        !participant ||
+        !map.has(participant.participantId) ||
+        map.get(participant.participantId) !== participant.puuid ||
+        ids.has(participant.participantId)
+      )
+        invalid();
+      ids.add(participant.participantId);
     }
   }
-
   return map;
 }
 
