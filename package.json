@@ -24,7 +24,9 @@
     "test:integration": "jest --config test/jest-integration.json --runInBand",
     "dataset": "ts-node src/dataset-cli.ts",
     "test:corpus": "node --test scripts/validation/test-metrics-corpus.mjs",
-    "audit:corpus": "node scripts/validation/audit-metrics-corpus.mjs"
+    "audit:corpus": "node scripts/validation/audit-metrics-corpus.mjs",
+    "test:review-corpus": "node --test test/integration/match-review-corpus.test.mjs",
+    "validate:review": "node scripts/validation/validate-match-review.mjs"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",

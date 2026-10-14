@@ -86,3 +86,38 @@ Validação técnica em 23/09/2026: 14 métricas reconciliadas com campos fonte,
 ## Contrato publicado em MET-17
 
 A integração REST está documentada em [RELATORIO-PARTIDA-MET17.md](RELATORIO-PARTIDA-MET17.md). O consumidor usa `/api/v1/matches/:matchId/report/:puuid` e os links retornados para percorrer dimensão → métrica → evidência e episódio → evento. Os exemplos em `review/payloads.json` continuam artefatos do protótipo, não substituem o contrato REST publicado. Os testes HTTP cobrem os estados de ausência e navegação; isso não representa validação com jogadores.
+
+
+## Revisão observacional implementada
+
+A API de revisão lê projeções persistidas da mesma geração de processamento, em uma transação `RepeatableRead`. Não consulta Riot, `MatchRaw` ou arquivos de pesquisa durante GETs.
+
+| Rota, após `/api/v1/matches/:matchId/review/:puuid` | Entrega |
+| --- | --- |
+| raiz | Cobertura, participante/oponente, contagens, picos de dano e links |
+| `/deaths` | Página resumida de mortes, mudanças de ouro/CS/XP, tendência anterior e combate posterior |
+| `/deaths/:eventId` | Observações, evidências e recap recebido completos de uma morte do participante |
+| `/damage` | Intervalos pessoais/globais de dano, taxas, ranks e mortes vizinhas |
+
+`eventId` é a identidade estável `matchId:frameIndex:eventIndex` e deve ser codificada no URL. As listas usam `offset=0`, `limit=10` (máximo 50) e filtros opcionais `fromMs` inclusivo/`toMs` exclusivo. Em dano, `sort=damage` ordena por taxa pessoal; `deaths=none|present|all` filtra observações conhecidas. Filtros só mudam a apresentação: os denominadores e ranks continuam sendo os originais. A lista de mortes traz `href` para as provas completas, sem repetir todos os snapshots em cada card.
+
+O relatório existente também possui a família `review`, com seções `deaths`, `damage`, `highlights` e `recaps`. Seus objetos de observação usam navegação por `path`, inclusive para paginar evidências; não recebem IDs artificiais do catálogo de métricas. Exemplo: `section=deaths&path=0.metrics.gold.focalPostGain.evidence&limit=1`.
+
+A comparação após morte seleciona snapshots passados com idade máxima de 60 s, mirando morte−180 s, morte e morte+180 s. Exibe os horários reais: a janela observada não começa necessariamente no instante da morte. Ouro/CS/XP são comparados ao único adversário da mesma posição, e mortes repetidas, censura ou posição ambígua ficam explícitas. Assistências registradas são separadas da contagem completa, que pode ser desconhecida.
+
+Para cada recurso, o ganho observado é `valor(after) − valor(before)`; a mudança relativa é o ganho do participante menos o ganho do adversário. A vantagem em cada snapshot é `participante − adversário`. A janela anterior usa `baseline → before`, e as taxas dividem pelo número real de minutos entre capturas. CS total soma CS de rota e selva somente quando ambos são conhecidos. Elegibilidade do episódio e disponibilidade de cada valor são campos distintos: uma morte repetida pode conservar observações úteis sem virar um exemplo elegível de recuperação. Não há preenchimento de valores ausentes com zero.
+
+Dano usa o contador total primário e a duração real entre snapshots; ranks usam intervalos de 45–75 s e exigem cobertura completa reconciliada. Os ranks comparam intervalos da própria partida, inclusive em partidas curtas; não classificam remakes nem comparam jogadores de partidas diferentes. O recorte de dez minutos da pesquisa é aplicado apenas à contagem exploratória correspondente no validador do corpus. Mortes próximas e margens censuradas de 15/30/60 s impedem interpretar uma fronteira de snapshot como uma luta. Recaps preservam componentes parciais, conflitos de identidade e duração desconhecida; só comparam fontes adicionais ao killer/assistentes quando a lista de base é completa.
+
+O dano por intervalo é `contador(final) − contador(inicial)`; a taxa é `dano × 60000 / duraçãoEmMs`. A fração sem mortes divide a soma de dano em intervalos sem morte pelo dano pessoal total reconciliado; denominador zero fica indisponível. O dano global exige os dez participantes. O recap soma apenas os componentes recebidos presentes na lista do evento, preservando componentes desconhecidos e fontes sem identidade; sua participação percentual não é uma estimativa do dano de uma luta inteira.
+
+São fatos retrospectivos de partidas nas filas 420/440 e mapa 11, não scores, custos causais ou classificação de remake. A leitura literal não altera os gates de patch/remake das outras famílias. Falhas de proveniência e versões inconsistentes tornam dados indisponíveis; não produzem eventos de uma geração rejeitada.
+
+Validação offline da implementação sobre um corpus original local com hashes:
+
+```sh
+npm run test:review-corpus
+npm run validate:review -- --corpus .tmp/architecture-study-corpus --output .tmp/match-review-validation.json
+```
+
+O corpus não acompanha o Git. Fixtures sintéticas e metadados de processamento usados em testes não aumentam o número de partidas reais. Schemas detalhados das respostas e parâmetros estão na documentação OpenAPI.

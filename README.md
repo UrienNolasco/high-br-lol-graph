@@ -46,6 +46,9 @@ node scripts/architecture-inventory.cjs --live --stdout > /tmp/architecture.json
 npm run processing -- status
 npm run processing -- coverage
 npm run dataset -- definitions
+npm run test:review-corpus
+# Requer o corpus original local, não incluído no Git:
+npm run validate:review -- --corpus .tmp/architecture-study-corpus
 ```
 
 Após `npm run build`, os reconciliadores em `scripts/validation/validate-*.cjs` verificam o fixture e geram os exemplos documentados. Os geradores em `scripts/examples/` são ferramentas manuais; não integram o runtime. Os comandos específicos estão nos respectivos guias abaixo. Resultados de auditoria temporários devem ir para `.tmp/` ou `/tmp`. Pesquisa, relatórios de benchmark e ferramentas exploratórias ficam fora do Git; fixtures e exemplos de contratos continuam versionados. As validações do corpus e o gerador de exemplos de revisão usam Node (`.mjs`), sem dependência de Python.
