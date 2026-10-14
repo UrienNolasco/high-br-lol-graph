@@ -132,13 +132,21 @@ export function prepareMatchReview(
     ends.length === 1 && reviewNumber(ends[0].timestampMs)
       ? ends[0].timestampMs
       : null;
+  const conflictingIdentity = (
+    participantId: number | null | undefined,
+    puuid: string | null,
+  ) =>
+    (participantId != null &&
+      participantIds.has(participantId) &&
+      participantIds.get(participantId) !== puuid) ||
+    (puuid !== null &&
+      reverseIds.has(puuid) &&
+      reverseIds.get(puuid) !== participantId);
   const eventIdentityInvalid =
     combat.kills.some((k) => {
       const e = k.event;
       return (
-        (e.actorParticipantId !== null &&
-          participantIds.has(e.actorParticipantId) &&
-          participantIds.get(e.actorParticipantId) !== e.actorPuuid) ||
+        conflictingIdentity(e.actorParticipantId, e.actorPuuid) ||
         (!!e.actorPuuid && e.actorParticipantId === null) ||
         (k.actor && k.victim && k.actor.teamId === k.victim.teamId)
       );
@@ -146,9 +154,7 @@ export function prepareMatchReview(
     input.events.some(
       (e) =>
         e.type === 'CHAMPION_KILL' &&
-        e.victimParticipantId != null &&
-        participantIds.has(e.victimParticipantId) &&
-        participantIds.get(e.victimParticipantId) !== e.victimPuuid,
+        conflictingIdentity(e.victimParticipantId, e.victimPuuid),
     );
   const combatReason =
     sourceReason ??
@@ -187,15 +193,28 @@ export function prepareMatchReview(
     .map((k) => {
       const ids = k.event.assistingParticipantIds;
       const names = k.event.assistingPuuids;
+      const validPairs =
+        Array.isArray(ids) && Array.isArray(names)
+          ? ids.map(
+              (id, i) =>
+                typeof id === 'number' &&
+                Number.isSafeInteger(id) &&
+                id > 0 &&
+                typeof names[i] === 'string' &&
+                participantIds.get(id) === names[i] &&
+                reverseIds.get(names[i]) === id,
+            )
+          : [];
       const identityKnown =
         Array.isArray(ids) &&
         Array.isArray(names) &&
         ids.length === names.length &&
-        ids.every(
-          (id, i) =>
-            participantIds.has(id as number) &&
-            participantIds.get(id as number) === names[i],
-        );
+        validPairs.every(Boolean);
+      const knownAssistants = Array.isArray(names)
+        ? k.assistants.filter((puuid) =>
+            names.some((name, i) => name === puuid && validPairs[i]),
+          )
+        : [];
       return {
         eventId: combatEventId(k.event),
         timestampMs: k.event.timestampMs!,
@@ -203,7 +222,7 @@ export function prepareMatchReview(
         eventIndex: k.event.eventIndex,
         killerPuuid: k.actor?.puuid ?? null,
         victimPuuid: k.victim!.puuid,
-        assistingPuuids: identityKnown ? k.assistants : [],
+        assistingPuuids: knownAssistants,
         assistanceComplete: k.assistanceComplete && identityKnown,
         payload: reviewRecord(k.event.payload),
       };

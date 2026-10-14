@@ -2,6 +2,7 @@ import type {
   MatchReviewContext,
   MatchReviewInput,
   ReviewEvent,
+  ReviewValue,
 } from '../../contracts/match-review';
 import type { ParticipantSnapshot } from '../../contracts/normalized-snapshots';
 import { calculateDeathResourceReview } from './death-resource-review';
@@ -130,13 +131,43 @@ describe('death resource review', () => {
     expect(row.metrics?.gold.relativeRateChange.value).toBe(0);
     expect(row.before?.focal.gold.evidence).toContainEqual({
       source: 'MatchTimelineProjection.frames',
-      field: 'participantFrames.p1.totalGold',
+      field: 'participantFrames.1.totalGold',
       value: 1600,
       frameIndex: 5,
       timestampMs: 300000,
     });
     expect(row.combat?.post.deaths).toBe(1);
     expect(row.combat?.afterDeath.deaths).toBe(0);
+  });
+  it('resolves participant evidence against the original projection using confirmed numeric IDs', () => {
+    const source = input();
+    const row = calculate(source).episodes[0];
+    const cells = [
+      ...[row.baseline!, row.before!, row.after!].flatMap((snapshot) => [
+        ...Object.values(snapshot.focal),
+        ...Object.values(snapshot.opponent),
+      ]),
+      ...Object.values(row.metrics!).flatMap(
+        (metric) => Object.values(metric) as ReviewValue[],
+      ),
+    ];
+    const evidence = cells
+      .flatMap((cell) => cell.evidence)
+      .filter((item) => item.field.startsWith('participantFrames.'));
+    expect(evidence.length).toBeGreaterThan(0);
+    for (const item of evidence) {
+      const frame = source.projection!.frames.find(
+        (frame) => frame.frameIndex === item.frameIndex,
+      )!;
+      const [root, key, field] = item.field.split('.');
+      expect(root).toBe('participantFrames');
+      expect(key).toMatch(/^(1|6)$/);
+      const participant = frame.participantFrames[key];
+      expect(participant).toBeDefined();
+      expect(participant.participantId).toBe(Number(key));
+      expect(frame.timestamp).toBe(item.timestampMs);
+      expect(participant[field as keyof ParticipantSnapshot]).toBe(item.value);
+    }
   });
   it('does not backfill a missing field or replace unknown values with zero', () => {
     const data = input();
@@ -290,6 +321,10 @@ describe('death resource review', () => {
       calculateDeathResourceReview(context, 'p1').episodes[0].metrics?.gold
         .focalPostGain.reason,
     ).toBe('snapshot_identity_mismatch');
+    expect(
+      calculateDeathResourceReview(context, 'p1').episodes[0].before?.focal.gold
+        .evidence,
+    ).toEqual([]);
   });
   it('uses no arbitrary magnitude threshold for factual directional labels', () => {
     const data = input();

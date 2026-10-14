@@ -48,6 +48,65 @@ describe('match review input integrity', () => {
       'conflicting_participant_identity',
     );
   });
+  it.each(['actorParticipantId', 'victimParticipantId'] as const)(
+    'rejects an unknown %s paired with a known PUUID',
+    (field) => {
+      const input = matchReviewFixture();
+      input.events[0][field] = 11;
+      expect(prepareMatchReview(input).combatReason).toBe(
+        'conflicting_participant_identity',
+      );
+    },
+  );
+  it('rejects a missing victim ID when its PUUID has an observed ID', () => {
+    const input = matchReviewFixture();
+    input.events[0].victimParticipantId = null;
+    expect(prepareMatchReview(input).combatReason).toBe(
+      'conflicting_participant_identity',
+    );
+  });
+  it('preserves each resolved assist when another assistant is unknown', () => {
+    const input = matchReviewFixture();
+    input.events[0].assistingParticipantIds = [7, 99];
+    input.events[0].assistingPuuids = ['review-p7', null];
+    const context = prepareMatchReview(input);
+    expect(context.combatReason).toBeNull();
+    expect(context.kills[0]).toMatchObject({
+      assistingPuuids: ['review-p7'],
+      assistanceComplete: false,
+    });
+    const known = reviewCombatWindow(context, 'review-p7', 180000, 360000);
+    expect(known).toMatchObject({
+      recordedAssists: 1,
+      assists: 1,
+      reason: null,
+      unknownAssistEventIds: [],
+    });
+    expect(known.events.map((event) => event.eventId)).toEqual([
+      'REVIEW_TEST:4:0',
+    ]);
+    expect(
+      reviewCombatWindow(context, 'review-p8', 180000, 360000),
+    ).toMatchObject({
+      recordedAssists: 0,
+      assists: null,
+      reason: 'unknown_assistance',
+      unknownAssistEventIds: ['REVIEW_TEST:4:0'],
+    });
+  });
+  it('does not resolve an unknown assistant ID from a known PUUID alone', () => {
+    const input = matchReviewFixture();
+    input.events[0].assistingParticipantIds = [7, 11];
+    input.events[0].assistingPuuids = ['review-p7', 'review-p8'];
+    const context = prepareMatchReview(input);
+    expect(context.kills[0]).toMatchObject({
+      assistingPuuids: ['review-p7'],
+      assistanceComplete: false,
+    });
+    expect(
+      reviewCombatWindow(context, 'review-p8', 180000, 360000),
+    ).toMatchObject({ recordedAssists: 0, assists: null });
+  });
   it('does not treat absent assistants as known zero', () => {
     const i = matchReviewFixture();
     i.events[0].assistingParticipantIds = null;

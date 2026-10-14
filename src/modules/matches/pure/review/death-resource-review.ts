@@ -189,6 +189,10 @@ function snapshotValues(
         : context.participantIds.get(p.participantId) !== puuid
           ? 'snapshot_identity_mismatch'
           : null);
+  const confirmedIds = [...context.participantIds]
+    .filter(([, id]) => id === puuid)
+    .map(([id]) => id);
+  const participantId = confirmedIds.length === 1 ? confirmedIds[0] : null;
   const result = {} as ResourceValues;
   for (const key of Object.keys(FIELDS) as (keyof typeof FIELDS)[]) {
     const field = FIELDS[key];
@@ -203,16 +207,24 @@ function snapshotValues(
       fieldReason === null ? p![field] : null,
       unit(key),
       fieldReason,
-      [
-        {
-          source: 'MatchTimelineProjection.frames',
-          field: `participantFrames.${puuid}.${field}`,
-          value: reviewNumber(p?.[field]) ? p[field] : null,
-          ...(frame
-            ? { frameIndex: frame.frameIndex, timestampMs: frame.timestamp! }
-            : {}),
-        },
-      ],
+      participantId === null
+        ? []
+        : [
+            {
+              source: 'MatchTimelineProjection.frames',
+              field: `participantFrames.${participantId}.${field}`,
+              value:
+                p?.participantId === participantId && reviewNumber(p[field])
+                  ? p[field]
+                  : null,
+              ...(frame
+                ? {
+                    frameIndex: frame.frameIndex,
+                    timestampMs: frame.timestamp!,
+                  }
+                : {}),
+            },
+          ],
       'observed',
     );
   }
