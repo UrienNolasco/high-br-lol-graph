@@ -1,3 +1,7 @@
+import { MatchReviewController } from './match-review.controller';
+import { MatchReviewService } from './services/match-review.service';
+import { MatchReviewRepository } from './repositories/match-review.repository';
+import { MATCH_REVIEW_READER } from './ports/match-review-reader';
 import { MatchBountiesStealsController } from './match-bounties-steals.controller';
 import { MatchBountiesStealsService } from './services/match-bounties-steals.service';
 import { ReportRepository } from './repositories/report.repository';
@@ -41,6 +45,7 @@ import { MATCH_PROJECTION_WRITER } from './ports/match-projection-writer';
 @Module({
   imports: [PrismaModule, DataDragonModule],
   controllers: [
+    MatchReviewController,
     MatchReportController,
     MatchKillEpisodesController,
     MatchSequencesController,
@@ -54,6 +59,8 @@ import { MATCH_PROJECTION_WRITER } from './ports/match-projection-writer';
     MatchObjectivesController,
   ],
   providers: [
+    MatchReviewService,
+    { provide: MATCH_REVIEW_READER, useClass: MatchReviewRepository },
     DataDragonCatalogAdapter,
     { provide: MATCH_CATALOGS, useExisting: DataDragonCatalogAdapter },
     MatchProjectionPersistenceAdapter,
