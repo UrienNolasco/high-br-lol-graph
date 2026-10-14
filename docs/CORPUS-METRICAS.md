@@ -6,7 +6,7 @@ O corpus disponível contém **uma partida real**, BR1_3200579475, gameVersion `
 
 ```sh
 python3 -m unittest discover -s scripts/validation -p 'test_metrics_corpus.py' -v
-python3 scripts/validation/audit-metrics-corpus.py
+node scripts/validation/audit-metrics-corpus.mjs
 ```
 
 O auditor compara diretamente os dois JSONs de origem, sem tratar resultados do parser como verdade esperada. Registra hashes e retorna erro diante de divergências inesperadas. Use `--output /tmp/corpus-audit.json` para resultados temporários; as evidências do aceite estão em `docs/architecture/evidence/arq14/corpus.json`.

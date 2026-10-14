@@ -23,8 +23,8 @@
     "processing": "ts-node src/processing-cli.ts",
     "test:integration": "jest --config test/jest-integration.json --runInBand",
     "dataset": "ts-node src/dataset-cli.ts",
-    "test:corpus": "python3 -m unittest discover -s scripts/validation -p 'test_*.py'",
-    "audit:corpus": "python3 scripts/validation/audit-metrics-corpus.py"
+    "test:corpus": "node --test scripts/validation/test-metrics-corpus.mjs",
+    "audit:corpus": "node scripts/validation/audit-metrics-corpus.mjs"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",
